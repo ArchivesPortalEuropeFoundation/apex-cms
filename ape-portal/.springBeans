@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.9.1.201203220057-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/webapp/WEB-INF/search-common.xml</config>
+		<config>src/main/webapp/WEB-INF/simplesearch-portlet.xml</config>
+		<config>src/main/webapp/WEB-INF/advancedsearch-portlet.xml</config>
+		<config>src/main/webapp/WEB-INF/directory-portlet.xml</config>
+		<config>src/main/webapp/WEB-INF/eaddisplay-portlet.xml</config>
+		<config>src/main/webapp/WEB-INF/persistence-common.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
