@@ -1,0 +1,96 @@
+
+
+#simpleSearchPortlet #simpleAndAdvancedSearch {
+	width: 100%;
+	display: block;
+}
+#simpleSearchPortlet #simpleSearchOptionsContent {
+	height: 70px;	
+}
+#simpleSearchPortlet #simpleSearch {
+	float: right;
+	width: 500px;
+	
+}
+
+
+
+
+
+#simpleSearchPortlet .searchOptionsHeader {
+	font-weight: bold;
+	border-bottom-style:solid;
+	border-bottom-width: 2px;
+	border-bottom-color: #79B7E7;
+	margin-bottom:5px;
+	padding-left: 15px;	
+}
+#simpleSearchPortlet .searchOptionsContent {
+	background-color: #E8E8E8;
+	padding-left: 15px;
+	padding-right: 10px;
+	padding-top: 10px;
+	padding-bottom:27px;
+}
+
+#simpleSearchPortlet #simpleSearch #searchButton {
+	float:right;
+	margin-left: 5px;
+}
+
+#simpleSearchPortlet #simpleSearch #searchTerms {
+	width: 320px;
+}
+
+#simpleSearchPortlet td.leftcolumn {
+	float: left;
+	max-width: 240px;
+	display:inline;
+	padding-right:10px;
+}
+#simpleSearchPortlet td.rightcolumn {
+	float: right;
+	width: auto;
+	display:inline;
+}
+
+
+#simpleSearchPortlet td.rightcolumn div.row select {
+	font-size: 11px;
+	float: right;
+}
+#simpleSearchPortlet td.rightcolumn div.row label {
+	float: left;
+	margin-right: 11px;
+}
+
+#simpleSearchPortlet #searchTerms {
+	background-color: white;
+	background-image: none;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 3px;
+	width: 280px;
+	float: left;
+}
+#simpleSearchPortlet #simpleSearch table {
+	padding: 0px;
+	margin: 0px;
+	font-size: 12px;
+	border-collapse: collapse;
+}
+
+#simpleSearchPortlet div.row {
+	clear: both;
+	float: none;
+	font-size: 11px;
+	padding-top: 3px;
+}
+#simpleSearchPortlet div.row input[type="checkbox"] {
+	clear: left;
+	float: left;
+	margin-right: 11px;
+}
+
+
+

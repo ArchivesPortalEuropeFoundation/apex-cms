@@ -1,0 +1,153 @@
+#skip-to-content,#heading .community-title,#heading .page-title,#navigation h1
+	{
+	clip: rect(0, 0, 0, 0);
+	position: absolute;
+}
+
+body {
+	background-color: #FFFFFF;
+	background-image: url("../images/ape/background.jpg");
+	background-position: center center;
+	background-repeat: repeat-y;
+	color: #333333;
+	font-size: 10pt;
+	font-family: Arial, sans-serif;
+}
+
+#sign-in {
+	font-size: 8pt;
+	position: absolute;
+	right: 0;
+	top: -1.4em;
+}
+
+a:link {
+	color: #c65400;
+	text-decoration: none;
+}
+a:visited {
+	color: #8b6d56;
+}
+
+#banner {
+	background: none repeat scroll 0 0 transparent;
+	height: auto;
+	margin-top: 1em;
+	position: relative;
+}
+
+#wrapper {
+	margin: 0 auto;
+	width: 1000px;
+}
+
+#breadcrumbs {
+	display: none;
+}
+
+#heading {
+	background-image: url("../images/ape/header.jpg");
+	height: 172px;
+	width: 1000px;
+}
+
+#navigation {
+	width: 1000px;
+	position: relative;
+}
+
+#navigation ul {
+	bottom: 0;
+	list-style: none;
+	margin: 0;
+	position: absolute;
+	padding: 0;
+}
+
+#navigation a {
+	float: left;
+	padding-right: 10px;
+	padding-left: 10px;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 12px;
+	color: black;
+}
+
+#navigation li {
+	float: left;
+	border-right: 1px solid #999999;
+}
+
+#navigation a:active,#navigation a:focus,#navigation a:hover {
+	background-color: #fff;
+	/* for IE */
+	filter: alpha(opacity =       70);
+	/* CSS3 standard */
+	opacity: 0.7;
+	color: #06c;
+}
+
+#navigation .selected a {
+	color: #00384D;
+	background-color: #fff;
+	/* for IE */
+	filter: alpha(opacity =       70);
+	/* CSS3 standard */
+	opacity: 0.7;
+}
+
+
+.box .boxtitle {
+	background-image: url("../images/ape/bg_headers.jpg");	
+	font-weight: bold;
+	padding-bottom: 2px;
+	padding-top: 2px;	
+	text-transform: uppercase;
+	background-color: #afdefc;
+	padding-left: 5px;
+}
+.box {
+	border: 1px solid #afdefc;
+	margin-top:7px;
+	margin-bottom:7px;
+	border-radius: 4px;
+}
+.paging ul  {
+	display:inline-block;
+    list-style: none outside none;
+    padding: 0px;
+    
+    margin:0px;
+    width: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;    
+}
+.paging li {
+	float: left;
+    font-size: 12px;	
+    font-weight: bold;
+    color:gray;	
+}	
+.paging li span {	
+	cursor: pointer;
+    float: left;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+.paging li.active {
+	color:black;
+}
+.paging  li a:hover span {
+    color: #00384D;
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 10px;
+}
+.error {
+	color: red;	
+	font-weight: bold;
+}

@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Advanced Search Template</title>
+        <link rel="stylesheet" href="../main.css">
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <style>
+            #boxsize button,
+            #boxsize input,
+            #boxsize select,
+            #boxsize textarea {
+                width: 200px;
+                padding: 5px;
+                border: 1px solid #333;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="wrapper">
+<div id="advancedSearchPortlet">
+	<form action="" id="newSearchForm">
+		<input type="hidden" id="mode" path="mode" />
+		<input type="hidden" id="advanced" path="advanced" />
+
+		<div id="navigatedSearch">
+			<div id="navigatedSearchOptionsHeader" class="searchOptionsHeader collapsed">
+				Select countries/archives<span class="help-icon"></span>
+			</div>
+			<div id="navigatedSearchOptionsContent" class="searchOptionsContent">
+				<div id="navigatedSearchOptionsSubHeader">
+					Select the countries/archives you would like to search in:
+				</div>
+				<div id="archivalLandscapeTree"></div>
+				<!-- add navigated tree again -->
+			</div>
+		</div>
+		<div id="simpleAndAdvancedSearch">
+			<div id="advancedSearch">
+				<div id="advancedSearchOptionsHeader" class="searchOptionsHeader">
+					Select types/dates<span class="help-icon"></span>
+				</div>
+				<div id="advancedSearchOptionsContent" class="searchOptionsContent">
+					<table id="advancedsearchCriteria">
+						<tr>
+							<td><label for="element">Select the element in which you want to search:</label></td>
+							<td colspan="3"><select name="element" tabindex="6" id="element">
+    <option value="0">No selection</option>
+    <option value="1">Title</option>
+    <option value="2">Content summary</option>
+    <option value="3">Reference code</option>
+
+
+</select></td>
+						</tr>
+						<tr>
+							<td><label for="typedocument">Select the type of document:</label></td>
+							<td colspan="3"><select name="typedocument" tabindex="7" id="typedocument">
+    <option value="0">No selection</option>
+    <option value="1">Only finding aids</option>
+    <option value="2">Only holdings guides</option>
+
+
+</select></td>
+						</tr>
+						<tr>
+							<td><label for="fromdate">Dates of creation (yyyy/mm/dd), from:</label></td>
+							<td><input type="text" name="fromdate" value="" tabindex="8" id="fromdate" class="datefield"/></td>
+							<td id="datetoHeader"><label id="todateLabel" for="todate">to:</label></td>
+							<td><input type="text" name="todate" value="" tabindex="9" id="todate" class="datefield" /></td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+			<div id="simpleSearch">
+				<div id="simpleSearchOptionsHeader" class="searchOptionsHeader">
+					Search<span class="help-icon"></span>
+				</div>
+				<div id="simpleSearchOptionsContent" class="searchOptionsContent">
+					<div class="simpleSearchOptions">
+						<table>
+							<tr>
+								<td colspan="2"><input type="text" name="term" value="" tabindex="1" id="searchTerms" title="Search box to type your search terms"/>
+								<input type="submit" id="searchButton" name="searchButton" value="Search" title="Start your search" tabindex="10"/></td>
+							</tr>
+							<tr>
+								<td class="leftcolumn">
+									<div class="row">
+										<label for="checkboxHierarchy">View result(s) in context</label>
+										<input type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2">
+									</div>
+									<div class="row">
+										<label for="checkboxMethod">Match at least one word</label>
+										<input type="checkbox" id="checkboxMethod" value="optional" name="method" tabindex="3">
+									</div>
+									<div class="row">
+										<label for="checkboxDao">Only material with digital objects</label>
+										<input type="checkbox" id="checkboxDao" value="true" name="dao" tabindex="4">
+									</div>
+								</td>
+								<td class="rightcolumn">
+									<div class="row">
+										<label for="resultsperpage">Results per page:</label>
+										<select name="resultsperpage" tabindex="5" id="resultsperpage">
+    <option value="10">10</option>
+    <option value="20" selected="selected">20</option>
+    <option value="30">30</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+
+
+</select>
+
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</form>
+	<div id="resultsContainer" >
+<div id="suggestionSearch" class="suggestionSearch"><span class="suggestionText">
+		Other terms:
+		
+		</span><br>
+		<a class="suggestionLink" href="javascript:searchOnSuggestion('maart');"><span class="suggestionMisspelled">maart</span></a>&nbsp;<span class="suggestionNumberOfHits">(33791)</span>&nbsp;<a class="suggestionLink" href="javascript:searchOnSuggestion('kart');"><span class="suggestionMisspelled">kart</span></a>&nbsp;<span class="suggestionNumberOfHits">(18183)</span>&nbsp;<a class="suggestionLink" href="javascript:searchOnSuggestion('karta');"><span class="suggestionMisspelled">karta</span></a>&nbsp;<span class="suggestionNumberOfHits">(36217)</span>&nbsp;
+   </div>
+
+		<div id="searchResultsHeader">
+			Search results
+		</div>
+<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+		<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#tabs-list">List view</a></li>
+			<li class="ui-state-default ui-corner-top"><a href="#tabs-context">Context view</a></li>
+	
+		</ul>
+		<div id="tabs-context" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="tabs-list" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+
+
+
+
+
+
+
+
+	
+
+	<form method="post" action="/Portal/searchUpdateOnlyResults.action" name="updateCurrentSearch" id="updateCurrentSearch">
+		<input type="hidden" id="updateCurrentSearch_term" value="kaart" name="term">
+		<input type="hidden" id="updateCurrentSearch_method" value="" name="method">
+		<input type="hidden" id="updateCurrentSearch_mode" value="update-search" name="mode">
+		<input type="hidden" id="updateCurrentSearch_advanced" value="true" name="advanced">
+		<input type="hidden" id="updateCurrentSearch_dao" value="" name="dao">
+		<input type="hidden" id="updateCurrentSearch_view" value="" name="view">
+		<input type="hidden" id="updateCurrentSearch_element" value="0" name="element">
+		<input type="hidden" id="updateCurrentSearch_typedocument" value="0" name="typedocument">
+		<input type="hidden" id="updateCurrentSearch_fromdate" value="" name="fromdate">
+		<input type="hidden" id="updateCurrentSearch_todate" value="" name="todate">
+		
+		
+		<input type="hidden" id="updateCurrentSearch_country" value="" name="country">
+		<input type="hidden" id="updateCurrentSearch_ai" value="" name="ai">
+		<input type="hidden" id="updateCurrentSearch_type" value="" name="type">
+		<input type="hidden" id="updateCurrentSearch_roledao" value="" name="roledao">
+		<input type="hidden" id="updateCurrentSearch_dateType" value="" name="dateType">
+		<input type="hidden" id="updateCurrentSearch_order" value="" name="order">
+		<input type="hidden" id="updateCurrentSearch_startdate" value="" name="startdate">	
+		<input type="hidden" id="updateCurrentSearch_enddate" value="" name="enddate">
+		<input type="hidden" id="updateCurrentSearch_facetField" value="" name="facetField">
+		<input type="hidden" id="updateCurrentSearch_facetOffset" value="" name="facetOffset">		
+		<input type="hidden" id="updateCurrentSearch_keyPrefix" value="" name="keyPrefix">
+		<input type="hidden" id="updateCurrentSearch_valueIsKey" value="" name="valueIsKey">	
+		<input type="hidden" id="updateCurrentSearch_hasId" value="" name="hasId">						
+	
+	
+	
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="results">
+		<div class="tab_header">
+			<div id="tabHeaderContent">
+			
+			
+				
+				<div id="numberOfResults">
+					<span class="bold">Search results</span>
+					1 - 20 / 16176
+				</div>
+				<div id="resultPerPageContainer">
+						<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold">Results per page: </label>
+						<select id="updateCurrentSearch_resultsperpage" name="resultsperpage">
+    <option value="10">10</option>
+    <option selected="selected" value="20">20</option>
+    <option value="30">30</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+
+
+</select>
+
+			
+				</div>
+							<div id="goToPage">
+					<span class="subtitle">Go to page:</span>
+					<input type="text" id="updateCurrentSearch_pageNumber" value="1" name="pageNumber">
+					<span class="subtitle">of</span>809
+				</div>
+				
+<div id="paging">&lt;&lt; &lt; <span id="pagingCurrentPage">1</span> <a href="javascript:updatePageNumber('pageNumber=2')">&gt;</a> <a href="javascript:updatePageNumber('pageNumber=809')">&gt;&gt;</a> </div>
+	
+
+
+				 
+			
+			
+			</div>
+		</div>
+	
+		
+
+		
+		
+		
+		
+		
+				
+		
+		
+				
+			
+	
+								
+		<div id="selectedRefinements">
+			<div id="selectedRefinementsTitle">Selected criteria:</div>
+			<ul>
+				<li><a title="Netherlands" href="javascript:removeRefinement('country');">Netherlands<span class="close-icon"></span></a></li>
+				<li><a title="Nationaal Archief" href="javascript:removeRefinement('ai');">Nationaal Archief<span class="close-icon"></span></a></li>
+			</ul>
+		</div>
+		<div id="refinements">
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+			<div class="box" id="facet_country">
+	    		<div class="boxtitle">Country:</div>
+				<ul>
+					<li>
+						<a title="Netherlands" href="javascript:addRefinement('country','7');">Netherlands</a><span class="numberOfHits">(16158)</span>
+					</li>
+					<li><a title="France" href="javascript:addRefinement('country','2');">France</a><span class="numberOfHits">(9)</span>
+					</li>
+					<li><a title="Finland" href="javascript:addRefinement('country','14');">Finland</a><span class="numberOfHits">(6)</span>
+					</li>
+					<li><a title="country.estonia" href="javascript:addRefinement('country','26');">country.estonia</a><span class="numberOfHits">(3)</span>
+					</li>
+				</ul>		
+
+							
+							
+						
+						
+					    	
+					
+				</div>	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+	
+		
+			<div class="facet" id="facet_ai">
+	    		<div class="facettitle">
+				Archival institution:
+			</div>
+					
+						
+							
+								<a title="Nationaal Archief" href="javascript:addRefinement('ai','27');">Nationaal Archief</a>&nbsp;<span class="numberOfHits">(16086)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Regionaal Archief Leiden" href="javascript:addRefinement('ai','90');">Regionaal Archief Leiden</a>&nbsp;<span class="numberOfHits">(46)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Regionaal Archief Alkmaar" href="javascript:addRefinement('ai','164');">Regionaal Archief Alkmaar</a>&nbsp;<span class="numberOfHits">(26)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Archives nationales - Paris" href="javascript:addRefinement('ai','125');">Archives nationales - ...</a>&nbsp;<span class="numberOfHits">(9)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="National Archives of Finland" href="javascript:addRefinement('ai','42');">National Archives of F...</a>&nbsp;<span class="numberOfHits">(6)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="The National Archives of Estonia" href="javascript:addRefinement('ai','95');">The National Archives ...</a>&nbsp;<span class="numberOfHits">(3)</span><br>
+							
+							
+						
+						
+					    	
+					
+				</div>	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+	
+		
+	
+		
+			<div class="facet" id="facet_type">
+	    		<div class="facettitle">
+				Type of finding aid:
+			</div>
+					
+						
+							
+								<a title="Finding aid" href="javascript:addRefinement('type','fa');">Finding aid</a>&nbsp;<span class="numberOfHits">(16175)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Holdings guide" href="javascript:addRefinement('type','hg');">Holdings guide</a>&nbsp;<span class="numberOfHits">(1)</span><br>
+							
+							
+						
+						
+					    	
+					
+				</div>	
+		
+	
+		
+	
+		
+	
+		
+	
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			<div class="facet" id="facet_dao">
+	    		<div class="facettitle">
+				Contains digital objects:
+			</div>
+					
+						
+							
+								<a title="No digital objects" href="javascript:addRefinement('dao','false');">No digital objects</a>&nbsp;<span class="numberOfHits">(15129)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Contains digital objects" href="javascript:addRefinement('dao','true');">Contains digital objects</a>&nbsp;<span class="numberOfHits">(1047)</span><br>
+							
+							
+						
+						
+					    	
+					
+				</div>	
+		
+	
+		
+	
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
+	
+		
+	
+		
+	
+		
+			<div class="facet" id="facet_dateType">
+	    		<div class="facettitle">
+				Date types:
+			</div>
+					
+						
+							
+								<a title="Full date" href="javascript:addRefinement('dateType','normal');">Full date</a>&nbsp;<span class="numberOfHits">(11984)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="No date specified" href="javascript:addRefinement('dateType','nodate');">No date specified</a>&nbsp;<span class="numberOfHits">(2407)</span><br>
+							
+							
+						
+						
+					    	
+					
+						
+							
+								<a title="Only descriptive date" href="javascript:addRefinement('dateType','otherdate');">Only descriptive date</a>&nbsp;<span class="numberOfHits">(1785)</span><br>
+							
+							
+						
+						
+					    	
+					
+				</div>	
+		
+	
+		
+	
+		
+	
+
+			
+
+
+
+
+
+
+
+	
+		
+			<div class="facet">
+	    		<div class="facettitle">
+				Start timespan:
+			</div>
+					
+						
+							<a title="1200-1399" href="javascript:addRefinement('startdate','1200-01-01_2');">1200-1399</a>&nbsp;<span class="numberOfHits">(2)</span><br>
+						
+					
+						
+							<a title="1400-1599" href="javascript:addRefinement('startdate','1400-01-01_2');">1400-1599</a>&nbsp;<span class="numberOfHits">(366)</span><br>
+						
+					
+						
+							<a title="1600-1799" href="javascript:addRefinement('startdate','1600-01-01_2');">1600-1799</a>&nbsp;<span class="numberOfHits">(4803)</span><br>
+						
+					
+						
+							<a title="1800-1999" href="javascript:addRefinement('startdate','1800-01-01_2');">1800-1999</a>&nbsp;<span class="numberOfHits">(6813)</span><br>
+						
+					
+				</div>	
+		
+	
+		
+	
+
+
+			
+
+
+
+
+
+
+
+	
+		
+	
+		
+			<div class="facet">
+	    		<div class="facettitle">
+				End timespan:
+			</div>
+					
+						
+							<a title="1000-1199" href="javascript:addRefinement('enddate','1000-01-01_2');">1000-1199</a>&nbsp;<span class="numberOfHits">(1)</span><br>
+						
+					
+						
+							<a title="1200-1399" href="javascript:addRefinement('enddate','1200-01-01_2');">1200-1399</a>&nbsp;<span class="numberOfHits">(2)</span><br>
+						
+					
+						
+							<a title="1400-1599" href="javascript:addRefinement('enddate','1400-01-01_2');">1400-1599</a>&nbsp;<span class="numberOfHits">(281)</span><br>
+						
+					
+						
+							<a title="1600-1799" href="javascript:addRefinement('enddate','1600-01-01_2');">1600-1799</a>&nbsp;<span class="numberOfHits">(4535)</span><br>
+						
+					
+						
+							<a title="1800-1999" href="javascript:addRefinement('enddate','1800-01-01_2');">1800-1999</a>&nbsp;<span class="numberOfHits">(7165)</span><br>
+						
+					
+				</div>	
+		
+	
+
+
+		</div>
+		<div  id="searchresultsContainer">
+				<div id="searchOrder">
+			<div id="searchOrderTitle">Sorting your search:</div>
+			<span id="selectedOrder">Relevance</span>
+			|
+			<a href="javascript:updateSorting('startdate');">Date</a>
+			|
+			<a href="javascript:updateSorting('titlesort');">Title</a>
+			|
+			<a href="javascript:updateSorting('unitidsort');">Reference code</a>
+			|
+			<a href="javascript:updateSorting('unitidfondsort');">Finding aid no</a>
+		</div>
+		<div  id="searchresultsList">
+
+			
+				<div id="list-searchresult-C223108" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C223108&amp;element=0" title="Vergunningen voor Provinciale Waterstaat tot het verleggen van de weg Alkmaar-Omval." target="_blank" class="ccontent">
+								<span class="searchresulttitle">Vergunningen voor Provinciale Waterstaat tot het verlegge...</span>
+							</a>													
+							
+								<span title="1970. Doorslagen. Met kaart." class="alterdate">1970. Doorslagen....</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span class="subtitle">Title:</span>Inventaris van het archief van het waterschap de Schermeer, 1630 - 1976
+								
+							</div>
+							<div>
+								
+								
+									<span class="subtitle">Reference code:</span>1478
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Regionaal Archief Alkmaar
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C223108&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C1357723" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C1357723&amp;element=0" title="Voorontwerp van Wet, 1965-1966" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Voorontwerp van Wet, 1965-1966</span>
+							</a>													
+							
+								<span title="1965-1966" class="alterdate">1965-1966</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							    Met <em>kaart</em>
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span class="subtitle">Title:</span>
+									Inventaris van het archief van het Ministerie van Justitie
+								
+							</div>
+							<div>
+								
+									<span class="subtitle">Finding aid no:</span>2.09.47                                    
+								
+									<span class="secondSubtitle">Reference code:</span>2.09.47 - 1861
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C1357723&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C3814066" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C3814066&amp;element=0" title="Van werken aan bruggen en wegen." target="_blank" class="ccontent">
+								<span class="searchresulttitle">Van werken aan bruggen en wegen.</span>
+							</a>													
+							
+								<span title="" class="alterdate"></span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							   Met <em>kaart</em>.
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Prefect en de Commissaris-generaal van het Departement van de Monden van de Maas, 1811-1815
+								
+							</div>
+							<div>
+								
+									<span class="subtitle">Finding aid no:</span>2.09.47-asdfa-asdfasdf-asdfasdf-asdfasdf                                    
+								
+									<span class="secondSubtitle">Reference code:</span>2.09.47 - 1861
+								
+								
+							</div>
+							<div>
+								Netherlands - Nationaal Archief 
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C3814066&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5968131" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5968131&amp;element=0" title="De Zuid-Willemsvaart, 1823 - 1827" target="_blank" class="ccontent">
+								<span class="searchresulttitle">De Zuid-Willemsvaart, 1823 - 1827</span>
+							</a>													
+							
+								<span title="1823 - 1827" class="alterdate">1823 - 1827</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							    Met een <em>kaart</em>.
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Inspecteurs en Commissies van de Waterstaat in Nederland, (1551) 1798-1849 (1870)
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.16.06&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.16.06 - 966
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5968131&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5903518" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5903518&amp;element=0" title="D, conceptteksten Indiase rapport" target="_blank" class="ccontent">
+								<span class="searchresulttitle">D, conceptteksten Indiase rapport</span>
+							</a>													
+							
+								<span title="" class="alterdate"></span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							   Met <em>kaart</em>
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van de archieven van de Raad voor de Luchtvaart en het Bureau Vooronderzoek Ongevallen en Incidenten van de Rijksluchtvaartdienst, 1924-1998 (2000)
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.16.107&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.16.107 - 2211
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5903518&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C4245375" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C4245375&amp;element=0" title="Overstromingen op Goeree en Overflakkee" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Overstromingen op Goeree en Overflakkee</span>
+							</a>													
+							
+								<span title="" class="alterdate"></span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							   Met een <em>kaart</em>
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Provinciale Waterstaat in Zuid-Holland, (1891) 1945 - 1986 (1994)
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									3.02.27&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									3.02.27 - 923-925, 2920, 2926-2927
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C4245375&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C13470270" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C13470270&amp;element=0" title="Stukken betreffende de tocht van het eskader van luitenant-admiraal Michiel Adriaansz. de Ruyter naar West-Indië, 1674 juni-december" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Stukken betreffende de tocht van het eskader van luitenant-...</span>
+							</a>													
+							
+								<span title="1674 juni-december" class="alterdate">1674 juni-decembe...</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							    Met <em>kaart</em>.
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van Casper Fagel, Raadpensionaris van Holland, 1672-1688
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									3.01.18&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									3.01.18 - 139
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C13470270&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C3959673" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C3959673&amp;element=0" title="Stukken betreffende de rechten op en de exploitatie van landerijen en heidegronden in Kaggevinne Kempens," target="_blank" class="ccontent">
+								<span class="searchresulttitle">Stukken betreffende de rechten op en de exploitatie van landerijen ...</span>
+							</a>													
+							
+								<span title="1612-1773." class="alterdate">1612-1773.</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Nassause Domeinraad, (1218) 1581-1811 (1842)
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									1.08.11&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									1.08.11 - 15429
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C3959673&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C3959764" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C3959764&amp;element=0" title="1682. Met bijlagen. Rendantsexemplaar. Niet Afgehoord." target="_blank" class="ccontent">
+								<span class="searchresulttitle">1682. Met bijlagen. Rendantsexemplaar. Niet Afgehoord.</span>
+							</a>													
+							
+								<span title="" class="alterdate"></span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Nassause Domeinraad, (1218) 1581-1811 (1842)
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									1.08.11&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									1.08.11 - 15508
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C3959764&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949692" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949692&amp;element=0" title="Buren (Gld), stadswallen, 1961" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Buren (Gld), stadswallen, 1961</span>
+							</a>													
+							
+								<span title="1961" class="alterdate">1961</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1105
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949692&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949699" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949699&amp;element=0" title="Doesburg, vergunningen voor verkoop en verpachting van vestingwerken, 1953-1965" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Doesburg, vergunningen voor verkoop en verpachting van vestingwerken...</span>
+							</a>													
+							
+								<span title="1953-1965" class="alterdate">1953-1965</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1112
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949699&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949724" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949724&amp;element=0" title="Kwadijk, herclassificatie fort, 1953-1959" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Kwadijk, herclassificatie fort, 1953-1959</span>
+							</a>													
+							
+								<span title="1953-1959" class="alterdate">1953-1959</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1137
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949724&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949752" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949752&amp;element=0" title="Retranchement, vestingwallen, 1936-1959" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Retranchement, vestingwallen, 1936-1959</span>
+							</a>													
+							
+								<span title="1936-1959" class="alterdate">1936-1959</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1165
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949752&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949767" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949767&amp;element=0" title="Terheijden, linie Van de Hout en Van de Munnikenhof, pachtvergunningen en ruilverkaveling, 1950-1964" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Terheijden, linie Van de Hout en Van de Munnikenhof, pachtvergunning...</span>
+							</a>													
+							
+								<span title="1950-1964" class="alterdate">1950-1964</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1180
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949767&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5949778" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5949778&amp;element=0" title="Vlissingen, versterking zeewering, 1958-1959" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Vlissingen, versterking zeewering, 1958-1959</span>
+							</a>													
+							
+								<span title="1958-1959" class="alterdate">1958-1959</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de Afdeling Oudheidkunde en Natuurbescherming en taakvoorgangers, (1910) 1923-1965 (1981) van het Ministerie van Onderwijs, Cultuur en Wetenschap
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									2.14.73&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2.14.73 - 1191
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5949778&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C5427528" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C5427528&amp;element=0" title="Frankfort in prospect." target="_blank" class="ccontent">
+								<span class="searchresulttitle">Frankfort in prospect.</span>
+							</a>													
+							
+								<span title="" class="alterdate"></span>
+							
+						</div>
+						<div>
+							Onder de <em>kaart</em>
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van de Plaatsingslijst van de Buitenlandse Plans van Vestingen afkomstig uit het achief der Genie van het Ministerie van Oorlog
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									4.OBPV&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									4.OBPV - Bijkaartje
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C5427528&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C12643051" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C12643051&amp;element=0" title="Rapporten van de commissarissen &quot;tot de zaken van het eiland Goeree&quot; voor GR over de toestand van het eiland en over de werken die zijn aangelegd tot behoud van het eiland," target="_blank" class="ccontent">
+								<span class="searchresulttitle">Rapporten van de commissarissen "tot de zaken van het eil...</span>
+							</a>													
+							
+								<span title="1734, 1765 - 1767, 1769, 1786, 1791 en 1792." class="alterdate">1734, 1765 - 1767...</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van de archieven van Gecommitteerde Raden der Staten van Holland en West-Friesland
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									3.01.05&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									3.01.05 - ---
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C12643051&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C13470305" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C13470305&amp;element=0" title="Hontsbos, de dijkgraaf en heemraden van - en de duinen van Petten 1683" target="_blank" class="ccontent">
+								<span class="searchresulttitle">Hontsbos, de dijkgraaf en heemraden van - en de duinen van Petten 1683</span>
+							</a>													
+							
+								<span title="1683" class="alterdate">1683</span>
+							
+						</div>
+						<div>
+							Met <em>kaart</em>.
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van Casper Fagel, Raadpensionaris van Holland, 1672-1688
+								
+							</div>
+							<div>
+								
+									<span style="font-weight: bold"> Finding aid no:
+									</span>
+									3.01.18&nbsp;-&nbsp;
+                                    
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									3.01.18 - 165
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Nationaal Archief
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C13470305&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C14375327" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C14375327&amp;element=0" title="Stukken betreffende de bemoeiingen van Alkmaar met de overtomen in de Berkmeerdijk te Hensbroek en Obdam." target="_blank" class="ccontent">
+								<span class="searchresulttitle">Stukken betreffende de bemoeiingen van Alkmaar met de ove...</span>
+							</a>													
+							
+								<span title="1559-1700. Met 16-eeuwse kaart van het gebied." class="alterdate">1559-1700. Met 16...</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van de stad Alkmaar, 1254 - 1816
+								
+							</div>
+							<div>
+								
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									2273
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Regionaal Archief Alkmaar
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C14375327&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+				<div id="list-searchresult-C221689" class="list-searchresult">
+					<div class="list-searchresult-content">
+						<div class="list-searchresult-header">
+								
+							
+								
+								
+									
+									
+																	
+								
+							
+							<a href="SecondDisplay.action?term=kaart&amp;solrid=C221689&amp;element=0" title="Kaart van de Schermeer door de landmeter A. van Diggelen." target="_blank" class="ccontent">
+								<span class="searchresulttitle"><em>Kaart</em> van de Schermeer door de landmeter A. van Diggelen.</span>
+							</a>													
+							
+								<span title="1836. Met koperen plaat annex, alsmede stukken betreffende de vervaardiging van de kaart." class="alterdate">1836. Met koperen plaat annex, alsmede s...</span>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div>
+							
+						</div>
+						<div class="list-searchresult-context">
+							<div>
+								
+								
+									<span style="font-weight: bold"> Title:</span>
+									Inventaris van het archief van het waterschap de Schermeer, 1630 - 1976
+								
+							</div>
+							<div>
+								
+								
+									<span style="font-weight: bold"> Reference code:
+									</span>
+									195
+								
+								
+							</div>
+							<div>
+								Netherlands
+								Regionaal Archief Alkmaar
+
+							</div>
+						</div>
+
+					</div>
+					<div url="displayPreview.action?id=C221689&amp;term=kaart&amp;element=0" class="preview-button-holder">&nbsp;</div>
+				</div>
+
+			
+			<div style="float: right;">
+				<a href="#tabscontainer"><img src="images/search/go_top.gif"></a>
+			</div>
+		</div>
+		</div>
+		<div id="preview-absolute" class="preview-result" style="top: 343.317px; left: 783.517px;">
+
+
+
+
+
+
+
+
+
+
+
+
+<div><a target="_blank" href="SecondDisplay.action?term=kaart&amp;solrid=C5968131&amp;element=0"><img align="right" width="16px" height="16px" title="Go to complete finding aid" alt="Go to complete finding aid" src="/Portal/images/seconddisplay.jpg" style="padding-left: 5px;"></a></div>
+<div id="print"><img align="right" title="Print" alt="Print" src="/Portal/images/print-icon.png" id="print"></div>
+<div id="body">
+<div class="eadid" xmlns="http://www.w3.org/1999/xhtml">2.16.06 - 966</div>
+<div class="titleproper" xmlns="http://www.w3.org/1999/xhtml">De Zuid-Willemsvaart, 1823 - 1827</div>
+<div class="subtitle" xmlns="http://www.w3.org/1999/xhtml">1823 - 1827</div>
+<h2 class="expand" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns="http://www.w3.org/1999/xhtml">Other descriptive information</h2>
+<div class="collapse" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns="http://www.w3.org/1999/xhtml">
+   
+   <p>Met een <em>kaart</em>.</p>
+   
+</div>
+
+</div>
+
+
+</div>
+
+	
+	<!-- end div resultsazul -->
+
+</div>
+
+<div class="results">
+		<div class="tab_header">
+			<div id="tabHeaderContent">
+				<div  class="error">Error message</div>
+			</div>
+		</div>
+</div>
+	
+	</form>
+
+
+
+	 		
+</div>
+	</div>
+</div>
+</div>
+
+</div>
+    </body>
+</html>

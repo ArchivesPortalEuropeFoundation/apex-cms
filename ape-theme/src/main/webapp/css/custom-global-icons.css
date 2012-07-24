@@ -1,0 +1,96 @@
+.icon_waiting {
+	height:48px;
+	width:48px;
+	background-image: url("../images/ape/icons/waiting.gif");
+	background-repeat: no-repeat;
+	clear: both;
+	margin: auto;
+	display:inline-block;
+}
+
+.icon_help {
+	height:16px;
+	width:26px;
+	background-image: url("../images/ape/icons/help_16.png");
+	background-repeat: no-repeat;
+	display:inline-block;	
+}
+
+
+span.icon_dao_type_image {
+	background-image: url("../images/ape/icons/dao_types/image.png");	
+	width: 28px;
+	height: 27px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_sound {
+	background-image: url("../images/ape/icons/dao_types/sound.png");	
+	width: 28px;
+	height: 27px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_video {
+	background-image: url("../images/ape/icons/dao_types/video.png");	
+	width: 28px;
+	height: 27px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_text {
+	background-image: url("../images/ape/icons/dao_types/text.png");	
+	width: 28px;
+	height: 27px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_unspecified, span.icon_notitle {
+	background-image: url("../images/ape/icons/dao_types/unspecified.png");	
+	width: 36px;
+	height: 25px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_small_image {
+	background-image: url("../images/ape/icons/dao_types/image_small.jpg");	
+	width: 17px;
+	height: 15px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_small_sound {
+	background-image: url("../images/ape/icons/dao_types/sound_small.jpg");	
+	width: 17px;
+	height: 15px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_small_video {
+	background-image: url("../images/ape/icons/dao_types/video_small.jpg");	
+	width: 17px;
+	height: 15px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_small_text {
+	background-image: url("../images/ape/icons/dao_types/text_small.jpg");	
+	width: 17px;
+	height: 15px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_dao_type_small_unspecified {
+	background-image: url("../images/ape/icons/dao_types/unspecified_small.jpg");	
+	width: 17px;
+	height: 13px;
+	display: inline-block;
+	text-indent: -9999px;
+}
+span.icon_new_window {
+	background-image: url("../images/ape/icons/new_window.png");	
+	width: 13px;
+	height: 13px;
+	display: inline-block;
+	text-indent: -9999px;
+}
