@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates 6.1.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_6_1_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="ape-pagelayouts" name="ape-pagelayouts">
+			<template-path>/ape-pagelayouts.tpl</template-path>
+			<wap-template-path>/ape-pagelayouts.wap.tpl</wap-template-path>
+			<thumbnail-path>/ape-pagelayouts.png</thumbnail-path>
+		</layout-template>
+	</custom>
+</layout-templates>
