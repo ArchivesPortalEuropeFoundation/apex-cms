@@ -1,0 +1,124 @@
+package eu.archivesportaleurope.portal.search.advanced;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+
+import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.APEnetUtilities;
+import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CLevelDAO;
+import eu.apenet.persistence.dao.EadContentDAO;
+import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.CLevel;
+import eu.apenet.persistence.vo.EadContent;
+
+/**
+ * 
+ * This is preview ead controller
+ * 
+ * @author bverhoef
+ * 
+ */
+@Controller(value = "displayPreviewController")
+@RequestMapping(value = "VIEW")
+public class DisplayPreviewContoller{
+
+	/**
+	 * 
+	 */
+	private final static Logger LOG = Logger.getLogger(DisplayPreviewContoller.class);
+
+	private EadContentDAO eadContentDAO;
+	private ArchivalInstitutionDAO archivalInstitutionDAO;
+	private CLevelDAO clevelDAO;
+	
+	@ResourceMapping(value = "displayPreview")
+	public ModelAndView displayPreview(@RequestParam String id){
+		try {
+			if (StringUtils.isNotBlank(id)) {
+				if (id.startsWith(SolrValues.C_LEVEL_PREFIX) || id.startsWith(SolrValues.FA_PREFIX) || id.startsWith(SolrValues.AI_PREFIX) || id.startsWith(SolrValues.HG_PREFIX)) {
+                    Long idLong = new Long(id.substring(1));
+                    if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
+                        return fillCDetails(idLong);
+                    else if (id.startsWith(SolrValues.FA_PREFIX))
+                        return fillFADetails(idLong);
+                    else if (id.startsWith(SolrValues.HG_PREFIX))
+                        return fillHGDetails(idLong);
+				} else {
+					return fillAIDetails(new Long(id));
+                }
+			}
+		} catch (Exception e) {
+
+		}
+
+		return null;
+	}
+
+	private ModelAndView fillFADetails(Long idLong) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("preview/faorhg");
+		EadContent eadContent = eadContentDAO.getEadContentByFindingAidId(idLong.intValue());
+		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+		modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.EAD_FA.getIdentifier());
+		modelAndView.getModelMap().addAttribute("fileId", idLong);
+
+		return modelAndView;
+	}
+
+	private ModelAndView fillHGDetails(Long idLong) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("preview/faorhg");
+		EadContent eadContent = eadContentDAO.getEadContentByHoldingsGuideId(idLong.intValue());
+		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+		modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.EAD_HG.getIdentifier());
+		modelAndView.getModelMap().addAttribute("fileId", idLong);
+
+		return modelAndView;
+	}
+
+	private ModelAndView fillAIDetails(Long idLong) throws IOException {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("preview/ai");
+		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
+		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
+		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
+		return modelAndView;
+	}
+
+
+	private ModelAndView fillCDetails(Long idLong) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("preview/cdetails");		
+		long startTime = System.currentTimeMillis();
+		CLevel currentCLevel = clevelDAO.findById(idLong);
+		LOG.debug("Database time: " + (System.currentTimeMillis() - startTime) + "ms");
+		modelAndView.getModelMap().addAttribute("c", currentCLevel);
+		return modelAndView;
+	}
+
+	public void setEadContentDAO(EadContentDAO eadContentDAO) {
+		this.eadContentDAO = eadContentDAO;
+	}
+
+	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
+		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+
+	public void setClevelDAO(CLevelDAO clevelDAO) {
+		this.clevelDAO = clevelDAO;
+	}
+
+
+
+}
