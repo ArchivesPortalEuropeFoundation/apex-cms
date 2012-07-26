@@ -31,7 +31,7 @@ import eu.apenet.persistence.vo.EadContent;
  */
 @Controller(value = "displayPreviewController")
 @RequestMapping(value = "VIEW")
-public class DisplayPreviewContoller{
+public class DisplayPreviewContoller {
 
 	/**
 	 * 
@@ -41,50 +41,39 @@ public class DisplayPreviewContoller{
 	private EadContentDAO eadContentDAO;
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private CLevelDAO clevelDAO;
-	
+
 	@ResourceMapping(value = "displayPreview")
-	public ModelAndView displayPreview(@RequestParam String id){
+	public ModelAndView displayPreview(@RequestParam String id) {
 		try {
 			if (StringUtils.isNotBlank(id)) {
-				if (id.startsWith(SolrValues.C_LEVEL_PREFIX) || id.startsWith(SolrValues.FA_PREFIX) || id.startsWith(SolrValues.AI_PREFIX) || id.startsWith(SolrValues.HG_PREFIX)) {
-                    Long idLong = new Long(id.substring(1));
-                    if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
-                        return fillCDetails(idLong);
-                    else if (id.startsWith(SolrValues.FA_PREFIX))
-                        return fillFADetails(idLong);
-                    else if (id.startsWith(SolrValues.HG_PREFIX))
-                        return fillHGDetails(idLong);
+				if (id.startsWith(SolrValues.C_LEVEL_PREFIX)) {
+					Long idLong = new Long(id.substring(1));
+					if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
+						return fillCDetails(idLong);
+
 				} else {
-					return fillAIDetails(new Long(id));
-                }
-			}
+					String solrPrefix = id.substring(0, 1);
+					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
+					if (xmlType != null) {
+						Long idLong = new Long(id.substring(1));
+						ModelAndView modelAndView = new ModelAndView();
+						modelAndView.setViewName("preview/frontpage");
+						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
+						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getClazz());
+						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+						modelAndView.getModelMap().addAttribute("id", id);
+						return modelAndView;
+					}else {
+						return fillAIDetails(new Long(id));
+					}
+				}
+
+			} 
 		} catch (Exception e) {
 
 		}
 
 		return null;
-	}
-
-	private ModelAndView fillFADetails(Long idLong) {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("preview/faorhg");
-		EadContent eadContent = eadContentDAO.getEadContentByFindingAidId(idLong.intValue());
-		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-		modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.EAD_FA.getIdentifier());
-		modelAndView.getModelMap().addAttribute("fileId", idLong);
-
-		return modelAndView;
-	}
-
-	private ModelAndView fillHGDetails(Long idLong) {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("preview/faorhg");
-		EadContent eadContent = eadContentDAO.getEadContentByHoldingsGuideId(idLong.intValue());
-		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-		modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.EAD_HG.getIdentifier());
-		modelAndView.getModelMap().addAttribute("fileId", idLong);
-
-		return modelAndView;
 	}
 
 	private ModelAndView fillAIDetails(Long idLong) throws IOException {
@@ -96,13 +85,12 @@ public class DisplayPreviewContoller{
 		return modelAndView;
 	}
 
-
 	private ModelAndView fillCDetails(Long idLong) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("preview/cdetails");		
-		long startTime = System.currentTimeMillis();
+		modelAndView.setViewName("preview/cdetails");
 		CLevel currentCLevel = clevelDAO.findById(idLong);
-		LOG.debug("Database time: " + (System.currentTimeMillis() - startTime) + "ms");
+		XmlType xmlType = XmlType.getEadType(currentCLevel.getEadContent().getEad());
+		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		return modelAndView;
 	}
@@ -118,7 +106,5 @@ public class DisplayPreviewContoller{
 	public void setClevelDAO(CLevelDAO clevelDAO) {
 		this.clevelDAO = clevelDAO;
 	}
-
-
 
 }

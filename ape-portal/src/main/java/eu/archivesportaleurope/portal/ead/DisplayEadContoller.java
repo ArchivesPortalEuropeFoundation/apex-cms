@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.RenderRequest;
 
@@ -17,8 +16,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.CLevelDAO;
-import eu.apenet.persistence.dao.CouAlternativeNameDAO;
-import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
@@ -40,8 +37,6 @@ public class DisplayEadContoller {
 	private CLevelDAO clevelDAO;
 	private EadDAO eadDAO;
 
-
-
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
 	}
@@ -55,25 +50,31 @@ public class DisplayEadContoller {
 		try {
 			ArchivalInstitution archivalInstitution = null;
 			Ead ead = null;
-			if (StringUtils.isNotBlank(eadParams.getId()) && eadParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
-				String subSolrId = eadParams.getId().substring(1);
-				if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
-					CLevel clevel = clevelDAO.findById(Long.parseLong(subSolrId));
-					if (clevel != null) {
-						ead = clevel.getEadContent().getEad();
-					}
-				}
-			} else {
-				XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
-				if (eadParams.getAiId() != null) {
-					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO
-								.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
-					}
+			if (StringUtils.isNotBlank(eadParams.getId())) {
+				if (eadParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+					String subSolrId = eadParams.getId().substring(1);
+					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
+						CLevel clevel = clevelDAO.findById(Long.parseLong(subSolrId));
+						if (clevel != null) {
+							ead = clevel.getEadContent().getEad();
+						}
+						//this is a search result
+						request.setAttribute("solrId", eadParams.getId());
+					} 
+				}else {
+					String solrPrefix = eadParams.getId().substring(0, 1);
+					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
+					String subId = eadParams.getId().substring(1);
+					if (xmlType != null){
+						ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
+					}else if (eadParams.getAiId() != null) {
+						xmlType = XmlType.getType(eadParams.getXmlTypeId());
+						if (StringUtils.isNotBlank(eadParams.getEadid())) {
+							ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+						}
 
-				} else if (StringUtils.isNotBlank(eadParams.getId()) && StringUtils.isNumeric(eadParams.getId())) {
-					ead = eadDAO.findById(Integer.parseInt(eadParams.getId()), xmlType.getClazz());
-				}
+					}						
+				} 
 
 			}
 			if (ead == null) {

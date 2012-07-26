@@ -12,9 +12,6 @@
 <c:choose>
 	<c:when test="${!empty portletPreferences.map.advancedSearchPageId and !empty portletPreferences.map.advancedSearchPortletName}">
 	<c:set var="element"><c:out value="${param['element']}" /></c:set>
-	<c:set var="xmlTypeId" value="${xmlTypeId}"/>
-	<c:set var="fileId" value="${ead.id}"/>
-	<c:set var="solrId"><c:out value="${param['id']}" /></c:set>
 	<c:set var="term"><c:out value="${param['term']}" /></c:set>
 	<portlet:resourceURL var="eadTreeUrl" id="eadTree" >
 		<portlet:param name="solrId" value="${solrId}"/>
@@ -26,8 +23,6 @@
 		<portlet:param name="ecId" value="${ead.eadContent.ecId}"/>
 		<portlet:param name="element" value="${element}"/>
 		<portlet:param name="term" value="${term}"/>
-		<portlet:param name="aiId" value="${archivalInstitution.aiId}"/>
-		<portlet:param  name="xmlTypeId" value="${xmlTypeId}"/>
 	</portlet:resourceURL>
         <script type='text/javascript'>
         $(document).ready(function() {
