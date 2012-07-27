@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +34,7 @@ public class DisplayPreviewContoller {
 	/**
 	 * 
 	 */
-	private final static Logger LOG = Logger.getLogger(DisplayPreviewContoller.class);
+	private final static Logger LOGGER = Logger.getLogger(DisplayPreviewContoller.class);
 
 	private EadContentDAO eadContentDAO;
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
@@ -55,7 +53,7 @@ public class DisplayPreviewContoller {
 					String solrPrefix = id.substring(0, 1);
 					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
 					if (xmlType != null) {
-						Long idLong = new Long(id.substring(1));
+						Long idLong = Long.parseLong(id.substring(1));
 						ModelAndView modelAndView = new ModelAndView();
 						modelAndView.setViewName("preview/frontpage");
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
@@ -64,13 +62,13 @@ public class DisplayPreviewContoller {
 						modelAndView.getModelMap().addAttribute("id", id);
 						return modelAndView;
 					}else {
-						return fillAIDetails(new Long(id));
+						return fillAIDetails(Long.parseLong(id));
 					}
 				}
 
 			} 
 		} catch (Exception e) {
-
+			LOGGER.error(e.getMessage(),e);
 		}
 
 		return null;

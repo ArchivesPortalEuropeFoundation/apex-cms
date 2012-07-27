@@ -187,7 +187,7 @@ function initListTabHandlers() {
 				var holderPosition = $(this).position();
 				var width = $(this).width();
 				var url = $(this).attr("url");
-				$("#preview-absolute").removeClass("preview-result preview-noresult").addClass("preview-result").css(
+				$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass("preview-content").css(
 						"top", holderPosition.top + "px");
 				$.get(url, function(data) {
 					$("#preview-absolute").html(data);

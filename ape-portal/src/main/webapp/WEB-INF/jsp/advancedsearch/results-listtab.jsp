@@ -200,6 +200,6 @@
 					</div>	
 			</div>
 			</div>
-			<div id="preview-absolute"></div>
+			<div id="preview-absolute" class="preview-container"></div>
 		</c:if>
 </div>

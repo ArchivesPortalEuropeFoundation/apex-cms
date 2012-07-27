@@ -37,15 +37,15 @@
 		</div>  
 		<c:if test="${empty results.errorMessage and results.totalNumberOfResults > 0}">
 		<div id="contextTabResults">
-			<div id="contextTabTree" >
+			<div id="contextTabTree"  class="treeWithPreview">
 				<ul>
 					<c:forEach var="country" items="${results.countries}">
 				    	<c:set var="countryTitle" ><fmt:message key="country.${fn:toLowerCase(country.name)}"/> <span>(${country.count})</span></c:set>
-			    			<li data="term: '${advancedSearch.term}', icon: 'false', country: '${country.id}', searchType: 'ai', matchAllWords: '${advancedSearch.method}',isFolder: true, isLazy: true, title: '${countryTitle}'"></li>
+			    			<li data="term: '${advancedSearch.term}', icon: false, country: '${country.id}', searchType: 'ai', matchAllWords: '${advancedSearch.method}',isFolder: true, isLazy: true, title: '${countryTitle}'"></li>
 			     		</c:forEach>
 				</ul>
 			</div>
-			<div id="preview-absolute">
+			<div id="preview-absolute" class="preview-container">
 				
 			</div>
 		</div>

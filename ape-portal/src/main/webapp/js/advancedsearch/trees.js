@@ -41,21 +41,21 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 						if (dtnode.data.searchResult == "true") {
 							url = url +"&" + namespace + "term=" + term;
 							$("#preview-absolute").removeClass(
-									"preview-result preview-noresult")
-									.addClass("preview-result");
+									"preview-content preview-nocontent")
+									.addClass("preview-content");
 						} else {
 							$("#preview-absolute").removeClass(
-									"preview-result preview-noresult")
-									.addClass("preview-noresult");
+									"preview-content preview-nocontent")
+									.addClass("preview-nocontent");
 						}
 						$("#preview-absolute").css("top", holderPosition.top + "px");
 						$.get(url, function(data) {
 							$("#preview-absolute").html(data);
 						});
 					} else {
-						$("#preview").removeClass(
-								"preview-result preview-noresult");
-						$("#preview").html("");
+						$("#preview-absolute").removeClass(
+								"preview-content preview-nocontent");
+						$("#preview-absolute").html("");
 
 					}
 				}
@@ -91,7 +91,7 @@ function getSearchTreeData(dtnode){
 		selectedNodes : selectedNodes
 	};
 }
-function initNavigatedTree(navigatedTreeUrl, generateNavigatedTreeAiUrl,generateNavigatedTreeAiContentUrl ) {
+function initNavigatedTree(navigatedTreeUrl, generateNavigatedTreeAiUrl,generateNavigatedTreeAiContentUrl, previewUrl, namespace ) {
 	$("#advancedSearchPortlet #archivalLandscapeTree")
 			.dynatree(
 					{
@@ -235,18 +235,28 @@ function initNavigatedTree(navigatedTreeUrl, generateNavigatedTreeAiUrl,generate
 						// Function to open a new tab/window whan the user
 						// clicks a node which has an url attached
 						onActivate : function(node) {
-//							if (node.data.url) {
-//								window.open(node.data.url);
-//
-//								// It is necessary to leave the tree
-//								// in the same way it was before
-//								if (node.hasChildren()) {
-//									node.expand(true);
-//								} else {
-//									// The HG has not been expanded
-//									node.expand(false);
-//								}
-//							}
+							if (node.data.previewId != undefined) {
+								var url = previewUrl + "&" + namespace + "id="
+								+ node.data.previewId;
+									$("#al-preview").removeClass(
+											"preview-content preview-nocontent")
+											.addClass("preview-nocontent");
+								//var holderPosition = $(node.span).position();
+								//$("#al-preview-absolute").css("top", holderPosition.top + "px");
+								$.get(url, function(data) {
+									$("#al-preview").html(data);
+								});
+							} else {
+								$("#al-preview").removeClass(
+										"preview-content preview-nocontent");
+								$("#al-preview").html("");
+		
+							}
+						},
+						onDeactivate: function(node) {
+							$("#al-preview").removeClass(
+							"preview-content preview-nocontent");
+							$("#al-preview").html("");
 						},
 
 						// When the user uses the spacebar, he/she will

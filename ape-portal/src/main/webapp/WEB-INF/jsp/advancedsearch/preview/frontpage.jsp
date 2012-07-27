@@ -12,9 +12,7 @@
 <liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<liferay-portlet:param name="id" value="${param['id']}"/>
 </liferay-portlet:renderURL>	
-<div id="body">
 <portal:ead type="frontpage" xml="${eadContent.xml}"/>
 <div id="viewFullFA">
 	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&gt;</span></a>
-</div>
 </div>

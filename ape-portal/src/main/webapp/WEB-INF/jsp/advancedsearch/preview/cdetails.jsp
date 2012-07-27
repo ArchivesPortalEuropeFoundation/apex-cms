@@ -16,11 +16,8 @@
 	<liferay-portlet:param  name="term" value="${term}"/>
 	<liferay-portlet:param  name="element" value="${element}"/>
 </liferay-portlet:renderURL>	
-<div id="body">
 <portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"/>
 <div id="viewFullFA">
 	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&gt;</span></a>
 </div>
-</div>
-
 

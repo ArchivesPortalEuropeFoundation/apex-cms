@@ -342,7 +342,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(SELECTED);
 					buffer.append(COMMA);
 				}
-				addUrl(buffer, findingAidList.get(i).getFaId(), XmlType.EAD_FA);
+				addPreviewId(buffer, findingAidList.get(i).getFaId(), XmlType.EAD_FA);
 				buffer.append(END_ITEM);
 				if (i < findingAidList.size() - 1) {
 					buffer.append(COMMA);
@@ -394,7 +394,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(SELECTED);
 				}
 				buffer.append(COMMA);
-				addUrl(buffer, holdingsGuideList.get(i).getHgId(), XmlType.EAD_HG);
+				addPreviewId(buffer, holdingsGuideList.get(i).getHgId(), XmlType.EAD_HG);
 				if (holdingsGuideList.get(i).getHasNestedElements()) {
 					if(expandedNodes!=null && expandedNodes.length>0 && ArrayUtils.contains(expandedNodes,"hg_"+holdingsGuideList.get(i).getHgId())){
 						buffer.append(COMMA);
@@ -455,7 +455,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 						buffer.append(NO_LINK);
 					}
 					else {
-						addUrl(buffer, topCLevels.get(i).getFaId(), XmlType.EAD_FA);
+						addPreviewId(buffer, topCLevels.get(i).getFaId(), XmlType.EAD_FA);
 						if( (selectedNodes!=null && selectedNodes.length>0 && ArrayUtils.contains(selectedNodes, "fa_" + topCLevels.get(i).getFaId())) || parentSelected ){
 							buffer.append(COMMA);
 							buffer.append(SELECTED);
@@ -607,7 +607,8 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append("\"key\":" + "\"fa_" + "notUploaded" + "\"");
 			}
 			else {
-				buffer.append("\"key\":" + "\"fa_" + key.toString() + "\"");	
+				buffer.append("\"key\":" + "\"fa_" + key.toString() + "\"");
+
 			}
 		}
 		else if (nodeType.equals("c_level_group")) {
@@ -630,13 +631,8 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 	}
 		
 
-	private void addUrl(StringBuilder buffer, Integer id, XmlType xmlType) {
-		buffer.append("\"url\":");
-		buffer.append(" \"noidea" );
-		buffer.append("?id=" + id);
-		buffer.append("&xmlTypeId=");
-		buffer.append(xmlType.getIdentifier());
-		buffer.append("\" ");
+	private void addPreviewId(StringBuilder buffer, Integer id, XmlType xmlType) {
+		buffer.append("\"previewId\": \"" + xmlType.getSolrPrefix() + id + "\"");
 	}
 	
 	
