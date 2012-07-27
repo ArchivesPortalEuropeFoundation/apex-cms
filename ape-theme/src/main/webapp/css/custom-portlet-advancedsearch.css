@@ -76,11 +76,12 @@
 #advancedSearchPortlet #contextTabResults {
 	padding-top:5px;	
 }
-#advancedSearchPortlet #contextTabTree {
+#advancedSearchPortlet .treeWithPreview {
     float: left;
     vertical-align: top;
-    width: 760px;
+    width: 759px;
 }
+
 
 #advancedSearchPortlet #simpleAndAdvancedSearch {
 	width: 100%;
@@ -481,31 +482,35 @@
 }
 
 
+
 #advancedSearchPortlet #preview-absolute {
 	position: absolute;
+	left: 783px;
+}
+
+#advancedSearchPortlet .preview-container {
 	vertical-align: top;
 	float: right;	
 	font-size: 8pt;
 	padding: 3px;
 	line-height: 1.3em;
-	left: 783px;
-	width: 210px;
 	border-radius:4px;
+	width: 210px;
 }
 
-#advancedSearchPortlet .preview-result, #advancedSearchPortlet .preview-noresult {
+#advancedSearchPortlet .preview-content, #advancedSearchPortlet .preview-nocontent {
 	background-color: #e9f3fa;
 	color: #333333;
 }
 
-#advancedSearchPortlet #preview-absolute .eadid,#advancedSearchPortlet #preview-absolute .subtitle {
+#advancedSearchPortlet .preview-container .eadid,#advancedSearchPortlet .preview-container .subtitle {
 	font-size: 10px;
 	font-style: italic;
 	text-align: center;
 	color: gray;
 }
 
-#advancedSearchPortlet #preview-absolute .titleproper, #advancedSearchPortlet #preview-absolute .aiTitle {
+#advancedSearchPortlet .preview-container .titleproper, #advancedSearchPortlet .preview-container .aiTitle {
 	font-size: 10pt;
 	font-style: normal;
 	font-weight: normal;
@@ -516,7 +521,7 @@
 
 
 
-#advancedSearchPortlet #preview-absolute h2, #advancedSearchPortlet #preview-absolute table.aiSection th {
+#advancedSearchPortlet .preview-container h2, #advancedSearchPortlet .preview-container table.aiSection th {
 	margin: 0.3em 0;
 	font-size: 11px;
 	border-bottom: 1px solid #00a0df;     
@@ -524,32 +529,33 @@
  	font-weight: normal;
  	color: #00a0df;
 }
-#advancedSearchPortlet #preview-absolute table.aiSection td {
+#advancedSearchPortlet .preview-container table.aiSection td {
 	padding:1px;
 	vertical-align: top;
 }
-#advancedSearchPortlet #preview-absolute p {
+#advancedSearchPortlet .preview-container p {
 	margin-top:0px;
 	margin-bottom:0.3em;
 	margin-right:0px;
 	margin-left:0px;
 }
-#advancedSearchPortlet #preview-absolute .collapse, #advancedSearchPortlet #preview-absolute .creation-content {
+#advancedSearchPortlet .preview-container .collapse, #advancedSearchPortlet .preview-container .creation-content {
 	margin-left:3px;
 	margin-right:3px;
 }
 
-#advancedSearchPortlet #preview-absolute .collapse img{
+#advancedSearchPortlet .preview-container .collapse img{
 	width: 204px;
 }   
 
-#advancedSearchPortlet #preview-absolute .expand-unitid {
+#advancedSearchPortlet .preview-container .expand-unitid {
 	padding-right: 10px;
 }
-#advancedSearchPortlet #preview-absolute .defaultlayout {
+#advancedSearchPortlet .preview-container .defaultlayout {
 	text-align: center;
+	color:gray;
 }
-#advancedSearchPortlet #preview-absolute table.aiSection {
+#advancedSearchPortlet .preview-container table.aiSection {
 	font-size: 8pt;
     line-height: 1.3em;
 }
