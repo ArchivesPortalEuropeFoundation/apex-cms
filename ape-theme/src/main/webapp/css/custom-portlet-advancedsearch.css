@@ -357,7 +357,22 @@
 	color: gray;
     padding-left: 1px;	
 }
-
+#advancedSearchPortlet #refinements a.refinement_multiple_selected {
+	background: url("../images/ape/search/selected.gif") no-repeat scroll left center transparent;
+}
+#advancedSearchPortlet #refinements a.refinement_multiple_notselected {
+    background: url("../images/ape/search/not_selected.gif") no-repeat scroll left center transparent;
+}
+#advancedSearchPortlet #refinements a.refinement_multiple_selected:hover {
+	background: url("../images/ape/search/selected_hover.gif") no-repeat scroll left center transparent;
+}
+#advancedSearchPortlet #refinements a.refinement_multiple_notselected:hover {
+    background: url("../images/ape/search/not_selected_hover.gif") no-repeat scroll left center transparent;
+}
+#advancedSearchPortlet #refinements a.refinement_multiple_notselected, #advancedSearchPortlet #refinements a.refinement_multiple_selected{
+    padding-left: 12px;
+    display: inline-block;	
+}
 #advancedSearchPortlet .alterdate {
 	float: right;
 	font-size: 8pt;
