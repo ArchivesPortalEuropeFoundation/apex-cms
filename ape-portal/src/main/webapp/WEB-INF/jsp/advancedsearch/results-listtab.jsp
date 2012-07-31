@@ -57,11 +57,11 @@
 			</c:choose>
 			</div>
 		</div>
-		<c:if test="${empty results.errorMessage and results.totalNumberOfResults > 0}">
+		<c:if test="${empty results.errorMessage and (results.totalNumberOfResults > 0  or advancedSearch.mode == 'update-search')}">
 			<div id="selectedRefinements">
 				<div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.choosed" /></div>
 				<ul>
-					<facets:remove solrResponse="${results.solrResponse}" facetName="country" currentValue="${advancedSearch.country}" keyPrefix="country." valueIsKey="true"
+<!--  					<facets:remove solrResponse="${results.solrResponse}" facetName="country" currentValue="${advancedSearch.country}" keyPrefix="country." valueIsKey="true"
 						hasId="true" />
 					<facets:remove solrResponse="${results.solrResponse}" facetName="ai" currentValue="${advancedSearch.ai}" hasId="true" valueIsKey="false" />
 					<facets:remove solrResponse="${results.solrResponse}" facetName="dao" currentValue="${advancedSearch.dao}" hasId="false" valueIsKey="true"
@@ -71,23 +71,27 @@
 					<facets:remove solrResponse="${results.solrResponse}" facetName="type" currentValue="${advancedSearch.type}" hasId="false" valueIsKey="true"
 						keyPrefix="advancedsearch.text." />
 					<facets:remove solrResponse="${results.solrResponse}" facetName="dateType" currentValue="${advancedSearch.dateType}" hasId="false" valueIsKey="true"
-						keyPrefix="advancedsearch.facet.value.datetype." />				
+						keyPrefix="advancedsearch.facet.value.datetype." />			 --> 
 					<facets:date-remove solrResponse="${results.solrResponse}" facetName="startdate" currentValue="${advancedSearch.startdate}" titleKey="advancedsearch.facet.title.startdate"/>
 					<facets:date-remove solrResponse="${results.solrResponse}" facetName="enddate" currentValue="${advancedSearch.enddate}" titleKey="advancedsearch.facet.title.enddate"/>
 				</ul>				
 			</div>
+			
+			<div id="resultsContainer">
 			<div id="refinements">
 				<facets:singleselect solrResponse="${results.solrResponse}" facetName="country" hasId="true"
-					keyPrefix="country." valueIsKey="true" titleKey="advancedsearch.facet.title.country"/>
-				<facets:singleselect solrResponse="${results.solrResponse}" facetName="ai" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.ai"/>
+					keyPrefix="country." valueIsKey="true" titleKey="advancedsearch.facet.title.country" currentValue="${advancedSearch.country}" />
+				<facets:singleselect solrResponse="${results.solrResponse}" facetName="ai" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.ai"  currentValue="${advancedSearch.ai}"/>
+				<!--<facets:singleselect solrResponse="${results.solrResponse}" facetName="fond" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.fond"  currentValue="${advancedSearch.fond}"/>
+-->
 				<facets:singleselect solrResponse="${results.solrResponse}" facetName="type" hasId="false"
-					keyPrefix="advancedsearch.text." valueIsKey="true" titleKey="advancedsearch.facet.title.typefond"/>
+					keyPrefix="advancedsearch.text." valueIsKey="true" titleKey="advancedsearch.facet.title.typefond"  currentValue="${advancedSearch.type}"/>
 				<facets:singleselect solrResponse="${results.solrResponse}" facetName="dao" hasId="false"
-					keyPrefix="advancedsearch.facet.value.dao." valueIsKey="true" titleKey="advancedsearch.facet.title.dao"/>
+					keyPrefix="advancedsearch.facet.value.dao." valueIsKey="true" titleKey="advancedsearch.facet.title.dao" currentValue="${advancedSearch.dao}"/>
 				<facets:singleselect solrResponse="${results.solrResponse}" facetName="roledao" hasId="false"
-					keyPrefix="advancedsearch.facet.value.roledao." valueIsKey="true" titleKey="advancedsearch.facet.title.roledao"/>
+					keyPrefix="advancedsearch.facet.value.roledao." valueIsKey="true" titleKey="advancedsearch.facet.title.roledao"  currentValue="${advancedSearch.roledao}"/>
 				<facets:singleselect solrResponse="${results.solrResponse}" facetName="dateType" hasId="false"
-					keyPrefix="advancedsearch.facet.value.datetype." valueIsKey="true" titleKey="advancedsearch.facet.title.datetype"/>			
+					keyPrefix="advancedsearch.facet.value.datetype." valueIsKey="true" titleKey="advancedsearch.facet.title.datetype"  currentValue="${advancedSearch.dateType}"/>			
 				<facets:date-singleselect solrResponse="${results.solrResponse}" facetName="startdate"  titleKey="advancedsearch.facet.title.startdate"/>
 				<facets:date-singleselect solrResponse="${results.solrResponse}" facetName="enddate"  titleKey="advancedsearch.facet.title.enddate"/>
 				&nbsp;	
@@ -104,7 +108,8 @@
 					<searchresults:order currentValue="${advancedSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
 					|
 					<searchresults:order currentValue="${advancedSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
-				</div>					
+				</div>
+			<c:if test="${results.totalNumberOfResults > 0}">					
 			<div id="searchresultsList">
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
@@ -165,9 +170,13 @@
 								</span>
 								</c:if>	
 							<div class="list-searchresult-context">
+								<c:set var="ai"><c:out value="${result.ai}"/></c:set>
+								<c:set var="fond"><c:out value="${result.fond}"/></c:set>
 								<div>
-									<span class="subtitle"><fmt:message key="advancedsearch.message.document" /></span><c:out value="${result.fond}"/>
+									<span class="subtitle"><fmt:message key="advancedsearch.message.document" /></span>${fond}
 								</div>
+								<div>
+								<div class="left">
 									<div>
 										<c:choose>
 											<c:when test="${!empty result.unitIdOfFond}">
@@ -181,9 +190,17 @@
 											</c:when>																		
 										</c:choose>
 									</div>
-									<div><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}"/></div>
-
-							</div>						
+									<div><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;${ai}</div>
+								</div>
+								<div class="list-searchresult-actions hidden">
+									<ul>
+										<!--<li><a href="javascript:addRefinement('ai','${result.aiId}','${ai}','${ai}')">Only this archive</a></li>  -->
+										<li><a href="javascript:addRefinement('fond','${result.fondId }','${fond}','${fond}')"><fmt:message key="advancedsearch.facet.document.only" /></a></li>
+									</ul>
+								</div>
+								</div>
+							</div>
+													
 						</div>
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 							<portlet:param  name="id" value="${result.id}"/>
@@ -199,7 +216,10 @@
 							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 					</div>	
 			</div>
+			</c:if>
 			</div>
 			<div id="preview-absolute" class="preview-container"></div>
+			</div>
+			
 		</c:if>
 </div>

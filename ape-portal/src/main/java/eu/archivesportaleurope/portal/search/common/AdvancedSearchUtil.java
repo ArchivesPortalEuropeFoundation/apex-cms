@@ -180,13 +180,21 @@ public final class AdvancedSearchUtil {
 			solrQueryParameters.getAndParameters().put(name, list);
 		}
 	}
+	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  String toBeAdded) {
+		if (StringUtils.isNotBlank(toBeAdded)) {
+			solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
+			List<String> list = new ArrayList<String>();
+			list.add(toBeAdded);
+			solrQueryParameters.getAndParameters().put(facet.getRefinementField(), list);
+		}
+	}
 
-
-//	public static void addToList(Map<String, List<String>> parameters, String name, List<String> toBeAdded) {
-//		if (toBeAdded != null && toBeAdded.size() > 0) {
-//			parameters.put(name, toBeAdded);
-//		}
-//	}
+	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  List<String> toBeAdded) {
+		if (toBeAdded != null && toBeAdded.size() > 0) {
+			//solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
+			solrQueryParameters.getAndParameters().put(facet.getRefinementField(), toBeAdded);
+		}
+	}
 
 	private static boolean isDate(String datex) {
 		try {

@@ -65,17 +65,18 @@ public final class Searcher {
 	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
-		query.addFacetField(SolrFields.COUNTRY);
-		query.addFacetField(SolrFields.AI);
-		query.addFacetField(SolrFields.TYPE);
-		query.addFacetField(SolrFields.DATE_TYPE);
-		query.addFacetField(SolrFields.DAO);
-		query.addFacetField(SolrFields.ROLEDAO);
+		query.addFacetField(Facet.COUNTRY.getFacetField());
+		query.addFacetField(Facet.AI.getFacetField());
+		query.addFacetField(Facet.TYPE.getFacetField());
+		query.addFacetField(Facet.DATE_TYPE.getFacetField());
+		query.addFacetField(Facet.DAO.getFacetField());
+		query.addFacetField(Facet.ROLEDAO.getFacetField());
+		//query.addFacetField(Facet.FOND.getFacetField());
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);
 		query.setFacetLimit(FACET_LIMIT);
-		query.setFacetMinCount(1);
+		//query.setFacetMinCount(1);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
 			query.addSortField(orderByField, ORDER.asc);
 			if(orderByField.equals("startdate")){

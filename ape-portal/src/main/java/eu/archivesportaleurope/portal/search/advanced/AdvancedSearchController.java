@@ -28,6 +28,7 @@ import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolde
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.advanced.tree.FacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.Facet;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.SearchUtils;
 import eu.archivesportaleurope.portal.search.common.Searcher;
@@ -318,18 +319,18 @@ public class AdvancedSearchController {
 
 		solrQueryParameters.setTerm(advancedSearch.getTerm());
 		solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.DAO, advancedSearch.getDao());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.DAO, advancedSearch.getDaoList());
 	}
 
 	protected void handleSearchParametersForListUpdate(AdvancedSearch advancedSearch,
 			SolrQueryParameters solrQueryParameters) {
 		handleSearchParameters(advancedSearch, solrQueryParameters);
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.COUNTRY_ID, advancedSearch.getCountry());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.AI_ID, advancedSearch.getAi());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.TYPE, advancedSearch.getType());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.DATE_TYPE, advancedSearch.getDateType());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, SolrFields.ROLEDAO, advancedSearch.getRoledao());
-
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.COUNTRY, advancedSearch.getCountryList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.AI, advancedSearch.getAiList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.TYPE, advancedSearch.getTypeList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.DATE_TYPE, advancedSearch.getDateTypeList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.ROLEDAO, advancedSearch.getRoledaoList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.FOND, advancedSearch.getFondList());
 	}
 
 	protected void updatePagination(AdvancedSearch advancedSearch, ListResults results) {

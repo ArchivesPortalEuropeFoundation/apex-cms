@@ -27,6 +27,9 @@ public class SearchResult {
 	private String scopecontent;
 	private String other;
 	private String fond;
+	private String fondId;
+	private String ai;
+	private String aiId;
 	private String fondShortDescription;
 	private String unitid;
 	private String otherUnitid;
@@ -78,7 +81,11 @@ public class SearchResult {
 		this.scopecontent =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.SCOPECONTENT, null),MAX_NUMBER_OF_CHARACTERS_OTHER );	
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null), MAX_NUMBER_OF_CHARACTERS_OTHER);
 		this.fond = solrDocument.getFieldValue(SolrFields.TITLE_OF_FOND).toString();
-		this.fond = removeId(this.fond);
+		this.fondId = getIdFromString(this.fond);
+		this.fond = getDescriptionFromString(this.fond);
+		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
+		this.aiId = getIdFromString(this.ai);
+		this.ai = getDescriptionFromString(this.ai);
 		if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
 			this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
 		}
@@ -125,11 +132,10 @@ public class SearchResult {
 
 	public Object getCountry(){
 		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
-		return removeId(country);
+		return getDescriptionFromString(country);
 	}
 	public Object getAi(){
-		String ai = solrDocument.getFieldValue(SolrFields.AI).toString();
-		return removeId(ai);
+		return ai;
 	}
 	public String getType(){
 		return solrDocument.getFieldValue(SolrFields.TYPE).toString();
@@ -143,9 +149,13 @@ public class SearchResult {
 	public Object getUnitIdOfFond(){
 		return solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
 	}
-	private String removeId(String string){
+	private String getDescriptionFromString(String string){
 		int index = string.indexOf(COLON);
 		return string.substring(0,index);
+	}
+	private String getIdFromString(String string){
+		int index = string.lastIndexOf(COLON);
+		return string.substring(index+1);
 	}
 
 	public String getTitleShortDescription() {
@@ -162,6 +172,14 @@ public class SearchResult {
 
 	public SolrDocument getSolrDocument() {
 		return solrDocument;
+	}
+
+	public String getFondId() {
+		return fondId;
+	}
+
+	public String getAiId() {
+		return aiId;
 	}
 
 }

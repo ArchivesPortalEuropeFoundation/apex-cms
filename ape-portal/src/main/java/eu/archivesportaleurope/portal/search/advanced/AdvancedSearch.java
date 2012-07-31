@@ -1,7 +1,14 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
+import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.Facet;
 
 public class AdvancedSearch implements Serializable {
 	public static final String MODE_NEW = "new";
@@ -26,6 +33,7 @@ public class AdvancedSearch implements Serializable {
 
 	private String country;
 	private String ai;
+	private String fond;
 	private String roledao;
 	private String type;
 	private String dateType;
@@ -96,7 +104,55 @@ public class AdvancedSearch implements Serializable {
 	public String getCountry() {
 		return country;
 	}
-
+	public List<String> getCountryList(){
+		if (StringUtils.isNotBlank(country)){
+			return Arrays.asList(country.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getAiList(){
+		if (StringUtils.isNotBlank(ai)){
+			return Arrays.asList(ai.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getTypeList(){
+		if (StringUtils.isNotBlank(type)){
+			return Arrays.asList(type.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getDateTypeList(){
+		if (StringUtils.isNotBlank(dateType)){
+			return Arrays.asList(dateType.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getRoledaoList(){
+		if (StringUtils.isNotBlank(roledao)){
+			return Arrays.asList(roledao.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getDaoList(){
+		if (StringUtils.isNotBlank(dao)){
+			return Arrays.asList(dao.split(","));
+		}else {
+			return null;
+		}
+	}
+	public List<String> getFondList(){
+		if (StringUtils.isNotBlank(fond)){
+			return Arrays.asList(fond.split(","));
+		}else {
+			return null;
+		}
+	}
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -107,6 +163,14 @@ public class AdvancedSearch implements Serializable {
 
 	public void setAi(String ai) {
 		this.ai = ai;
+	}
+
+	public String getFond() {
+		return fond;
+	}
+
+	public void setFond(String fond) {
+		this.fond = fond;
 	}
 
 	public String getRoledao() {

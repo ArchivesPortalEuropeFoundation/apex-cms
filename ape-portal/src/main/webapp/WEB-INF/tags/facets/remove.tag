@@ -12,9 +12,9 @@
 <c:if test="${!empty solrResponse.facetFields && !empty currentValue}">
 		<c:forEach var="facetField" items="${solrResponse.facetFields}">
 			<c:if test="${facetField.name eq facetName}">
-				<c:forEach var="count" items="${facetField.values}">
-			    	<li><searchresults:facet hasId="${hasId}" name="${facetField.name}" value="${count.name}" keyPrefix="${keyPrefix}" valueIsKey="${valueIsKey}" remove="true" currentValue="${currentValue}"><span class="close-icon"></span></searchresults:facet></li>
-				</c:forEach>
+				<c:forTokens var="currentItem" items="${currentValue}" delims=",">
+					<li>${currentItem}</li>
+				</c:forTokens>
 			</c:if>
 		</c:forEach>
 </c:if>

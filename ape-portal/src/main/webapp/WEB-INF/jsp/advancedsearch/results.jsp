@@ -32,11 +32,12 @@
 		<form:hidden id="updateCurrentSearch_typedocument" path="typedocument"/>
 		<form:hidden id="updateCurrentSearch_fromdate" path="fromdate"/>
 		<form:hidden id="updateCurrentSearch_todate" path="todate"/>
-		<form:hidden id="updateCurrentSearch_country" path="country"/>
-		<form:hidden id="updateCurrentSearch_ai" path="ai"/>
-		<form:hidden id="updateCurrentSearch_type" path="type"/>
-		<form:hidden id="updateCurrentSearch_roledao" path="roledao"/>
-		<form:hidden id="updateCurrentSearch_dateType" path="dateType"/>
+		<input type="hidden" id="updateCurrentSearch_country" name="country" value="${advancedSearch.country}"/>
+		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${advancedSearch.ai}"/>
+		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${advancedSearch.fond}"/>
+		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${advancedSearch.type}"/>
+		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${advancedSearch.roledao}"/>
+		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${advancedSearch.dateType}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>

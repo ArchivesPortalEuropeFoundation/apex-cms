@@ -177,9 +177,11 @@ function initListTabHandlers() {
 //		getMoreFacetFieldValues(this);
 //	});
 	$(".list-searchresult").mouseenter(function() {
+		$(this).find(".list-searchresult-actions").removeClass("hidden");
 		$(this).find(".preview-button-holder").addClass("preview-button-holder-show");
 	});
 	$(".list-searchresult").mouseleave(function() {
+		$(this).find(".list-searchresult-actions").addClass("hidden");
 		$(this).find(".preview-button-holder").removeClass("preview-button-holder-show");
 	});
 	$(".preview-button-holder").mouseenter(
@@ -238,7 +240,7 @@ function performNewSearch() {
 	});
 }
 
-function updateCurrentSearchResults() {
+function updateCurrentSearchResults(addRemoveRefinement) {
 	if ($("#updateCurrentSearch_view").val() == "hierarchy") {
 		selectedTabsSelector = "#tabs-context";
 	} else {
@@ -247,9 +249,14 @@ function updateCurrentSearchResults() {
 	$(selectedTabsSelector).append("<div class='icon_waiting'></div>");
 	$("#resultsContainer").removeClass("hidden");
 	$.post(newSearchUrl, $("#updateCurrentSearch").serialize(), function(data) {
+		var refinementsHtml = $("#selectedRefinements > ul").html();
 		$("#tabs-context").empty();
 		$("#tabs-list").empty();
 		$(selectedTabsSelector).html(data);
+		$("#selectedRefinements > ul").html(refinementsHtml);
+		if (addRemoveRefinement != undefined){
+			$("#selectedRefinements > ul").append(addRemoveRefinement);
+		}
 		document.getElementById("resultsContainer").scrollIntoView(true);
 	});
 }
@@ -264,13 +271,47 @@ function updatePageNumber(url) {
 	$("#updateCurrentSearch_pageNumber").attr("value", pageNumber);
 	updateCurrentSearchResults();
 }
-function removeRefinement(fieldName) {
-	$("#updateCurrentSearch_" + fieldName).attr("value", "");
+function removeRefinement(fieldName, fieldValue) {
+	var fieldId = "#updateCurrentSearch_" + fieldName;
+	
+	var newFieldValue = "";
+	if (fieldValue != undefined){
+		var oldFieldValue = $(fieldId).val();
+		var ids = oldFieldValue.split(",");
+		var first = true;
+		for (var i in ids){
+			var id = ids[i];
+			if (id == fieldValue){
+				
+			}else {
+				if (first){
+					first = false;
+					newFieldValue = newFieldValue + id;
+				}else {
+					newFieldValue = newFieldValue + "," +  id;
+				}
+			}			
+			
+		}
+	}
+	$("#updateCurrentSearch_" + fieldName).attr("value", newFieldValue);
+	$("#" + fieldName + "_" + fieldValue).remove();
 	updateCurrentSearchResults();
 }
 
-function addRefinement(fieldName, fieldValue) {
+function addRefinement(fieldName, fieldValue, shortDescription, longDescription) {
 	$("#updateCurrentSearch_pageNumber").attr("value", "1");
-	$("#updateCurrentSearch_" + fieldName).attr("value", fieldValue);
-	updateCurrentSearchResults();
+	var fieldId = "#updateCurrentSearch_" + fieldName;
+	var oldFieldValue = $(fieldId).val();
+	if (oldFieldValue.length > 0){
+		oldFieldValue = oldFieldValue + "," + fieldValue;
+		$(fieldId).attr("value", oldFieldValue);
+	}else {
+		$(fieldId).attr("value", fieldValue);
+	}
+	var alreadyExist = $("#" + fieldName + "_" + fieldValue);
+	if (alreadyExist.length == 0){
+		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + longDescription + "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">" + longDescription + "<span class='close-icon'></span></a></li>";
+		updateCurrentSearchResults(addRemoveRefinement);
+	}
 }
