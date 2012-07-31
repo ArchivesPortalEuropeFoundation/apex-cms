@@ -151,3 +151,10 @@ a:visited {
 	color: red;	
 	font-weight: bold;
 }
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
