@@ -7,11 +7,12 @@
 		<version>1.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
-	<artifactId>ape-portal</artifactId>
+	<artifactId>Portal</artifactId>
 	<packaging>war</packaging>
-	<name>Archives Portal Europe Portlets</name>
-	<description>Portlets for Archives Portal Europe</description>
+	<name>Archives Portal Europe Portlets${artifact.suffix}</name>
+	<description>Portlets for Archives Portal Europe${artifact.suffix}</description>
 	<build>
+		<finalName>${project.artifactId}${artifact.suffix}</finalName>
 		<plugins>
 			<plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
@@ -24,8 +25,11 @@
 	                        <targetPath>WEB-INF</targetPath>
 	                        <directory>src/main/webapp/WEB-INF</directory>
 	                        <includes>
+	                        	<include>liferay-display.xml</include>
 	                            <include>liferay-plugin-package.xml</include>
 	                            <include>liferay-plugin-package.properties</include>
+	                            <include>portlet.xml</include>
+	                            <include>web.xml</include>
 	                        </includes>
 	                    </resource>
 	                </webResources>
