@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
 	<portlet>
 		<portlet-name>simplesearch</portlet-name>
-		<display-name>simple Search</display-name>
+		<display-name>simple Search${artifact.suffix}</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
@@ -19,8 +19,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Simple Search</title>
-			<short-title>Simple Search</short-title>
+			<title>Simple Search${artifact.suffix}</title>
+			<short-title>Simple Search${artifact.suffix}</short-title>
 			<keywords>simple-search</keywords>
 		</portlet-info>
         <portlet-preferences>
@@ -30,7 +30,7 @@
             </preference>
             <preference>
                 <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_apeportal</value>
+                <value>advancedsearch_WAR_portal</value>
                 <read-only>false</read-only>
             </preference>
             <preference>
@@ -54,7 +54,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>advancedsearch</portlet-name>
-		<display-name>Advanced Search</display-name>
+		<display-name>Advanced Search${artifact.suffix}</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
@@ -67,8 +67,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Advanced Search</title>
-			<short-title>Advanced Search</short-title>
+			<title>Advanced Search${artifact.suffix}</title>
+			<short-title>Advanced Search${artifact.suffix}</short-title>
 			<keywords>advanced-search</keywords>
 		</portlet-info>
         <portlet-preferences>
@@ -78,7 +78,7 @@
             </preference>
             <preference>
                 <name>eadDisplayPortletName</name>
-                <value>eaddisplay_WAR_apeportal</value>
+                <value>eaddisplay_WAR_portal</value>
                 <read-only>false</read-only>
             </preference>
         </portlet-preferences>
@@ -97,7 +97,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
-		<display-name>Directory</display-name>
+		<display-name>Directory${artifact.suffix}</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -106,8 +106,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Directory</title>
-			<short-title>Directory</short-title>
+			<title>Directory${artifact.suffix}</title>
+			<short-title>Directory${artifact.suffix}</short-title>
 			<keywords>Directory</keywords>
 		</portlet-info>
 		<security-role-ref>
@@ -125,7 +125,7 @@
 	</portlet>	
 	<portlet>
 		<portlet-name>eaddisplay</portlet-name>
-		<display-name>EAD Display</display-name>
+		<display-name>EAD Display${artifact.suffix}</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
@@ -138,8 +138,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>EAD Display</title>
-			<short-title>EAD Display</short-title>
+			<title>EAD Display${artifact.suffix}</title>
+			<short-title>EAD Display${artifact.suffix}</short-title>
 			<keywords>EAD Display</keywords>
 		</portlet-info>
         <portlet-preferences>
@@ -149,7 +149,7 @@
             </preference>
             <preference>
                 <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_apeportal</value>
+                <value>advancedsearch_WAR_portal</value>
                 <read-only>false</read-only>
             </preference>
         </portlet-preferences>		
@@ -182,5 +182,12 @@
         <filter-name>APEFilter</filter-name>
         <portlet-name>directory</portlet-name>
     </filter-mapping>
-
+    <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>simplesearch</portlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>eaddisplay</portlet-name>
+    </filter-mapping>
 </portlet-app>
