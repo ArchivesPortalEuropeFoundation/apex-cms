@@ -5,8 +5,7 @@
 	<compatibility>
 		<version>6.1.0+</version>
 	</compatibility>
-	<theme id="ape" name="Archives Portal Europe">
-
+	<theme id="ape" name="Archives Portal Europe${artifact.suffix}">	
 	</theme>
 
 </look-and-feel>

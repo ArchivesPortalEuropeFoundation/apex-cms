@@ -4,7 +4,7 @@
 	"http://www.liferay.com/dtd/liferay-plugin-package_6_1_0.dtd">
 <plugin-package>
 	<name>${project.name}</name>
-	<module-id>${groupId}/${artifactId}/${version}/${packaging}</module-id>
+	<module-id>${groupId}/${artifactId}${artifact.suffix}/${version}/${packaging}</module-id>
 	<types>
 		<type>theme</type>
 	</types>
