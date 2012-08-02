@@ -30,7 +30,7 @@
             </preference>
             <preference>
                 <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_portal</value>
+                <value>advancedsearch_WAR_Portal</value>
                 <read-only>false</read-only>
             </preference>
             <preference>
@@ -78,7 +78,7 @@
             </preference>
             <preference>
                 <name>eadDisplayPortletName</name>
-                <value>eaddisplay_WAR_portal</value>
+                <value>eaddisplay_WAR_Portal</value>
                 <read-only>false</read-only>
             </preference>
         </portlet-preferences>
@@ -149,7 +149,7 @@
             </preference>
             <preference>
                 <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_portal</value>
+                <value>advancedsearch_WAR_Portal</value>
                 <read-only>false</read-only>
             </preference>
         </portlet-preferences>		
