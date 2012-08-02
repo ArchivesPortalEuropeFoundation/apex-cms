@@ -12,7 +12,6 @@
 	<name>Archives Portal Europe Portlets${artifact.suffix}</name>
 	<description>Portlets for Archives Portal Europe${artifact.suffix}</description>
 	<build>
-		<finalName>${project.artifactId}${artifact.suffix}</finalName>
 		<plugins>
 			<plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
