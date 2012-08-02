@@ -61,19 +61,6 @@
 			<div id="selectedRefinements">
 				<div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.choosed" /></div>
 				<ul>
-<!--  					<facets:remove solrResponse="${results.solrResponse}" facetName="country" currentValue="${advancedSearch.country}" keyPrefix="country." valueIsKey="true"
-						hasId="true" />
-					<facets:remove solrResponse="${results.solrResponse}" facetName="ai" currentValue="${advancedSearch.ai}" hasId="true" valueIsKey="false" />
-					<facets:remove solrResponse="${results.solrResponse}" facetName="dao" currentValue="${advancedSearch.dao}" hasId="false" valueIsKey="true"
-						keyPrefix="advancedsearch.facet.value.dao." />	
-					<facets:remove solrResponse="${results.solrResponse}" facetName="roledao" currentValue="${advancedSearch.roledao}" hasId="false" valueIsKey="true"
-						keyPrefix="advancedsearch.facet.value.roledao." />					
-					<facets:remove solrResponse="${results.solrResponse}" facetName="type" currentValue="${advancedSearch.type}" hasId="false" valueIsKey="true"
-						keyPrefix="advancedsearch.text." />
-					<facets:remove solrResponse="${results.solrResponse}" facetName="dateType" currentValue="${advancedSearch.dateType}" hasId="false" valueIsKey="true"
-						keyPrefix="advancedsearch.facet.value.datetype." />			 --> <!-- 
-					<facets:date-remove solrResponse="${results.solrResponse}" facetName="startdate" currentValue="${advancedSearch.startdate}" titleKey="advancedsearch.facet.title.startdate"/>
-					<facets:date-remove solrResponse="${results.solrResponse}" facetName="enddate" currentValue="${advancedSearch.enddate}" titleKey="advancedsearch.facet.title.enddate"/>-->
 				</ul>				
 			</div>
 			
