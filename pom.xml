@@ -73,12 +73,17 @@
 
 	<modules>
 
-		<module>example-portlet</module>
+
 		<module>spring-webmvc-portlet-extension</module>
 		<module>ape-theme</module>
 		<module>ape-portal</module>
- 		<module>ape-pagelayouts</module>
 		
+		<!--  at the moment this project are not used -->
+<!-- 	
+
+		<module>example-portlet</module>
+ 		<module>ape-pagelayouts</module>
+ -->			
 	</modules>
 	<dependencyManagement>
 		<dependencies>
@@ -138,6 +143,7 @@
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<archivesportaleurope.commons.version>1.1.1-SNAPSHOT</archivesportaleurope.commons.version>
 		<archivesportaleurope.persistence.version>1.1.1-SNAPSHOT</archivesportaleurope.persistence.version>
+		<artifact.suffix></artifact.suffix>
 	</properties>
 	<organization>
 		<name>APEx</name>
