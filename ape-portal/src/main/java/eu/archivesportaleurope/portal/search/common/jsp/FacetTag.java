@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.common.jsp.AbstractPortletTag;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearchController;
 import eu.archivesportaleurope.portal.search.common.Facet;
 
 public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
@@ -29,7 +28,6 @@ public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
 	private String valueIsKey;
 	private String hasId;
 	private String currentValue;
-	private String remove;
 	private String id;
 	private String description;
 	private Map<String, Object> tagAttributes = new HashMap<String, Object>();
@@ -161,12 +159,5 @@ public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
 		this.currentValue = currentValue;
 	}
 
-	public String getRemove() {
-		return remove;
-	}
-
-	public void setRemove(String remove) {
-		this.remove = remove;
-	}
 
 }

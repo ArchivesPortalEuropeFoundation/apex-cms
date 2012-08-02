@@ -22,7 +22,6 @@ public class DateFacetTag extends AbstractPortletTag implements DynamicAttribute
 	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private String name;
 	private String value;
-	private String remove;
 	private String gap;
 
 	private Map<String, Object> tagAttributes = new HashMap<String, Object>();
@@ -46,11 +45,9 @@ public class DateFacetTag extends AbstractPortletTag implements DynamicAttribute
 			if (nextDateGap != null) {
 				link.append("<a href=\"");
 				String description = getValueFromResourceBundle("advancedsearch.facet.title." + name) + " " + dateSpan;
-				if ("true".equalsIgnoreCase(remove)) {
-					link.append("javascript:removeRefinement('" + name + "');");
-				} else {
-					link.append("javascript:addDateRefinement('" + name + "','" + dateString + "_" + nextDateGap.getId() + "','"+ description + "','" + description+ "');");
-				}		
+				link.append("javascript:addDateRefinement('" + name + "','" + dateString + "_" + nextDateGap.getId()
+						+ "','" + description + "','" + description + "');");
+
 				link.append("\" ");
 				for (String attrName : tagAttributes.keySet()) {
 					link.append(attrName);
@@ -76,19 +73,20 @@ public class DateFacetTag extends AbstractPortletTag implements DynamicAttribute
 		}
 
 	}
-	private String getDateSpan(DateGap dateGap, String dateString){
+
+	private String getDateSpan(DateGap dateGap, String dateString) {
 		String result = "";
 		try {
 			Date beginDate = SOLR_DATE_FORMAT.parse(dateString);
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat(dateGap.getDateFormat());
 			result += dateFormat.format(beginDate);
-			if (!(Calendar.DAY_OF_MONTH == dateGap.getType() && dateGap.getAmount() == 1)){
-				if (dateGap.getAmount() > 1){
+			if (!(Calendar.DAY_OF_MONTH == dateGap.getType() && dateGap.getAmount() == 1)) {
+				if (dateGap.getAmount() > 1) {
 					result += "-";
 					Calendar endDateCalendar = Calendar.getInstance();
 					endDateCalendar.setTime(beginDate);
-					endDateCalendar.add(dateGap.getType(), (dateGap.getAmount()-1));
+					endDateCalendar.add(dateGap.getType(), (dateGap.getAmount() - 1));
 					result += dateFormat.format(endDateCalendar.getTime());
 				}
 			}
@@ -112,14 +110,6 @@ public class DateFacetTag extends AbstractPortletTag implements DynamicAttribute
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public String getRemove() {
-		return remove;
-	}
-
-	public void setRemove(String remove) {
-		this.remove = remove;
 	}
 
 	public String getGap() {
