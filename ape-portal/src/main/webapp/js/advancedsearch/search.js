@@ -294,7 +294,7 @@ function removeRefinement(fieldName, fieldValue) {
 			
 		}
 	}
-	$("#updateCurrentSearch_" + fieldName).attr("value", newFieldValue);
+	$(fieldId).attr("value", newFieldValue);
 	$("#" + fieldName + "_" + fieldValue).remove();
 	updateCurrentSearchResults();
 }
@@ -314,4 +314,17 @@ function addRefinement(fieldName, fieldValue, shortDescription, longDescription)
 		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + longDescription + "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">" + longDescription + "<span class='close-icon'></span></a></li>";
 		updateCurrentSearchResults(addRemoveRefinement);
 	}
+}
+function removeDateRefinement(fieldName) {
+	$("#updateCurrentSearch_" + fieldName).attr("value", "");
+	$("#" + fieldName).remove();
+	updateCurrentSearchResults();
+}
+function addDateRefinement(fieldName, fieldValue, shortDescription, longDescription) {
+	$("#updateCurrentSearch_pageNumber").attr("value", "1");
+	var fieldId = "#updateCurrentSearch_" + fieldName;
+	$(fieldId).attr("value", fieldValue);
+	$("#" + fieldName).remove();
+	var addRemoveRefinement = "<li id='" + fieldName + "'><a title='" + longDescription + "' href=\"javascript:removeDateRefinement('" + fieldName+"')\">" + longDescription + "<span class='close-icon'></span></a></li>";
+	updateCurrentSearchResults(addRemoveRefinement);
 }

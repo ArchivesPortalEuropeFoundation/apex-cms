@@ -45,11 +45,12 @@ public class DateFacetTag extends AbstractPortletTag implements DynamicAttribute
 			StringBuilder link = new StringBuilder();
 			if (nextDateGap != null) {
 				link.append("<a href=\"");
+				String description = getValueFromResourceBundle("advancedsearch.facet.title." + name) + " " + dateSpan;
 				if ("true".equalsIgnoreCase(remove)) {
 					link.append("javascript:removeRefinement('" + name + "');");
 				} else {
-					link.append("javascript:addRefinement('" + name + "','" + dateString + "_" + nextDateGap.getId() + "');");
-				}				
+					link.append("javascript:addDateRefinement('" + name + "','" + dateString + "_" + nextDateGap.getId() + "','"+ description + "','" + description+ "');");
+				}		
 				link.append("\" ");
 				for (String attrName : tagAttributes.keySet()) {
 					link.append(attrName);
