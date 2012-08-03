@@ -71,12 +71,11 @@ public final class Searcher {
 		query.addFacetField(Facet.DATE_TYPE.getFacetField());
 		query.addFacetField(Facet.DAO.getFacetField());
 		query.addFacetField(Facet.ROLEDAO.getFacetField());
-		//query.addFacetField(Facet.FOND.getFacetField());
+		query.addFacetField(Facet.FOND.getFacetField());
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);
 		query.setFacetLimit(FACET_LIMIT);
-		//query.setFacetMinCount(1);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
 			query.addSortField(orderByField, ORDER.asc);
 			if(orderByField.equals("startdate")){

@@ -69,8 +69,7 @@
 				<facets:facet-default solrResponse="${results.solrResponse}" facetName="country" hasId="true"
 					keyPrefix="country." valueIsKey="true" titleKey="advancedsearch.facet.title.country" currentValue="${advancedSearch.country}" />
 				<facets:facet-default solrResponse="${results.solrResponse}" facetName="ai" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.ai"  currentValue="${advancedSearch.ai}"/>
-				<!--<facets:facet-default solrResponse="${results.solrResponse}" facetName="fond" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.fond"  currentValue="${advancedSearch.fond}"/>
--->
+				<facets:facet-default solrResponse="${results.solrResponse}" facetName="fond" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.fond"  currentValue="${advancedSearch.fond}"/>
 				<facets:facet-default solrResponse="${results.solrResponse}" facetName="type" hasId="false"
 					keyPrefix="advancedsearch.text." valueIsKey="true" titleKey="advancedsearch.facet.title.typefond"  currentValue="${advancedSearch.type}"/>
 				<facets:facet-default solrResponse="${results.solrResponse}" facetName="dao" hasId="false"
@@ -157,10 +156,8 @@
 								</span>
 								</c:if>	
 							<div class="list-searchresult-context">
-								<c:set var="ai"><c:out value="${result.ai}"/></c:set>
-								<c:set var="fond"><c:out value="${result.fond}"/></c:set>
 								<div>
-									<span class="subtitle"><fmt:message key="advancedsearch.message.document" /></span>${fond}
+									<span class="subtitle"><fmt:message key="advancedsearch.message.document" /></span><c:out value="${result.fond}"/>
 								</div>
 								<div>
 								<div class="left">
@@ -177,12 +174,12 @@
 											</c:when>																		
 										</c:choose>
 									</div>
-									<div><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;${ai}</div>
+									<div><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 								</div>
 								<div class="list-searchresult-actions hidden">
 									<ul>
 										<!--<li><a href="javascript:addRefinement('ai','${result.aiId}','${ai}','${ai}')">Only this archive</a></li>  -->
-										<li><a href="javascript:addRefinement('fond','${result.fondId }','${fond}','${fond}')"><fmt:message key="advancedsearch.facet.document.only" /></a></li>
+										<li><a href="javascript:addRefinement('fond','${result.fondId }','${result.escapedFond}','${result.escapedFond}')"><fmt:message key="advancedsearch.facet.document.only" /></a></li>
 									</ul>
 								</div>
 								</div>

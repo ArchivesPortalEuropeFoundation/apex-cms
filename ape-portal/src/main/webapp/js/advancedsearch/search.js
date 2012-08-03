@@ -172,10 +172,11 @@ function initListTabHandlers() {
 	$("#updateCurrentSearch_resultsperpage").change(function(event) {
 		updateCurrentSearchResults();
 	});
-//	$("a.facet-more").click(function(event) {
-//		event.preventDefault();
-//		getMoreFacetFieldValues(this);
-//	});
+	$("a.facet-more").click(function(event) {
+		event.preventDefault();
+		alert("Not implemented yet");
+		//getMoreFacetFieldValues(this);
+	});
 	$(".list-searchresult").mouseenter(function() {
 		$(this).find(".list-searchresult-actions").removeClass("hidden");
 		$(this).find(".preview-button-holder").addClass("preview-button-holder-show");
@@ -311,7 +312,8 @@ function addRefinement(fieldName, fieldValue, shortDescription, longDescription)
 	}
 	var alreadyExist = $("#" + fieldName + "_" + fieldValue);
 	if (alreadyExist.length == 0){
-		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + longDescription + "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">" + longDescription + "<span class='close-icon'></span></a></li>";
+		var escapedLongDescription = longDescription.replace("'","&#039");
+		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + escapedLongDescription + "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">" + escapedLongDescription + "<span class='close-icon'></span></a></li>";
 		updateCurrentSearchResults(addRemoveRefinement);
 	}
 }
@@ -325,6 +327,7 @@ function addDateRefinement(fieldName, fieldValue, shortDescription, longDescript
 	var fieldId = "#updateCurrentSearch_" + fieldName;
 	$(fieldId).attr("value", fieldValue);
 	$("#" + fieldName).remove();
-	var addRemoveRefinement = "<li id='" + fieldName + "'><a title='" + longDescription + "' href=\"javascript:removeDateRefinement('" + fieldName+"')\">" + longDescription + "<span class='close-icon'></span></a></li>";
+	var escapedLongDescription = longDescription.replace("'","&#039");
+	var addRemoveRefinement = "<li id='" + fieldName + "'><a title='" + escapedLongDescription + "' href=\"javascript:removeDateRefinement('" + fieldName+"')\">" + escapedLongDescription + "<span class='close-icon'></span></a></li>";
 	updateCurrentSearchResults(addRemoveRefinement);
 }

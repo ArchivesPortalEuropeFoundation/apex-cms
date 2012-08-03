@@ -41,7 +41,7 @@ public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
 	}
 
 	protected String getLongDescription() {
-		return description;
+		return DisplayUtils.encodeHtml(description);
 	}
 
 	public void setDynamicAttribute(String uri, String localName, Object value) throws JspException {
@@ -85,17 +85,17 @@ public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
 							+ "','" + getUrlParameter() + "');\" ");
 				} else {
 					link.append("<a class=\"" + cssClass + "_notselected\" href=\"javascript:addRefinement('" + name
-							+ "','" + getUrlParameter() + "','"+ getShortDescription() + "','" + getLongDescription()+ "');\" ");
+							+ "','" + getUrlParameter() + "','"+ DisplayUtils.escapeJavascript(getShortDescription()) + "','" + DisplayUtils.escapeJavascript(getLongDescription())+ "');\" ");
 				}
 				for (String attrName : tagAttributes.keySet()) {
 					link.append(attrName);
-					link.append("='");
+					link.append("=\"");
 					link.append(tagAttributes.get(attrName));
-					link.append("' ");
+					link.append("\" ");
 				}
-				link.append("title='");
+				link.append("title=\"");
 				link.append(getLongDescription());
-				link.append('\'');
+				link.append("\"");
 				link.append(">");
 				link.append(getShortDescription());
 				this.getJspContext().getOut().print(link);
@@ -110,7 +110,15 @@ public class FacetTag extends AbstractPortletTag implements DynamicAttributes {
 			LOGGER.info("error: " + e.getMessage(), e);
 		}
 	}
-
+	protected String escapeJavascript(String string) {
+		String result = string;
+		if (result != null) {
+			result = result.replaceAll("'", "&#39;");
+			result = result.replaceAll("[\n\t\r]", "");
+			result = result.trim();
+		}
+		return result;
+	}
 	public String getName() {
 		return name;
 	}

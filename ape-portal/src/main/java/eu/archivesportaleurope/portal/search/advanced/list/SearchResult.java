@@ -165,7 +165,9 @@ public class SearchResult {
 	public String getFond() {
 		return fond;
 	}
-
+	public String getEscapedFond() {
+		return DisplayUtils.escapeJavascript(fond);
+	}
 	public String getFondShortDescription() {
 		return fondShortDescription;
 	}
