@@ -165,6 +165,7 @@ function initListTabHandlers() {
 	});
 
 	$("#updateCurrentSearch_resultsperpage").change(function(event) {
+		$("#updateCurrentSearch_pageNumber").attr("value","1");
 		updateCurrentSearchResults();
 	});
 	$(".list-searchresult").mouseenter(function() {
