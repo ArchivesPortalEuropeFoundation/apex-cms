@@ -180,7 +180,7 @@ public final class AdvancedSearchUtil {
 			solrQueryParameters.getAndParameters().put(name, list);
 		}
 	}
-	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  String toBeAdded) {
+	public static void addRefinement(SolrQueryParameters solrQueryParameters,  FacetType facet,  String toBeAdded) {
 		if (StringUtils.isNotBlank(toBeAdded)) {
 			solrQueryParameters.getOrParameters().remove(facet.getRefinementFieldWithLabel());
 			List<String> list = new ArrayList<String>();
@@ -189,7 +189,7 @@ public final class AdvancedSearchUtil {
 		}
 	}
 
-	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  List<String> toBeAdded) {
+	public static void addRefinement(SolrQueryParameters solrQueryParameters,  FacetType facet,  List<String> toBeAdded) {
 		if (toBeAdded != null && toBeAdded.size() > 0) {
 			//solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
 			solrQueryParameters.getAndParameters().put(facet.getRefinementFieldWithLabel(), toBeAdded);

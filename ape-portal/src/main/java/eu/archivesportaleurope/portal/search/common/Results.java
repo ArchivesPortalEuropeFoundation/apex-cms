@@ -1,11 +1,14 @@
 package eu.archivesportaleurope.portal.search.common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse;
+
+import eu.archivesportaleurope.portal.search.advanced.list.ListFacetContainer;
 
 public class Results implements Serializable {
 
@@ -15,16 +18,14 @@ public class Results implements Serializable {
 	private static final long serialVersionUID = -1960734220972318520L;
 	private long totalNumberOfResults;
 	private boolean showSuggestions;
-	private List<FacetField> facetFields;
-	private List<FacetField> facetDates;
 	private String errorMessage;
 	private SpellCheckResponse spellCheckResponse;
 	
-	public void setSolrResponse(QueryResponse solrResponse) {
+
+	public void init (QueryResponse solrResponse){
 		totalNumberOfResults = solrResponse.getResults().getNumFound();
 		spellCheckResponse = solrResponse.getSpellCheckResponse();
-		facetFields = solrResponse.getFacetFields();
-		facetDates = solrResponse.getFacetDates();
+		totalNumberOfResults = solrResponse.getResults().getNumFound();
 	}
 	public long getTotalNumberOfResults() {
 		return totalNumberOfResults;
@@ -47,11 +48,6 @@ public class Results implements Serializable {
 	public SpellCheckResponse getSpellCheckResponse() {
 		return spellCheckResponse;
 	}
-	public List<FacetField> getFacetFields() {
-		return facetFields;
-	}
-	public List<FacetField> getFacetDates() {
-		return facetDates;
-	}
+
 	
 }

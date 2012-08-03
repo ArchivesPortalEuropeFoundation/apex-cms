@@ -23,9 +23,9 @@ import org.apache.solr.common.params.FacetParams;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
+import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 
 public final class Searcher {
-	public static final int FACET_LIMIT = 11;
 	private static final String WHITESPACE = " ";
 	private static final String OR = " OR ";
 	//private static final String FACET_SORT_INDEX = "index";
@@ -55,33 +55,33 @@ public final class Searcher {
 
 	    return solrServer.query(query, METHOD.POST).getTermsResponse();
 	}
-	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<FacetSetting> facetSettings) throws SolrServerException, ParseException{
+	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
 	}
-	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, List<FacetSetting> facetSettings, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
+	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate, false);
 	}
-	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<FacetSetting> facetSettings, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
+	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
-		for (FacetSetting facetSetting: facetSettings){
-			query.addFacetField(facetSetting.getFacet().getFacetFieldWithLabel());
-			if (facetSetting.getLimit() != FACET_LIMIT){
-				query.setParam("f."+ facetSetting.getFacet().getFacetField() +".facet.limit", facetSetting.getLimit() +"");
-			}
+		for (ListFacetSettings facetSetting: facetSettings){
+			query.addFacetField(facetSetting.getFacet().getNameWithLabel());
+			//if (facetSetting.getLimit() != ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT){
+				query.setParam("f."+ facetSetting.getFacet().getName() +".facet.limit", facetSetting.getLimit() +"");
+			//}
 			
 		}
-		query.addFacetField(Facet.COUNTRY.getFacetFieldWithLabel());
-		query.addFacetField(Facet.AI.getFacetFieldWithLabel());
-		query.addFacetField(Facet.TYPE.getFacetFieldWithLabel());
-		query.addFacetField(Facet.DATE_TYPE.getFacetFieldWithLabel());
-		query.addFacetField(Facet.DAO.getFacetFieldWithLabel());
-		query.addFacetField(Facet.ROLEDAO.getFacetFieldWithLabel());
-		query.addFacetField(Facet.FOND.getFacetFieldWithLabel());
+		query.addFacetField(FacetType.COUNTRY.getNameWithLabel());
+		query.addFacetField(FacetType.AI.getNameWithLabel());
+		query.addFacetField(FacetType.TYPE.getNameWithLabel());
+		query.addFacetField(FacetType.DATE_TYPE.getNameWithLabel());
+		query.addFacetField(FacetType.DAO.getNameWithLabel());
+		query.addFacetField(FacetType.ROLEDAO.getNameWithLabel());
+		query.addFacetField(FacetType.FOND.getNameWithLabel());
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);
-		query.setFacetLimit(FACET_LIMIT);
+		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
 			query.addSortField(orderByField, ORDER.asc);
 			if(orderByField.equals("startdate")){
@@ -98,7 +98,7 @@ public final class Searcher {
 		buildDateRefinement(query,startDate, endDate, false);
 		query.setStart(0);
 		query.setRows(0);
-		query.setFacetLimit(FACET_LIMIT);
+		query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		query.setFacetMinCount(1);
 		query.setParam("facet.offset", start +"");
 		return executeQuery(query, solrQueryParameters,QUERY_TYPE_LIST, false);
