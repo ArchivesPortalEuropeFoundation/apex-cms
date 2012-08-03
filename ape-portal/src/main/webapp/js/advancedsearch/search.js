@@ -1,17 +1,17 @@
 var newSearchUrl, autocompletionUrl;
-function setUrls(nUrl, aUrl){
+function setUrls(nUrl, aUrl) {
 	newSearchUrl = nUrl;
 	autocompletionUrl = aUrl;
 
 }
 
-function init(){
+function init() {
 	initSearchOptionsHandlers();
-//	initNavigatedTree();
+	// initNavigatedTree();
 	initSearchOptions();
-//	$("#archivalLandscapeTree").dynatree("getTree").reload();
+	// $("#archivalLandscapeTree").dynatree("getTree").reload();
 	initTabs();
-//	initHelpFunction();
+	// initHelpFunction();
 	$("#searchTerms").focus();
 	activateAutocompletion("#searchTerms");
 }
@@ -21,10 +21,10 @@ function initContextTabHandlers(contextTreeUrl, previewUrl, namespace) {
 	initTabHandlers();
 }
 function initTabHandlers() {
-//	$("#updateCurrentSearch_saveSearchButton").click(function(event) {
-//		event.preventDefault();
-//		saveSearch();
-//	});
+	// $("#updateCurrentSearch_saveSearchButton").click(function(event) {
+	// event.preventDefault();
+	// saveSearch();
+	// });
 }
 function activateAutocompletion(selector) {
 	function split(val) {
@@ -33,15 +33,12 @@ function activateAutocompletion(selector) {
 	function extractLast(term) {
 		return split(term).pop();
 	}
-	
-	$(selector).bind(
-			"keydown",
-			function(event) {
-				if (event.keyCode === $.ui.keyCode.TAB
-						&& $(this).data("autocomplete").menu.active) {
-					event.preventDefault();
-				}
-			});
+
+	$(selector).bind("keydown", function(event) {
+		if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active) {
+			event.preventDefault();
+		}
+	});
 	$(selector).autocomplete({
 		minLength : 0,
 		source : function(request, response) {
@@ -74,9 +71,6 @@ function activateAutocompletion(selector) {
 	});
 }
 
-
-
-
 function searchOnSuggestion(value) {
 	$("#searchTerms").val(value);
 	performNewSearch();
@@ -101,18 +95,19 @@ function initTabs() {
 		selectedTab = 0;
 
 	}
-	$("#tabs").tabs({selected: selectedTab,
+	$("#tabs").tabs({
+		selected : selectedTab,
 		select : function(event, ui) {
 			var tabName = $(ui.tab).attr("href");
 			if (tabName == '#tabs-list') {
 				$('#checkboxHierarchy').attr('checked', false);
 				$('#resultsperpageRow').removeClass('hidden');
-				//$('#resultsperpageRow :input').removeAttr('disabled');
+				// $('#resultsperpageRow :input').removeAttr('disabled');
 				$('#updateCurrentSearch_view').val('');
-				
-			}else {
+
+			} else {
 				$('#checkboxHierarchy').attr('checked', true);
-				//$('#resultsperpageRow :input').attr('disabled', true);
+				// $('#resultsperpageRow :input').attr('disabled', true);
 				$('#updateCurrentSearch_view').val('hierarchy');
 				$('#resultsperpageRow').addClass('hidden');
 
@@ -155,7 +150,7 @@ function initSearchOptionsHandlers() {
 	$("#checkboxHierarchy").change(function(event) {
 		if ($(this).is(":checked")) {
 			$('#resultsperpageRow').addClass('hidden');
-		}else {
+		} else {
 			$('#resultsperpageRow').removeClass('hidden');
 		}
 	});
@@ -172,11 +167,6 @@ function initListTabHandlers() {
 	$("#updateCurrentSearch_resultsperpage").change(function(event) {
 		updateCurrentSearchResults();
 	});
-	$("a.facet-more").click(function(event) {
-		event.preventDefault();
-		alert("Not implemented yet");
-		//getMoreFacetFieldValues(this);
-	});
 	$(".list-searchresult").mouseenter(function() {
 		$(this).find(".list-searchresult-actions").removeClass("hidden");
 		$(this).find(".preview-button-holder").addClass("preview-button-holder-show");
@@ -190,29 +180,29 @@ function initListTabHandlers() {
 				var holderPosition = $(this).position();
 				var width = $(this).width();
 				var url = $(this).attr("url");
-				$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass("preview-content").css(
-						"top", holderPosition.top + "px");
+				$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass("preview-content")
+						.css("top", holderPosition.top + "px");
 				$.get(url, function(data) {
 					$("#preview-absolute").html(data);
 				});
 			});
-//	initTabHandlers();
+	// initTabHandlers();
 }
 
-function initSearchOptions(){
+function initSearchOptions() {
 	var advanced = $("#advanced").val();
-	if (advanced != null && advanced == "true"){
+	if (advanced != null && advanced == "true") {
 		$('#navigatedSearchOptionsHeader').removeClass("collapsed").addClass("expanded");
 		$('#navigatedSearchOptionsContent').show();
-	}else {
+	} else {
 		$('#navigatedSearchOptionsHeader').removeClass("expanded").addClass("collapsed");
-		$('#navigatedSearchOptionsContent').hide();		
+		$('#navigatedSearchOptionsContent').hide();
 	}
-	$('#navigatedSearchOptionsHeader').click(function(){
-		if($('#navigatedSearchOptionsHeader').hasClass("expanded")){
+	$('#navigatedSearchOptionsHeader').click(function() {
+		if ($('#navigatedSearchOptionsHeader').hasClass("expanded")) {
 			$('#navigatedSearchOptionsHeader').removeClass("expanded").addClass("collapsed");
 			$('#navigatedSearchOptionsContent').hide();
-		}else{
+		} else {
 			$('#navigatedSearchOptionsHeader').removeClass("collapsed").addClass("expanded");
 			$('#navigatedSearchOptionsContent').show();
 		}
@@ -220,11 +210,12 @@ function initSearchOptions(){
 
 }
 function performNewSearch() {
-	
+
 	// The Navigation Tree nodes selected are stored
 	fillInputFromNavTree();
 	initTabs();
-	if ($("#checkboxHierarchy").is(':checked')) {;
+	if ($("#checkboxHierarchy").is(':checked')) {
+		;
 		selectedTabsSelector = "#tabs-context";
 	} else {
 		selectedTabsSelector = "#tabs-list";
@@ -255,7 +246,7 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		$("#tabs-list").empty();
 		$(selectedTabsSelector).html(data);
 		$("#selectedRefinements > ul").html(refinementsHtml);
-		if (addRemoveRefinement != undefined){
+		if (addRemoveRefinement != undefined) {
 			$("#selectedRefinements > ul").append(addRemoveRefinement);
 		}
 		document.getElementById("resultsContainer").scrollIntoView(true);
@@ -274,25 +265,25 @@ function updatePageNumber(url) {
 }
 function removeRefinement(fieldName, fieldValue) {
 	var fieldId = "#updateCurrentSearch_" + fieldName;
-	
+
 	var newFieldValue = "";
-	if (fieldValue != undefined){
+	if (fieldValue != undefined) {
 		var oldFieldValue = $(fieldId).val();
 		var ids = oldFieldValue.split(",");
 		var first = true;
-		for (var i in ids){
+		for ( var i in ids) {
 			var id = ids[i];
-			if (id == fieldValue){
-				
-			}else {
-				if (first){
+			if (id == fieldValue) {
+
+			} else {
+				if (first) {
 					first = false;
 					newFieldValue = newFieldValue + id;
-				}else {
-					newFieldValue = newFieldValue + "," +  id;
+				} else {
+					newFieldValue = newFieldValue + "," + id;
 				}
-			}			
-			
+			}
+
 		}
 	}
 	$(fieldId).attr("value", newFieldValue);
@@ -304,16 +295,18 @@ function addRefinement(fieldName, fieldValue, shortDescription, longDescription)
 	$("#updateCurrentSearch_pageNumber").attr("value", "1");
 	var fieldId = "#updateCurrentSearch_" + fieldName;
 	var oldFieldValue = $(fieldId).val();
-	if (oldFieldValue.length > 0){
+	if (oldFieldValue.length > 0) {
 		oldFieldValue = oldFieldValue + "," + fieldValue;
 		$(fieldId).attr("value", oldFieldValue);
-	}else {
+	} else {
 		$(fieldId).attr("value", fieldValue);
 	}
 	var alreadyExist = $("#" + fieldName + "_" + fieldValue);
-	if (alreadyExist.length == 0){
-		var escapedLongDescription = longDescription.replace("'","&#039");
-		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + escapedLongDescription + "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">" + escapedLongDescription + "<span class='close-icon'></span></a></li>";
+	if (alreadyExist.length == 0) {
+		var escapedLongDescription = longDescription.replace("'", "&#039");
+		var addRemoveRefinement = "<li id='" + fieldName + "_" + fieldValue + "'><a title='" + escapedLongDescription
+				+ "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">"
+				+ escapedLongDescription + "<span class='close-icon'></span></a></li>";
 		updateCurrentSearchResults(addRemoveRefinement);
 	}
 }
@@ -327,7 +320,32 @@ function addDateRefinement(fieldName, fieldValue, shortDescription, longDescript
 	var fieldId = "#updateCurrentSearch_" + fieldName;
 	$(fieldId).attr("value", fieldValue);
 	$("#" + fieldName).remove();
-	var escapedLongDescription = longDescription.replace("'","&#039");
-	var addRemoveRefinement = "<li id='" + fieldName + "'><a title='" + escapedLongDescription + "' href=\"javascript:removeDateRefinement('" + fieldName+"')\">" + escapedLongDescription + "<span class='close-icon'></span></a></li>";
+	var escapedLongDescription = longDescription.replace("'", "&#039");
+	var addRemoveRefinement = "<li id='" + fieldName + "'><a title='" + escapedLongDescription
+			+ "' href=\"javascript:removeDateRefinement('" + fieldName + "')\">" + escapedLongDescription
+			+ "<span class='close-icon'></span></a></li>";
 	updateCurrentSearchResults(addRemoveRefinement);
+}
+function addMoreFacets(fieldName) {
+	var fieldId = "#updateCurrentSearch_facetSettings";
+
+	var newFieldValue = "";
+	var oldFieldValue = $(fieldId).val();
+	var ids = oldFieldValue.split(",");
+	var first = true;
+	for ( var i in ids) {
+		var id = ids[i];
+		if (id.indexOf(fieldName) == 0) {
+			var values = id.split(":");
+			id = values[0] + ":" + (parseInt(values[1])+10) + ":" + values[2];
+		}
+		if (first) {
+			first = false;
+			newFieldValue = newFieldValue + id;
+		} else {
+			newFieldValue = newFieldValue + "," + id;
+		}
+	}
+	$(fieldId).attr("value", newFieldValue);
+	updateCurrentSearchResults();
 }

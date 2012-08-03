@@ -39,6 +39,7 @@
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.AdvancedSearchController">
 		<property name="searcher" ref="searcher"></property>
+		<property name="messageSource" ref="messageSource"></property>
 	</bean>
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">

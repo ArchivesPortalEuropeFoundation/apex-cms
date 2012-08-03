@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="searchresults" uri="http://portal.archivesportaleurope.eu/tags/searchresults"%>
-<c:if test="${!empty facetFields}">
+<!--<c:if test="${!empty facetFields}">
 	<c:forEach var="facetField" items="${facetFields}" >
 		<c:if test="${facetField.name eq facetName and fn:length(facetField.values) > 1}">
 			<div id="facet_${facetName}" class="box">
@@ -30,4 +30,4 @@
 				</ul>	
 		</c:if>
 	</c:forEach>
-</c:if>
+</c:if>-->
