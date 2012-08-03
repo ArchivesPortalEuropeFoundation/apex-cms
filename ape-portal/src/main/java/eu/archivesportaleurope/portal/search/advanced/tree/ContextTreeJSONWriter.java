@@ -189,7 +189,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		StringBuilder buffer = new StringBuilder();
 		addStartArray(buffer);
 		for (int i = 0; i < counts.size(); i++) {
-			FacetValue facetValue = new FacetValue(counts.get(i), FacetValue.Type.HG_OR_FA);
+			TreeFacetValue facetValue = new TreeFacetValue(counts.get(i), TreeFacetValue.Type.HG_OR_FA);
 			buffer.append(START_ITEM);
 			if (i == (maxNumberOfItems - 1)) {
 				addMore(buffer, locale);
@@ -239,7 +239,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		int clevelAdded = 0;
 		Iterator<Count> iterator = archivalInstitutions.iterator();
 		while (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
-			FacetValue aiFacetValue = new FacetValue(iterator.next(), FacetValue.Type.ARCHIVAL_INSTITUTION);
+			TreeFacetValue aiFacetValue = new TreeFacetValue(iterator.next(), TreeFacetValue.Type.ARCHIVAL_INSTITUTION);
 			buffer.append(START_ITEM);
 			addLevel(buffer, levelInt + 1);
 			buffer.append(COMMA);
@@ -299,7 +299,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		Map<String, CLevelInfo> clevelInfos = new TreeMap<String, CLevelInfo>();
 		if (mapCounts != null) {
 			for (Count count : mapCounts) {
-				FacetValue facetValue = new FacetValue(count, FacetValue.Type.CLEVEL);
+				TreeFacetValue facetValue = new TreeFacetValue(count, TreeFacetValue.Type.CLEVEL);
 				CLevelInfo cLevelInfo = new CLevelInfo();
 				cLevelInfo.setClevelWithCounts(facetValue);
 				clevelInfos.put(facetValue.getId(), cLevelInfo);
@@ -324,7 +324,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		Iterator<CLevelInfo> iterator = clevels.iterator();
 		while (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
 			CLevelInfo clevelInfo = iterator.next();
-			FacetValue facetValue = clevelInfo.getClevelWithCounts();
+			TreeFacetValue facetValue = clevelInfo.getClevelWithCounts();
 			SolrDocument searchResult = clevelInfo.getSearchResult();
 			buffer.append(START_ITEM);
 			if (facetValue != null) {
@@ -432,7 +432,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		addTitle("contextTitleWithLink", buffer,title, count, locale);
 	}
 
-	private void addTitle(StringBuilder buffer, FacetValue facetValue, Locale locale) {
+	private void addTitle(StringBuilder buffer, TreeFacetValue facetValue, Locale locale) {
 		addTitle(null, buffer,facetValue.getName(), facetValue.getCount(),locale);
 
 	}
@@ -474,15 +474,15 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	
 	private static class CLevelInfo implements Comparable<CLevelInfo> {
-		private FacetValue clevelWithCounts;
+		private TreeFacetValue clevelWithCounts;
 		private SolrDocument searchResult;
 		private Long orderId;
 
-		public FacetValue getClevelWithCounts() {
+		public TreeFacetValue getClevelWithCounts() {
 			return clevelWithCounts;
 		}
 
-		public void setClevelWithCounts(FacetValue clevelWithCounts) {
+		public void setClevelWithCounts(TreeFacetValue clevelWithCounts) {
 			this.clevelWithCounts = clevelWithCounts;
 		}
 
