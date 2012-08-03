@@ -6,19 +6,19 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Collation;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Correction;
 
 public class AutosuggestionTag extends SimpleTagSupport {
-	private Object solrResponse;
+	private Object spellCheckResponse;
 	private String styleClass;
 	private String numberOfResultsStyleClass;
 	private String misSpelledStyleClass;
 
 	public void doTag() throws JspException, IOException {
-		QueryResponse response = (QueryResponse) solrResponse;
-		List<Collation> suggestions = response.getSpellCheckResponse().getCollatedResults();
+		SpellCheckResponse response =  (SpellCheckResponse) this.spellCheckResponse;
+		List<Collation> suggestions = response.getCollatedResults();
 		if (suggestions != null) {
 			for (Collation collation : suggestions) {
 				String suggestion = collation.getCollationQueryString();
@@ -37,13 +37,6 @@ public class AutosuggestionTag extends SimpleTagSupport {
 
 	}
 
-	public Object getSolrResponse() {
-		return solrResponse;
-	}
-
-	public void setSolrResponse(Object solrResponse) {
-		this.solrResponse = solrResponse;
-	}
 
 	public String getStyleClass() {
 		return styleClass;
@@ -67,6 +60,16 @@ public class AutosuggestionTag extends SimpleTagSupport {
 
 	public void setMisSpelledStyleClass(String misSpelledStyleClass) {
 		this.misSpelledStyleClass = misSpelledStyleClass;
+	}
+
+
+	public Object getSpellCheckResponse() {
+		return spellCheckResponse;
+	}
+
+
+	public void setSpellCheckResponse(Object spellCheckResponse) {
+		this.spellCheckResponse = spellCheckResponse;
 	}
 
 }

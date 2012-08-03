@@ -1,14 +1,13 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.Facet;
+import eu.archivesportaleurope.portal.search.common.FacetSetting;
 
 public class AdvancedSearch implements Serializable {
 	public static final String MODE_NEW = "new";
@@ -46,6 +45,7 @@ public class AdvancedSearch implements Serializable {
 	private String keyPrefix;
 	private String valueIsKey;
 	private String hasId;
+	private String facetSettings;
 	private List<String> navigationTreeNodesSelected; // This list contains all
 	// the identifiers
 	// related to the nodes
@@ -153,6 +153,7 @@ public class AdvancedSearch implements Serializable {
 			return null;
 		}
 	}
+	
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -357,4 +358,23 @@ public class AdvancedSearch implements Serializable {
 		this.expandedNodesSerialized = expandedNodesSerialized;
 	}
 
+	public String getFacetSettings() {
+		return facetSettings;
+	}
+
+	public void setFacetSettings(String facetSettings) {
+		this.facetSettings = facetSettings;
+	}
+	public List<FacetSetting> getFacetSettingsList(){
+		if (StringUtils.isNotBlank(facetSettings)){
+			String[] temp = facetSettings.split(",");
+			List<FacetSetting> result = new ArrayList<FacetSetting>();
+			for (String tempItem: temp){
+				result.add(new FacetSetting(tempItem));
+			}
+			return result;
+		}else {
+			return new ArrayList<FacetSetting>();
+		}
+	}
 }

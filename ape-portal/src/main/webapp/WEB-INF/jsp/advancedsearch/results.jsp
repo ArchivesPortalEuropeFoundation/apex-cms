@@ -17,7 +17,7 @@
 				</c:otherwise>
 			</c:choose>
 		</span> <br />
-		<portal:autosuggestion solrResponse="${results.solrResponse}" styleClass="suggestionLink"
+		<portal:autosuggestion spellCheckResponse="${results.spellCheckResponse}" styleClass="suggestionLink"
 			numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 	</div>
 </c:if>
@@ -38,6 +38,7 @@
 		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${advancedSearch.type}"/>
 		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${advancedSearch.roledao}"/>
 		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${advancedSearch.dateType}"/>
+		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${advancedSearch.facetSettings}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>

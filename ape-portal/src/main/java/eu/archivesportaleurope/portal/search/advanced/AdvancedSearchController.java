@@ -11,6 +11,7 @@ import javax.portlet.ResourceRequest;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Collation;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -105,8 +106,8 @@ public class AdvancedSearchController {
 					results = performNewSearchForListView(request, solrQueryParameters, advancedSearch);
 				}
 				boolean showSuggestions = false;
-				if (results.getSolrResponse().getSpellCheckResponse() != null) {
-					List<Collation> suggestions = results.getSolrResponse().getSpellCheckResponse()
+				if (results.getSpellCheckResponse() != null) {
+					List<Collation> suggestions = results.getSpellCheckResponse()
 							.getCollatedResults();
 					if (suggestions != null) {
 						for (Collation collation : suggestions) {
@@ -157,12 +158,13 @@ public class AdvancedSearchController {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
 		Integer pageNumber = Integer.parseInt(advancedSearch.getPageNumber());
-		results.setSolrResponse(searcher.updateListView(solrQueryParameters, results.getPageSize() * (pageNumber - 1),
-				results.getPageSize(), advancedSearch.getOrder(), advancedSearch.getStartdate(),
-				advancedSearch.getEnddate()));
+		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize() * (pageNumber - 1),
+				results.getPageSize(), advancedSearch.getFacetSettingsList(), advancedSearch.getOrder(), advancedSearch.getStartdate(),
+				advancedSearch.getEnddate());
+		results.setSolrResponse(solrResponse);
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(results.getSolrResponse()));
+			results.setItems(new SolrDocumentListHolder(solrResponse));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}
@@ -173,10 +175,11 @@ public class AdvancedSearchController {
 			AdvancedSearch advancedSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
-		results.setSolrResponse(searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize()));
+		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(), advancedSearch.getFacetSettingsList());
+		results.setSolrResponse(solrResponse);
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(results.getSolrResponse()));
+			results.setItems(new SolrDocumentListHolder(solrResponse));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}
@@ -187,7 +190,7 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters) throws SolrServerException {
 		ContextResults results = new ContextResults();
 		results.setSolrResponse(searcher.performNewSearchForContextView(solrQueryParameters));
-		List<Count> countries = results.getSolrResponse().getFacetFields().get(0).getValues();
+		List<Count> countries = results.getFacetFields().get(0).getValues();
 		if (countries != null) {
 			for (Count country : countries) {
 				results.getCountries().add(new FacetValue(country, FacetValue.Type.COUNTRY));

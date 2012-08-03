@@ -182,17 +182,17 @@ public final class AdvancedSearchUtil {
 	}
 	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  String toBeAdded) {
 		if (StringUtils.isNotBlank(toBeAdded)) {
-			solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
+			solrQueryParameters.getOrParameters().remove(facet.getRefinementFieldWithLabel());
 			List<String> list = new ArrayList<String>();
 			list.add(toBeAdded);
-			solrQueryParameters.getAndParameters().put(facet.getRefinementField(), list);
+			solrQueryParameters.getAndParameters().put(facet.getRefinementFieldWithLabel(), list);
 		}
 	}
 
 	public static void addRefinement(SolrQueryParameters solrQueryParameters,  Facet facet,  List<String> toBeAdded) {
 		if (toBeAdded != null && toBeAdded.size() > 0) {
 			//solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
-			solrQueryParameters.getAndParameters().put(facet.getRefinementField(), toBeAdded);
+			solrQueryParameters.getAndParameters().put(facet.getRefinementFieldWithLabel(), toBeAdded);
 		}
 	}
 

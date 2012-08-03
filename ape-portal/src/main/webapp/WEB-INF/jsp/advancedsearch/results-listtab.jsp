@@ -66,20 +66,20 @@
 			
 			<div id="resultsContainer">
 			<div id="refinements">
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="country" hasId="true"
+				<facets:facet-default facetFields="${results.facetFields}" facetName="country" hasId="true"
 					keyPrefix="country." valueIsKey="true" titleKey="advancedsearch.facet.title.country" currentValue="${advancedSearch.country}" />
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="ai" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.ai"  currentValue="${advancedSearch.ai}"/>
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="fond" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.fond"  currentValue="${advancedSearch.fond}"/>
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="type" hasId="false"
+				<facets:facet-default facetFields="${results.facetFields}" facetName="ai" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.ai"  currentValue="${advancedSearch.ai}"/>
+				<facets:facet-default facetFields="${results.facetFields}" facetName="fond" hasId="true" valueIsKey="false" titleKey="advancedsearch.facet.title.fond"  currentValue="${advancedSearch.fond}"/>
+				<facets:facet-default facetFields="${results.facetFields}" facetName="type" hasId="false"
 					keyPrefix="advancedsearch.text." valueIsKey="true" titleKey="advancedsearch.facet.title.typefond"  currentValue="${advancedSearch.type}"/>
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="dao" hasId="false"
+				<facets:facet-default facetFields="${results.facetFields}" facetName="dao" hasId="false"
 					keyPrefix="advancedsearch.facet.value.dao." valueIsKey="true" titleKey="advancedsearch.facet.title.dao" currentValue="${advancedSearch.dao}"/>
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="roledao" hasId="false"
+				<facets:facet-default facetFields="${results.facetFields}" facetName="roledao" hasId="false"
 					keyPrefix="advancedsearch.facet.value.roledao." valueIsKey="true" titleKey="advancedsearch.facet.title.roledao"  currentValue="${advancedSearch.roledao}"/>
-				<facets:facet-default solrResponse="${results.solrResponse}" facetName="dateType" hasId="false"
+				<facets:facet-default facetFields="${results.facetFields}" facetName="dateType" hasId="false"
 					keyPrefix="advancedsearch.facet.value.datetype." valueIsKey="true" titleKey="advancedsearch.facet.title.datetype"  currentValue="${advancedSearch.dateType}"/>			
-				<facets:facet-date solrResponse="${results.solrResponse}" facetName="startdate"  titleKey="advancedsearch.facet.title.startdate"/>
-				<facets:facet-date solrResponse="${results.solrResponse}" facetName="enddate"  titleKey="advancedsearch.facet.title.enddate"/>
+				<facets:facet-date facetFields="${results.facetDates}" facetName="startdate"  titleKey="advancedsearch.facet.title.startdate"/>
+				<facets:facet-date facetFields="${results.facetDates}" facetName="enddate"  titleKey="advancedsearch.facet.title.enddate"/>
 				&nbsp;	
 			</div>
 			<div  id="searchresultsContainer">	

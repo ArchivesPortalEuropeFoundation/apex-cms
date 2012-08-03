@@ -1,4 +1,4 @@
-package eu.archivesportaleurope.portal.search.advanced.list;
+package eu.archivesportaleurope.portal.search.common;
 
 import java.util.Calendar;
 

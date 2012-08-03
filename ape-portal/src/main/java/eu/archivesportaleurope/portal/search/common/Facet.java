@@ -9,7 +9,7 @@ public enum Facet {
 	DATE_TYPE(SolrFields.DATE_TYPE, SolrFields.DATE_TYPE, SolrFields.DATE_TYPE),
 	ROLEDAO(SolrFields.ROLEDAO, SolrFields.ROLEDAO, SolrFields.ROLEDAO),
 	DAO(SolrFields.DAO, SolrFields.DAO, SolrFields.DAO),
-	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, SolrFields.TITLE_OF_FOND),
+	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, SolrFields.TITLE_OF_FOND)
 	;
 	
 	private final String facetField;
@@ -21,11 +21,18 @@ public enum Facet {
 		this.refinementField = refinementField;
 		this.label = label;
 	}
-	public String getFacetField() {
+	public String getFacetFieldWithLabel() {
 		return "{!ex="+ label +"}" +facetField;
 	}
-	public String getRefinementField() {
+	public String getRefinementFieldWithLabel() {
 		return "{!tag=" +label + "}" + refinementField;
+	}
+	
+	public String getFacetField() {
+		return facetField;
+	}
+	public String getRefinementField() {
+		return refinementField;
 	}
 	public boolean isMultiSelect(){
 		return label != null;

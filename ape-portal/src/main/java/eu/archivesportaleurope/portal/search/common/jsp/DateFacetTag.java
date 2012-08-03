@@ -15,7 +15,7 @@ import javax.servlet.jsp.tagext.JspFragment;
 import org.apache.log4j.Logger;
 
 import eu.archivesportaleurope.portal.common.jsp.AbstractPortletTag;
-import eu.archivesportaleurope.portal.search.advanced.list.DateGap;
+import eu.archivesportaleurope.portal.search.common.DateGap;
 
 public class DateFacetTag extends AbstractPortletTag implements DynamicAttributes {
 	private final static Logger LOGGER = Logger.getLogger(DateFacetTag.class);

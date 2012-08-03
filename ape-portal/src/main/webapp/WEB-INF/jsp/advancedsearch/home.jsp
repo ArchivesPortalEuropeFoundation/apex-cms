@@ -182,7 +182,7 @@
 							</c:choose>
 						</span>
 						<br />
-						<portal:autosuggestion solrResponse="${results.solrResponse}" styleClass="suggestionLink"
+						<portal:autosuggestion spellCheckResponse="${results.spellCheckResponse}" styleClass="suggestionLink"
 							numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 					</c:if>
 				</div>

@@ -23,7 +23,6 @@ import org.apache.solr.common.params.FacetParams;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
-import eu.archivesportaleurope.portal.search.advanced.list.DateGap;
 
 public final class Searcher {
 	public static final int FACET_LIMIT = 11;
@@ -56,22 +55,29 @@ public final class Searcher {
 
 	    return solrServer.query(query, METHOD.POST).getTermsResponse();
 	}
-	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows) throws SolrServerException, ParseException{
-		return getListViewResults(solrQueryParameters, 0, rows, null, null, null, true);
+	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<FacetSetting> facetSettings) throws SolrServerException, ParseException{
+		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
 	}
-	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
-		return getListViewResults(solrQueryParameters, start, rows, orderByField, startDate, endDate, false);
+	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, List<FacetSetting> facetSettings, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
+		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate, false);
 	}
-	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
+	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<FacetSetting> facetSettings, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
-		query.addFacetField(Facet.COUNTRY.getFacetField());
-		query.addFacetField(Facet.AI.getFacetField());
-		query.addFacetField(Facet.TYPE.getFacetField());
-		query.addFacetField(Facet.DATE_TYPE.getFacetField());
-		query.addFacetField(Facet.DAO.getFacetField());
-		query.addFacetField(Facet.ROLEDAO.getFacetField());
-		query.addFacetField(Facet.FOND.getFacetField());
+		for (FacetSetting facetSetting: facetSettings){
+			query.addFacetField(facetSetting.getFacet().getFacetFieldWithLabel());
+			if (facetSetting.getLimit() != FACET_LIMIT){
+				query.setParam("f."+ facetSetting.getFacet().getFacetField() +".facet.limit", facetSetting.getLimit() +"");
+			}
+			
+		}
+		query.addFacetField(Facet.COUNTRY.getFacetFieldWithLabel());
+		query.addFacetField(Facet.AI.getFacetFieldWithLabel());
+		query.addFacetField(Facet.TYPE.getFacetFieldWithLabel());
+		query.addFacetField(Facet.DATE_TYPE.getFacetFieldWithLabel());
+		query.addFacetField(Facet.DAO.getFacetFieldWithLabel());
+		query.addFacetField(Facet.ROLEDAO.getFacetFieldWithLabel());
+		query.addFacetField(Facet.FOND.getFacetFieldWithLabel());
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);

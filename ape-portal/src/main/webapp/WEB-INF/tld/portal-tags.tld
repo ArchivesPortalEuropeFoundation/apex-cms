@@ -10,7 +10,7 @@
 		<tag-class>eu.archivesportaleurope.portal.search.common.jsp.AutosuggestionTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<name>solrResponse</name>
+			<name>spellCheckResponse</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Object</type>
