@@ -291,7 +291,11 @@ function removeRefinement(fieldName, fieldValue) {
 	$("#" + fieldName + "_" + fieldValue).remove();
 	updateCurrentSearchResults();
 }
-
+function addOnlyThisRefinement(fieldName, fieldValue, shortDescription, longDescription) {
+	$("#selectedRefinements > ul").empty();
+	$("#updateCurrentSearch_" + fieldName).attr("value", "");
+	addRefinement(fieldName,fieldValue, shortDescription, longDescription);
+}
 function addRefinement(fieldName, fieldValue, shortDescription, longDescription) {
 	$("#updateCurrentSearch_pageNumber").attr("value", "1");
 	var fieldId = "#updateCurrentSearch_" + fieldName;

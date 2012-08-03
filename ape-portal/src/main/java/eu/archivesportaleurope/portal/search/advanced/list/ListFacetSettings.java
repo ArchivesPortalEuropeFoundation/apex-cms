@@ -4,7 +4,7 @@ import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class ListFacetSettings {
 	private static final String SEPARATOR = ":";
-	public final static int DEFAULT_FACET_VALUE_LIMIT = 2;
+	public final static int DEFAULT_FACET_VALUE_LIMIT = 3;
 	private final FacetType facet;
 	private int limit = DEFAULT_FACET_VALUE_LIMIT;
 	private Boolean expanded = true;
