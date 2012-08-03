@@ -13,6 +13,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Collation;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,12 +25,13 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
 import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
-import eu.archivesportaleurope.portal.search.advanced.tree.FacetValue;
+import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.Facet;
+import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.SearchUtils;
 import eu.archivesportaleurope.portal.search.common.Searcher;
@@ -44,6 +46,7 @@ public class AdvancedSearchController {
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
 	private Searcher searcher;
+	private ResourceBundleMessageSource messageSource;
 
 	public Searcher getSearcher() {
 		return searcher;
@@ -51,6 +54,10 @@ public class AdvancedSearchController {
 
 	public void setSearcher(Searcher searcher) {
 		this.searcher = searcher;
+	}
+
+	public void setMessageSource(ResourceBundleMessageSource messageSource) {
+		this.messageSource = messageSource;
 	}
 
 	// --maps the incoming portlet request to this method
@@ -101,7 +108,7 @@ public class AdvancedSearchController {
 				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				handleSearchParameters(advancedSearch, solrQueryParameters);
 				if (HIERARCHY.equals(advancedSearch.getView())) {
-					results = performNewSearchForContextView(request, solrQueryParameters);
+					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
 					results = performNewSearchForListView(request, solrQueryParameters, advancedSearch);
 				}
@@ -141,7 +148,7 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			if (HIERARCHY.equals(advancedSearch.getView())) {
 				handleSearchParametersForContextUpdate(advancedSearch, solrQueryParameters);
-				results = performNewSearchForContextView(request, solrQueryParameters);
+				results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 			} else {
 				handleSearchParametersForListUpdate(advancedSearch, solrQueryParameters);
 				results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
@@ -161,7 +168,7 @@ public class AdvancedSearchController {
 		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize() * (pageNumber - 1),
 				results.getPageSize(), advancedSearch.getFacetSettingsList(), advancedSearch.getOrder(), advancedSearch.getStartdate(),
 				advancedSearch.getEnddate());
-		results.setSolrResponse(solrResponse);
+		results.init(solrResponse,advancedSearch.getFacetSettingsList(), advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
 			results.setItems(new SolrDocumentListHolder(solrResponse));
@@ -176,7 +183,7 @@ public class AdvancedSearchController {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
 		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(), advancedSearch.getFacetSettingsList());
-		results.setSolrResponse(solrResponse);
+		results.init(solrResponse,advancedSearch.getFacetSettingsList(),advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
 			results.setItems(new SolrDocumentListHolder(solrResponse));
@@ -187,13 +194,14 @@ public class AdvancedSearchController {
 	}
 
 	protected ContextResults performNewSearchForContextView(PortletRequest request,
-			SolrQueryParameters solrQueryParameters) throws SolrServerException {
+			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException {
 		ContextResults results = new ContextResults();
-		results.setSolrResponse(searcher.performNewSearchForContextView(solrQueryParameters));
-		List<Count> countries = results.getFacetFields().get(0).getValues();
+		QueryResponse solrResponse = searcher.performNewSearchForContextView(solrQueryParameters);
+		results.init(solrResponse);
+		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
 		if (countries != null) {
 			for (Count country : countries) {
-				results.getCountries().add(new FacetValue(country, FacetValue.Type.COUNTRY));
+				results.getCountries().add(new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY));
 			}
 		}
 		return results;
@@ -322,18 +330,18 @@ public class AdvancedSearchController {
 
 		solrQueryParameters.setTerm(advancedSearch.getTerm());
 		solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.DAO, advancedSearch.getDaoList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DAO, advancedSearch.getDaoList());
 	}
 
 	protected void handleSearchParametersForListUpdate(AdvancedSearch advancedSearch,
 			SolrQueryParameters solrQueryParameters) {
 		handleSearchParameters(advancedSearch, solrQueryParameters);
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.COUNTRY, advancedSearch.getCountryList());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.AI, advancedSearch.getAiList());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.TYPE, advancedSearch.getTypeList());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.DATE_TYPE, advancedSearch.getDateTypeList());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.ROLEDAO, advancedSearch.getRoledaoList());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, Facet.FOND, advancedSearch.getFondList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, advancedSearch.getCountryList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, advancedSearch.getAiList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.TYPE, advancedSearch.getTypeList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, advancedSearch.getDateTypeList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.ROLEDAO, advancedSearch.getRoledaoList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, advancedSearch.getFondList());
 	}
 
 	protected void updatePagination(AdvancedSearch advancedSearch, ListResults results) {

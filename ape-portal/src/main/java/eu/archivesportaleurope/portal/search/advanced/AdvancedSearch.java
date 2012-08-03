@@ -1,13 +1,13 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.search.common.FacetSetting;
+import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class AdvancedSearch implements Serializable {
 	public static final String MODE_NEW = "new";
@@ -45,7 +45,7 @@ public class AdvancedSearch implements Serializable {
 	private String keyPrefix;
 	private String valueIsKey;
 	private String hasId;
-	private String facetSettings;
+	private List<ListFacetSettings> facetSettingsList = FacetType.getDefaultListFacetSettings();
 	private List<String> navigationTreeNodesSelected; // This list contains all
 	// the identifiers
 	// related to the nodes
@@ -359,22 +359,31 @@ public class AdvancedSearch implements Serializable {
 	}
 
 	public String getFacetSettings() {
-		return facetSettings;
+		String result = null;
+		for (ListFacetSettings facetSettings: facetSettingsList){
+			if (result == null){
+				result = facetSettings.toString();
+			}else {
+				result += ","  + facetSettings;
+			}
+		}
+		System.out.println("facet-result:" +result);
+		return result;
 	}
 
 	public void setFacetSettings(String facetSettings) {
-		this.facetSettings = facetSettings;
-	}
-	public List<FacetSetting> getFacetSettingsList(){
+		System.out.println("facet: " + facetSettings);
 		if (StringUtils.isNotBlank(facetSettings)){
+			facetSettingsList.clear();
 			String[] temp = facetSettings.split(",");
-			List<FacetSetting> result = new ArrayList<FacetSetting>();
 			for (String tempItem: temp){
-				result.add(new FacetSetting(tempItem));
+				facetSettingsList.add(new ListFacetSettings(tempItem));
 			}
-			return result;
 		}else {
-			return new ArrayList<FacetSetting>();
+			facetSettingsList = FacetType.getDefaultListFacetSettings();
 		}
+	}
+	public List<ListFacetSettings> getFacetSettingsList(){
+		return facetSettingsList;
 	}
 }
