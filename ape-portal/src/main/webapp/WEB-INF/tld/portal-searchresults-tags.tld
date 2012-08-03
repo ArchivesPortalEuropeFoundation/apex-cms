@@ -5,42 +5,6 @@
 	<tlib-version>2.0</tlib-version>
 	<short-name>portal-searchresults-tags</short-name>
 	<uri>http://portal.archivesportaleurope.eu/tags/searchresults</uri>
-	<tag>
-		<name>facet</name>
-		<tag-class>eu.archivesportaleurope.portal.search.common.jsp.FacetTag</tag-class>
-		<body-content>tagdependent</body-content>
-		<attribute>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>		
-		<attribute>
-			<name>value</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>keyPrefix</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>valueIsKey</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>hasId</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>	
-		<attribute>
-			<name>currentValue</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>	
-		<dynamic-attributes>true</dynamic-attributes>  	
-	</tag>
 		
 	<tag>
 		<name>date</name>
