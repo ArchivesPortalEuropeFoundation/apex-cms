@@ -380,6 +380,14 @@
 	padding:0px 0px 0px 5px; 
 	margin: 0;
 }
+#advancedSearchPortlet #refinements .collapsibleIcon {
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+}
+#advancedSearchPortlet #refinements .boxtitle {
+	cursor: pointer;
+}
 #advancedSearchPortlet #refinements  .numberOfHits{
 	color: gray;
     padding-left: 1px;	
