@@ -7,7 +7,7 @@ public class ListFacetSettings {
 	public final static int DEFAULT_FACET_VALUE_LIMIT = 3;
 	private final FacetType facet;
 	private int limit = DEFAULT_FACET_VALUE_LIMIT;
-	private Boolean expanded = true;
+	private Boolean expanded = false;
 	public ListFacetSettings(String inputString){
 		String[] values = inputString.split(SEPARATOR);
 		String facetName = values[0];

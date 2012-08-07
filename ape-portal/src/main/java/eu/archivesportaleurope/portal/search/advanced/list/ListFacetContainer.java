@@ -32,6 +32,9 @@ public class ListFacetContainer {
 	public int getLimit(){
 		return facetSettings.getLimit();
 	}
+	public boolean isExpanded(){
+		return facetSettings.isExpanded();
+	}
 	public List<FacetValue> getValues() {
 		return values;
 	}

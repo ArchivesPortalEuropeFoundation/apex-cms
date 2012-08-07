@@ -7,10 +7,20 @@
 <%@ taglib prefix="searchresults" uri="http://portal.archivesportaleurope.eu/tags/searchresults"%>
 <c:forEach var="facetContainer" items="${facetContainers}">
 	<div id="facet_${facetContainer.name}" class="box">
-		<div class="boxtitle">
+		<c:choose>
+			<c:when test="${facetContainer.expanded}">
+				<c:set var="collapsibleIconClass" value="expanded"/>
+				<c:set var="collapsibleBox" value=""/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="collapsibleIconClass" value="collapsed"/>
+				<c:set var="collapsibleBox" value="hidden"/>
+			</c:otherwise>
+		</c:choose>
+		<div class="boxtitle"><span class="collapsibleIcon ${collapsibleIconClass}"/>
 			<fmt:message key="advancedsearch.facet.title.${fn:toLowerCase(facetContainer.name)}" />
 		</div>
-		<ul>
+		<ul class="${collapsibleBox}">
 			<c:if test="${facetContainer.multiSelect}">
 				<c:set var="cssClassPrefix" value="refinement_multiple" />
 			</c:if>

@@ -229,6 +229,7 @@ function performNewSearch() {
 	$.post(newSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
+		makeRefinementsCollapsible();
 		document.getElementById("resultsContainer").scrollIntoView(true);
 	});
 }
@@ -245,11 +246,14 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		var refinementsHtml = $("#selectedRefinements > ul").html();
 		$("#tabs-context").empty();
 		$("#tabs-list").empty();
+		// update the page with the search results
 		$(selectedTabsSelector).html(data);
+		// keep the selected refinements
 		$("#selectedRefinements > ul").html(refinementsHtml);
 		if (addRemoveRefinement != undefined) {
 			$("#selectedRefinements > ul").append(addRemoveRefinement);
 		}
+		makeRefinementsCollapsible();
 		document.getElementById("resultsContainer").scrollIntoView(true);
 	});
 }
@@ -353,4 +357,48 @@ function addMoreFacets(fieldName) {
 	}
 	$(fieldId).attr("value", newFieldValue);
 	updateCurrentSearchResults();
+}
+function collapseOrExpand(fieldName, expanded) {
+	var fieldId = "#updateCurrentSearch_facetSettings";
+
+	var newFieldValue = "";
+	var oldFieldValue = $(fieldId).val();
+	var ids = oldFieldValue.split(",");
+	var first = true;
+	for ( var i in ids) {
+		var id = ids[i];
+		if (id.indexOf(fieldName) == 0) {
+			var values = id.split(":");
+			id = values[0] + ":" + values[1] + ":" + expanded;
+		}
+		if (first) {
+			first = false;
+			newFieldValue = newFieldValue + id;
+		} else {
+			newFieldValue = newFieldValue + "," + id;
+		}
+	}
+	$(fieldId).attr("value", newFieldValue);
+}
+
+function makeRefinementsCollapsible() {
+	$('#refinements .boxtitle').each(function(index) {
+		$(this).click(function() {
+			var expanded = false;
+			if ($(this).find(".collapsibleIcon").hasClass("expanded")) {
+				$(this).find(".collapsibleIcon").removeClass("expanded").addClass("collapsed");
+				$(this).parent().find('ul').addClass("hidden");
+			} else {
+				$(this).find(".collapsibleIcon").removeClass("collapsed").addClass("expanded");
+				$(this).parent().find('ul').removeClass("hidden");
+				expanded = true;
+			}
+			var id = $(this).parent().attr("id").split("_");
+			collapseOrExpand(id[1], expanded);
+			
+		});
+	});
+	
+
+
 }
