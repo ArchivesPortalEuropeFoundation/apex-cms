@@ -153,10 +153,10 @@
 												<span class="subtitle"><fmt:message key="advancedsearch.message.eadid" /></span>${result.unitIdOfFond}
 											</c:when>
 											<c:when test="${!empty result.unitid}">
-												<span class="secondSubtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.unitid}
+												<span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.unitid}
 											</c:when>
 											<c:when test="${!empty result.otherUnitid}">
-												<span class="secondSubtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.otherUnitid}
+												<span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.otherUnitid}
 											</c:when>																		
 										</c:choose>
 									</div>
