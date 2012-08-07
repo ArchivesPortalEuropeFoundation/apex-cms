@@ -50,11 +50,11 @@
 							<c:choose>
 								<c:when test="${facetValue.selected}">
 									<a class="${cssClassPrefix}_selected" title="${facetValue.htmlLongDescription}"
-										href="javascript:removeRefinement('${facetContainer.name}','${facetValue.id}');">${facetValue.htmlShortDescription}</a>
+										href="javascript:removeRefinement('${facetContainer.name}','${facetValue.id}');">${facetValue.htmlLongDescription}</a>
 								</c:when>
 								<c:otherwise>
 									<a class="${cssClassPrefix}_notselected" title="${facetValue.htmlLongDescription}"
-										href="javascript:${addRefinementMethodName}('${facetContainer.name}','${facetValue.id}','${removeRefinementDescription}');">${facetValue.htmlShortDescription}</a>
+										href="javascript:${addRefinementMethodName}('${facetContainer.name}','${facetValue.id}','${removeRefinementDescription}');">${facetValue.htmlLongDescription}</a>
 								</c:otherwise>
 							</c:choose>
 							<span class='numberOfHits'>(${facetValue.numberOfResults})</span>

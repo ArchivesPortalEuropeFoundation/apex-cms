@@ -91,13 +91,13 @@
 								<c:choose>
 									<c:when test="${empty result.title}">
 										<c:set var="title"><fmt:message key="advancedsearch.text.notitle" /></c:set>
-										<c:set var="titleShortDescription"><fmt:message key="advancedsearch.text.notitle" /></c:set>
-										<c:set var="titleClass" value="searchresulttitle notitle"/>
+										<c:set var="titleWithoutHighlighting"><fmt:message key="advancedsearch.text.notitle" /></c:set>
+										<c:set var="titleClass" value="notitle"/>
 									</c:when>
 									<c:otherwise>
 										<c:set var="title" value="${result.title}"/>
-										<c:set var="titleShortDescription" value="${result.titleShortDescription}"/>
-										<c:set var="titleClass" value="searchresulttitle"/>								
+										<c:set var="titleWithoutHighlighting" value="${result.titleWithoutHighlighting}"/>
+										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>	
 								<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
@@ -105,18 +105,17 @@
 									<liferay-portlet:param  name="term" value="${advancedSearch.term}"/>
 									<liferay-portlet:param  name="element" value="${advancedSearch.element}"/>
 								</liferay-portlet:renderURL>				
-								<a class="ccontent" target="_blank" title="${title}"
-									href="${displayEadUrl}">
-									<span class="${titleClass}">${titleShortDescription}</span>
+								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
+									href="${displayEadUrl}">${title}
 								</a>													
 								<c:if test="${!empty result.alterdate}">
-									<span class="alterdate" title="${result.alterdate}">${result.alterdateShortDescription}</span>
+									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
 								</c:if>
 							</div>
-							<div>${result.scopecontent}</div>
-							<div>${result.other}</div>
+							<div class="scopecontent">${result.scopecontent}</div>
+							<div class="other">${result.other}</div>
 								<c:if test="${result.dao}">
-								<span  class="special_info">
+								<div  class="special_info">
 								<fmt:message key="advancedsearch.facet.title.dao" />
 									<c:forEach var="daoType" items="${result.roledao}">
 											<c:if test="${fn:contains(daoType, 'IMAGE')}">
@@ -140,15 +139,15 @@
 												<span class="icon_dao_type_small_unspecified" title="${daoTitle}">${daoTitle}</span>
 											</c:if>							
 									</c:forEach>					
-								</span>
+								</div>
 								</c:if>	
 							<div class="list-searchresult-context">
-								<div>
+								<div class="fond">
 									<span class="subtitle"><fmt:message key="advancedsearch.message.document" /></span><c:out value="${result.fond}"/>
 								</div>
 								<div>
 								<div class="left">
-									<div>
+									<div class="unitid">
 										<c:choose>
 											<c:when test="${!empty result.unitIdOfFond}">
 												<span class="subtitle"><fmt:message key="advancedsearch.message.eadid" /></span>${result.unitIdOfFond}
@@ -161,7 +160,7 @@
 											</c:when>																		
 										</c:choose>
 									</div>
-									<div><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
+									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 								</div>
 								<div class="list-searchresult-actions hidden">
 									<ul>
