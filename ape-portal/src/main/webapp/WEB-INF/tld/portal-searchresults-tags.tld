@@ -5,28 +5,6 @@
 	<tlib-version>2.0</tlib-version>
 	<short-name>portal-searchresults-tags</short-name>
 	<uri>http://portal.archivesportaleurope.eu/tags/searchresults</uri>
-		
-	<tag>
-		<name>date</name>
-		<tag-class>eu.archivesportaleurope.portal.search.common.jsp.DateFacetTag</tag-class>
-		<body-content>tagdependent</body-content>
-		<attribute>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>		
-		<attribute>
-			<name>value</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>gap</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>				
-		<dynamic-attributes>true</dynamic-attributes>  	
-	</tag>	
 	<tag>
 		<name>order</name>
 		<tag-class>eu.archivesportaleurope.portal.search.common.jsp.OrderTag</tag-class>
