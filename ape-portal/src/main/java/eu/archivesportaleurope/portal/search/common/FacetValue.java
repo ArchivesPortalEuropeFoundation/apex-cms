@@ -1,20 +1,36 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 
 import eu.apenet.commons.ResourceBundleSource;
 import eu.apenet.commons.utils.DisplayUtils;
 
 public class FacetValue {
+	private final static Logger LOGGER = Logger.getLogger(FacetValue.class);
+	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final char COLON = ':';
 	private static final int MAX_NUMBER_OF_CHARACTERS = 25;
-	private final String id;
+	private String id;
 	private String description;
-	private final Long numberOfResults;
-	private final boolean selected;
-	public FacetValue(Count count, FacetType facetType, List<String> selectedItems,ResourceBundleSource resourceBundleSource ){
+	private Long numberOfResults;
+	private boolean selected;
+	
+	public FacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems, ResourceBundleSource resourceBundleSource){
+		if (facetType.isDate()){
+			initDateFacetValue(facetField, count, facetType, selectedItems, resourceBundleSource);
+		}else {
+			initNormalFacetValue(facetField, count, facetType, selectedItems, resourceBundleSource);
+		}
+	}
+	private void initNormalFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems, ResourceBundleSource resourceBundleSource){
 		String value = count.getName();
 		if (facetType.isHasId()) {
 			int index = value.indexOf(COLON);
@@ -39,7 +55,49 @@ public class FacetValue {
 		}else {
 			selected = false;
 		}
-		numberOfResults = count.getCount();
+		numberOfResults = count.getCount();		
+	}
+
+	public void initDateFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,ResourceBundleSource resourceBundleSource ){
+		String value = count.getName();
+		int indexOfTimeSeparator = value.indexOf('T');
+		String dateString = value.substring(0, indexOfTimeSeparator);
+		String gapString = facetField.getGap().replace("+", "");
+		DateGap dateGap = DateGap.getGapByName(gapString);
+		String dateSpan = getDateSpan(dateGap, dateString);
+		DateGap nextDateGap = dateGap.next();
+		if (nextDateGap != null){
+			id = dateString + "_" + nextDateGap.getId();
+			description = dateSpan;
+		}
+		if (selectedItems != null){
+			selected = selectedItems.contains(id);
+		}else {
+			selected = false;
+		}
+		numberOfResults = count.getCount();		
+	}
+	
+	private String getDateSpan(DateGap dateGap, String dateString) {
+		String result = "";
+		try {
+			Date beginDate = SOLR_DATE_FORMAT.parse(dateString);
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat(dateGap.getDateFormat());
+			result += dateFormat.format(beginDate);
+			if (!(Calendar.DAY_OF_MONTH == dateGap.getType() && dateGap.getAmount() == 1)) {
+				if (dateGap.getAmount() > 1) {
+					result += "-";
+					Calendar endDateCalendar = Calendar.getInstance();
+					endDateCalendar.setTime(beginDate);
+					endDateCalendar.add(dateGap.getType(), (dateGap.getAmount() - 1));
+					result += dateFormat.format(endDateCalendar.getTime());
+				}
+			}
+		} catch (ParseException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return result;
 	}
 	public Long getNumberOfResults() {
 		return numberOfResults;

@@ -21,7 +21,7 @@ public class ListFacetSettings {
 	public ListFacetSettings(FacetType facet){
 		this.facet = facet;
 	}
-	public FacetType getFacet() {
+	public FacetType getFacetType() {
 		return facet;
 	}
 	public int getLimit() {

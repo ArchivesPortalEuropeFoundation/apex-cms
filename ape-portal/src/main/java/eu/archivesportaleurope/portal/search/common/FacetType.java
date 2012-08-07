@@ -13,14 +13,26 @@ public enum FacetType {
 	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
 	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
 	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
-	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype.");
+	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),
+	START_DATE(SolrFields.START_DATE, true),
+	END_DATE(SolrFields.END_DATE, true);
 	private final String name;
 	private final String refinementField;
-	private final boolean multiSelect = true;
+	private final boolean multiSelect;
 	private final boolean hasId;
 	private final boolean valueIsKey;
 	private final String prefix;
+	private final boolean date;
 	
+	private FacetType(String name, boolean isDateType){
+		this.name = name;
+		this.refinementField = name;
+		this.hasId = false;
+		this.valueIsKey = false;
+		this.prefix = null;
+		this.date = true;
+		this.multiSelect = false;
+	}
 	
 	private FacetType(String name, String refinementField, boolean hasId, boolean valueIsKey, String prefix){
 		this.name = name;
@@ -28,6 +40,8 @@ public enum FacetType {
 		this.hasId = hasId;
 		this.valueIsKey = valueIsKey;
 		this.prefix = prefix;
+		this.date = false;
+		this.multiSelect = true;
 	}
 	private FacetType(String name, boolean hasId, boolean valueIsKey, String prefix){
 		this(name,name,hasId, valueIsKey, prefix);
@@ -85,6 +99,10 @@ public enum FacetType {
 	}
 	public String getPrefix() {
 		return prefix;
+	}
+
+	public boolean isDate() {
+		return date;
 	}
     
 }

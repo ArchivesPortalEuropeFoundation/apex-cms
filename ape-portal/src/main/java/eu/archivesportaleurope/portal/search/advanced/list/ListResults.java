@@ -11,6 +11,7 @@ import org.springframework.beans.PropertyAccessorFactory;
 
 import eu.apenet.commons.ResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
 
 public class ListResults extends Results {
@@ -23,7 +24,6 @@ public class ListResults extends Results {
 	private long totalNumberOfPages;
 	private Integer pageSize;
 	private List<ListFacetContainer> facetContainers = new ArrayList<ListFacetContainer>();
-	private List<FacetField> facetDates;
 
 	public Iterator<SearchResult> getItems() {
 		return items.iterator();
@@ -53,26 +53,35 @@ public class ListResults extends Results {
 		super.init(solrResponse);
 		BeanWrapper advancedSearchBeanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(advancedSearch);
 		for (ListFacetSettings facetSettings: facetSettingsList){
-			String name = facetSettings.getFacet().getName();
-			FacetField facetField = solrResponse.getFacetField(name);
+			FacetType facetType = facetSettings.getFacetType();
+			String name = facetType.getName();
+			FacetField facetField = null;
+			if (facetType.isDate()){
+				facetField = solrResponse.getFacetDate(name);
+			}else {
+				facetField = solrResponse.getFacetField(name);
+			}
 			if (facetField != null && facetField.getValueCount() > 0){
-				if (facetSettings.getFacet().isMultiSelect()){
+				ListFacetContainer facetContainer = null;
+				
+				if (facetSettings.getFacetType().isMultiSelect()){
+					@SuppressWarnings("unchecked")
 					List<String> selectedItems = (List<String>) advancedSearchBeanWrapper.getPropertyValue(name + "List");
-					facetContainers.add(new ListFacetContainer(facetField, facetSettings, selectedItems,resourceBundleSource));
+					facetContainer = new ListFacetContainer(facetField, facetSettings, selectedItems,resourceBundleSource);
 				}else {
 					String selectedItem = (String) advancedSearchBeanWrapper.getPropertyValue(name);
 					List<String> selectedItems = new ArrayList<String>();
 					selectedItems.add(selectedItem);
-					facetContainers.add(new ListFacetContainer(facetField, facetSettings,selectedItems, resourceBundleSource ));
+					facetContainer = new ListFacetContainer(facetField, facetSettings,selectedItems, resourceBundleSource );
+				}
+				if (facetContainer.getValues().size() > 1){
+					facetContainers.add(facetContainer);
 				}
 			}
 		}
-		facetDates = solrResponse.getFacetDates();
+		
 	}
 
-	public List<FacetField> getFacetDates() {
-		return facetDates;
-	}
 
 	public List<ListFacetContainer> getFacetContainers() {
 		return facetContainers;

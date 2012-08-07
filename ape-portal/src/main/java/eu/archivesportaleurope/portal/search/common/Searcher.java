@@ -61,23 +61,17 @@ public final class Searcher {
 	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate, false);
 	}
-	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
+	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
-		for (ListFacetSettings facetSetting: facetSettings){
-			query.addFacetField(facetSetting.getFacet().getNameWithLabel());
-			//if (facetSetting.getLimit() != ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT){
-				query.setParam("f."+ facetSetting.getFacet().getName() +".facet.limit", facetSetting.getLimit() +"");
-			//}
+		for (ListFacetSettings facetSettings: facetSettingsList){
+			FacetType facetType = facetSettings.getFacetType();
+			if (!facetType.isDate()){
+				query.addFacetField(facetType.getNameWithLabel());
+				query.setParam("f."+ facetType.getName() +".facet.limit", facetSettings.getLimit() +"");
+			}
 			
 		}
-		query.addFacetField(FacetType.COUNTRY.getNameWithLabel());
-		query.addFacetField(FacetType.AI.getNameWithLabel());
-		query.addFacetField(FacetType.TYPE.getNameWithLabel());
-		query.addFacetField(FacetType.DATE_TYPE.getNameWithLabel());
-		query.addFacetField(FacetType.DAO.getNameWithLabel());
-		query.addFacetField(FacetType.ROLEDAO.getNameWithLabel());
-		query.addFacetField(FacetType.FOND.getNameWithLabel());
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);

@@ -21,10 +21,26 @@
 			<fmt:message key="advancedsearch.facet.title.${fn:toLowerCase(facetContainer.name)}" />
 		</div>
 		<ul class="${collapsibleBox}">
-			<c:if test="${facetContainer.multiSelect}">
-				<c:set var="cssClassPrefix" value="refinement_multiple" />
-			</c:if>
+			<c:choose>
+				<c:when test="${facetContainer.multiSelect}">
+					<c:set var="cssClassPrefix" value="refinement_multiple" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="cssClassPrefix" value="refinement_single" />
+				</c:otherwise>
+			</c:choose>
+		
 			<c:forEach var="facetValue" items="${facetContainer.values}" varStatus="varStatus">
+				<c:choose>
+					<c:when test="${facetContainer.facetSettings.facetType.date}">
+						<c:set var="addRefinementMethodName" value="addDateRefinement" />
+						<c:set var="removeRefinementDescription"><fmt:message key="advancedsearch.facet.title.${fn:toLowerCase(facetContainer.name)}" />&nbsp;${facetValue.javascriptLongDescription}</c:set>
+					</c:when>
+					<c:otherwise>
+						<c:set var="addRefinementMethodName" value="addRefinement" />
+						<c:set var="removeRefinementDescription" value="${facetValue.javascriptLongDescription}"/>
+					</c:otherwise>
+				</c:choose>
 				<li><c:choose>
 						<c:when test="${varStatus.last and varStatus.index == (facetContainer.limit-1)}">
 							<a href="javascript:addMoreFacets('${facetContainer.name}')" class="facet-more"><fmt:message
@@ -38,13 +54,12 @@
 								</c:when>
 								<c:otherwise>
 									<a class="${cssClassPrefix}_notselected" title="${facetValue.htmlLongDescription}"
-										href="javascript:addRefinement('${facetContainer.name}','${facetValue.id}','${facetValue.javascriptLongDescription}','${facetValue.javascriptLongDescription}');">${facetValue.htmlShortDescription}</a>
+										href="javascript:${addRefinementMethodName}('${facetContainer.name}','${facetValue.id}','${removeRefinementDescription}');">${facetValue.htmlShortDescription}</a>
 								</c:otherwise>
 							</c:choose>
 							<span class='numberOfHits'>(${facetValue.numberOfResults})</span>
 						</c:otherwise>
 					</c:choose></li>
-
 			</c:forEach>
 		</ul>
 	</div>

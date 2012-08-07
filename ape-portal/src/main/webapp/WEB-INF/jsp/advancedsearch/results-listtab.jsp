@@ -67,8 +67,6 @@
 			<div id="resultsContainer">
 			<div id="refinements">
 				<facets:facets-default facetContainers="${results.facetContainers}"/>
-				<facets:facet-date facetFields="${results.facetDates}" facetName="startdate"  titleKey="advancedsearch.facet.title.startdate"/>
-				<facets:facet-date facetFields="${results.facetDates}" facetName="enddate"  titleKey="advancedsearch.facet.title.enddate"/>
 				&nbsp;	
 			</div>
 			<div  id="searchresultsContainer">	

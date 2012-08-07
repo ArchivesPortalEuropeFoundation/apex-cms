@@ -14,20 +14,23 @@ public class ListFacetContainer {
 	private ListFacetSettings facetSettings;
 	public ListFacetContainer(FacetField facetField, ListFacetSettings facetSettings, List<String> selectedItems,ResourceBundleSource resourceBundleSource) {
 		super();
-		//this.facetField = facetField;
 		this.facetSettings = facetSettings;
+		boolean multiSelect = facetSettings.getFacetType().isMultiSelect();
 		for (Count count: facetField.getValues()){
-			values.add(new FacetValue(count, facetSettings.getFacet(), selectedItems,resourceBundleSource));
+			// Display refinement only if it is multi select or if the number of result is higher than 0
+			if (multiSelect || count.getCount() > 0){
+				values.add(new FacetValue(facetField, count, facetSettings.getFacetType(), selectedItems,resourceBundleSource));
+			}
 		}
 	}
 	public ListFacetSettings getFacetSettings() {
 		return facetSettings;
 	}
 	public String getName(){
-		return facetSettings.getFacet().getName();
+		return facetSettings.getFacetType().getName();
 	}
 	public boolean isMultiSelect(){
-		return facetSettings.getFacet().isMultiSelect();
+		return facetSettings.getFacetType().isMultiSelect();
 	}
 	public int getLimit(){
 		return facetSettings.getLimit();
