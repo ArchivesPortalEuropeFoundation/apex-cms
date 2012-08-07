@@ -149,16 +149,20 @@
 								<div class="left">
 									<div class="unitid">
 										<c:choose>
-											<c:when test="${!empty result.unitIdOfFond}">
-												<span class="subtitle"><fmt:message key="advancedsearch.message.eadid" /></span>${result.unitIdOfFond}
+											<c:when test="${empty result.unitid}">
+												<c:if  test="${!empty result.unitIdOfFond}">
+													<span class="subtitle"><fmt:message key="advancedsearch.message.eadid" /></span>${result.unitIdOfFond}
+												</c:if>	
 											</c:when>
-											<c:when test="${!empty result.unitid}">
+											<c:otherwise>
 												<span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.unitid}
-											</c:when>
-											<c:when test="${!empty result.otherUnitid}">
-												<span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.otherUnitid}
-											</c:when>																		
-										</c:choose>
+												<c:if  test="${!empty result.otherUnitid}">
+													${result.otherUnitid}
+												</c:if>	
+											</c:otherwise>
+										</c:choose>		
+
+																																
 									</div>
 									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 								</div>
