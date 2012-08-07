@@ -367,12 +367,10 @@ public class AdvancedSearch implements Serializable {
 				result += ","  + facetSettings;
 			}
 		}
-		System.out.println("facet-result:" +result);
 		return result;
 	}
 
 	public void setFacetSettings(String facetSettings) {
-		System.out.println("facet: " + facetSettings);
 		if (StringUtils.isNotBlank(facetSettings)){
 			facetSettingsList.clear();
 			String[] temp = facetSettings.split(",");
