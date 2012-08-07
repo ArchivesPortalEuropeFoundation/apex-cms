@@ -388,9 +388,11 @@
 #advancedSearchPortlet #refinements .boxtitle {
 	cursor: pointer;
 }
+
+
 #advancedSearchPortlet #refinements  .numberOfHits{
 	color: gray;
-    padding-left: 1px;	
+    padding-left: 2px;	
 }
 #advancedSearchPortlet #refinements a.refinement_multiple_selected {
 	background: url("../images/ape/search/selected.gif") no-repeat scroll left center transparent;
@@ -415,7 +417,7 @@
 }
 #advancedSearchPortlet  #searchresultsContainer {
 	float: left;
-	width: 600px;
+	width: 570px;
 }
 
 #advancedSearchPortlet  #searchresultsList {
@@ -424,7 +426,7 @@
 
 #advancedSearchPortlet  #refinements {
 	float: left;
-	width: 180px;
+	width: 210px;
 }
 
 #advancedSearchPortlet .list-searchresult {
@@ -435,7 +437,7 @@
 	float:left;
 	padding-bottom: 5px;
 	padding-top: 5px;
-	width: 570px;
+	width: 540px;
 	color: #333333;
 	font-size: 9pt;
 	border-bottom: 1px solid #E6E6E6;	
