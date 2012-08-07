@@ -410,11 +410,14 @@
     padding-left: 14px;
     display: inline-block;	
 }
-#advancedSearchPortlet .alterdate {
-	float: right;
-	font-size: 8pt;
-
+#advancedSearchPortlet #refinements a {
+	max-width: 140px;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+	vertical-align: top;
 }
+
 #advancedSearchPortlet  #searchresultsContainer {
 	float: left;
 	width: 570px;
@@ -442,6 +445,26 @@
 	font-size: 9pt;
 	border-bottom: 1px solid #E6E6E6;	
 }
+#advancedSearchPortlet .list-searchresult-content .scopecontent,#advancedSearchPortlet .list-searchresult-content .other{
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+	vertical-align: top;
+	max-width: 540px;	
+}
+#advancedSearchPortlet .list-searchresult-context .fond,#advancedSearchPortlet .list-searchresult-context .unitid,#advancedSearchPortlet .list-searchresult-context .countryAndInstitution{
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+	vertical-align: top;
+
+}
+#advancedSearchPortlet .list-searchresult-context .unitid,#advancedSearchPortlet .list-searchresult-context .countryAndInstitution{
+		max-width: 300px;	
+}
+#advancedSearchPortlet .list-searchresult-context .fond {
+		max-width: 440px;	
+}
 #advancedSearchPortlet .list-searchresult-context {
     font-size: 11px;
     line-height: 13px;
@@ -462,9 +485,24 @@
 #advancedSearchPortlet .list-searchresult-header {
 	overflow: hidden;
 }
+#advancedSearchPortlet .alterdate {
+	float: right;
+	font-size: 8pt;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+	vertical-align: top;
+	max-width: 100px;
+}
 
 #advancedSearchPortlet .list-searchresult-header a{
 	font-size: 10pt;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+	vertical-align: top;
+	max-width: 440px;
+	display:inline-block;
 }
 #advancedSearchPortlet .preview-button-holder {
 	float: right;
