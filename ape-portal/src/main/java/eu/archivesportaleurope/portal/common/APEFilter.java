@@ -20,13 +20,11 @@ import javax.portlet.filter.ResourceFilter;
 
 import org.apache.log4j.Logger;
 
-import eu.apenet.persistence.hibernate.HibernateUtil;
-import eu.apenet.persistence.hibernate.web.HibernateFilter;
+import eu.archivesportaleurope.persistence.jpa.JpaUtil;
 
 public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, EventFilter {
-    private static final String UTF8 = "UTF-8";
     
-    private static final Logger log = Logger.getLogger(HibernateFilter.class);
+    private static final Logger log = Logger.getLogger(APEFilter.class);
     private static final String LOG_STACKTRACES = "LOG_STACKTRACES";
     private boolean logStackTraces = false;
 
@@ -41,7 +39,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 	public void init(FilterConfig filterConfig) throws PortletException {
     	String logStackTracesString = filterConfig.getInitParameter(LOG_STACKTRACES);
 	    logStackTraces = "true".equals(logStackTracesString);
-	    log.info("Hibernate Filter started. Log stacktraces=" + logStackTraces);
+	    log.info("JPA Filter started. Log stacktraces=" + logStackTraces);
 		
 	}
 
@@ -59,7 +57,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             }
             // Commit any pending database transaction.
             try {
-                HibernateUtil.commitDatabaseTransaction();
+            	JpaUtil.commitDatabaseTransaction();
             } catch (Exception de) {
             	logError(de);
             }
@@ -69,7 +67,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             // If an exception occurs and there is an open transaction, roll back the transaction.
             try {
             	
-                HibernateUtil.rollbackDatabaseTransaction();
+                JpaUtil.rollbackDatabaseTransaction();
             }
 
             catch (Exception de) {
@@ -81,7 +79,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 
             // No matter what happens, close the Session.
             try {
-                HibernateUtil.closeDatabaseSession();
+            	JpaUtil.closeDatabaseSession();
             }
 
             catch (Exception de) {
@@ -105,7 +103,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             }
             // Commit any pending database transaction.
             try {
-                HibernateUtil.commitDatabaseTransaction();
+            	JpaUtil.commitDatabaseTransaction();
             } catch (Exception de) {
             	logError(de);
             }
@@ -115,7 +113,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             // If an exception occurs and there is an open transaction, roll back the transaction.
             try {
             	
-                HibernateUtil.rollbackDatabaseTransaction();
+            	JpaUtil.rollbackDatabaseTransaction();
             }
 
             catch (Exception de) {
@@ -127,7 +125,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 
             // No matter what happens, close the Session.
             try {
-                HibernateUtil.closeDatabaseSession();
+            	JpaUtil.closeDatabaseSession();
             }
 
             catch (Exception de) {
@@ -153,7 +151,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             }
             // Commit any pending database transaction.
             try {
-                HibernateUtil.commitDatabaseTransaction();
+            	JpaUtil.commitDatabaseTransaction();
             } catch (Exception de) {
             	logError(de);
             }
@@ -163,7 +161,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             // If an exception occurs and there is an open transaction, roll back the transaction.
             try {
             	
-                HibernateUtil.rollbackDatabaseTransaction();
+            	JpaUtil.rollbackDatabaseTransaction();
             }
 
             catch (Exception de) {
@@ -175,7 +173,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 
             // No matter what happens, close the Session.
             try {
-                HibernateUtil.closeDatabaseSession();
+            	JpaUtil.closeDatabaseSession();
             }
 
             catch (Exception de) {
@@ -199,7 +197,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             }
             // Commit any pending database transaction.
             try {
-                HibernateUtil.commitDatabaseTransaction();
+            	JpaUtil.commitDatabaseTransaction();
             } catch (Exception de) {
             	logError(de);
             }
@@ -209,7 +207,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
             // If an exception occurs and there is an open transaction, roll back the transaction.
             try {
             	
-                HibernateUtil.rollbackDatabaseTransaction();
+            	JpaUtil.rollbackDatabaseTransaction();
             }
 
             catch (Exception de) {
@@ -221,7 +219,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 
             // No matter what happens, close the Session.
             try {
-                HibernateUtil.closeDatabaseSession();
+            	JpaUtil.closeDatabaseSession();
             }
 
             catch (Exception de) {
