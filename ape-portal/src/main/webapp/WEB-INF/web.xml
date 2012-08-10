@@ -35,6 +35,6 @@
 		<listener-class>eu.apenet.commons.listener.ApePortalConfigListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>eu.apenet.persistence.hibernate.web.HibernateListener</listener-class>
+		<listener-class>eu.archivesportaleurope.persistence.jpa.web.JpaListener</listener-class>
 	</listener>	
 </web-app>
