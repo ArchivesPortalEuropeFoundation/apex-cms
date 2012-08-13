@@ -22,7 +22,7 @@ public class AdvancedSearch implements Serializable {
 	private String mode = MODE_NEW;
 	private String view;
 	private String element = "0";
-	private String typedocument = "0";
+	private String typedocument = "";
 	private String fromdate;
 	private String todate;
 	private String method;
