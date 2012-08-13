@@ -17,7 +17,7 @@
 				<c:set var="collapsibleBox" value="hidden"/>
 			</c:otherwise>
 		</c:choose>
-		<div class="boxtitle"><span class="collapsibleIcon ${collapsibleIconClass}"/>
+		<div class="boxtitle"><span class="collapsibleIcon ${collapsibleIconClass}">&nbsp;</span>
 			<span class="text"><fmt:message key="advancedsearch.facet.title.${fn:toLowerCase(facetContainer.name)}" /></span>
 		</div>
 		<ul class="${collapsibleBox}">
