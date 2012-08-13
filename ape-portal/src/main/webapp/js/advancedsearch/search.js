@@ -187,7 +187,7 @@ function initListTabHandlers() {
 					$("#preview-absolute").html(data);
 				});
 			});
-	// initTabHandlers();
+	makeRefinementsCollapsible();
 }
 
 function initSearchOptions() {
@@ -229,7 +229,7 @@ function performNewSearch() {
 	$.post(newSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
-		makeRefinementsCollapsible();
+		//makeRefinementsCollapsible();
 		document.getElementById("resultsContainer").scrollIntoView(true);
 	});
 }
@@ -253,7 +253,7 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		if (addRemoveRefinement != undefined) {
 			$("#selectedRefinements > ul").append(addRemoveRefinement);
 		}
-		makeRefinementsCollapsible();
+		//makeRefinementsCollapsible();
 		document.getElementById("resultsContainer").scrollIntoView(true);
 	});
 }
