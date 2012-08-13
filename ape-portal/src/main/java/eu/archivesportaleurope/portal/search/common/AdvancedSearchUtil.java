@@ -13,21 +13,6 @@ public final class AdvancedSearchUtil {
 
 
 
-	public static String convertToType(String typeDocument) {
-		String result = null;
-		if ((typeDocument != null) && (!typeDocument.isEmpty())) {
-			int id = Integer.parseInt(typeDocument);
-
-			if (id >= 1 && id <= 2) {
-				if (id == 1)
-					result = "fa";
-				else if (id == 2)
-					result = "hg";
-			}
-
-		}
-		return result;
-	}
 
 	public static String convertToLangmaterial(String language) {
 		if (language != null && !language.isEmpty()) {
@@ -151,7 +136,7 @@ public final class AdvancedSearchUtil {
 //	}
 
 	public static void setParameter(Map<String, List<String>> parameters, String name, String toBeAdded) {
-		if (toBeAdded != null) {
+		if (StringUtils.isNotBlank(toBeAdded)) {
 			List<String> list = new ArrayList<String>();
 			list.add(toBeAdded);
 			parameters.put(name, list);

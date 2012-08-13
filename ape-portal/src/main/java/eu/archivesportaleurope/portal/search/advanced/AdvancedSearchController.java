@@ -266,7 +266,7 @@ public class AdvancedSearchController {
 		List<String> holdingsGuideSelectedForSearchId = new ArrayList<String>();
 		List<String> findingAidsSelectedForSearchId = new ArrayList<String>();
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
-				AdvancedSearchUtil.convertToType(advancedSearch.getTypedocument()));
+				advancedSearch.getTypedocument());
 		String startDate = AdvancedSearchUtil.obtainDate(advancedSearch.getFromdate(), true);
 		String endDate = AdvancedSearchUtil.obtainDate(advancedSearch.getTodate(), false);
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.START_DATE,

@@ -124,7 +124,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			
 			
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
-					AdvancedSearchUtil.convertToType(advancedSearch.getTypedocument()));
+					advancedSearch.getTypedocument());
 			String startDate = AdvancedSearchUtil.convertToDate(advancedSearch.getTodate());
 			String endDate = AdvancedSearchUtil.convertToDate(advancedSearch.getEnddate());
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.START_DATE,

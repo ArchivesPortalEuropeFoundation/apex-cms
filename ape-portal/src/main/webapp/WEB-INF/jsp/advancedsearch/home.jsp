@@ -73,15 +73,18 @@
 								<tr>
 									<td><label for="typedocument"><fmt:message key="advancedsearch.text.selectdocument" /></label></td>
 									<td colspan="3"><form:select path="typedocument" id="typedocument" tabindex="7">
-											<form:option value="0">
+											<form:option value="">
 												<fmt:message key="advancedsearch.text.noselection" />
 											</form:option>
-											<form:option value="1">
+											<form:option value="fa">
 												<fmt:message key="advancedsearch.text.onlyfas" />
 											</form:option>
-											<form:option value="2">
+											<form:option value="hg">
 												<fmt:message key="advancedsearch.text.onlyhgs" />
 											</form:option>
+											<form:option value="sg">
+												<fmt:message key="advancedsearch.text.onlysgs" />
+											</form:option>											
 										</form:select></td>
 								</tr>
 								<tr>
