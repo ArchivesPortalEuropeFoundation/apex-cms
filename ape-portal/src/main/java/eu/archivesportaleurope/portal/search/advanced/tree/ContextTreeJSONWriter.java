@@ -142,7 +142,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 //					advancedSearch.setSearchType(SEARCH_TYPE_AI);
 //				}
 			}
-			//AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID, advancedSearch.getCountry());
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID, advancedSearch.getCountry());
 			solrQueryParameters.setTerm(advancedSearch.getTerm());
 			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
