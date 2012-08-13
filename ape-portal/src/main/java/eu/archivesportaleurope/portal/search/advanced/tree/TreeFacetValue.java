@@ -5,7 +5,7 @@ import org.apache.solr.client.solrj.response.FacetField.Count;
 import eu.apenet.commons.solr.SolrValues;
 
 public class TreeFacetValue {
-	public enum Type {CLEVEL, COUNTRY, ARCHIVAL_INSTITUTION, HG_OR_FA}
+	public enum Type {CLEVEL, COUNTRY, ARCHIVAL_INSTITUTION, FOND}
 	private String id;
 	private String name;
 	private long orderId;

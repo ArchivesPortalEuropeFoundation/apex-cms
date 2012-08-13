@@ -45,7 +45,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 
 	private static final String SEARCH_TYPE_AI = "ai";
-	private static final String SEARCH_TYPE_HG_OR_FA = "hgfa";
+	private static final String SEARCH_TYPE_FOND = "hgfa";
 
 	private static final int NO_LIMIT = -1;
 
@@ -147,7 +147,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
 				writeToResponseAndClose(generateAiJSON(advancedSearch,solrQueryParameters, locale),resourceResponse);
-			} else if (SEARCH_TYPE_HG_OR_FA.equals(advancedSearch.getSearchType())) {
+			} else if (SEARCH_TYPE_FOND.equals(advancedSearch.getSearchType())) {
 				writeToResponseAndClose(generateFindingAidsOrHoldingGuidesJSON(advancedSearch,solrQueryParameters, locale),resourceResponse);
 			} else {
 				writeToResponseAndClose(generateCLevelJSON(advancedSearch,solrQueryParameters,locale),resourceResponse);
@@ -174,6 +174,11 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			if (hgCounts != null) {
 				counts.addAll(hgCounts);
 			}
+			FacetField sourceGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.SG_DYNAMIC_NAME,startInt, NO_LIMIT);
+			List<Count> sgCounts = sourceGuides.getValues();
+			if (sgCounts != null) {
+				counts.addAll(sgCounts);
+			}
 		}
 		int faMaxCount = (MAX_NUMBER_OF_ITEMS + 1) - counts.size();
 		int maxNumberOfItems = counts.size();
@@ -189,7 +194,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		StringBuilder buffer = new StringBuilder();
 		addStartArray(buffer);
 		for (int i = 0; i < counts.size(); i++) {
-			TreeFacetValue facetValue = new TreeFacetValue(counts.get(i), TreeFacetValue.Type.HG_OR_FA);
+			TreeFacetValue facetValue = new TreeFacetValue(counts.get(i), TreeFacetValue.Type.FOND);
 			buffer.append(START_ITEM);
 			if (i == (maxNumberOfItems - 1)) {
 				addMore(buffer, locale);
@@ -198,7 +203,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				addParentId(buffer, advancedSearch.getParentId());
 				buffer.append(COMMA);
-				addSearchType(buffer, SEARCH_TYPE_HG_OR_FA);
+				addSearchType(buffer, SEARCH_TYPE_FOND);
 
 			} else {
 				addTitle(buffer, facetValue, locale);
@@ -207,8 +212,10 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				if (facetValue.getId().startsWith(SolrValues.FA_PREFIX)) {
 					addSearchType(buffer, SolrValues.FA_PREFIX);
-				} else {
+				} else if (facetValue.getId().startsWith(SolrValues.HG_PREFIX)) {
 					addSearchType(buffer, SolrValues.HG_PREFIX);
+				}else {
+					addSearchType(buffer, SolrValues.SG_PREFIX);
 				}
 				buffer.append(COMMA);
 				addFondId(buffer, facetValue.getId());
@@ -248,7 +255,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			addTitle(buffer, aiFacetValue, locale);
 			buffer.append(COMMA);
 			if (aiFacetValue.isLeaf()) {
-				addSearchType(buffer, SEARCH_TYPE_HG_OR_FA);
+				addSearchType(buffer, SEARCH_TYPE_FOND);
 				buffer.append(COMMA);
 				addParentId(buffer, aiFacetValue.getId().substring(1));
 			} else {
