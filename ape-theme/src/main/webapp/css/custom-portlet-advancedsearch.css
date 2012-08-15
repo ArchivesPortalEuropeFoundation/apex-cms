@@ -630,11 +630,11 @@
 
 #advancedSearchPortlet .preview-container h2, #advancedSearchPortlet .preview-container table.aiSection th {
 	margin: 0.3em 0;
-	font-size: 11px;
-	border-bottom: 1px solid #00a0df;     
+	font-size: 9pt;
+	border-bottom: 1px solid #B23062;     
  	text-align: left;
- 	font-weight: normal;
- 	color: #00a0df;
+ 	font-weight: bold;
+ 	color: #B23062;
 }
 #advancedSearchPortlet .preview-container table.aiSection td {
 	padding:1px;
