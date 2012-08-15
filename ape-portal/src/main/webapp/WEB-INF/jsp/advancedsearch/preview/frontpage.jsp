@@ -11,8 +11,11 @@
 <c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
 <liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<liferay-portlet:param name="id" value="${param['id']}"/>
-</liferay-portlet:renderURL>	
+</liferay-portlet:renderURL>
+<div id="content">	
 <portal:ead type="frontpage" xml="${eadContent.xml}"/>
+</div>
+<div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFA">
 	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&gt;</span></a>
 </div>

@@ -185,6 +185,9 @@ function initListTabHandlers() {
 						.css("top", holderPosition.top + "px");
 				$.get(url, function(data) {
 					$("#preview-absolute").html(data);
+					if ($("#preview-absolute #realcontent").height() > $("#preview-absolute #content").height()){
+						$("#more-line").removeClass("hide-more-line").addClass("show-more-line");
+					}
 				});
 			});
 	makeRefinementsCollapsible();

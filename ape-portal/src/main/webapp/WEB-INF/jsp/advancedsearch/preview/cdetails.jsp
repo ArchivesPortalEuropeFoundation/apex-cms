@@ -15,8 +15,13 @@
 	<liferay-portlet:param name="id" value="C${c.clId}"/>
 	<liferay-portlet:param  name="term" value="${term}"/>
 	<liferay-portlet:param  name="element" value="${element}"/>
-</liferay-portlet:renderURL>	
+</liferay-portlet:renderURL>
+<div id="content">
+	<div id="realcontent">
 <portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"/>
+</div>
+</div>
+<div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFA">
 	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&gt;</span></a>
 </div>
