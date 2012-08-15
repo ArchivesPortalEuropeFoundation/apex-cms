@@ -594,7 +594,22 @@
 	background-color: #e9f3fa;
 	color: #333333;
 }
-
+#advancedSearchPortlet .preview-container #content {
+	max-height:500px;
+	overflow: hidden;
+}
+#advancedSearchPortlet .preview-container #more-line {
+	background-color:white;
+	width: 100%;
+}
+#advancedSearchPortlet .preview-container .show-more-line {
+	background-repeat: no-repeat;
+	background-image: url("../images/ape/search/preview-more.gif");
+	height: 7px;
+}
+#advancedSearchPortlet .preview-container .hide-more-line {
+	height: 0px;
+}
 #advancedSearchPortlet .preview-container .eadid,#advancedSearchPortlet .preview-container .subtitle {
 	font-size: 10px;
 	font-style: italic;
@@ -698,7 +713,9 @@
 
 
 #advancedSearchPortlet #viewFullFA {
+	margin-top:-0px;
 	text-align: center;
+	background-color:white;
 }
 
 #advancedSearchPortlet #viewFullFA a span {
@@ -713,7 +730,7 @@
     padding-right:15px;
     padding-top:5px;
     padding-bottom:5px;
-	background-color:white;
+    background-color: #E9F3FA;
     border-radius: 15px;
     display: inline-block;
     border: 1px solid #00A0DF;
