@@ -51,6 +51,9 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 						$("#preview-absolute").css("top", holderPosition.top + "px");
 						$.get(url, function(data) {
 							$("#preview-absolute").html(data);
+							if ($("#preview-absolute #realcontent").height() > $("#preview-absolute #content").height()){
+								$("#preview-absolute #more-line").removeClass("hide-more-line").addClass("show-more-line");
+							}
 						});
 					} else {
 						$("#preview-absolute").removeClass(
@@ -245,6 +248,9 @@ function initNavigatedTree(navigatedTreeUrl, generateNavigatedTreeAiUrl,generate
 								//$("#al-preview-absolute").css("top", holderPosition.top + "px");
 								$.get(url, function(data) {
 									$("#al-preview").html(data);
+									if ($("#al-preview #realcontent").height() > $("#al-preview #content").height()){
+										$("#al-preview #more-line").removeClass("hide-more-line").addClass("show-more-line");
+									}
 								});
 							} else {
 								$("#al-preview").removeClass(
