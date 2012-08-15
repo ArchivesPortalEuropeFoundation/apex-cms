@@ -452,7 +452,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 						//The Finding Aid is not indexed, so it can not be selectable
 						buffer.append(NOT_CHECKBOX);
 						buffer.append(COMMA);
-						buffer.append(NO_LINK);
+						addPreviewCId(buffer, topCLevels.get(i).getcLevelId());
 					}
 					else {
 						addPreviewId(buffer, topCLevels.get(i).getFaId(), XmlType.EAD_FA);
@@ -634,7 +634,9 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 	private void addPreviewId(StringBuilder buffer, Integer id, XmlType xmlType) {
 		buffer.append("\"previewId\": \"" + xmlType.getSolrPrefix() + id + "\"");
 	}
-	
+	private void addPreviewCId(StringBuilder buffer, Long id) {
+		buffer.append("\"previewId\": \"C" + id + "\"");
+	}	
 	
 	// This method returns the Key for a specific node
 	private String getKeyNode(String nodeId) {
