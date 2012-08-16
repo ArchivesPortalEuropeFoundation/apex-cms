@@ -10,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
-import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 
@@ -45,16 +45,28 @@ public class DisplayEadDetailsContoller{
 	}
 	
 	@ResourceMapping(value = "displayEadDetails")
-	public ModelAndView displayDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams, ResourceRequest request){
+	public ModelAndView displayDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams){
 		if (StringUtils.isNotBlank(eadDetailsParams.getId())){
-			return displayCDetails(eadDetailsParams, request);
+			return displayCDetails(eadDetailsParams);
 		}else {
-			return displayEadDetails(eadDetailsParams, request);
+			return displayEadDetails(eadDetailsParams);
 		}
 
 	}
+	@RenderMapping(params = "myaction=printEadDetails")
+	public ModelAndView printDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams){
+		ModelAndView modelAndView = null;
+		if (StringUtils.isNotBlank(eadDetailsParams.getId())){
+			modelAndView = displayCDetails(eadDetailsParams);
+		}else {
+			modelAndView = displayEadDetails(eadDetailsParams);
+		}
+		modelAndView.setViewName("printEaddetails");
+		return modelAndView;
 
-	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams, ResourceRequest request){
+	}
+	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams){
+		ModelAndView modelAndView = new ModelAndView();
 		Long id = null;
 		if (eadDetailsParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)){
 			id = Long.parseLong(eadDetailsParams.getId().substring(1));
@@ -76,25 +88,32 @@ public class DisplayEadDetailsContoller{
 			builder.append(child.getXml());
 		}
 		builder.append("</c>");
-		request.setAttribute("c", currentCLevel);
-		request.setAttribute("totalNumberOfChildren", totalNumberOfChildren);
-		request.setAttribute("pageNumber", pageNumberInt);
-		request.setAttribute("pageSize", PAGE_SIZE);
-		request.setAttribute("childXml", builder.toString());
-		return new ModelAndView("cdetails");		
+		modelAndView.getModelMap().addAttribute("country", currentCLevel.getEadContent().getEad().getArchivalInstitution().getCountry());
+		modelAndView.getModelMap().addAttribute("c", currentCLevel);
+		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
+		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
+		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
+		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
+		modelAndView.setViewName("eaddetails");
+		return modelAndView;		
 	}
-	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams, ResourceRequest request){
+	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams){
+		ModelAndView modelAndView = new ModelAndView();
 		if (eadDetailsParams.getEcId() != null){
 	        EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
+	        modelAndView.getModelMap().addAttribute("country", eadContent.getEad().getArchivalInstitution().getCountry());
 	        if (AbstractEadTag.INTRODUCTION_XSLT.equals(eadDetailsParams.getType()) || AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())){
-	        	request.setAttribute("type", eadDetailsParams.getType());
+	        	modelAndView.getModelMap().addAttribute("type", eadDetailsParams.getType());
 	        }else {
-	        	request.setAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
+	        	modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
 	        }
-	        request.setAttribute("eadContent", eadContent);
-	        return new ModelAndView("eaddetails");
+	        modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+	        modelAndView.setViewName("eaddetails");
 		}
-		return new ModelAndView("eadDetailsError");
+		else {
+			modelAndView.setViewName("eadDetailsError");
+		}
+		return modelAndView;
 	}
 
 
