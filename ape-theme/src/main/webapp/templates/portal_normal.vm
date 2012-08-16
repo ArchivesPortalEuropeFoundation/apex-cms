@@ -23,8 +23,6 @@ $theme.include($body_top_include)
 #end
 
 <div id="wrapper">
-	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>
-
 	<header id="banner" role="banner">
 		<div id="heading">
 		</div>
@@ -39,13 +37,6 @@ $theme.include($body_top_include)
 	</header>
 
 	<div id="content">
-		<nav class="site-breadcrumbs" id="breadcrumbs">
-			<h1>
-				<span>#language("breadcrumbs")</span>
-			</h1>
-
-			#breadcrumbs()
-		</nav>
 
 		#if ($selectable)
 			$theme.include($content_include)
