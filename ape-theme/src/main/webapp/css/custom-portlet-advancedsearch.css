@@ -87,17 +87,11 @@
 	width: 100%;
 	display: block;
 }
-#advancedSearchPortlet #simpleSearchOptionsContent {
-	height: 85px;	
-}
+
 #advancedSearchPortlet #advancedSearchOptionsContent {
 	height: 85px;	
 }
-#advancedSearchPortlet #simpleSearch {
-	float: right;
-	width: 500px;
-	
-}
+
 
 
 #advancedSearchPortlet #advancedSearch {
@@ -113,13 +107,6 @@
 	border-bottom-color: #79B7E7;
 	margin-bottom:5px;
 	padding-left: 15px;	
-}
-#advancedSearchPortlet .searchOptionsContent {
-	background-color: #E8E8E8;
-	padding-left: 15px;
-	padding-right: 10px;
-	padding-top: 10px;
-	padding-bottom:27px;
 }
 
 #advancedSearchPortlet #navigatedSearch{
@@ -144,52 +131,12 @@
 	cursor: pointer;
 }
 
-#advancedSearchPortlet #simpleSearch #searchButton {
-	float:right;
-	margin-left: 5px;
-}
-
-#advancedSearchPortlet #simpleSearch #searchTerms {
-	width: 320px;
-}
-
-#advancedSearchPortlet td.leftcolumn {
-	float: left;
-	max-width: 240px;
-	display:inline;
-	padding-right:10px;
-}
-#advancedSearchPortlet td.rightcolumn {
-	float: right;
-	width: auto;
-	display:inline;
-}
 
 
-#advancedSearchPortlet td.rightcolumn div.row select {
-	font-size: 11px;
-	float: right;
-}
-#advancedSearchPortlet td.rightcolumn div.row label {
-	float: left;
-	margin-right: 11px;
-}
 
-#advancedSearchPortlet #searchTerms {
-	background-color: white;
-	background-image: none;
-	font-size: 16px;
-	font-weight: bold;
-	padding: 3px;
-	width: 280px;
-	float: left;
-}
-#advancedSearchPortlet #simpleSearch table {
-	padding: 0px;
-	margin: 0px;
-	font-size: 12px;
-	border-collapse: collapse;
-}
+
+
+
 #advancedSearchPortlet #advancedSearch table {
 	padding: 0px;
 	margin: 0px;
@@ -215,18 +162,6 @@
 	width: 80px;
 	padding: 0;
 }
-#advancedSearchPortlet div.row {
-	clear: both;
-	float: none;
-	font-size: 11px;
-	padding-top: 3px;
-}
-#advancedSearchPortlet div.row input[type="checkbox"] {
-	clear: left;
-	float: left;
-	margin-right: 11px;
-}
-
 
 #advancedSearchPortlet #searchResultsHeader {
 	display:block;

@@ -1,6 +1,7 @@
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 @import url(custom-portlet-advancedsearch.css);
 @import url(custom-portlet-simplesearch.css);
+@import url(custom-search.css);
 @import url(custom-portlet-directory.css);
 @import url(custom-portlet-eaddisplay.css);
 @import url(custom-global.css);
@@ -50,16 +51,7 @@ input[type="submit"].mainButton {
 	font-weight: bold;
 }
 
-#searchButton {
-	border: 1px solid #00a0df;
-	background: url("../images/ape/mainbutton.jpg") repeat-x scroll right
-		top #FFFFFF;
-	color: #00384d;
-	font-size: 16px;
-	font-weight: bold;
-	padding: 3px;
-	min-width: 100px;
-}
+
 
 .hidden {
 	display: none;
