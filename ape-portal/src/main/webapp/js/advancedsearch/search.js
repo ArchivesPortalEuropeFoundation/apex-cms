@@ -7,9 +7,7 @@ function setUrls(nUrl, aUrl) {
 
 function init() {
 	initSearchOptionsHandlers();
-	// initNavigatedTree();
 	initSearchOptions();
-	// $("#archivalLandscapeTree").dynatree("getTree").reload();
 	initTabs();
 	// initHelpFunction();
 	$("#searchTerms").focus();
@@ -102,17 +100,23 @@ function initTabs() {
 			if (tabName == '#tabs-list') {
 				$('#checkboxHierarchy').attr('checked', false);
 				$('#resultsperpageRow').removeClass('hidden');
-				// $('#resultsperpageRow :input').removeAttr('disabled');
 				$('#updateCurrentSearch_view').val('');
+				//if other tab contains information, it should be a tab switch
+				if ($("#tabs-context").children().size() > 0){
+					updateCurrentSearchResults();
+				}
 
 			} else {
 				$('#checkboxHierarchy').attr('checked', true);
-				// $('#resultsperpageRow :input').attr('disabled', true);
 				$('#updateCurrentSearch_view').val('hierarchy');
 				$('#resultsperpageRow').addClass('hidden');
+				//if other tab contains information, it should be a tab switch
+				if ($("#tabs-list").children().size() > 0){
+					updateCurrentSearchResults();
+				}
 
 			}
-			updateCurrentSearchResults();
+			
 
 		}
 	});
@@ -216,16 +220,16 @@ function initSearchOptions() {
 function performNewSearch() {
 
 	// The Navigation Tree nodes selected are stored
-	fillInputFromNavTree();
-	initTabs();
+
 	if ($("#checkboxHierarchy").is(':checked')) {
-		;
 		selectedTabsSelector = "#tabs-context";
 	} else {
 		selectedTabsSelector = "#tabs-list";
 	}
 	$("#tabs-context").empty();
 	$("#tabs-list").empty();
+	fillInputFromNavTree();
+	initTabs();
 	$(selectedTabsSelector).html("<div class='icon_waiting'></div>");
 	$("#resultsContainer").removeClass("hidden");
 	$("#mode").val("new-search");
