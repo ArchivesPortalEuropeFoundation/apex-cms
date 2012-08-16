@@ -52,7 +52,9 @@ public final class Searcher {
 		query.setTermsPrefix(term.toLowerCase());
 		query.setTermsLower(term.toLowerCase());
 		query.setQueryType("/terms");
-
+		if (LOGGER.isDebugEnabled()){
+			LOGGER.debug("Query(autocompletion): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
+		}
 	    return solrServer.query(query, METHOD.POST).getTermsResponse();
 	}
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
@@ -248,7 +250,11 @@ public final class Searcher {
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
-		return solrServer.query(query, METHOD.POST);
+		QueryResponse result =  solrServer.query(query, METHOD.POST);
+		if (LOGGER.isDebugEnabled()){
+			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ "): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
+		}
+		return result;
 	}
 	
 	private static String escapeSolrCharacters(String term){
