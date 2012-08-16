@@ -27,7 +27,7 @@
 		<div id="simpleSearch">
 			<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 				<div class="simpleSearchOptions">
-					<table>
+					<table id="simplesearchCriteria">
 						<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
 						<tr>
 							<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" /> <input
@@ -37,16 +37,16 @@
 						<tr>
 							<td class="leftcolumn">
 								<div class="row">
-									<label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label> <input
-										type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2">
+									 <input
+										type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2"/><label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label>
 								</div>
 								<div class="row">
-									<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label> <input type="checkbox"
-										id="checkboxMethod" value="optional" name="method" tabindex="3">
+									 <input type="checkbox"
+										id="checkboxMethod" value="optional" name="method" tabindex="3"/><label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
 								</div>
 								<div class="row">
-									<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label> <input type="checkbox"
-										id="checkboxDao" value="true" name="dao" tabindex="4">
+									 <input type="checkbox"
+										id="checkboxDao" value="true" name="dao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 								</div>
 							</td>
 							<td class="rightcolumn">

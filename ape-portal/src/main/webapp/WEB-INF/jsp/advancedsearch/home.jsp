@@ -103,7 +103,7 @@
 						</div>
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
-								<table>
+								<table id="simplesearchCriteria">
 									<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
 									<tr>
 										<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" /> <input
@@ -113,7 +113,6 @@
 									<tr>
 										<td class="leftcolumn">
 											<div class="row">
-												<label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label>
 												<c:choose>
 													<c:when test="${param['view'] == 'hierarchy'}">
 														<input type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" checked="checked" tabindex="2">
@@ -122,9 +121,9 @@
 														<input type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2">
 													</c:otherwise>
 												</c:choose>
+												<label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label>
 											</div>
 											<div class="row">
-												<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
 												<c:choose>
 													<c:when test="${param['method'] == 'optional'}">
 														<input type="checkbox" id="checkboxMethod" value="optional" name="method" checked="checked" tabindex="3">
@@ -133,9 +132,9 @@
 														<input type="checkbox" id="checkboxMethod" value="optional" name="method" tabindex="3">
 													</c:otherwise>
 												</c:choose>
+												<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
 											</div>
 											<div class="row">
-												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 												<c:choose>
 													<c:when test="${param['dao'] == 'true'}">
 														<input type="checkbox" id="checkboxDao" value="true" name="dao" checked="checked" tabindex="4">
@@ -144,6 +143,7 @@
 														<input type="checkbox" id="checkboxDao" value="true" name="dao" tabindex="4">
 													</c:otherwise>
 												</c:choose>
+												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 											</div>
 										</td>
 										<td class="rightcolumn">
