@@ -42,23 +42,27 @@
 }
 @media print {
 	#eadDisplayPortlet #right-pane {
-		font-size: 12pt;
+		font-size: 11pt;
 	}
 	#eadDisplayPortlet #eadTree span.dynatree-active a {
 		font-weight: bold;
 	}	
 	#eadDisplayPortlet #eadcontent em{
 		border-bottom: 2px solid gray;
+
 	}
 }
 
 #eadDisplayPortlet #eadcontent em{
-	font-size: 130%;
-	padding-left:5px;
-	padding-right:5px;
+	font-size: 110%;
+	padding-left:2px;
+	padding-right:2px;
 }
 
-
+#eadDisplayPortlet #contextInformation {
+    font-size: 10px;
+    white-space: nowrap;
+}
 
 #eadDisplayPortlet .eadid {
 	color: #83736A;
