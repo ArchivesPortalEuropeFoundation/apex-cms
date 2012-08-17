@@ -158,3 +158,35 @@ a:visited {
 .right {
 	float:right;
 }
+.linkButton {
+	text-align: center;
+}
+
+.linkButton a span {
+	margin-left: 5px;
+}
+.linkButton a {
+	color: #006CB0;
+	margin:5px;
+	font-size: 12px;
+    font-weight: bold;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:5px;
+    padding-bottom:5px;
+    background-color: #E9F3FA;
+    border-radius: 15px;
+    display: inline-block;
+    border: 1px solid #00A0DF;
+    letter-spacing:0.8px
+}
+
+.linkButton a:hover {
+    color: #00384D;
+	background-color: #BAE0FC;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:5px;
+    padding-bottom:5px;
+    border-radius: 15px;
+}

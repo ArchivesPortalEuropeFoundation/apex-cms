@@ -177,3 +177,8 @@
     float: right;
     width:167px;
 }
+#eadDisplayPortlet #printEadDetails{
+    padding-right: 10px;
+    position: absolute;
+    right: 0;
+}

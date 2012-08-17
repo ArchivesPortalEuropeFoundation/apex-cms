@@ -644,40 +644,6 @@
 	float:right;
 	margin-right: 10px;
 }
-
-
-
-#advancedSearchPortlet #viewFullFA {
-	margin-top:-0px;
-	text-align: center;
+#advancedSearchPortlet #viewFullFond {
 	background-color:white;
-}
-
-#advancedSearchPortlet #viewFullFA a span {
-	margin-left: 5px;
-}
-#advancedSearchPortlet #viewFullFA a {
-	color: #006CB0;
-	margin:5px;
-	font-size: 12px;
-    font-weight: bold;
-    padding-left:15px;
-    padding-right:15px;
-    padding-top:5px;
-    padding-bottom:5px;
-    background-color: #E9F3FA;
-    border-radius: 15px;
-    display: inline-block;
-    border: 1px solid #00A0DF;
-    letter-spacing:0.8px
-}
-
-#advancedSearchPortlet #viewFullFA a:hover {
-    color: #00384D;
-	background-color: rgba(0, 160, 223, 0.2);
-    padding-left:15px;
-    padding-right:15px;
-    padding-top:5px;
-    padding-bottom:5px;
-    border-radius: 15px;
 }

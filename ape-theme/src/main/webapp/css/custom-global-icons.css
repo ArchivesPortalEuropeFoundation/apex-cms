@@ -16,6 +16,13 @@
 	display:inline-block;	
 }
 
+.icon_print {
+	height:16px;
+	width:16px;
+	background-image: url("../images/ape/icons/print-icon.png");
+	background-repeat: no-repeat;
+	display:inline-block;	
+}
 
 span.icon_dao_type_image {
 	background-image: url("../images/ape/icons/dao_types/image.png");	
@@ -92,5 +99,4 @@ span.icon_new_window {
 	width: 13px;
 	height: 13px;
 	display: inline-block;
-	text-indent: -9999px;
 }
