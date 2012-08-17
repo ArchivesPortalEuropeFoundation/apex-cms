@@ -23,7 +23,7 @@
 	<portlet:param name="element" value="${element}"/>
 	<portlet:param name="term" value="${term}"/>
 </portlet:resourceURL>	
-<portlet:renderURL var="printUrl" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+<portlet:renderURL var="printEadDetailsUrl" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<portlet:param name="myaction" value="printEadDetails" />
 	<portlet:param name="id" value="${id}"/>
 	<portlet:param name="ecId" value="${ecId}"/>
@@ -32,28 +32,15 @@
 	<portlet:param name="type" value="${type}"/>
 	<portlet:param name="pageNumber" value="${pageNumber}"/>
 </portlet:renderURL>	
-	<script>
-		$(document)
-				.ready(
-						function() {
-							$("#print")
-									.click(
-											function() {
-												var preview = window
-														.open(
-																'${printUrl}',
-																'printpreview',
-																'width=1000,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
-												preview.focus();
-											});
-							 document.title = "${documentTitle}";
-
-						});
+       <script type='text/javascript'>
+		$(document).ready(function() {
+			document.title = "${documentTitle}";
+		});
 	</script>
-<div id="print">
-	<img id="print" align="right" src="${pageContext.request.contextPath}/images/print-icon.png" alt="print"
-		title='<fmt:message key="label.print"/>' />
+<div id="printEadDetails" class="linkButton">
+	<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
 </div>
+
 		<c:choose>
 			<c:when test="${empty c}"><portal:ead type="${type}" xml="${eadContent.xml}"/></c:when>
 			<c:otherwise>

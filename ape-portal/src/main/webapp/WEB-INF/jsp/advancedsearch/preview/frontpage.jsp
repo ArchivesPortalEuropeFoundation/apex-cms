@@ -16,6 +16,6 @@
 <portal:ead type="frontpage" xml="${eadContent.xml}"/>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
-<div id="viewFullFA">
-	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&gt;</span></a>
+<div id="viewFullFond" class="linkButton">
+	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>
