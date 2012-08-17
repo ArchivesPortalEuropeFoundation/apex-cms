@@ -10,12 +10,14 @@
 <portlet:renderURL var="advancedSearchUrl">
 	<portlet:param name="myaction" value="advancedSearch" />
 </portlet:renderURL>
-<portlet:resourceURL var="ajaxAdvancedSearchUrl" id="advancedSearch" />
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portlet:resourceURL var="navigatedTreeUrl" id="navigatedTree" />
 <portlet:resourceURL var="generateNavigatedTreeAiUrl" id="generateNavigatedTreeAi" />
 <portlet:resourceURL var="generateNavigatedTreeAiContentUrl" id="generateNavigatedTreeAiContent" />
 <portlet:resourceURL var="displayPreviewUrl" id="displayPreview"/>
+
 <c:choose>
 	<c:when test="${!empty renderRequest.preferences.map.eadDisplayPageId and !empty renderRequest.preferences.map.eadDisplayPortletName}">
 		<script type="text/javascript">
