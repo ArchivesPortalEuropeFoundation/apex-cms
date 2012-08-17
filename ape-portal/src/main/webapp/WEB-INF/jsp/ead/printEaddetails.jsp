@@ -19,12 +19,13 @@
 <script type='text/javascript'>
 	$(document).ready(function() {
 		self.print();
+		document.title = "${documentTitle}";
 	});
 </script>
 <fmt:message var="localizedCountryName" key="country.${fn:toLowerCase(country.cname)}" />
 <div id="eadDisplayPortlet">
 	<div id="header">
-		<div id="left-header-${fn:toLowerCase(country.isoname)}" class="left-header"></div>
+		<img src="${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png" alt="header"/>
 		<div class="right-header"></div>
 	</div>
 

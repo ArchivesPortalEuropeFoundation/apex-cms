@@ -36,13 +36,12 @@
 		<liferay-portlet:renderURL var="displayAdvancedSearchUrl" plid="${advancedSearchPageId}" portletName="${advancedSearchPortletName}" windowState="normal" />
 		<div id="eadDisplayPortlet">
 			<div id="header">
-                <div id="left-header-${fn:toLowerCase(country.isoname)}" class="left-header">
-                </div>
+				<img src="${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png" alt="header"/>
                 <div class="right-header">
                 </div>
             </div>
             <div id="contextInformation">
-            	<!-- <a href="${displayAdvancedSearchUrl}" title="<fmt:message key="page.alt.text.homepage" />" target="_blank"><fmt:message key="sitemap.menu.home" /></a> &gt; --><fmt:message key="country.${fn:toLowerCase(country.cname)}"/> &gt; ${archivalInstitution.ainame}
+            	<fmt:message key="country.${fn:toLowerCase(country.cname)}"/> &gt; ${archivalInstitution.ainame}
 			</div>
 			<div id="eadcontent"> 
 				<div id="left-pane" class="pane">

@@ -2,8 +2,6 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
 
-import javax.portlet.ResourceRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -94,6 +92,11 @@ public class DisplayEadDetailsContoller{
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
 		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
+		String documentTitle = currentCLevel.getUnittitle();
+		if (StringUtils.isNotBlank(currentCLevel.getUnitid())){
+			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
+		}
+		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 		modelAndView.setViewName("eaddetails");
 		return modelAndView;		
 	}
@@ -103,10 +106,15 @@ public class DisplayEadDetailsContoller{
 	        EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
 	        modelAndView.getModelMap().addAttribute("country", eadContent.getEad().getArchivalInstitution().getCountry());
 	        if (AbstractEadTag.INTRODUCTION_XSLT.equals(eadDetailsParams.getType()) || AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())){
-	        	modelAndView.getModelMap().addAttribute("type", eadDetailsParams.getType());
+	        	modelAndView.getModelMap().addAttribute("type", eadDetailsParams.getType());        	
 	        }else {
 	        	modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
 	        }
+        	if (AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())){
+        		modelAndView.getModelMap().addAttribute("documentTitle", eadContent.getUnittitle());
+        	}else {
+        		modelAndView.getModelMap().addAttribute("documentTitle", eadContent.getTitleproper());
+        	}
 	        modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 	        modelAndView.setViewName("eaddetails");
 		}

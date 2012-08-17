@@ -46,6 +46,8 @@
 																'width=1000,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 												preview.focus();
 											});
+							 document.title = "${documentTitle}";
+
 						});
 	</script>
 <div id="print">
