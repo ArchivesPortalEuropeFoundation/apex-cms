@@ -29,6 +29,7 @@ public class AdvancedSearch implements Serializable {
 	private String resultsperpage = "20";
 	private String dao;
 	private boolean advanced = true;
+	private String exactDateSearch;;
 
 	private String country;
 	private String ai;
@@ -384,4 +385,17 @@ public class AdvancedSearch implements Serializable {
 	public List<ListFacetSettings> getFacetSettingsList(){
 		return facetSettingsList;
 	}
+
+	public String getExactDateSearch() {
+		return exactDateSearch;
+	}
+
+	public void setExactDateSearch(String exactDateSearch) {
+		this.exactDateSearch = exactDateSearch;
+	}
+	public boolean hasExactDateSearch(){
+		return Boolean.parseBoolean(exactDateSearch);
+	}
+
+	
 }

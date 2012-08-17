@@ -8,6 +8,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField.Count;
@@ -267,12 +268,9 @@ public class AdvancedSearchController {
 		List<String> findingAidsSelectedForSearchId = new ArrayList<String>();
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 				advancedSearch.getTypedocument());
-		String startDate = AdvancedSearchUtil.obtainDate(advancedSearch.getFromdate(), true);
-		String endDate = AdvancedSearchUtil.obtainDate(advancedSearch.getTodate(), false);
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.START_DATE,
-				AdvancedSearchUtil.convertToSolrStartDate(startDate, endDate));
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.END_DATE,
-				AdvancedSearchUtil.convertToSolrEndDate(startDate, endDate));
+		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());
+		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(), advancedSearch.hasExactDateSearch());
+
 
 		if (advancedSearch.getNavigationTreeNodesSelected() != null) {
 
@@ -360,19 +358,13 @@ public class AdvancedSearchController {
 	}
 
 	public String validate(AdvancedSearch advancedSearch) {
-//		String startDate = AdvancedSearchUtil.obtainDate(advancedSearch.getFromdate(), true);
-//		if (StringUtils.isBlank(advancedSearch.getFromdate()) && StringUtils.isBlank(advancedSearch.getTodate())
-//				&& StringUtils.isBlank(advancedSearch.getTerm()) && advancedSearch.getNavigationTreeNodesSelected() == null) {
-//			return "search.message.noDatesTyped";
-//		}
-//		if (StringUtils.isNotBlank(advancedSearch.getFromdate()) && startDate == null) {
-//			return "search.message.IncorrectDateTyped";
-//
-//		}
-//		String endDate = AdvancedSearchUtil.obtainDate(advancedSearch.getTodate(), false);
-//		if (StringUtils.isNotBlank(advancedSearch.getTodate()) && endDate == null) {
-//			return "search.message.IncorrectDateTyped";
-//		}
+		if (StringUtils.isNotBlank(advancedSearch.getFromdate()) && !AdvancedSearchUtil.isValidDate(advancedSearch.getFromdate())) {
+			return "search.message.IncorrectDateTyped";
+
+		}
+		if (StringUtils.isNotBlank(advancedSearch.getTodate()) && !AdvancedSearchUtil.isValidDate(advancedSearch.getTodate())) {
+			return "search.message.IncorrectDateTyped";
+		}
 		return null;
 	}
 }

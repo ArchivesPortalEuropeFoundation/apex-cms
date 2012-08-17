@@ -125,12 +125,8 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 					advancedSearch.getTypedocument());
-			String startDate = AdvancedSearchUtil.convertToDate(advancedSearch.getTodate());
-			String endDate = AdvancedSearchUtil.convertToDate(advancedSearch.getEnddate());
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.START_DATE,
-					AdvancedSearchUtil.convertToSolrStartDate(startDate, endDate));
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.END_DATE,
-					AdvancedSearchUtil.convertToSolrEndDate(startDate, endDate));
+			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());
+			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(), advancedSearch.hasExactDateSearch());
 			// Only refine on dao if selected
 			if ("true".equals(advancedSearch.getDao())){
 				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO, advancedSearch.getDao());

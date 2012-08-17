@@ -95,6 +95,10 @@
 									<td id="datetoHeader"><label id="todateLabel" for="todate"><fmt:message key="advancedsearch.text.dateto" /></label></td>
 									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="9" /></td>
 								</tr>
+								<tr>
+									<td></td>
+									<td colspan="3"><input type="checkbox" id="exactDateSearch" value="true" name="exactDateSearch" tabindex="10"><label for="exactDateSearch"><fmt:message key="advancedsearch.message.exactdatesearch" /></label></td>
+								</tr>
 		
 							</table>
 						</div>
