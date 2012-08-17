@@ -127,10 +127,6 @@
 		<portlet-name>eaddisplay</portlet-name>
 		<display-name>EAD Display${artifact.suffix}</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-        <init-param>
-            <name>config-jsp</name>
-            <value>/WEB-INF/jsp/ead/configuration.jsp</value>
-        </init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -142,17 +138,6 @@
 			<short-title>EAD Display${artifact.suffix}</short-title>
 			<keywords>EAD Display</keywords>
 		</portlet-info>
-        <portlet-preferences>
-            <preference>
-                <name>advancedSearchPageId</name>
-                <read-only>false</read-only>
-            </preference>
-            <preference>
-                <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_Portal</value>
-                <read-only>false</read-only>
-            </preference>
-        </portlet-preferences>		
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>

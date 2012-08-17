@@ -28,7 +28,6 @@
 	<portlet>
 		<portlet-name>eaddisplay</portlet-name>
 		<icon>/icon.png</icon>
-		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/ead/ead.js</header-portlet-javascript>
 	</portlet>		
