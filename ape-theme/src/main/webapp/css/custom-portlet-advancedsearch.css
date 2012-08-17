@@ -146,6 +146,11 @@
 
 #advancedSearchPortlet #advancedSearch select, #advancedSearch input {
 	font-size: 12px;
+	vertical-align: top;
+	
+}
+#advancedSearch input {
+    margin-right: 2px;
 }
 #advancedSearchPortlet #advancedSearch tbody, #advancedSearchPortlet #advancedSearch label, #advancedSearchPortlet #advancedSearch tr{
 	padding: 0px;
