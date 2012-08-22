@@ -140,9 +140,9 @@ public final class AdvancedSearchUtil {
 		if (StringUtils.isNotBlank(toDate)) {
 			String date = obtainDate(toDate, false);
 			if (exact) {
-				setParameter(parameters, SolrFields.END_DATE, "[* TO " + date + "T00:00:00Z]");
+				setParameter(parameters, SolrFields.END_DATE, "[* TO " + date + "T23:59:59Z]");
 			} else {
-				setParameter(parameters, SolrFields.START_DATE, "[* TO " + date + "T00:00:00Z]");
+				setParameter(parameters, SolrFields.START_DATE, "[* TO " + date + "T23:59:59Z]");
 			}
 		}
 	}
