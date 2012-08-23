@@ -70,7 +70,9 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			//buffer.append(COMMA);
 			//buffer.append(NO_LINK);
 			buffer.append(COMMA);
-			addKey(buffer, countryUnit.getCouId(), "country");
+			addKey(buffer, countryUnit.getCountry().getCouId(), "country");
+			addGoogleMapsAddress(buffer,countryUnit.getCountry().getCname());
+			addCountryCode(buffer,countryUnit.getCountry().getIsoname());
 			buffer.append(END_ITEM);
 			if (i!=countryList.size()-1){
 				buffer.append(COMMA);
@@ -84,7 +86,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	}
 	
 	@ResourceMapping(value="directoryTreeAi")
-	public void writeAiJSON(@RequestParam String nodeId,  ResourceRequest resourceRequest,  ResourceResponse resourceResponse) {
+	public void writeAiJSON(@RequestParam String nodeId,  @RequestParam String countryCode,ResourceRequest resourceRequest,  ResourceResponse resourceResponse) {
 		
 		try {
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(), resourceRequest.getLocale());
@@ -96,14 +98,14 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
 
 			Collections.sort(archivalInstitutionList);
-			writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(navigationTree, archivalInstitutionList), resourceResponse);
+			writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(navigationTree, archivalInstitutionList, countryCode), resourceResponse);
 
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 				
 	}	
-	private StringBuilder generateArchivalInstitutionsTreeJSON(NavigationTree navigationTree, List<ArchivalInstitutionUnit> archivalInstitutionList) {
+	private StringBuilder generateArchivalInstitutionsTreeJSON(NavigationTree navigationTree, List<ArchivalInstitutionUnit> archivalInstitutionList, String countryCode) {
 		Locale locale = navigationTree.getResourceBundleSource().getLocale();
 		StringBuilder buffer = new StringBuilder();
 		ArchivalInstitutionUnit archivalInstitutionUnit = null;
@@ -124,6 +126,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				//buffer.append(NO_LINK);
 				buffer.append(COMMA);
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
+				addCountryCode(buffer,countryCode);
 				buffer.append(END_ITEM);
 			}
 			else if (archivalInstitutionUnit.getIsgroup() && archivalInstitutionUnit.isHasArchivalInstitutions()) {
@@ -140,6 +143,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				buffer.append(NOT_SELECTABLE);
 				buffer.append(COMMA);
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
+				addCountryCode(buffer,countryCode);
 				buffer.append(END_ITEM);
 			}
 			else if (!archivalInstitutionUnit.getIsgroup()){
@@ -156,6 +160,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 					buffer.append(COMMA);
 					buffer.append(NO_LINK);					
 				}
+				addCountryCode(buffer,countryCode);
 				buffer.append(COMMA);
 				buffer.append(NOT_CHECKBOX);					
 				buffer.append(END_ITEM);				
@@ -174,7 +179,14 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private void addTitle(StringBuilder buffer, String title, Locale locale) {
 		addTitle(null, buffer, title, locale);
 	}
-
+	private static void addGoogleMapsAddress(StringBuilder buffer, String address) {
+		buffer.append(COMMA);
+		buffer.append("\"googleMapsAddress\":\"" + address + "\"");		
+	}
+	private static void addCountryCode(StringBuilder buffer, String countryCode) {
+		buffer.append(COMMA);
+		buffer.append("\"countryCode\":\"" + countryCode + "\"");		
+	}
 	private static void addKey(StringBuilder buffer, Number key, String nodeType) {
 		
 		if (nodeType.equals("country")) {
