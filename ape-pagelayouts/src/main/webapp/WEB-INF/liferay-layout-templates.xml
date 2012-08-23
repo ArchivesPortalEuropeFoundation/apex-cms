@@ -3,10 +3,13 @@
 
 <layout-templates>
 	<custom>
-		<layout-template id="ape-pagelayouts" name="ape-pagelayouts">
-			<template-path>/ape-pagelayouts.tpl</template-path>
-			<wap-template-path>/ape-pagelayouts.wap.tpl</wap-template-path>
-			<thumbnail-path>/ape-pagelayouts.png</thumbnail-path>
+		<layout-template id="ape-pagelayout-frontpage" name="ape-pagelayout-frontpage">
+			<template-path>/ape-home.tpl</template-path>
+			<wap-template-path>/ape-home.tpl</wap-template-path>
+		</layout-template>
+		<layout-template id="ape-pagelayout-directory" name="ape-pagelayout-directory">
+			<template-path>/ape-directory.tpl</template-path>
+			<wap-template-path>/ape-directory.tpl</wap-template-path>
 		</layout-template>
 	</custom>
 </layout-templates>
