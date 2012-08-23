@@ -16,10 +16,17 @@
 		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}");
 	});
 </script>
-<div id="directoryPortlet">
-	<div class="directoryTree" id="directoryTree"></div>
-
-	<div id="aiDetails">
-		<div class="aiTitle"><fmt:message key="directory.message.noInstitutionSelected"/></div>
+<div id="directoryPortlet" class="portlet-layout">
+	<div id="directory-column-left" class="aui-w50 portlet-column portlet-column-first">
+		<div id="directory-column-left-content" class="portlet-column-content portlet-column-content-first">
+		<div class="directoryTree" id="directoryTree"></div>&nbsp;</div>
 	</div>
+	<div id="directory-column-right" class="aui-w50 portlet-column portlet-column-last">
+		<div id="directory-column-right-content" class="portlet-column-content portlet-column-content-last">
+			<div class="aiTitle"><fmt:message key="directory.message.noInstitutionSelected"/></div>&nbsp;
+		</div>
+	</div>
+	
+
+
 </div>

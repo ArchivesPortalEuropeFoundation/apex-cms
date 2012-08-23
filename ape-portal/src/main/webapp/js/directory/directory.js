@@ -25,9 +25,9 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl) {
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
 			if( node.data.aiId ) {
-				$("#aiDetails").empty();
-				$("#aiDetails").append("<div id='waitingImage'></div>");
-				$("#aiDetails").load(aiDetailsUrl +"&id=" + node.data.aiId);
+				$("#directory-column-right-content").empty();
+				$("#directory-column-right-content").append("<div id='waitingImage'></div>");
+				$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId);
 			}
 		}
 							
