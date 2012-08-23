@@ -2,62 +2,49 @@
 	font-size: 8pt;
 }
 
-#directoryPortlet #aiDetails table {
-	width: 100%;
-	border-collapse: collapse;
-	   font-size: 8pt;
-}
+
 
 #directoryPortlet .aiTitle {
     border-bottom: 2px solid #79B7E7;
+    color: #2A4862;
     font-size: 11pt;
     font-weight: bold;
     margin-bottom: 5px;
     padding-left: 15px;
 
 }
-
-#directoryPortlet .aiSection {
-	   color: #2a4862;
-	   
+#directoryPortlet #directory-column-right-content table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 8pt;
+	color: #2a4862;
 }
 
-#directoryPortlet .aiSection th {
+#directoryPortlet #directory-column-right-content table th {
     padding: 4px;
     text-transform: uppercase;
     padding-left:15px;
 }
-#directoryPortlet .aiSection td{
+#directoryPortlet #directory-column-right-content table td{
 
     border-top: 1px solid #E8EDFF;
      border-bottom: 1px solid #E8EDFF;
     padding: 4px;
 }
 
-#directoryPortlet .aiSection td.header {
+#directoryPortlet #directory-column-right-content table td.header {
     border-top: 1px solid #FFFFFF;
     border-bottom: 1px solid #FFFFFF;
 	background: none repeat scroll 0 0 #ecf6ff;
 	width:40%;
 }
-#directoryPortlet #aiDetails {
-	float:right;
-	clip: auto;
-	margin-left: 0px;
-	margin-top: 10px;
-	padding-right: 10px;
-	width:500px;
-}
 
-#directoryPortlet #aiDetails ul {
+
+#directoryPortlet #directory-column-right-content ul {
 	list-style-type: none;
 	padding: 0px;
 	margin: 0px;
 }
-#directoryPortlet #aiDetails li {
+#directoryPortlet #directory-column-right-content li {
 	padding-bottom: 2px;
-}
-#directoryPortlet #directoryTree {
-	width: 400px;
-	float: left;
 }

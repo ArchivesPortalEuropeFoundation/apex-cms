@@ -48,12 +48,8 @@ $theme.include($body_top_include)
 			$theme.wrapPortlet("portlet.vm", $content_include)
 		#end
 	</div>
+#parse ("$full_templates_path/footer.vm")
 
-	<footer id="footer" role="contentinfo">
-		<p class="powered-by">
-			#language("powered-by") <a href="http://www.apex-project.eu" rel="external">APEx</a>
-		</p>
-	</footer>
 </div>
 
 $theme.include($body_bottom_include)
