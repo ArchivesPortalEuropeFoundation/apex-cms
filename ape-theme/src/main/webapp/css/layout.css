@@ -46,7 +46,7 @@
 	div.portlet-column {
 		float: left;
 		overflow: hidden;
-		width: 100%;
+		/*width: 100%; fix for ie7*/
 	}
 
 	div.aui-column-last {
