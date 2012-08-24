@@ -17,8 +17,11 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
+import eu.apenet.commons.xslt.tags.AbstractEadTag;
+import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.ead.EadTreeParams;
 
 /**
  * JSON Writer for the directory tree
@@ -31,8 +34,6 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
 	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
-	private static final String NOT_SELECTABLE = "\"unselectable\": true";
-	private static final String NOT_CHECKBOX = "\"hideCheckbox\": true";
 	private static final String NO_LINK = "\"noLink\": true";
 
 
@@ -45,7 +46,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			List<CountryUnit> countryList = navigationTree.getALCountriesWithArchivalInstitutionsWithEAG();
 
 			Collections.sort(countryList);						
-			writeToResponseAndClose(generateCountriesTreeJSON(navigationTree, countryList), resourceResponse);
+			writeToResponseAndClose(generateDirectoryJSON(navigationTree, countryList), resourceResponse);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -53,36 +54,45 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	}
 
 	private StringBuilder generateCountriesTreeJSON(NavigationTree navigationTree, List<CountryUnit> countryList) {
-		
-		StringBuilder buffer = new StringBuilder();
 		CountryUnit countryUnit = null;
-		
-		buffer.append(START_ARRAY);
+		StringBuilder builder = new StringBuilder();
+		builder.append(START_ARRAY);
 		for (int i=0; i < countryList.size(); i++) {
 			//It is necessary to build a JSON response to display all the countries in Directory Tree
 			countryUnit = countryList.get(i);
-			buffer.append(START_ITEM);
-			addTitle(buffer, countryUnit.getLocalizedName(), navigationTree.getResourceBundleSource().getLocale());
-			buffer.append(COMMA);
-			buffer.append(NOT_CHECKBOX);
-			buffer.append(COMMA);
-			buffer.append(FOLDER_LAZY);
-			//buffer.append(COMMA);
-			//buffer.append(NO_LINK);
-			buffer.append(COMMA);
-			addKey(buffer, countryUnit.getCountry().getCouId(), "country");
-			addGoogleMapsAddress(buffer,countryUnit.getCountry().getCname());
-			addCountryCode(buffer,countryUnit.getCountry().getIsoname());
-			buffer.append(END_ITEM);
+			builder.append(START_ITEM);
+			addTitle(builder, countryUnit.getLocalizedName(), navigationTree.getResourceBundleSource().getLocale());
+			builder.append(COMMA);
+			builder.append(FOLDER_LAZY);
+			builder.append(COMMA);
+			addKey(builder, countryUnit.getCountry().getCouId(), "country");
+			addGoogleMapsAddress(builder,countryUnit.getCountry().getCname());
+			addCountryCode(builder,countryUnit.getCountry().getIsoname());
+			builder.append(END_ITEM);
 			if (i!=countryList.size()-1){
-				buffer.append(COMMA);
+				builder.append(COMMA);
 			}
 		}
 		
-		buffer.append(END_ARRAY);
+		builder.append(END_ARRAY);
 		countryUnit = null;
-		return buffer;
+		return builder;
 
+	}
+	private StringBuilder generateDirectoryJSON(NavigationTree navigationTree, List<CountryUnit> countryList) {
+		StringBuilder builder= new StringBuilder();
+		builder.append(START_ARRAY);
+		builder.append(START_ITEM);
+		addTitle(builder, navigationTree.getResourceBundleSource().getString("directory.text.directory"), navigationTree.getResourceBundleSource().getLocale());
+		addGoogleMapsAddress(builder,"Europe");
+		builder.append(COMMA);
+		addExpand(builder);
+		builder.append(COMMA);
+		builder.append(FOLDER_WITH_CHILDREN);
+		builder.append(generateCountriesTreeJSON( navigationTree,  countryList));
+		builder.append(END_ITEM);
+		builder.append(END_ARRAY);
+		return builder;
 	}
 	
 	@ResourceMapping(value="directoryTreeAi")
@@ -119,8 +129,6 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				buffer.append(START_ITEM);
 				addTitle(buffer, archivalInstitutionUnit.getAiScndname(), locale);
 				buffer.append(COMMA);
-				buffer.append(NOT_CHECKBOX);
-				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 				//buffer.append(COMMA);
 				//buffer.append(NO_LINK);
@@ -134,13 +142,9 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				buffer.append(START_ITEM);
 				addTitle(buffer, archivalInstitutionUnit.getAiScndname(), locale);
 				buffer.append(COMMA);
-				buffer.append(NOT_CHECKBOX);
-				buffer.append(COMMA);
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(NO_LINK);
-				buffer.append(COMMA);
-				buffer.append(NOT_SELECTABLE);
 				buffer.append(COMMA);
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
 				addCountryCode(buffer,countryCode);
@@ -160,9 +164,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 					buffer.append(COMMA);
 					buffer.append(NO_LINK);					
 				}
-				addCountryCode(buffer,countryCode);
-				buffer.append(COMMA);
-				buffer.append(NOT_CHECKBOX);					
+				addCountryCode(buffer,countryCode);		
 				buffer.append(END_ITEM);				
 			}
 			if (i!=archivalInstitutionList.size()-1){

@@ -14,22 +14,24 @@
 		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${mapUrl}");
 	});
 </script>
-<div id="directoryPortlet" >
+<div id="directoryPortlet">
 	<div class="portlet-layout">
-	<div id="directory-column-left" class="aui-w50 portlet-column portlet-column-first">
-		<div id="directory-column-left-content" class="portlet-column-content portlet-column-content-first">
-			<div class="directoryTree" id="directoryTree"></div>
-			&nbsp;
-		</div>
-	</div>
-	<div id="directory-column-right" class="aui-w50 portlet-column portlet-column-last">
-		<div id="directory-column-right-content" class="portlet-column-content portlet-column-content-last">
-			<div class="aiTitle">
-				<fmt:message key="directory.message.noInstitutionSelected" />
+		<div id="directory-column-left" class="aui-w50 portlet-column portlet-column-first">
+			<div id="directory-column-left-content" class="portlet-column-content portlet-column-content-first">
+				<div class="directoryTree" id="directoryTree"></div>
+				&nbsp;
 			</div>
-			&nbsp;
 		</div>
-	</div>
+		<div id="directory-column-right" class="aui-w50 portlet-column portlet-column-last">
+			<div id="directory-column-right-content" class="portlet-column-content portlet-column-content-last">
+				<div class="arrow_box">
+					<div class="arrow_box_text">
+						<fmt:message key="directory.message.noInstitutionSelected" />
+					</div>
+				</div>
+				&nbsp;
+			</div>
+		</div>
 	</div>
 	<div class="portlet-layout">
 		<iframe id="maps" width="1000" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"

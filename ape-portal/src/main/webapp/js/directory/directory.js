@@ -33,7 +33,11 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl, mapsU
 					
 				}
 				if (node.data.googleMapsAddress){
-					displayMaps(mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
+					if (node.data.countryCode){
+						displayMaps(mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
+					}else {
+						displayMaps(mapsUrl, null, node.data.googleMapsAddress);
+					}
 				}
 		}
 							
@@ -44,7 +48,7 @@ function displayMaps(mapsUrl, countryCode, googleMapsAddress){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
-	geocoder.geocode( { address: input_address }, function(results, status) {
+	geocoder.geocode( { address: input_address, region: countryCode }, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var lat = results[0].geometry.location.lat();
 			var lng = results[0].geometry.location.lng();

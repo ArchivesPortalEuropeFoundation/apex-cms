@@ -312,7 +312,5 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 
 		buffer.append("\" ");
 	}
-	private static void addExpand(StringBuilder buffer) {
-		buffer.append("\"expand\":true");
-	}
+
 }

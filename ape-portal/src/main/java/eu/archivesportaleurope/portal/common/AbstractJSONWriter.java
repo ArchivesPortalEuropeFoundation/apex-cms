@@ -128,4 +128,7 @@ public abstract class AbstractJSONWriter {
 		}
 		return result;
 	}
+	protected static void addExpand(StringBuilder buffer) {
+		buffer.append("\"expand\":true");
+	}
 }
