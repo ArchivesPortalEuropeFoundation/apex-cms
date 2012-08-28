@@ -25,9 +25,9 @@
 		<div id="directory-column-right" class="aui-w50 portlet-column portlet-column-last">
 			<div id="directory-column-right-content" class="portlet-column-content portlet-column-content-last">
 				<div class="arrow_box">
-					<div class="arrow_box_text">
+					<p>
 						<fmt:message key="directory.message.noInstitutionSelected" />
-					</div>
+					</p>
 				</div>
 				&nbsp;
 			</div>
