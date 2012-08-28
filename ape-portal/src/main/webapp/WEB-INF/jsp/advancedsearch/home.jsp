@@ -34,9 +34,9 @@
 				<form:hidden id="advanced" path="advanced" />
 		
 				<div id="navigatedSearch">
-					<div id="navigatedSearchOptionsHeader" class="searchOptionsHeader collapsed">
+					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
 						<fmt:message key="advancedsearch.title.navigatedsearch" />
-					</div>
+					</h2>
 					<div id="navigatedSearchOptionsContent" class="searchOptionsContent">
 						<div id="navigatedSearchOptionsSubHeader">
 							<fmt:message key="advancedsearch.subtitle.navigatedsearch" />
@@ -50,9 +50,9 @@
 				</div>
 				<div id="simpleAndAdvancedSearch">
 					<div id="advancedSearch">
-						<div id="advancedSearchOptionsHeader" class="searchOptionsHeader">
+						<h2 id="advancedSearchOptionsHeader" class="blockHeader">
 							<fmt:message key="advancedsearch.title.advancedsearch" />
-						</div>
+						</h2>
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
 								<tr>
@@ -104,9 +104,9 @@
 						</div>
 					</div>
 					<div id="simpleSearch">
-						<div id="simpleSearchOptionsHeader" class="searchOptionsHeader">
+						<h2 id="simpleSearchOptionsHeader" class="blockHeader">
 							<fmt:message key="advancedsearch.title.simplesearch" />
-						</div>
+						</h2>
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
 								<table id="simplesearchCriteria">

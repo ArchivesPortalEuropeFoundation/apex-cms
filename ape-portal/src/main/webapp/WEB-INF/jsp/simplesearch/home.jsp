@@ -23,7 +23,7 @@
 			});
 		</script>
 <div id="simpleSearchPortlet">
-	<form:form name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
+	<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
 		<div id="simpleSearch">
 			<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 				<div class="simpleSearchOptions">
