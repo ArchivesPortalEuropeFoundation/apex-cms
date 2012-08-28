@@ -87,19 +87,6 @@ public final class Searcher {
 		return executeQuery(query, solrQueryParameters,QUERY_TYPE_LIST, needSuggestions);
 		
 	}
-	public QueryResponse getMoreFacetFieldValues(SolrQueryParameters solrQueryParameters, String facetField, int start, String startDate, String endDate) throws SolrServerException, ParseException {
-		SolrQuery query = new SolrQuery();
-		query.setHighlight(true);
-		query.addFacetField(facetField);
-		buildDateRefinement(query,startDate, endDate, false);
-		query.setStart(0);
-		query.setRows(0);
-		query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
-		query.setFacetMinCount(1);
-		query.setParam("facet.offset", start +"");
-		return executeQuery(query, solrQueryParameters,QUERY_TYPE_LIST, false);
-		
-	}
 	
 	private void buildDateRefinement(SolrQuery query, String startDate, String endDate, boolean searchResults) throws SolrServerException, ParseException {
 		boolean facetStartDate = true;
