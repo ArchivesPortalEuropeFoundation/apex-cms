@@ -125,33 +125,53 @@ Typography
 */
 
 h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
+	font-family: Arial, sans-serif;
+    font-size: 1.7em;
+    margin-top: 0.67em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 h2 {
-    font-size: 1.5em;
-    margin: 0.83em 0;
+	font-family: Arial, sans-serif;
+	border-bottom: 2px solid #79B7E7;
+    font-size: 1.3em;
+    margin-top: 0.83em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 h3 {
+	font-family: Arial, sans-serif;
+	border-bottom: 1px solid #79B7E7;
     font-size: 1.17em;
-    margin: 1em 0;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 h4 {
+	font-family: Arial, sans-serif;
     font-size: 1em;
-    margin: 1.33em 0;
+    margin-top: 1.33em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 h5 {
+	font-family: Arial, sans-serif;
     font-size: 0.83em;
-    margin: 1.67em 0;
+    margin-top: 1.67em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 h6 {
+	font-family: Arial, sans-serif;
     font-size: 0.75em;
-    margin: 2.33em 0;
+    margin-top: 2.33em;
+    margin-bottom: 0.2em;
+    color: #2A4862;
 }
 
 /*
@@ -198,8 +218,13 @@ mark {
 
 p,
 pre {
-    margin: 1em 0;
+    margin-bottom: 0.5em;
+    margin-top: 0;
+    line-height: 1.8em;
 }
+p {
+	text-align: justify;
+	}
 
 /*
 * Corrects font family set oddly in IE6, S4/5, Chrome

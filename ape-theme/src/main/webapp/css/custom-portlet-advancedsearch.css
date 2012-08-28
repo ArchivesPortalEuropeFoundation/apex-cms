@@ -100,16 +100,7 @@
 }
 
 
-#advancedSearchPortlet .searchOptionsHeader {
-	font-weight: bold;
-	border-bottom-style:solid;
-	border-bottom-width: 2px;
-	border-bottom-color: #79B7E7;
-	margin-bottom:5px;
-	padding-left: 15px;	
-	color: #2A4862;
-	font-size: 12pt;
-}
+
 
 #advancedSearchPortlet #navigatedSearch{
 	float:left;
@@ -123,7 +114,6 @@
 #advancedSearchPortlet #navigatedSearchOptionsHeader {
 	background-repeat: no-repeat;
 	background-position: left;
-	padding-left: 15px;
 	cursor: pointer;
 }
 #advancedSearchPortlet #navigatedSearchOptionsHeader {

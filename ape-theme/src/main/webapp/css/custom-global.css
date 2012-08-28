@@ -242,3 +242,9 @@ a:visited {
 #footer-navigation .selected a {
 	color: #00384D;
 }
+h2.blockHeader {
+    font-size: 12pt;
+    margin-bottom: 0.4em;
+   	margin-top:0;
+	padding-left: 15px;	
+}
