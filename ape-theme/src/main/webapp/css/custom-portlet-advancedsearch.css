@@ -578,6 +578,7 @@
 	margin-right:0px;
 	margin-left:0px;
 	text-align: left;
+    line-height: 1.3em;
 }
 #advancedSearchPortlet .preview-container .collapse, #advancedSearchPortlet .preview-container .creation-content {
 	margin-left:3px;
