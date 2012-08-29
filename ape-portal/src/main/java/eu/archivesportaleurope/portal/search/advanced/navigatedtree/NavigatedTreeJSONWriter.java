@@ -455,7 +455,8 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 						addPreviewCId(buffer, topCLevels.get(i).getcLevelId());
 					}
 					else {
-						addPreviewId(buffer, topCLevels.get(i).getFaId(), XmlType.EAD_FA);
+						addPreviewCId(buffer, topCLevels.get(i).getcLevelId());
+						//addPreviewId(buffer, topCLevels.get(i).getFaId(), XmlType.EAD_FA);
 						if( (selectedNodes!=null && selectedNodes.length>0 && ArrayUtils.contains(selectedNodes, "fa_" + topCLevels.get(i).getFaId())) || parentSelected ){
 							buffer.append(COMMA);
 							buffer.append(SELECTED);
