@@ -32,7 +32,6 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 	private static final String MORE_VALUE_BEFORE = "before";
 	private static final String MORE_VALUE_AFTER = "after";
 	public static final int MAX_NUMBER_OF_CLEVELS = 20;
-	private static final int ZERO = 0;
 	private static final String END_ITEM_WITH_RETURN = "}\n";
 	private static final String END_ITEM_WITH_COMMA = "},";
 	private CLevelDAO clevelDAO;
@@ -100,7 +99,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 				List<CLevel> clevels = clevelDAO.findTopCLevels(eadContent.getEcId(), eadParams.getOrderId(),
 						eadParams.getMax());
 				StringBuilder topCLevelsBuffer = generateCLevelJSON(clevels, eadParams, locale);
-				writeToResponseAndClose(generateRootJSON(eadContent, topCLevelsBuffer, false, eadParams, locale),
+				writeToResponseAndClose(generateRootJSON(eadContent, topCLevelsBuffer, false, true,eadParams, locale),
 						response);
 
 			}
@@ -177,18 +176,20 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			return generateParentCLevelJSON(parent, buffer, eadParams, locale);
 		} else {
 			EadContent eadContent = child.getEadContent();
-			return generateRootJSON(eadContent, childBuffer, true,  eadParams, locale);
+			return generateRootJSON(eadContent, childBuffer, true,false,  eadParams, locale);
 		}
 	}
-    private StringBuilder generateRootJSON(EadContent eadContent, StringBuilder childBuffer, boolean expand, EadTreeParams eadParams, Locale locale) {
-		return generateRootJSON(eadContent, childBuffer, expand, true, eadParams, locale);
-	}
 	private StringBuilder generateRootJSON(EadContent eadContent, StringBuilder childBuffer, 
-			boolean expand, boolean isWithPreface, EadTreeParams eadParams, Locale locale) {
+			boolean expand, boolean selected, EadTreeParams eadParams, Locale locale) {
+		boolean isWithPreface = true;
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(START_ARRAY);
 		buffer.append(START_ITEM);
 		addTitle(buffer, eadContent.getTitleproper(), locale);
+		if (selected){
+			buffer.append(COMMA);
+			buffer.append("\"selected\":true, \"activate\": true");
+		}
 		buffer.append(COMMA);
         if(isWithPreface){
 		    addType(buffer, AbstractEadTag.FRONTPAGE_XSLT);
