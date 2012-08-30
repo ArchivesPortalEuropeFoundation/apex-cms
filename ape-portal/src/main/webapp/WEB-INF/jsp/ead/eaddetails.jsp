@@ -20,9 +20,6 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
-<c:set var="type">
-	<c:out value="${param['type']}" />
-</c:set>
 <portlet:renderURL var="displayOtherEadUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="aiId" value="${aiId}" />
 	<portlet:param name="xmlTypeId" value="0" />
