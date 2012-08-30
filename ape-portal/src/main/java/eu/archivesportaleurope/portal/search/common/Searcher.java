@@ -1,6 +1,5 @@
 package eu.archivesportaleurope.portal.search.common;
 
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,13 +36,16 @@ public final class Searcher {
 	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private final static Logger LOGGER = Logger.getLogger(Searcher.class);
 	private CommonsHttpSolrServer solrServer;
-
-	public Searcher(){
-		try {
-			solrServer = new CommonsHttpSolrServer(APEnetUtilities.getApePortalConfig().getSolrSearchUrl(), null);
-		} catch (MalformedURLException e) {
-			LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
+	private CommonsHttpSolrServer getSolrServer(){
+		if (solrServer == null){
+			try {
+				solrServer = new CommonsHttpSolrServer(APEnetUtilities.getApePortalConfig().getSolrSearchUrl(), null);
+				LOGGER.info("Successfully instantiate the solr client: " + APEnetUtilities.getApePortalConfig().getSolrSearchUrl());
+			} catch (Exception e) {
+				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
+			}			
 		}
+		return solrServer;
 	}
 	
 	public TermsResponse getTerms(String term) throws SolrServerException{
@@ -55,7 +57,7 @@ public final class Searcher {
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.debug("Query(autocompletion): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
 		}
-	    return solrServer.query(query, METHOD.POST).getTermsResponse();
+	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
 	}
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
@@ -237,7 +239,7 @@ public final class Searcher {
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
-		QueryResponse result =  solrServer.query(query, METHOD.POST);
+		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ "): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
 		}
