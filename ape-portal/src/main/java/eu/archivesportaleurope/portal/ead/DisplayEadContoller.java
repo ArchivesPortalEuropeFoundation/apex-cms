@@ -3,8 +3,6 @@ package eu.archivesportaleurope.portal.ead;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.portlet.RenderRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -46,7 +44,8 @@ public class DisplayEadContoller {
 	}
 
 	@RenderMapping
-	public ModelAndView displayEad(@ModelAttribute(value = "eadParams") EadParams eadParams, RenderRequest request) {
+	public ModelAndView displayEad(@ModelAttribute(value = "eadParams") EadParams eadParams) {
+		ModelAndView modelAndView = new ModelAndView();
 		try {
 			ArchivalInstitution archivalInstitution = null;
 			Ead ead = null;
@@ -59,7 +58,7 @@ public class DisplayEadContoller {
 							ead = clevel.getEadContent().getEad();
 						}
 						//this is a search result
-						request.setAttribute("solrId", eadParams.getId());
+						modelAndView.getModelMap().addAttribute("solrId", eadParams.getId());
 					} 
 				}else {
 					String solrPrefix = eadParams.getId().substring(0, 1);
@@ -76,31 +75,41 @@ public class DisplayEadContoller {
 					}						
 				} 
 
+			}else if (eadParams.getAiId() != null) {
+				XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
+				if (StringUtils.isNotBlank(eadParams.getEadid())) {
+					ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+				}
 			}
 			if (ead == null) {
 				LOGGER.error("Could not found EAD in second display");
-				request.setAttribute("errorMessage", "error.user.second.display.notexist");
-				return new ModelAndView("indexError");
+				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+				modelAndView.setViewName("indexError");
+				return modelAndView;
 			} else {
 				List<String> indexedStates = Arrays.asList(FileState.INDEXED_FILE_STATES);
 				if (indexedStates.contains(ead.getFileState().getState())) {
 					archivalInstitution = ead.getArchivalInstitution();
 				} else {
 					LOGGER.error("Found not indexed EAD in second display");
-					request.setAttribute("errorMessage", "error.user.second.display.notindexed");
-					return new ModelAndView("indexError");
+					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
+					modelAndView.setViewName("indexError");
+					return modelAndView;
 				}
-				request.setAttribute("ead", ead);
-				request.setAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
-				request.setAttribute("archivalInstitution", archivalInstitution);
+				modelAndView.getModelMap().addAttribute("ead", ead);
+				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
+				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				Country country = archivalInstitution.getCountry();
-				request.setAttribute("country", country);
+				modelAndView.getModelMap().addAttribute("country", country);
+				modelAndView.setViewName("index");
+				return modelAndView;
 			}
-			return new ModelAndView("index");
+
 		} catch (Exception e) {
 			LOGGER.error("Error in second display process", e);
-			request.setAttribute("errorMessage", "error.user.second.display.notexist");
-			return new ModelAndView("indexError");
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.setViewName("indexError");
+			return modelAndView;
 		}
 
 	}

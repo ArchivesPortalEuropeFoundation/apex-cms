@@ -15,6 +15,7 @@ import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
+import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 
@@ -86,7 +87,8 @@ public class DisplayEadDetailsContoller{
 			builder.append(child.getXml());
 		}
 		builder.append("</c>");
-		modelAndView.getModelMap().addAttribute("country", currentCLevel.getEadContent().getEad().getArchivalInstitution().getCountry());
+		ArchivalInstitution archivalInstitution = currentCLevel.getEadContent().getEad().getArchivalInstitution();
+		modelAndView.getModelMap().addAttribute("country", archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
@@ -97,6 +99,7 @@ public class DisplayEadDetailsContoller{
 			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
 		}
 		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+		modelAndView.getModelMap().addAttribute("aiId",archivalInstitution.getAiId());
 		modelAndView.setViewName("eaddetails");
 		return modelAndView;		
 	}
@@ -119,6 +122,7 @@ public class DisplayEadDetailsContoller{
 	        modelAndView.setViewName("eaddetails");
 		}
 		else {
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("eadDetailsError");
 		}
 		return modelAndView;
