@@ -18,6 +18,7 @@ import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
+import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 
 /**
@@ -87,9 +88,12 @@ public class DisplayPreviewContoller {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("preview/cdetails");
 		CLevel currentCLevel = clevelDAO.findById(idLong);
-		XmlType xmlType = XmlType.getEadType(currentCLevel.getEadContent().getEad());
+		Ead ead = currentCLevel.getEadContent().getEad();
+		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
+		XmlType xmlType = XmlType.getEadType(ead);
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
+		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		return modelAndView;
 	}
 
