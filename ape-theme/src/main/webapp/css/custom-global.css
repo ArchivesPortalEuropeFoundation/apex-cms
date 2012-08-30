@@ -163,11 +163,11 @@ a:visited {
 	text-align: center;
 }
 
-.linkButton a span {
+.linkButton a span, .linkButton .nolink span {
 	margin-left: 5px;
 }
-.linkButton a {
-	color: #006CB0;
+.linkButton a, .linkButton .nolink {
+
 	margin:5px;
 	font-size: 12px;
     font-weight: bold;
@@ -175,21 +175,43 @@ a:visited {
     padding-right:15px;
     padding-top:5px;
     padding-bottom:5px;
-    background-color: #E9F3FA;
+
     border-radius: 15px;
     display: inline-block;
-    border: 1px solid #00A0DF;
+
     letter-spacing:0.8px
 }
+.linkButton a {
+	color: #006CB0;
+	background-color: #E9F3FA;
+	border: 1px solid #00A0DF;
+}
+
 
 .linkButton a:hover {
     color: #00384D;
 	background-color: #BAE0FC;
-    padding-left:15px;
-    padding-right:15px;
-    padding-top:5px;
-    padding-bottom:5px;
     border-radius: 15px;
+}
+.linkButton a {
+	color: #006CB0;
+	background-color: #E9F3FA;
+	border: 1px solid #00A0DF;
+}
+.linkButton a.notIndexed {
+	color: #333333;
+	background-color: #F2F2F2;
+	border: 1px solid #BDBDBD;	
+}
+.linkButton a.notIndexed:hover {
+	color: #333333;
+	background-color: #F2F2F2;
+	border: 1px solid #BDBDBD;
+}
+.linkButton .nolink {
+	color: #A4A4A4;
+	background-color: #F2F2F2;
+	border: 1px solid #E6E6E6;	
 }
 #footer .footer-bar{
 	background-color: #0099FF;
