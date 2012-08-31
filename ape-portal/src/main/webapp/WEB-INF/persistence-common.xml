@@ -12,6 +12,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
+    <bean id="countryDAO" class="eu.apenet.persistence.hibernate.CountryHibernateDAO"/>
 	<bean id="archivalInstitutionDAO" class="eu.apenet.persistence.hibernate.ArchivalInstitutionHibernateDAO"/>
 	<bean id="cLevelDAO" class="eu.apenet.persistence.hibernate.CLevelHibernateDAO"/>
 	<bean id="eadContentDAO" class="eu.apenet.persistence.hibernate.EadContentHibernateDAO"/>
