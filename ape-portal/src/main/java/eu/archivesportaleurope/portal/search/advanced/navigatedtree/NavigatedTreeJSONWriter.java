@@ -56,11 +56,11 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
+		log.info("writeCountriesJSON: " + (System.currentTimeMillis() - startTime));
 	}
 	@ResourceMapping(value="generateNavigatedTreeAi")
 	public void writeAiJSON(@RequestParam String nodeId,  ResourceRequest resourceRequest,  ResourceResponse resourceResponse) {
-		
+		long startTime = System.currentTimeMillis();		
 		try {
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(), resourceRequest.getLocale());
 			NavigationTree navigationTree = new NavigationTree(source);
@@ -76,10 +76,9 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-				
+		log.info("writeAiJSON: " + (System.currentTimeMillis() - startTime));
 	}	
 	private StringBuilder generateCountriesTreeJSON(String[] expandedNodes,String[] selectedNodes, Locale locale) throws APEnetException {
-		//long startTime = System.currentTimeMillis();
 		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(), locale);
 		NavigationTree navigationTree = new NavigationTree(source);
 		List<CountryUnit> countryList = navigationTree.getALCountriesWithContent();
@@ -522,7 +521,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 	}
 	@ResourceMapping(value="generateNavigatedTreeAiContent")
 	public void writeAiContentJSON(@RequestParam String nodeId,  ResourceRequest resourceRequest,  ResourceResponse resourceResponse) {
-				
+		long startTime = System.currentTimeMillis();				
 		try {
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(), resourceRequest.getLocale());
 			NavigationTree navigationTree = new NavigationTree(source);
@@ -536,7 +535,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 
 		}
 
-				
+		log.info("writeAiContentJSON: " + (System.currentTimeMillis() - startTime));	
 	}
 
 	private StringBuilder buildResponse(NavigationTree navigationTree, String nodeId, String keyNode) throws NumberFormatException, IOException {
