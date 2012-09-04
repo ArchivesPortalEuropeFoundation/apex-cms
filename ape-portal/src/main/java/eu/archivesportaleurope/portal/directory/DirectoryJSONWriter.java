@@ -65,7 +65,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			builder.append(COMMA);
 			builder.append(FOLDER_LAZY);
 			builder.append(COMMA);
-			addKey(builder, countryUnit.getCountry().getCouId(), "country");
+			addKey(builder, countryUnit.getCountry().getId(), "country");
 			addGoogleMapsAddress(builder,countryUnit.getCountry().getCname());
 			addCountryCode(builder,countryUnit.getCountry().getIsoname());
 			builder.append(END_ITEM);

@@ -113,19 +113,19 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append(START_ITEM);
 			addTitle(buffer, countryUnit.getLocalizedName(), archivalLandscapeUtil.getLocale());
 			buffer.append(COMMA);
-			if (alTreeParams.existInSelectedNodes(AlType.COUNTRY, countryUnit.getCountry().getCouId())) {
+			if (alTreeParams.existInSelectedNodes(AlType.COUNTRY, countryUnit.getCountry().getId())) {
 				buffer.append(SELECTED);
 				buffer.append(COMMA);
 				parentSelected = true;
 			}
-			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryUnit.getCountry().getCouId())) {
+			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryUnit.getCountry().getId())) {
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(EXPANDED);
 				buffer.append(COMMA);
 
 				List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
-						.getArchivalInstitutionsWithSearchableItems(countryUnit.getCountry().getCouId(), null);
+						.getArchivalInstitutionsWithSearchableItems(countryUnit.getCountry().getId(), null);
 				StringBuilder tempBuffer = generateArchivalInstitutionsTreeJSON(alTreeParams, archivalLandscapeUtil,
 						archivalInstitutions, parentSelected);
 				buffer.append(CHILDREN);
@@ -135,7 +135,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 			}
 			buffer.append(COMMA);
-			addKey(buffer, AlType.COUNTRY, countryUnit.getCountry().getCouId(), TreeType.GROUP);
+			addKey(buffer, AlType.COUNTRY, countryUnit.getCountry().getId(), TreeType.GROUP);
 			buffer.append(END_ITEM);
 			if (i != countryList.size() - 1) {
 				buffer.append(COMMA);

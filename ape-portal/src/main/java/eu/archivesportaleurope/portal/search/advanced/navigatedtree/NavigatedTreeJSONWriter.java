@@ -99,17 +99,17 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 			//buffer.append(NOT_CHECKBOX);
 			//Remove when the country is selectable [END]
 			buffer.append(COMMA);
-			if(hasSelectedNodes && ArrayUtils.contains(selectedNodes, "country_" + countryUnit.getCountry().getCouId())){
+			if(hasSelectedNodes && ArrayUtils.contains(selectedNodes, "country_" + countryUnit.getCountry().getId())){
 				buffer.append(SELECTED);
 				buffer.append(COMMA);
 				parentSelected = true;
 			}
-			if(hasExpandedNodes && ArrayUtils.contains(expandedNodes,"country_" + countryUnit.getCountry().getCouId())){
+			if(hasExpandedNodes && ArrayUtils.contains(expandedNodes,"country_" + countryUnit.getCountry().getId())){
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(EXPANDED);
 				buffer.append(COMMA);
-				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree.getArchivalInstitutionsByParentAiId("country_" + countryUnit.getCountry().getCouId());
+				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree.getArchivalInstitutionsByParentAiId("country_" + countryUnit.getCountry().getId());
 				// This filter has been added to display only those final archival institutions or groups which have content
 				// Remove it if the user wants to display again all the institutions even if they doesn't have content indexed
 				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithContent(archivalInstitutionList);
@@ -124,7 +124,7 @@ public class NavigatedTreeJSONWriter extends AbstractJSONWriter {
 			//buffer.append(COMMA);
 			//buffer.append(NO_LINK);
 			buffer.append(COMMA);
-			addKey(buffer, countryUnit.getCountry().getCouId(), "country");
+			addKey(buffer, countryUnit.getCountry().getId(), "country");
 			buffer.append(END_ITEM);
 			if (i!=countryList.size()-1){
 				buffer.append(COMMA);
