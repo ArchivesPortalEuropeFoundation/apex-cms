@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.search.advanced.altree;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +24,9 @@ import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CountryDAO;
+import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.al.AlType;
@@ -53,14 +54,21 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	private static final Integer MAX_NUMBER_OF_CLEVELS = 20;
 	private CountryDAO countryDAO;
+	
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
-
+	
+	private EadDAO eadDAO;
+	
 	public void setCountryDAO(CountryDAO countryDAO) {
 		this.countryDAO = countryDAO;
 	}
 
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+	
+	public void setEadDAO(EadDAO eadDAO) {
+		this.eadDAO = eadDAO;
 	}
 
 	@ResourceMapping(value = "archivalLandscapeTree")
@@ -78,17 +86,28 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				AlType parentType = AlType.getType(alTreeParams.getParentId());
 				Integer countryId = null;
 				Integer parentAiId = null;
+				boolean displayAis = false;
+				boolean displayEADfolders = false;
 				if (AlType.COUNTRY.equals(parentType)) {
 					countryId = AlType.getId(alTreeParams.getParentId());
+					displayAis = true;
 				} else if (AlType.ARCHIVAL_INSTITUTION.equals(parentType)) {
 					parentAiId = AlType.getId(alTreeParams.getParentId());
+					if (TreeType.GROUP.equals(TreeType.getType(alTreeParams.getType()))) {
+						displayAis = true;
+					}else {
+						displayEADfolders = true;
+					}
 				}
-				if (TreeType.GROUP.equals(TreeType.getType(alTreeParams.getType()))) {
+
+				if (displayAis) {
 					List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 							.getArchivalInstitutionsWithSearchableItems(countryId, parentAiId);
 					writeToResponseAndClose(
 							generateArchivalInstitutionsTreeJSON(alTreeParams, archivalLandscapeUtil,
 									archivalInstitutions, false), resourceResponse);
+				}else if (displayEADfolders){
+					writeToResponseAndClose(generateEADFoldersTreeJSON(alTreeParams, archivalLandscapeUtil, false),resourceResponse);
 				}
 			}
 
@@ -103,13 +122,12 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		List<CountryUnit> countryList = archivalLandscapeUtil.localizeCountries(countryDAO
 				.getCountriesWithSearchableItems());
 		StringBuilder buffer = new StringBuilder();
-		CountryUnit countryUnit = null;
 		buffer.append(START_ARRAY);
 		for (int i = 0; i < countryList.size(); i++) {
 			boolean parentSelected = false;
 			// It is necessary to build a JSON response to display all the
 			// countries in Navigated Search Tree
-			countryUnit = countryList.get(i);
+			CountryUnit countryUnit = countryList.get(i);
 			buffer.append(START_ITEM);
 			addTitle(buffer, countryUnit.getLocalizedName(), archivalLandscapeUtil.getLocale());
 			buffer.append(COMMA);
@@ -143,9 +161,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		}
 
 		buffer.append(END_ARRAY);
-		countryUnit = null;
-		// log.info("generateCountriesTreeJSON: " +
-		// (System.currentTimeMillis()-startTime));
 		return buffer;
 
 	}
@@ -202,13 +217,13 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(EXPANDED);
 					buffer.append(COMMA);
 					buffer.append(CHILDREN);
-//					 String keyNode =
-//					 archivalInstitution.getAiId().toString();
-//					 buffer.append(generateArchivalInstitutionsHGFAFoldersTreeJSON(navigationTree,
-//					 ArchivalInstitutionUnit.countHoldingsGuide(Integer.parseInt(keyNode)),
-//					 ArchivalInstitutionUnit.countFindingAidsNotLinked(Integer.parseInt(keyNode)),
-//					 Integer.parseInt(keyNode), expandedNodes, selectedNodes,
-//					 parentSelectedTemp) );
+					// String keyNode =
+					// archivalInstitution.getAiId().toString();
+					// buffer.append(generateArchivalInstitutionsHGFAFoldersTreeJSON(navigationTree,
+					// ArchivalInstitutionUnit.countHoldingsGuide(Integer.parseInt(keyNode)),
+					// ArchivalInstitutionUnit.countFindingAidsNotLinked(Integer.parseInt(keyNode)),
+					// Integer.parseInt(keyNode), expandedNodes, selectedNodes,
+					// parentSelectedTemp) );
 				} else {
 					buffer.append(FOLDER_LAZY);
 				}
@@ -224,6 +239,59 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		buffer.append(END_ARRAY);
 		return buffer;
 
+	}
+
+	private StringBuilder generateEADFoldersTreeJSON(AlTreeParams alTreeParams,
+			ArchivalLandscapeUtil archivalLandscapeUtil, boolean parentSelected) {
+		StringBuilder buffer = new StringBuilder();
+		Integer aiId = AlType.getId(alTreeParams.getParentId());
+		buffer.append(START_ARRAY);	
+		boolean parentSelectedTemp = false;
+		/*
+		 * check if Holdings Guide exist
+		 */
+		HoldingsGuide holdingsGuideExample = new HoldingsGuide();
+		holdingsGuideExample.setAiId(aiId);
+		holdingsGuideExample.setSearchable(true);
+		boolean holdingsGuideExists = eadDAO.existEads(holdingsGuideExample);
+		boolean findingAidExists = false;
+		boolean sourceGuideExists = false;
+		if (holdingsGuideExists) {
+			buffer.append(START_ITEM);
+			addTitle(buffer, this.getMessageSource().getMessage("text.holdings.guide.folder", null, archivalLandscapeUtil.getLocale()), archivalLandscapeUtil.getLocale());
+			buffer.append(COMMA);
+//			if ((selectedNodes != null && selectedNodes.length > 0 && ArrayUtils.contains(selectedNodes, "hgfolder_"
+//					+ key))
+//					|| parentSelected) {
+//				buffer.append(SELECTED);
+//				buffer.append(COMMA);
+//				parentSelectedTemp = true;
+//			}
+			buffer.append(NOT_CHECKBOX);
+			buffer.append(COMMA);
+			addKey(buffer, AlType.HOLDINGS_GUIDE, aiId, TreeType.GROUP);
+			buffer.append(COMMA);
+			// buffer.append(COMMA);
+			// buffer.append(NO_LINK);
+			if (alTreeParams.existInExpandedNodes(AlType.HOLDINGS_GUIDE, aiId)) {
+				buffer.append(FOLDER_NOT_LAZY);
+				buffer.append(COMMA);
+				buffer.append(EXPANDED);
+				buffer.append(COMMA);
+				buffer.append(CHILDREN);
+//				buffer.append(generateArchivalInstitutionsHGContentFolderTreeJSON(navigationTree,
+//						ArchivalInstitutionUnit.getHoldingsGuide(key), expandedNodes, selectedNodes, parentSelectedTemp));
+			} else {
+				buffer.append(FOLDER_LAZY);
+			}
+			buffer.append(END_ITEM);
+			if (findingAidExists || sourceGuideExists) {
+				buffer.append(COMMA);
+			}
+
+		}
+		buffer.append(END_ARRAY);
+		return buffer;
 	}
 
 	private StringBuilder generateArchivalInstitutionsHGFAFoldersTreeJSON(NavigationTree navigationTree,
