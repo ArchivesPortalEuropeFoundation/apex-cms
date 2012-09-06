@@ -3,7 +3,7 @@ package eu.archivesportaleurope.portal.common.al;
 
 public enum AlType {
 
-	COUNTRY("country_"), ARCHIVAL_INSTITUTION("ai_");
+	COUNTRY("country_"), ARCHIVAL_INSTITUTION("ai_"), HOLDINGS_GUIDE("hg_");
 	private String type;
 	private AlType(String type){
 		this.type = type;
