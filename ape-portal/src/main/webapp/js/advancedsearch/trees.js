@@ -317,7 +317,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		
 			var typeNode = new String(node.data.key);
 			typeNode = typeNode.substring(0, typeNode.indexOf('_'));
-			if (node.date.type == "more"){
+			if (node.data.type == "more"){
 				var moreNode = node;
 				node.parent.appendAjaxWithoutRemove({
 					url : archivalLandscapeUrl,
@@ -340,26 +340,27 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				// Finally, the node More... is removed from the
 				// Navigation Tree
 				node.remove();
-			}
-			node.appendAjax({
-				url : archivalLandscapeUrl,
-				data : {
-					parentId : node.data.key,
-					type : node.data.type
-				},
-				success : function(node) {
-					// This function is activated
-					// when the lazy read has been a
-					// success
-					// It is necessary to check the
-					// upcomming children if some of
-					// their
-					// parents are checked too
-					if (node.isSelected()) {
-						selectChildren(node);
+			}else {
+				node.appendAjax({
+					url : archivalLandscapeUrl,
+					data : {
+						parentId : node.data.key,
+						type : node.data.type
+					},
+					success : function(node) {
+						// This function is activated
+						// when the lazy read has been a
+						// success
+						// It is necessary to check the
+						// upcomming children if some of
+						// their
+						// parents are checked too
+						if (node.isSelected()) {
+							selectChildren(node);
+						}
 					}
-				}
-			});
+				});
+			}
 
 		},
 		// Function to open a new tab/window whan the user
