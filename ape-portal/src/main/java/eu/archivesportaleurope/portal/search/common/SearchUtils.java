@@ -11,6 +11,7 @@ import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.FindingAidUnit;
 import eu.apenet.commons.infraestructure.HoldingsGuideUnit;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.archivesportaleurope.portal.common.al.AlType;
  
 public class SearchUtils {
 
@@ -24,8 +25,21 @@ public class SearchUtils {
 		List<HoldingsGuideUnit> holdingsGuideIndexed = new ArrayList<HoldingsGuideUnit>();
 		List<FindingAidUnit> findingAidsIndexed = new ArrayList<FindingAidUnit>();
 		List<ArchivalInstitution> finalArchivalInstitutionList = new ArrayList<ArchivalInstitution>();
-		
-		for (int i = 0; i < navigationTreeNodesSelected.size(); i ++) {
+		for (String item: navigationTreeNodesSelected){
+			AlType alType = AlType.getType(item);
+			if (AlType.COUNTRY.equals(alType)){
+				
+			}else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
+				
+			}else if (AlType.FINDING_AID.equals(alType)){
+				
+			}else if (AlType.SOURCE_GUIDE.equals(alType)){
+				
+			}else if (AlType.HOLDINGS_GUIDE.equals(alType)){
+				
+			}
+		}
+		for (int i = 0; false && i < navigationTreeNodesSelected.size(); i ++) {
 			nodeId = navigationTreeNodesSelected.get(i).trim();
 			keyNode = nodeId.substring(nodeId.lastIndexOf('_') + 1);
 
@@ -83,27 +97,6 @@ public class SearchUtils {
 		finalArchivalInstitutionList = null;
 		
 	}
-	public static String getLanguage(HttpServletRequest request) {
-		String navTreeLang = "";
-		HttpSession session = request.getSession();
-		Locale locale = request.getLocale();
-		if(session.getAttribute("WW_TRANS_I18N_LOCALE")==null){
-			if (!locale.getLanguage().startsWith("de") && !locale.getLanguage().startsWith("en") && !locale.getLanguage().startsWith("es") && !locale.getLanguage().startsWith("el") && !locale.getLanguage().startsWith("fr") && !locale.getLanguage().startsWith("ga") && !locale.getLanguage().startsWith("lv") && !locale.getLanguage().startsWith("mt") && !locale.getLanguage().startsWith("nl") && !locale.getLanguage().startsWith("pl") && !locale.getLanguage().startsWith("pt") && !locale.getLanguage().startsWith("sl") && !locale.getLanguage().startsWith("fi") && !locale.getLanguage().startsWith("sv")) {
-				navTreeLang = "en";  						
-			}
-			else {
-				navTreeLang = locale.getLanguage().substring(0,2); 				
-			}
-		}
-		else {
-			if (!session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("de") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("es") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("el") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("fr") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("ga") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("lv") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("mt") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("nl") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("pl") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("pt") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("sl") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("fi") && !session.getAttribute("WW_TRANS_I18N_LOCALE").toString().startsWith("sv")) {
-				navTreeLang = "en";					
-			}
-			else {
-				navTreeLang =  session.getAttribute("WW_TRANS_I18N_LOCALE").toString().substring(0,2);							
-			}
-		} 
-		return navTreeLang;
-	}
+
 	
 }

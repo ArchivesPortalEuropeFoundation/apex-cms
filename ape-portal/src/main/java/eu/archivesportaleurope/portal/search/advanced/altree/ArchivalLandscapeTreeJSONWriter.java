@@ -567,6 +567,8 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(COMMA);
 					buffer.append(FOLDER_LAZY);
 					buffer.append(COMMA);
+					addAiId(buffer, aiId);
+					buffer.append(COMMA);
 					buffer.append(NOT_CHECKBOX);
 					// buffer.append(COMMA);
 					// buffer.append(NO_LINK);

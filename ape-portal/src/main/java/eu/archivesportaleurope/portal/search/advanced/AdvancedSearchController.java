@@ -27,6 +27,7 @@ import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
 import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
@@ -273,45 +274,57 @@ public class AdvancedSearchController {
 
 
 		if (advancedSearch.getNavigationTreeNodesSelected() != null) {
-
-			SearchUtils.fillSelectedForSearchIdLists(advancedSearch.getNavigationTreeNodesSelected(), countriesSelectedForSearchId,
-					archivalInstitutionsSelectedForSearchId, holdingsGuideSelectedForSearchId,
-					findingAidsSelectedForSearchId);
-
 			// Adding the ids of the Finding Aid selected for searching
 			List<String> faHgIdsSelected = new ArrayList<String>();
-			if (findingAidsSelectedForSearchId != null) {
-				for (int i = 0; i < findingAidsSelectedForSearchId.size(); i++) {
-					faHgIdsSelected.add(SolrValues.FA_PREFIX + findingAidsSelectedForSearchId.get(i));
-				}
-			}
-
-			// Adding the ids of the Holdings Guide selected for searching
-			if (holdingsGuideSelectedForSearchId != null) {
-				for (int i = 0; i < holdingsGuideSelectedForSearchId.size(); i++) {
-					faHgIdsSelected.add(SolrValues.HG_PREFIX + holdingsGuideSelectedForSearchId.get(i));
-				}
-			}
-
 			List<String> archivalInstitutionsIdsSelected = new ArrayList<String>();
 			List<String> countriesSelected = new ArrayList<String>();
-			// Adding the ids of the Countries selected for searching
-			if (countriesSelectedForSearchId != null) {
-				for (int i = 0; i < countriesSelectedForSearchId.size(); i++) {
-					countriesSelected.add(countriesSelectedForSearchId.get(i));
+			for (String item: advancedSearch.getNavigationTreeNodesSelected()){
+				AlType alType = AlType.getType(item);
+				Integer id = AlType.getId(item);
+				if (AlType.COUNTRY.equals(alType)){
+					countriesSelected.add(id.toString());				
+				}else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
+					archivalInstitutionsIdsSelected.add(id.toString());				
+				}else if (AlType.FINDING_AID.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
+				}else if (AlType.SOURCE_GUIDE.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
+				}else if (AlType.HOLDINGS_GUIDE.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
 				}
 			}
 
-			// Adding the ids of the Archival Institutions selected for
-			// searching
-			if (archivalInstitutionsSelectedForSearchId != null) {
-				for (int i = 0; i < archivalInstitutionsSelectedForSearchId.size(); i++) {
-					if (!archivalInstitutionsIdsSelected.contains(Integer
-							.parseInt(archivalInstitutionsSelectedForSearchId.get(i)))) {
-						archivalInstitutionsIdsSelected.add(archivalInstitutionsSelectedForSearchId.get(i));
-					}
-				}
-			}
+//			if (findingAidsSelectedForSearchId != null) {
+//				for (int i = 0; i < findingAidsSelectedForSearchId.size(); i++) {
+//					faHgIdsSelected.add(SolrValues.FA_PREFIX + findingAidsSelectedForSearchId.get(i));
+//				}
+//			}
+//
+//			// Adding the ids of the Holdings Guide selected for searching
+//			if (holdingsGuideSelectedForSearchId != null) {
+//				for (int i = 0; i < holdingsGuideSelectedForSearchId.size(); i++) {
+//					faHgIdsSelected.add(SolrValues.HG_PREFIX + holdingsGuideSelectedForSearchId.get(i));
+//				}
+//			}
+//
+//
+//			// Adding the ids of the Countries selected for searching
+//			if (countriesSelectedForSearchId != null) {
+//				for (int i = 0; i < countriesSelectedForSearchId.size(); i++) {
+//					countriesSelected.add(countriesSelectedForSearchId.get(i));
+//				}
+//			}
+//
+//			// Adding the ids of the Archival Institutions selected for
+//			// searching
+//			if (archivalInstitutionsSelectedForSearchId != null) {
+//				for (int i = 0; i < archivalInstitutionsSelectedForSearchId.size(); i++) {
+//					if (!archivalInstitutionsIdsSelected.contains(Integer
+//							.parseInt(archivalInstitutionsSelectedForSearchId.get(i)))) {
+//						archivalInstitutionsIdsSelected.add(archivalInstitutionsSelectedForSearchId.get(i));
+//					}
+//				}
+//			}
 
 			if (countriesSelected.size() > 0) {
 				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
