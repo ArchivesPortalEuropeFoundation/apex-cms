@@ -23,10 +23,16 @@ import eu.apenet.commons.infraestructure.HoldingsGuideUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
+import eu.apenet.persistence.dao.FindingAidDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.CLevel;
+import eu.apenet.persistence.vo.Ead;
+import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HoldingsGuide;
+import eu.apenet.persistence.vo.SourceGuide;
 import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.al.AlType;
@@ -54,11 +60,12 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	private static final Integer MAX_NUMBER_OF_CLEVELS = 20;
 	private CountryDAO countryDAO;
-	
+
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
-	
+
 	private EadDAO eadDAO;
-	
+	private FindingAidDAO findingAidDAO;
+	private CLevelDAO cLevelDAO;
 	public void setCountryDAO(CountryDAO countryDAO) {
 		this.countryDAO = countryDAO;
 	}
@@ -66,9 +73,17 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
 	}
-	
+
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
+	}
+
+	public void setFindingAidDAO(FindingAidDAO findingAidDAO) {
+		this.findingAidDAO = findingAidDAO;
+	}
+
+	public void setcLevelDAO(CLevelDAO cLevelDAO) {
+		this.cLevelDAO = cLevelDAO;
 	}
 
 	@ResourceMapping(value = "archivalLandscapeTree")
@@ -95,9 +110,27 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					parentAiId = AlType.getId(alTreeParams.getParentId());
 					if (TreeType.GROUP.equals(TreeType.getType(alTreeParams.getType()))) {
 						displayAis = true;
-					}else {
+					} else {
 						displayEADfolders = true;
 					}
+				} else if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)) {
+					if (TreeType.GROUP.equals(TreeType.getType(alTreeParams.getType()))) {
+						writeToResponseAndClose(
+								generateEadFolderTreeJSON(alTreeParams, parentType, archivalLandscapeUtil, null, false),
+								resourceResponse);
+					} else {
+						Integer parentId = AlType.getId(alTreeParams.getParentId());
+						List<CLevel> topClevels = cLevelDAO.getTopClevelsByFileId(parentId, XmlType.getTypeBySolrPrefix(parentType.toString()).getClazz(), alTreeParams.getStart(), MAX_NUMBER_OF_CLEVELS+1);
+						writeToResponseAndClose(
+								generateCLevelsJSON(alTreeParams, parentType, archivalLandscapeUtil, topClevels, alTreeParams.getParentId(), alTreeParams.getType(), alTreeParams.getAiId(), alTreeParams.getStart(), false, false),
+								resourceResponse);
+					}
+				}else if (AlType.C_LEVEL.equals(parentType)){
+					Long parentId = AlType.getLongId(alTreeParams.getParentId());
+					List<CLevel> clevels = cLevelDAO.findChildCLevels(parentId, alTreeParams.getStart(), MAX_NUMBER_OF_CLEVELS+1);
+					writeToResponseAndClose(
+							generateCLevelsJSON(alTreeParams, parentType, archivalLandscapeUtil, clevels, alTreeParams.getParentId(), alTreeParams.getType(), alTreeParams.getAiId(), alTreeParams.getStart(), false, false),
+							resourceResponse);					
 				}
 
 				if (displayAis) {
@@ -106,8 +139,10 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					writeToResponseAndClose(
 							generateArchivalInstitutionsTreeJSON(alTreeParams, archivalLandscapeUtil,
 									archivalInstitutions, false), resourceResponse);
-				}else if (displayEADfolders){
-					writeToResponseAndClose(generateEADFoldersTreeJSON(alTreeParams, archivalLandscapeUtil, false),resourceResponse);
+				} else if (displayEADfolders) {
+					writeToResponseAndClose(
+							generateEADFoldersTreeJSON(alTreeParams, archivalLandscapeUtil, null, false),
+							resourceResponse);
 				}
 			}
 
@@ -131,12 +166,12 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append(START_ITEM);
 			addTitle(buffer, countryUnit.getLocalizedName(), archivalLandscapeUtil.getLocale());
 			buffer.append(COMMA);
-			if (alTreeParams.existInSelectedNodes(AlType.COUNTRY, countryUnit.getCountry().getId())) {
+			if (alTreeParams.existInSelectedNodes(AlType.COUNTRY, countryUnit.getCountry().getId(), TreeType.GROUP)) {
 				buffer.append(SELECTED);
 				buffer.append(COMMA);
 				parentSelected = true;
 			}
-			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryUnit.getCountry().getId())) {
+			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryUnit.getCountry().getId(), TreeType.GROUP)) {
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(EXPANDED);
@@ -183,7 +218,8 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				buffer.append(NOT_CHECKBOX);
 				buffer.append(COMMA);
-				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId())) {
+				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(),
+						TreeType.GROUP)) {
 					buffer.append(FOLDER_NOT_LAZY);
 					buffer.append(COMMA);
 					buffer.append(EXPANDED);
@@ -205,25 +241,21 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				addTitle(buffer, archivalInstitution.getAiname(), archivalLandscapeUtil.getLocale());
 				buffer.append(COMMA);
 				if (parentSelected
-						|| alTreeParams
-								.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId())) {
+						|| alTreeParams.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION,
+								archivalInstitution.getAiId(), TreeType.GROUP)) {
 					buffer.append(SELECTED);
 					buffer.append(COMMA);
 					parentSelectedTemp = true;
 				}
-				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId())) {
+				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(),
+						TreeType.GROUP)) {
 					buffer.append(FOLDER_NOT_LAZY);
 					buffer.append(COMMA);
 					buffer.append(EXPANDED);
 					buffer.append(COMMA);
 					buffer.append(CHILDREN);
-					// String keyNode =
-					// archivalInstitution.getAiId().toString();
-					// buffer.append(generateArchivalInstitutionsHGFAFoldersTreeJSON(navigationTree,
-					// ArchivalInstitutionUnit.countHoldingsGuide(Integer.parseInt(keyNode)),
-					// ArchivalInstitutionUnit.countFindingAidsNotLinked(Integer.parseInt(keyNode)),
-					// Integer.parseInt(keyNode), expandedNodes, selectedNodes,
-					// parentSelectedTemp) );
+					buffer.append(generateEADFoldersTreeJSON(alTreeParams, archivalLandscapeUtil,
+							archivalInstitution.getAiId(), parentSelectedTemp));
 				} else {
 					buffer.append(FOLDER_LAZY);
 				}
@@ -242,10 +274,13 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	}
 
 	private StringBuilder generateEADFoldersTreeJSON(AlTreeParams alTreeParams,
-			ArchivalLandscapeUtil archivalLandscapeUtil, boolean parentSelected) {
+			ArchivalLandscapeUtil archivalLandscapeUtil, Integer parentAiId, boolean parentSelected) {
 		StringBuilder buffer = new StringBuilder();
-		Integer aiId = AlType.getId(alTreeParams.getParentId());
-		buffer.append(START_ARRAY);	
+		Integer aiId = parentAiId;
+		if (aiId == null) {
+			aiId = AlType.getId(alTreeParams.getParentId());
+		}
+		buffer.append(START_ARRAY);
 		boolean parentSelectedTemp = false;
 		/*
 		 * check if Holdings Guide exist
@@ -254,129 +289,297 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		holdingsGuideExample.setAiId(aiId);
 		holdingsGuideExample.setSearchable(true);
 		boolean holdingsGuideExists = eadDAO.existEads(holdingsGuideExample);
-		boolean findingAidExists = false;
-		boolean sourceGuideExists = false;
+		/*
+		 * check if Source Guide exist
+		 */
+		SourceGuide sourceGuideExample = new SourceGuide();
+		sourceGuideExample.setAiId(aiId);
+		sourceGuideExample.setSearchable(true);
+		boolean sourceGuideExists = eadDAO.existEads(sourceGuideExample);
+		boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {
 			buffer.append(START_ITEM);
-			addTitle(buffer, this.getMessageSource().getMessage("text.holdings.guide.folder", null, archivalLandscapeUtil.getLocale()), archivalLandscapeUtil.getLocale());
+			addTitleFromKey(buffer, "text.holdings.guide.folder", archivalLandscapeUtil.getLocale());
 			buffer.append(COMMA);
-//			if ((selectedNodes != null && selectedNodes.length > 0 && ArrayUtils.contains(selectedNodes, "hgfolder_"
-//					+ key))
-//					|| parentSelected) {
-//				buffer.append(SELECTED);
-//				buffer.append(COMMA);
-//				parentSelectedTemp = true;
-//			}
+			if (parentSelected || alTreeParams.existInSelectedNodes(AlType.HOLDINGS_GUIDE, aiId, TreeType.GROUP)) {
+				buffer.append(SELECTED);
+				buffer.append(COMMA);
+				parentSelectedTemp = true;
+			}
 			buffer.append(NOT_CHECKBOX);
 			buffer.append(COMMA);
 			addKey(buffer, AlType.HOLDINGS_GUIDE, aiId, TreeType.GROUP);
 			buffer.append(COMMA);
-			// buffer.append(COMMA);
-			// buffer.append(NO_LINK);
-			if (alTreeParams.existInExpandedNodes(AlType.HOLDINGS_GUIDE, aiId)) {
+			if (alTreeParams.existInExpandedNodes(AlType.HOLDINGS_GUIDE, aiId, TreeType.GROUP)) {
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(EXPANDED);
 				buffer.append(COMMA);
 				buffer.append(CHILDREN);
-//				buffer.append(generateArchivalInstitutionsHGContentFolderTreeJSON(navigationTree,
-//						ArchivalInstitutionUnit.getHoldingsGuide(key), expandedNodes, selectedNodes, parentSelectedTemp));
+				buffer.append(generateEadFolderTreeJSON(alTreeParams, AlType.HOLDINGS_GUIDE, archivalLandscapeUtil,
+						aiId, parentSelectedTemp));
 			} else {
 				buffer.append(FOLDER_LAZY);
 			}
 			buffer.append(END_ITEM);
-			if (findingAidExists || sourceGuideExists) {
+			if (otherFindingAidExists || sourceGuideExists) {
 				buffer.append(COMMA);
 			}
+
+		}
+		if (sourceGuideExists) {
+			buffer.append(START_ITEM);
+			addTitleFromKey(buffer, "text.source.guide.folder", archivalLandscapeUtil.getLocale());
+			buffer.append(COMMA);
+			if (parentSelected || alTreeParams.existInSelectedNodes(AlType.SOURCE_GUIDE, aiId, TreeType.GROUP)) {
+				buffer.append(SELECTED);
+				buffer.append(COMMA);
+				parentSelectedTemp = true;
+			}
+			buffer.append(NOT_CHECKBOX);
+			buffer.append(COMMA);
+			addKey(buffer, AlType.SOURCE_GUIDE, aiId, TreeType.GROUP);
+			buffer.append(COMMA);
+			if (alTreeParams.existInExpandedNodes(AlType.SOURCE_GUIDE, aiId, TreeType.GROUP)) {
+				buffer.append(FOLDER_NOT_LAZY);
+				buffer.append(COMMA);
+				buffer.append(EXPANDED);
+				buffer.append(COMMA);
+				buffer.append(CHILDREN);
+				buffer.append(generateEadFolderTreeJSON(alTreeParams, AlType.SOURCE_GUIDE, archivalLandscapeUtil, aiId,
+						parentSelectedTemp));
+			} else {
+				buffer.append(FOLDER_LAZY);
+			}
+			buffer.append(END_ITEM);
+			if (otherFindingAidExists) {
+				buffer.append(COMMA);
+			}
+
+		}
+		// Adding the Other Finding Aid folder and children
+		if (otherFindingAidExists) {
+			buffer.append(START_ITEM);
+			addTitleFromKey(buffer, "text.other.finding.aid.folder", archivalLandscapeUtil.getLocale());
+			buffer.append(COMMA);
+			if (parentSelected || alTreeParams.existInSelectedNodes(AlType.FINDING_AID, aiId, TreeType.GROUP)) {
+				buffer.append(SELECTED);
+				buffer.append(COMMA);
+				parentSelectedTemp = true;
+			}
+			buffer.append(NOT_CHECKBOX);
+			buffer.append(COMMA);
+			addKey(buffer, AlType.FINDING_AID, aiId, TreeType.GROUP);
+			buffer.append(COMMA);
+			if (alTreeParams.existInExpandedNodes(AlType.FINDING_AID, aiId, TreeType.GROUP)) {
+				buffer.append(FOLDER_NOT_LAZY);
+				buffer.append(COMMA);
+				buffer.append(EXPANDED);
+				buffer.append(COMMA);
+				buffer.append(CHILDREN);
+				// buffer.append(generateArchivalInstitutionsFAContentFolderTreeJSON(navigationTree,
+				// ArchivalInstitutionUnit.getFindingAidsNotLinkedBySegment(key,
+				// 0, MAX_NUMBER_OF_CLEVELS + 1),
+				// key, MAX_NUMBER_OF_CLEVELS, selectedNodes, expandedNodes,
+				// false, parentSelectedTemp));
+			} else {
+				buffer.append(FOLDER_LAZY);
+			}
+			buffer.append(END_ITEM);
 
 		}
 		buffer.append(END_ARRAY);
 		return buffer;
 	}
 
-	private StringBuilder generateArchivalInstitutionsHGFAFoldersTreeJSON(NavigationTree navigationTree,
-			Long numberOfHoldingsGuide, Long numberOfFindingAidsNotLinked, Integer key, String[] expandedNodes,
-			String[] selectedNodes, boolean parentSelected) {
+	// This method shows all the HG within Holdings Guide folder and the same
+	// for Source guide
 
+	private StringBuilder generateEadFolderTreeJSON(AlTreeParams alTreeParams, AlType alType,
+			ArchivalLandscapeUtil archivalLandscapeUtil, Integer parentAiId, boolean parentSelected) {
+		Locale locale = archivalLandscapeUtil.getLocale();
+		Integer aiId = parentAiId;
+		if (aiId == null) {
+			aiId = AlType.getId(alTreeParams.getParentId());
+		}
+
+		Ead eadExample = null;
+		if (AlType.HOLDINGS_GUIDE.equals(alType)) {
+			eadExample = new HoldingsGuide();
+		} else if (AlType.SOURCE_GUIDE.equals(alType)) {
+			eadExample = new SourceGuide();
+		}
+		eadExample.setAiId(aiId);
+		eadExample.setSearchable(true);
+		List<Ead> eads = eadDAO.getEads(eadExample, 0, MAX_NUMBER_OF_CLEVELS);
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append(START_ARRAY);
-		boolean parentSelectedTemp = false;
-		// Adding the Holdings Guide folder and children
-		if (numberOfHoldingsGuide > 0) {
+		for (int i = 0; i < eads.size(); i++) {
+			Ead ead = eads.get(i);
 			buffer.append(START_ITEM);
-			addTitle(buffer, navigationTree.getResourceBundleSource().getString("text.holdings.guide.folder"), null);
+			addTitle(buffer, ead.getTitle(), locale);
 			buffer.append(COMMA);
-			if ((selectedNodes != null && selectedNodes.length > 0 && ArrayUtils.contains(selectedNodes, "hgfolder_"
-					+ key))
-					|| parentSelected) {
-				buffer.append(SELECTED);
+			addAiId(buffer, aiId);
+			buffer.append(COMMA);
+			addKey(buffer, alType, ead.getId(), TreeType.LEAF);
+			if (parentSelected || alTreeParams.existInSelectedNodes(alType, ead.getId(), TreeType.LEAF)) {
 				buffer.append(COMMA);
-				parentSelectedTemp = true;
+				buffer.append(SELECTED);
 			}
-			buffer.append(NOT_CHECKBOX);
 			buffer.append(COMMA);
-			addKey(buffer, key, "hg_folder");
-			buffer.append(COMMA);
-			// buffer.append(COMMA);
-			// buffer.append(NO_LINK);
-			if (expandedNodes != null && expandedNodes.length > 0
-					&& ArrayUtils.contains(expandedNodes, "hgfolder_" + key)) {
+			addPreviewId(buffer, ead.getId(), XmlType.getEadType(ead));
+			if (alTreeParams.existInExpandedNodes(alType, ead.getId(), TreeType.LEAF)) {
+				buffer.append(COMMA);
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
 				buffer.append(EXPANDED);
 				buffer.append(COMMA);
 				buffer.append(CHILDREN);
-				buffer.append(generateArchivalInstitutionsHGContentFolderTreeJSON(navigationTree,
-						ArchivalInstitutionUnit.getHoldingsGuide(key), expandedNodes, selectedNodes, parentSelectedTemp));
+				// buffer.append(generateArchivalInstitutionsHGContentTreeJSON(navigationTree,
+				// HoldingsGuideUnit
+				// .getTopCLevels(holdingsGuideList.get(i).getHgId(), 0,
+				// MAX_NUMBER_OF_CLEVELS + 1),
+				// holdingsGuideList.get(i).getHgId(), MAX_NUMBER_OF_CLEVELS,
+				// "hg", expandedNodes,
+				// selectedNodes, false, parentSelected));
 			} else {
+				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 			}
 			buffer.append(END_ITEM);
-			if (numberOfFindingAidsNotLinked > 0) {
+			if (i < eads.size() - 1) {
 				buffer.append(COMMA);
 			}
-
-		}
-
-		// Adding the Other Finding Aid folder and children
-		if (numberOfFindingAidsNotLinked > 0) {
-			buffer.append(START_ITEM);
-			addTitle(buffer, navigationTree.getResourceBundleSource().getString("text.other.finding.aid.folder"), null);
-			buffer.append(COMMA);
-			if ((selectedNodes != null && selectedNodes.length > 0 && ArrayUtils.contains(selectedNodes, "fafolder_"
-					+ key))
-					|| parentSelected) {
-				buffer.append(SELECTED);
-				buffer.append(COMMA);
-				parentSelectedTemp = true;
-			}
-			buffer.append(NOT_CHECKBOX);
-			buffer.append(COMMA);
-			addKey(buffer, key, "fa_folder");
-			buffer.append(COMMA);
-			if (expandedNodes != null && expandedNodes.length > 0
-					&& ArrayUtils.contains(expandedNodes, "fafolder_" + key)) {
-				buffer.append(FOLDER_NOT_LAZY);
-				buffer.append(COMMA);
-				buffer.append(EXPANDED);
-				buffer.append(COMMA);
-				buffer.append(CHILDREN);
-				buffer.append(generateArchivalInstitutionsFAContentFolderTreeJSON(navigationTree,
-						ArchivalInstitutionUnit.getFindingAidsNotLinkedBySegment(key, 0, MAX_NUMBER_OF_CLEVELS + 1),
-						key, MAX_NUMBER_OF_CLEVELS, selectedNodes, expandedNodes, false, parentSelectedTemp));
-			} else {
-				buffer.append(FOLDER_LAZY);
-			}
-			// buffer.append(COMMA);
-			// buffer.append(NO_LINK);
-			buffer.append(END_ITEM);
-
 		}
 
 		buffer.append(END_ARRAY);
 		return buffer;
+	}
 
+	private StringBuilder generateCLevelsJSON(AlTreeParams alTreeParams, AlType alType,
+			ArchivalLandscapeUtil archivalLandscapeUtil, List<CLevel> clevels, String parentKey, String parentTreeType,
+			Integer aiId, Integer start, boolean sibling, boolean parentSelected) {
+		StringBuilder buffer = new StringBuilder();
+		Integer numberOfCLevelsToShow = null;
+		AlType parentAlType = AlType.getType(parentKey);
+		Integer parentId = AlType.getId(parentKey);
+		int i;
+		if (!sibling) {
+			buffer.append(START_ARRAY);
+		}
+		// Adding the top c-level children to Holdings Guide
+		// We are going to use pagination, so only a maximum number of c_levels
+		// is going to be displayed
+		if (clevels.size() > 0) {
+
+			if (clevels.size() > MAX_NUMBER_OF_CLEVELS) {
+				numberOfCLevelsToShow = MAX_NUMBER_OF_CLEVELS;
+			} else {
+				numberOfCLevelsToShow = clevels.size();
+			}
+
+			for (i = 0; i <= numberOfCLevelsToShow - 1; i++) {
+				CLevel clevel = clevels.get(i);
+				buffer.append(START_ITEM);
+				addTitle(buffer, clevel.getUnittitle(), archivalLandscapeUtil.getLocale());
+				buffer.append(COMMA);
+				if (clevel.isLeaf()) {
+					// The node is a Finding Aid
+					
+					Integer faId = eadDAO.isEadidIndexed(clevel.getHrefEadid(), aiId, FindingAid.class);
+					System.out.println(clevel.getHrefEadid() + " " + aiId + " maps: " + faId);
+					if (faId == null) {
+						// The Finding Aid is not indexed, so it can not be
+						// selectable
+						buffer.append(NOT_CHECKBOX);
+						buffer.append(COMMA);
+						addPreviewCId(buffer, clevel.getClId());
+					} else {
+						addKey(buffer, AlType.FINDING_AID, faId, TreeType.LEAF);
+						buffer.append(COMMA);
+						addPreviewCId(buffer, clevel.getClId());
+						if (parentSelected
+								|| alTreeParams.existInSelectedNodes(AlType.C_LEVEL, clevel.getClId(), TreeType.LEAF)) {
+							buffer.append(COMMA);
+							buffer.append(SELECTED);
+						}
+					}
+
+				} else {
+					// The node is a group (series, subseries) within the
+					// Holdings Guide
+					addKey(buffer, AlType.C_LEVEL, clevel.getClId(), TreeType.GROUP);
+					buffer.append(COMMA);
+					addAiId(buffer, aiId);
+					if (parentSelected
+							|| alTreeParams.existInSelectedNodes(AlType.C_LEVEL, clevel.getClId(), TreeType.GROUP)) {
+						buffer.append(COMMA);
+						buffer.append(FOLDER_NOT_LAZY);
+						buffer.append(COMMA);
+						buffer.append(EXPANDED);
+						buffer.append(COMMA);
+						buffer.append(CHILDREN);
+						// buffer.append(generateArchivalInstitutionsHGContentTreeJSON(navigationTree,
+						// HoldingsGuideUnit
+						// .getCLevels(clevels.get(i).getcLevelId(), 0,
+						// MAX_NUMBER_OF_CLEVELS + 1), clevels
+						// .get(i).getcLevelId().intValue(),
+						// MAX_NUMBER_OF_CLEVELS, "hggroup", expandedNodes,
+						// selectedNodes, false, parentSelected));
+					} else {
+						buffer.append(COMMA);
+						buffer.append(FOLDER_LAZY);
+					}
+					buffer.append(COMMA);
+					buffer.append(NOT_CHECKBOX);
+					// buffer.append(COMMA);
+					// buffer.append(NO_LINK);
+				}
+				buffer.append(END_ITEM);
+				if (i < clevels.size() - 1) {
+					buffer.append(COMMA);
+				}
+			}
+
+			if (clevels.size() > MAX_NUMBER_OF_CLEVELS) {
+				// if (expandedNodes != null
+				// && expandedNodes.length > 0
+				// && ArrayUtils.contains(expandedNodes,
+				// "hggroupmore_" + parentId.toString() + "_" +
+				// from.toString())) {
+				if (alTreeParams.existInExpandedNodes(parentAlType, parentId, TreeType.GROUP, start)) {
+					// buffer.append(generateArchivalInstitutionsHGContentTreeJSON(navigationTree,
+					// HoldingsGuideUnit
+					// .getCLevels(Long.parseLong(parentId.toString()), from,
+					// MAX_NUMBER_OF_CLEVELS + 1),
+					// parentId, from + MAX_NUMBER_OF_CLEVELS, "hggroupmore",
+					// expandedNodes, selectedNodes, true,
+					// parentSelected));
+				} else {
+					// There are more c_levels to show, so it is necessary to
+					// display a More after... node
+					buffer.append(START_ITEM);
+					addMore(buffer, archivalLandscapeUtil.getLocale());
+					buffer.append(COMMA);
+					addKeyAndType(buffer, parentKey, parentTreeType);
+					buffer.append(COMMA);
+					addStart(buffer, start + MAX_NUMBER_OF_CLEVELS);
+					buffer.append(COMMA);
+					buffer.append(FOLDER_LAZY);
+					buffer.append(COMMA);
+					buffer.append(NOT_CHECKBOX);
+					// buffer.append(COMMA);
+					// buffer.append(NO_LINK);
+					buffer.append(END_ITEM);
+				}
+			}
+
+		}
+		if (!sibling) {
+			buffer.append(END_ARRAY);
+		}
+		return buffer;
 	}
 
 	// This method shows all the FA not linked within Other Finding Aid folder
@@ -475,23 +678,21 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				}
 				buffer.append(COMMA);
 				addPreviewId(buffer, holdingsGuideList.get(i).getHgId(), XmlType.EAD_HG);
-				if (holdingsGuideList.get(i).getHasNestedElements()) {
-					if (expandedNodes != null && expandedNodes.length > 0
-							&& ArrayUtils.contains(expandedNodes, "hg_" + holdingsGuideList.get(i).getHgId())) {
-						buffer.append(COMMA);
-						buffer.append(FOLDER_NOT_LAZY);
-						buffer.append(COMMA);
-						buffer.append(EXPANDED);
-						buffer.append(COMMA);
-						buffer.append(CHILDREN);
-						buffer.append(generateArchivalInstitutionsHGContentTreeJSON(navigationTree, HoldingsGuideUnit
-								.getTopCLevels(holdingsGuideList.get(i).getHgId(), 0, MAX_NUMBER_OF_CLEVELS + 1),
-								holdingsGuideList.get(i).getHgId(), MAX_NUMBER_OF_CLEVELS, "hg", expandedNodes,
-								selectedNodes, false, parentSelected));
-					} else {
-						buffer.append(COMMA);
-						buffer.append(FOLDER_LAZY);
-					}
+				if (expandedNodes != null && expandedNodes.length > 0
+						&& ArrayUtils.contains(expandedNodes, "hg_" + holdingsGuideList.get(i).getHgId())) {
+					buffer.append(COMMA);
+					buffer.append(FOLDER_NOT_LAZY);
+					buffer.append(COMMA);
+					buffer.append(EXPANDED);
+					buffer.append(COMMA);
+					buffer.append(CHILDREN);
+					buffer.append(generateArchivalInstitutionsHGContentTreeJSON(navigationTree, HoldingsGuideUnit
+							.getTopCLevels(holdingsGuideList.get(i).getHgId(), 0, MAX_NUMBER_OF_CLEVELS + 1),
+							holdingsGuideList.get(i).getHgId(), MAX_NUMBER_OF_CLEVELS, "hg", expandedNodes,
+							selectedNodes, false, parentSelected));
+				} else {
+					buffer.append(COMMA);
+					buffer.append(FOLDER_LAZY);
 				}
 				buffer.append(END_ITEM);
 				if (i < holdingsGuideList.size() - 1) {
@@ -596,11 +797,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(START_ITEM);
 					addMore(buffer, locale);
 					buffer.append(COMMA);
-					if (parentNodeType == "hggroup" || parentNodeType == "hggroupmore") {
-						addKeyMore(buffer, parentId, from, "hg_group_more");
-					} else if (parentNodeType == "hg" || parentNodeType == "hgmore") {
-						addKeyMore(buffer, parentId, from, "hg_more");
-					}
+					addStart(buffer, from + MAX_NUMBER_OF_CLEVELS);
 					buffer.append(COMMA);
 					buffer.append(FOLDER_LAZY);
 					buffer.append(COMMA);
@@ -640,14 +837,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	private StringBuilder buildResponse(NavigationTree navigationTree, String nodeId, String keyNode)
 			throws NumberFormatException, IOException {
 		StringBuilder tempString = new StringBuilder();
-		if (nodeId.startsWith("aicontent_")) {
-			// The node expanded is an Archival Institution, so
-			// it is necessary to check its HG and FA
-			tempString = generateArchivalInstitutionsHGFAFoldersTreeJSON(navigationTree,
-					ArchivalInstitutionUnit.countHoldingsGuide(Integer.parseInt(keyNode)),
-					ArchivalInstitutionUnit.countFindingAidsNotLinked(Integer.parseInt(keyNode)),
-					Integer.parseInt(keyNode), null, null, false);
-		} else if (nodeId.startsWith("fafolder_")) {
+		if (nodeId.startsWith("fafolder_")) {
 			// The node expanded is the Other Finding Aids folder (those FA
 			// which don't have a link to any HG)
 			tempString = generateArchivalInstitutionsFAContentFolderTreeJSON(navigationTree,
@@ -704,10 +894,25 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		addTitle(null, buffer, title, locale);
 	}
 
-	private static void addKey(StringBuilder buffer, AlType alType, Integer key, TreeType treeType) {
-		buffer.append("\"key\":\"" + alType + key + "\"");
+	private void addAiId(StringBuilder buffer, Integer aiId) {
+		buffer.append("\"aiId\":\"" + aiId + "\"");
+	}
+
+	private void addTitleFromKey(StringBuilder buffer, String titleKey, Locale locale) {
+		addTitle(null, buffer, this.getMessageSource().getMessage(titleKey, null, locale), locale);
+	}
+
+	private static void addKey(StringBuilder buffer, AlType alType, Number id, TreeType treeType) {
+		buffer.append("\"key\":\"" + AlType.getKey(alType, id) + "\"");
 		buffer.append(COMMA);
 		buffer.append("\"type\":\"" + treeType + "\"");
+
+	}
+
+	private static void addKeyAndType(StringBuilder buffer, String key, String type) {
+		buffer.append("\"key\":\"" + key + "\"");
+		buffer.append(COMMA);
+		buffer.append("\"type\":\"" + type + "\"");
 
 	}
 

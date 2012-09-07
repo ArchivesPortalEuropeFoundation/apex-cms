@@ -17,5 +17,5 @@
 	<bean id="cLevelDAO" class="eu.apenet.persistence.hibernate.CLevelHibernateDAO"/>
 	<bean id="eadContentDAO" class="eu.apenet.persistence.hibernate.EadContentHibernateDAO"/>
 	<bean id="eadDAO" class="eu.apenet.persistence.hibernate.EadHibernateDAO"/>
-
+	<bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
 </beans>

@@ -464,10 +464,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 
 
-	private static void addStart(StringBuilder buffer, Integer start) {
-		buffer.append("\"start\":");
-		buffer.append(" \"" + start + "\"");
-	}
+
 
 	private static void addSearchResult(StringBuilder buffer) {
 		buffer.append("\"searchResult\":");

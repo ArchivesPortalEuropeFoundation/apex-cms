@@ -313,17 +313,20 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		// Function to load only the part of the tree that the
 		// user wants to expand
 		onLazyRead : function(node) {
-			$("#expandedNodes").append("<option value='" + node.data.key + "' selected='selected'></option>");
+			$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + "' selected='selected'></option>");
 		
-			var typeNode = new String(node.data.key);
+			var typeNode = new String(node.data.type);
 			typeNode = typeNode.substring(0, typeNode.indexOf('_'));
-			if (node.data.type == "more"){
+			if (node.data.more == "true"){
+				$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + ":" + node.data.start + "' selected='selected'></option>");
 				var moreNode = node;
 				node.parent.appendAjaxWithoutRemove({
 					url : archivalLandscapeUrl,
 					data : {
 						parentId : node.data.key,
-						type : node.data.type
+						type : node.data.type,
+						aiId: node.data.aiId,
+						start: node.data.start
 					},
 					success : function(node) {
 						// This function is activated
@@ -341,11 +344,13 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				// Navigation Tree
 				node.remove();
 			}else {
+				$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + "' selected='selected'></option>");
 				node.appendAjax({
 					url : archivalLandscapeUrl,
 					data : {
 						parentId : node.data.key,
-						type : node.data.type
+						type : node.data.type,
+						aiId: node.data.aiId
 					},
 					success : function(node) {
 						// This function is activated

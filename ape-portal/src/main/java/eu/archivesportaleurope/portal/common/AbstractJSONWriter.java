@@ -131,4 +131,8 @@ public abstract class AbstractJSONWriter {
 	protected static void addExpand(StringBuilder buffer) {
 		buffer.append("\"expand\":true");
 	}
+	protected static void addStart(StringBuilder buffer, Integer start) {
+		buffer.append("\"start\":");
+		buffer.append(" \"" + start + "\"");
+	}
 }
