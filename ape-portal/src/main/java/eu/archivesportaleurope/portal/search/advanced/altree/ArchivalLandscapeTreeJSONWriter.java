@@ -488,7 +488,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					// The node is a Finding Aid
 					
 					Integer faId = eadDAO.isEadidIndexed(clevel.getHrefEadid(), aiId, FindingAid.class);
-					System.out.println(clevel.getHrefEadid() + " " + aiId + " maps: " + faId);
 					if (faId == null) {
 						// The Finding Aid is not indexed, so it can not be
 						// selectable
