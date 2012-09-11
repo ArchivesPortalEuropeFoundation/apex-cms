@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
+import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
 
 /**

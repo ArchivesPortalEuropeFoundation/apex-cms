@@ -17,6 +17,7 @@
 <portlet:resourceURL var="generateNavigatedTreeAiUrl" id="generateNavigatedTreeAi" />
 <portlet:resourceURL var="generateNavigatedTreeAiContentUrl" id="generateNavigatedTreeAiContent" />
 <portlet:resourceURL var="displayPreviewUrl" id="displayPreview"/>
+<portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
 
 <c:choose>
 	<c:when test="${!empty renderRequest.preferences.map.eadDisplayPageId and !empty renderRequest.preferences.map.eadDisplayPortletName}">
@@ -24,15 +25,19 @@
 			$(document).ready(function() {
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}" );
 				init();
-				initNavigatedTree("${navigatedTreeUrl}", "${generateNavigatedTreeAiUrl}", "${generateNavigatedTreeAiContentUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
+				initArchivalLandscapeTree("${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 			});
 		</script>
 		<div id="advancedSearchPortlet">
+			<div id="test1"></div>
+			<div id="test2"></div>
+			<div id="test3"></div>
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
 				<form:hidden id="advanced" path="advanced" />
-		
+				<form:hidden id="selectedNodes" path="selectedNodes"/>
+				<form:hidden id="expandedNodes" path="expandedNodes"/>		
 				<div id="navigatedSearch">
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
 						<fmt:message key="advancedsearch.title.navigatedsearch" />
@@ -42,7 +47,7 @@
 							<fmt:message key="advancedsearch.subtitle.navigatedsearch" />
 						</div>
 						<div id="archivalLandscapeTree" class="treeWithPreview"></div>
-							<form:select id="navigationTreeNodesSelected" path="navigationTreeNodesSelected" multiple="true" cssClass="hidden"/>
+
 						<div id="al-preview"  class="preview-container">
 				
 						</div>

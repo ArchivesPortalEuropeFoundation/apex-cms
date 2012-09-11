@@ -43,15 +43,8 @@
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
-		
- 		<c:forEach var="selectedNode" items="${advancedSearch.navigationTreeNodesSelected}">
-			<input type="hidden" class="updateCurrentSearch_navigationTreeNodesSelected" name="navigationTreeNodesSelected" value="${selectedNode}"/>
-		
-		</c:forEach>
- 		<c:forEach var="expandedNode" items="${advancedSearch.expandedNodes}">
-			<input type="hidden" name="expandedNodes" value="${expandedNode}"/>
-		
-		</c:forEach>
+		<form:hidden id="updateCurrentSearch_selectedNodes" path="selectedNodes"/>
+		<form:hidden id="updateCurrentSearch_expandedNodes" path="expandedNodes"/>
 	<c:choose>
 		<c:when test="${advancedSearch.view == 'hierarchy'}">
 			<jsp:include page="results-contexttab.jsp"/>

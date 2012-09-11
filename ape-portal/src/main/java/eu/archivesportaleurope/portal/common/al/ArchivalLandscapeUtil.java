@@ -5,18 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.log4j.Logger;
-
 import eu.apenet.commons.ResourceBundleSource;
-import eu.apenet.commons.exceptions.APEnetException;
-import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.persistence.vo.Country;
 
 public class ArchivalLandscapeUtil {
-	private static final Logger LOGGER = Logger.getLogger(NavigationTree.class);
 	private ResourceBundleSource resourceBundleSource;
 
-	public ArchivalLandscapeUtil(ResourceBundleSource resourceBundleSource) throws APEnetException {
+	public ArchivalLandscapeUtil(ResourceBundleSource resourceBundleSource) {
 		this.resourceBundleSource = resourceBundleSource;
 	}
 
@@ -28,7 +23,7 @@ public class ArchivalLandscapeUtil {
 		return resourceBundleSource.getLocale();
 	}
 
-	public List<CountryUnit> localizeCountries(List<Country> countries) throws APEnetException {
+	public List<CountryUnit> localizeCountries(List<Country> countries) {
 		List<CountryUnit> countriesUnits = new ArrayList<CountryUnit>();
 		for (Country co : countries) {
 			String otherCountryName = resourceBundleSource.getString("country." + co.getCname().toLowerCase(),

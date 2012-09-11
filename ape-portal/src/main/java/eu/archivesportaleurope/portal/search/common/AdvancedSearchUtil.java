@@ -10,6 +10,7 @@ import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.solr.SolrFields;
+import eu.archivesportaleurope.portal.common.al.AlType;
 
 public final class AdvancedSearchUtil {
 
@@ -235,5 +236,40 @@ public final class AdvancedSearchUtil {
 			return defaultValue;
 		}
 
+	}
+	public static void addSelectedNodesToQuery(List<String> selectedNodes, SolrQueryParameters solrQueryParameters){
+		if (selectedNodes != null) {
+			// Adding the ids of the Finding Aid selected for searching
+			List<String> faHgIdsSelected = new ArrayList<String>();
+			List<String> archivalInstitutionsIdsSelected = new ArrayList<String>();
+			List<String> countriesSelected = new ArrayList<String>();
+			for (String item: selectedNodes){
+				AlType alType = AlType.getAlType(item);
+				Long id = AlType.getId(item);
+				if (AlType.COUNTRY.equals(alType)){
+					countriesSelected.add(id.toString());				
+				}else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
+					archivalInstitutionsIdsSelected.add(id.toString());				
+				}else if (AlType.FINDING_AID.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
+				}else if (AlType.SOURCE_GUIDE.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
+				}else if (AlType.HOLDINGS_GUIDE.equals(alType)){
+					faHgIdsSelected.add(alType.toString() + id);
+				}
+			}
+
+
+			if (countriesSelected.size() > 0) {
+				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
+						countriesSelected);
+			}
+			if (archivalInstitutionsIdsSelected.size() > 0) {
+				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,
+						archivalInstitutionsIdsSelected);
+			}
+
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
+		}
 	}
 }

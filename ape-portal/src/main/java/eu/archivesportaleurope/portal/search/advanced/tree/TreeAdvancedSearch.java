@@ -8,19 +8,12 @@ public class TreeAdvancedSearch extends AdvancedSearch {
 	 * 
 	 */
 	private static final long serialVersionUID = -8551327027173370522L;
-	private String selectedNodes;
 	private String searchType;
 	private String start;
 	private String parentId;
 	private String level;
 
-	public String getSelectedNodes() {
-		return selectedNodes;
-	}
 
-	public void setSelectedNodes(String selectedNodes) {
-		this.selectedNodes = selectedNodes;
-	}
 
 	public String getSearchType() {
 		return searchType;

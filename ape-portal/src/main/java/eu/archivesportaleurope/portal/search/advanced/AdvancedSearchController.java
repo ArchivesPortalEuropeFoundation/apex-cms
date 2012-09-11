@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -25,9 +24,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
-import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
 import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
@@ -35,7 +32,6 @@ import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
-import eu.archivesportaleurope.portal.search.common.SearchUtils;
 import eu.archivesportaleurope.portal.search.common.Searcher;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
@@ -211,132 +207,13 @@ public class AdvancedSearchController {
 	}
 
 	protected void handleSearchParameters(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters) {
-		if (advancedSearch.getNavigationTreeNodesSelected() != null) {
-			String tmpResult = "";
-			List<String> tmpList = advancedSearch.getNavigationTreeNodesSelected();
-			if (tmpList != null) {
-				for (int i = 0; i < tmpList.size(); i++) {
-					tmpResult = tmpResult + tmpList.get(i);
-					if (i < tmpList.size() - 1) {
-						tmpResult = tmpResult + ",";
-					}
-				}
-			}
-			advancedSearch.setNavigationTreeNodesSelectedSerialized(tmpResult);
-		} 
-//		else {
-//			if (session.get(NAVIGATION_TREE_NODES_SELECTED_KEY) != null) {
-//				String navigationTreeNodesSelectedStringSession = (String) session
-//						.get(NAVIGATION_TREE_NODES_SELECTED_KEY);
-//				List<String> navigationTreeNodesSelected = null;
-//				String[] tmpAuxList = null;
-//				tmpAuxList = navigationTreeNodesSelectedStringSession.split(",");
-//				navigationTreeNodesSelected = Arrays.asList(tmpAuxList);
-//				setNavigationTreeNodesSelected(navigationTreeNodesSelected);
-//				session.remove(NAVIGATION_TREE_NODES_SELECTED_KEY);
-//			}
-//		}
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("navigationTreeNodesSelected: " + advancedSearch.getNavigationTreeNodesSelected());
-		}
-		if (advancedSearch.getExpandedNodes() != null) {
-			String tmpResult = "";
-			List<String> tmpList = advancedSearch.getExpandedNodes();
-			if (tmpList != null) {
-				for (int i = 0; i < tmpList.size(); i++) {
-					tmpResult = tmpResult + tmpList.get(i);
-					if (i < tmpList.size() - 1) {
-						tmpResult = tmpResult + ",";
-					}
-				}
-			}
-			advancedSearch.setExpandedNodesSerialized(tmpResult);
-		} 
-//		else {
-//			if (session.get(EXPANDED_NODES_SELECTED_KEY) != null) {
-//				String expandedNodesStringSession = (String) session.get(EXPANDED_NODES_SELECTED_KEY);
-//				List<String> expandedNodes = null;
-//				String[] tmpAuxList = null;
-//				tmpAuxList = expandedNodesStringSession.split(",");
-//				expandedNodes = Arrays.asList(tmpAuxList);
-//				setExpandedNodes(expandedNodes);
-//				session.remove(EXPANDED_NODES_SELECTED_KEY);
-//			}
-//		}
-		List<String> countriesSelectedForSearchId = new ArrayList<String>();
-		List<String> archivalInstitutionsSelectedForSearchId = new ArrayList<String>();
-		List<String> holdingsGuideSelectedForSearchId = new ArrayList<String>();
-		List<String> findingAidsSelectedForSearchId = new ArrayList<String>();
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 				advancedSearch.getTypedocument());
 		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());
 		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(), advancedSearch.hasExactDateSearch());
 
+		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 
-		if (advancedSearch.getNavigationTreeNodesSelected() != null) {
-			// Adding the ids of the Finding Aid selected for searching
-			List<String> faHgIdsSelected = new ArrayList<String>();
-			List<String> archivalInstitutionsIdsSelected = new ArrayList<String>();
-			List<String> countriesSelected = new ArrayList<String>();
-			for (String item: advancedSearch.getNavigationTreeNodesSelected()){
-				AlType alType = AlType.getType(item);
-				Integer id = AlType.getId(item);
-				if (AlType.COUNTRY.equals(alType)){
-					countriesSelected.add(id.toString());				
-				}else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
-					archivalInstitutionsIdsSelected.add(id.toString());				
-				}else if (AlType.FINDING_AID.equals(alType)){
-					faHgIdsSelected.add(alType.toString() + id);
-				}else if (AlType.SOURCE_GUIDE.equals(alType)){
-					faHgIdsSelected.add(alType.toString() + id);
-				}else if (AlType.HOLDINGS_GUIDE.equals(alType)){
-					faHgIdsSelected.add(alType.toString() + id);
-				}
-			}
-
-//			if (findingAidsSelectedForSearchId != null) {
-//				for (int i = 0; i < findingAidsSelectedForSearchId.size(); i++) {
-//					faHgIdsSelected.add(SolrValues.FA_PREFIX + findingAidsSelectedForSearchId.get(i));
-//				}
-//			}
-//
-//			// Adding the ids of the Holdings Guide selected for searching
-//			if (holdingsGuideSelectedForSearchId != null) {
-//				for (int i = 0; i < holdingsGuideSelectedForSearchId.size(); i++) {
-//					faHgIdsSelected.add(SolrValues.HG_PREFIX + holdingsGuideSelectedForSearchId.get(i));
-//				}
-//			}
-//
-//
-//			// Adding the ids of the Countries selected for searching
-//			if (countriesSelectedForSearchId != null) {
-//				for (int i = 0; i < countriesSelectedForSearchId.size(); i++) {
-//					countriesSelected.add(countriesSelectedForSearchId.get(i));
-//				}
-//			}
-//
-//			// Adding the ids of the Archival Institutions selected for
-//			// searching
-//			if (archivalInstitutionsSelectedForSearchId != null) {
-//				for (int i = 0; i < archivalInstitutionsSelectedForSearchId.size(); i++) {
-//					if (!archivalInstitutionsIdsSelected.contains(Integer
-//							.parseInt(archivalInstitutionsSelectedForSearchId.get(i)))) {
-//						archivalInstitutionsIdsSelected.add(archivalInstitutionsSelectedForSearchId.get(i));
-//					}
-//				}
-//			}
-
-			if (countriesSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
-						countriesSelected);
-			}
-			if (archivalInstitutionsIdsSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,
-						archivalInstitutionsIdsSelected);
-			}
-
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
-		}
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 
 		solrQueryParameters.setTerm(advancedSearch.getTerm());

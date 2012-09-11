@@ -68,13 +68,6 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 }
 
 function getSearchTreeData(dtnode) {
-	var selectedNodes = "";
-	$(".updateCurrentSearch_navigationTreeNodesSelected").each(function(index, elem) {
-		if (index != 0) {
-			selectedNodes += ",";
-		}
-		selectedNodes += elem.value;
-	});
 	return {
 		term : $("#updateCurrentSearch_term").val(),
 		element : $("#updateCurrentSearch_element").val(),
@@ -90,180 +83,9 @@ function getSearchTreeData(dtnode) {
 		searchType : dtnode.data.searchType,
 		start : dtnode.data.start,
 		fondId : dtnode.data.fondId,
-		selectedNodes : selectedNodes
+		selectedNodes : $("#updateCurrentSearch_selectedNodes").val()
 	};
 }
-function initNavigatedTree(navigatedTreeUrl, generateNavigatedTreeAiUrl, generateNavigatedTreeAiContentUrl, previewUrl,
-		namespace) {
-	$("#advancedSearchPortlet #navigatedTree")
-			.dynatree(
-					{
-						// Navigated Search Tree for Countries, Archival
-						// Institution Groups,Archival Institutions, Holdings
-						// Guide and Finding Aid configuration
-						title : "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
-						// rootVisible: false,
-						fx : {
-							height : "toggle",
-							duration : 200
-						},
-						checkbox : true,
-						autoFocus : false,
-						keyboard : true,
-						selectMode : 3,
-
-						// Handleing events
-
-						// Tree initialization
-						initAjax : {
-							url : navigatedTreeUrl,
-							data : {
-								expandedNodes : function() {
-									var elements = "";
-									$("#expandedNodes option").each(function(index, elem) {
-										if (index != 0) {
-											elements += ",";
-										}
-										elements += elem.value;
-									});
-									return elements;
-								},
-								selectedNodes : function() {
-									var elements = "";
-									$("#navigationTreeNodesSelected option").each(function(index, elem) {
-										if (index != 0) {
-											elements += ",";
-										}
-										elements += elem.value;
-									});
-									return elements;
-								}
-							}
-						},
-
-						// Function to load only the part of the tree that the
-						// user wants to expand
-						onLazyRead : function(node) {
-							$("#expandedNodes").append(
-									"<option value='" + node.data.key + "' selected='selected'></option>");
-							var typeNode = new String(node.data.key);
-							typeNode = typeNode.substring(0, typeNode.indexOf('_'));
-
-							if (typeNode == "country" || typeNode == "aigroup") {
-								// The node which the user has clicked is a
-								// country, an archival institution group or
-								// subgroup
-								node.appendAjax({
-									url : generateNavigatedTreeAiUrl,
-									data : {
-										nodeId : node.data.key
-									},
-									success : function(node) {
-										// This function is activated
-										// when the lazy read has been a
-										// success
-										// It is necessary to check the
-										// upcomming children if some of
-										// their
-										// parents are checked too
-										if (node.isSelected()) {
-											selectChildren(node);
-										}
-									}
-								});
-
-							} else if (typeNode == "hggroupmore" || typeNode == "hgmore" || typeNode == "fafoldermore") {
-								// The node which the user has clicked is More
-								// after... node, so it is necessary to expand
-								// the next results within the same parent node
-								var moreNode = node;
-								node.parent.appendAjaxWithoutRemove({
-									url : generateNavigatedTreeAiContentUrl,
-									data : {
-										nodeId : node.data.key
-									},
-									success : function(node) {
-										// This function is activated
-										// when the lazy read has been a
-										// success
-										// It is necessary to check the
-										// upcomming siblings if some of
-										// their
-										// parents are checked too
-										selectSiblings(moreNode);
-									}
-
-								});
-								// Finally, the node More... is removed from the
-								// Navigation Tree
-								node.remove();
-							} else {
-
-								// The node which the user has clicked is a
-								// normal node and a node within the content of
-								// an archival institution, so it is necessary
-								// to expand the results in a nested level
-								node.appendAjax({
-									url : generateNavigatedTreeAiContentUrl,
-									data : {
-										nodeId : node.data.key
-									},
-									success : function(node) {
-										// This function is activated
-										// when the lazy read has been a
-										// success
-										// It is necessary to check the
-										// upcomming children if some of
-										// their
-										// parents are checked too
-										if (node.isSelected()) {
-											selectChildren(node);
-										}
-									}
-								});
-
-							}
-						},
-						// Function to open a new tab/window whan the user
-						// clicks a node which has an url attached
-						onActivate : function(node) {
-							if (node.data.previewId != undefined) {
-								var url = previewUrl + "&" + namespace + "id=" + node.data.previewId;
-								$("#al-preview").removeClass("preview-content preview-nocontent").addClass(
-										"preview-nocontent");
-								// var holderPosition = $(node.span).position();
-								// $("#al-preview-absolute").css("top",
-								// holderPosition.top + "px");
-								$.get(url, function(data) {
-									$("#al-preview").html(data);
-									if ($("#al-preview #realcontent").height() > $("#al-preview #content").height()) {
-										$("#al-preview #more-line").removeClass("hide-more-line").addClass(
-												"show-more-line");
-									}
-								});
-							} else {
-								$("#al-preview").removeClass("preview-content preview-nocontent");
-								$("#al-preview").html("");
-
-							}
-						},
-						onDeactivate : function(node) {
-							$("#al-preview").removeClass("preview-content preview-nocontent");
-							$("#al-preview").html("");
-						},
-
-						// When the user uses the spacebar, he/she will
-						// (de)select the checkbox
-						onKeydown : function(node, event) {
-							if (event.which == 32) {
-								node.toggleSelect();
-								return false;
-							}
-						}
-
-					});
-
-};
 
 function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) {
 	$("#advancedSearchPortlet #archivalLandscapeTree").dynatree({
@@ -287,46 +109,23 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		initAjax : {
 			url : archivalLandscapeUrl,
 			data : {
-				expandedNodes : function() {
-					var elements = "";
-					$("#expandedNodes option").each(function(index, elem) {
-						if (index != 0) {
-							elements += ",";
-						}
-						elements += elem.value;
-					});
-					return elements;
-				},
-				selectedNodes : function() {
-					var elements = "";
-					$("#navigationTreeNodesSelected option").each(function(index, elem) {
-						if (index != 0) {
-							elements += ",";
-						}
-						elements += elem.value;
-					});
-					return elements;
-				}
+				expandedNodes : $("#advancedSearchPortlet #expandedNodes").val(),
+				selectedNodes : $("#advancedSearchPortlet #selectedNodes").val()
 			}
 		},
 
 		// Function to load only the part of the tree that the
 		// user wants to expand
 		onLazyRead : function(node) {
-			$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + "' selected='selected'></option>");
-		
-			var typeNode = new String(node.data.type);
-			typeNode = typeNode.substring(0, typeNode.indexOf('_'));
+			//$("#expandedNodes").append("<option value='" + node.data.key + "' selected='selected'></option>");
 			if (node.data.more == "true"){
-				$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + ":" + node.data.start + "' selected='selected'></option>");
+				
 				var moreNode = node;
 				node.parent.appendAjaxWithoutRemove({
 					url : archivalLandscapeUrl,
 					data : {
-						parentId : node.data.key,
-						type : node.data.type,
-						aiId: node.data.aiId,
-						start: node.data.start
+						key : node.data.key,
+						aiId: node.data.aiId
 					},
 					success : function(node) {
 						// This function is activated
@@ -344,12 +143,10 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				// Navigation Tree
 				node.remove();
 			}else {
-				$("#expandedNodes").append("<option value='" + node.data.key + ":" + node.data.type + "' selected='selected'></option>");
 				node.appendAjax({
 					url : archivalLandscapeUrl,
 					data : {
-						parentId : node.data.key,
-						type : node.data.type,
+						key : node.data.key,
 						aiId: node.data.aiId
 					},
 					success : function(node) {
@@ -368,6 +165,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 			}
 
 		},
+
 		// Function to open a new tab/window whan the user
 		// clicks a node which has an url attached
 		onActivate : function(node) {
@@ -406,7 +204,23 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 	});
 
 };
+function getSelectedChildren(node){
+	var result = "";
+	var children = node.getChildren();
+	for ( var i = 0; i < children.length; i++) {
+		var child = children[i];
+		if (i > 0){
+			result = result + ",";
+		}
+		if (child.data.hideCheckbox){
+			result = getSelectedChildren(child);
+		}else {
+			result = result + child.data.key;
+		}
+	}
+	return result;
 
+}
 function selectChildren(node) {
 
 	var children = node.getChildren();
@@ -415,9 +229,7 @@ function selectChildren(node) {
 
 	while (notFound) {
 		typeNode = new String(nodeParent.data.key);
-		keyNode = new String(nodeParent.data.key);
-		typeNode = typeNode.substring(0, keyNode.indexOf('_'));
-		keyNode = keyNode.substring(keyNode.indexOf('_') + 1);
+		typeNode = typeNode.substring(0, typeNode.indexOf('_'));
 
 		if (nodeParent.isSelected) {
 			// If the parent is selected, then it is necessary to select the
@@ -449,9 +261,7 @@ function selectSiblings(node) {
 
 	while (notFound) {
 		typeNode = new String(nodeParent.data.key);
-		keyNode = new String(nodeParent.data.key);
-		typeNode = typeNode.substring(0, keyNode.indexOf('_'));
-		keyNode = keyNode.substring(keyNode.indexOf('_') + 1);
+		typeNode = typeNode.substring(0, typeNode.indexOf('_'));
 
 		if (nodeParent.isSelected()) {
 			// If the parent is selected, then it is necessary to select the
@@ -479,12 +289,19 @@ function selectSiblings(node) {
 
 function fillInputFromNavTree() {
 	var archivalLandscapeTree = $("#advancedSearchPortlet #archivalLandscapeTree").dynatree("getTree");
-	var selectedNodes = archivalLandscapeTree.getSelectedNodes(true);
-	var elementId = null;
-	$('#navigationTreeNodesSelected').empty();
-	// Second, all the nodes selected in the Navigation Tree are stored
-	for ( var i = 0; i < selectedNodes.length; i++) {
-		elementId = new Option(selectedNodes[i].data.key, selectedNodes[i].data.key, false, true);
-		$('#navigationTreeNodesSelected').append(elementId);
+	var selRootNodes = archivalLandscapeTree.getSelectedNodes(true);
+    var text = "";
+	for ( var i = 0; i < selRootNodes.length; i++) {
+		var selectedNode = selRootNodes[i];
+		if (i > 0){
+			text = text + ",";
+		}
+		if (selectedNode.data.hideCheckbox){
+			text = text + getSelectedChildren(selectedNode);
+		}else {
+			text = text + selectedNode.data.key;
+		}
+		
 	}
+	$("#advancedSearchPortlet #selectedNodes").val(text);
 }

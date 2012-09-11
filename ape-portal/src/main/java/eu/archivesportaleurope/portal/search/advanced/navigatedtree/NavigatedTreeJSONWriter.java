@@ -24,8 +24,8 @@ import eu.apenet.commons.infraestructure.FindingAidUnit;
 import eu.apenet.commons.infraestructure.HoldingsGuideUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.types.XmlType;
-import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
 /**
  * JSON Writer for the navigated tree

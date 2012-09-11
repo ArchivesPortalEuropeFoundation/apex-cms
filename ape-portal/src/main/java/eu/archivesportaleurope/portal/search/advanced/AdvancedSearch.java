@@ -47,20 +47,9 @@ public class AdvancedSearch implements Serializable {
 	private String valueIsKey;
 	private String hasId;
 	private List<ListFacetSettings> facetSettingsList = FacetType.getDefaultListFacetSettings();
-	private List<String> navigationTreeNodesSelected; // This list contains all
-	// the identifiers
-	// related to the nodes
-	// selected
-	// within the Navigation
-	// Tree to perform a
-	// search
-	private List<String> expandedNodes; // This list contains all the
-	// identifiers related to the "expanded"
-	// nodes selected
-	// within the Navigation Tree to perform a search
+	private String expandedNodes; // This list contains all the
+	private String selectedNodes;
 
-	private String navigationTreeNodesSelectedSerialized;
-	private String expandedNodesSerialized;
 
 	public String getMode() {
 		return mode;
@@ -154,7 +143,30 @@ public class AdvancedSearch implements Serializable {
 			return null;
 		}
 	}
+	public List<String> getSelectedNodesList(){
+		if (StringUtils.isNotBlank(selectedNodes)){
+			return Arrays.asList(selectedNodes.split(","));
+		}else {
+			return null;
+		}
+	}
 	
+	public String getExpandedNodes() {
+		return expandedNodes;
+	}
+
+	public void setExpandedNodes(String expandedNodes) {
+		this.expandedNodes = expandedNodes;
+	}
+
+	public String getSelectedNodes() {
+		return selectedNodes;
+	}
+
+	public void setSelectedNodes(String selectedNodes) {
+		this.selectedNodes = selectedNodes;
+	}
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -327,37 +339,6 @@ public class AdvancedSearch implements Serializable {
 		this.hasId = hasId;
 	}
 
-	public List<String> getNavigationTreeNodesSelected() {
-		return navigationTreeNodesSelected;
-	}
-
-	public void setNavigationTreeNodesSelected(List<String> navigationTreeNodesSelected) {
-		this.navigationTreeNodesSelected = navigationTreeNodesSelected;
-	}
-
-	public List<String> getExpandedNodes() {
-		return expandedNodes;
-	}
-
-	public void setExpandedNodes(List<String> expandedNodes) {
-		this.expandedNodes = expandedNodes;
-	}
-
-	public String getNavigationTreeNodesSelectedSerialized() {
-		return navigationTreeNodesSelectedSerialized;
-	}
-
-	public void setNavigationTreeNodesSelectedSerialized(String navigationTreeNodesSelectedSerialized) {
-		this.navigationTreeNodesSelectedSerialized = navigationTreeNodesSelectedSerialized;
-	}
-
-	public String getExpandedNodesSerialized() {
-		return expandedNodesSerialized;
-	}
-
-	public void setExpandedNodesSerialized(String expandedNodesSerialized) {
-		this.expandedNodesSerialized = expandedNodesSerialized;
-	}
 
 	public String getFacetSettings() {
 		String result = null;

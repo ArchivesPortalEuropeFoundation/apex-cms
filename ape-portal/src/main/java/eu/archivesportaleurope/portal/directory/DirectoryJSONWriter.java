@@ -19,8 +19,8 @@ import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.vo.EadContent;
-import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.ead.EadTreeParams;
 
 /**

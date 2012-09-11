@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.search.advanced.tree;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -27,9 +26,8 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
-import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
+import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.SearchUtils;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 
@@ -55,74 +53,15 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	@ResourceMapping(value = "contextTree")
 	public ModelAndView getJSON(@ModelAttribute(value = "advancedSearch")  TreeAdvancedSearch advancedSearch, ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		Locale locale = resourceRequest.getLocale();
-		List<String> navigationTreeNodesSelected = new ArrayList<String>();
-		List<String> countriesSelectedForSearchId = new ArrayList<String>();
-		List<String> archivalInstitutionsSelectedForSearchId = new ArrayList<String>();
-		List<String> holdingsGuideSelectedForSearchId = new ArrayList<String>();
-		List<String> findingAidsSelectedForSearchId = new ArrayList<String>();
 		
 		long startTime = System.currentTimeMillis();
 		
 		try {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			
-			if (advancedSearch.getSelectedNodes() != null) {
-				navigationTreeNodesSelected = Arrays.asList(advancedSearch.getSelectedNodes().split(","));	
-			}
-			else {
-				navigationTreeNodesSelected = null;
-			}
-			
-			if (navigationTreeNodesSelected != null) {
-				
-				SearchUtils.fillSelectedForSearchIdLists(navigationTreeNodesSelected, countriesSelectedForSearchId, archivalInstitutionsSelectedForSearchId, holdingsGuideSelectedForSearchId, findingAidsSelectedForSearchId);
-				
-				// Adding the ids of the Finding Aid selected for searching
-				List<String> faHgIdsSelected = new ArrayList<String>();
-				if (findingAidsSelectedForSearchId != null) {
-					for (int i = 0; i < findingAidsSelectedForSearchId.size(); i++) {
-						faHgIdsSelected.add(SolrValues.FA_PREFIX + findingAidsSelectedForSearchId.get(i));
-					}
-				}
-				
-				// Adding the ids of the Holdings Guide selected for searching
-				if (holdingsGuideSelectedForSearchId != null) {
-					for (int i = 0; i < holdingsGuideSelectedForSearchId.size(); i++) {
-						faHgIdsSelected.add(SolrValues.HG_PREFIX + holdingsGuideSelectedForSearchId.get(i));
-					}
-				}
-				
-				List<String> archivalInstitutionsIdsSelected = new ArrayList<String>();
-				List<String> countriesSelected = new ArrayList<String>();
-				// Adding the ids of the Countries selected for searching
-				if (countriesSelectedForSearchId != null) {
-					for (int i = 0; i < countriesSelectedForSearchId.size(); i ++) {
-						countriesSelected.add(countriesSelectedForSearchId.get(i));
-					}
-				}
-				
-				// Adding the ids of the Archival Institutions selected for searching
-				if (archivalInstitutionsSelectedForSearchId != null) {
-					for (int i = 0; i < archivalInstitutionsSelectedForSearchId.size(); i ++) {
-						if (!archivalInstitutionsIdsSelected.contains(Integer.parseInt(archivalInstitutionsSelectedForSearchId.get(i)))) {
-							archivalInstitutionsIdsSelected.add(archivalInstitutionsSelectedForSearchId.get(i));
-						}
-					}
-				}
-				
-				if (countriesSelected.size() > 0) {
-					AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,countriesSelected);
-				}			
-				if (archivalInstitutionsIdsSelected.size() > 0) {
-					AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,archivalInstitutionsIdsSelected);
-				}
-				
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
-			}
-			
-			
-			
-			
+
+			AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
+
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 					advancedSearch.getTypedocument());
 			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());

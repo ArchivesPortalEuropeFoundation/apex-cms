@@ -1,9 +1,10 @@
-package eu.archivesportaleurope.portal.common;
+package eu.archivesportaleurope.portal.common.tree;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.ResourceResponse;
@@ -77,6 +78,34 @@ public abstract class AbstractJSONWriter {
 		writer.flush();
 		writer.close();
 	}
+	protected static void writeToResponseAndClose(List<? extends TreeNode> treeNodes, ResourceResponse resourceResponse)
+			throws UnsupportedEncodingException, IOException {
+		Writer writer = getResponseWriter(resourceResponse);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(TreeNode.START_ARRAY);
+		boolean first = true;
+		for (TreeNode treeNode: treeNodes){
+			if (first){
+				first = false;
+			}else {
+				stringBuilder.append(TreeNode.COMMA);
+			}
+			stringBuilder.append(treeNode.toString());
+		}
+		stringBuilder.append(TreeNode.END_ARRAY);
+		writer.write(stringBuilder.toString());
+		writer.flush();
+		writer.close();
+	}
+	protected void addMore(TreeNode treeNode, Locale locale) {
+		addMore(treeNode,MORE_TEXT, "true", locale);
+
+	}
+	protected void addMore(TreeNode treeNode, String moreText, String moreType, Locale locale) {
+		String title = this.getMessageSource().getMessage(moreText, null, locale);
+		addTitle(treeNode, MORE_CLASS, title, locale);
+		treeNode.setMore(moreType);
+	}
 	protected void addMore(StringBuilder buffer, Locale locale) {
 		addMore(buffer,MORE_TEXT, "true", locale);
 
@@ -119,6 +148,26 @@ public abstract class AbstractJSONWriter {
 		}
 		buffer.append("\"");
 	}
+	protected static void addNoIcon(TreeNode dynaTreeNode) {
+	}
+	protected void addTitle(TreeNode dynaTreeNode, String styleClass, String title, Locale locale) {
+		String convertedTitle = convertTitle(title);
+		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
+		if (!hasTitle) {
+			if (styleClass == null){
+				styleClass = "notitle";
+			}else {
+				styleClass += " notitle";
+			}
+		}
+		dynaTreeNode.setCssClass(styleClass);
+	
+		if (hasTitle){
+			dynaTreeNode.setTitle(convertedTitle);
+		}else {
+			dynaTreeNode.setTitle(this.getMessageSource().getMessage(ADVANCEDSEARCH_TEXT_NOTITLE, null, locale));
+		}
+	}
 	protected String convertTitle(String string) {
 		String result = string;
 		if (result != null) {
@@ -134,5 +183,8 @@ public abstract class AbstractJSONWriter {
 	protected static void addStart(StringBuilder buffer, Integer start) {
 		buffer.append("\"start\":");
 		buffer.append(" \"" + start + "\"");
+	}
+	protected static void addStart(TreeNode node, Integer start) {
+		node.setStart(start);
 	}
 }

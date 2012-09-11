@@ -7,20 +7,12 @@ import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public class AlTreeParams {
-	private String parentId;
-	private String type;
+	private String key;
 	private String[] expandedNodes;
 	private String[] selectedNodes;
 	private Integer aiId;
-	private Integer start = 0;
 
-	public String getParentId() {
-		return parentId;
-	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
 	
 	public boolean existInSelectedNodes(AlType alType, Number id, TreeType treeType){
 		if (selectedNodes != null && selectedNodes.length > 0){
@@ -50,24 +42,11 @@ public class AlTreeParams {
 	public void setAiId(Integer aiId) {
 		this.aiId = aiId;
 	}
-
-	public String getType() {
-		return type;
+	public String getKey() {
+		return key;
 	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Integer getStart() {
-		if (start == null){
-			return null;
-		}
-		return start;
-	}
-
-	public void setStart(Integer start) {
-		this.start = start;
+	public void setKey(String key) {
+		this.key = key;
 	}
 	
 }

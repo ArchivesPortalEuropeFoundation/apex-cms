@@ -3,7 +3,7 @@ package eu.archivesportaleurope.portal.common.al;
 
 public enum TreeType {
 
-	GROUP("group"), LEAF("leaf"), MORE("more");
+	GROUP("group"), LEAF("leaf");
 	private String type;
 	private TreeType(String type){
 		this.type = type;

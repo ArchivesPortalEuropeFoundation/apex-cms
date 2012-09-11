@@ -18,7 +18,7 @@ import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
-import eu.archivesportaleurope.portal.common.AbstractJSONWriter;
+import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
 /**
  * JSON Writer for the directory tree
