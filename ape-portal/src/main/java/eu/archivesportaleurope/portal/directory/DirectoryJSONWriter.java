@@ -127,7 +127,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			if (archivalInstitutionUnit.getIsgroup() && archivalInstitutionUnit.isHasArchivalInstitutions()){
 				//The Archival Institution is a group and it has archival institutions within it
 				buffer.append(START_ITEM);
-				addTitle(buffer, archivalInstitutionUnit.getAiScndname(), locale);
+				addTitle(buffer, archivalInstitutionUnit.getAiname(), locale);
 				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 				//buffer.append(COMMA);
@@ -140,7 +140,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			else if (archivalInstitutionUnit.getIsgroup() && archivalInstitutionUnit.isHasArchivalInstitutions()) {
 				//The Archival Institution is a group but it doesn't have any archival institutions within it
 				buffer.append(START_ITEM);
-				addTitle(buffer, archivalInstitutionUnit.getAiScndname(), locale);
+				addTitle(buffer, archivalInstitutionUnit.getAiname(), locale);
 				buffer.append(COMMA);
 				buffer.append(FOLDER_NOT_LAZY);
 				buffer.append(COMMA);
@@ -153,7 +153,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			else if (!archivalInstitutionUnit.getIsgroup()){
 				//The Archival Institution is a leaf
 				buffer.append(START_ITEM);
-				addTitle(buffer, archivalInstitutionUnit.getAiScndname(), locale);
+				addTitle(buffer, archivalInstitutionUnit.getAiname(), locale);
 				buffer.append(COMMA);
 				if (archivalInstitutionUnit.getPathEAG() != null && !archivalInstitutionUnit.getPathEAG().equals("")) {
 					//The archival institution has EAG
