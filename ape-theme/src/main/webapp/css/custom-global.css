@@ -14,13 +14,17 @@ body {
 	font-family: Arial, sans-serif;
 }
 
-#sign-in {
+#headerMenu {
 	font-size: 8pt;
-	position: absolute;
-	right: 0;
-	top: -1.4em;
+	height: 2em;
 }
-
+#headerMenu #sign-in{
+	float:right;
+	left-padding:5px;
+}
+#headerMenu div{
+	float: right;
+}
 a:link {
 	color: #c65400;
 	text-decoration: none;
@@ -32,7 +36,6 @@ a:visited {
 #banner {
 	background: none repeat scroll 0 0 transparent;
 	height: auto;
-	margin-top: 1em;
 	position: relative;
 	margin-bottom: 13px;
 }
