@@ -88,5 +88,30 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>		
-	</tag>			
+	</tag>		
+	<tag>
+		<name>page</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.PageTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>varPlId</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>varPortletId</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<name>friendlyUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>portletName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+	</tag>		
 </taglib>

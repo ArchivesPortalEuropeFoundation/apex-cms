@@ -9,9 +9,10 @@
 <portlet:defineObjects />
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
-<c:set var="eadDisplayPageId" value="${portletPreferences.map.eadDisplayPageId[0]}"/>
+<c:set var="eadDisplayFriendlyUrl" value="${portletPreferences.map.eadDisplayFriendlyUrl[0]}"/>
 <c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
-<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+<portal:page varPlId="eadDisplayPlId"  varPortletId="eadDisplayPortletId" portletName="${eadDisplayPortletName}" friendlyUrl="${eadDisplayFriendlyUrl}"/>
+<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 	<liferay-portlet:param name="id" value="C${c.clId}"/>
 	<liferay-portlet:param  name="term" value="${term}"/>
 	<liferay-portlet:param  name="element" value="${element}"/>

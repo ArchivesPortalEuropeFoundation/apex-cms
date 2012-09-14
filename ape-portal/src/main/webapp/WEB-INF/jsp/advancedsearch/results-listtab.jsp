@@ -17,8 +17,9 @@
         initListTabHandlers();
     });
 </script>
-<c:set var="eadDisplayPageId" value="${portletPreferences.map.eadDisplayPageId[0]}"/>
+<c:set var="eadDisplayFriendlyUrl" value="${portletPreferences.map.eadDisplayFriendlyUrl[0]}"/>
 <c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
+<portal:page  varPlId="eadDisplayPlId"  varPortletId="eadDisplayPortletId" portletName="${eadDisplayPortletName}" friendlyUrl="${eadDisplayFriendlyUrl}"/>	
 <div class="results">
 		<div class="tab_header">
 			<div id="tabHeaderContent">
@@ -100,7 +101,7 @@
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>	
-								<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+								<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
 									<liferay-portlet:param name="id" value="${result.id}"/>
 									<liferay-portlet:param  name="term" value="${advancedSearch.term}"/>
 									<liferay-portlet:param  name="element" value="${advancedSearch.element}"/>

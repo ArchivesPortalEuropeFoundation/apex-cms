@@ -20,15 +20,15 @@ String portletResource = ParamUtil.getString(request, "portletResource");
 if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
-String eadDisplayPageId = preferences.getValue("eadDisplayPageId", "");
+String eadDisplayFriendlyUrl = preferences.getValue("eadDisplayFriendlyUrl", "");
 String eadDisplayPortletName = preferences.getValue("eadDisplayPortletName", "");
 
 %>
 <table class="lfr-table">
 
 <tr>
-	<td>EAD Display Page Id:</td>
-	<td><input  type="text" name="<portlet:namespace />preferences--eadDisplayPageId--" value="<%=eadDisplayPageId %>"/></td>
+	<td>EAD Display Friendly Url:</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--eadDisplayFriendlyUrl--" value="<%=eadDisplayFriendlyUrl %>"/></td>
 </tr>
 <tr>
 	<td>EAD Display Portlet name:</td>

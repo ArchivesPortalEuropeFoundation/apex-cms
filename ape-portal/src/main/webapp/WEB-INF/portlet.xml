@@ -25,12 +25,13 @@
 		</portlet-info>
         <portlet-preferences>
             <preference>
-                <name>advancedSearchPageId</name>
+                <name>advancedSearchFriendlyUrl</name>
+                <value>/advanced-search</value>
                 <read-only>false</read-only>
             </preference>
             <preference>
                 <name>advancedSearchPortletName</name>
-                <value>advancedsearch_WAR_Portal</value>
+                <value>advancedsearch</value>
                 <read-only>false</read-only>
             </preference>
             <preference>
@@ -73,12 +74,13 @@
 		</portlet-info>
         <portlet-preferences>
             <preference>
-                <name>eadDisplayPageId</name>
+                <name>eadDisplayFriendlyUrl</name>
+                <value>/ead-display</value>
                 <read-only>false</read-only>
             </preference>
             <preference>
                 <name>eadDisplayPortletName</name>
-                <value>eaddisplay_WAR_Portal</value>
+                <value>eaddisplay</value>
                 <read-only>false</read-only>
             </preference>
         </portlet-preferences>

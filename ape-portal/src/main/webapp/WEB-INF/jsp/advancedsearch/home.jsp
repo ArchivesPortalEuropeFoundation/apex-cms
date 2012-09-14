@@ -20,7 +20,7 @@
 <portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
 
 <c:choose>
-	<c:when test="${!empty renderRequest.preferences.map.eadDisplayPageId and !empty renderRequest.preferences.map.eadDisplayPortletName}">
+	<c:when test="${!empty renderRequest.preferences.map.eadDisplayFriendlyUrl and !empty renderRequest.preferences.map.eadDisplayPortletName}">
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}" );
