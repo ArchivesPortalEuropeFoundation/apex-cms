@@ -33,10 +33,6 @@
 		<property name="searcher" ref="searcher"></property>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.navigatedtree.NavigatedTreeJSONWriter">
-		<property name="messageSource" ref="messageSource"></property>
-	</bean>	
-	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.altree.ArchivalLandscapeTreeJSONWriter">
 		<property name="messageSource" ref="messageSource"/>
 		<property name="countryDAO" ref="countryDAO"/>
