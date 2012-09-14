@@ -8,12 +8,14 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
 <c:choose>
-	<c:when test="${!empty portletPreferences.map.advancedSearchPageId and !empty portletPreferences.map.advancedSearchPortletName and !empty portletPreferences.map.numberOfDaoUnits}">
-		<c:set var="advancedSearchPageId" value="${portletPreferences.map.advancedSearchPageId[0]}"/>
+	<c:when test="${!empty portletPreferences.map.advancedSearchFriendlyUrl and !empty portletPreferences.map.advancedSearchPortletName and !empty portletPreferences.map.numberOfDaoUnits}">
+
+		<c:set var="advancedSearchFriendlyUrl" value="${portletPreferences.map.advancedSearchFriendlyUrl[0]}"/>
 		<c:set var="advancedSearchPortletName" value="${portletPreferences.map.advancedSearchPortletName[0]}"/>
+<portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="${advancedSearchPortletName}" friendlyUrl="${advancedSearchFriendlyUrl}"/>		
 		<c:set var="numberOfDaoUnits" value="${portletPreferences.map.numberOfDaoUnits[0]}"/>
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
-<liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPageId}" portletName="${advancedSearchPortletName}">
+<liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 	<liferay-portlet:param  name="advanced" value="false"/>
 </liferay-portlet:renderURL>
