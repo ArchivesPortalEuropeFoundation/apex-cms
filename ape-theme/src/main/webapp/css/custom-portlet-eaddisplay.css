@@ -106,7 +106,7 @@
 }
 
 
-#eadDisplayPortlet .collapse,#eadDisplayPortlet .creation-content {
+#eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
 	padding-left: 15px;
 	padding-right: 15px;
 }
