@@ -41,6 +41,7 @@
 <script type='text/javascript'>
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
+		initExpandableParts();
 	});
 </script>
 <div id="printEadDetails" class="linkButton">

@@ -63,7 +63,21 @@ function displayEadDetails(displayEadUrl, id, type, namespace) {
 	params[namespace + "id"] = id;
 	$.get(displayEadUrl, params, function(data) {
 		$("#right-pane").html(data);
+
 	});
+}
+function initExpandableParts(){
+	$("#expandableContent h2").removeClass("expanded").addClass("collapsed");
+	$("#expandableContent h2").next().hide();
+	$('#expandableContent h2').click(function() {
+		if ($(this).hasClass("expanded")) {
+			$(this).removeClass("expanded").addClass("collapsed");
+			$(this).next().hide();
+		} else {
+			$(this).removeClass("collapsed").addClass("expanded");
+			$(this).next().show();
+		}
+	});	
 }
 function updatePageNumber(displayEadUrl) {
 	var params = {};
