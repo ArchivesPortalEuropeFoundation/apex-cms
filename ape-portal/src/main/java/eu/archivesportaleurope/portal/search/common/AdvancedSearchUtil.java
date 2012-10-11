@@ -1,8 +1,10 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -14,63 +16,9 @@ import eu.archivesportaleurope.portal.common.al.AlType;
 
 public final class AdvancedSearchUtil {
 
-	public static String convertToLangmaterial(String language) {
-		if (language != null && !language.isEmpty()) {
-			// if (!this.getLanguage().equals("All languages"))
-			int id = Integer.parseInt(language);
-			if (id != 0) {
-
-				switch (id) {
-				case 1:
-					language = "ger";
-					break;
-				case 2:
-					language = "gre";
-					break;
-				case 3:
-					language = "eng";
-					break;
-				case 4:
-					language = "spa";
-					break;
-				case 5:
-					language = "fre";
-					break;
-				case 6:
-					language = "gle";
-					break;
-				case 7:
-					language = "lav";
-					break;
-				case 8:
-					language = "mlt";
-					break;
-				case 9:
-					language = "dut";
-					break;
-				case 10:
-					language = "pol";
-					break;
-				case 11:
-					language = "por";
-					break;
-				case 12:
-					language = "slv";
-					break;
-				case 13:
-					language = "fin";
-					break;
-				case 14:
-					language = "swe";
-					break;
-				}
-			}
-		}
-		return null;
-	}
-
-
-
+	private static final String YYYY = "yyyy";
+	private static final String YYYY_MM = "yyyy-MM";
+	private static final String YYYY_MM_DD = "yyyy-MM-dd";
 
 	public static void setParameter(Map<String, List<String>> parameters, String name, String toBeAdded) {
 		if (StringUtils.isNotBlank(toBeAdded)) {
@@ -83,17 +31,6 @@ public final class AdvancedSearchUtil {
 	public static void setParameter(Map<String, List<String>> parameters, String name, List<String> toBeAdded) {
 		if (toBeAdded != null && toBeAdded.size() > 0) {
 			parameters.put(name, toBeAdded);
-		}
-	}
-
-	@Deprecated
-	public static void addRefinement(Map<String, List<String>> orParameters, Map<String, List<String>> andParameters,
-			String name, String toBeAdded) {
-		if (StringUtils.isNotBlank(toBeAdded)) {
-			orParameters.remove(name);
-			List<String> list = new ArrayList<String>();
-			list.add(toBeAdded);
-			andParameters.put(name, list);
 		}
 	}
 
@@ -122,14 +59,13 @@ public final class AdvancedSearchUtil {
 		}
 	}
 
-
-	public static boolean isValidDate(String date){
-		return  obtainDate(date, true) != null;
+	public static boolean isValidDate(String date) {
+		return parseDate(date, true) != null;
 	}
 
 	public static void setFromDate(Map<String, List<String>> parameters, String fromDate, boolean exact) {
 		if (StringUtils.isNotBlank(fromDate)) {
-			String date = obtainDate(fromDate, true);
+			String date = parseDate(fromDate, true);
 			if (exact) {
 				setParameter(parameters, SolrFields.START_DATE, "[" + date + "T00:00:00Z TO *]");
 			} else {
@@ -137,9 +73,10 @@ public final class AdvancedSearchUtil {
 			}
 		}
 	}
+
 	public static void setToDate(Map<String, List<String>> parameters, String toDate, boolean exact) {
 		if (StringUtils.isNotBlank(toDate)) {
-			String date = obtainDate(toDate, false);
+			String date = parseDate(toDate, false);
 			if (exact) {
 				setParameter(parameters, SolrFields.END_DATE, "[* TO " + date + "T23:59:59Z]");
 			} else {
@@ -148,85 +85,80 @@ public final class AdvancedSearchUtil {
 		}
 	}
 
-	private static String obtainDate(String onedate, boolean isStartDate) {
-		String year = null;
-		String month = null;
-		String day = null;
-		try {
-			onedate = onedate.replace("/", "-");
-			if (onedate.contains("-")) {
-				String[] list = onedate.split("-");
-				if (list.length >= 1) {
-					year = list[0];
-				}
-				if (list.length >= 2) {
-					month = list[1];
-				}
-				if (list.length >= 3) {
-					day = list[2];
-				}
-			} else {
-				if (onedate.length() >= 4) {
-					year = onedate.substring(0, 4);
-				}
-				if (onedate.length() >= 6) {
-					month = onedate.substring(4, 6);
-				}
-				if (onedate.length() >= 8) {
-					day = onedate.substring(6, 8);
-				}
-			}
-			return obtainDate(year, month, day, isStartDate);
-		} catch (Exception ex) {
+	protected static String parseDate(String onedate, boolean isStartDate) {
+		String dateString = onedate.replace("/", "-");
+		int numberOfMatches = StringUtils.countMatches(dateString, "-");
+		boolean isFullDate = numberOfMatches == 2;
+		boolean isYearMonthDate = numberOfMatches == 1;
+		boolean isOnlyYearDate = numberOfMatches == 0;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+		boolean lenient = false;
+		calendar.setLenient(lenient);
+		Date date = null;
+		SimpleDateFormat fullDateFormat = new SimpleDateFormat(YYYY_MM_DD);
+		fullDateFormat.setCalendar(calendar);
+		fullDateFormat.setLenient(lenient);
 
+
+		/*
+		 * full date parsing
+		 */
+		if (isFullDate) {
+			try {
+
+				date = fullDateFormat.parse(dateString);
+				calendar.setTime(date);
+			} catch (ParseException e) {
+
+			}
 		}
-		return null;
-	}
-
-	private static String obtainDate(String yearString, String monthString, String dayString, boolean isStartDate) {
-		if (yearString != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Integer year = new Integer(yearString);
-			Integer month = null;
-			Integer day = null;
-			if (monthString != null) {
-				month = new Integer(monthString);
-			}
-			if (dayString != null) {
-				day = new Integer(dayString);
-			}
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-			calendar.setTimeInMillis(0);
-			calendar.set(Calendar.YEAR, year);
-			if (isStartDate) {
-				if (month == null) {
-					calendar.set(Calendar.MONTH, 0);
-				} else {
-					calendar.set(Calendar.MONTH, month - 1);
-				}
-				if (day == null) {
+		/*
+		 * year month date parsing
+		 */
+		else if (isYearMonthDate) {
+			try {
+				SimpleDateFormat yearMonthDateFormat = new SimpleDateFormat(YYYY_MM);
+				yearMonthDateFormat.setCalendar(calendar);
+				yearMonthDateFormat.setLenient(lenient);
+				date = yearMonthDateFormat.parse(dateString);
+				calendar.setTime(date);
+				if (isStartDate) {
 					calendar.set(Calendar.DAY_OF_MONTH, 1);
 				} else {
-					calendar.set(Calendar.DAY_OF_MONTH, day);
-				}
-				return dateFormat.format(calendar.getTime());// + "T00:00:01Z";
-			} else {
-				if (month == null) {
-					calendar.set(Calendar.MONTH, 11);
-				} else {
-					calendar.set(Calendar.MONTH, month - 1);
-				}
-				if (day == null) {
 					calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-				} else {
-					calendar.set(Calendar.DAY_OF_MONTH, day);
 				}
-				return dateFormat.format(calendar.getTime());// + "T23:59:59Z";
+			} catch (ParseException e1) {
+
 			}
+		}
+		else if (isOnlyYearDate){
+			/*
+			 * year date parsing
+			 */
+			try {
+				SimpleDateFormat yearDateFormat = new SimpleDateFormat(YYYY);
+				yearDateFormat.setCalendar(calendar);
+				yearDateFormat.setLenient(lenient);
+				date = yearDateFormat.parse(dateString);
+				calendar.setTime(date);
+				if (isStartDate) {
+					calendar.set(Calendar.MONTH, 0);
+					calendar.set(Calendar.DAY_OF_MONTH, 1);
+				} else {
+					calendar.set(Calendar.MONTH, 11);
+					calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+				}
+			} catch (ParseException e2) {
+			}
+		}
+		if (date != null) {
+			return fullDateFormat.format(calendar.getTime());
 		}
 		return null;
 	}
+
+
 
 	public static String getHighlightedString(Map<String, Map<String, List<String>>> highlightingMap, String id,
 			String fieldName, String defaultValue) {
@@ -237,28 +169,28 @@ public final class AdvancedSearchUtil {
 		}
 
 	}
-	public static void addSelectedNodesToQuery(List<String> selectedNodes, SolrQueryParameters solrQueryParameters){
+
+	public static void addSelectedNodesToQuery(List<String> selectedNodes, SolrQueryParameters solrQueryParameters) {
 		if (selectedNodes != null) {
 			// Adding the ids of the Finding Aid selected for searching
 			List<String> faHgIdsSelected = new ArrayList<String>();
 			List<String> archivalInstitutionsIdsSelected = new ArrayList<String>();
 			List<String> countriesSelected = new ArrayList<String>();
-			for (String item: selectedNodes){
+			for (String item : selectedNodes) {
 				AlType alType = AlType.getAlType(item);
 				Long id = AlType.getId(item);
-				if (AlType.COUNTRY.equals(alType)){
-					countriesSelected.add(id.toString());				
-				}else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
-					archivalInstitutionsIdsSelected.add(id.toString());				
-				}else if (AlType.FINDING_AID.equals(alType)){
+				if (AlType.COUNTRY.equals(alType)) {
+					countriesSelected.add(id.toString());
+				} else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)) {
+					archivalInstitutionsIdsSelected.add(id.toString());
+				} else if (AlType.FINDING_AID.equals(alType)) {
 					faHgIdsSelected.add(alType.toString() + id);
-				}else if (AlType.SOURCE_GUIDE.equals(alType)){
+				} else if (AlType.SOURCE_GUIDE.equals(alType)) {
 					faHgIdsSelected.add(alType.toString() + id);
-				}else if (AlType.HOLDINGS_GUIDE.equals(alType)){
+				} else if (AlType.HOLDINGS_GUIDE.equals(alType)) {
 					faHgIdsSelected.add(alType.toString() + id);
 				}
 			}
-
 
 			if (countriesSelected.size() > 0) {
 				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
