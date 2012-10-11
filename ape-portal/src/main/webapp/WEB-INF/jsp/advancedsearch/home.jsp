@@ -29,9 +29,6 @@
 			});
 		</script>
 		<div id="advancedSearchPortlet">
-			<div id="test1"></div>
-			<div id="test2"></div>
-			<div id="test3"></div>
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
