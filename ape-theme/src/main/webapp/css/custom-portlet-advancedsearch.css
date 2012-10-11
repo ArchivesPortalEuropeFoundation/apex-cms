@@ -491,14 +491,6 @@
 	font-weight: bold;
 	font-style: italic;
 }
-#advancedSearchPortlet .collapsed {
-	background-repeat: no-repeat;
-	background-image: url("../images/ape/expand/arrow-right.gif");
-}
-#advancedSearchPortlet .expanded {
-	background-repeat: no-repeat;
-	background-image: url("../images/ape/expand/arrow-down.gif");
-}
 
 #advancedSearchPortlet #todateLabel{
 	padding-left: 5px;

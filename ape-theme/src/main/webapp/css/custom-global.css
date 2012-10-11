@@ -273,3 +273,14 @@ h2.blockHeader {
    	margin-top:0;
 	padding-left: 15px;	
 }
+.collapsed {
+    background-position: left center;
+	background-repeat: no-repeat;
+	background-image: url("../images/ape/expand/arrow-right.gif");
+}
+.expanded {
+    background-position: left center;
+	background-repeat: no-repeat;
+	background-image: url("../images/ape/expand/arrow-down.gif");
+}
+
