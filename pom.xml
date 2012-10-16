@@ -83,7 +83,8 @@
 
 		<module>example-portlet</module>
  		<module>ape-pagelayouts</module>
- -->			
+ -->
+		<module>ape-hook</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
