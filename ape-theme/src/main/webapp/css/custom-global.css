@@ -16,15 +16,34 @@ body {
 
 #headerMenu {
 	font-size: 8pt;
-	height: 2em;
+	height: 20px;
 }
-#headerMenu #sign-in{
-	float:right;
-	left-padding:5px;
+#headerMenu ul  {
+	list-style: none;
+    margin-bottom: 0;
+    margin-top: 3px;
+	padding: 0px;
+}
+#headerMenu li {
+	float: right;
+}
+#headerMenu a {
+	float: left;
+	padding-right: 10px;
+	padding-left: 10px;
+	text-decoration: none;
 }
 #headerMenu div{
 	float: right;
 }
+#headerMenu .changeLanguage select {
+   background-color: #e8e6e2;
+   border: 1px solid #00A0DF;
+   height:17px;
+   background-image: none;
+}
+
+
 a:link {
 	color: #c65400;
 	text-decoration: none;
@@ -60,7 +79,7 @@ a:visited {
 	position: relative;
 }
 
-#navigation ul {
+#navigation ul  {
 	bottom: 0;
 	list-style: none;
 	margin: 0;

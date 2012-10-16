@@ -20,15 +20,38 @@
 $theme.include($body_top_include)
 
 
-
 <div id="wrapper">
-#if ($is_signed_in)
-	#dockbar()
+
+#if ( $is_signed_in )    
+	#set ($rService = $serviceLocator.findService("com.liferay.portal.service.RoleService"))
+	#set ($usrRoles = $rService.getUserRoles( $user_id ))
+    
+	#set ($hasPermission = false)
+
+	#foreach( $usrRole in $usrRoles )
+	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Content-Editor")
+	           #set ($hasPermission = true)
+	        #end
+     #end
+#end
+	
+#if($hasPermission == true)
+  #dockbar()
 #end
 <div id="headerMenu">
+
+	<ul>
+		
 		#if (!$is_signed_in)
-			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+			<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
 		#end
+		#if ($show_sign_out)
+            <li class="sign-out">
+                <a href="$sign_out_url">$sign_out_text</a>
+            </li>
+        #end
+        <li>$taglibLiferay.language("fm", null, "languageId", 3)</li>
+	</ul>
 </div>
 	<header id="banner" role="banner">
 
