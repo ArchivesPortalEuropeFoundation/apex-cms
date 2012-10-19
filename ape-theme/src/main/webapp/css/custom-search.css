@@ -39,7 +39,7 @@
 }
  #simpleSearch  td.leftcolumn {
 	float: left;
-	max-width: 240px;
+	max-width: 340px;
 	display:inline;
 	padding-right:10px;
 }
@@ -47,7 +47,7 @@
 	float: right;
 	width: auto;
 	display:inline;
-	    vertical-align: top;
+	vertical-align: top;
 }
 
 
