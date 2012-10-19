@@ -21,7 +21,6 @@
 			</div>
 		</div>
 		<p class="powered-by">
-			Archives Portal Europe is supported by the European Commission through the ICT PSP programme  -  © 2012 APEx project<br/>
-			Hosted by the Ministry of Culture of Spain
+			#language("theme.footer.ape")	
 		</p>
 	</footer>
