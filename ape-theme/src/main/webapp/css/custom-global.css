@@ -144,31 +144,51 @@ a:visited {
     
     margin:0px;
     width: auto;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;    
 }
 .paging li {
-	float: left;
-    font-size: 12px;	
-    font-weight: bold;
-    color:gray;	
-}	
-.paging li span {	
-	cursor: pointer;
-    float: left;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:0px;
-    padding-bottom:0px;
-}
 
+	float: left;
+    font-size: 11px;	
+    color:gray;	
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.paging li.nolink {
+	color: gray;
+	background-color: white;
+	/* for IE */
+	filter: alpha(opacity =       70);
+	/* CSS3 standard */
+	opacity: 0.7;
+}
 .paging li.active {
 	color:black;
+	background-color: white;
 }
-.paging  li a:hover span {
+.paging li a{
+	background-color: white;
+	/* for IE */
+	filter: alpha(opacity =       70);
+	/* CSS3 standard */
+	opacity: 0.7;
+}
+.paging li a, .paging li.active, .paging li.nolink {	
+	cursor: pointer;
+    float: left;
+    display: block;
+    font-weight: bold;
+    min-width: 20px;
+    padding-left:4px;
+    padding-right:4px;
+    text-align: center;
+    border: 1px solid #00A0DF;
+}
+
+
+.paging  li a:hover {
+	border: 1px solid #79B7E7;
     color: #00384D;
-	background-color: rgba(255, 255, 255, 0.5);
-	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.8);
 }
 .error {
 	color: red;	
