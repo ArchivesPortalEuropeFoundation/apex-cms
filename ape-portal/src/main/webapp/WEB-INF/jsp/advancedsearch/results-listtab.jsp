@@ -42,11 +42,6 @@
 							<form:option value="100" />
 						</form:select>		
 					</div>
-					<div id="goToPage">
-						<span class="subtitle">Go to page:</span>
-						<form:input id="updateCurrentSearch_pageNumber" path="pageNumber"/>
-						<span class="subtitle">of</span>${results.totalNumberOfPages}
-					</div>
 					<div id="top-paging" class="paging">
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
 							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
@@ -185,10 +180,11 @@
 						url="${displayPreviewUrl}">&nbsp;</div>
 					</div>
 				</c:forEach>
-					<div id="bottom-paging" class="paging">
-					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
-							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
-					</div>	
+
+			</div>
+			<div id="bottom-paging" class="paging">
+				<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 			</div>
 			</c:if>
 			</div>
