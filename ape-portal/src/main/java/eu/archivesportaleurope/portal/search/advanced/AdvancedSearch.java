@@ -26,7 +26,7 @@ public class AdvancedSearch implements Serializable {
 	private String fromdate;
 	private String todate;
 	private String method;
-	private String resultsperpage = "20";
+	private String resultsperpage = "10";
 	private String dao;
 	private boolean advanced = true;
 	private String exactDateSearch;;

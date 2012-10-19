@@ -12,7 +12,7 @@ public class SimpleSearch implements Serializable {
 	private String term;
 	private String view;
 	private String method;
-	private String resultsperpage = "20";
+	private String resultsperpage = "10";
 	private String dao;
 	public String getTerm() {
 		return term;
