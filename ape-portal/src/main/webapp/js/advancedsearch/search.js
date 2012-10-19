@@ -68,7 +68,22 @@ function activateAutocompletion(selector) {
 		}
 	});
 }
+function clearSearch(){
+	$("#searchTerms").val("");
+	$('#checkboxHierarchy').attr('checked', false);
+	$('#checkboxDao').attr('checked', false);
+	$('#checkboxMethod').attr('checked', false);
+	$("#element").val("");
+	$("#typedocument").val("");
+	$("#fromdate").val("");
+	$("#todate").val("");
+	$('#exactDateSearch').attr('checked', false);
+    $("#archivalLandscapeTree").dynatree("getRoot").visit(function(node){
+        node.select(false);
+      });
 
+	
+}
 function searchOnSuggestion(value) {
 	$("#searchTerms").val(value);
 	performNewSearch();
@@ -99,7 +114,6 @@ function initTabs() {
 			var tabName = $(ui.tab).attr("href");
 			if (tabName == '#tabs-list') {
 				$('#checkboxHierarchy').attr('checked', false);
-				$('#resultsperpageRow').removeClass('hidden');
 				$('#updateCurrentSearch_view').val('');
 				//if other tab contains information, it should be a tab switch
 				if ($("#tabs-context").children().size() > 0){
@@ -109,7 +123,6 @@ function initTabs() {
 			} else {
 				$('#checkboxHierarchy').attr('checked', true);
 				$('#updateCurrentSearch_view').val('hierarchy');
-				$('#resultsperpageRow').addClass('hidden');
 				//if other tab contains information, it should be a tab switch
 				if ($("#tabs-list").children().size() > 0){
 					updateCurrentSearchResults();
@@ -150,13 +163,6 @@ function initSearchOptionsHandlers() {
 	$("#searchButton").click(function(event) {
 		event.preventDefault();
 		performNewSearch();
-	});
-	$("#checkboxHierarchy").change(function(event) {
-		if ($(this).is(":checked")) {
-			$('#resultsperpageRow').addClass('hidden');
-		} else {
-			$('#resultsperpageRow').removeClass('hidden');
-		}
 	});
 }
 
