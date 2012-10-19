@@ -155,16 +155,8 @@
 											</div>
 										</td>
 										<td class="rightcolumn">
-											<div id="resultsperpageRow" class="row">
-												<label for="resultsperpage"><fmt:message key="advancedsearch.text.numberofresults" /></label>
-												<form:select path="resultsperpage" id="resultsperpage" tabindex="5">
-													<form:option value="10" />
-													<form:option value="20" />
-													<form:option value="30" />
-													<form:option value="50" />
-													<form:option value="100" />
-												</form:select>
-		
+											<div id="clearSearchRow" class="row">
+												<a href="javascript:clearSearch()"><fmt:message key="searchpage.options.simple.clearsearch" /></a>	
 											</div>
 										</td>
 									</tr>

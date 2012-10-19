@@ -51,19 +51,6 @@
 										id="checkboxDao" value="true" name="dao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 								</div>
 							</td>
-							<td class="rightcolumn">
-								<div id="resultsperpageRow" class="row">
-									<label for="resultsperpage"><fmt:message key="advancedsearch.text.numberofresults" /></label>
-									<form:select path="resultsperpage" id="resultsperpage" tabindex="5">
-										<form:option value="10" />
-										<form:option value="20" />
-										<form:option value="30" />
-										<form:option value="50" />
-										<form:option value="100" />
-									</form:select>
-
-								</div>
-							</td>
 						</tr>
 					</table>
 				</div>
