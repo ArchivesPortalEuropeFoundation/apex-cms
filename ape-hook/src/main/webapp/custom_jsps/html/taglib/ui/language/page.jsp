@@ -83,7 +83,13 @@ for (int i = 0; i < locales.length; i++) {
 
 				<%
 				for (int i = 0; i < locales.length; i++) {
-					String label = locales[i].getDisplayName(locales[i]);
+					String language = locales[i].getDisplayLanguage(locales[i]);
+					String country = locales[i].getDisplayCountry(locales[i]);
+					
+					String label = language;
+					if (duplicateLanguages.contains(locales[i].getLanguage())){
+						label += " (" + country + ")";
+					}
 
 				%>
 
