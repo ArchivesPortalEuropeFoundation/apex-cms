@@ -360,7 +360,8 @@
 	width: 540px;
 	color: #333333;
 	font-size: 9pt;
-	border-bottom: 1px solid #E6E6E6;	
+	border-bottom: 1px solid #E6E6E6;
+	min-height: 60px;	
 }
 #advancedSearchPortlet .list-searchresult-content .scopecontent,#advancedSearchPortlet .list-searchresult-content .other{
 	text-overflow:ellipsis;
