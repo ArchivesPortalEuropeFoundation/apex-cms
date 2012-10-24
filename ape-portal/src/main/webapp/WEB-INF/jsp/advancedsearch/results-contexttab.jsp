@@ -45,8 +45,8 @@
 			     		</c:forEach>
 				</ul>
 			</div>
-			<div id="preview-absolute" class="preview-container">
-				
+			<div class="preview-column">
+			<div id="search-preview" class="preview-container search-result-preview-container"></div>
 			</div>
 		</div>
 		</c:if>

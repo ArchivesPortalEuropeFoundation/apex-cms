@@ -32,32 +32,20 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 					// Retrievieng all the search filters
 					// Use our custom attribute to load the new target content:
 					if (dtnode.data.parentId != undefined && dtnode.data.searchType != "ai") {
-						var holderPosition = $(dtnode.span).position();
 						var url = previewUrl + "&" + namespace + "id=" + dtnode.data.parentId;
 						var element = $("#updateCurrentSearch_element").val();
 						var term = $("#updateCurrentSearch_term").val();
 						url = url + "&" + namespace + "element=" + element;
 						if (dtnode.data.searchResult == "true") {
 							url = url + "&" + namespace + "term=" + term;
-							$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass(
-									"preview-content");
-						} else {
-							$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass(
-									"preview-nocontent");
 						}
-						$("#preview-absolute").css("top", holderPosition.top + "px");
 						$.get(url,
 								function(data) {
-									$("#preview-absolute").html(data);
-									if ($("#preview-absolute #realcontent").height() > $("#preview-absolute #content")
-											.height()) {
-										$("#preview-absolute #more-line").removeClass("hide-more-line").addClass(
-												"show-more-line");
-									}
+									displayPreview("#search-preview", data);
 								});
 					} else {
-						$("#preview-absolute").removeClass("preview-content preview-nocontent");
-						$("#preview-absolute").html("");
+						$("#search-preview").removeClass("preview-content");
+						$("#search-preview").html("");
 
 					}
 				}
@@ -171,18 +159,11 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		onActivate : function(node) {
 			if (node.data.previewId != undefined) {
 				var url = previewUrl + "&" + namespace + "id=" + node.data.previewId;
-				$("#al-preview").removeClass("preview-content preview-nocontent").addClass("preview-nocontent");
-				// var holderPosition = $(node.span).position();
-				// $("#al-preview-absolute").css("top", holderPosition.top +
-				// "px");
 				$.get(url, function(data) {
-					$("#al-preview").html(data);
-					if ($("#al-preview #realcontent").height() > $("#al-preview #content").height()) {
-						$("#al-preview #more-line").removeClass("hide-more-line").addClass("show-more-line");
-					}
+					displayPreview("#al-preview", data);
 				});
 			} else {
-				$("#al-preview").removeClass("preview-content preview-nocontent");
+				$("#al-preview").removeClass("preview-content ");
 				$("#al-preview").html("");
 
 			}

@@ -188,21 +188,30 @@ function initListTabHandlers() {
 	});
 	$(".preview-button-holder").mouseenter(
 			function() {
-				var holderPosition = $(this).position();
-				var width = $(this).width();
 				var url = $(this).attr("url");
-				$("#preview-absolute").removeClass("preview-content preview-nocontent").addClass("preview-content")
-						.css("top", holderPosition.top + "px");
 				$.get(url, function(data) {
-					$("#preview-absolute").html(data);
-					if ($("#preview-absolute #realcontent").height() > $("#preview-absolute #content").height()){
-						$("#preview-absolute #more-line").removeClass("hide-more-line").addClass("show-more-line");
-					}
+					displayPreview("#search-preview",data);
 				});
 			});
 	makeRefinementsCollapsible();
 }
-
+function displayPreview (preview, data){
+	var $previewDiv = $(preview);
+	$previewDiv.html(data);
+	var divTop = $previewDiv.parent().offset().top;
+	var scrollTop = $(window).scrollTop();
+	
+	if (scrollTop > divTop){
+		var marginTop = scrollTop - divTop +5;
+		$previewDiv.css("margin-top", marginTop + "px");
+	}else {
+		$previewDiv.css("margin-top","0px");
+	}
+	if ($(preview + " #realcontent").height() > $(preview + " #content").height()){
+		$(preview + " #more-line").removeClass("hide-more-line").addClass("show-more-line");
+	}
+	$previewDiv.removeClass("preview-content").addClass("preview-content");
+}
 function initSearchOptions() {
 	var advanced = $("#advanced").val();
 	if (advanced != null && advanced == "true") {

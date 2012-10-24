@@ -44,9 +44,8 @@
 							<fmt:message key="advancedsearch.subtitle.navigatedsearch" />
 						</div>
 						<div id="archivalLandscapeTree" class="treeWithPreview"></div>
-
-						<div id="al-preview"  class="preview-container">
-				
+						<div class="preview-column">
+						<div id="al-preview" class="preview-container al-preview-container"></div>
 						</div>
 					</div>
 				</div>

@@ -188,8 +188,9 @@
 			</div>
 			</c:if>
 			</div>
-			<div id="preview-absolute" class="preview-container"></div>
+			<div class="preview-column">
+			<div id="search-preview" class="preview-container search-result-preview-container"></div>
 			</div>
-			
+			</div>
 		</c:if>
 </div>
