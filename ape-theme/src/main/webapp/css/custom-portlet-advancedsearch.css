@@ -483,12 +483,12 @@
 	padding-right: 5px;
 }
 
-
-
-#advancedSearchPortlet #preview-absolute {
-	position: absolute;
-	left: 783px;
+#advancedSearchPortlet .preview-column {
+	float:right;
+	width: 213px;
+	margin-top: 7px;
 }
+
 
 #advancedSearchPortlet .preview-container {
 	vertical-align: top;
@@ -497,15 +497,19 @@
 	padding: 3px;
 	line-height: 1.3em;
 	border-radius:4px;
-	width: 210px;
 }
 
 #advancedSearchPortlet .preview-content, #advancedSearchPortlet .preview-nocontent {
 	background-color: #e9f3fa;
 	color: #333333;
 }
-#advancedSearchPortlet .preview-container #content {
+#advancedSearchPortlet .search-result-preview-container #content {
 	max-height:500px;
+}
+#advancedSearchPortlet .al-preview-container #content {
+	max-height:200px;
+}
+#advancedSearchPortlet .preview-container #content {
 	overflow: hidden;
 }
 #advancedSearchPortlet .preview-container #more-line {
