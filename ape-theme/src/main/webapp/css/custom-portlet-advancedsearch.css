@@ -499,7 +499,7 @@
 	border-radius:4px;
 }
 
-#advancedSearchPortlet .preview-content, #advancedSearchPortlet .preview-nocontent {
+#advancedSearchPortlet .preview-content{
 	background-color: #e9f3fa;
 	color: #333333;
 }
