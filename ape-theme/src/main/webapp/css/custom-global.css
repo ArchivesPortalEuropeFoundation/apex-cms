@@ -142,7 +142,11 @@ a:visited {
 .paging  li a:hover {
 	border: 1px solid #79B7E7;
     color: #00384D;
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: white;
+	/* for IE */
+	filter: alpha(opacity =       80);
+	/* CSS3 standard */
+	opacity: 0.8;
 }
 .error {
 	color: red;	
