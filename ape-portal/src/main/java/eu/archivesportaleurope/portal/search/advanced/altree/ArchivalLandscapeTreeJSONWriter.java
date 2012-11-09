@@ -207,17 +207,16 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		/*
 		 * check if Holdings Guide exist
 		 */
-		HoldingsGuide holdingsGuideExample = new HoldingsGuide();
-		holdingsGuideExample.setAiId(aiId);
-		holdingsGuideExample.setPublished(true);
-		boolean holdingsGuideExists = eadDAO.existEads(holdingsGuideExample);
+		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		eadSearchOptions.setArchivalInstitionId(aiId);
+		eadSearchOptions.setPublished(true);
+		eadSearchOptions.setEadClazz(HoldingsGuide.class);
+		boolean holdingsGuideExists = eadDAO.existEads(eadSearchOptions);
 		/*
 		 * check if Source Guide exist
 		 */
-		SourceGuide sourceGuideExample = new SourceGuide();
-		sourceGuideExample.setAiId(aiId);
-		sourceGuideExample.setPublished(true);
-		boolean sourceGuideExists = eadDAO.existEads(sourceGuideExample);
+		eadSearchOptions.setEadClazz(SourceGuide.class);
+		boolean sourceGuideExists = eadDAO.existEads(eadSearchOptions);
 		boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {
 			AlTreeNode hgNode = new AlTreeNode();
