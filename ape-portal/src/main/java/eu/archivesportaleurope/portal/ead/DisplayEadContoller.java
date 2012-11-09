@@ -1,8 +1,5 @@
 package eu.archivesportaleurope.portal.ead;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -19,7 +16,6 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
-import eu.apenet.persistence.vo.FileState;
 
 /**
  * 
