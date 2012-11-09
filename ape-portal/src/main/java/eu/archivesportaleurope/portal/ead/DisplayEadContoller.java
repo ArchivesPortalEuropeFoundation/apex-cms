@@ -87,8 +87,7 @@ public class DisplayEadContoller {
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				List<String> indexedStates = Arrays.asList(FileState.INDEXED_FILE_STATES);
-				if (indexedStates.contains(ead.getFileState().getState())) {
+				if (ead.isPublished()) {
 					archivalInstitution = ead.getArchivalInstitution();
 				} else {
 					LOGGER.error("Found not indexed EAD in second display");

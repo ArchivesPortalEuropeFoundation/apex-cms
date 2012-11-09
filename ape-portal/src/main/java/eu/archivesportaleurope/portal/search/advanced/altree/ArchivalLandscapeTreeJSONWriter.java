@@ -18,6 +18,7 @@ import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
+import eu.apenet.persistence.dao.EadSearchOptions;
 import eu.apenet.persistence.dao.FindingAidDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
@@ -113,15 +114,17 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					if (TreeType.GROUP.equals(treeType)) {
 						aiId = id.intValue();
 						if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)) {
-							Ead eadExample = null;
+							EadSearchOptions eadSearchOptions = new EadSearchOptions();
 							if (AlType.HOLDINGS_GUIDE.equals(parentType)) {
-								eadExample = new HoldingsGuide();
+								eadSearchOptions.setEadClazz(HoldingsGuide.class);
 							} else if (AlType.SOURCE_GUIDE.equals(parentType)) {
-								eadExample = new SourceGuide();
+								eadSearchOptions.setEadClazz(SourceGuide.class);
 							}
-							eadExample.setAiId(aiId);
-							eadExample.setSearchable(true);
-							List<? extends Ead> eads = eadDAO.getEads(eadExample, start,MAX_NUMBER_OF_EADS + 1);
+							eadSearchOptions.setArchivalInstitionId(aiId);
+							eadSearchOptions.setPublished(true);
+							eadSearchOptions.setFirstResult(start);
+							eadSearchOptions.setPageSize(MAX_NUMBER_OF_EADS + 1);
+							List<? extends Ead> eads = eadDAO.getEads(eadSearchOptions);
 							writeToResponseAndClose(
 									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
 									resourceResponse);
@@ -206,14 +209,14 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		 */
 		HoldingsGuide holdingsGuideExample = new HoldingsGuide();
 		holdingsGuideExample.setAiId(aiId);
-		holdingsGuideExample.setSearchable(true);
+		holdingsGuideExample.setPublished(true);
 		boolean holdingsGuideExists = eadDAO.existEads(holdingsGuideExample);
 		/*
 		 * check if Source Guide exist
 		 */
 		SourceGuide sourceGuideExample = new SourceGuide();
 		sourceGuideExample.setAiId(aiId);
-		sourceGuideExample.setSearchable(true);
+		sourceGuideExample.setPublished(true);
 		boolean sourceGuideExists = eadDAO.existEads(sourceGuideExample);
 		boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {
