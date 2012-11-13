@@ -81,9 +81,9 @@
 		<!--  at the moment this project are not used -->
 <!-- 	
 
-		<module>example-portlet</module>
+		<module>example-portlet</module>-->
  		<module>ape-pagelayouts</module>
- -->
+ 
 		<module>ape-hook</module>
 	</modules>
 	<dependencyManagement>
