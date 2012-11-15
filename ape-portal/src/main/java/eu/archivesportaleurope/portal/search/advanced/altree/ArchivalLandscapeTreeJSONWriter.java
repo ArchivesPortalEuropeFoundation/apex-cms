@@ -77,7 +77,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	@ResourceMapping(value = "archivalLandscapeTree")
 	public void writeJSON(@ModelAttribute(value = "alTreeParams") AlTreeParams alTreeParams,
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
-		long startTime = System.currentTimeMillis();
 		try {
 			Locale locale = resourceRequest.getLocale();
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
@@ -157,7 +156,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		log.info("writeJSON: " + (System.currentTimeMillis() - startTime));
 	}
 
 	/**
