@@ -17,9 +17,9 @@
 	<liferay-portlet:param  name="term" value="${term}"/>
 	<liferay-portlet:param  name="element" value="${element}"/>
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="displayOtherEadUrl" plid="${eadDisplayPageId}" portletName="${eadDisplayPortletName}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-	<portlet:param name="aiId" value="${aiId}" />
-	<portlet:param name="xmlTypeId" value="0" />
+<liferay-portlet:renderURL var="displayOtherEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+	<liferay-portlet:param name="aiId" value="${aiId}" />
+	<liferay-portlet:param name="xmlTypeId" value="0" />
 </liferay-portlet:renderURL>
 <div id="content">
 	<div id="realcontent">
