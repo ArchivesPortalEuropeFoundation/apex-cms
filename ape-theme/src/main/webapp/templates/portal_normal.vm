@@ -38,6 +38,7 @@ $theme.include($body_top_include)
 #if($hasPermission == true)
   #dockbar()
 #end
+
 <div id="headerMenu">
 
 	<ul>
@@ -50,7 +51,9 @@ $theme.include($body_top_include)
                 <a href="$sign_out_url">$sign_out_text</a>
             </li>
         #end
-        <li>$taglibLiferay.language("fm", null, "languageId", 3)</li>
+        
+        <li>$theme.runtime("82")</li>
+       
 	</ul>
 </div>
 	<header id="banner" role="banner">
