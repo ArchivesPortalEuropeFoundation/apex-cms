@@ -13,12 +13,12 @@
  * details.
  */
 --%>
-
 <%@ include file="/html/taglib/init.jsp" %>
 
 <%@ page import="com.liferay.taglib.ui.LanguageTag" %>
 
 <%
+
 String formName = (String)request.getAttribute("liferay-ui:language:formName");
 
 String formAction = (String)request.getAttribute("liferay-ui:language:formAction");
@@ -76,7 +76,7 @@ for (int i = 0; i < locales.length; i++) {
 %>
 
 <c:choose>
-	<c:when test="<%= displayStyle == LanguageTag.SELECT_BOX %>">
+	<c:when test="${true}">
 		<aui:form action="<%= formAction %>" method="post" name="<%= formName %>">
 					<div class="changeLanguage">
 			<aui:select changesContext="<%= true %>" label="" name="<%= name %>" onChange='<%= "submitForm(document." + namespace + formName + ");" %>' title="language">
