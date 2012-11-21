@@ -10,8 +10,23 @@
 
 	<name>liferay-portal-project</name>
 	<url>http://www.archivesportaleurope.eu</url>
+	<scm>
+		<connection>scm:svn:https://195.169.26.11/svn/apex-cms/trunk</connection>
+		<developerConnection>scm:svn:https://195.169.26.11/svn/apex-cms/trunk</developerConnection>
+	</scm>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.repository.releases.location>file:///opt/maven/releases</maven.repository.releases.location>
+		<maven.repository.snapshots.location>file:///opt/maven/snapshots</maven.repository.snapshots.location>
+		<liferay.version>6.1.0</liferay.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.1.1.RELEASE</spring.version>
+		<archivesportaleurope.commons.version>1.1.1-beta-1</archivesportaleurope.commons.version>
+		<archivesportaleurope.persistence.version>1.1.1-beta-1</archivesportaleurope.persistence.version>
+		<artifact.suffix></artifact.suffix>
+	</properties>
 	<build>
-		<finalName>${project.artifactId}${artifact.suffix}</finalName>	
+		<finalName>${project.artifactId}${artifact.suffix}</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -70,20 +85,27 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>${maven.repository.snapshots.location}</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>${maven.repository.releases.location}</url>
+        </repository>
+    </distributionManagement>
 	<modules>
 
 
 		<module>spring-webmvc-portlet-extension</module>
 		<module>ape-theme</module>
 		<module>ape-portal</module>
-		
-		<!--  at the moment this project are not used -->
-<!-- 	
 
-		<module>example-portlet</module>-->
- 		<module>ape-pagelayouts</module>
- 
+		<!-- at the moment this project are not used -->
+		<!-- <module>example-portlet</module> -->
+		<module>ape-pagelayouts</module>
+
 		<module>ape-hook</module>
 	</modules>
 	<dependencyManagement>
@@ -126,26 +148,19 @@
 				<artifactId>commons</artifactId>
 				<version>${archivesportaleurope.commons.version}</version>
 			</dependency>
-            <dependency>
-                <groupId>eu.archivesportaleurope</groupId>
-                <artifactId>persistence</artifactId>
-                <version>${archivesportaleurope.persistence.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>eu.apenet</groupId>
-                <artifactId>DPTutils</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
-            </dependency>
+			<dependency>
+				<groupId>eu.archivesportaleurope</groupId>
+				<artifactId>persistence</artifactId>
+				<version>${archivesportaleurope.persistence.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.apenet</groupId>
+				<artifactId>DPTutils</artifactId>
+				<version>1.2.0-alpha-1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<properties>
-		<liferay.version>6.1.0</liferay.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.1.1.RELEASE</spring.version>
-		<archivesportaleurope.commons.version>1.1.1-SNAPSHOT</archivesportaleurope.commons.version>
-		<archivesportaleurope.persistence.version>1.1.1-SNAPSHOT</archivesportaleurope.persistence.version>
-		<artifact.suffix></artifact.suffix>
-	</properties>
+
 	<organization>
 		<name>APEx</name>
 		<url>www.apex-project.eu</url>
