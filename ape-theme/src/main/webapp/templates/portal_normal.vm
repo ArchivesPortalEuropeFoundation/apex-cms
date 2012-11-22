@@ -23,13 +23,13 @@ $theme.include($body_top_include)
 <div id="wrapper">
 
 #if ( $is_signed_in )    
-	#set ($rService = $serviceLocator.findService("com.liferay.portal.service.RoleService"))
+	#set ($rService = $serviceLocator.findService("com.liferay.portal.service.RoleLocalService"))
 	#set ($usrRoles = $rService.getUserRoles( $user_id ))
     
 	#set ($hasPermission = false)
 
 	#foreach( $usrRole in $usrRoles )
-	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Content-Editor")
+	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Content-Editor" || $usrRole.getName() == "Portal Content Reviewer" )
 	           #set ($hasPermission = true)
 	        #end
      #end
