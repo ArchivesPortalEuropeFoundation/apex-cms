@@ -185,3 +185,7 @@
     position: absolute;
     right: 0;
 }
+#eadDisplayPortlet em {
+	font-weight: bold;
+	font-style: normal;
+}

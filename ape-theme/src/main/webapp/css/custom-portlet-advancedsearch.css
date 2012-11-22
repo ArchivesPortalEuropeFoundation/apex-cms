@@ -634,3 +634,7 @@
 #advancedSearchPortlet #viewFullFond {
 	background-color:white;
 }
+#advancedSearchPortlet em {
+	font-weight: bold;
+	font-style: normal;
+}
