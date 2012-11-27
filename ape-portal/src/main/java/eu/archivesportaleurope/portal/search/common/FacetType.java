@@ -85,7 +85,9 @@ public enum FacetType {
     public static List<ListFacetSettings> getDefaultListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
         for(FacetType facet : FacetType.values()){
-        	result.add(new ListFacetSettings(facet));
+        	if (!FOND.equals(facet)){
+        		result.add(new ListFacetSettings(facet));
+        	}
         } 	
         return result;
     }
