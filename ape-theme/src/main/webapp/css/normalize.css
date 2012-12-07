@@ -223,8 +223,8 @@ pre {
     line-height: 1.8em;
 }
 p {
-	text-align: justify;
-	}
+	text-align: left;
+}
 
 /*
 * Corrects font family set oddly in IE6, S4/5, Chrome

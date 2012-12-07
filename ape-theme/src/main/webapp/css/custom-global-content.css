@@ -19,4 +19,17 @@ h1.content-page-title {
 	clear: both;
 	width: 400px;
 }
+#survey .mainButton {
+	background: url("../images/ape/mainbutton.jpg") repeat-x scroll right top white;
+    border: 1px solid #00A0DF;
+    color: #00384D;
+    margin-left: 5px;
+    margin-top:5px;
+}
+#survey p {
+	padding: 5px;
+}
 
+#survey .buttons {
+	
+}
