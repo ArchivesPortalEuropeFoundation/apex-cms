@@ -29,7 +29,7 @@ $theme.include($body_top_include)
 	#set ($hasPermission = false)
 
 	#foreach( $usrRole in $usrRoles )
-	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Content-Editor" || $usrRole.getName() == "Portal Content Reviewer" )
+	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Power User"|| $usrRole.getName() == "Content-Editor" || $usrRole.getName() == "Portal Content Reviewer" )
 	           #set ($hasPermission = true)
 	        #end
      #end

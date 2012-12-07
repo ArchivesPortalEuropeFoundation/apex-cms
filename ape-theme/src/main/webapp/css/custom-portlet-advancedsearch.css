@@ -165,6 +165,7 @@
 	padding-left: 7px;
 	padding-top:20px;
 	padding-bottom:10px;
+	border-bottom: none;
 }
 
 #advancedSearchPortlet #tabHeaderContent {
