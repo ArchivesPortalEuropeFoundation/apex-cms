@@ -29,7 +29,7 @@
 				</c:when>
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
-						<span class="bold"><fmt:message key="advancedsearch.text.results" /></span>
+						<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
 						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" />
 					</div>
 					<div id="resultPerPageContainer">

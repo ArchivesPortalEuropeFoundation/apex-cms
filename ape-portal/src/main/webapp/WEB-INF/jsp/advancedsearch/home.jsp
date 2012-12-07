@@ -188,9 +188,9 @@
 							numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 					</c:if>
 				</div>
-				<div id="searchResultsHeader">
-					<fmt:message key="text.search.results" />
-				</div>
+				<h2 id="searchResultsHeader">
+					<fmt:message key="advancedsearch.text.results" />:
+				</h2>
 		
 				<div id="tabs">
 					<ul id="tabscontainer">
