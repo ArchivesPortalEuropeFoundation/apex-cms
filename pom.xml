@@ -20,8 +20,8 @@
 		<liferay.version>6.1.0</liferay.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<archivesportaleurope.commons.version>1.1.1-beta-1</archivesportaleurope.commons.version>
-		<archivesportaleurope.persistence.version>1.1.1-beta-1</archivesportaleurope.persistence.version>
+		<archivesportaleurope.commons.version>1.1.1-SNAPSHOT</archivesportaleurope.commons.version>
+		<archivesportaleurope.persistence.version>1.1.1-SNAPSHOT</archivesportaleurope.persistence.version>
 		<artifact.suffix />
 	</properties>
 	<build>
