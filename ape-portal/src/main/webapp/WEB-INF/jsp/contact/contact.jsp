@@ -6,15 +6,14 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
-<%--<portlet:resourceURL var="directoryTreeUrl" id="directoryTree" />--%>
 <div align="center">
-    <h2>Contact form</h2>
+    <h2><fmt:message key="contact.form.title" /></h2>
 </div>
 <form id="contact" name="contact" action="/Portal/contact.action" method="post">
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
-                <label for="contact_email" class="label">Your e-mail address<span class="required">*</span>:</label>
+                <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
             </td>
             <td>
                 <input type="text" name="email" size="50" value="" id="contact_email" style="margin-bottom:10px;"/>
@@ -22,20 +21,20 @@
         </tr>
         <tr>
             <td class="tdLabel">
-                <label for="contact_topicSubject" class="label">Subject<span class="required">*</span>:</label>
+                <label for="contact_topicSubject" class="label"><fmt:message key="label.email.subject" /><span class="required">*</span>:</label>
             </td>
             <td>
                 <select name="topicSubject" id="contact_topicSubject">
-                    <option value="-1">--- Please select a topic ---</option>
-                    <option value="1">Technical issues</option>
-                    <option value="2">How to join and contribute</option>
-                    <option value="3">Suggestions and other issues</option>
+                    <option value="-1">--- <fmt:message key="label.contact.items.select" /> ---</option>
+                    <option value="1"><fmt:message key="label.contact.item.issues" /></option>
+                    <option value="2"><fmt:message key="label.contact.item.contribute" /></option>
+                    <option value="3"><fmt:message key="label.contact.item.suggestions" /></option>
                 </select>
             </td>
         </tr>
         <tr>
             <td class="tdLabel">
-                <label for="contact_feedbackText" class="label">Your feedback or comments<span
+                <label for="contact_feedbackText" class="label"><fmt:message key="label.feedback.comments" /><span
                         class="required">*</span>:</label>
             </td>
             <td>
@@ -43,7 +42,6 @@
                           style="width:500px; height:180px;vertical-align:middle"></textarea>
             </td>
         </tr>
-        <!-- Due to layout lateral effects. If you remove it then the position of ReCaptcha will be wrong -->
         <tr>
             <td></td>
             <td>
@@ -55,9 +53,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                Thank you very much for your feedback. If your feedback requires a direct response, a member of the Archives
-                Portal Europe team will get back to you as soon as possible. For faster response feedback should preferably
-                be submitted in English.
+                <fmt:message key="feedbackText.info.tips" />
             </td>
         </tr>
         <tr>
@@ -65,13 +61,13 @@
                 <table>
                     <tr>
                         <td class="leftBtn">
-                            <input type="submit" id="contact_label_feedback_send" name="method:execute" value="Send feedback" class="mainButton"/>
+                            <input type="submit" id="contact_label_feedback_send" name="method:execute" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
                         </td>
                         <td>
-                            <input type="submit" id="contact_label_cancel" name="action:index" value="Cancel" onclick="form.onsubmit=null"/>
+                            <input type="submit" id="contact_label_cancel" name="action:index" value="<fmt:message key="label.cancel" />" onclick="form.onsubmit=null"/>
                         </td>
                         <td class="rightBtn">
-                            <input type="reset" name="label.reset" value="Reset"/>
+                            <input type="reset" name="label.reset" value="<fmt:message key="label.reset" />"/>
                         </td>
                     </tr>
                 </table>
