@@ -30,8 +30,13 @@
 		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/ead/ead.js</header-portlet-javascript>
-	</portlet>		
-	<role-mapper>
+	</portlet>
+    <portlet>
+        <portlet-name>contact</portlet-name>
+        <icon>/icon.png</icon>
+        <instanceable>false</instanceable>
+    </portlet>
+    <role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>
 	</role-mapper>
