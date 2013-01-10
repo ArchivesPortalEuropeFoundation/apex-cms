@@ -87,6 +87,7 @@ for (int i = 0; i < locales.length; i++) {
 					String country = locales[i].getDisplayCountry(locales[i]);
 					
 					String label = language;
+                    label = Character.toUpperCase(label.charAt(0)) + label.substring(1); //Added by Yoann
 					if (duplicateLanguages.contains(locales[i].getLanguage())){
 						label += " (" + country + ")";
 					}
