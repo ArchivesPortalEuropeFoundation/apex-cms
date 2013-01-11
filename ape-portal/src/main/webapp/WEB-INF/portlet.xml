@@ -182,7 +182,28 @@
             <role-name>user</role-name>
         </security-role-ref>
     </portlet>
-
+    <portlet>
+        <portlet-name>language</portlet-name>
+        <display-name>Language${artifact.suffix}</display-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <resource-bundle>i18n.ApplicationResources</resource-bundle>
+        <portlet-info>
+            <title>Language${artifact.suffix}</title>
+            <short-title>Language${artifact.suffix}</short-title>
+            <keywords>Language</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+    </portlet>
 
 
     <filter>

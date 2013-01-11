@@ -8,5 +8,6 @@
 		<portlet id="directory" />
 		<portlet id="eaddisplay" />						
 		<portlet id="contact" />
+		<portlet id="language" />
 	</category>
 </display>
