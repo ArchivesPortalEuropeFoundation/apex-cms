@@ -13,7 +13,7 @@
 <table>
 <c:forEach var="menuTranslation" items="${menuTranslations}">
 <tr>
-<td>${menuTranslation.friendlyUrl}</td><td>${menuTranslation.languageId}</td><td>${menuTranslation.name}</td>
+<td>${menuTranslation.friendlyUrl}</td><td>${menuTranslation.languageId}</td><td><input name="hi" value="${menuTranslation.name}"/></td>
 </tr>
 </c:forEach>
 </table>
