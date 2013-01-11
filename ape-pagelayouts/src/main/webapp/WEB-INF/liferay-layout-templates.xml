@@ -11,9 +11,5 @@
 			<template-path>/ape-directory.tpl</template-path>
 			<wap-template-path>/ape-directory.tpl</wap-template-path>
 		</layout-template>
-        <layout-template id="ape-pagelayout-contactpage" name="ape-pagelayout-contactpage">
-            <template-path>/ape-contact.tpl</template-path>
-            <wap-template-path>/ape-contact.tpl</wap-template-path>
-        </layout-template>
 	</custom>
 </layout-templates>
