@@ -12,7 +12,9 @@ public class Translation implements Serializable {
 	private String languageId;
 	private String friendlyUrl;
 	private String name;
-	
+
+    public Translation() {}
+
 	public Translation(String languageId, String friendlyUrl, String name) {
 		super();
 		this.languageId = languageId;

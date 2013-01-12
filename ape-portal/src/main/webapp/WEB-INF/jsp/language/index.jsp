@@ -8,13 +8,30 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
+<portlet:actionURL var="translationSaveUrl">
+    <portlet:param name="myaction" value="save" />
+    <portlet:param name="index" value="${stat.index}" />
+</portlet:actionURL>
 
 <div id="languagePortlet">
-<table>
-<c:forEach var="menuTranslation" items="${menuTranslations}">
-<tr>
-<td>${menuTranslation.friendlyUrl}</td><td>${menuTranslation.languageId}</td><td><input name="hi" value="${menuTranslation.name}"/></td>
-</tr>
-</c:forEach>
-</table>
+
+    <table>
+        <c:forEach var="translation" varStatus="stat" items="${translationForm.translations}">
+            <tr>
+                <form:form id="translation" name="translation" modelAttribute="translationForm" method="post" action="${translationSaveUrl}">
+                    <td>${translation.friendlyUrl}</td>
+                    <td>${translation.languageId}</td>
+                    <td>
+                        <form:input path="translations[${stat.index}].name" type="text" name="name" size="50" id="name" />
+                        <form:input path="translations[${stat.index}].friendlyUrl" type="hidden" name="friendlyUrl" id="friendlyUrl"/>
+                        <form:input path="translations[${stat.index}].languageId" type="hidden" name="languageId" id="languageId"/>
+                        <input type="hidden" name="index" id="index" value="${stat.index}"/>
+                    </td>
+                    <td>
+                        <input type="submit" id="translations_save_send" name="method:execute" value="Save" class="mainButton" />
+                    </td>
+                </form:form>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
