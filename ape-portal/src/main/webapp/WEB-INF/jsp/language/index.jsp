@@ -17,8 +17,8 @@
 
     <table>
         <c:forEach var="translation" varStatus="stat" items="${translationForm.translations}">
-            <tr>
-                <form:form id="translation" name="translation" modelAttribute="translationForm" method="post" action="${translationSaveUrl}">
+            <form:form id="translation" name="translation" modelAttribute="translationForm" method="post" action="${translationSaveUrl}">
+                <tr>
                     <td>${translation.friendlyUrl}</td>
                     <td>${translation.languageId}</td>
                     <td>
@@ -30,8 +30,8 @@
                     <td>
                         <input type="submit" id="translations_save_send" name="method:execute" value="Save" class="mainButton" />
                     </td>
-                </form:form>
-            </tr>
+                </tr>
+            </form:form>
         </c:forEach>
     </table>
 </div>
