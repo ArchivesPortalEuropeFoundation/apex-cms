@@ -33,40 +33,22 @@ Liferay.on('allPortletsReady',
  */
 
 function() {
-	loadSurvey();
 	checkCookie("survey");
 });
 
 function loadSurvey() {
 	$('#survey').removeClass("hidden");
-	$('#survey').dialog({
-		autoOpen : false,
-		modal : true,
-		width : 500,
-		resizable : false,
-		buttons : [ {
-			text :$("#survey-url").html(),
-			click : function() {
-				setCookie('survey','remindlater',365);
-				$(this).dialog("close");
-				window.open($("#survey-url").attr("href"));
-				
-			}
-		}, {
-			text : "No thanks",
-			click : function() {
-				setCookie('survey','remindlater',365);
-				$(this).dialog("close");
-			}
-		}, {
-			text : "Remind me later",
-			click : function() {
-				setCookie('survey','remindlater',1);
-				$(this).dialog("close");
-			}
-		} ]
-
+	$("#survey #start").click(function(event) {
+		event.preventDefault();
+		setCookie('survey','remindlater',365);
+		window.open($("#survey-url").attr("href"));
 	});
+	$("#survey #remove").click(function(event) {
+		event.preventDefault();
+		setCookie('survey','remindlater',365);
+		$('#survey').addClass("hidden");
+	});
+
 }
 
 function setCookie(c_name, value, expiredays) {
@@ -92,7 +74,9 @@ function getCookie(c_name) {
 function checkCookie(c_name) {
 	cookie_value = getCookie(c_name);
 	if (cookie_value == "") {
-		$('#survey').dialog('open');
+		loadSurvey();
+	}else {
+		$('#survey').addClass("hidden");
 	}
 }
 
