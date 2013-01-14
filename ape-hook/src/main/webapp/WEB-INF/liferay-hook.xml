@@ -3,7 +3,27 @@
 
 <hook>
 	<language-properties>content/Language-ext.properties</language-properties>
+	<language-properties>content/Language-ext_bg.properties</language-properties>
+	<language-properties>content/Language-ext_da.properties</language-properties>
+	<language-properties>content/Language-ext_de.properties</language-properties>
+	<language-properties>content/Language-ext_el.properties</language-properties>
+	<language-properties>content/Language-ext_es.properties</language-properties>
+	<language-properties>content/Language-ext_et.properties</language-properties>
+	<language-properties>content/Language-ext_fi.properties</language-properties>
+	<language-properties>content/Language-ext_ga.properties</language-properties>
+	<language-properties>content/Language-ext_hr.properties</language-properties>
+	<language-properties>content/Language-ext_hu.properties</language-properties>
+	<language-properties>content/Language-ext_is.properties</language-properties>
+	<language-properties>content/Language-ext_it.properties</language-properties>
+	<language-properties>content/Language-ext_lv.properties</language-properties>
+	<language-properties>content/Language-ext_mt.properties</language-properties>
+	<language-properties>content/Language-ext_nl.properties</language-properties>
+	<language-properties>content/Language-ext_no.properties</language-properties>
+	<language-properties>content/Language-ext_pl.properties</language-properties>
+	<language-properties>content/Language-ext_pt.properties</language-properties>
+	<language-properties>content/Language-ext_sk.properties</language-properties>
+	<language-properties>content/Language-ext_sl.properties</language-properties>
+	<language-properties>content/Language-ext_sv.properties</language-properties>
 
 	<custom-jsp-dir>/custom_jsps</custom-jsp-dir>
-
 </hook>
