@@ -21,6 +21,6 @@
 			</div>
 		</div>
 		<p class="powered-by">
-			#language("theme.footer.ape")	
+			#language("footer.text.apex")
 		</p>
 	</footer>
