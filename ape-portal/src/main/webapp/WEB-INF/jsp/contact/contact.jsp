@@ -8,6 +8,11 @@
 <portlet:actionURL var="contactUrl">
     <portlet:param name="myaction" value="contact" />
 </portlet:actionURL>
+<script type="text/javascript">
+    $(document).ready(function() {
+        initContactForm();
+    });
+</script>
 
 <div align="center">
     <h2><fmt:message key="contact.form.title" /></h2>
@@ -71,10 +76,10 @@
                 <table>
                     <tr>
                         <td class="leftBtn">
-                            <input type="submit" id="contact_label_feedback_send" name="method:execute" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
+                            <input type="submit" id="contact_label_feedback_send" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
                         </td>
                         <td>
-                            <input type="submit" id="contact_label_cancel" name="action:index" value="<fmt:message key="label.cancel" />" onclick="form.onsubmit=null"/>
+                            <input type="button" id="contact_label_cancel" value="<fmt:message key="label.cancel" />" />
                         </td>
                         <td class="rightBtn">
                             <input type="reset" name="label.reset" value="<fmt:message key="label.reset" />"/>
