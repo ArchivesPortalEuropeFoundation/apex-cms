@@ -10,18 +10,14 @@
 	<name>liferay-portal-project</name>
 	<url>http://www.archivesportaleurope.eu</url>
 	<scm>
-		<connection>scm:svn:https://195.169.26.11/svn/apex-cms/trunk</connection>
-		<developerConnection>scm:svn:https://195.169.26.11/svn/apex-cms/trunk</developerConnection>
+		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</connection>
+		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.repository.releases.location>file:///opt/maven/releases</maven.repository.releases.location>
-		<maven.repository.snapshots.location>file:///opt/maven/snapshots</maven.repository.snapshots.location>
-		<liferay.version>6.1.0</liferay.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<liferay.version>6.1.20</liferay.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<archivesportaleurope.commons.version>1.1.1</archivesportaleurope.commons.version>
-		<archivesportaleurope.persistence.version>1.1.1</archivesportaleurope.persistence.version>
+		<archivesportaleurope.common.version>1.1.2-SNAPSHOT</archivesportaleurope.common.version>
 		<artifact.suffix />
 	</properties>
 	<build>
@@ -164,12 +160,12 @@
 			<dependency>
 				<groupId>eu.archivesportaleurope</groupId>
 				<artifactId>commons</artifactId>
-				<version>${archivesportaleurope.commons.version}</version>
+				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.archivesportaleurope</groupId>
 				<artifactId>persistence</artifactId>
-				<version>${archivesportaleurope.persistence.version}</version>
+				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.apenet</groupId>
