@@ -96,11 +96,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>${maven.repository.snapshots.location}</url>
+            <url>https://build.archivesportaleurope.net/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>releases</id>
-            <url>${maven.repository.releases.location}</url>
+            <url>https://build.archivesportaleurope.net/nexus/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
 	<modules>
