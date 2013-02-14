@@ -10,8 +10,8 @@ import eu.apenet.commons.infraestructure.Emailer;
  * @author Yoann Moranville
  */
 public abstract class EmailSender {
-    private final static String feedbackEmails = "luis.ensenat@mecd.es;wim.van.dongen@nationaalarchief.nl;beatriz.gonzalezvi@mecd.es";
-    private final static String contributeEmails = "susanne.danelius@riksarkivet.ra.se;lucile.grand@culture.gouv.fr";
+    private final static String feedbackEmails = "k.arnold@bundesarchiv.de;chris.houwing@nationaalarchief.nl;beatriz.gonzalezvi@mecd.es";
+    private final static String contributeEmails = "susanne.danelius@riksarkivet.se;lucile.grand@culture.gouv.fr";
     private final static String suggestionEmails = "k.arnold@bundesarchiv.de;lucile.grand@culture.gouv.fr";
 
     public static void sendEmail(String subject, String email, String body) {
