@@ -128,11 +128,11 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
 									resourceResponse);
 						} else if (AlType.FINDING_AID.equals(parentType)) {
-							List<? extends Ead> eads = findingAidDAO.getFindingAidsNotLinkedByArchivalInstitution(aiId,
-									start, MAX_NUMBER_OF_EADS + 1);
-							writeToResponseAndClose(
-									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
-									resourceResponse);
+//							List<? extends Ead> eads = findingAidDAO.getFindingAidsNotLinkedByArchivalInstitution(aiId,
+//									start, MAX_NUMBER_OF_EADS + 1);
+//							writeToResponseAndClose(
+//									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
+//									resourceResponse);
 						}
 
 					} else {
