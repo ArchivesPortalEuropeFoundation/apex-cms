@@ -78,9 +78,6 @@
                         <td class="leftBtn">
                             <input type="submit" id="contact_label_feedback_send" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
                         </td>
-                        <td>
-                            <input type="button" id="contact_label_cancel" value="<fmt:message key="label.cancel" />" />
-                        </td>
                         <td class="rightBtn">
                             <input type="reset" name="label.reset" value="<fmt:message key="label.reset" />"/>
                         </td>
