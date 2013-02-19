@@ -128,11 +128,11 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
 									resourceResponse);
 						} else if (AlType.FINDING_AID.equals(parentType)) {
-							List<? extends Ead> eads = findingAidDAO.getFindingAidsNotLinkedByArchivalInstitution(aiId,
-									start, MAX_NUMBER_OF_EADS + 1);
-							writeToResponseAndClose(
-									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
-									resourceResponse);
+//							List<? extends Ead> eads = findingAidDAO.getFindingAidsNotLinkedByArchivalInstitution(aiId,
+//									start, MAX_NUMBER_OF_EADS + 1);
+//							writeToResponseAndClose(
+//									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
+//									resourceResponse);
 						}
 
 					} else {
@@ -215,7 +215,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		 */
 		eadSearchOptions.setEadClazz(SourceGuide.class);
 		boolean sourceGuideExists = eadDAO.existEads(eadSearchOptions);
-		boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
+		//boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {
 			AlTreeNode hgNode = new AlTreeNode();
 			addTitleFromKey(hgNode, "text.holdings.guide.folder", locale);
@@ -233,14 +233,14 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			alTreeNodes.add(sgNode);
 		}
 		// Adding the Other Finding Aid folder and children
-		if (otherFindingAidExists) {
-			AlTreeNode faNode = new AlTreeNode();
-			addTitleFromKey(faNode, "text.other.finding.aid.folder", locale);
-			faNode.setFolder(true);
-			faNode.setHideCheckbox(true);
-			addKey(faNode, AlType.FINDING_AID, aiId, TreeType.GROUP);
-			alTreeNodes.add(faNode);
-		}
+//		if (otherFindingAidExists) {
+//			AlTreeNode faNode = new AlTreeNode();
+//			addTitleFromKey(faNode, "text.other.finding.aid.folder", locale);
+//			faNode.setFolder(true);
+//			faNode.setHideCheckbox(true);
+//			addKey(faNode, AlType.FINDING_AID, aiId, TreeType.GROUP);
+//			alTreeNodes.add(faNode);
+//		}
 		return alTreeNodes;
 	}
 
