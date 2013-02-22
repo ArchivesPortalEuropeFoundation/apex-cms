@@ -26,6 +26,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
@@ -80,6 +81,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID, advancedSearch.getCountry());
 			solrQueryParameters.setTerm(advancedSearch.getTerm());
 			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
+			AnalyzeLogger.logUpdateAdvancedSearchContext(advancedSearch, solrQueryParameters);
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
 				writeToResponseAndClose(generateAiJSON(advancedSearch,solrQueryParameters, locale),resourceResponse);
 			} else if (SEARCH_TYPE_FOND.equals(advancedSearch.getSearchType())) {
