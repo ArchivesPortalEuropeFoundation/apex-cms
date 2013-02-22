@@ -149,6 +149,7 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			if (HIERARCHY.equals(advancedSearch.getView())) {
 				handleSearchParametersForContextUpdate(advancedSearch, solrQueryParameters);
+				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
 				results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 			} else {
 				handleSearchParametersForListUpdate(advancedSearch, solrQueryParameters);
