@@ -9,8 +9,7 @@ import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
-import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.FacetType;
+import eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 public final class AnalyzeLogger {
@@ -19,6 +18,7 @@ public final class AnalyzeLogger {
     private static final Logger SIMPLE_SEARCH_ANALYZE_LOGGER = Logger.getLogger("SIMPLE_SEARCH_ANALYZE");
     private static final Logger ADVANCED_SEARCH_ANALYZE_LOGGER = Logger.getLogger("ADVANCED_SEARCH_ANALYZE");
     private static final Logger ADVANCED_SEARCH_LIST_LOGGER = Logger.getLogger("ADVANCED_SEARCH_LIST_ANALYZE");
+    private static final Logger ADVANCED_SEARCH_CONTEXT_LOGGER = Logger.getLogger("ADVANCED_SEARCH_CONTEXT_ANALYZE");
     private static final Logger PREVIEW_SECOND_DISPLAY_ANALYZE_LOGGER = Logger.getLogger("PREVIEW_SECOND_DISPLAY_ANALYZE");
     private static final Logger AL_ANALYZE_LOGGER = Logger.getLogger("AL_ANALYZE");
     
@@ -86,6 +86,63 @@ public final class AnalyzeLogger {
     		logLine +=countList(solrQueryParameters.getOrParameters().get( SolrFields.FOND_ID)) + ";";
     		logLine +="\""+ advancedSearch.getTerm() + "\"";
     		ADVANCED_SEARCH_ANALYZE_LOGGER.debug(logLine);
+    	}    	
+    }
+    public static void logUpdateAdvancedSearchContext(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    	if (ADVANCED_SEARCH_CONTEXT_LOGGER.isDebugEnabled()){
+    		String logLine = "";
+    		if (HIERARCHY.equals(advancedSearch.getView())) {
+    			logLine +="c;";
+    		}else {
+    			logLine +=";";
+    		}
+    		if (TRUE.equals(advancedSearch.getDao())) {
+    			logLine +="d;";
+    		}else {
+    			logLine +=";";
+    		}   
+    		if (TRUE.equals(advancedSearch.getMethod())) {
+    			logLine +="or;";
+    		}else {
+    			logLine +=";";
+    		} 
+    		if ("0".equals(advancedSearch.getElement())){
+    			logLine +=";";
+    		}else {
+    			logLine += advancedSearch.getElement() +";";
+    		}
+    		logLine += advancedSearch.getTypedocument() +";";
+    		if (StringUtils.isBlank(advancedSearch.getFromdate())) {
+    			logLine +=";";
+    		}else {
+    			logLine +="fd;";
+    		} 
+    		if (StringUtils.isBlank(advancedSearch.getTodate())) {
+    			logLine +=";";
+    		}else {
+    			logLine +="td;";
+    		} 
+    		if (StringUtils.isBlank(advancedSearch.getExactDateSearch())) {
+    			logLine +=";";
+    		}else {
+    			logLine +="xd;";
+    		} 
+    		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.COUNTRY_ID)) + ";";
+    		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.AI_ID)) + ";";
+    		logLine +=countList(solrQueryParameters.getOrParameters().get( SolrFields.FOND_ID)) + ";";
+    		if (StringUtils.isBlank(advancedSearch.getStart())) {
+    			logLine +=";";
+    		}else {
+    			logLine +=advancedSearch.getStart() + ";";
+    		}
+    		if (StringUtils.isBlank(advancedSearch.getLevel())) {
+    			logLine +=";";
+    		}else {
+    			logLine +=advancedSearch.getLevel() + ";";
+    		}
+    		logLine += advancedSearch.getSearchType() + ";";
+    		logLine +="\""+ advancedSearch.getTerm() + "\"";
+    		ADVANCED_SEARCH_CONTEXT_LOGGER.debug(logLine);
     	}    	
     }
     public static void logUpdateAdvancedSearchList(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
