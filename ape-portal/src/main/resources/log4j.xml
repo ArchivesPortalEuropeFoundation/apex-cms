@@ -43,6 +43,13 @@
 			<param name="ConversionPattern" value="%d{ABSOLUTE};%m%n" />
 		</layout>
 	</appender>
+		<appender name="analyzeAdvancedSearchContextFile" class="org.apache.log4j.DailyRollingFileAppender">	 
+		<param name="Threshold" value="DEBUG" /> 
+		<param name="File" value="${catalina.base}/logs/portal-analyzes-advancedsearch-context.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE};%m%n" />
+		</layout>
+	</appender>
 	<appender name="analyzePreviewFile" class="org.apache.log4j.DailyRollingFileAppender">	 
 		<param name="Threshold" value="DEBUG" /> 
 		<param name="File" value="${catalina.base}/logs/portal-analyzes-preview.log" />
@@ -80,6 +87,10 @@
 	<logger name="ADVANCED_SEARCH_LIST_ANALYZE">
 		<level value="debug" />
 		<appender-ref ref="analyzeAdvancedSearchListFile" /> 
+	</logger>
+	<logger name="ADVANCED_SEARCH_CONTEXT_ANALYZE">
+		<level value="debug" />
+		<appender-ref ref="analyzeAdvancedSearchContextFile" /> 
 	</logger>
     <root>
         <priority value="INFO"/>
