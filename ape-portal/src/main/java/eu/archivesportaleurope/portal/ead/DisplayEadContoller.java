@@ -16,6 +16,7 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 
 /**
  * 
@@ -46,6 +47,7 @@ public class DisplayEadContoller {
 			ArchivalInstitution archivalInstitution = null;
 			Ead ead = null;
 			if (StringUtils.isNotBlank(eadParams.getId())) {
+				AnalyzeLogger.logSecondDisplay(eadParams.getId());
 				if (eadParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					String subSolrId = eadParams.getId().substring(1);
 					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {

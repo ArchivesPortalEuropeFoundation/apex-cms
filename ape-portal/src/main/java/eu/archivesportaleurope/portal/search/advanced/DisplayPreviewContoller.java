@@ -20,6 +20,7 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class DisplayPreviewContoller {
 	public ModelAndView displayPreview(@RequestParam String id) {
 		try {
 			if (StringUtils.isNotBlank(id)) {
+				AnalyzeLogger.logPreview(id);
 				if (id.startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					Long idLong = new Long(id.substring(1));
 					if (id.startsWith(SolrValues.C_LEVEL_PREFIX))

@@ -26,6 +26,7 @@ import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.ArchivalLandscapeUtil;
@@ -92,6 +93,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				Integer countryId = null;
 				Integer aiId = null;
 				boolean displayAis = false;
+				AnalyzeLogger.logAlTree(parentType, treeType,start);
 				if (AlType.COUNTRY.equals(parentType) || AlType.ARCHIVAL_INSTITUTION.equals(parentType)) {
 					if (AlType.COUNTRY.equals(parentType)) {
 						countryId = id.intValue();

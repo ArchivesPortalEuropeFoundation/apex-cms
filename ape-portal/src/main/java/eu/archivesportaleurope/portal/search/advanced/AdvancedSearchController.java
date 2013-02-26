@@ -24,6 +24,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
 import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
@@ -67,6 +68,7 @@ public class AdvancedSearchController {
 	@RenderMapping(params = "myaction=simpleSearch")
 	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch, RenderRequest request) {
 		advancedSearch.setMode(MODE_NEW_SEARCH);
+		AnalyzeLogger.logSimpleSearch(advancedSearch);
 		Results results = performNewSearch(request, advancedSearch);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
@@ -102,9 +104,10 @@ public class AdvancedSearchController {
 		Results results = null;
 		try {
 			String error = validate(advancedSearch);
-			if (error == null) {
+			if (error == null) {	
 				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				handleSearchParameters(advancedSearch, solrQueryParameters);
+				AnalyzeLogger.logAdvancedSearch(advancedSearch,solrQueryParameters);
 				if (HIERARCHY.equals(advancedSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
@@ -146,9 +149,11 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			if (HIERARCHY.equals(advancedSearch.getView())) {
 				handleSearchParametersForContextUpdate(advancedSearch, solrQueryParameters);
+				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
 				results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 			} else {
 				handleSearchParametersForListUpdate(advancedSearch, solrQueryParameters);
+				AnalyzeLogger.logUpdateAdvancedSearchList(advancedSearch, solrQueryParameters);
 				results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
 			}
 		} catch (Exception e) {
