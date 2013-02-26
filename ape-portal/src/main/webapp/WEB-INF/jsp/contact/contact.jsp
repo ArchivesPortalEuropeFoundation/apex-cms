@@ -57,15 +57,6 @@
                 <form:errors path="feedback" cssClass="error" />
             </td>
         </tr>
-        <!--tr>
-            <td></td>
-            <td>
-                <div id="contact_" class="apnetReCaptcha">
-                    <input type="hidden" name="hidden_flag_recaptcha" value="" id="hidden_flag_recaptcha"/>
-                    <script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6LebX9sSAAAAAPNhohQ93xnzFSbMdKsdLeuSI2dq"></script>
-                </div>
-            </td>
-        </tr-->
         <tr>
             <td colspan="3">
                 <fmt:message key="feedbackText.info.tips" />
