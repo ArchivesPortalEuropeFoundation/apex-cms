@@ -4,14 +4,14 @@
 
 	<groupId>eu.archivesportaleurope.liferay</groupId>
 	<artifactId>liferay-portal-project</artifactId>
-	<version>2013-02</version>
+	<version>2013-03-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>liferay-portal-project</name>
 	<url>http://www.archivesportaleurope.eu</url>
 	<scm>
-		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/liferay-portal-project-2013-02</connection>
-		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/liferay-portal-project-2013-02</developerConnection>
+		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</connection>
+		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

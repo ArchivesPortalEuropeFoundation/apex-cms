@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>eu.archivesportaleurope.liferay</groupId>
 		<artifactId>liferay-portal-project</artifactId>
-		<version>2013-02</version>
+		<version>2013-03-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>ape-pagelayouts</artifactId>

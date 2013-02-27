@@ -3,7 +3,7 @@
   <parent>
     <artifactId>liferay-portal-project</artifactId>
     <groupId>eu.archivesportaleurope.liferay</groupId>
-    <version>2013-02</version>
+    <version>2013-03-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   <artifactId>ape-hook</artifactId>
