@@ -8,7 +8,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>ape-hook</artifactId>
-	<name>ape-hook</name>
+	<name>Archives Portal Europe Liferay Customization</name>
 	<description>Customize Liferay by adding languages, changes dockbar</description>
 	<packaging>war</packaging>
 	<build>
