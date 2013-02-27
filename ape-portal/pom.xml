@@ -70,7 +70,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>eu.archivesportaleurope.liferay</groupId>
+			<groupId>eu.archivesportaleurope.frontend</groupId>
 			<artifactId>spring-webmvc-portlet-extension</artifactId>
 			<version>${project.version}</version>
 			<exclusions>
