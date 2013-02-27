@@ -1,16 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>liferay-portal-project</artifactId>
-    <groupId>eu.archivesportaleurope.liferay</groupId>
-    <version>2013-03-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>ape-hook</artifactId>
-  <name>ape-hook</name>
-  <description>Customize Liferay by adding languages, changes dockbar</description>
-  <packaging>war</packaging>
-  	<build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.archivesportaleurope.frontend</groupId>
+		<artifactId>frontend-project</artifactId>
+		<version>2013-03-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>ape-hook</artifactId>
+	<name>ape-hook</name>
+	<description>Customize Liferay by adding languages, changes dockbar</description>
+	<packaging>war</packaging>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

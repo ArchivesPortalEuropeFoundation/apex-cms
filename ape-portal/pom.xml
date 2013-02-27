@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>eu.archivesportaleurope.liferay</groupId>
-		<artifactId>liferay-portal-project</artifactId>
+		<groupId>eu.archivesportaleurope.frontend</groupId>
+		<artifactId>frontend-project</artifactId>
 		<version>2013-03-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
@@ -153,11 +153,11 @@
             <scope>provided</scope>
         </dependency>
 		<dependency>
-			<groupId>eu.archivesportaleurope</groupId>
+			<groupId>eu.archivesportaleurope.backend</groupId>
 			<artifactId>commons</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>eu.archivesportaleurope</groupId>
+			<groupId>eu.archivesportaleurope.backend</groupId>
 			<artifactId>persistence</artifactId>
 		</dependency>
         <dependency>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>eu.archivesportaleurope.liferay</groupId>
-	<artifactId>liferay-portal-project</artifactId>
+	<groupId>eu.archivesportaleurope.frontend</groupId>
+	<artifactId>frontend-project</artifactId>
 	<version>2013-03-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>liferay-portal-project</name>
+	<name>frontend-project</name>
 	<url>http://www.archivesportaleurope.eu</url>
 	<scm>
 		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</connection>
@@ -23,19 +23,19 @@
 	</properties>
 	<build>
 		<finalName>${project.artifactId}${artifact.suffix}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <remoteTagging>true</remoteTagging>
-                    <!-- See http://jira.codehaus.org/browse/SCM-406 -->
-                    <!-- Further non-mandatory but useful settings... -->
-                    <preparationGoals>clean install</preparationGoals>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-        </plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<remoteTagging>true</remoteTagging>
+					<!-- See http://jira.codehaus.org/browse/SCM-406 -->
+					<!-- Further non-mandatory but useful settings... -->
+					<preparationGoals>clean install</preparationGoals>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -94,27 +94,23 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>https://build.archivesportaleurope.net/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <url>https://build.archivesportaleurope.net/nexus/content/repositories/releases/</url>
-        </repository>
-    </distributionManagement>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>https://build.archivesportaleurope.net/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<url>https://build.archivesportaleurope.net/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
 	<modules>
 
 
 		<module>spring-webmvc-portlet-extension</module>
 		<module>ape-theme</module>
 		<module>ape-portal</module>
-
-		<!-- at the moment this project are not used -->
-		<!-- <module>example-portlet</module> -->
 		<module>ape-pagelayouts</module>
-
 		<module>ape-hook</module>
 	</modules>
 	<dependencyManagement>
@@ -152,19 +148,19 @@
 				<version>2.0</version>
 				<scope>provided</scope>
 			</dependency>
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>1.4.1</version>
-                <scope>provided</scope>
-            </dependency>
 			<dependency>
-				<groupId>eu.archivesportaleurope</groupId>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>commons</artifactId>
 				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>eu.archivesportaleurope</groupId>
+				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>persistence</artifactId>
 				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
