@@ -26,7 +26,7 @@ public final class AnalyzeLogger {
     	if (AL_ANALYZE_LOGGER.isDebugEnabled()){
     		String logLine ="";
     		if(AlType.COUNTRY.equals(parentType)){
-    			logLine +="c;";
+    			logLine +="co;";
     		}else if(AlType.ARCHIVAL_INSTITUTION.equals(parentType)){
     			logLine +="a;";
     		}else if(AlType.HOLDINGS_GUIDE.equals(parentType)){
@@ -36,7 +36,7 @@ public final class AnalyzeLogger {
     		}else if(AlType.FINDING_AID.equals(parentType)){
     			logLine +="f;";
     		}else if(AlType.C_LEVEL.equals(parentType)){
-    			logLine +="c;";
+    			logLine +="cl;";
     		}
     		logLine += start;
     		AL_ANALYZE_LOGGER.debug(logLine);
