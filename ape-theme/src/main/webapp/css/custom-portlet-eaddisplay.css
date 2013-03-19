@@ -13,15 +13,24 @@
 	width: 5px;
 	background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center  rgba(178, 48, 98, 0.2);
 	cursor: col-resize;	
+	/* 	for ie */
+	style: position:relative;color:pink;background-color:pink;background-image: url("../../images/second_display/vgrabber.gif");
+	/* 	for ie */
+	background-color: pink;
+	color:pink;
+	background-image: url("../../images/second_display/vgrabber.gif");
 }
 
 #eadDisplayPortlet #left-pane {
-	width:500px;
+	width:29%;
 	overflow-y: auto;
 }
 #eadDisplayPortlet #right-pane {
-	width:500px;
 	padding: 5px;
+	align: auto;
+	float: left;
+	overflow-y: auto;
+	overflow-x: auto;
 }
 #eadDisplayPortlet .pane {
 	float: left;
