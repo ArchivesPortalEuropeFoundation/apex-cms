@@ -64,3 +64,12 @@ function displayMaps(mapsUrl, countryCode, googleMapsAddress){
 			}
 		});
 }
+function display(){
+	$(".longDisplay").each(function(){
+		if($(this).css('display')=='none'){
+			$(this).show('slow');
+		}else{
+			$(this).hide('slow');
+		}
+	});
+}
