@@ -28,6 +28,12 @@
 	background: none repeat scroll 0 0 #ecf6ff;
 	width: 40%;
 }
+#directoryPortlet #directory-column-right-content table td.header1 {
+	
+	padding-left:30px;
+	padding-right:10px;
+	
+}
 
 #directoryPortlet #directory-column-right-content ul {
 	list-style-type: none;
