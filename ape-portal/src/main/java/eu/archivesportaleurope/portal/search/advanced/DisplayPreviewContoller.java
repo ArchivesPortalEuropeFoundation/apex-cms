@@ -62,7 +62,11 @@ public class DisplayPreviewContoller {
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getClazz());
 						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-						modelAndView.getModelMap().addAttribute("id", id);
+						Ead ead = eadContent.getEad();
+						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
+						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycode());
+						modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
+						modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 						return modelAndView;
 					}else {
 						return fillAIDetails(Long.parseLong(id));
@@ -96,6 +100,7 @@ public class DisplayPreviewContoller {
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
+		modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycode());
 		return modelAndView;
 	}
 

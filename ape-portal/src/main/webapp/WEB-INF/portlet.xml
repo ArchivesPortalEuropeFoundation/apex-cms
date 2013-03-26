@@ -72,18 +72,6 @@
 			<short-title>Advanced Search${artifact.suffix}</short-title>
 			<keywords>advanced-search</keywords>
 		</portlet-info>
-        <portlet-preferences>
-            <preference>
-                <name>eadDisplayFriendlyUrl</name>
-                <value>/ead-display</value>
-                <read-only>false</read-only>
-            </preference>
-            <preference>
-                <name>eadDisplayPortletName</name>
-                <value>eaddisplay</value>
-                <read-only>false</read-only>
-            </preference>
-        </portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
