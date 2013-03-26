@@ -64,3 +64,8 @@ function displayMaps(mapsUrl, countryCode, googleMapsAddress){
 			}
 		});
 }
+function display(){
+	$(".longDisplay").each(function(){
+		$(this).toggle();
+	});
+}

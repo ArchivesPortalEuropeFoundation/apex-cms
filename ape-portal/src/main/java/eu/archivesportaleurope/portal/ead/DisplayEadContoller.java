@@ -16,6 +16,8 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
+import eu.apenet.persistence.vo.EuropeanaState;
+import eu.apenet.persistence.vo.FindingAid;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 
 /**
@@ -55,28 +57,33 @@ public class DisplayEadContoller {
 						if (clevel != null) {
 							ead = clevel.getEadContent().getEad();
 						}
-						//this is a search result
+						// this is a search result
 						modelAndView.getModelMap().addAttribute("solrId", eadParams.getId());
-					} 
-				}else {
+					}
+				} else {
 					String solrPrefix = eadParams.getId().substring(0, 1);
 					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
 					String subId = eadParams.getId().substring(1);
-					if (xmlType != null){
+					if (xmlType != null) {
 						ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
-					}else if (eadParams.getAiId() != null) {
+					} else if (eadParams.getAiId() != null) {
 						xmlType = XmlType.getType(eadParams.getXmlTypeId());
 						if (StringUtils.isNotBlank(eadParams.getEadid())) {
 							ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 						}
 
-					}						
-				} 
+					}
+				}
 
-			}else if (eadParams.getAiId() != null) {
+			} else if (eadParams.getAiId() != null) {
 				XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
 				if (StringUtils.isNotBlank(eadParams.getEadid())) {
 					ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+				}
+			} else if (eadParams.getRepoCode() != null) {
+				XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
+				if (StringUtils.isNotBlank(eadParams.getEadid())) {
+					ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getRepoCode(), eadParams.getEadid());
 				}
 			}
 			if (ead == null) {

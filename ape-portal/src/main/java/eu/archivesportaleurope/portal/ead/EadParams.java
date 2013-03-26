@@ -1,12 +1,12 @@
 package eu.archivesportaleurope.portal.ead;
 
 public class EadParams {
-	private static final int ZERO = 0;
-
 	private String id;
 	private Integer xmlTypeId;
 	private String eadid;
 	private Integer aiId;
+	private String repoCode;
+	private String xmlTypeName;
 	public String getId() {
 		return id;
 	}
@@ -30,6 +30,18 @@ public class EadParams {
 	}
 	public void setAiId(Integer aiId) {
 		this.aiId = aiId;
+	}
+	public String getRepoCode() {
+		return repoCode;
+	}
+	public void setRepoCode(String repoCode) {
+		this.repoCode = repoCode;
+	}
+	public String getXmlTypeName() {
+		return xmlTypeName;
+	}
+	public void setXmlTypeName(String xmlTypeName) {
+		this.xmlTypeName = xmlTypeName;
 	}
 
 }
