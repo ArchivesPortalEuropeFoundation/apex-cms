@@ -1,4 +1,4 @@
-function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl, mapsUrl) {
+function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl) {
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -28,15 +28,15 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl, mapsU
 					$("#directory-column-right-content").empty();
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
-						displayMaps(mapsUrl, node.data.countryCode,$("#address").html());
+						displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#address").html());
 					});
 					
 				}
 				if (node.data.googleMapsAddress){
 					if (node.data.countryCode){
-						displayMaps(mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
+						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
 					}else {
-						displayMaps(mapsUrl, null, node.data.googleMapsAddress);
+						displayMaps(embeddedMapsUrl, mapsUrl, null, node.data.googleMapsAddress);
 					}
 				}
 		}
@@ -44,7 +44,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl, mapsU
 	});
 
 }
-function displayMaps(mapsUrl, countryCode, googleMapsAddress){
+function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
@@ -55,9 +55,13 @@ function displayMaps(mapsUrl, countryCode, googleMapsAddress){
 			var span = results[0].geometry.viewport.toSpan();
 			var spanLat = span.lat();
 			var spanLng = span.lng();
-			mapsUrl = mapsUrl + "&ll=" + lat +"," + lng;
-			mapsUrl = mapsUrl + "&spn=" + spanLat +"," + spanLng;
-			$("#maps").attr("src", mapsUrl);
+			var parameters = "&ll=" + lat +"," + lng;
+			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
+			if (countryCode){
+				parameters = parameters + "&q=" + input_address +",+" + countryCode;
+			}
+			$("#maps").attr("src", embeddedMapsUrl+ parameters);
+			$("#externalMap").attr("href", mapsUrl+ parameters);
 		} 
 		else {
 			alert("Google Maps not found address!");

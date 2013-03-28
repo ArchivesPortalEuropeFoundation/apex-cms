@@ -11,7 +11,7 @@
 <portlet:resourceURL var="aiDetailsUrl" id="aiDetails" />
 <script type="text/javascript">
 	$(document).ready(function() {
-		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${mapUrl}");
+		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}");
 	});
 </script>
 <div id="directoryPortlet">
@@ -35,7 +35,10 @@
 	</div>
 	<div class="portlet-layout">
 		<iframe id="maps" width="1000" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-			src="${mapUrl}${mapUrlCenterParameters}"></iframe>
+			src="${embeddedMapUrl}${mapUrlCenterParameters}"></iframe>
+		<div id="viewLargerMap">
+		<a id="externalMap" href="${mapUrl}${mapUrlCenterParameters}" target="_blank"><fmt:message key="directory.text.largermap" /></a>
+		</div>
 	</div>
 
 </div>
