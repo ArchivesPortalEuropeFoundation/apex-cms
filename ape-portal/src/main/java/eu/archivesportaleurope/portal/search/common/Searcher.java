@@ -68,6 +68,7 @@ public final class Searcher {
 	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
+		query.setFacetMinCount(1);
 		for (ListFacetSettings facetSettings: facetSettingsList){
 			FacetType facetType = facetSettings.getFacetType();
 			if (!facetType.isDate()){
