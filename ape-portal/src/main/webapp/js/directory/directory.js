@@ -24,19 +24,22 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 							
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
+
 				if( node.data.aiId ) {
 					$("#directory-column-right-content").empty();
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
+						var address =  $("#address").html();
                         if($("#address").is(":empty")) {
-                            displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#postalAddress").html());
+                        	address = $("#postalAddress").html();
                         } else {
-                            displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#address").html());
+                        	address = $("#address").html();
                         }
+						var archivalInstitutionName =$("#archivalInstitutionName").html();
+						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, archivalInstitutionName);
 					});
 					
-				}
-				if (node.data.googleMapsAddress){
+				}else if (node.data.googleMapsAddress){
 					if (node.data.countryCode){
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
 					}else {
@@ -48,7 +51,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 	});
 
 }
-function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress){
+function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress, archivalInstitutionName){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
@@ -61,8 +64,8 @@ function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress){
 			var spanLng = span.lng();
 			var parameters = "&ll=" + lat +"," + lng;
 			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
-			if (countryCode){
-				parameters = parameters + "&q=" + input_address +",+" + countryCode;
+			if (archivalInstitutionName){
+				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + countryCode;
 			}
 			$("#maps").attr("src", embeddedMapsUrl+ parameters);
 			$("#externalMap").attr("href", mapsUrl+ parameters);
