@@ -30,11 +30,9 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
 						var address =  $("#address").html();
-                        if($("#address").is(":empty")) {
+                        if(address) {
                         	address = $("#postalAddress").html();
-                        } else {
-                        	address = $("#address").html();
-                        }
+                        } 
 						var archivalInstitutionName =$("#archivalInstitutionName").html();
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, archivalInstitutionName);
 					});
