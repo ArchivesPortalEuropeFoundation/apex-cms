@@ -28,7 +28,11 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").empty();
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
-						displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#address").html());
+                        if($("#address").is(":empty")) {
+                            displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#postalAddress").html());
+                        } else {
+                            displayMaps(embeddedMapUrl, mapsUrl, node.data.countryCode,$("#address").html());
+                        }
 					});
 					
 				}
