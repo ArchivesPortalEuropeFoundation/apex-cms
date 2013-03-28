@@ -27,7 +27,7 @@ public class DirectoryController {
 	// --maps the incoming portlet request to this method
 	@RenderMapping
 	public ModelAndView showDirectory(RenderRequest renderRequest) {
-		String mapUrl = "http://maps.google.es/maps/ms?msa=0&msid=210040162411894134555.0004b85b8a7f26e22b9dc&ie=UTF8&t=m&output=embed&hl=";
+		String mapUrl = "http://maps.google.com/maps/ms?msa=0&ie=UTF8&t=m&output=embed&hl=";
 		mapUrl+=renderRequest.getLocale().getLanguage();
 		String mapUrlCenterParameters = "&ll=54.5259614,15.255118700000025&spn=48.804369699999995,102.17279989999997";
 		ModelAndView modelAndView = new ModelAndView();
