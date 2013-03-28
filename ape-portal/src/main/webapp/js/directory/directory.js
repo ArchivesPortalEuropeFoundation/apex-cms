@@ -30,11 +30,10 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
 						var address =  $("#address").html();
-                        if(address) {
+                        if($("#address").length == 0) {
                         	address = $("#postalAddress").html();
                         } 
-						var archivalInstitutionName =$("#archivalInstitutionName").html();
-						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, archivalInstitutionName);
+						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
 					});
 					
 				}else if (node.data.googleMapsAddress){
