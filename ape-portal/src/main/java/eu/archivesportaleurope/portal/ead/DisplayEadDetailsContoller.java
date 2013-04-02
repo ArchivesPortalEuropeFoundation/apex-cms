@@ -100,7 +100,8 @@ public class DisplayEadDetailsContoller{
 		}
 		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId",archivalInstitution.getAiId());
-		modelAndView.getModelMap().addAttribute("aiRepoCode",archivalInstitution.getRepositorycode());
+		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
+		modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
 		modelAndView.setViewName("eaddetails");
 		return modelAndView;		
 	}

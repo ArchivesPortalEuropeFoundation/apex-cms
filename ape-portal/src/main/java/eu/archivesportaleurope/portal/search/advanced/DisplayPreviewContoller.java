@@ -64,7 +64,8 @@ public class DisplayPreviewContoller {
 						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 						Ead ead = eadContent.getEad();
 						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
-						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycode());
+						String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
+						modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
 						modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
 						modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 						return modelAndView;
@@ -100,7 +101,8 @@ public class DisplayPreviewContoller {
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycode());
+		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
+		modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
 		return modelAndView;
 	}
 
