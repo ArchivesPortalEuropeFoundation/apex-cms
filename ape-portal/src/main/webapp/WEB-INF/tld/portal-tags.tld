@@ -113,5 +113,20 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>	
-	</tag>		
+	</tag>	
+	<tag>
+		<name>friendlyUrl</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.FriendlyUrlTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>	
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>	
 </taglib>

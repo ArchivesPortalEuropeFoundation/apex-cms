@@ -7,17 +7,12 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
-<c:set var="eadDisplayFriendlyUrl" value="${portletPreferences.map.eadDisplayFriendlyUrl[0]}"/>
-<c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
-<portal:page  varPlId="eadDisplayPlId"  varPortletId="eadDisplayPortletId" portletName="${eadDisplayPortletName}" friendlyUrl="${eadDisplayFriendlyUrl}"/>	
+<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 
-<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-	<liferay-portlet:param name="id" value="${param['id']}"/>
-</liferay-portlet:renderURL>
 <div id="content">	
 <portal:ead type="frontpage" xml="${eadContent.xml}"/>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
+	<a href="${eadDisplayDirectUrl}/${aiRepoCode}/${xmlTypeName}/${eadid}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>

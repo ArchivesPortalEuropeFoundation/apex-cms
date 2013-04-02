@@ -1,5 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -17,9 +16,7 @@
         initListTabHandlers();
     });
 </script>
-<c:set var="eadDisplayFriendlyUrl" value="${portletPreferences.map.eadDisplayFriendlyUrl[0]}"/>
-<c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
-<portal:page  varPlId="eadDisplayPlId"  varPortletId="eadDisplayPortletId" portletName="${eadDisplayPortletName}" friendlyUrl="${eadDisplayFriendlyUrl}"/>	
+<portal:friendlyUrl var="friendlyUrl" type="eaddisplay-search"/>
 <div class="results">
 		<div class="tab_header">
 			<div id="tabHeaderContent">
@@ -95,14 +92,17 @@
 										<c:set var="titleWithoutHighlighting" value="${result.titleWithoutHighlighting}"/>
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
-								</c:choose>	
-								<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-									<liferay-portlet:param name="id" value="${result.id}"/>
-									<liferay-portlet:param  name="term" value="${advancedSearch.term}"/>
-									<liferay-portlet:param  name="element" value="${advancedSearch.element}"/>
-								</liferay-portlet:renderURL>				
+								</c:choose>
+								<c:choose>
+									<c:when test="${empty advancedSearch.term }">
+										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
+									</c:when>
+									<c:otherwise>
+										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.term}/${advancedSearch.element}"/>
+									</c:otherwise>
+								</c:choose>				
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
-									href="${displayEadUrl}">${title}
+									href="${url}">${title}
 								</a>													
 								<c:if test="${!empty result.alterdate}">
 									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>

@@ -20,10 +20,7 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
-<portlet:renderURL var="displayOtherEadUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
-	<portlet:param name="aiId" value="${aiId}" />
-	<portlet:param name="xmlTypeId" value="0" />
-</portlet:renderURL>
+<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
 	<portlet:param name="id" value="${id}" />
 	<portlet:param name="element" value="${element}" />
@@ -55,7 +52,7 @@
 	</c:when>
 	<c:otherwise>
 		<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
-			secondDisplayUrl="${displayOtherEadUrl}" />
+			secondDisplayUrl="${eadDisplayDirectUrl}/${aiRepoCode}/fa" />
 		<c:if test="${not c.leaf}">
 			<div id="children" class="box">
 				<div class="boxtitle">

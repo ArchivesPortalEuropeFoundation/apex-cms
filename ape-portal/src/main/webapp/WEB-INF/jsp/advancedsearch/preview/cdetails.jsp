@@ -9,26 +9,24 @@
 <portlet:defineObjects />
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
-<c:set var="eadDisplayFriendlyUrl" value="${portletPreferences.map.eadDisplayFriendlyUrl[0]}"/>
-<c:set var="eadDisplayPortletName" value="${portletPreferences.map.eadDisplayPortletName[0]}"/>
-<portal:page varPlId="eadDisplayPlId"  varPortletId="eadDisplayPortletId" portletName="${eadDisplayPortletName}" friendlyUrl="${eadDisplayFriendlyUrl}"/>
-<liferay-portlet:renderURL var="displayEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-	<liferay-portlet:param name="id" value="C${c.clId}"/>
-	<liferay-portlet:param  name="term" value="${term}"/>
-	<liferay-portlet:param  name="element" value="${element}"/>
-</liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="displayOtherEadUrl" plid="${eadDisplayPlId}" portletName="${eadDisplayPortletId}" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-	<liferay-portlet:param name="aiId" value="${aiId}" />
-	<liferay-portlet:param name="xmlTypeId" value="0" />
-</liferay-portlet:renderURL>
+<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search"/>
+<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 <div id="content">
 	<div id="realcontent">
 <portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" aiId="${aiId}"
-			secondDisplayUrl="${displayOtherEadUrl}" />
+			secondDisplayUrl="${eadDisplayDirectUrl}/${aiRepoCode}/fa" />
 </div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-	<a href="${displayEadUrl}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
+	<c:choose>
+		<c:when test="${empty advancedSearch.term }">
+			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}/${element}/${term}"/>
+		</c:otherwise>
+	</c:choose>	
+	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>
 
