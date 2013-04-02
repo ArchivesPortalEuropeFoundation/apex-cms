@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
+"http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
+<routes>
+	<route>
+		<pattern>/fp/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+ 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>
+		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/s/{id:[^/]+}/{term:[^/]+}/{element:[^/]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>
+		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/s/{id:[^/]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
+	</route>
+</routes>
