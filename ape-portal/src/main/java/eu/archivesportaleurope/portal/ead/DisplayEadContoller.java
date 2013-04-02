@@ -55,28 +55,34 @@ public class DisplayEadContoller {
 						if (clevel != null) {
 							ead = clevel.getEadContent().getEad();
 						}
-						//this is a search result
+						// this is a search result
 						modelAndView.getModelMap().addAttribute("solrId", eadParams.getId());
-					} 
-				}else {
+					}
+				} else {
 					String solrPrefix = eadParams.getId().substring(0, 1);
 					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
 					String subId = eadParams.getId().substring(1);
-					if (xmlType != null){
+					if (xmlType != null) {
 						ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
-					}else if (eadParams.getAiId() != null) {
+					} else if (eadParams.getAiId() != null) {
 						xmlType = XmlType.getType(eadParams.getXmlTypeId());
 						if (StringUtils.isNotBlank(eadParams.getEadid())) {
 							ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 						}
 
-					}						
-				} 
+					}
+				}
 
-			}else if (eadParams.getAiId() != null) {
+			} else if (eadParams.getAiId() != null) {
 				XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
 				if (StringUtils.isNotBlank(eadParams.getEadid())) {
 					ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+				}
+			} else if (eadParams.getRepoCode() != null) {
+				String repoCode = eadParams.getRepoCode().replace('_', '/');
+				XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
+				if (StringUtils.isNotBlank(eadParams.getEadid())) {
+					ead = eadDAO.getEadByEadid(xmlType.getClazz(), repoCode, eadParams.getEadid());
 				}
 			}
 			if (ead == null) {
