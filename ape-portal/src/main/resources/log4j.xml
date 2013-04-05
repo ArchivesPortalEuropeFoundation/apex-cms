@@ -92,8 +92,12 @@
 		<level value="debug" />
 		<appender-ref ref="analyzeAdvancedSearchContextFile" /> 
 	</logger>
+	<logger name="eu">
+		<level value="INFO" />
+		<appender-ref ref="file" /> 
+	</logger>	
     <root>
-        <priority value="INFO"/>
+        <priority value="ERROR"/>
         <appender-ref ref="file"/>
     </root>
 </log4j:configuration>
