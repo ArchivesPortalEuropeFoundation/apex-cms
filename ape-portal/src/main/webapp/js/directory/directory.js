@@ -1,4 +1,4 @@
-function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl) {
+function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl, mapsUrl) {
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -34,6 +34,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
                         	address = $("#postalAddress").html();
                         } 
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
+						displayrepository('1');
 					});
 					
 				}else if (node.data.googleMapsAddress){
@@ -77,3 +78,65 @@ function display(){
 		$(this).toggle();
 	});
 }
+
+
+function displayrepository(repository){
+	$("table[title]").each(function(){
+		$(this).hide();
+	});
+	$("table[title='"+repository+"']").show();
+}
+
+
+function printEAG(){
+	jQuery.fn.outerHTML = function(s) {
+	    return this[0].outerHTML ? this[0].outerHTML :
+		   s ? this.before(s).remove()
+		     : jQuery("<p>").append(this.eq(0).clone()).html();
+	};
+	if($("#printDiv").length>0){
+		window.print();
+	}else{
+		var title = $("h2").html();
+		headerNodes = ""; //:D
+		var links = document.getElementsByTagName("link");
+		for(var i=0;i<links.length;i++){
+			if(links[i].parentNode.nodeName.toUpperCase() == "HEAD"){
+				headerNodes += "<link"//+links[i].nodeName;
+				var attributes = links[i].attributes;
+				for(var j=0;j<attributes.length;j++){
+					headerNodes += " "+attributes[j].name+"=\""+attributes[j].value+"\"";
+				}
+				headerNodes += " >\n\t";
+			}
+		}
+		var scripts = document.getElementsByTagName("script");
+		for(var i=0;i<scripts.length;i++){
+			if(scripts[i].parentNode.nodeName.toUpperCase() == "HEAD"){
+				headerNodes += "<script" //+scripts[i].nodeName;
+				var attributes = scripts[i].attributes;
+				for(var j=0;j<attributes.length;j++){
+					headerNodes += " "+attributes[j].name+"=\""+attributes[j].value+"\"";
+				}
+				headerNodes += " ></script>\n\t";
+			}
+		}
+		var eagDiv = $("#directory-column-right-content").html();
+		//var eagMap = $("#maps").html();
+		var eagMapSrc = $("#maps").attr("src");
+		var printDiv = "<div id=\"printDiv\"><div id=\"directoryPortlet\"><div id=\"directory-column-right-content\">"+eagDiv+"<div style=\"width:100%;height:20px;\">&nbsp;</div><iframe width=\"1000\" scrolling=\"no\" height=\"400\" frameborder=\"0\"  src=\""+eagMapSrc+"\" ></iframe></div></div></div>";
+		var printWindow = window.open("","PrintWindow","width=1000,height=400,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+		var printableHTML = "<html>" +
+					"<head>" +
+						"<title>"+title+"</title>" + headerNodes +
+					"</head>" +
+					"<body>" + printDiv+"</body>" +
+				"</html>";
+		
+		printWindow.document.write(printableHTML);
+		printWindow.document.close();
+		printWindow.focus();
+	}
+}
+
+

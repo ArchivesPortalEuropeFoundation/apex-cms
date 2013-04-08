@@ -26,6 +26,7 @@
 	border-top: 1px solid #FFFFFF;
 	border-bottom: 1px solid #FFFFFF;
 	background: none repeat scroll 0 0 #ecf6ff;
+	vertical-align:top;
 	width: 40%;
 }
 #directoryPortlet #directory-column-right-content table td.subHeader {
@@ -34,6 +35,13 @@
 	padding-right:10px;
 	
 }
+
+.longDisplay{
+	
+	display:none;	
+}
+
+
 
 #directoryPortlet #directory-column-right-content ul {
 	list-style-type: none;
