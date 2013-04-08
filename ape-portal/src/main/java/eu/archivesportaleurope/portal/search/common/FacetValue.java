@@ -72,7 +72,7 @@ public class FacetValue {
 		
 		try {
 			dateSpan = getDateSpan(dateGap, dateString);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			LOGGER.error("Unable to parse: " + value);
 		}
 		DateGap nextDateGap = dateGap.next();
