@@ -22,19 +22,22 @@ public class FacetValue {
 	private String description;
 	private Long numberOfResults;
 	private boolean selected;
-	
-	public FacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems, ResourceBundleSource resourceBundleSource){
-		if (facetType.isDate()){
+
+	public FacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,
+			ResourceBundleSource resourceBundleSource) {
+		if (facetType.isDate()) {
 			initDateFacetValue(facetField, count, facetType, selectedItems, resourceBundleSource);
-		}else {
+		} else {
 			initNormalFacetValue(facetField, count, facetType, selectedItems, resourceBundleSource);
 		}
 	}
-	private void initNormalFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems, ResourceBundleSource resourceBundleSource){
+
+	private void initNormalFacetValue(FacetField facetField, Count count, FacetType facetType,
+			List<String> selectedItems, ResourceBundleSource resourceBundleSource) {
 		String value = count.getName();
 		if (facetType.isHasId()) {
 			int index = value.indexOf(COLON);
-			int lastIndex =value.lastIndexOf(COLON);
+			int lastIndex = value.lastIndexOf(COLON);
 			id = value.substring(lastIndex + 1);
 			description = value.substring(0, index);
 		} else {
@@ -43,68 +46,74 @@ public class FacetValue {
 		}
 		if (facetType.isValueIsKey()) {
 			if (facetType.getPrefix() == null) {
-				
+
 				description = resourceBundleSource.getString(description.toLowerCase());
 			} else {
 				description = resourceBundleSource.getString(facetType.getPrefix() + description.toLowerCase());
 			}
 
 		}
-		if (selectedItems != null){
+		if (selectedItems != null) {
 			selected = selectedItems.contains(id);
-		}else {
+		} else {
 			selected = false;
 		}
-		numberOfResults = count.getCount();		
+		numberOfResults = count.getCount();
 	}
 
-	public void initDateFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,ResourceBundleSource resourceBundleSource ){
+	public void initDateFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,
+			ResourceBundleSource resourceBundleSource) {
 		String value = count.getName();
 		int indexOfTimeSeparator = value.indexOf('T');
 		String dateString = value.substring(0, indexOfTimeSeparator);
 		String gapString = facetField.getGap().replace("+", "");
 		DateGap dateGap = DateGap.getGapByName(gapString);
-		String dateSpan = getDateSpan(dateGap, dateString);
+		String dateSpan ="";
+		
+		try {
+			dateSpan = getDateSpan(dateGap, dateString);
+		} catch (ParseException e) {
+			LOGGER.error("Unable to parse: " + value);
+		}
 		DateGap nextDateGap = dateGap.next();
-		if (nextDateGap != null){
+		if (nextDateGap != null) {
 			id = dateString + "_" + nextDateGap.getId();
 			description = dateSpan;
 		}
-		if (selectedItems != null){
+		if (selectedItems != null) {
 			selected = selectedItems.contains(id);
-		}else {
+		} else {
 			selected = false;
 		}
-		numberOfResults = count.getCount();		
+		numberOfResults = count.getCount();
 	}
-	
-	private String getDateSpan(DateGap dateGap, String dateString) {
-		String result = "";
-		try {
-			Date beginDate = SOLR_DATE_FORMAT.parse(dateString);
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat(dateGap.getDateFormat());
-			result += dateFormat.format(beginDate);
-			if (!(Calendar.DAY_OF_MONTH == dateGap.getType() && dateGap.getAmount() == 1)) {
-				if (dateGap.getAmount() > 1) {
-					result += "-";
-					Calendar endDateCalendar = Calendar.getInstance();
-					endDateCalendar.setTime(beginDate);
-					endDateCalendar.add(dateGap.getType(), (dateGap.getAmount() - 1));
-					result += dateFormat.format(endDateCalendar.getTime());
-				}
+	private String getDateSpan(DateGap dateGap, String dateString) throws ParseException {
+		String result = "";
+		Date beginDate = SOLR_DATE_FORMAT.parse(dateString);
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateGap.getDateFormat());
+		result += dateFormat.format(beginDate);
+		if (!(Calendar.DAY_OF_MONTH == dateGap.getType() && dateGap.getAmount() == 1)) {
+			if (dateGap.getAmount() > 1) {
+				result += "-";
+				Calendar endDateCalendar = Calendar.getInstance();
+				endDateCalendar.setTime(beginDate);
+				endDateCalendar.add(dateGap.getType(), (dateGap.getAmount() - 1));
+				result += dateFormat.format(endDateCalendar.getTime());
 			}
-		} catch (ParseException e) {
-			LOGGER.error(e.getMessage(), e);
 		}
 		return result;
 	}
+
 	public Long getNumberOfResults() {
 		return numberOfResults;
 	}
+
 	public boolean isSelected() {
 		return selected;
 	}
+
 	public String getHtmlShortDescription() {
 		return DisplayUtils.encodeHtml(description, MAX_NUMBER_OF_CHARACTERS);
 	}
