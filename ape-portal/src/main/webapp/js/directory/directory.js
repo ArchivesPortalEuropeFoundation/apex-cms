@@ -34,7 +34,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
                         	address = $("#postalAddress").html();
                         } 
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
-						displayrepository('1');
+						initSeeMoreSeeLess();
 					});
 					
 				}else if (node.data.googleMapsAddress){
@@ -86,7 +86,23 @@ function displayrepository(repository){
 	});
 	$("table[title='"+repository+"']").show();
 }
+function seeLess(identifier){
+	prefix = "#" + identifier + " ";
+	$(prefix + "#displayLinkSeeMore").removeClass("hidden");
+	$(prefix + "#displayLinkSeeLess").addClass("hidden");
+	$(prefix + ".longDisplay").hide();
+}
+function seeMore(identifier){
+	prefix = "#" + identifier + " ";
+	$(prefix + "#displayLinkSeeLess").removeClass("hidden");
+	$(prefix + "#displayLinkSeeMore").addClass("hidden");
+	$(prefix + ".longDisplay").show();
+}
+function initSeeMoreSeeLess(){
+	$("#displayLinkSeeLess").addClass("hidden");
+	$(".longDisplay").hide();
 
+}
 
 function printEAG(){
 	jQuery.fn.outerHTML = function(s) {
