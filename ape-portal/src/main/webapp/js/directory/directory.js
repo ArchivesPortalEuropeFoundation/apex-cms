@@ -90,18 +90,18 @@ function displayrepository(repository){
 }
 function seeLess(identifier){
 	prefix = "#" + identifier + " ";
-	$(prefix + "#displayLinkSeeMore").removeClass("hidden");
-	$(prefix + "#displayLinkSeeLess").addClass("hidden");
+	$(prefix + ".displayLinkSeeMore").removeClass("hidden");
+	$(prefix + ".displayLinkSeeLess").addClass("hidden");
 	$(prefix + ".longDisplay").hide();
 }
 function seeMore(identifier){
 	prefix = "#" + identifier + " ";
-	$(prefix + "#displayLinkSeeLess").removeClass("hidden");
-	$(prefix + "#displayLinkSeeMore").addClass("hidden");
+	$(prefix + ".displayLinkSeeLess").removeClass("hidden");
+	$(prefix + ".displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
 }
 function initEagDetails(){
-	$("#displayLinkSeeLess").addClass("hidden");
+	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
 	$("h3.repositoryName").removeClass("expanded").addClass("collapsed");
 	$("h3.repositoryName").next().hide();
