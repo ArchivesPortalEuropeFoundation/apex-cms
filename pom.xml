@@ -18,7 +18,8 @@
 		<liferay.version>6.1.0</liferay.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<archivesportaleurope.common.version>1.1.9-SNAPSHOT</archivesportaleurope.common.version>
-		<artifact.suffix />
+        <archivesportaleurope.dptutil.version>1.2.5</archivesportaleurope.dptutil.version>
+        <artifact.suffix />
 	</properties>
 	<build>
 		<finalName>${project.artifactId}${artifact.suffix}</finalName>
@@ -167,6 +168,11 @@
 				<artifactId>persistence</artifactId>
 				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>eu.apenet</groupId>
+                <artifactId>DPTutils</artifactId>
+                <version>${archivesportaleurope.dptutil.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 
