@@ -73,8 +73,8 @@ function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress, a
 			}
 		});
 }
-function display(){
-	$(".longDisplay").each(function(){
+function display(extended){
+	$("#"+extended+" .longDisplay").each(function(){
 		$(this).toggle();
 	});
 }
