@@ -98,7 +98,7 @@
 										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
 									</c:when>
 									<c:otherwise>
-										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.term}/${advancedSearch.element}"/>
+										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.element}/${advancedSearch.term}"/>
 									</c:otherwise>
 								</c:choose>				
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
