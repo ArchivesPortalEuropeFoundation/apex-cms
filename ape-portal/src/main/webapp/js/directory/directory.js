@@ -34,7 +34,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
                         	address = $("#postalAddress").html();
                         } 
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
-						initSeeMoreSeeLess();
+						initEagDetails();
 					});
 					
 				}else if (node.data.googleMapsAddress){
@@ -74,17 +74,19 @@ function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress, a
 		});
 }
 function display(extended){
-	$("#"+extended+" .longDisplay").each(function(){
-		$(this).toggle();
-	});
+	alert("not implemented");
+//	$("#"+extended+" .longDisplay").each(function(){
+//		$(this).toggle();
+//	});
 }
 
 
 function displayrepository(repository){
-	$("table[title]").each(function(){
-		$(this).hide();
-	});
-	$("table[title='"+repository+"']").show();
+	alert("not implemented");
+//	$("table[title]").each(function(){
+//		$(this).hide();
+//	});
+//	$("table[title='"+repository+"']").show();
 }
 function seeLess(identifier){
 	prefix = "#" + identifier + " ";
@@ -98,10 +100,21 @@ function seeMore(identifier){
 	$(prefix + "#displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
 }
-function initSeeMoreSeeLess(){
+function initEagDetails(){
 	$("#displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
-
+	$("h3.repositoryName").removeClass("expanded").addClass("collapsed");
+	$("h3.repositoryName").next().hide();
+	$('h3.repositoryName').click(function() {
+		if ($(this).hasClass("expanded")) {
+			$(this).removeClass("expanded").addClass("collapsed");
+			$(this).next().hide();
+		} else {
+			$(this).removeClass("collapsed").addClass("expanded");
+			$(this).next().show();
+		}
+	});	
+	
 }
 
 function printEAG(){
