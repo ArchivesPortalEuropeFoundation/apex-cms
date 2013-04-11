@@ -33,9 +33,20 @@
 	
 	padding-left:30px;
 	padding-right:10px;
+	vertical-align:top;
 	
 }
-
+#directoryPortlet #directory-column-right-content table td.subInfoHeader {
+	font-style: italic;
+	font-weight:bold;
+	padding-left:30px;
+	padding-right:10px;
+	
+}
+#directoryPortlet #directory-column-right-content #afterRepositories {
+	height: 40px;
+	display:block;
+}
 
 #directoryPortlet #directory-column-right-content ul {
 	list-style-type: none;
