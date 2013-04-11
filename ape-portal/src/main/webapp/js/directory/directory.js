@@ -30,9 +30,9 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
 						var address =  $("#address").html();
-                        if($("#address").length == 0) {
-                        	address = $("#postalAddress").html();
-                        } 
+					    if($("#address").length == 0) {
+					    	address = $("#postalAddress").html();
+					    } 
 						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
 						initEagDetails();
 					});
@@ -81,12 +81,15 @@ function display(extended){
 }
 
 
-function displayrepository(repository){
-	alert("not implemented");
-//	$("table[title]").each(function(){
-//		$(this).hide();
-//	});
-//	$("table[title='"+repository+"']").show();
+function displayRepository(id){
+	$(".longDisplay").hide();
+	$("h3.repositoryName").removeClass("expanded").addClass("collapsed");
+	$("h3.repositoryName").next().hide();
+	$("h3#repositoryName_"+id).removeClass("collapsed").addClass("expanded");
+	$("h3#repositoryName_"+id).next().show();
+    $('html, body').animate({
+        scrollTop: $("h3#repositoryName_"+id).offset().top
+         }, 2000);
 }
 function seeLess(identifier){
 	prefix = "#" + identifier + " ";
@@ -116,6 +119,7 @@ function initEagDetails(){
 	});	
 	
 }
+
 
 function printEAG(){
 	jQuery.fn.outerHTML = function(s) {
