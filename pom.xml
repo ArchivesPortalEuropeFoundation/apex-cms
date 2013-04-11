@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 
 	<name>liferay-portal-project</name>
-	<url>http://www.archivesportaleurope.eu</url>
+	<url>http://www.archivesportaleurope.net</url>
 	<scm>
 		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/liferay-portal-project-1.1.1</connection>
 		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/liferay-portal-project-1.1.1</developerConnection>
