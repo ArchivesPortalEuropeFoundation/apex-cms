@@ -1,4 +1,7 @@
+var globalEmbeddedMapsUrl, globalMapsUrl, selectedCountryCode, selectedAiname;
 function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl) {
+	globalEmbeddedMapsUrl = embeddedMapsUrl;
+	globalMapsUrl = mapsUrl;
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -24,36 +27,35 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 							
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
-
+				if (node.data.countryCode) {
+					selectedCountryCode = node.data.countryCode;
+				}else {
+					selectedCountryCode = null;
+				}
 				if( node.data.aiId ) {
+					selectedAiname = node.data.title;
 					$("#directory-column-right-content").empty();
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
-						var address =  $("#address").html();
-					    if($("#address").length == 0) {
-					    	address = $("#postalAddress").html();
-					    } 
-						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode,address, node.data.title);
 						initEagDetails();
 					});
 					
 				}else if (node.data.googleMapsAddress){
-					if (node.data.countryCode){
-						displayMaps(embeddedMapsUrl, mapsUrl, node.data.countryCode, node.data.googleMapsAddress);
-					}else {
-						displayMaps(embeddedMapsUrl, mapsUrl, null, node.data.googleMapsAddress);
-					}
+					selectedAiname = null;
+					displayMaps(node.data.googleMapsAddress);
+				}else {
+					selectedAiname = null;
 				}
 		}
 							
 	});
 
 }
-function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress, archivalInstitutionName){
+function displayMaps(googleMapsAddress, archivalInstitutionName){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
-	geocoder.geocode( { address: input_address, region: countryCode }, function(results, status) {
+	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var lat = results[0].geometry.location.lat();
 			var lng = results[0].geometry.location.lng();
@@ -63,42 +65,40 @@ function displayMaps(embeddedMapsUrl, mapsUrl, countryCode, googleMapsAddress, a
 			var parameters = "&ll=" + lat +"," + lng;
 			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
 			if (archivalInstitutionName){
-				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + countryCode;
+				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + selectedCountryCode;
 			}
-			$("#maps").attr("src", embeddedMapsUrl+ parameters);
-			$("#externalMap").attr("href", mapsUrl+ parameters);
+			$("#maps").attr("src", globalEmbeddedMapsUrl+ parameters);
+			$("#externalMap").attr("href", globalMapsUrl+ parameters);
 		} 
 		else {
 			alert("Google Maps not found address!");
 			}
 		});
 }
-function display(extended){
-	alert("not implemented");
-//	$("#"+extended+" .longDisplay").each(function(){
-//		$(this).toggle();
-//	});
-}
-
 
 function displayRepository(id){
-	$(".longDisplay").hide();
-	$("h3.repositoryName").removeClass("expanded").addClass("collapsed");
-	$("h3.repositoryName").next().hide();
-	$("h3#repositoryName_"+id).removeClass("collapsed").addClass("expanded");
-	$("h3#repositoryName_"+id).next().show();
+	closeAllRepositories();
+	showRepository("#repository_" + id + " ");
     $('html, body').animate({
-        scrollTop: $("h3#repositoryName_"+id).offset().top
+        scrollTop: $("#repository_" + id + " .repositoryName").offset().top
          }, 2000);
 }
-function seeLess(identifier){
-	prefix = "#" + identifier + " ";
+function seeLess(clazz,identifier){
+	if (identifier){
+		prefix = "#repository_" + identifier + " ." +clazz + " ";
+	} else {
+		prefix = "." +clazz + " ";
+	}
 	$(prefix + ".displayLinkSeeMore").removeClass("hidden");
 	$(prefix + ".displayLinkSeeLess").addClass("hidden");
 	$(prefix + ".longDisplay").hide();
 }
-function seeMore(identifier){
-	prefix = "#" + identifier + " ";
+function seeMore(clazz,identifier){
+	if (identifier){
+		prefix = "#repository_" + identifier + " ." +clazz + " ";
+	} else {
+		prefix = "." +clazz + " ";
+	}
 	$(prefix + ".displayLinkSeeLess").removeClass("hidden");
 	$(prefix + ".displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
@@ -106,22 +106,47 @@ function seeMore(identifier){
 function initEagDetails(){
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
-	$("h3.repositoryName").removeClass("expanded").addClass("collapsed");
-	$("h3.repositoryName").next().hide();
+	showRepositoryOnMap("#repository_1");
+	closeAllRepositories();
 	$('h3.repositoryName').click(function() {
 		if ($(this).hasClass("expanded")) {
 			$(this).removeClass("expanded").addClass("collapsed");
 			$(this).next().hide();
 		} else {
-			$(this).removeClass("collapsed").addClass("expanded");
-			$(this).next().show();
+			closeAllRepositories();
+			showRepository("#" + $(this).parent().attr("id"));
+
 		}
-	});	
+	});
+	
 	
 }
+function showRepository(identifier){
+	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");
+	$(identifier + " .repositoryInfo").show();
+	showRepositoryOnMap(identifier);
+}
+function showRepositoryOnMap(prefix){
+	if ($(prefix + " .repositoryName").length > 0){
+		repoName = $(prefix + " .repositoryName").html();		
+	}else {
+		repoName = selectedAiname;
+	}
+	var address =  $(prefix + " .address").html();
+    if($(prefix + " .address").length == 0) {
+    	address = $(prefix + ".postalAddress").html();
+    } 
+	displayMaps(address, repoName);
+}
+function closeAllRepositories(){
+	if ($(".repositoryName").length > 0){
+		$(".repositoryName").removeClass("expanded").addClass("collapsed");
+		$(".repositoryInfo").hide();
+		$(".repositoryInfo .longDisplay").hide();
+	}
+}
 
-
-function printEAG(){
+function printEagDetails(hi){
 	jQuery.fn.outerHTML = function(s) {
 	    return this[0].outerHTML ? this[0].outerHTML :
 		   s ? this.before(s).remove()
