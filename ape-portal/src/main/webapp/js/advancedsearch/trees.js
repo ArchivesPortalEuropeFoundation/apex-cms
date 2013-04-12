@@ -31,7 +31,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 				onActivate : function(dtnode) {
 					// Retrievieng all the search filters
 					// Use our custom attribute to load the new target content:
-					if (dtnode.data.parentId != undefined && dtnode.data.searchType != "ai") {
+					if (dtnode.data.parentId != undefined && dtnode.data.searchType != "ai" && dtnode.data.searchType != "hgfa") {
 						var url = previewUrl + "&" + namespace + "id=" + dtnode.data.parentId;
 						var element = $("#updateCurrentSearch_element").val();
 						var term = $("#updateCurrentSearch_term").val();
