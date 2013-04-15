@@ -4,7 +4,3 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <portlet:defineObjects />
 <portal:eag eagUrl="${eagUrl}"/>
-<div id="printEagDetails" class="linkButton">
-	<a href="javascript:printEagDetails('test')"><fmt:message key="label.print" /><span
-		class="icon_print">&nbsp;</span></a>
-</div>
