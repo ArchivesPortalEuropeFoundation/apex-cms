@@ -329,7 +329,7 @@
     display: inline-block;	
 }
 #advancedSearchPortlet #refinements a {
-	max-width: 140px;
+	max-width: 120px;
 	text-overflow:ellipsis;
 	overflow:hidden;
 	white-space:nowrap;	
