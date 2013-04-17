@@ -3,14 +3,14 @@
 "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
 <routes>
 	<route>
-		<pattern>/fp/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:[^/]+}</pattern>
+		<pattern>/fp/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
  		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
 		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
 	</route>
 	<route>
-		<pattern>/s/{id:[^/]+}/{term:[^/]+}/{element:[^/]+}</pattern>
+		<pattern>/s/{id:[^/]+}/{element:\d+}/{term:.+}</pattern>
 		<generated-parameter name="id">{id}</generated-parameter>
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>
