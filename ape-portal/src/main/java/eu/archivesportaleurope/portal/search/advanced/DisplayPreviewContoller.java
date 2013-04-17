@@ -2,11 +2,12 @@ package eu.archivesportaleurope.portal.search.advanced;
 
 import java.io.IOException;
 
+import javax.portlet.ResourceRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -43,7 +44,8 @@ public class DisplayPreviewContoller {
 	private CLevelDAO clevelDAO;
 
 	@ResourceMapping(value = "displayPreview")
-	public ModelAndView displayPreview(@RequestParam String id) {
+	public ModelAndView displayPreview(ResourceRequest resourceRequest) {
+		String id = resourceRequest.getParameter("id");
 		try {
 			if (StringUtils.isNotBlank(id)) {
 				AnalyzeLogger.logPreview(id);
