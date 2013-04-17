@@ -14,14 +14,14 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p %C{1}:%L - %m%n"/>
         </layout>
-    </appender> 
-<!-- 	<appender name="searchesFile" class="org.apache.log4j.DailyRollingFileAppender">	 
-		<param name="Threshold" value="DEBUG" /> 
-		<param name="File" value="${catalina.base}/logs/portal-searches.log" />
+    </appender>
+	<appender name="all" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${catalina.base}/logs/portal-error.log" />
+		<param name="Threshold" value="ERROR" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{ABSOLUTE} - %m%n" />
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p %C{1}:%L - %m%n" />
 		</layout>
-	</appender> -->
+	</appender>
 	<appender name="analyzeSimpleSearchFile" class="org.apache.log4j.DailyRollingFileAppender">	 
 		<param name="Threshold" value="DEBUG" /> 
 		<param name="File" value="${catalina.base}/logs/portal-analyzes-simplesearch.log" />
@@ -64,10 +64,6 @@
 			<param name="ConversionPattern" value="%d{ABSOLUTE};%m%n" />
 		</layout>
 	</appender>
-<!--  	<logger name="eu.archivesportaleurope.portal.search.common.Searcher">
-		<level value="debug" />
-		<appender-ref ref="searchesFile" /> 
-	</logger>--> 
     <logger name="SIMPLE_SEARCH_ANALYZE">
 		<level value="debug" />
 		<appender-ref ref="analyzeSimpleSearchFile" /> 
@@ -92,8 +88,12 @@
 		<level value="debug" />
 		<appender-ref ref="analyzeAdvancedSearchContextFile" /> 
 	</logger>
-    <root>
-        <priority value="INFO"/>
-        <appender-ref ref="file"/>
-    </root>
+	<logger name="eu">
+		<level value="info" />
+		<appender-ref ref="file" /> 
+	</logger>		
+	<root>
+		<priority value="ERROR" />
+		<appender-ref ref="all" />
+	</root>
 </log4j:configuration>
