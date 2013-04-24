@@ -10,15 +10,12 @@
 
 }
 #eadDisplayPortlet  #splitter {
-	width: 5px;
-	background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center  rgba(178, 48, 98, 0.2);
-	cursor: col-resize;	
-	/* 	for ie */
-	style: position:relative;color:pink;background-color:pink;background-image: url("../../images/second_display/vgrabber.gif");
-	/* 	for ie */
-	background-color: pink;
-	color:pink;
-	background-image: url("../../images/second_display/vgrabber.gif");
+width: 5px;
+cursor: col-resize;
+background-color: pink;
+color: pink;
+background-image: url("../../images/second_display/vgrabber.gif");
+background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center rgba(178,48,98,0.2);
 }
 
 #eadDisplayPortlet #left-pane {
