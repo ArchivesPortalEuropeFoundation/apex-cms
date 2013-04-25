@@ -44,9 +44,11 @@ public class DisplayEadContoller {
 	public ModelAndView displayEad(@ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
+			String parameters = "";
 			ArchivalInstitution archivalInstitution = null;
 			Ead ead = null;
 			if (StringUtils.isNotBlank(eadParams.getId())) {
+				parameters+="id=" + eadParams.getId();
 				AnalyzeLogger.logSecondDisplay(eadParams.getId());
 				if (eadParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					String subSolrId = eadParams.getId().substring(1);
@@ -74,19 +76,22 @@ public class DisplayEadContoller {
 				}
 
 			} else if (eadParams.getAiId() != null) {
+				parameters+=" aiId=" +eadParams.getAiId();
 				XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
 				if (StringUtils.isNotBlank(eadParams.getEadid())) {
 					ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 				}
 			} else if (eadParams.getRepoCode() != null) {
 				String repoCode = eadParams.getRepoCode().replace('_', '/');
+				parameters+=" repoCode=" +repoCode;
 				XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 				if (StringUtils.isNotBlank(eadParams.getEadid())) {
 					ead = eadDAO.getEadByEadid(xmlType.getClazz(), repoCode, eadParams.getEadid());
 				}
 			}
 			if (ead == null) {
-				LOGGER.error("Could not found EAD in second display");
+				parameters+=" eadid=" +eadParams.getEadid();
+				LOGGER.info("Could not found EAD in second display "+ parameters);
 				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 				modelAndView.setViewName("indexError");
 				return modelAndView;
@@ -94,7 +99,7 @@ public class DisplayEadContoller {
 				if (ead.isPublished()) {
 					archivalInstitution = ead.getArchivalInstitution();
 				} else {
-					LOGGER.error("Found not indexed EAD in second display");
+					//LOGGER.info("Found not indexed EAD in second display");
 					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
 					modelAndView.setViewName("indexError");
 					return modelAndView;
