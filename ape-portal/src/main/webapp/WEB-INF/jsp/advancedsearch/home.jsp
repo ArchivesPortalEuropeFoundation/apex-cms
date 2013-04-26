@@ -171,7 +171,7 @@
 			<c:if test="${advancedSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
-			<div id="resultsContainer" class="${showResults }">
+			<div id="searchResultsContainer" class="${showResults }">
 				<div class="suggestionSearch" id="suggestionSearch">
 					<c:if test="${results.showSuggestions}">
 						<span class="suggestionText"> <c:choose>
@@ -209,6 +209,8 @@
 					</c:if>
 					</div>
 				</div>
+			</div>
+			<div id="loadingText" class="hidden"><fmt:message key="advancedsearch.message.loading"/>
 			</div>
 		</div>
 	</c:when>

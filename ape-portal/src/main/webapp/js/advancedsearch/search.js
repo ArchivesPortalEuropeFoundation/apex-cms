@@ -245,14 +245,14 @@ function performNewSearch() {
 	$("#tabs-list").empty();
 	fillInputFromNavTree();
 	initTabs();
-	$(selectedTabsSelector).html("<div class='icon_waiting'></div>");
-	$("#resultsContainer").removeClass("hidden");
+	blockSearch();
 	$("#mode").val("new-search");
 	$.post(newSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
 		//makeRefinementsCollapsible();
-		document.getElementById("resultsContainer").scrollIntoView(true);
+		$("#searchResultsContainer").removeClass("hidden");
+		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
 }
 
@@ -262,8 +262,8 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 	} else {
 		selectedTabsSelector = "#tabs-list";
 	}
-	$(selectedTabsSelector).append("<div class='icon_waiting'></div>");
-	$("#resultsContainer").removeClass("hidden");
+	$("#searchResultsContainer").removeClass("hidden");
+	blockSearch();
 	$.post(newSearchUrl, $("#updateCurrentSearch").serialize(), function(data) {
 		var refinementsHtml = $("#selectedRefinements > ul").html();
 		$("#tabs-context").empty();
@@ -276,8 +276,14 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 			$("#selectedRefinements > ul").append(addRemoveRefinement);
 		}
 		//makeRefinementsCollapsible();
-		document.getElementById("resultsContainer").scrollIntoView(true);
+		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
+}
+function blockSearch(){
+	$.blockUI.defaults.css = {}; 
+    $(document).ajaxStop($.unblockUI); 
+    
+	$.blockUI({message: $("#loadingText").text(), overlayCSS: { backgroundColor: 'none'  } }); 
 }
 
 function updateSorting(fieldValue) {

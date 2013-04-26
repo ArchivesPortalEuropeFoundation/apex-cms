@@ -3,6 +3,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 			{
 				autoFocus : false,
 				onLazyRead : function(dtnode) {
+					blockSearch();
 					// Retrieving all the search filters
 					if (dtnode.data.more == "true") {
 						dtnode.parent.appendAjaxWithoutRemove({
@@ -27,6 +28,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 						});
 						// addContextTreeHandler();
 					}
+					
 				},
 				onActivate : function(dtnode) {
 					// Retrievieng all the search filters
