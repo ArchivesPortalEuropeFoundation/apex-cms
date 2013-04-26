@@ -280,4 +280,19 @@ h2.blockHeader {
 	background-repeat: no-repeat;
 	background-image: url("../images/ape/expand/arrow-down.gif");
 }
-
+.blockMsg {
+	border: 1px solid #C5DBEC;
+	font-weight: bold;
+	font-size: 1.6em;
+	background-color: #E9F3FA;
+	border-radius: 15px;
+	opacity: .9;
+	width: 30%;
+	top: 40%;
+	left: 35%;
+	text-align: center;
+	cursor: wait;
+	color: #2A4862;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
