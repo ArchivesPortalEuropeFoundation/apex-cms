@@ -31,17 +31,15 @@ import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
-
 /**
  * Generate JSON for context tab.
  * 
  * @author bastiaan
- *
+ * 
  */
 @Controller(value = "contextTreeJSONWriter")
 @RequestMapping(value = "VIEW")
 public class ContextTreeJSONWriter extends AbstractJSONWriter {
-
 
 	private static final String SEARCH_TYPE_AI = "ai";
 	private static final String SEARCH_TYPE_FOND = "hgfa";
@@ -50,68 +48,78 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	private static final int MAX_NUMBER_OF_ITEMS = 10;
 
-
 	@ResourceMapping(value = "contextTree")
-	public ModelAndView getJSON(@ModelAttribute(value = "advancedSearch")  TreeAdvancedSearch advancedSearch, ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+	public ModelAndView getJSON(@ModelAttribute(value = "advancedSearch") TreeAdvancedSearch advancedSearch,
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		Locale locale = resourceRequest.getLocale();
-		
+
 		long startTime = System.currentTimeMillis();
-		
+
 		try {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			
 
 			AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 					advancedSearch.getTypedocument());
-			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());
-			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(), advancedSearch.hasExactDateSearch());
+			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
+					advancedSearch.hasExactDateSearch());
+			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
+					advancedSearch.hasExactDateSearch());
 			// Only refine on dao if selected
-			if ("true".equals(advancedSearch.getDao())){
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO, advancedSearch.getDao());
+			if ("true".equals(advancedSearch.getDao())) {
+				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
+						advancedSearch.getDao());
 			}
 			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 			if (advancedSearch.getSearchType() == null) {
 				log.error("No search type found");
-//				if (advancedSearch.getCountry() != null) {
-//					advancedSearch.setSearchType(SEARCH_TYPE_AI);
-//				}
+				// if (advancedSearch.getCountry() != null) {
+				// advancedSearch.setSearchType(SEARCH_TYPE_AI);
+				// }
 			}
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID, advancedSearch.getCountry());
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
+					advancedSearch.getCountry());
 			solrQueryParameters.setTerm(advancedSearch.getTerm());
 			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 			AnalyzeLogger.logUpdateAdvancedSearchContext(advancedSearch, solrQueryParameters);
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
-				writeToResponseAndClose(generateAiJSON(advancedSearch,solrQueryParameters, locale),resourceResponse);
+				writeToResponseAndClose(generateAiJSON(advancedSearch, solrQueryParameters, locale), resourceResponse);
 			} else if (SEARCH_TYPE_FOND.equals(advancedSearch.getSearchType())) {
-				writeToResponseAndClose(generateFindingAidsOrHoldingGuidesJSON(advancedSearch,solrQueryParameters, locale),resourceResponse);
+				writeToResponseAndClose(
+						generateFindingAidsOrHoldingGuidesJSON(advancedSearch, solrQueryParameters, locale),
+						resourceResponse);
 			} else {
-				writeToResponseAndClose(generateCLevelJSON(advancedSearch,solrQueryParameters,locale),resourceResponse);
+				writeToResponseAndClose(generateCLevelJSON(advancedSearch, solrQueryParameters, locale),
+						resourceResponse);
 			}
 
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
-		
+
 		return null;
 	}
 
-	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID, advancedSearch.getParentId());
+	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeAdvancedSearch advancedSearch,
+			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
+		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID,
+				advancedSearch.getParentId());
 		Integer startInt = 0;
 		List<Count> counts = new ArrayList<Count>();
 		if (advancedSearch.getStart() != null) {
 			startInt = new Integer(advancedSearch.getStart());
 		} else {
-			
-			FacetField holdingGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.HG_DYNAMIC_NAME,startInt, NO_LIMIT);
+
+			FacetField holdingGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.HG_DYNAMIC_NAME,
+					startInt, NO_LIMIT);
 			List<Count> hgCounts = holdingGuides.getValues();
 			if (hgCounts != null) {
 				counts.addAll(hgCounts);
 			}
-			FacetField sourceGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.SG_DYNAMIC_NAME,startInt, NO_LIMIT);
+			FacetField sourceGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.SG_DYNAMIC_NAME, startInt,
+					NO_LIMIT);
 			List<Count> sgCounts = sourceGuides.getValues();
 			if (sgCounts != null) {
 				counts.addAll(sgCounts);
@@ -123,7 +131,8 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			faMaxCount = 2;
 		}
 		maxNumberOfItems += faMaxCount;
-		FacetField findingAids = getSearcher().getFonds(solrQueryParameters, SolrFields.FA_DYNAMIC_NAME, startInt, faMaxCount);
+		FacetField findingAids = getSearcher().getFonds(solrQueryParameters, SolrFields.FA_DYNAMIC_NAME, startInt,
+				faMaxCount);
 		List<Count> faCounts = findingAids.getValues();
 		if (faCounts != null) {
 			counts.addAll(faCounts);
@@ -151,7 +160,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 					addSearchType(buffer, SolrValues.FA_PREFIX);
 				} else if (facetValue.getId().startsWith(SolrValues.HG_PREFIX)) {
 					addSearchType(buffer, SolrValues.HG_PREFIX);
-				}else {
+				} else {
 					addSearchType(buffer, SolrValues.SG_PREFIX);
 				}
 				buffer.append(COMMA);
@@ -172,70 +181,76 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		return buffer;
 	}
 
-	private StringBuilder generateAiJSON(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
+	private StringBuilder generateAiJSON(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters,
+			Locale locale) throws SolrServerException {
 		int startInt = advancedSearch.getStartInt();
 		int levelInt = advancedSearch.getLevelInt();
-		FacetField aiFacetField = getSearcher().getAis(solrQueryParameters, advancedSearch.getParentId(), levelInt, startInt, MAX_NUMBER_OF_ITEMS + 1);
+		FacetField aiFacetField = getSearcher().getAis(solrQueryParameters, advancedSearch.getParentId(), levelInt,
+				startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> archivalInstitutions = aiFacetField.getValues();
 		boolean moreResultsAvailable = (archivalInstitutions != null && archivalInstitutions.size() > MAX_NUMBER_OF_ITEMS);
 		StringBuilder buffer = new StringBuilder();
 		addStartArray(buffer);
-		int clevelAdded = 0;
-		Iterator<Count> iterator = archivalInstitutions.iterator();
-		while (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
-			TreeFacetValue aiFacetValue = new TreeFacetValue(iterator.next(), TreeFacetValue.Type.ARCHIVAL_INSTITUTION);
-			buffer.append(START_ITEM);
-			addLevel(buffer, levelInt + 1);
-			buffer.append(COMMA);
-			buffer.append(FOLDER_LAZY);
-			buffer.append(COMMA);
-			addTitle(buffer, aiFacetValue, locale);
-			buffer.append(COMMA);
-			if (aiFacetValue.isLeaf()) {
-				addSearchType(buffer, SEARCH_TYPE_FOND);
-				buffer.append(COMMA);
-				addParentId(buffer, aiFacetValue.getId().substring(1));
-			} else {
-				addSearchType(buffer, SEARCH_TYPE_AI);
-				buffer.append(COMMA);
-				addParentId(buffer, aiFacetValue.getId());
-			}
-
-			buffer.append(END_ITEM);
-
-			// add more item
-			clevelAdded++;
-			if (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
-				buffer.append(COMMA);
-			} else if (moreResultsAvailable) {
-				buffer.append(COMMA);
+		if (archivalInstitutions != null) {
+			int clevelAdded = 0;
+			Iterator<Count> iterator = archivalInstitutions.iterator();
+			while (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
+				TreeFacetValue aiFacetValue = new TreeFacetValue(iterator.next(),
+						TreeFacetValue.Type.ARCHIVAL_INSTITUTION);
 				buffer.append(START_ITEM);
-				addLevel(buffer, levelInt);
+				addLevel(buffer, levelInt + 1);
 				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 				buffer.append(COMMA);
-				addParentId(buffer, advancedSearch.getParentId());
+				addTitle(buffer, aiFacetValue, locale);
 				buffer.append(COMMA);
-				addSearchType(buffer, SEARCH_TYPE_AI);
-				buffer.append(COMMA);
-				addMore(buffer, locale);
-				buffer.append(COMMA);
-				addStart(buffer, startInt + MAX_NUMBER_OF_ITEMS);
+				if (aiFacetValue.isLeaf()) {
+					addSearchType(buffer, SEARCH_TYPE_FOND);
+					buffer.append(COMMA);
+					addParentId(buffer, aiFacetValue.getId().substring(1));
+				} else {
+					addSearchType(buffer, SEARCH_TYPE_AI);
+					buffer.append(COMMA);
+					addParentId(buffer, aiFacetValue.getId());
+				}
+
 				buffer.append(END_ITEM);
+
+				// add more item
+				clevelAdded++;
+				if (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
+					buffer.append(COMMA);
+				} else if (moreResultsAvailable) {
+					buffer.append(COMMA);
+					buffer.append(START_ITEM);
+					addLevel(buffer, levelInt);
+					buffer.append(COMMA);
+					buffer.append(FOLDER_LAZY);
+					buffer.append(COMMA);
+					addParentId(buffer, advancedSearch.getParentId());
+					buffer.append(COMMA);
+					addSearchType(buffer, SEARCH_TYPE_AI);
+					buffer.append(COMMA);
+					addMore(buffer, locale);
+					buffer.append(COMMA);
+					addStart(buffer, startInt + MAX_NUMBER_OF_ITEMS);
+					buffer.append(END_ITEM);
+				}
 			}
 		}
 		addEndArray(buffer);
 		return buffer;
 	}
 
-	private StringBuilder generateCLevelJSON(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
+	private StringBuilder generateCLevelJSON(TreeAdvancedSearch advancedSearch,
+			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
 		int startInt = advancedSearch.getStartInt();
 		int levelInt = advancedSearch.getLevelInt();
-		FacetField fonds = getSearcher().getLevels(solrQueryParameters, advancedSearch.getSearchType(), advancedSearch.getParentId(), levelInt, startInt,
-				MAX_NUMBER_OF_ITEMS + 1);
+		FacetField fonds = getSearcher().getLevels(solrQueryParameters, advancedSearch.getSearchType(),
+				advancedSearch.getParentId(), levelInt, startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> mapCounts = fonds.getValues();
-		QueryResponse searchResultResponse = getSearcher().getResultsInLevels(solrQueryParameters, advancedSearch.getParentId(), startInt,
-				MAX_NUMBER_OF_ITEMS);
+		QueryResponse searchResultResponse = getSearcher().getResultsInLevels(solrQueryParameters,
+				advancedSearch.getParentId(), startInt, MAX_NUMBER_OF_ITEMS);
 		SolrDocumentList results = searchResultResponse.getResults();
 		Map<String, Map<String, List<String>>> highlightingMap = searchResultResponse.getHighlighting();
 		boolean moreResultsAvailable = (mapCounts != null && mapCounts.size() > MAX_NUMBER_OF_ITEMS)
@@ -280,15 +295,15 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				addParentId(buffer, facetValue.getId());
 				buffer.append(COMMA);
-//				addFondId(buffer, fondId);
-//				buffer.append(COMMA);
+				// addFondId(buffer, fondId);
+				// buffer.append(COMMA);
 				if (searchResult == null) {
 					addTitle(buffer, facetValue, locale);
 				} else if (searchResult != null) {
 					String id = (String) searchResult.getFieldValue(SolrFields.ID);
 					String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
-					String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.TITLE,
-							title);
+					String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id,
+							SolrFields.TITLE, title);
 					addTitleWithLinkAndCount(buffer, highlightedTitle, facetValue.getCount(), locale);
 					buffer.append(COMMA);
 					addSearchResult(buffer);
@@ -296,14 +311,14 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			} else if (facetValue == null && searchResult != null) {
 				String id = (String) searchResult.getFieldValue(SolrFields.ID);
 				String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
-				String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.TITLE,
-						title);
+				String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id,
+						SolrFields.TITLE, title);
 				addTitleWithLink(buffer, highlightedTitle, locale);
 				buffer.append(COMMA);
 				addParentId(buffer, id);
 				buffer.append(COMMA);
-//				addFondId(buffer, fondId);
-//				buffer.append(COMMA);
+				// addFondId(buffer, fondId);
+				// buffer.append(COMMA);
 				addSearchResult(buffer);
 			}
 
@@ -320,8 +335,8 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				addParentId(buffer, advancedSearch.getParentId());
 				buffer.append(COMMA);
-//				addFondId(buffer, fondId);
-//				buffer.append(COMMA);
+				// addFondId(buffer, fondId);
+				// buffer.append(COMMA);
 				addSearchType(buffer, advancedSearch.getSearchType());
 				buffer.append(COMMA);
 				addMore(buffer, locale);
@@ -334,54 +349,50 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		return buffer;
 	}
 
-
-
 	private void addTitleWithLink(StringBuilder buffer, String title, Locale locale) {
-		addTitle("contextTitleWithLink", buffer,title, null,locale);
+		addTitle("contextTitleWithLink", buffer, title, null, locale);
 
 	}
-	
+
 	private void addTitle(String styleClass, StringBuilder buffer, String title, Long count, Locale locale) {
 		addNoIcon(buffer);
 		String convertedTitle = convertTitle(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
-			if (styleClass == null){
+			if (styleClass == null) {
 				styleClass = "notitle";
-			}else {
+			} else {
 				styleClass += " notitle";
 			}
 		}
-		
-		if (styleClass != null){
+
+		if (styleClass != null) {
 			buffer.append("\"addClass\":");
 			buffer.append(" \"" + styleClass + "\"");
 			buffer.append(COMMA);
 		}
-		
+
 		buffer.append("\"title\":\"");
-		if (hasTitle){
+		if (hasTitle) {
 			buffer.append(convertedTitle);
-		}else {
+		} else {
 			buffer.append(this.getMessageSource().getMessage(ADVANCEDSEARCH_TEXT_NOTITLE, null, locale));
 		}
-		if (count != null){
+		if (count != null) {
 			buffer.append(" <span class='numberOfHits'>(" + count + ")</span>\"");
-		}else {
+		} else {
 			buffer.append("\"");
 		}
 	}
-	
+
 	private void addTitleWithLinkAndCount(StringBuilder buffer, String title, long count, Locale locale) {
-		addTitle("contextTitleWithLink", buffer,title, count, locale);
+		addTitle("contextTitleWithLink", buffer, title, count, locale);
 	}
 
 	private void addTitle(StringBuilder buffer, TreeFacetValue facetValue, Locale locale) {
-		addTitle(null, buffer,facetValue.getName(), facetValue.getCount(),locale);
+		addTitle(null, buffer, facetValue.getName(), facetValue.getCount(), locale);
 
 	}
-
-
 
 	private static void addSearchType(StringBuilder buffer, String searchType) {
 		buffer.append("\"searchType\":");
@@ -403,17 +414,11 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		buffer.append(" \"" + parentId + "\"");
 	}
 
-
-
-
-
 	private static void addSearchResult(StringBuilder buffer) {
 		buffer.append("\"searchResult\":");
 		buffer.append(" \"true\"");
 	}
-	
 
-	
 	private static class CLevelInfo implements Comparable<CLevelInfo> {
 		private TreeFacetValue clevelWithCounts;
 		private SolrDocument searchResult;
@@ -459,11 +464,10 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	}
 
-
 	static class FacetFieldInfo {
 		public FacetFieldInfo() {
 
 		}
 	}
-	
+
 }
