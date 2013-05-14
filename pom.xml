@@ -17,7 +17,7 @@
 		<liferay.version>6.1.0</liferay.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<archivesportaleurope.common.version>2013-04</archivesportaleurope.common.version>
-		<archivesportaleurope.dptutil.version>1.2.9</archivesportaleurope.dptutil.version>
+		<archivesportaleurope.dptutil.version>1.2.11</archivesportaleurope.dptutil.version>
 		<artifact.suffix />
 	</properties>
 	<build>
