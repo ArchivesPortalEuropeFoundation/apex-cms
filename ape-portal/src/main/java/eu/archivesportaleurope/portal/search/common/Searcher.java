@@ -13,7 +13,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
@@ -35,11 +35,11 @@ public final class Searcher {
 	//private static final String WHITESPACE = " ";
 	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private final static Logger LOGGER = Logger.getLogger(Searcher.class);
-	private CommonsHttpSolrServer solrServer;
-	private CommonsHttpSolrServer getSolrServer(){
+	private HttpSolrServer solrServer;
+	private HttpSolrServer getSolrServer(){
 		if (solrServer == null){
 			try {
-				solrServer = new CommonsHttpSolrServer(APEnetUtilities.getApePortalConfig().getSolrSearchUrl(), null);
+				solrServer = new HttpSolrServer(APEnetUtilities.getApePortalConfig().getSolrSearchUrl(), null);
 				LOGGER.info("Successfully instantiate the solr client: " + APEnetUtilities.getApePortalConfig().getSolrSearchUrl());
 			} catch (Exception e) {
 				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
