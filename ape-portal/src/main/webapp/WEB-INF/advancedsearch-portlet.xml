@@ -39,7 +39,6 @@
 		<property name="countryDAO" ref="countryDAO"/>
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 		<property name="eadDAO" ref="eadDAO"/> 
-		<property name="findingAidDAO" ref="findingAidDAO"/>
 		<property name="cLevelDAO" ref="cLevelDAO"/>
 	</bean>	
 	<bean
