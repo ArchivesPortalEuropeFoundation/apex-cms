@@ -19,11 +19,11 @@ import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.EadSearchOptions;
-import eu.apenet.persistence.dao.FindingAidDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.FindingAid;
+import eu.apenet.persistence.vo.HgSgFaRelation;
 import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
@@ -52,7 +52,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 
 	private EadDAO eadDAO;
-	private FindingAidDAO findingAidDAO;
 	private CLevelDAO cLevelDAO;
 
 	public void setCountryDAO(CountryDAO countryDAO) {
@@ -65,10 +64,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
-	}
-
-	public void setFindingAidDAO(FindingAidDAO findingAidDAO) {
-		this.findingAidDAO = findingAidDAO;
 	}
 
 	public void setcLevelDAO(CLevelDAO cLevelDAO) {
@@ -129,14 +124,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 							writeToResponseAndClose(
 									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
 									resourceResponse);
-						} else if (AlType.FINDING_AID.equals(parentType)) {
-//							List<? extends Ead> eads = findingAidDAO.getFindingAidsNotLinkedByArchivalInstitution(aiId,
-//									start, MAX_NUMBER_OF_EADS + 1);
-//							writeToResponseAndClose(
-//									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
-//									resourceResponse);
-						}
-
+						} 
 					} else {
 						Integer parentId = id.intValue();
 						List<CLevel> topClevels = cLevelDAO.getTopClevelsByFileId(parentId, XmlType
@@ -295,16 +283,13 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			AlTreeNode node = new AlTreeNode();
 			addTitle(node, clevel.getUnittitle(), locale);
 			if (clevel.isLeaf()) {
+				HgSgFaRelation hgSgFaRelation = clevel.getHgSgFaRelation();
 				// The node is a Finding Aid
-
-				Integer faId = eadDAO.isEadidIndexed(clevel.getHrefEadid(), aiId, FindingAid.class);
-				if (faId == null) {
-					// The Finding Aid is not indexed, so it can not be
-					// selectable
-					node.setHideCheckbox(true);
+				if (hgSgFaRelation != null && hgSgFaRelation.getFindingAid().isPublished()) {
+					addKey(node, AlType.FINDING_AID, hgSgFaRelation.getFaId(), TreeType.LEAF);
 					addPreviewCId(node, clevel.getClId());
 				} else {
-					addKey(node, AlType.FINDING_AID, faId, TreeType.LEAF);
+					node.setHideCheckbox(true);
 					addPreviewCId(node, clevel.getClId());
 				}
 
