@@ -41,11 +41,20 @@
 		initExpandableParts();
 	});
 </script>
+<div id="buttonsHeader">
 <div id="printEadDetails" class="linkButton">
-	<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span
-		class="icon_print">&nbsp;</span></a>
+	<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
 </div>
-
+<div id="shareButton" class="linkButton">
+<div class="addthis_toolbox addthis_default_style "
+        addthis:url="${eadDisplayDirectUrl}"
+        addthis:title="${documentTitle}"
+        addthis:description="${documentTitle}"> 
+<a href="http://www.addthis.com/bookmark.php?v=250&pubid=ra-51ac1bff61ef0f9e" class="addthis_button_compact"><fmt:message key="label.share" /></a> 
+</div>
+</div>
+</div>
+<div id="eaddetailsContent">
 <c:choose>
 	<c:when test="${empty c}">
 		<portal:ead type="${type}" xml="${eadContent.xml}" />
@@ -70,3 +79,4 @@
 		</c:if>
 	</c:otherwise>
 </c:choose>
+</div>
