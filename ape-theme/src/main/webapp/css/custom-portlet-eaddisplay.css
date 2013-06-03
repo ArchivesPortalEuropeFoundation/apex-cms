@@ -190,10 +190,13 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     float: right;
     width:167px;
 }
-#eadDisplayPortlet #printEadDetails{
-    padding-right: 10px;
-    position: absolute;
-    right: 0;
+#eadDisplayPortlet #printEadDetails, #eadDisplayPortlet #shareButton{
+	float:right;
+
+}
+#eadDisplayPortlet #buttonsHeader, #eadDisplayPortlet #eaddetailsContent {
+	display: inline-block;
+	width: 100%;
 }
 #eadDisplayPortlet em {
 	font-weight: bold;
