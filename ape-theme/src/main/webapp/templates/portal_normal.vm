@@ -11,6 +11,16 @@
 	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
+	<script type="text/javascript">
+	var addthis_config =
+	{
+	   ui_508_compliant: true,
+	   ui_click : false,
+	   data_track_clickback: true,
+	   services_exclude : 'print'
+	}
+	</script>
+	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js?domready=1#pubid=ra-51ac1bff61ef0f9e"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	$theme.include($top_head_include)
 
