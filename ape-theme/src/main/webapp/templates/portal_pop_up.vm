@@ -19,7 +19,7 @@
 	   services_exclude : 'print'
 	}
 	</script>
-	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js?domready=1#pubid=ra-51ac1bff61ef0f9e"></script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 	$theme.include($top_head_include)
 </head>
 
