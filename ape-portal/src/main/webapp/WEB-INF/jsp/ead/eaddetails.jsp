@@ -43,7 +43,7 @@
 	    stLight.options({
 	        publisher: 'e059943f-766d-434b-84ea-1e0d4a91b7d4',
 	        onhover: true,
-	        tracking: true
+	        tracking:'google'
 	    });
 	    stButtons.locateElements();
 	});
