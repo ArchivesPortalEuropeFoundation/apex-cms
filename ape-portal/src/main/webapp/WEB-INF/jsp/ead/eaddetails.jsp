@@ -20,6 +20,7 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
+<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search"/>
 <portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
 	<portlet:param name="id" value="${id}" />
@@ -39,19 +40,31 @@
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
 		initExpandableParts();
+	    stLight.options({
+	        publisher: 'e059943f-766d-434b-84ea-1e0d4a91b7d4',
+	        onhover: true
+	    });
+	    stButtons.locateElements();
 	});
 </script>
 <div id="buttonsHeader">
 <div id="printEadDetails" class="linkButton">
 	<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
 </div>
+
+	<c:choose>
+		<c:when test="${empty c}">
+			<c:set var="url" value="${eadDisplayDirectUrl}/${aiRepoCode}/${xmlTypeName}/${eadContent.eadid}"/>
+		</c:when>
+			<c:when test="${empty advancedSearch.term }">
+				<c:set var="url" value="${eadDisplaySearchUrl}/${id}"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${term}"/>
+			</c:otherwise>
+	</c:choose>	
 <div id="shareButton" class="linkButton">
-<div class="addthis_toolbox addthis_default_style "
-        addthis:url="${eadDisplayDirectUrl}"
-        addthis:title="${documentTitle}"
-        addthis:description="${documentTitle}"> 
-<a href="http://www.addthis.com/bookmark.php?v=250&pubid=ra-51ac1bff61ef0f9e" class="addthis_button_compact"><fmt:message key="label.share" /></a> 
-</div>
+<span class="st_sharethis_button" displayText="<fmt:message key="label.share" />" st_title="${documentTitle}" st_url="${url}"></span>
 </div>
 </div>
 <div id="eaddetailsContent">

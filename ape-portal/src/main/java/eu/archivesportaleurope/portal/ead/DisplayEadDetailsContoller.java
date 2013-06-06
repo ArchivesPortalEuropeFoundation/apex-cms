@@ -12,6 +12,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
@@ -127,6 +128,10 @@ public class DisplayEadDetailsContoller {
 					modelAndView.getModelMap().addAttribute("documentTitle", eadContent.getTitleproper());
 				}
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
+				String repoCode = eadContent.getEad().getArchivalInstitution().getRepositorycode().replace('/', '_');
+				modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
+				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.setViewName("eaddetails");
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());
