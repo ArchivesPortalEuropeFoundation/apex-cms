@@ -9,6 +9,7 @@
 <portlet:resourceURL var="directoryTreeUrl" id="directoryTree" />
 <portlet:resourceURL var="directoryTreeAiUrl" id="directoryTreeAi" />
 <portlet:resourceURL var="aiDetailsUrl" id="aiDetails" />
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}");
