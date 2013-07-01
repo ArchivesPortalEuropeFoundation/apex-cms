@@ -395,9 +395,13 @@
 	min-height: 60px;
 }
 #advancedSearchPortlet .list-searchresult-content-archdesc {
-	background-color: #F8F8F8;
+	background-color: #F0F7FC;
+	border-radius: 5px;
 }
 
+#advancedSearchPortlet .list-searchresult-content-archdesc .list-searchresult-context {
+	color: #636363;
+}
 #advancedSearchPortlet .list-searchresult-content .scopecontent,#advancedSearchPortlet .list-searchresult-content .other
 	{
 	text-overflow: ellipsis;
