@@ -79,7 +79,7 @@
 			<div id="searchresultsList">
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
-						<div class="list-searchresult-content">
+						<div class="list-searchresult-content list-searchresult-content-${result.level}">
 							<div class="list-searchresult-header">
 								<c:choose>
 									<c:when test="${empty result.title}">

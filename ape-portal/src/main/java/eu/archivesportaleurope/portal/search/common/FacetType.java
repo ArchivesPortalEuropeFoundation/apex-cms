@@ -11,6 +11,7 @@ public enum FacetType {
 	AI(SolrFields.AI, SolrFields.AI_ID, true),
 	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, true),
 	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
+	LEVEL(SolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
 	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
 	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
 	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),

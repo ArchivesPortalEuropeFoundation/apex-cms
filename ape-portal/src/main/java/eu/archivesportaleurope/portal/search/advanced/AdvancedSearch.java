@@ -36,6 +36,7 @@ public class AdvancedSearch implements Serializable {
 	private String fond;
 	private String roledao;
 	private String type;
+	private String level;
 	private String dateType;
 	private String order;
 	private String startdate;
@@ -94,6 +95,15 @@ public class AdvancedSearch implements Serializable {
 	public String getCountry() {
 		return country;
 	}
+	
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
 	public List<String> getCountryList(){
 		if (StringUtils.isNotBlank(country)){
 			return Arrays.asList(country.split(","));
@@ -150,7 +160,13 @@ public class AdvancedSearch implements Serializable {
 			return null;
 		}
 	}
-	
+	public List<String> getLevelList(){
+		if (StringUtils.isNotBlank(level)){
+			return Arrays.asList(level.split(","));
+		}else {
+			return null;
+		}
+	}
 	public String getExpandedNodes() {
 		return expandedNodes;
 	}

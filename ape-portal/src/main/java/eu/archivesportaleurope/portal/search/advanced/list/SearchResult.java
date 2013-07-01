@@ -34,6 +34,7 @@ public class SearchResult {
 	private String otherUnitid;
 	private String alterdate;
 	private String alterdateWithoutHighlighting;
+	private String level;
 	private SolrDocument solrDocument;
 
 	public SearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
@@ -71,6 +72,8 @@ public class SearchResult {
 		if (otherUnitid != null){
 			this.otherUnitid = "(" + this.otherUnitid + ")";
 		}
+		if (solrDocument.getFieldValue(SolrFields.LEVEL) != null)
+			this.level = solrDocument.getFieldValue(SolrFields.LEVEL).toString();
 	}
 
 	public String getId() {
@@ -155,6 +158,10 @@ public class SearchResult {
 
 	public String getAlterdateWithoutHighlighting() {
 		return alterdateWithoutHighlighting;
+	}
+
+	public String getLevel() {
+		return level;
 	}
 
 }

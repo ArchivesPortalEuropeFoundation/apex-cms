@@ -235,6 +235,7 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, advancedSearch.getDateTypeList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.ROLEDAO, advancedSearch.getRoledaoList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, advancedSearch.getFondList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.LEVEL, advancedSearch.getLevelList());
 	}
 
 	protected void updatePagination(AdvancedSearch advancedSearch, ListResults results) {
