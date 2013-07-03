@@ -160,6 +160,10 @@
 			<groupId>eu.archivesportaleurope.backend</groupId>
 			<artifactId>persistence</artifactId>
 		</dependency>
+        <dependency> <!-- Please do NOT erase this dependency!! -->
+            <groupId>eu.apenet</groupId>
+            <artifactId>DPTutils</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
