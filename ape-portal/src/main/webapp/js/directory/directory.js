@@ -8,23 +8,23 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 		//rootVisible: false,
 		fx: { height: "toggle", duration: 200 },
 		selectMode: 1,
-						
+
 		//Handleing events
-						
+
 		//Tree initialization
 		initAjax: {
 				url: directoryTreeUrl
 			},
-						
+
 			//Function to load only the part of the tree that the user wants to expand
 			onLazyRead: function(node){
-				            	
+
 				node.appendAjax({
 					url: directoryTreeAIUrl,
 					data: {nodeId: node.data.key, countryCode: node.data.countryCode}
 				});
 			},
-							
+
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
 				if (node.data.countryCode) {
@@ -39,15 +39,17 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
 						initEagDetails();
 					});
-					
+
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
 					displayMaps(node.data.googleMapsAddress);
 				}else {
 					selectedAiname = null;
 				}
-		}
-							
+		},
+
+		// Generate id attributes like <span id='dynatree-id-KEY'>
+		generateIds: true,
 	});
 
 }
@@ -118,8 +120,6 @@ function initEagDetails(){
 
 		}
 	});
-	
-	
 }
 function showRepository(identifier){
 	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");
@@ -190,11 +190,13 @@ function printEagDetails(hi){
 					"</head>" +
 					"<body>" + printDiv+"</body>" +
 				"</html>";
-		
+
 		printWindow.document.write(printableHTML);
 		printWindow.document.close();
 		printWindow.focus();
 	}
 }
 
-
+function recoverRelatedInstitution(relatedAIId) {
+	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
+}
