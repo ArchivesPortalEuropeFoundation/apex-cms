@@ -57,6 +57,12 @@ function displayMaps(googleMapsAddress, archivalInstitutionName){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
+
+	// If necessary, recover the first element in visitors address element.
+	if (input_address.indexOf("<p>") != '-1') {
+		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
+	}
+
 	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var lat = results[0].geometry.location.lat();
