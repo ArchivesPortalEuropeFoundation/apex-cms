@@ -13,7 +13,6 @@
 		<c:set var="advancedSearchFriendlyUrl" value="${portletPreferences.map.advancedSearchFriendlyUrl[0]}"/>
 		<c:set var="advancedSearchPortletName" value="${portletPreferences.map.advancedSearchPortletName[0]}"/>
 <portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="${advancedSearchPortletName}" friendlyUrl="${advancedSearchFriendlyUrl}"/>		
-		<c:set var="numberOfDaoUnits" value="${portletPreferences.map.numberOfDaoUnits[0]}"/>
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
