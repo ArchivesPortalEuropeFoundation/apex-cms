@@ -200,7 +200,7 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException {
 		ContextResults results = new ContextResults();
 		QueryResponse solrResponse = searcher.performNewSearchForContextView(solrQueryParameters);
-		results.init(solrResponse);
+		results.init(solrResponse, request.getLocale());
 		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
 		if (countries != null) {
 			for (Count country : countries) {
