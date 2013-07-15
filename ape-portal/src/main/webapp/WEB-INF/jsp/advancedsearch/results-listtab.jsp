@@ -27,7 +27,7 @@
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
-						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" />
+						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" numberFormat="${numberFormat}" />
 					</div>
 					<div id="resultPerPageContainer">
 						<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
