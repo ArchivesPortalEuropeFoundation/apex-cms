@@ -115,10 +115,12 @@ function initPanes() {
 		scroll : false,
 		axis : "x",
 		stop : function(event, ui) {
+			var newTotalWidth = header.outerWidth(true);
 			var left = $("#splitter").offset().left;
 			leftPane.width(left - 1);
 			splitter.css("left", 0);
-			rightPane.width(totalWidth - leftPane.outerWidth(true) - splitter.outerWidth(true) - marge);
+			var newRightPaneWidth = newTotalWidth - leftPane.outerWidth(true) - splitter.outerWidth(true) - marge;
+			rightPane.width(newRightPaneWidth);
 		}
 	});
 	$(window).resize(function() {
@@ -133,7 +135,7 @@ function initPanes() {
 	resizePage();
 }
 function resizePage() {
-	$("#eadcontent").height($(window).height() - $("#eadcontent").offset().top);
+	$("#eadcontent").height(($(window).height()-$("#eadcontent").offset().top));
 }
 function printEadDetails(url) {
 	var preview = window.open(url, 'printpreview',
