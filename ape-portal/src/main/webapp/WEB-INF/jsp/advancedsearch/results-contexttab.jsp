@@ -26,7 +26,7 @@
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" /></span>
-						${results.totalNumberOfResults}
+						${results.totalNumberOfResultsString}
 					</div>			
 				</c:when>
 				<c:otherwise>
