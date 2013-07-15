@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
 
@@ -171,6 +172,7 @@ public class AdvancedSearchController {
 		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize() * (pageNumber - 1),
 				results.getPageSize(), advancedSearch.getFacetSettingsList(), advancedSearch.getOrder(), advancedSearch.getStartdate(),
 				advancedSearch.getEnddate());
+		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 		results.init(solrResponse,advancedSearch.getFacetSettingsList(), advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
@@ -186,6 +188,7 @@ public class AdvancedSearchController {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
 		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(), advancedSearch.getFacetSettingsList());
+		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 		results.init(solrResponse,advancedSearch.getFacetSettingsList(),advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
@@ -200,7 +203,8 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException {
 		ContextResults results = new ContextResults();
 		QueryResponse solrResponse = searcher.performNewSearchForContextView(solrQueryParameters);
-		results.init(solrResponse, request.getLocale());
+		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
+		results.init(solrResponse, numberFormat);
 		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
 		if (countries != null) {
 			for (Count country : countries) {

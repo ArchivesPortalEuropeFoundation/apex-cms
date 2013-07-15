@@ -50,7 +50,7 @@ public class ListResults extends Results {
 	}
 
 	public void init (QueryResponse solrResponse, List<ListFacetSettings> facetSettingsList, AdvancedSearch advancedSearch,ResourceBundleSource resourceBundleSource){
-		super.init(solrResponse, resourceBundleSource.getLocale());
+		super.init(solrResponse);
 		BeanWrapper advancedSearchBeanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(advancedSearch);
 		for (ListFacetSettings facetSettings: facetSettingsList){
 			FacetType facetType = facetSettings.getFacetType();
