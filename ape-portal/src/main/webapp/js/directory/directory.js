@@ -49,7 +49,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 		},
 
 		// Generate id attributes like <span id='dynatree-id-KEY'>
-		generateIds: true,
+		generateIds: true
 	});
 
 }
