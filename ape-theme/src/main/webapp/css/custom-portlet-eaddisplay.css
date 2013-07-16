@@ -194,6 +194,9 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	float:right;
 
 }
+#eadDisplayPortlet #shareButton{
+	padding-top: 8px;
+}
 #eadDisplayPortlet #buttonsHeader, #eadDisplayPortlet #eaddetailsContent {
 	display: inline-block;
 	width: 100%;
