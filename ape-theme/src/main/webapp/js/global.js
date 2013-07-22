@@ -20,8 +20,5 @@ function loadGoogleAnalytics() {
 }
 
 function logAction(title, url){
-	ga('send', 'pageview', {
-		  'page': url,
-		  'title': title	
-	});
+	ga('send', 'pageview', url);
 }
