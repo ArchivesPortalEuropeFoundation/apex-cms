@@ -1,0 +1,11 @@
+Dear Feedback Taskforce of the Archives Portal Europe,
+
+The user ${email}
+
+has sent to you the follow comment:
+---------------------------------------------------------------------------
+
+${body}
+
+---------------------------------------------------------------------------
+
