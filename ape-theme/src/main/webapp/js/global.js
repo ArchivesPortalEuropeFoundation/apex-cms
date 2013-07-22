@@ -18,3 +18,10 @@ function loadGoogleAnalytics() {
 	}
 	ga('send', 'pageview');
 }
+
+function logAction(title, url){
+	ga('send', 'pageview', {
+		  'page': url,
+		  'title': title	
+	});
+}
