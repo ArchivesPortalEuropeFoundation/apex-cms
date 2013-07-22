@@ -165,7 +165,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				$.get(url, function(data) {
 					displayPreview("#al-preview", data);
 				});
-				logAction("advanced-search-al-preview", newSearchUrl);
+				logAction("advanced-search-al-preview", url);
 			} else {
 				$("#al-preview").removeClass("preview-content ");
 				$("#al-preview").html("");
