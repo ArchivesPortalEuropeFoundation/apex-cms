@@ -193,7 +193,7 @@ function initListTabHandlers() {
 					displayPreview("#search-preview",data);
 					
 				});
-				logAction("advanced-search-preview", url);
+				logAction("advanced-search-list-preview", url);
 				
 			});
 	makeRefinementsCollapsible();
@@ -257,6 +257,7 @@ function performNewSearch() {
 		$("#searchResultsContainer").removeClass("hidden");
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
+	logAction("advanced-search-new", newSearchUrl);
 }
 
 function updateCurrentSearchResults(addRemoveRefinement) {
@@ -281,6 +282,7 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		//makeRefinementsCollapsible();
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
+	logAction("advanced-search-list-update", newSearchUrl);
 }
 function blockSearch(){
 	$.blockUI.defaults.css = {}; 
@@ -435,8 +437,5 @@ function makeRefinementsCollapsible() {
 }
 
 function logAction(title, url){
-	ga('send', 'pageview', {
-		  'page': url,
-		  'title': title
-		});
+	ga('send', 'pageview', url);
 }

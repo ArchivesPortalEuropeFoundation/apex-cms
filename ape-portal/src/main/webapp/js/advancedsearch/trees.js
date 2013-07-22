@@ -45,6 +45,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 								function(data) {
 									displayPreview("#search-preview", data);
 								});
+						logAction("advanced-search-context-preview", newSearchUrl);
 					} else {
 						$("#search-preview").removeClass("preview-content");
 						$("#search-preview").html("");
@@ -164,6 +165,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				$.get(url, function(data) {
 					displayPreview("#al-preview", data);
 				});
+				logAction("advanced-search-al-preview", newSearchUrl);
 			} else {
 				$("#al-preview").removeClass("preview-content ");
 				$("#al-preview").html("");

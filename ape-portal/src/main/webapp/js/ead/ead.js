@@ -65,6 +65,7 @@ function displayEadDetails(displayEadUrl, id, type, namespace) {
 		$("#right-pane").html(data);
 
 	});
+	logAction("ead-display-details", displayEadUrl);
 }
 function initExpandableParts(){
 	$("#expandableContent h2").removeClass("expanded").addClass("collapsed");

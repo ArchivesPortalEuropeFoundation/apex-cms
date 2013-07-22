@@ -36,9 +36,11 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					selectedAiname = node.data.title;
 					$("#directory-column-right-content").empty();
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
-					$("#directory-column-right-content").load(aiDetailsUrl +"&id=" + node.data.aiId, function() {
+					var eagDetailsUrl = aiDetailsUrl +"&id=" + node.data.aiId;
+					$("#directory-column-right-content").load(eagDetailsUrl, function() {
 						initEagDetails();
 					});
+					logAction("directory-eag", eagDetailsUrl);
 
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
@@ -152,56 +154,6 @@ function closeAllRepositories(){
 	}
 }
 
-function printEagDetails(hi){
-	jQuery.fn.outerHTML = function(s) {
-	    return this[0].outerHTML ? this[0].outerHTML :
-		   s ? this.before(s).remove()
-		     : jQuery("<p>").append(this.eq(0).clone()).html();
-	};
-	if($("#printDiv").length>0){
-		window.print();
-	}else{
-		var title = $("h2").html();
-		headerNodes = ""; //:D
-		var links = document.getElementsByTagName("link");
-		for(var i=0;i<links.length;i++){
-			if(links[i].parentNode.nodeName.toUpperCase() == "HEAD"){
-				headerNodes += "<link"//+links[i].nodeName;
-				var attributes = links[i].attributes;
-				for(var j=0;j<attributes.length;j++){
-					headerNodes += " "+attributes[j].name+"=\""+attributes[j].value+"\"";
-				}
-				headerNodes += " >\n\t";
-			}
-		}
-		var scripts = document.getElementsByTagName("script");
-		for(var i=0;i<scripts.length;i++){
-			if(scripts[i].parentNode.nodeName.toUpperCase() == "HEAD"){
-				headerNodes += "<script" //+scripts[i].nodeName;
-				var attributes = scripts[i].attributes;
-				for(var j=0;j<attributes.length;j++){
-					headerNodes += " "+attributes[j].name+"=\""+attributes[j].value+"\"";
-				}
-				headerNodes += " ></script>\n\t";
-			}
-		}
-		var eagDiv = $("#directory-column-right-content").html();
-		//var eagMap = $("#maps").html();
-		var eagMapSrc = $("#maps").attr("src");
-		var printDiv = "<div id=\"printDiv\"><div id=\"directoryPortlet\"><div id=\"directory-column-right-content\">"+eagDiv+"<div style=\"width:100%;height:20px;\">&nbsp;</div><iframe width=\"1000\" scrolling=\"no\" height=\"400\" frameborder=\"0\"  src=\""+eagMapSrc+"\" ></iframe></div></div></div>";
-		var printWindow = window.open("","PrintWindow","width=1000,height=400,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
-		var printableHTML = "<html>" +
-					"<head>" +
-						"<title>"+title+"</title>" + headerNodes +
-					"</head>" +
-					"<body>" + printDiv+"</body>" +
-				"</html>";
-
-		printWindow.document.write(printableHTML);
-		printWindow.document.close();
-		printWindow.focus();
-	}
-}
 
 function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
