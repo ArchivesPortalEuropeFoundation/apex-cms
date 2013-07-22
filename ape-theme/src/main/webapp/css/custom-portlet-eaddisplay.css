@@ -1,0 +1,207 @@
+#eadDisplayPortlet {
+	background-image: none;
+	background-color: white;
+}
+#eadDisplayPortlet #eadcontent {
+	height: 100%;
+}
+
+#eadDisplayPortlet #eadcontent div {
+
+}
+#eadDisplayPortlet  #splitter {
+width: 5px;
+cursor: col-resize;
+background-color: pink;
+color: pink;
+background-image: url("../../images/second_display/vgrabber.gif");
+background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center rgba(178,48,98,0.2);
+}
+
+#eadDisplayPortlet #left-pane {
+	width:29%;
+	overflow-y: auto;
+}
+#eadDisplayPortlet #right-pane {
+	/* chrome */
+	text-align:auto;
+	margin-left:auto;
+	margin-right:auto;
+
+	align: auto;
+	float: left;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+#eadDisplayPortlet .pane {
+	float: left;
+	height: 100%;
+}
+#eadDisplayPortlet #eadTree {
+	margin-right:5px;
+}
+
+
+@media screen {
+	#eadDisplayPortlet #right-pane {
+		font-size: 8pt;
+	}
+	#eadDisplayPortlet #eadcontent em{
+		background-color: #afdefc;
+	}	
+}
+@media print {
+	#eadDisplayPortlet #right-pane {
+		font-size: 11pt;
+	}
+	#eadDisplayPortlet #eadTree span.dynatree-active a {
+		font-weight: bold;
+	}	
+	#eadDisplayPortlet #eadcontent em{
+		border-bottom: 2px solid gray;
+
+	}
+}
+
+#eadDisplayPortlet #eadcontent em{
+	font-size: 110%;
+	padding-left:2px;
+	padding-right:2px;
+}
+
+#eadDisplayPortlet #contextInformation {
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+#eadDisplayPortlet .eadid {
+	color: #83736A;
+    font-size: 130%;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+}
+
+#eadDisplayPortlet .titleproper {
+    font-size: 170%;
+	font-style: normal;
+	font-weight: bold;
+	padding-bottom: 15px;
+	text-align: center;
+}
+#eadDisplayPortlet .subtitle {
+    font-size: 150%;
+	font-style: normal;
+	font-weight: bold;
+	line-height: 22px;
+	padding-bottom: 15px;
+	text-align: center;
+	font-style: italic;
+}
+#eadDisplayPortlet h2 {
+	border-bottom: 1px solid #79B7E7;
+    color: #2A4862;
+    font-size: 130%;
+    font-weight: bold;
+    margin: 0.3em 0;
+    text-align: left;
+	
+}
+#eadDisplayPortlet #expandableContent h2 {
+	cursor: pointer;
+	padding-left: 15px;
+}
+#eadDisplayPortlet .defaultlayout {
+	text-align: center;
+}
+
+
+#eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#eadDisplayPortlet .expand-unitid {
+	width: 130px;
+	padding-right: 10px;
+
+}
+
+#eadDisplayPortlet .expand-unitdate {
+	width: 150px;
+	text-align: right;
+}
+#eadDisplayPortlet  #children img {
+	width:100px;
+}
+#child-paging {
+	float:right;
+	margin-right: 10px;	
+}
+#eadDisplayPortlet .numberOfPages {
+	float:left;
+	font-weight: normal;
+}
+#eadDisplayPortlet .child {
+	border-bottom: 1px solid #E6E6E6;
+	padding:5px;
+}
+#eadDisplayPortlet .childHeader {
+	font-size: 130%;
+	font-weight: normal;
+}
+#eadDisplayPortlet #children .boxtitle {
+	height: 18px;
+	background: url("../images/ape/search/tabbg.jpg") repeat-x scroll 0 0 transparent;
+}
+#eadDisplayPortlet .childContent h2 {
+	border-bottom: none;
+	font-size: 100%;
+	font-weight:normal;
+	font-style:italic;
+	color: gray;
+}
+#eadDisplayPortlet .childContent {
+    color: gray;
+    font-size: 100%;
+    line-height: 13px;
+    padding-top: 3px;
+    padding-left:140px;
+    padding-right:150px;
+}
+#eadDisplayPortlet #header {
+	background: url("../images/ape/eaddisplay/2nd_displ_bg.jpg") repeat scroll 0 0 transparent;
+    height: 111px;
+    overflow: hidden;
+    width: 100%;
+}
+
+#eadDisplayPortlet .left-header {
+	background-image: url("../images/ape/eaddisplay/header_default.png");
+	background-repeat: no-repeat;
+    height: 111px;	
+    width:766px;    
+    float: left;
+}
+#eadDisplayPortlet .right-header {
+	background-image: url("../images/ape/eaddisplay/2nd_displ_right.png");
+	background-repeat: no-repeat;
+    height: 111px;	
+    float: right;
+    width:167px;
+}
+#eadDisplayPortlet #printEadDetails, #eadDisplayPortlet #shareButton{
+	float:right;
+
+}
+#eadDisplayPortlet #shareButton{
+	padding-top: 8px;
+}
+#eadDisplayPortlet #buttonsHeader, #eadDisplayPortlet #eaddetailsContent {
+	display: inline-block;
+	width: 100%;
+}
+#eadDisplayPortlet em {
+	font-weight: bold;
+	font-style: normal;
+}

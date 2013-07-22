@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html dir="#language ("lang.dir")" lang="$w3c_language_id">
+
+<head>
+	<title>$the_title</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+	#js("$javascript_folder/jquery-1.7.2.min.js")
+	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
+	#js("$javascript_folder/jquery.dynatree.js")
+	#js("$javascript_folder/global.js")
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	$theme.include($top_head_include)
+</head>
+
+<body class="portal-popup $css_class">
+
+$theme.include($content_include)
+
+$theme.include($bottom_ext_include)
+
+</body>
+
+</html>

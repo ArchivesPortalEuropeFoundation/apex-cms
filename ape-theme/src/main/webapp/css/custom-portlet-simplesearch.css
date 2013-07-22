@@ -1,0 +1,15 @@
+
+
+#simpleSearchPortlet #simpleAndAdvancedSearch {
+	width: 100%;
+	display: block;
+}
+
+#simpleSearchPortlet #simpleSearch #searchTerms {
+	width:310px;
+}
+#simpleSearchPortlet #simpleSearch {
+	width: 100%;
+}
+
+

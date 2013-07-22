@@ -1,0 +1,26 @@
+	<footer id="footer" role="contentinfo">
+		<div class="footer-bar">
+			<nav class="$nav_css_class" id="footer-navigation">
+				<ul>
+					#foreach ($nav_item in $nav_items)
+						#if ($nav_item.getLayout().getExpandoBridge().getAttribute("display-in-footer"))
+							#if ($nav_item.isSelected())
+								<li class="selected">
+							#else
+								<li>
+							#end
+								<a href="$nav_item.getURL()" $nav_item.getTarget()><span>$nav_item.icon() $nav_item.getName()</span></a>
+							</li>
+						#end
+					#end
+				</ul>
+			</nav>
+			<div class="logos">
+				<img src="$images_folder/ape/ictpsp_logo.gif"/>
+				<img src="$images_folder/ape/eu_logo.gif"/>
+			</div>
+		</div>
+		<p class="powered-by">
+			#language("footer.text.apex")
+		</p>
+	</footer>
