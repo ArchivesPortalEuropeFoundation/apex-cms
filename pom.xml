@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.archivesportaleurope.frontend</groupId>
 	<artifactId>frontend-project</artifactId>
-	<version>1.3.11-SNAPSHOT</version>
+	<version>2013-07-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>frontend-project</name>
-	<url>http://www.archivesportaleurope.eu</url>
+	<url>http://www.archivesportaleurope.net</url>
 	<scm>
 		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.3</connection>
 		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.3</developerConnection>
@@ -16,8 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<liferay.version>6.1.0</liferay.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<archivesportaleurope.common.version>1.3.12</archivesportaleurope.common.version>
-		<archivesportaleurope.dptutil.version>1.3.10</archivesportaleurope.dptutil.version>
+		<archivesportaleurope.common.version>2013-07-SNAPSHOT</archivesportaleurope.common.version>
+		<archivesportaleurope.dptutil.version>2013-07-SNAPSHOT</archivesportaleurope.dptutil.version>
 		<artifact.suffix />
 	</properties>
 	<build>
@@ -164,7 +164,7 @@
 				<version>${archivesportaleurope.common.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>eu.apenet</groupId>
+				<groupId>eu.archivesportaleurope.dpt</groupId>
 				<artifactId>DPTutils</artifactId>
 				<version>${archivesportaleurope.dptutil.version}</version>
 			</dependency>

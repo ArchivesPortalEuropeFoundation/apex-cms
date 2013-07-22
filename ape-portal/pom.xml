@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>eu.archivesportaleurope.frontend</groupId>
 		<artifactId>frontend-project</artifactId>
-		<version>1.3.11-SNAPSHOT</version>
+		<version>2013-07-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>Portal</artifactId>
@@ -161,7 +161,7 @@
 			<artifactId>persistence</artifactId>
 		</dependency>
         <dependency> <!-- Please do NOT erase this dependency!! -->
-            <groupId>eu.apenet</groupId>
+            <groupId>eu.archivesportaleurope.dpt</groupId>
             <artifactId>DPTutils</artifactId>
         </dependency>
 		<dependency>
