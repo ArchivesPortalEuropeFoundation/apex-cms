@@ -20,12 +20,11 @@ function loadGoogleAnalytics() {
 }
 
 function logAction(title, url){
-	var newtitle = title + "-new";
 	var baseUrl =  window.location.protocol + '//' + window.location.hostname;
 	var shortUrl = url.replace(baseUrl, "");
 	ga('send', 'pageview', {
 		  'page': shortUrl,
-		  'title': newtitle	
+		  'title': url	
 	});
 	
 }
