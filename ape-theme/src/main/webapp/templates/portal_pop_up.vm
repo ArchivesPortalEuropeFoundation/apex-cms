@@ -10,16 +10,8 @@
 	#js("$javascript_folder/jquery-1.7.2.min.js")
 	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
 	#js("$javascript_folder/jquery.dynatree.js")
-	<script type="text/javascript">
-	var addthis_config =
-	{
-	   ui_508_compliant: true,
-	   ui_click : false,
-	   data_track_clickback: true,
-	   services_exclude : 'print'
-	}
-	</script>
-<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	#js("$javascript_folder/global.js")
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
 	$theme.include($top_head_include)
 </head>
 
