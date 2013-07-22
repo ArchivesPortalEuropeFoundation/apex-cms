@@ -20,7 +20,7 @@ function loadGoogleAnalytics() {
 }
 
 function logAction(title, url){
-	var shortUrl = url.substring(url.indexOf('//')  +2);
-	shortUrl = shortUrl.substring(shortUrl.indexOf('/'));
+	var baseUrl =  window.location.protocol + '//' + window.location.hostname;
+	var shortUrl = url.replace(baseUrl, "");
 	ga('send', 'pageview', shortUrl);
 }
