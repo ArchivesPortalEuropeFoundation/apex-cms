@@ -436,6 +436,3 @@ function makeRefinementsCollapsible() {
 
 }
 
-function logAction(title, url){
-	ga('send', 'pageview', url);
-}
