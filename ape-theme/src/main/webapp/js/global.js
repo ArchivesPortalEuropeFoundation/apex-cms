@@ -16,9 +16,11 @@ function loadGoogleAnalytics() {
 	}else {
 		ga('create', 'UA-42421913-1', 'development.archivesportaleurope.net');
 	}
-	ga('send', 'pageview');
+	ga('send', 'pageview', window.location.pathname);
 }
 
 function logAction(title, url){
-	ga('send', 'pageview', url);
+	var shortUrl = url.substring(url.indexOf('//')  +2);
+	shortUrl = shortUrl.substring(shortUrl.indexOf('/'));
+	ga('send', 'pageview', shortUrl);
 }
