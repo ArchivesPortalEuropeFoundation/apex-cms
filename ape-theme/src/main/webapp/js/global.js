@@ -24,7 +24,7 @@ function logAction(title, url){
 	var shortUrl = url.replace(baseUrl, "");
 	ga('send', 'pageview', {
 		  'page': shortUrl,
-		  'title': url	
+		  'title': title	
 	});
 	
 }
