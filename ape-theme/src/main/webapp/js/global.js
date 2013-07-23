@@ -1,30 +1,34 @@
-$(document).ready(function() {
-	loadGoogleAnalytics();
-});
+loadGoogleAnalytics();
 
 function loadGoogleAnalytics() {
+	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	if (hostname == "www.archivesportaleurope.net" || hostname == "archivesportaleurope.net"){
-		ga('create', 'UA-37520081-1', 'archivesportaleurope.net');
-	}else if (hostname == "contentchecker.archivesportaleurope.net"){
-		ga('create', 'UA-35748576-1', 'contentchecker.archivesportaleurope.net');
-	}else {
-		ga('create', 'UA-42421913-1', 'development.archivesportaleurope.net');
+	if (hostname == "www.archivesportaleurope.net"
+			|| hostname == "archivesportaleurope.net") {
+		gId = 'UA-37520081-1';
+	} else if (hostname == "contentchecker.archivesportaleurope.net") {
+		gId = 'UA-35748576-1';
 	}
-	ga('send', 'pageview', window.location.pathname);
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', gId ]);
+	_gaq.push([ '_trackPageview' ]);
+
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+				: 'http://www')
+				+ '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
 }
 
-function logAction(title, url){
-	var baseUrl =  window.location.protocol + '//' + window.location.hostname;
+function logAction(title, url) {
+	var baseUrl = window.location.protocol + '//' + window.location.hostname;
 	var shortUrl = url.replace(baseUrl, "");
-	ga('send', 'pageview', {
-		  'page': shortUrl,
-		  'title': title	
-	});
-	
+	_gaq.push([ '_trackPageview', shortUrl ]);
+	alert("yes");
+
 }
