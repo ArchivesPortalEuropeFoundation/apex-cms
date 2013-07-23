@@ -49,7 +49,35 @@ public class DirectoryController {
 
 		return null;
 	}
-
+	@RenderMapping(params = "myaction=printEagDetails")
+	public ModelAndView displayEagPrint(@RequestParam String id){
+		try {
+			if (StringUtils.isNotBlank(id)) {
+				return fillPrint(new Long(id));
+			}
+		} catch (Exception e) {
+			LOGGER.error("Exception on print process: "+e.getMessage());
+		}
+		return null;
+	}
+	
+	private ModelAndView fillPrint(Long idLong) throws IOException {
+		ModelAndView modelAndView = new ModelAndView("ape-pagelayout-directory ");
+		modelAndView.setViewName("print");
+		//Google Maps part
+		String mapUrl = "https://maps.google.com/maps?ie=UTF8&t=m";
+		String mapUrlCenterParameters = "&ll=54.5259614,15.255118700000025&spn=48.804369699999995,102.17279989999997";
+		modelAndView.getModelMap().addAttribute("embeddedMapUrl",mapUrl+"&output=embed");
+		modelAndView.getModelMap().addAttribute("mapUrl",mapUrl);
+		modelAndView.getModelMap().addAttribute("mapUrlCenterParameters", mapUrlCenterParameters);
+		//EAG part
+		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
+		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
+		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
+		modelAndView.getModelMap().addAttribute("archivalInstitutionName",archivalInstitution.getAiname());
+		modelAndView.getModelMap().addAttribute("country",archivalInstitution.getCountry().getIsoname());
+		return modelAndView;
+	}
 
 	private ModelAndView fillAIDetails(Long idLong) throws IOException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -57,6 +85,7 @@ public class DirectoryController {
 		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
 		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
 		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
+		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		return modelAndView;
 	}
 	public ArchivalInstitutionDAO getArchivalInstitutionDAO() {
