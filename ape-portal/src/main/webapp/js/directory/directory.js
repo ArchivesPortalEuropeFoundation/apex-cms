@@ -60,15 +60,6 @@ function printEagByURL(url){
 	'width=1000,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 	preview.focus();
 }
-function putHeaderButtons(targetUrl,printMessage){
-	var headerButtons = "<div id=\"buttonsHeader\">"+
-		"<div class=\"linkButton\" id=\"printEagDetails\">"+
-			"<a href=\"javascript:printEagByURL('"+targetUrl+"')\">"+printMessage+"<span class=\"icon_print\">&nbsp;</span></a>"+
-		"</div>"+
-	"</div>";
-	$("#buttonsHeader").remove();
-	$("#directory-column-right-content").html(headerButtons+$("#directory-column-right-content").html());
-}
 function displayMaps(googleMapsAddress, archivalInstitutionName){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
@@ -171,4 +162,43 @@ function closeAllRepositories(){
 
 function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
+}
+
+function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl){
+	var input_address = "";
+	$(".address").each(function(){
+		input_address += $(this).html();
+	});
+	var geocoder = new google.maps.Geocoder();
+	// If necessary, recover the first element in visitors address element.
+	if (input_address.indexOf("<p>") != '-1') {
+		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
+	}
+	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			var lat = results[0].geometry.location.lat();
+			var lng = results[0].geometry.location.lng();
+			var span = results[0].geometry.viewport.toSpan();
+			var spanLat = span.lat();
+			var spanLng = span.lng();
+			var parameters = "&ll=" + lat +"," + lng;
+			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
+			if (archivalInstitutionName){
+				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + selectedCountryCode;
+			}
+			$("#maps").attr("src", embebbedMapUrl + parameters);
+		}else{
+			$("iframe#maps").remove();
+			}
+		});
+	//remove see-more/see-less
+	$(".displayLinkSeeMore").each(function(){$(this).remove();});
+	$(".displayLinkSeeLess").each(function(){$(this).remove();});
+	$("th").each(function(){
+		var html = $(this).html();
+		if(html.indexOf("()")!=-1){
+			$(this).html(html.replace("()",""));
+		}
+	});
+	self.print();
 }
