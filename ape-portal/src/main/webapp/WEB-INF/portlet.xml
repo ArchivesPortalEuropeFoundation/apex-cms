@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
 	<portlet>
 		<portlet-name>simplesearch</portlet-name>
-		<display-name>simple Search${artifact.suffix}</display-name>
+		<display-name>simple Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
@@ -19,8 +19,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Simple Search${artifact.suffix}</title>
-			<short-title>Simple Search${artifact.suffix}</short-title>
+			<title>Simple Search</title>
+			<short-title>Simple Search</short-title>
 			<keywords>simple-search</keywords>
 		</portlet-info>
         <portlet-preferences>
@@ -55,7 +55,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>advancedsearch</portlet-name>
-		<display-name>Advanced Search${artifact.suffix}</display-name>
+		<display-name>Advanced Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
@@ -68,8 +68,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Advanced Search${artifact.suffix}</title>
-			<short-title>Advanced Search${artifact.suffix}</short-title>
+			<title>Advanced Search</title>
+			<short-title>Advanced Search</short-title>
 			<keywords>advanced-search</keywords>
 		</portlet-info>
 		<security-role-ref>
@@ -87,7 +87,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
-		<display-name>Directory${artifact.suffix}</display-name>
+		<display-name>Directory</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -96,8 +96,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Directory${artifact.suffix}</title>
-			<short-title>Directory${artifact.suffix}</short-title>
+			<title>Directory</title>
+			<short-title>Directory</short-title>
 			<keywords>Directory</keywords>
 		</portlet-info>
 		<security-role-ref>
@@ -115,7 +115,7 @@
 	</portlet>	
 	<portlet>
 		<portlet-name>eaddisplay</portlet-name>
-		<display-name>EAD Display${artifact.suffix}</display-name>
+		<display-name>EAD Display</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -124,8 +124,8 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>EAD Display${artifact.suffix}</title>
-			<short-title>EAD Display${artifact.suffix}</short-title>
+			<title>EAD Display</title>
+			<short-title>EAD Display</short-title>
 			<keywords>EAD Display</keywords>
 		</portlet-info>
 		<security-role-ref>
@@ -144,7 +144,7 @@
 
     <portlet>
         <portlet-name>contact</portlet-name>
-        <display-name>Contact${artifact.suffix}</display-name>
+        <display-name>Contact</display-name>
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <expiration-cache>0</expiration-cache>
         <supports>
@@ -153,8 +153,8 @@
         </supports>
         <resource-bundle>i18n.ApplicationResources</resource-bundle>
         <portlet-info>
-            <title>Contact${artifact.suffix}</title>
-            <short-title>Contact${artifact.suffix}</short-title>
+            <title>Contact</title>
+            <short-title>Contact</short-title>
             <keywords>Contact</keywords>
         </portlet-info>
         <security-role-ref>
@@ -172,7 +172,7 @@
     </portlet>
     <portlet>
         <portlet-name>language</portlet-name>
-        <display-name>Language${artifact.suffix}</display-name>
+        <display-name>Language</display-name>
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <expiration-cache>0</expiration-cache>
         <supports>
@@ -181,8 +181,8 @@
         </supports>
         <resource-bundle>i18n.ApplicationResources</resource-bundle>
         <portlet-info>
-            <title>Language${artifact.suffix}</title>
-            <short-title>Language${artifact.suffix}</short-title>
+            <title>Language</title>
+            <short-title>Language</short-title>
             <keywords>Language</keywords>
         </portlet-info>
         <security-role-ref>
