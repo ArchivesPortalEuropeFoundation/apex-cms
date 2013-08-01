@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>Portal</artifactId>
 	<packaging>war</packaging>
-	<name>Archives Portal Europe Portlets${artifact.suffix}</name>
-	<description>Portlets for Archives Portal Europe${artifact.suffix}</description>
+	<name>Archives Portal Europe Portlets</name>
+	<description>Portlets for Archives Portal Europe</description>
 	<build>
 		<plugins>
 			<plugin>
