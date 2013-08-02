@@ -11,5 +11,11 @@
 #simpleSearchPortlet #simpleSearch {
 	width: 100%;
 }
+#simpleSearchPortlet #simpleSearch p {
+	font-size: 8pt;
+}
 
+#simpleSearchPortlet #simpleSearch #simpleSearchOptionsContent {
+	height:	55px;
+}
 
