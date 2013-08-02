@@ -33,7 +33,6 @@ public class FeaturedExhibitionController {
 			List<JournalArticle> articles = JournalArticleLocalServiceUtil.getTemplateArticles(
 					themeDisplay.getScopeGroupId(), templateId);
 			for (JournalArticle journalArticle : articles) {
-				LOGGER.info(journalArticle.getArticleId() + ":" + journalArticle.getVersion() + ": " + journalArticle.getTitle(themeDisplay.getLanguageId()));
 				if (JournalArticleLocalServiceUtil.isLatestVersion(themeDisplay.getScopeGroupId(),journalArticle.getArticleId(), journalArticle.getVersion())){
 					JournalArticleDisplay article = JournalArticleLocalServiceUtil.getArticleDisplay(
 							themeDisplay.getScopeGroupId(), journalArticle.getArticleId() , "view", themeDisplay.getLanguageId(), themeDisplay);
@@ -42,7 +41,7 @@ public class FeaturedExhibitionController {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(e.getMessage());
 		}
 		modelAndView.addObject("articlesContent", articlesContent);
 		return modelAndView;
