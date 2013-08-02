@@ -12,7 +12,7 @@
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
 	#js("$javascript_folder/global.js")
-    #js("$javascript_folder/wshare-buttons.js")
+	#js("$javascript_folder/jquery.nivo.slider.pack.js")
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
@@ -26,7 +26,7 @@
 	_gaq.push([ '_setAccount', gId ]);
 	_gaq.push([ '_trackPageview' ]);
 	</script>
-
+ 
 	$theme.include($top_head_include)
 
 </head>

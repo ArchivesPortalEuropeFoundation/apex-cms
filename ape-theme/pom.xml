@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>eu.archivesportaleurope.frontend</groupId>
 		<artifactId>frontend-project</artifactId>
-		<version>2013-07-Multi-Language-SNAPSHOT</version>
+		<version>2013-07-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>Portal-theme</artifactId>
 	<packaging>war</packaging>
-	<name>Archives Portal Europe Theme${artifact.suffix}</name>
-	<description>Default theme for Archives Portal Europe${artifact.suffix}</description>
+	<name>Archives Portal Europe Theme</name>
+	<description>Default theme for Archives Portal Europe</description>
 	<build>
 		<plugins>
 			<plugin>
