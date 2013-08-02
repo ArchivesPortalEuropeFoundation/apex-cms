@@ -11,7 +11,6 @@
 	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
-	#js("$javascript_folder/global.js")
 	#js("$javascript_folder/jquery.nivo.slider.pack.js")
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
