@@ -192,7 +192,45 @@
             <role-name>power-user</role-name>
         </security-role-ref>
     </portlet>
-
+	<portlet>
+		<portlet-name>featured-exhibition</portlet-name>
+		<display-name>Featured Exhibition</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <init-param>
+            <name>config-jsp</name>
+            <value>/WEB-INF/jsp/featured-exhibition/configuration.jsp</value>
+        </init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Featured Exhibition</title>
+			<short-title>Featured Exhibition</short-title>
+			<keywords>Featured Exhibition</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>webContentTemplateId</name>
+                <value>14907</value>
+                <read-only>false</read-only>
+            </preference>
+        </portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
 
     <filter>
 		<filter-name>APEFilter</filter-name>

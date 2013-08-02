@@ -2,16 +2,13 @@ package eu.archivesportaleurope.portal.search.simple;
 
 import java.text.NumberFormat;
 
-import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
@@ -44,11 +41,6 @@ public class SimpleSearchController {
 	@ModelAttribute("simpleSearch")
 	public SimpleSearch getCommandObject() {
 		return new SimpleSearch();
-	}
-	@ActionMapping(params = "myaction=simpleSearch")
-	public void addBook( @ModelAttribute(value = "simpleSearch") SimpleSearch simhpleSearc,
-			BindingResult bindingResult, ActionResponse response) {
-
 	}
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;

@@ -4,14 +4,12 @@
 <liferay-portlet-app>
 	<portlet>
 		<portlet-name>simplesearch</portlet-name>
-		<icon>/icon.png</icon>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/simplesearch/simplesearch.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>advancedsearch</portlet-name>
-		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/advancedsearch/search.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/advancedsearch/trees.js</header-portlet-javascript>
@@ -19,7 +17,6 @@
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
-		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/directory/directory.js</header-portlet-javascript>
 	</portlet>
@@ -34,14 +31,17 @@
 	</portlet>
 	<portlet>
 		<portlet-name>contact</portlet-name>
-		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/contact/contact.js</header-portlet-javascript>
 
 	</portlet>
 	<portlet>
 		<portlet-name>language</portlet-name>
-		<icon>/icon.png</icon>
+		<instanceable>false</instanceable>
+	</portlet>
+	<portlet>
+		<portlet-name>featured-exhibition</portlet-name>
+		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
 	</portlet>
 	<role-mapper>

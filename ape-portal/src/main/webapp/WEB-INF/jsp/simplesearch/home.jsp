@@ -43,10 +43,6 @@
 								</div>
 								<div class="row">
 									 <input type="checkbox"
-										id="checkboxMethod" value="optional" name="method" tabindex="3"/><label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
-								</div>
-								<div class="row">
-									 <input type="checkbox"
 										id="checkboxDao" value="true" name="dao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 								</div>
 							</td>

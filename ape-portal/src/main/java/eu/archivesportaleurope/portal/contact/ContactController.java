@@ -1,23 +1,19 @@
 package eu.archivesportaleurope.portal.contact;
 
-import eu.archivesportaleurope.portal.common.email.EmailSender;
-import eu.archivesportaleurope.portal.search.simple.SimpleSearch;
+import javax.portlet.ActionResponse;
+import javax.portlet.RenderResponse;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
+import eu.archivesportaleurope.portal.common.email.EmailSender;
 
 /**
  * User: Yoann Moranville
