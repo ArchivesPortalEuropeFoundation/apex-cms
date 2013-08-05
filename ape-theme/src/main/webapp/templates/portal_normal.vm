@@ -12,7 +12,6 @@
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
 	#js("$javascript_folder/global.js")
-    #js("$javascript_folder/wshare-buttons.js")
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
