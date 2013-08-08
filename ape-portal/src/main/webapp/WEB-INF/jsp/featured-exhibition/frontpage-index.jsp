@@ -25,9 +25,9 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			test();
+			initSlider();
 		});	
-		function test() {
+		function initSlider() {
 			$(".nivo-html-caption-container").each(function(index, value) {
 				$("#slider-captions").append($(this).html());
 				$(this).remove();
