@@ -1,8 +1,6 @@
 package eu.archivesportaleurope.portal.featuredexhibition;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.RenderRequest;
 
@@ -18,7 +16,6 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portlet.journal.util.comparator.ArticleModifiedDateComparator;
 
 @Controller(value = "featuredExhibitionDetailsController")
 @RequestMapping(value = "VIEW")
@@ -28,8 +25,6 @@ public class FeaturedExhibitionDetailsController {
 
 	@RenderMapping
 	public ModelAndView showFeaturedExhibition(RenderRequest request) {
-		LOGGER.info("classPK: " + request.getParameter("classPK"));
-		LOGGER.info("articleId: " + request.getParameter("articleId"));
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("details-index");
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
