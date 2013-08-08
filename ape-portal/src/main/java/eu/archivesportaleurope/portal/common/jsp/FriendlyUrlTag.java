@@ -18,12 +18,14 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	private final static Logger LOGGER = Logger.getLogger(FriendlyUrlTag.class);
 	public static final String EAD_DISPLAY_SEARCH = "eaddisplay-search";
 	public static final String EAD_DISPLAY_FRONTPAGE = "eaddisplay-frontpage";
+	public static final String FEATURED_EXHIBITION = "featured-exhibition-details";
 	private String type;
 	private String var;
 	private final static Map<String, String> urls = new HashMap<String,String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
-		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 					
+		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
+		urls.put(FEATURED_EXHIBITION, "/feature-exhibition/-/fed/pk/"); 
 	}
 	@Override
 	public void doTag() throws JspException, IOException {
