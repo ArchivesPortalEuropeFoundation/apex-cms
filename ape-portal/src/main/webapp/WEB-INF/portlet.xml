@@ -193,12 +193,12 @@
         </security-role-ref>
     </portlet>
 	<portlet>
-		<portlet-name>featured-exhibition</portlet-name>
-		<display-name>Featured Exhibition</display-name>
+		<portlet-name>featured-exhibition-frontpage</portlet-name>
+		<display-name>Featured Exhibition Frontpage</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>config-jsp</name>
-            <value>/WEB-INF/jsp/featured-exhibition/configuration.jsp</value>
+            <value>/WEB-INF/jsp/featured-exhibition/frontpage-configuration.jsp</value>
         </init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -207,9 +207,53 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Featured Exhibition</title>
-			<short-title>Featured Exhibition</short-title>
-			<keywords>Featured Exhibition</keywords>
+			<title>Featured Exhibition Frontpage</title>
+			<short-title>Featured Exhibition Frontpage</short-title>
+			<keywords>Featured Exhibition Frontpage</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>webContentTemplateId</name>
+                <value>14907</value>
+                <read-only>false</read-only>
+            </preference>
+            <preference>
+                <name>articleIds</name>
+                <value>14907</value>
+                <read-only>false</read-only>
+            </preference>
+        </portlet-preferences>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>featured-exhibition-details</portlet-name>
+		<display-name>Featured Exhibition Details</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <init-param>
+            <name>config-jsp</name>
+            <value>/WEB-INF/jsp/featured-exhibition/details-configuration.jsp</value>
+        </init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Featured Exhibition Details</title>
+			<short-title>Featured Exhibition Details</short-title>
+			<keywords>Featured Exhibition Details</keywords>
 		</portlet-info>
         <portlet-preferences>
             <preference>
@@ -231,7 +275,6 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
-
     <filter>
 		<filter-name>APEFilter</filter-name>
 		<filter-class>eu.archivesportaleurope.portal.common.APEFilter</filter-class>

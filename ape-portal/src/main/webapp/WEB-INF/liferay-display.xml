@@ -9,6 +9,7 @@
 		<portlet id="eaddisplay" />						
 		<portlet id="contact" />
 		<portlet id="language" />
-		<portlet id="featured-exhibition"/>
+		<portlet id="featured-exhibition-details"/>
+		<portlet id="featured-exhibition-frontpage"/>
 	</category>
 </display>
