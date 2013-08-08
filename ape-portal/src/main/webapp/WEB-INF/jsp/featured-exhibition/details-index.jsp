@@ -11,31 +11,6 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
 
-<div id="featuredExhibitionPortlet">
-	<div class="slider-wrapper theme-light">
-		<div id="slider" class="nivoSlider">
-			<c:forEach var="articleContent" items="${articlesContent}">
-				${articleContent}
-                </c:forEach>
-		</div>
-		<div id="slider-captions">
-		</div>
-
-
-	</div>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			test();
-		});	
-		function test() {
-			$(".nivo-html-caption-container").each(function(index, value) {
-				$("#slider-captions").append($(this).html());
-				$(this).remove();
-			   
-			});
-	        $('#slider').nivoSlider({
-	        	 pauseTime: 5000
-	        	});
-		};
-	</script>
+<div id="featuredExhibitionDetailsPortlet">
+${articleDetails}
 </div>
