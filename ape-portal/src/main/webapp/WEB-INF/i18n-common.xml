@@ -11,6 +11,7 @@
 			<list>
 				<value>i18n.portal-resources</value>
 				<value>i18n.shared-resources</value>
+				<value>i18n.eag2012</value>
 			</list>
 		</property>
 	</bean>
