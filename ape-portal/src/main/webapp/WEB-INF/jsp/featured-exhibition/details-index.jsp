@@ -12,13 +12,11 @@
 <portlet:defineObjects />
 <portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details-article"/>
 <script type='text/javascript'>
-	$(document).ready(function() {
 		var documentTitle = "${documentTitle}";
 		if (documentTitle !=""){
 			document.title = documentTitle;
 		}
 		
-	});
 </script>
 <div id="featuredExhibitionDetailsPortlet">
 <c:if test="${!empty  articleDetails}">
