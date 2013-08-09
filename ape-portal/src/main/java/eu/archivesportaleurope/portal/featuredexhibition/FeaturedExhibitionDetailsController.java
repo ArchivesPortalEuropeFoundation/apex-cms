@@ -15,6 +15,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portlet.asset.model.AssetEntry;
+import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
@@ -69,7 +71,7 @@ public class FeaturedExhibitionDetailsController {
 					new ArticleDisplayDateComparator());
 			for (JournalArticle article: articles){
 				FeaturedExhibitionSummary featuredExhibitionSummary = new FeaturedExhibitionSummary();
-				featuredExhibitionSummary.setArticleId(article.getArticleId());
+				featuredExhibitionSummary.setClassPk(article.getResourcePrimKey());
 				featuredExhibitionSummary.setTitle(article.getTitle(languageId));
 				featuredExhibitionSummary.setDate(SIMPLE_DATE_FORMAT.format(article.getDisplayDate()));
 				featuredExhibitionSummaries.add(featuredExhibitionSummary);

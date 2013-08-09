@@ -2,7 +2,7 @@ package eu.archivesportaleurope.portal.featuredexhibition;
 
 public class FeaturedExhibitionSummary {
 	private String title;
-	private String articleId;
+	private long classPk;
 	private String date;
 	public String getTitle() {
 		return title;
@@ -10,11 +10,12 @@ public class FeaturedExhibitionSummary {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getArticleId() {
-		return articleId;
+
+	public long getClassPk() {
+		return classPk;
 	}
-	public void setArticleId(String articleId) {
-		this.articleId = articleId;
+	public void setClassPk(long classPk) {
+		this.classPk = classPk;
 	}
 	public String getDate() {
 		return date;
