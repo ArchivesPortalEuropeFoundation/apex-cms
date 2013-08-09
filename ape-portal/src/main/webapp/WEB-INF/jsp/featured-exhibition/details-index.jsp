@@ -11,10 +11,29 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
 <portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details-article"/>
+<script type='text/javascript'>
+	$(document).ready(function() {
+		var documentTitle = "${documentTitle}";
+		if (documentTitle !=""){
+			document.title = documentTitle;
+		}
+		
+	});
+</script>
 <div id="featuredExhibitionDetailsPortlet">
+<c:if test="${!empty  articleDetails}">
 <div id="featuredExhibitionDetails">
 ${articleDetails}
 </div>
+<div id="likeBar">
+<span class='st_facebook_hcount' displayText='Facebook'></span>
+<span class='st_googleplus_hcount' displayText='Google +'></span>
+<span class='st_twitter_hcount' displayText='Tweet'></span>
+<span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+<span class='st_pinterest_hcount' displayText='Pinterest'></span>
+<span class='st_email_hcount' displayText='Email'></span>
+</div>
+</c:if>
 <div id="featuredExhibitionDetailsList">
 <h2>All Featured Exhibitions</h2>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">

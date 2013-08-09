@@ -37,6 +37,7 @@ public class FeaturedExhibitionDetailsController {
 		String languageId = themeDisplay.getLanguageId();
 		
 		String articleContent = null;
+		String documentTitle = null;
 		try {
 			if (StringUtils.isNumeric(classPK)){
 				long classPkLong = Long.parseLong(classPK);
@@ -44,12 +45,15 @@ public class FeaturedExhibitionDetailsController {
 				JournalArticleDisplay articleDisplay = JournalArticleLocalServiceUtil.getArticleDisplay(
 						themeDisplay.getScopeGroupId(), journalArticle.getArticleId() , "view",languageId , themeDisplay);
 				articleContent = articleDisplay.getContent();
+				documentTitle = articleDisplay.getTitle();
 			}else if (StringUtils.isNotBlank(articleId)){
 				JournalArticleDisplay article = JournalArticleLocalServiceUtil.getArticleDisplay(themeDisplay.getScopeGroupId(), articleId,"view", languageId, themeDisplay);
 				if (article == null){
 					articleContent = "Article does not exists";
 				}else {
 					articleContent = article.getContent();
+					documentTitle =  article.getTitle();
+					
 				}
 			}
 
@@ -57,6 +61,7 @@ public class FeaturedExhibitionDetailsController {
 			articleContent = "Article does not exists";
 		}
 		modelAndView.addObject("articleDetails", articleContent);
+		modelAndView.addObject("documentTitle", documentTitle);
 		List<FeaturedExhibitionSummary> featuredExhibitionSummaries = new ArrayList<FeaturedExhibitionSummary>();
 		try {
 			List<JournalArticle> articles = JournalArticleLocalServiceUtil.search(themeDisplay.getCompanyId(),
