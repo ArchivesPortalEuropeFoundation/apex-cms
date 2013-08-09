@@ -10,7 +10,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
-<portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details-article"/>
+<portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details"/>
 <script type='text/javascript'>
 		var documentTitle = "${documentTitle}";
 		if (documentTitle !=""){
@@ -35,7 +35,7 @@ ${articleDetails}
 <div id="featuredExhibitionDetailsList">
 <h2>All Featured Exhibitions</h2>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">
-	<a href="${friendlyUrl}/${featuredExhibitionSummary.articleId}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
+	<a href="${friendlyUrl}/${featuredExhibitionSummary.classPk}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
 </c:forEach>
 </div>
 </div>
