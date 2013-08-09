@@ -25,7 +25,7 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
 		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
-		urls.put(FEATURED_EXHIBITION, "/feature-exhibition/-/fed/pk/"); 
+		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk/"); 
 	}
 	@Override
 	public void doTag() throws JspException, IOException {
