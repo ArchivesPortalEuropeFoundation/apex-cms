@@ -19,13 +19,16 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	public static final String EAD_DISPLAY_SEARCH = "eaddisplay-search";
 	public static final String EAD_DISPLAY_FRONTPAGE = "eaddisplay-frontpage";
 	public static final String FEATURED_EXHIBITION = "featured-exhibition-details";
+	public static final String FEATURED_EXHIBITION_ARTICLE = "featured-exhibition-details-article";
+	
 	private String type;
 	private String var;
 	private final static Map<String, String> urls = new HashMap<String,String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
 		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
-		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk/"); 
+		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk"); 
+		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-exhibition/-/fed/a"); 
 	}
 	@Override
 	public void doTag() throws JspException, IOException {

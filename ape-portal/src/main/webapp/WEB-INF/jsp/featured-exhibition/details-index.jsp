@@ -10,7 +10,15 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
-
+<portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details-article"/>
 <div id="featuredExhibitionDetailsPortlet">
+<div id="featuredExhibitionDetails">
 ${articleDetails}
+</div>
+<div id="featuredExhibitionDetailsList">
+<h2>All Featured Exhibitions</h2>
+<c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">
+	<a href="${friendlyUrl}/${featuredExhibitionSummary.articleId}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
+</c:forEach>
+</div>
 </div>
