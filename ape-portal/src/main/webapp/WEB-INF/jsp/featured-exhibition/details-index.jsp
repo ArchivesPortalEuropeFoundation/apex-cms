@@ -16,13 +16,34 @@
 		if (documentTitle !=""){
 			document.title = documentTitle;
 		}
-		
+
 </script>
 <div id="featuredExhibitionDetailsPortlet">
 <c:if test="${!empty  articleDetails}">
 <div id="featuredExhibitionDetails">
 ${articleDetails}
 </div>
+	<script type="text/javascript">
+	jQuery(document).ready(function($){
+
+
+		
+		$('#multiplezoom').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
+			//descArea: '#description', // description selector (optional - but required if descriptions are used) - new
+			speed: 1500, // duration of fade in for new zoomable images (in milliseconds, optional) - new
+			descpos: true, // if set to true - description position follows image position at a set distance, defaults to false (optional) - new
+			imagevertcenter: true, // zoomable image centers vertically in its container (optional) - new
+			magvertcenter: true, // magnified area centers vertically in relation to the zoomable image (optional) - new
+			zoomrange: [3, 10],
+			magnifiersize: [300,300],
+			magnifierpos: 'right',
+			cursorshadecolor: '#fdffd5',
+			cursorshade: true //<-- No comma after last option!
+		});
+
+		
+	})
+	</script>
 <div id="likeBar">
 <span class='st_facebook_hcount' displayText='Facebook'></span>
 <span class='st_googleplus_hcount' displayText='Google +'></span>
@@ -38,4 +59,5 @@ ${articleDetails}
 	<a href="${friendlyUrl}/${featuredExhibitionSummary.classPk}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
 </c:forEach>
 </div>
+
 </div>

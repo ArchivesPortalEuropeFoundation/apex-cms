@@ -51,6 +51,8 @@
 		<friendly-url-mapping>fed</friendly-url-mapping>
 		<friendly-url-routes>featured-exhibition-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
+		<header-portlet-css>/css/featured-exhibition/multizoom.css</header-portlet-css>
+		<header-portlet-javascript>/js/featured-exhibition/multizoom.js</header-portlet-javascript>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
