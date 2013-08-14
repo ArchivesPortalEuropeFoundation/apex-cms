@@ -101,3 +101,15 @@
 #descriptiveNoteOnEAGRelation {
 	margin-left: 10px;
 }
+.emailsnolang{
+	display:none;
+}
+.emaillang{
+	display:block;
+}
+.webpagesnolang{
+	display:none;
+}
+.webpagelang{
+	display:block;
+}
