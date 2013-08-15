@@ -98,18 +98,18 @@
 
 }
 
-#descriptiveNoteOnEAGRelation {
+#directoryPortlet #descriptiveNoteOnEAGRelation {
 	margin-left: 10px;
 }
-.emailsnolang{
+#directoryPortlet .emailsnolang{
 	display:none;
 }
-.emaillang{
+#directoryPortlet .emaillang{
 	display:block;
 }
-.webpagesnolang{
+#directoryPortlet .webpagesnolang{
 	display:none;
 }
-.webpagelang{
+#directoryPortlet .webpagelang{
 	display:block;
 }
