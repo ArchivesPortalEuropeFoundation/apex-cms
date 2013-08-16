@@ -11,6 +11,8 @@
 	height: 350px; /* high or higher than the tallest zoomable image */
 	margin-top:3px;
 	border:1px solid #eee;
+	float: left;
+	background-color: white;
 }
 
 #two { /* Added CSS for second target div of zoomable images */
@@ -38,11 +40,15 @@
 	border-width: 0; /* avoid default borders in some browsers */
 }
 
-#description, #description2 {
-	position: absolute; /* required for description folows image bottom (descpos: true) */
-	width: 350px; /* should be width of zoomable image container (.targetarea) */
-	text-align: center;
-	margin-top: 3px; /* when following image bottom, this sets a fixed distance for that */
-	color: #222;
-	background-color: #fff;
+#description {
+	height: 350px;
+	overflow:auto;
+	padding:10px;
+
+}
+#image-collection {
+	padding:5px;
+	background-color: #E8E8E8;
+	display:block;
+
 }
