@@ -17,7 +17,7 @@
 // Nov 28th, 2012: Version 2.1 w/Multi Zoom, updates - new features and bug fixes
 
 var featuredimagezoomer = { // the two options for Featured Image Zoomer:
-	loadinggif: '../images/featured-exhibition/waiting.gif', // full path or URL to "loading" gif
+	loadinggif: 'spinningred.gif', // full path or URL to "loading" gif
 	magnifycursor: 'crosshair' // value for CSS's 'cursor' property when over the zoomable image
 };
 
@@ -75,7 +75,7 @@ jQuery.noConflict();
 				}
 				if(options.descpos){
 					$parent = $imgObj.parent();
-					styleobj2 = {left: $parent.offset().left + ($parent.outerWidth(false) - $parent.width()) / 2, top: h + $imgObj.offset().top};
+					styleobj2 = {left: $parent.offset().left + ($parent.outerWidth() - $parent.width()) / 2, top: h + $imgObj.offset().top};
 				}
 				if(options.notmulti){
 					$descArea.css(styleobj2);
@@ -193,11 +193,25 @@ jQuery.noConflict();
 			specs.lastpagex=pagex //cache last pagex value (either e.pageX or lastpagex), as FF1.5 returns undefined for e.pageX for "DOMMouseScroll" event
 			specs.lastpagey=pagey
 		},
-
-		magnifyimage: function($tracker, e, zoomrange){
-			if (!e.detail && !e.wheelDelta){e = e.originalEvent;}
-			var delta=e.detail? e.detail*(-120) : e.wheelDelta //delta returns +120 when wheel is scrolled up, -120 when scrolled down
-			var zoomdir=(delta<=-120)? "out" : "in"
+		moveimageKeys: function($tracker, $maginner, $cursorshade, x, y){
+			var specs=$tracker.data('specs'), csw = Math.round(specs.magsize.w/specs.curpower), csh = Math.round(specs.magsize.h/specs.curpower),
+			csb = specs.csborder, fiz = this, imgcoords=specs.coords, pagex=(specs.lastpagex +x), pagey=(specs.lastpagey + y),
+			x=pagex-imgcoords.left, y=pagey-imgcoords.top;
+			$cursorshade.css({ // keep shaded area sized and positioned proportionately to area being magnified
+				visibility: '',
+				width: csw,
+				height: csh,
+				top: Math.min(specs.imagesize.h-csh-csb, Math.max(0, y-(csb+csh)/2)) + imgcoords.top,
+				left: Math.min(specs.imagesize.w-csw-csb, Math.max(0, x-(csb+csw)/2)) + imgcoords.left
+			});
+			var newx=-x*specs.curpower+specs.magsize.w/2 //calculate x coord to move enlarged image
+			var newy=-y*specs.curpower+specs.magsize.h/2
+			$maginner.css({left:fiz.getboundary('left', newx, specs), top:fiz.getboundary('top', newy, specs)})
+			specs.$statusdiv.css({left:pagex-10, top:pagey+20})
+			specs.lastpagex=pagex //cache last pagex value (either e.pageX or lastpagex), as FF1.5 returns undefined for e.pageX for "DOMMouseScroll" event
+			specs.lastpagey=pagey
+		},
+		magnifyimage: function($tracker, zoomdir, zoomrange){
 			var specs=$tracker.data('specs')
 			var magnifier=specs.magnifier, od=specs.imagesize, power=specs.curpower
 			var newpower=(zoomdir=="in")? Math.min(power+1, zoomrange[1]) : Math.max(power-1, zoomrange[0]) //get new power
@@ -208,7 +222,6 @@ jQuery.noConflict();
 			this.showstatusdiv(specs, 0, 500)
 			$tracker.trigger('mousemove')
 		},
-
 		highestzindex: function($img){
 			var z = 0, $els = $img.parents().add($img), elz;
 			$els.each(function(){
@@ -253,7 +266,7 @@ jQuery.noConflict();
 					$tracker.css({left: o.left, top: o.top});
 					if(options.descpos && options.descArea){
 						$parent = $img.parent();
-						$(options.descArea).css({left: $parent.offset().left + ($parent.outerWidth(false) - $parent.width()) / 2, top: $img.height() + o.top});
+						$(options.descArea).css({left: $parent.offset().left + ($parent.outerWidth() - $parent.width()) / 2, top: $img.height() + o.top});
 					}
 				});
 
@@ -270,7 +283,7 @@ jQuery.noConflict();
 					imagesize: imagesize,
 					curpower: power,
 					coords: getcoords(),
-					csborder: $cursorshade.outerWidth(false),
+					csborder: $cursorshade.outerWidth(),
 					lo: setting.leftoffset,
 					ro: setting.rightoffset
 				})
@@ -341,12 +354,61 @@ jQuery.noConflict();
 					}).css({cursor: fiz.magnifycursor});
 					if (setting.zoomrange && setting.zoomrange[1]>setting.zoomrange[0]){ //if zoom range enabled
 						$tracker.bind('DOMMouseScroll mousewheel', function(e){
-							fiz.magnifyimage($tracker, e, setting.zoomrange);
+						if (!e.detail && !e.wheelDelta){e = e.originalEvent;}
+						var delta=e.detail? e.detail*(-120) : e.wheelDelta //delta returns +120 when wheel is scrolled up, -120 when scrolled down
+						var zoomdir=(delta<=-120)? "out" : "in"
+						fiz.magnifyimage($tracker, zoomdir, setting.zoomrange);
 							e.preventDefault();
 						});
 					} else if(setting.disablewheel){
 						$tracker.bind('DOMMouseScroll mousewheel', function(e){e.preventDefault();});
 					}
+					$tracker.bind('DOMMouseScroll mousewheel', function(e){e.preventDefault();});
+					$tracker.disableSelection();
+					$magnifier.disableSelection();
+					$(document).unbind("dblclick");
+					$(document).bind("dblclick",function(event) {
+						if ($(".magnifyarea").is(":visible")){
+							if (event.button == 2){
+								event.preventDefault();
+								fiz.magnifyimage($tracker, "out", setting.zoomrange);
+							}else if (event.button == 0){
+								event.preventDefault();
+								fiz.magnifyimage($tracker, "in", setting.zoomrange);
+							}
+						}
+						
+					});
+					$(document).unbind("keypress");
+					$(document).bind("keypress",function(event) {
+						if ($(".magnifyarea").is(":visible")){
+							
+							if (event.which == 43){
+								event.preventDefault();
+								fiz.magnifyimage($tracker, "in", setting.zoomrange);
+							}else if (event.which == 45){
+								event.preventDefault();
+								fiz.magnifyimage($tracker, "out", setting.zoomrange);
+							}else if (event.keyCode == $.ui.keyCode.LEFT){
+								event.preventDefault();
+								fiz.moveimageKeys($tracker, $maginner, $cursorshade, -1,0);
+							}else if (event.keyCode == $.ui.keyCode.RIGHT){
+								event.preventDefault();
+								fiz.moveimageKeys($tracker, $maginner, $cursorshade, 1,0);
+							}else if (event.keyCode == $.ui.keyCode.DOWN){
+								event.preventDefault();
+								fiz.moveimageKeys($tracker, $maginner, $cursorshade, 0,1);
+							}else if (event.keyCode == $.ui.keyCode.UP){
+								event.preventDefault();
+								fiz.moveimageKeys($tracker, $maginner, $cursorshade, 0,-1);
+							}else {
+					
+								console.info("char: " + event.which + " key code: " + event.keyCode);
+							}
+							
+
+						}
+					});
 				})	//end $bigimage onload
 				if ($bigimage.get(0).complete){ //if image has already loaded (account for IE, Opera not firing onload event if so)
 					$bigimage.trigger('loadevt', {type: 'load'})
