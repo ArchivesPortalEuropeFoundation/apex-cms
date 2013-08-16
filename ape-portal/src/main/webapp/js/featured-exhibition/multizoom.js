@@ -395,9 +395,6 @@ jQuery.noConflict();
 								fiz.magnifyimage($tracker, "out", setting.zoomrange);
 							}else if (event.keyCode == $.ui.keyCode.LEFT){
 								event.preventDefault();
-								    $(document)
-								       .mouseXPos(e.pageX -1)
-								       .mouseYPos(e.pageY);
 								fiz.moveimageKeys($tracker, $maginner, $cursorshade, -1,0);
 							}else if (event.keyCode == $.ui.keyCode.RIGHT){
 								event.preventDefault();
