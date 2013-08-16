@@ -29,7 +29,7 @@ ${articleDetails}
 
 		
 		$('#multiplezoom').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
-			//descArea: '#description', // description selector (optional - but required if descriptions are used) - new
+			descArea: '#description', // description selector (optional - but required if descriptions are used) - new
 			speed: 1500, // duration of fade in for new zoomable images (in milliseconds, optional) - new
 			descpos: true, // if set to true - description position follows image position at a set distance, defaults to false (optional) - new
 			imagevertcenter: true, // zoomable image centers vertically in its container (optional) - new

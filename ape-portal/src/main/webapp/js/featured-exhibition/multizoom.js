@@ -34,10 +34,8 @@ jQuery.noConflict();
 	};
 
 	$.fn.addmultizoom = function(options){
-
 		var indoptions = {largeimage: options.largeimage}, $imgObj = $(options.imgObj + ':not(".thumbs")'),
 		$descArea = $(options.descArea), first = true, splitre = /, ?/;
-
 		options = $.extend({
 				speed: 'slow',
 				initzoomablefade: true,
@@ -78,9 +76,15 @@ jQuery.noConflict();
 					styleobj2 = {left: $parent.offset().left + ($parent.outerWidth() - $parent.width()) / 2, top: h + $imgObj.offset().top};
 				}
 				if(options.notmulti){
-					$descArea.css(styleobj2);
+					//$descArea.css(styleobj2);
 				} else {
-					$descArea.css(styleobj2).empty().append(lnk.getAttribute('data-title') || '');
+					var dataTitle = lnk.getAttribute('data-title');
+					if (dataTitle.indexOf("#") == 0){
+						$descArea.html($(dataTitle).html());
+					}else {
+						$descArea.html(dataTitle);
+					}
+					//$descArea.css(styleobj2).empty().append(lnk.getAttribute('data-title') || '');
 				}
 				if(+opacity < 1){$imgObj.add($descArea).animate({opacity: 1}, options.speed);}
 			}).attr('src', $imgObj.data('src'));
@@ -266,7 +270,7 @@ jQuery.noConflict();
 					$tracker.css({left: o.left, top: o.top});
 					if(options.descpos && options.descArea){
 						$parent = $img.parent();
-						$(options.descArea).css({left: $parent.offset().left + ($parent.outerWidth() - $parent.width()) / 2, top: $img.height() + o.top});
+						//$(options.descArea).css({left: $parent.offset().left + ($parent.outerWidth() - $parent.width()) / 2, top: $img.height() + o.top});
 					}
 				});
 
@@ -391,6 +395,9 @@ jQuery.noConflict();
 								fiz.magnifyimage($tracker, "out", setting.zoomrange);
 							}else if (event.keyCode == $.ui.keyCode.LEFT){
 								event.preventDefault();
+								    $(document)
+								       .mouseXPos(e.pageX -1)
+								       .mouseYPos(e.pageY);
 								fiz.moveimageKeys($tracker, $maginner, $cursorshade, -1,0);
 							}else if (event.keyCode == $.ui.keyCode.RIGHT){
 								event.preventDefault();
@@ -401,9 +408,6 @@ jQuery.noConflict();
 							}else if (event.keyCode == $.ui.keyCode.UP){
 								event.preventDefault();
 								fiz.moveimageKeys($tracker, $maginner, $cursorshade, 0,-1);
-							}else {
-					
-								console.info("char: " + event.which + " key code: " + event.keyCode);
 							}
 							
 
