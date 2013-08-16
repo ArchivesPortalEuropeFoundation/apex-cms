@@ -34,14 +34,16 @@ ${articleDetails}
 			descpos: true, // if set to true - description position follows image position at a set distance, defaults to false (optional) - new
 			imagevertcenter: true, // zoomable image centers vertically in its container (optional) - new
 			magvertcenter: true, // magnified area centers vertically in relation to the zoomable image (optional) - new
-			zoomrange: [3, 10],
-			magnifiersize: [300,300],
+			zoomrange: [3, 15],
+			magnifiersize: [600,350],
 			magnifierpos: 'right',
 			cursorshadecolor: '#fdffd5',
 			cursorshade: true //<-- No comma after last option!
 		});
 
-		
+		$(document).bind("contextmenu", function(e) {
+		    return false;
+		});
 	})
 	</script>
 <div id="likeBar">
