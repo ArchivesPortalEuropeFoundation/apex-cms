@@ -26,7 +26,7 @@ public class ArchivalLandscapeUtil {
 	public List<CountryUnit> localizeCountries(List<Country> countries) {
 		List<CountryUnit> countriesUnits = new ArrayList<CountryUnit>();
 		for (Country co : countries) {
-			String otherCountryName = resourceBundleSource.getString("country." + co.getCname().toLowerCase(),
+			String otherCountryName = resourceBundleSource.getString("country." + co.getCname().toLowerCase().replace(" ", "_"),
 					co.getCname());
 			countriesUnits.add(new CountryUnit(co, otherCountryName));
 		}
