@@ -54,6 +54,9 @@ function initEadTree(eadTreeUrl, displayEadUrl, namespace) {
 			});
 
 }
+function initHeader(imageUrl){
+	$("#header-image").attr("src", imageUrl);
+}
 function displayEadDetails(displayEadUrl, id, type, namespace) {
 	$("#right-pane").html("<div class='icon_waiting'></div>");
 	var params = {};
