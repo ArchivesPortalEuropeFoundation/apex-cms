@@ -13,7 +13,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
@@ -118,18 +117,7 @@ public class DisplayEadDetailsContoller {
 			if (eadContent != null) {
 				modelAndView.getModelMap().addAttribute("country",
 						eadContent.getEad().getArchivalInstitution().getCountry());
-				if (AbstractEadTag.INTRODUCTION_XSLT.equals(eadDetailsParams.getType())
-						|| AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())) {
-					modelAndView.getModelMap().addAttribute("type", eadDetailsParams.getType());
-				} else {
-					modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
-				}
-				String documentTitle =  null;
-				if (AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())) {
-					documentTitle = eadContent.getUnittitle();
-				} else {
-					documentTitle = eadContent.getTitleproper();
-				}
+				String documentTitle = eadContent.getUnittitle();
 				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
