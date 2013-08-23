@@ -6,9 +6,15 @@
 		<version>6.1.0+</version>
 	</compatibility>
 	<theme id="ape" name="Archives Portal Europe">
+
 		<settings>
 			<setting key="portlet-setup-show-borders-default" value="false" />
 		</settings>
+		<color-scheme id="01" name="Default">
+			<css-class>default</css-class>
+		</color-scheme>
+		<color-scheme id="02" name="Full width">
+			<css-class>fullwidth</css-class>
+		</color-scheme>
 	</theme>
-
 </look-and-feel>

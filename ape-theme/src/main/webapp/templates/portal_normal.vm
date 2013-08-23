@@ -60,7 +60,6 @@ $theme.include($body_top_include)
 <div id="headerMenu">
 
 	<ul>
-		
 		#if (!$is_signed_in)
 			<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
 		#end
@@ -75,10 +74,12 @@ $theme.include($body_top_include)
 	</ul>
 </div>
 	<header id="banner" role="banner">
-
-		<div id="heading">
+		<a href="$company_url">
+		<div id="header">
+			<img id="header-image" src="$images_folder/ape/eaddisplay/header_default.png" alt="header" />
+			<div class="right-header"></div>
 		</div>
-
+		</a>
 
 
 		#if ($has_navigation || $is_signed_in)
