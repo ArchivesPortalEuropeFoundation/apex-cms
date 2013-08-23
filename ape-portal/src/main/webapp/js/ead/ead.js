@@ -82,6 +82,12 @@ function initExpandableParts(){
 			$(this).next().show();
 		}
 	});	
+	$( "em" ).each(function() {
+		console.log( + $(this).text() );
+		var contentWithHighlightedItems = $(this).closest('.ead-content');
+		contentWithHighlightedItems.show();
+		contentWithHighlightedItems.prev().removeClass("collapsed").addClass("expanded");
+	});
 }
 function updatePageNumber(displayEadUrl) {
 	var params = {};
