@@ -12,10 +12,7 @@
 #eadDisplayPortlet  #splitter {
 width: 5px;
 cursor: col-resize;
-background-color: pink;
-color: pink;
-background-image: url("../../images/second_display/vgrabber.gif");
-background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center rgba(178,48,98,0.2);
+background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center center #C8DDF7;
 }
 
 #eadDisplayPortlet #left-pane {
@@ -169,27 +166,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     padding-left:140px;
     padding-right:150px;
 }
-#eadDisplayPortlet #header {
-	background: url("../images/ape/eaddisplay/2nd_displ_bg.jpg") repeat scroll 0 0 transparent;
-    height: 111px;
-    overflow: hidden;
-    width: 100%;
-}
 
-#eadDisplayPortlet .left-header {
-	background-image: url("../images/ape/eaddisplay/header_default.png");
-	background-repeat: no-repeat;
-    height: 111px;	
-    width:766px;    
-    float: left;
-}
-#eadDisplayPortlet .right-header {
-	background-image: url("../images/ape/eaddisplay/2nd_displ_right.png");
-	background-repeat: no-repeat;
-    height: 111px;	
-    float: right;
-    width:167px;
-}
 #eadDisplayPortlet #printEadDetails, #eadDisplayPortlet #shareButton{
 	float:right;
 
