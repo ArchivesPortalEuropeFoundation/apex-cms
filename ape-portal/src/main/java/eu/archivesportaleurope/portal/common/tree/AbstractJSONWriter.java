@@ -12,6 +12,8 @@ import javax.portlet.ResourceResponse;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
+import eu.apenet.commons.utils.DisplayUtils;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.search.common.Searcher;
 
 public abstract class AbstractJSONWriter {
@@ -124,7 +126,7 @@ public abstract class AbstractJSONWriter {
 	}
 	protected void addTitle(String styleClass, StringBuilder buffer, String title, Locale locale) {
 		addNoIcon(buffer);
-		String convertedTitle = convertTitle(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
 			if (styleClass == null){
@@ -151,7 +153,7 @@ public abstract class AbstractJSONWriter {
 	protected static void addNoIcon(TreeNode dynaTreeNode) {
 	}
 	protected void addTitle(TreeNode dynaTreeNode, String styleClass, String title, Locale locale) {
-		String convertedTitle = convertTitle(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
 			if (styleClass == null){
@@ -167,15 +169,6 @@ public abstract class AbstractJSONWriter {
 		}else {
 			dynaTreeNode.setTitle(this.getMessageSource().getMessage(ADVANCEDSEARCH_TEXT_NOTITLE, null, locale));
 		}
-	}
-	protected String convertTitle(String string) {
-		String result = string;
-		if (result != null) {
-			result = result.replaceAll("\"", "'");
-			result = result.replaceAll("[\n\t\r]", "");
-			result = result.trim();
-		}
-		return result;
 	}
 	protected static void addExpand(StringBuilder buffer) {
 		buffer.append("\"expand\":true");

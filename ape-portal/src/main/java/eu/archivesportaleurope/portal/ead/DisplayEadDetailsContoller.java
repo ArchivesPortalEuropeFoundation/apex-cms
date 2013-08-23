@@ -16,10 +16,10 @@ import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
-import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 /**
  * 
@@ -100,7 +100,9 @@ public class DisplayEadDetailsContoller {
 		String documentTitle = currentCLevel.getUnittitle();
 		if (StringUtils.isNotBlank(currentCLevel.getUnitid())) {
 			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
+			
 		}
+		documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
@@ -122,11 +124,14 @@ public class DisplayEadDetailsContoller {
 				} else {
 					modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
 				}
+				String documentTitle =  null;
 				if (AbstractEadTag.DIDCONTENT_XSLT.equals(eadDetailsParams.getType())) {
-					modelAndView.getModelMap().addAttribute("documentTitle", eadContent.getUnittitle());
+					documentTitle = eadContent.getUnittitle();
 				} else {
-					modelAndView.getModelMap().addAttribute("documentTitle", eadContent.getTitleproper());
+					documentTitle = eadContent.getTitleproper();
 				}
+				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
+				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
 				String repoCode = eadContent.getEad().getArchivalInstitution().getRepositorycode().replace('/', '_');
