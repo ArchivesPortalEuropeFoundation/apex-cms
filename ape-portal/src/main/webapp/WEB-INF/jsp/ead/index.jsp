@@ -27,16 +27,13 @@
 </portlet:resourceURL>
 <script type='text/javascript'>
 	$(document).ready(function() {
+		initHeader("${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png");
 		initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
 		displayEadDetails("${displayEadUrl}", "${solrId}", null, "<portlet:namespace/>");
 		initPanes();
 	});		
 </script>
 <div id="eadDisplayPortlet">
-	<div id="header">
-		<img src="${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png" alt="header" />
-		<div class="right-header"></div>
-	</div>
 	<div id="contextInformation">
 		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
 		&gt; ${archivalInstitution.ainame}
