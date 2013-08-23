@@ -191,44 +191,13 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append("\"selected\":true, \"activate\": true");
 		}
 		buffer.append(COMMA);
-        if(isWithPreface){
-		    addType(buffer, AbstractEadTag.FRONTPAGE_XSLT);
-		    buffer.append(COMMA);
-        }
-		buffer.append(FOLDER_WITH_CHILDREN);
-		buffer.append(generateChildrenOfRootJSON(eadContent, childBuffer,  expand, isWithPreface, locale));
-		buffer.append(END_ITEM_WITH_RETURN);
-		buffer.append(END_ARRAY);
-		return buffer;
-	}
-	private StringBuilder generateChildrenOfRootJSON(EadContent eadContent, StringBuilder childBuffer, boolean expand, boolean isWithPreface, Locale locale) {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(START_ARRAY);
-        buffer.append(START_ITEM);
-        if(isWithPreface){
-            addTitle(buffer, this.getMessageSource().getMessage("eadcontent.introduction", null, locale), locale);
-            buffer.append(COMMA);
-            addType(buffer, AbstractEadTag.INTRODUCTION_XSLT);
-            buffer.append(END_ITEM_WITH_COMMA);
-            buffer.append(START_ITEM);
-            addTitle(buffer, eadContent.getUnittitle(), locale);
-            buffer.append(COMMA);
-            addType(buffer, AbstractEadTag.DIDCONTENT_XSLT);
-        } else {
-            addTitle(buffer, eadContent.getUnittitle(), locale);
-        }
-        if (expand) {
-            buffer.append(COMMA);
-            addExpand(buffer);
-        }
-		buffer.append(COMMA);
-
+	    addType(buffer, AbstractEadTag.FRONTPAGE_XSLT);
+	    buffer.append(COMMA);
 		buffer.append(FOLDER_WITH_CHILDREN);
 		buffer.append(childBuffer);
 		buffer.append(END_ITEM_WITH_RETURN);
 		buffer.append(END_ARRAY);
 		return buffer;
-
 	}
 
 	private void addChildren(StringBuilder buffer, CLevel clevel, EadTreeParams eadParams, Locale locale) {
