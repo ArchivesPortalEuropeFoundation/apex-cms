@@ -10,7 +10,7 @@
 <portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 
 <div id="content">	
-<portal:ead type="frontpage" xml="${eadContent.xml}"/>
+<portal:ead type="frontpage" xml="${eadContent.xml}"  searchTerms="${term}"  searchFieldsSelectionId="${element}" />
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
