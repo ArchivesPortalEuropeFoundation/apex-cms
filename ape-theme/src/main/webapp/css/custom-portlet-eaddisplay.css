@@ -95,14 +95,16 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	text-align: center;
 	font-style: italic;
 }
+#eadDisplayPortlet .introduction {
+	padding-top: 15px;
+}
 #eadDisplayPortlet h2 {
 	border-bottom: 1px solid #79B7E7;
     color: #2A4862;
     font-size: 130%;
     font-weight: bold;
     margin: 0.3em 0;
-    text-align: left;
-	
+    text-align: left;	
 }
 #eadDisplayPortlet #expandableContent h2 {
 	cursor: pointer;
