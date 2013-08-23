@@ -7,12 +7,23 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
-<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
+<c:set var="element"><c:out value="${param['element']}" /></c:set>
+<c:set var="id"><c:out value="${param['id']}" /></c:set>
+<c:set var="term"><c:out value="${param['term']}" /></c:set>
+<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search"/>
 
 <div id="content">	
-<portal:ead type="frontpage" xml="${eadContent.xml}"  searchTerms="${term}"  searchFieldsSelectionId="${element}" />
+<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" />
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-	<a href="${eadDisplayDirectUrl}/${aiRepoCode}/${xmlTypeName}/${eadid}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
+	<c:choose>
+		<c:when test="${empty term }">
+			<c:set var="url" value="${eadDisplaySearchUrl}/${id}"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${term}"/>
+		</c:otherwise>
+	</c:choose>	
+	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>
