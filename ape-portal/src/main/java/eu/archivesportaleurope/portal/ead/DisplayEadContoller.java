@@ -47,23 +47,23 @@ public class DisplayEadContoller {
 			String parameters = "";
 			ArchivalInstitution archivalInstitution = null;
 			Ead ead = null;
-			if (StringUtils.isNotBlank(eadParams.getId())) {
-				parameters+="id=" + eadParams.getId();
-				AnalyzeLogger.logSecondDisplay(eadParams.getId());
-				if (eadParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
-					String subSolrId = eadParams.getId().substring(1);
+			if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
+				parameters+="id=" + eadParams.getEadDisplayId();
+				AnalyzeLogger.logSecondDisplay(eadParams.getEadDisplayId());
+				if (eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+					String subSolrId = eadParams.getEadDisplayId().substring(1);
 					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
 						CLevel clevel = clevelDAO.findById(Long.parseLong(subSolrId));
 						if (clevel != null) {
 							ead = clevel.getEadContent().getEad();
 						}
 						// this is a search result
-						modelAndView.getModelMap().addAttribute("solrId", eadParams.getId());
+						modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
 					}
 				} else {
-					String solrPrefix = eadParams.getId().substring(0, 1);
+					String solrPrefix = eadParams.getEadDisplayId().substring(0, 1);
 					XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
-					String subId = eadParams.getId().substring(1);
+					String subId = eadParams.getEadDisplayId().substring(1);
 					if (xmlType != null) {
 						ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
 					} else if (eadParams.getAiId() != null) {
