@@ -7,18 +7,15 @@
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
  		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
-		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
 	</route>
 	<route>
-		<pattern>/s/{id:[^/]+}/{element:\d+}/{term:.+}</pattern>
-		<generated-parameter name="id">{id}</generated-parameter>
+		<pattern>/s/{eadDisplayId:[^/]+}/{element:\d+}/{term:.+}</pattern>
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>
-		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
 	</route>
 	<route>
-		<pattern>/s/{id:[^/]+}</pattern>
-		<generated-parameter name="id">{id}</generated-parameter>
-		<implicit-parameter name="p_p_state">pop_up</implicit-parameter>
+		<pattern>/s/{eadDisplayId:[^/]+}</pattern>
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 	</route>
 </routes>
