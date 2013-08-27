@@ -83,7 +83,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		// Navigated Search Tree for Countries, Archival
 		// Institution Groups,Archival Institutions, Holdings
 		// Guide and Finding Aid configuration
-		title : "Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
+		title : "Tree for Archival Landscape - Countries, Archival Institution Groups and Archival Institutions",
 		// rootVisible: false,
 		fx : {
 			height : "toggle",
