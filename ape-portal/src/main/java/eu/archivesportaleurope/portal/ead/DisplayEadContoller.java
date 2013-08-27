@@ -108,6 +108,7 @@ public class DisplayEadContoller {
 				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				Country country = archivalInstitution.getCountry();
+                country.setCname(country.getCname().replace(" ", "_"));
 				modelAndView.getModelMap().addAttribute("country", country);
 				modelAndView.setViewName("index");
 				return modelAndView;
