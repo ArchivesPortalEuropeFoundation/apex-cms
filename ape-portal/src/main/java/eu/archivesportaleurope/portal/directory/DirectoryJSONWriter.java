@@ -10,17 +10,13 @@ import javax.portlet.ResourceResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
-import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
-import eu.archivesportaleurope.portal.ead.EadTreeParams;
 
 /**
  * JSON Writer for the directory tree

@@ -20,6 +20,8 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	public static final String EAD_DISPLAY_FRONTPAGE = "eaddisplay-frontpage";
 	public static final String FEATURED_EXHIBITION = "featured-exhibition-details";
 	public static final String FEATURED_EXHIBITION_ARTICLE = "featured-exhibition-details-article";
+	public static final String DIRECTORY_COUNTRY = "directory-country";
+	public static final String DIRECTORY_INSTITUTION = "directory-institution";
 	
 	private String type;
 	private String var;
@@ -28,7 +30,9 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
 		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
 		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk"); 
-		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-exhibition/-/fed/a"); 
+		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-exhibition/-/fed/a");
+		urls.put(DIRECTORY_COUNTRY, "/directory/-/dir/co");
+		urls.put(DIRECTORY_INSTITUTION, "/directory/-/dir/ai");
 	}
 	@Override
 	public void doTag() throws JspException, IOException {
