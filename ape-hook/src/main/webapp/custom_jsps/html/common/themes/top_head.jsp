@@ -125,10 +125,10 @@ if (layout != null) {
 <%@ include file="/html/common/themes/top_portlet_resources_css.jspf" %>
 
 <%-- Portal JavaScript References --%>
-<c:if test="<%=themeDisplay.isSignedIn()%>">
+
 <%@ include file="/html/common/themes/top_js.jspf" %>
 <%@ include file="/html/common/themes/top_js-ext.jspf" %>
-</c:if>
+
 <%-- Portlet JavaScript References --%>
 
 <%@ include file="/html/common/themes/top_portlet_resources_js.jspf" %>

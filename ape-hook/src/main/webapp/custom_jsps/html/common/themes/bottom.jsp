@@ -91,14 +91,9 @@ StringBundler pageBottomSB = (StringBundler)request.getAttribute(WebKeys.PAGE_BO
 </c:if>
 
 <%-- Theme JavaScript --%>
-<c:choose>
-<c:when test="<%=themeDisplay.isSignedIn()%>">
+
 <script src="<%= HtmlUtil.escape(PortalUtil.getStaticResourceURL(request, themeDisplay.getPathThemeJavaScript() + "/main.js")) %>" type="text/javascript"></script>
-</c:when>
-<c:otherwise>
-<script src="<%= HtmlUtil.escape(PortalUtil.getStaticResourceURL(request, themeDisplay.getPathThemeJavaScript() + "/main-public.js")) %>" type="text/javascript"></script>
-</c:otherwise>
-</c:choose>
+
 <c:if test="<%= layout != null %>">
 
 	<%-- User Inputted Layout and LayoutSet JavaScript --%>
