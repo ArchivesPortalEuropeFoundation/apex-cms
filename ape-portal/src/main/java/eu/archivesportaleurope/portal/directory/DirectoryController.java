@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.directory;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.RenderRequest;
 
@@ -17,11 +18,14 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.exceptions.APEnetException;
+import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Country;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
@@ -29,6 +33,7 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 @RequestMapping(value = "VIEW")
 public class DirectoryController {
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
+	private CountryDAO countryDAO;
 	private MessageSource messageSource;
 	private final static Logger LOGGER = Logger.getLogger(DirectoryController.class);
 
@@ -40,8 +45,45 @@ public class DirectoryController {
 	public MessageSource getMessageSource() {
 		return messageSource;
 	}
+	
+	public void setCountryDAO(CountryDAO countryDAO) {
+		this.countryDAO = countryDAO;
+	}
 
-	// --maps the incoming portlet request to this method
+	@RenderMapping(params = "myaction=showCountryDetails")
+	public ModelAndView showCountryDetails(RenderRequest renderRequest) throws APEnetException {
+		ModelAndView modelAndView = new ModelAndView();
+		String countryCode = renderRequest.getParameter("countryCode");
+		try {
+				List<Country> countries = countryDAO.getCountries(countryCode);
+				Country country = countries.get(0);
+				
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				NavigationTree navigationTree = new NavigationTree(source);
+				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
+						.getArchivalInstitutionsByParentAiId("country_" + country.getId());
+				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
+				Collections.sort(archivalInstitutionList);
+				CountryUnit countryUnit = navigationTree.getCountryUnit(country);
+				modelAndView.getModelMap().addAttribute("country",countryUnit);
+				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits",archivalInstitutionList);
+				modelAndView.setViewName("country-noscript");
+
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(),e);
+			modelAndView.setViewName("indexError");
+		}
+		
+		return modelAndView;
+	}
+	public void writeAiDetails(RenderRequest renderRequest) {
+
+
+	}
+
+	
+
 	@RenderMapping
 	public ModelAndView showDirectory(RenderRequest renderRequest) throws APEnetException {
 		ModelAndView modelAndView = new ModelAndView();
