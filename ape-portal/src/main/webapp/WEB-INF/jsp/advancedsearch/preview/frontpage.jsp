@@ -11,6 +11,7 @@
 <c:set var="id"><c:out value="${param['id']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
 <portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search"/>
+<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 
 <div id="content">	
 <portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" />
@@ -19,7 +20,7 @@
 <div id="viewFullFond" class="linkButton">
 	<c:choose>
 		<c:when test="${empty term }">
-			<c:set var="url" value="${eadDisplaySearchUrl}/${id}"/>
+			<c:set var="url" value="${eadDisplayDirectUrl}/${aiRepoCode}/${xmlTypeName}/${eadid}"/>
 		</c:when>
 		<c:otherwise>
 			<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${term}"/>
