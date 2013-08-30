@@ -68,7 +68,7 @@ public class DirectoryController {
 				CountryUnit countryUnit = navigationTree.getCountryUnit(country);
 				modelAndView.getModelMap().addAttribute("parent",countryUnit.getLocalizedName());
 				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits",archivalInstitutionList);
-				modelAndView.setViewName("country-noscript");
+				modelAndView.setViewName("institutions-noscript");
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -93,7 +93,7 @@ public class DirectoryController {
 				Collections.sort(archivalInstitutionList);
 				modelAndView.getModelMap().addAttribute("parent",archivalInstitution.getAiname());
 				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits",archivalInstitutionList);
-				modelAndView.setViewName("country-noscript");
+				modelAndView.setViewName("institutions-noscript");
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
