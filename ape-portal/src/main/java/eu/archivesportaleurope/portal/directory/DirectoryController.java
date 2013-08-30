@@ -124,7 +124,7 @@ public class DirectoryController {
 					.getArchivalInstitutionsByRepositorycode(repositoryCode);
 			ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
 			modelAndView = fillAIDetails(archivalInstitution);
-			if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)) {
+			if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 				modelAndView.getModelMap().addAttribute("mobile", "mobile");
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
@@ -141,7 +141,7 @@ public class DirectoryController {
 	@RenderMapping
 	public ModelAndView showDirectory(RenderRequest renderRequest) throws APEnetException {
 		ModelAndView modelAndView = new ModelAndView();
-		if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)) {
+		if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 			modelAndView.setViewName("index-noscript");
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 					renderRequest.getLocale());

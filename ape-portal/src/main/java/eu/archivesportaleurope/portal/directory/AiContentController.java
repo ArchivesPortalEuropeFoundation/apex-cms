@@ -43,7 +43,7 @@ public class AiContentController {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
 			modelAndView.setViewName("aicontent");
-			if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)) {
+			if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 				modelAndView.getModelMap().addAttribute("mobile", "mobile");
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");

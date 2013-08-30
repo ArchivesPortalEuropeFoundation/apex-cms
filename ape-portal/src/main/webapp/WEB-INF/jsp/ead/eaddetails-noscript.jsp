@@ -10,10 +10,11 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
+<portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="eadDisplayPortlet">
 	<h3 id="contextInformation">
 		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
-		&gt; ${archivalInstitution.ainame}
+		&gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 	<div id="eaddetailsContent">
 		<portal:ead type="frontpage" xml="${eadContent.xml}" />

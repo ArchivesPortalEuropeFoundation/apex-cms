@@ -51,7 +51,7 @@ public class DisplayEadContoller {
 	public ModelAndView displayEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = new ModelAndView();
 		Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
-		if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)){
+		if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
 			return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
 		}else {
 			return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
