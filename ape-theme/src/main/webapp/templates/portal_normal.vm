@@ -74,17 +74,17 @@ $theme.include($body_top_include)
 	</ul>
 </div>
 	<header id="banner" role="banner">
-		<a href="$company_url">
+		<a href="$company_url"><div id="logo"></div></a>
 		<div id="header">
-			<img id="header-image" src="$images_folder/ape/eaddisplay/header_default.png" alt="header" />
-			<div class="right-header"></div>
-		</div>
-		</a>
-
-
 		#if ($has_navigation || $is_signed_in)
 			#parse ("$full_templates_path/navigation.vm")
-		#end
+		#end			
+			<div class="left-header"></div>
+			<div class="right-header"></div>
+		</div>
+
+
+
 	</header>
 
 	<div id="content">

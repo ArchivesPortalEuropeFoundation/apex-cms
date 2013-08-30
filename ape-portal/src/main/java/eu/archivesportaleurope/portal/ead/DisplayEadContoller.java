@@ -51,7 +51,7 @@ public class DisplayEadContoller {
 	public ModelAndView displayEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = new ModelAndView();
 		Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
-		if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)){
+		if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
 			return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
 		}else {
 			return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
@@ -77,7 +77,6 @@ public class DisplayEadContoller {
 				XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
 				String subId = eadParams.getEadDisplayId().substring(1);
 				if (xmlType != null) {
-					LOGGER.info(subId + " " + xmlType.getClazz());
 					ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
 				} else if (eadParams.getAiId() != null) {
 					xmlType = XmlType.getType(eadParams.getXmlTypeId());

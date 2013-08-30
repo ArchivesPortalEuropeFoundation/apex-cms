@@ -5,12 +5,14 @@
 	uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <portlet:defineObjects />
 <portlet:renderURL var="printEagDetailsUrl"
 	windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEagDetails" />
 	<portlet:param name="id" value="${aiId}" />
 </portlet:renderURL>
+<portal:friendlyUrl var="contentUrl" type="directory-content" />
 <script type="text/javascript">
 	$(document).ready(function() {
 		initEagDetails();
@@ -28,43 +30,44 @@
 				</div>
 				<div class="${mobile}">
 					<portal:eag eagUrl="${eagUrl}" />
-					<table class="aiSection otherDisplay">
-						<thead>
-							<tr>
-								<th colspan="2">Other information</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="header">Related resource:</td>
-								<td>
-									<div>
-										<a target="_blank"
-											href="http://www.gahetna.nl/collectie/archief">Link to
-											related resource</a>
-										<p></p>
-									</div>
-								</td>
-							</tr>
-							<tr class="longDisplay" style="display: none;">
-								<td class="header">Name of the archive (in other
-									languages):</td>
-								<td>
-									<p>National Archives of The Netherlands</p>
-								</td>
-							</tr>
-							<tr>
-								<td class="header">Type of archive:</td>
-								<td>
-									<p>National archives</p>
-								</td>
-							</tr>
-							<tr>
-								<td class="header">Last update:</td>
-								<td>21.05.2013</td>
-							</tr>
-						</tbody>
-					</table>
+					<c:if test="${hasHoldingsGuides or hasFindingAids or hasSourceGuides}">
+						<table class="aiSection otherDisplay">
+							<thead>
+								<tr>
+									<th colspan="2"><fmt:message key="directory.archivalmaterial.title"/></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:if test="${hasHoldingsGuides}">
+								<tr>
+									<td colspan="2">
+										<div>
+											<a href="${contentUrl}/${archivalInstitution.repositorycode}/hg"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
+										</div>
+									</td>
+								</tr>
+								</c:if>
+								<c:if test="${hasFindingAids}">
+								<tr>
+									<td colspan="2">
+										<div>
+											<a href="${contentUrl}/${archivalInstitution.repositorycode}/fa"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+										</div>
+									</td>
+								</tr>
+								</c:if>
+								<c:if test="${hasSourceGuides}">
+								<tr>
+									<td colspan="2">
+										<div>
+											<a href="${contentUrl}/${archivalInstitution.repositorycode}/sg"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
+										</div>
+									</td>
+								</tr>
+								</c:if>
+							</tbody>
+						</table>
+					</c:if>
 				</div>
 			</div>
 		</div>

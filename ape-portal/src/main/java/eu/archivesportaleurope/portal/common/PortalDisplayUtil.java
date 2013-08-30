@@ -22,10 +22,16 @@ public class PortalDisplayUtil {
 		}
 		return result;
 	}
-	public static boolean useNoJavascriptPages(PortletRequest portletRequest){
+	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
 		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
 		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
 		return !UserAgentType.BROWSER.equals(agent.getType());
+	}
+	public static boolean isNotNormalBrowser(PortletRequest portletRequest){
+		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
+		String header = request.getHeader("User-Agent");
+		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
+		return !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
 	}
 }

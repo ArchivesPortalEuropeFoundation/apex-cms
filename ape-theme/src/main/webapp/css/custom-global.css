@@ -81,26 +81,33 @@ a:visited {
 	height: 153px;
 	width: 1000px;
 }
-#header {
-	background: url("../images/ape/eaddisplay/2nd_displ_bg.jpg") repeat scroll 0 0 transparent;
-    height: 111px;
-    overflow: hidden;
-    width: 100%;
-}
-
-.left-header {
-	background-image: url("../images/ape/eaddisplay/header_default.png");
+#logo {
+	background-image: url("../images/ape/header/logo-header.png");
 	background-repeat: no-repeat;
-    height: 111px;	
-    width:766px;    
+    height: 120px;
+    width:286px;   
+    float:left;
+}
+#header {
+	background: url("../images/ape/header/bg.png") repeat scroll 0 0 transparent;
+    height: 109px;
+    overflow: hidden;
+    width: 700px;
+    float: right;
+}
+.left-header {
+	background-image: url("../images/ape/header/header-left.png");
+	background-repeat: no-repeat;
+    height: 109px;
+    width:500px;    
     float: left;
 }
 .right-header {
-	background-image: url("../images/ape/eaddisplay/2nd_displ_right.png");
+	background-image: url("../images/ape/header/header-right.png");
 	background-repeat: no-repeat;
-    height: 111px;	
     float: right;
-    width:167px;
+    height: 109px;
+    width: 118px;
 }
 
 

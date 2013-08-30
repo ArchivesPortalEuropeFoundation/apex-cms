@@ -19,13 +19,19 @@
 		<property name="messageSource" ref="messageSource"></property>		
 	</bean>        
 	<bean
+		class="eu.archivesportaleurope.portal.directory.AiContentController">
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="eadDAO" ref="eadDAO"/>
+		
+	</bean>	
+	<bean
 		class="eu.archivesportaleurope.portal.directory.DirectoryController">
 			<property name="messageSource" ref="messageSource"/>	
 			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 			<property name="countryDAO" ref="countryDAO"/>
-		
+			<property name="eadDAO" ref="eadDAO"/>
 	</bean>	        
-
+   
 		
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
