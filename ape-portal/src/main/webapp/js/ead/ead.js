@@ -55,7 +55,7 @@ function initEadTree(eadTreeUrl, displayEadUrl, namespace) {
 
 }
 function initHeader(imageUrl){
-	$("#header-image").attr("src", imageUrl);
+	//$("#header-image").attr("src", imageUrl);
 }
 function displayEadDetails(displayEadUrl, id, type, namespace) {
 	$("#right-pane").html("<div class='icon_waiting'></div>");
@@ -116,7 +116,7 @@ function initPanes() {
 	var leftPane = $("#left-pane");
 	var rightPane = $("#right-pane");
 	var splitter = $("#splitter");
-	var header = $("#header");
+	var header = $("#banner");
 	var totalWidth = header.outerWidth(true);
 	var marge = 10;
 	rightPane.width(totalWidth - leftPane.outerWidth(true) - splitter.outerWidth(true) - marge);
