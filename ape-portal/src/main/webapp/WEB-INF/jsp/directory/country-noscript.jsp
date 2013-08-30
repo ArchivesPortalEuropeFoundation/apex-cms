@@ -6,13 +6,21 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
-<portal:friendlyUrl var="aiUrl" type="directory-institution"/>
+<portal:friendlyUrl var="aiIdUrl" type="directory-institution-id"/>
+<portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="directoryPortlet">
-<h4><fmt:message key="advancedsearch.facet.title.country" /></h4>
+<h3>${parent}</h3>
 			<div id="children" class="box">
-				<div class="boxtitle">${countryUnit.country.isoname}</div>
 				<c:forEach var="archivalInstitutionUnit" items="${archivalInstitutionUnits}">
-				<div class="child"><a href="${aiUrl}/${archivalInstitutionUnit.repoCode}">${archivalInstitutionUnit.ainame}</a></div>
+					<c:choose>
+						<c:when test="${empty archivalInstitutionUnit.repoCode }">
+							<c:set var="url" value="${aiIdUrl}/${archivalInstitutionUnit.aiId}"/>
+						</c:when>
+						<c:otherwise>
+							<c:set var="url" value="${aiCodeUrl}/${archivalInstitutionUnit.repoCode}"/>
+						</c:otherwise>
+					</c:choose>	
+				<div class="child"><a href="${url}">${archivalInstitutionUnit.ainame}</a></div>
 					
 				</c:forEach>
 

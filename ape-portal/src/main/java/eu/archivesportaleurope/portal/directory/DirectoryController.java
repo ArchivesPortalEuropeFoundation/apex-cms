@@ -3,9 +3,9 @@ package eu.archivesportaleurope.portal.directory;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -66,20 +66,49 @@ public class DirectoryController {
 				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
 				Collections.sort(archivalInstitutionList);
 				CountryUnit countryUnit = navigationTree.getCountryUnit(country);
-				modelAndView.getModelMap().addAttribute("country",countryUnit);
+				modelAndView.getModelMap().addAttribute("parent",countryUnit.getLocalizedName());
 				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits",archivalInstitutionList);
 				modelAndView.setViewName("country-noscript");
 
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(),e);
+			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
 		
 		return modelAndView;
 	}
-	public void writeAiDetails(RenderRequest renderRequest) {
-
-
+	@RenderMapping(params = "myaction=showAiGroup")
+	public ModelAndView showAiGroup(RenderRequest renderRequest) throws APEnetException {
+		ModelAndView modelAndView = new ModelAndView();
+		String aiIdString = renderRequest.getParameter("aiId");
+		try {
+			if (StringUtils.isNotBlank(aiIdString)){
+				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(Integer.parseInt(aiIdString));
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				NavigationTree navigationTree = new NavigationTree(source);
+				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
+						.getArchivalInstitutionsByParentAiId("aigroup_" + aiIdString);
+				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
+				Collections.sort(archivalInstitutionList);
+				modelAndView.getModelMap().addAttribute("parent",archivalInstitution.getAiname());
+				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits",archivalInstitutionList);
+				modelAndView.setViewName("country-noscript");
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			modelAndView.setViewName("indexError");
+		}
+		
+		return modelAndView;
+	}
+	@RenderMapping(params = "myaction=showAiDetails")
+	public ModelAndView showAiDetails(RenderRequest renderRequest) throws IOException {
+		String repositoryCode = renderRequest.getParameter("repositoryCode");
+		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO.getArchivalInstitutionsByRepositorycode(repositoryCode);
+		ModelAndView modelAndView =  fillAIDetails(archivalInstitutions.get(0));
+		modelAndView.setViewName("aidetails-direct");
+		return modelAndView;
 	}
 
 	
@@ -110,16 +139,20 @@ public class DirectoryController {
 		return modelAndView;
 	}
 	@ResourceMapping(value = "aiDetails")
-	public ModelAndView displayAiDetails(@RequestParam String id){
+	public ModelAndView displayAiDetails(ResourceRequest resourceRequest){
+		String idString = resourceRequest.getParameter("id");
 		try {
-			if (StringUtils.isNotBlank(id)) {
-				return fillAIDetails(new Long(id));
+			if (StringUtils.isNotBlank(idString)) {
+				Integer id = Integer.parseInt(idString);
+				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(id);
+				ModelAndView modelAndView =  fillAIDetails(archivalInstitution);
+				modelAndView.setViewName("aidetails");
+				return modelAndView;
 			}
 		} catch (Exception e) {
 
 		}
-
-		return null;
+		return new ModelAndView("indexError");
 	}
 	@RenderMapping(params = "myaction=printEagDetails")
 	public ModelAndView displayEagPrint(@RequestParam String id){
@@ -130,7 +163,7 @@ public class DirectoryController {
 		} catch (Exception e) {
 			LOGGER.error("Exception on print process: "+e.getMessage());
 		}
-		return null;
+		return new ModelAndView("indexError");
 	}
 	
 	private ModelAndView fillPrint(Long idLong) throws IOException {
@@ -151,10 +184,8 @@ public class DirectoryController {
 		return modelAndView;
 	}
 
-	private ModelAndView fillAIDetails(Long idLong) throws IOException {
+	private ModelAndView fillAIDetails(ArchivalInstitution archivalInstitution) throws IOException {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("aidetails");
-		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
 		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
 		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());

@@ -8,8 +8,13 @@
 		<implicit-parameter name="myaction">showCountryDetails</implicit-parameter>
 	</route>
 	<route>
-		<pattern>/ai/{aiId:[^/]+}</pattern>
+		<pattern>/ai/id/{aiId:[^/]+}</pattern>
 		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<implicit-parameter name="myaction">showAiGroup</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/ai/code/{repositoryCode:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
 		<implicit-parameter name="myaction">showAiDetails</implicit-parameter>
 	</route>
 </routes>
