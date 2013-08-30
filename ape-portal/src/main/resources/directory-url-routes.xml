@@ -13,8 +13,22 @@
 		<implicit-parameter name="myaction">showAiGroup</implicit-parameter>
 	</route>
 	<route>
-		<pattern>/ai/code/{repositoryCode:[^/]+}</pattern>
-		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+		<pattern>/ai/code/{repoCode:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<implicit-parameter name="myaction">showAiDetails</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/content/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="myaction">showAiContent</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/content/{repoCode:[^/]+}/{xmlTypeName:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="pageNumber">1</implicit-parameter>
+		<implicit-parameter name="myaction">showAiContent</implicit-parameter>
 	</route>
 </routes>
