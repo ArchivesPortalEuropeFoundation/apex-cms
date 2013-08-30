@@ -26,7 +26,6 @@ public class PortalDisplayUtil {
 		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
 		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
-		LOGGER.info(agent.getType());
 		return !UserAgentType.BROWSER.equals(agent.getType());
 	}
 }
