@@ -77,7 +77,6 @@ public class DisplayEadContoller {
 				XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
 				String subId = eadParams.getEadDisplayId().substring(1);
 				if (xmlType != null) {
-					LOGGER.info(subId + " " + xmlType.getClazz());
 					ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
 				} else if (eadParams.getAiId() != null) {
 					xmlType = XmlType.getType(eadParams.getXmlTypeId());
