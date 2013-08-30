@@ -11,10 +11,10 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
 <div id="eadDisplayPortlet">
-	<div id="contextInformation">
+	<h3 id="contextInformation">
 		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
 		&gt; ${archivalInstitution.ainame}
-	</div>
+	</h3>
 	<div id="eaddetailsContent">
 		<portal:ead type="frontpage" xml="${eadContent.xml}" />
 	</div>
