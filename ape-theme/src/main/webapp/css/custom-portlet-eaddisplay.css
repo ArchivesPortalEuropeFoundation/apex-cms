@@ -67,7 +67,8 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 }
 
 #eadDisplayPortlet #contextInformation {
-    font-size: 10px;
+	margin-bottom: 0px;
+    margin-top:  0px;
     white-space: nowrap;
 }
 
