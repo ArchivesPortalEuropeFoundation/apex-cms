@@ -107,6 +107,11 @@ public class DirectoryController {
 		String repositoryCode = renderRequest.getParameter("repositoryCode");
 		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO.getArchivalInstitutionsByRepositorycode(repositoryCode);
 		ModelAndView modelAndView =  fillAIDetails(archivalInstitutions.get(0));
+		if (PortalDisplayUtil.useNoJavascriptPages(renderRequest)){
+			modelAndView.getModelMap().addAttribute("mobile","mobile");
+		}else {
+			modelAndView.getModelMap().addAttribute("mobile","");
+		}
 		modelAndView.setViewName("aidetails-direct");
 		return modelAndView;
 	}

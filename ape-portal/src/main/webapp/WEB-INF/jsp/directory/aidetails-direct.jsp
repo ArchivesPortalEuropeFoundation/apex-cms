@@ -26,7 +26,7 @@
 								key="label.print" /><span class="icon_print">&nbsp;</span></a>
 					</div>
 				</div>
-				<div>
+				<div class="${mobile}">
 					<portal:eag eagUrl="${eagUrl}" />
 					<table class="aiSection otherDisplay">
 						<thead>
