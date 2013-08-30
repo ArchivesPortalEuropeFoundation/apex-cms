@@ -1,17 +1,19 @@
 package eu.archivesportaleurope.portal.ead;
 
 public class EadParams {
-	private String id;
+	private String eadDisplayId;
 	private Integer xmlTypeId;
 	private String eadid;
 	private Integer aiId;
 	private String repoCode;
 	private String xmlTypeName;
-	public String getId() {
-		return id;
+
+
+	public String getEadDisplayId() {
+		return eadDisplayId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setEadDisplayId(String eadDisplayId) {
+		this.eadDisplayId = eadDisplayId;
 	}
 	public Integer getXmlTypeId() {
 		return xmlTypeId;

@@ -17,6 +17,9 @@
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
+		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>dir</friendly-url-mapping>
+		<friendly-url-routes>directory-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/directory/directory.js</header-portlet-javascript>
 	</portlet>
@@ -40,9 +43,19 @@
 		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>
-		<portlet-name>featured-exhibition</portlet-name>
+		<portlet-name>featured-exhibition-frontpage</portlet-name>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
+	</portlet>
+	<portlet>
+		<portlet-name>featured-exhibition-details</portlet-name>
+		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
+		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>fed</friendly-url-mapping>
+		<friendly-url-routes>featured-exhibition-url-routes.xml</friendly-url-routes>		
+		<instanceable>false</instanceable>
+		<header-portlet-css>/css/featured-exhibition/multizoom.css</header-portlet-css>
+		<header-portlet-javascript>/js/featured-exhibition/multizoom.js</header-portlet-javascript>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

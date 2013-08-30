@@ -83,3 +83,8 @@ function checkCookie(c_name) {
 function deleteCookie(c_name) {
 	document.cookie = c_name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
 }
+function logAction(title, url) {
+	var baseUrl = window.location.protocol + '//' + window.location.hostname;
+	var shortUrl = url.replace(baseUrl, "");
+	_gaq.push([ '_trackPageview', shortUrl ]);
+}

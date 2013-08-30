@@ -54,6 +54,9 @@ function initEadTree(eadTreeUrl, displayEadUrl, namespace) {
 			});
 
 }
+function initHeader(imageUrl){
+	$("#header-image").attr("src", imageUrl);
+}
 function displayEadDetails(displayEadUrl, id, type, namespace) {
 	$("#right-pane").html("<div class='icon_waiting'></div>");
 	var params = {};
@@ -79,6 +82,12 @@ function initExpandableParts(){
 			$(this).next().show();
 		}
 	});	
+	$( "em" ).each(function() {
+		console.log( + $(this).text() );
+		var contentWithHighlightedItems = $(this).closest('.ead-content');
+		contentWithHighlightedItems.show();
+		contentWithHighlightedItems.prev().removeClass("collapsed").addClass("expanded");
+	});
 }
 function updatePageNumber(displayEadUrl) {
 	var params = {};

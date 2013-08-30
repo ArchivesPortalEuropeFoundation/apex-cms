@@ -1,13 +1,6 @@
 function init(autocompletionUrl) {
 	var selector = "#searchTerms";
 	$(selector).focus();
-	$("#checkboxHierarchy").change(function(event) {
-		if ($(this).is(":checked")) {
-			$('#resultsperpageRow').addClass('hidden');
-		}else {
-			$('#resultsperpageRow').removeClass('hidden');
-		}
-	});
 	function split(val) {
 		return val.split(/\s+/);
 	}

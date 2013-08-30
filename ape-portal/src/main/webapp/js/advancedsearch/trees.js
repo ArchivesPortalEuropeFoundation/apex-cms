@@ -45,7 +45,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 								function(data) {
 									displayPreview("#search-preview", data);
 								});
-						logAction("advanced-search-context-preview", newSearchUrl);
+						//logAction("advanced-search-context-preview", newSearchUrl);
 					} else {
 						$("#search-preview").removeClass("preview-content");
 						$("#search-preview").html("");
@@ -83,7 +83,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		// Navigated Search Tree for Countries, Archival
 		// Institution Groups,Archival Institutions, Holdings
 		// Guide and Finding Aid configuration
-		title : "Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
+		title : "Tree for Archival Landscape - Countries, Archival Institution Groups and Archival Institutions",
 		// rootVisible: false,
 		fx : {
 			height : "toggle",
@@ -165,7 +165,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 				$.get(url, function(data) {
 					displayPreview("#al-preview", data);
 				});
-				logAction("advanced-search-al-preview", url);
+				//logAction("advanced-search-al-preview", url);
 			} else {
 				$("#al-preview").removeClass("preview-content ");
 				$("#al-preview").html("");

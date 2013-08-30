@@ -11,8 +11,10 @@
 	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
-	#js("$javascript_folder/global.js")
 	#js("$javascript_folder/jquery.nivo.slider.pack.js")
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
@@ -58,7 +60,6 @@ $theme.include($body_top_include)
 <div id="headerMenu">
 
 	<ul>
-		
 		#if (!$is_signed_in)
 			<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
 		#end
@@ -73,10 +74,12 @@ $theme.include($body_top_include)
 	</ul>
 </div>
 	<header id="banner" role="banner">
-
-		<div id="heading">
+		<a href="$company_url">
+		<div id="header">
+			<img id="header-image" src="$images_folder/ape/eaddisplay/header_default.png" alt="header" />
+			<div class="right-header"></div>
 		</div>
-
+		</a>
 
 
 		#if ($has_navigation || $is_signed_in)

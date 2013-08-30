@@ -27,6 +27,7 @@ import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
@@ -356,7 +357,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	private void addTitle(String styleClass, StringBuilder buffer, String title, Long count, Locale locale) {
 		addNoIcon(buffer);
-		String convertedTitle = convertTitle(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
 			if (styleClass == null) {

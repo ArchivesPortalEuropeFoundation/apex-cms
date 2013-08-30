@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>eu.archivesportaleurope.frontend</groupId>
@@ -147,11 +148,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>eu.archivesportaleurope.backend</groupId>
 			<artifactId>commons</artifactId>
@@ -160,15 +161,20 @@
 			<groupId>eu.archivesportaleurope.backend</groupId>
 			<artifactId>persistence</artifactId>
 		</dependency>
-        <dependency> <!-- Please do NOT erase this dependency!! -->
-            <groupId>eu.archivesportaleurope.dpt</groupId>
-            <artifactId>DPTutils</artifactId>
-        </dependency>
+		<dependency> <!-- Please do NOT erase this dependency!! -->
+			<groupId>eu.archivesportaleurope.dpt</groupId>
+			<artifactId>DPTutils</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.uadetector</groupId>
+			<artifactId>uadetector-resources</artifactId>
+			<version>2013.07</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -19,7 +19,7 @@
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
 	<c:choose>
-		<c:when test="${empty advancedSearch.term }">
+		<c:when test="${empty term }">
 			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}"/>
 		</c:when>
 		<c:otherwise>

@@ -20,7 +20,9 @@
 	</bean>        
 	<bean
 		class="eu.archivesportaleurope.portal.directory.DirectoryController">
-				<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="messageSource" ref="messageSource"/>	
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="countryDAO" ref="countryDAO"/>
 		
 	</bean>	        
 

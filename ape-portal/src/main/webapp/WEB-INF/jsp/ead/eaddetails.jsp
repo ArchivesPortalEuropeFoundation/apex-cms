@@ -71,7 +71,7 @@
 <div id="eaddetailsContent">
 <c:choose>
 	<c:when test="${empty c}">
-		<portal:ead type="${type}" xml="${eadContent.xml}" />
+		<portal:ead type="frontpage" xml="${eadContent.xml}"  searchTerms="${term}" searchFieldsSelectionId="${element}"/>
 	</c:when>
 	<c:otherwise>
 		<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"

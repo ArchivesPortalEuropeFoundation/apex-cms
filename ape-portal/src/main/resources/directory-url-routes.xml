@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
+"http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
+<routes>
+	<route>
+		<pattern>/co/{countryCode:[^/]+}</pattern>
+		<generated-parameter name="countryCode">{countryCode}</generated-parameter>
+		<implicit-parameter name="myaction">showCountryDetails</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/ai/id/{aiId:[^/]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<implicit-parameter name="myaction">showAiGroup</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/ai/code/{repositoryCode:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+		<implicit-parameter name="myaction">showAiDetails</implicit-parameter>
+	</route>
+</routes>

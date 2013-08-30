@@ -193,7 +193,7 @@ function initListTabHandlers() {
 					displayPreview("#search-preview",data);
 					
 				});
-				logAction("advanced-search-list-preview", url);
+				//logAction("advanced-search-list-preview", url);
 				
 			});
 	makeRefinementsCollapsible();

@@ -18,12 +18,23 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	private final static Logger LOGGER = Logger.getLogger(FriendlyUrlTag.class);
 	public static final String EAD_DISPLAY_SEARCH = "eaddisplay-search";
 	public static final String EAD_DISPLAY_FRONTPAGE = "eaddisplay-frontpage";
+	public static final String FEATURED_EXHIBITION = "featured-exhibition-details";
+	public static final String FEATURED_EXHIBITION_ARTICLE = "featured-exhibition-details-article";
+	public static final String DIRECTORY_COUNTRY = "directory-country";
+	public static final String DIRECTORY_INSTITUTION_ID = "directory-institution-id";
+	public static final String DIRECTORY_INSTITUTION_CODE = "directory-institution-code";
+	
 	private String type;
 	private String var;
 	private final static Map<String, String> urls = new HashMap<String,String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
-		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 					
+		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
+		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk"); 
+		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-exhibition/-/fed/a");
+		urls.put(DIRECTORY_COUNTRY, "/directory/-/dir/co");
+		urls.put(DIRECTORY_INSTITUTION_ID, "/directory/-/dir/ai/id");
+		urls.put(DIRECTORY_INSTITUTION_CODE, "/directory/-/dir/ai/code");
 	}
 	@Override
 	public void doTag() throws JspException, IOException {

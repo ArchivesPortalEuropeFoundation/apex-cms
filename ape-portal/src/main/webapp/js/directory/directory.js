@@ -123,6 +123,12 @@ function initEagDetails(){
 	$(".longDisplay").hide();
 	showRepositoryOnMap("#repository_1");
 	closeAllRepositories();
+	if(!($(".emaillang").length>0)){
+		$(".emailsnolang").removeClass("emailsnolang");
+	}
+	if(!($(".webpagelang").length>0)){
+		$(".webpagesnolang").removeClass("webpagesnolang");
+	}
 	$('h3.repositoryName').click(function() {
 		if ($(this).hasClass("expanded")) {
 			$(this).removeClass("expanded").addClass("collapsed");

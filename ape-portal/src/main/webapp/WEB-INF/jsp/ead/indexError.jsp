@@ -10,10 +10,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <portlet:defineObjects />
 <div id="eadDisplayPortlet">
-	<div id="header">
-		<div class="left-header"></div>
-		<div class="right-header"></div>
-	</div>
 	<div class="error">
 		<fmt:message key="${errorMessage}" />
 	</div>
