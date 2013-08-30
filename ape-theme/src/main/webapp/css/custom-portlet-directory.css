@@ -121,3 +121,20 @@
 	padding:5px;
 	font-weight: bold;
 }
+#directoryPortlet #child-paging {
+    float: right;
+    margin-right: 10px;
+}
+#directoryPortlet .numberOfPages {
+    float: left;
+    font-weight: normal;
+}
+
+#directoryPortlet #children .boxtitle {
+    background: url("../images/ape/search/tabbg.jpg") repeat-x scroll 0 0 transparent;
+    height: 18px;
+}
+#directoryPortlet  .child td{
+	padding-left: 10px;
+	padding-right: 10px;
+}
