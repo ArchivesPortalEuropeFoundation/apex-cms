@@ -25,6 +25,7 @@
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
 </portlet:resourceURL>
+<portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <script type='text/javascript'>
 	$(document).ready(function() {
 		initHeader("${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png");
@@ -34,10 +35,10 @@
 	});		
 </script>
 <div id="eadDisplayPortlet">
-	<div id="contextInformation">
+	<h3 id="contextInformation">
 		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
-		&gt; ${archivalInstitution.ainame}
-	</div>
+		&gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycode}">${archivalInstitution.ainame}</a>
+	</h3>
 	<div id="eadcontent">
 		<div id="left-pane" class="pane">
 			<div id="eadTree"></div>
