@@ -1,28 +1,27 @@
 /* ---------- Main navigation ---------- */
 
 #navigation {
-	background-color:rgba(255,255,255,0.6);
 	margin: 0;
 	padding: 0;
 	position: relative;
 	top:-120px;
 	z-index: 10;
 	clear:both;
-	margin-left: 286px;
+	margin-left: 320px;;
 }
 
 #navigation ul {
 	list-style: none;
-	margin: 0;
+	margin: 0px;
 	padding: 0px;
 	
 }
 #navigation li {
-
+	background-color:rgba(255,255,255,0.6);
 }
 
 #navigation li, #navigation a {
-	display: inline-block;
+	float: left;
 }
 
 .ie6 #navigation li, .ie7 #navigation li, .ie6 #navigation a, .ie7 #navigation a {
@@ -40,6 +39,7 @@
 #navigation a {
 	padding-right: 10px;
 	padding-left: 10px;
+	padding-top: 2px;
 	text-transform: uppercase;
 	text-decoration: none;
 	font-weight: bold;

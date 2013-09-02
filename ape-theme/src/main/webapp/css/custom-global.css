@@ -78,9 +78,10 @@ a:visited {
 
 #logo {
 	background-image: url("../images/ape/header/logo-header.png");
+	background-color:white;
 	background-repeat: no-repeat;
     height: 120px;
-    width:286px;   
+    width:320px;   
     float:left;
 }
 #header {
