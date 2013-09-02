@@ -9,6 +9,7 @@
 	<portlet:param name="myaction" value="printEagDetails" />
 	<portlet:param name="id" value="${aiId}" />
 </portlet:renderURL>
+<portal:friendlyUrl var="contentUrl" type="directory-content" />
 <div id="buttonsHeaderEag">
 	<div class="linkButton right" id="printEagDetails">
 		<a href="javascript:printEagByURL('${printEagDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
