@@ -74,13 +74,13 @@ $theme.include($body_top_include)
 	</ul>
 </div>
 	<header id="banner" role="banner">
-		<a href="$company_url"><div id="logo"></div></a>
 		<div id="header">
-		#if ($has_navigation || $is_signed_in)
-			#parse ("$full_templates_path/navigation.vm")
-		#end			
+			<a href="$company_url"><div id="logo"></div></a>		
 			<div class="left-header"></div>
 			<div class="right-header"></div>
+		#if ($has_navigation || $is_signed_in)
+			#parse ("$full_templates_path/navigation.vm")
+		#end	
 		</div>
 
 
