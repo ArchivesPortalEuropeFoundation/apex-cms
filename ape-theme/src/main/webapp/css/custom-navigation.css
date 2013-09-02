@@ -1,18 +1,17 @@
 /* ---------- Main navigation ---------- */
 
 #navigation {
-		background: none repeat scroll 0 0 white;
-		opacity: 0.6;	
-	clear: both;
+	background-color:rgba(255,255,255,0.6);
 	margin: 0;
 	padding: 0;
 	position: relative;
-	z-index: 1;
-
+	top:-120px;
+	z-index: 10;
+	clear:both;
+	left: 286px;
 }
 
 #navigation ul {
-
 	list-style: none;
 	margin: 0;
 	padding: 0px;

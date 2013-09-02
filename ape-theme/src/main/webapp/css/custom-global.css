@@ -76,11 +76,6 @@ a:visited {
 	display: none;
 }
 
-#heading {
-	background-image: url("../images/ape/header.jpg");
-	height: 153px;
-	width: 1000px;
-}
 #logo {
 	background-image: url("../images/ape/header/logo-header.png");
 	background-repeat: no-repeat;
@@ -89,25 +84,25 @@ a:visited {
     float:left;
 }
 #header {
-	background: url("../images/ape/header/bg.png") repeat scroll 0 0 transparent;
-    height: 109px;
+	background: url("../images/ape/header/header_bg.png");
+    height: 120px;
+    background-repeat:repeat-x;
     overflow: hidden;
-    width: 700px;
-    float: right;
+    width: 100%;
 }
 .left-header {
-	background-image: url("../images/ape/header/header-left.png");
+	background-image: url("../images/ape/header/header_left.png");
 	background-repeat: no-repeat;
     height: 109px;
-    width:500px;    
+    width:555px;    
     float: left;
 }
 .right-header {
-	background-image: url("../images/ape/header/header-right.png");
+	background-image: url("../images/ape/header/header_right.png");
 	background-repeat: no-repeat;
     float: right;
     height: 109px;
-    width: 118px;
+    width: 121px;
 }
 
 
