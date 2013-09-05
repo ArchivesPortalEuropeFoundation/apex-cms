@@ -15,11 +15,6 @@
 	$(document).ready(function() {
         initListTabHandlers();
     });
-	
-	function showPageNumber(text){
-		alert(text);
-	}
-	
 </script>
 <portal:friendlyUrl var="friendlyUrl" type="eaddisplay-search"/>
 <div class="results">
@@ -28,11 +23,11 @@
 			<c:choose>
 				<c:when test="${!empty results.errorMessage}">
 					<div class="error"><fmt:message key="${results.errorMessage}" /></div>
-				</c:when>			
+				</c:when>
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
-						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" numberFormat="${param.numberFormat}" />
+						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" numberFormat="${numberFormat}" />
 					</div>
 					<div id="resultPerPageContainer">
 						<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
@@ -45,7 +40,8 @@
 						</form:select>		
 					</div>
 					<div id="top-paging" class="paging">
-					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
+							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 					</div>			
 				</c:when>
 				<c:otherwise>
