@@ -24,11 +24,11 @@
 </script>
 <fmt:message var="localizedCountryName" key="country.${fn:toLowerCase(country.cname)}" />
 <div id="eadDisplayPortlet">
-	<div id="header">
-		<img src="${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png" alt="header"/>
-		<div class="right-header"></div>
-	</div>
-
+		<div id="header">
+			<div id="logo"></div>	
+			<div class="left-header"></div>
+			<div class="right-header"></div>
+		</div>
 	<c:choose>
 		<c:when test="${empty c}">
 			<div id="contextInformation">
