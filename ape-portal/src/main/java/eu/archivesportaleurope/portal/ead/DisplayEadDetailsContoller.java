@@ -13,6 +13,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
@@ -74,7 +75,7 @@ public class DisplayEadDetailsContoller {
 		} else {
 			id = Long.parseLong(eadDetailsParams.getId());
 		}
-
+		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.CDETAILS_XSLT);
 		CLevel currentCLevel = clevelDAO.findById(id);
 		Integer pageNumberInt = 1;
 		if (eadDetailsParams.getPageNumber() != null) {
@@ -96,6 +97,7 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
 		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
+
 		String documentTitle = currentCLevel.getUnittitle();
 		if (StringUtils.isNotBlank(currentCLevel.getUnitid())) {
 			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
@@ -115,6 +117,7 @@ public class DisplayEadDetailsContoller {
 		if (eadDetailsParams.getEcId() != null) {
 			EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
 			if (eadContent != null) {
+				modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);				
 				modelAndView.getModelMap().addAttribute("country",
 						eadContent.getEad().getArchivalInstitution().getCountry());
 				String documentTitle = eadContent.getUnittitle();
