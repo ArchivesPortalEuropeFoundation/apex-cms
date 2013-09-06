@@ -208,7 +208,7 @@ public class AdvancedSearchController {
 		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
 		if (countries != null) {
 			for (Count country : countries) {
-				results.getCountries().add(new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY));
+				results.getCountries().add(new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY, request.getLocale()));
 			}
 		}
 		return results;
