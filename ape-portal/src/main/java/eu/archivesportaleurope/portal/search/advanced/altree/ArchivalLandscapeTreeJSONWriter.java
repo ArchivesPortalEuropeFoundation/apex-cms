@@ -112,9 +112,9 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 						if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)) {
 							EadSearchOptions eadSearchOptions = new EadSearchOptions();
 							if (AlType.HOLDINGS_GUIDE.equals(parentType)) {
-								eadSearchOptions.setEadClazz(HoldingsGuide.class);
+								eadSearchOptions.setEadClass(HoldingsGuide.class);
 							} else if (AlType.SOURCE_GUIDE.equals(parentType)) {
-								eadSearchOptions.setEadClazz(SourceGuide.class);
+								eadSearchOptions.setEadClass(SourceGuide.class);
 							}
 							eadSearchOptions.setArchivalInstitionId(aiId);
 							eadSearchOptions.setPublished(true);
@@ -198,12 +198,12 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		EadSearchOptions eadSearchOptions = new EadSearchOptions();
 		eadSearchOptions.setArchivalInstitionId(aiId);
 		eadSearchOptions.setPublished(true);
-		eadSearchOptions.setEadClazz(HoldingsGuide.class);
+		eadSearchOptions.setEadClass(HoldingsGuide.class);
 		boolean holdingsGuideExists = eadDAO.existEads(eadSearchOptions);
 		/*
 		 * check if Source Guide exist
 		 */
-		eadSearchOptions.setEadClazz(SourceGuide.class);
+		eadSearchOptions.setEadClass(SourceGuide.class);
 		boolean sourceGuideExists = eadDAO.existEads(eadSearchOptions);
 		//boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {

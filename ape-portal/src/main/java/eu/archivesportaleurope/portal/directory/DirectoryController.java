@@ -219,11 +219,11 @@ public class DirectoryController {
 		EadSearchOptions eadSearchOptions = new EadSearchOptions();
 		eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 		eadSearchOptions.setPublished(true);
-		eadSearchOptions.setEadClazz(HoldingsGuide.class);
+		eadSearchOptions.setEadClass(HoldingsGuide.class);
 		modelAndView.getModelMap().addAttribute("hasHoldingsGuides",eadDAO.existEads(eadSearchOptions));
-		eadSearchOptions.setEadClazz(FindingAid.class);
+		eadSearchOptions.setEadClass(FindingAid.class);
 		modelAndView.getModelMap().addAttribute("hasFindingAids",eadDAO.existEads(eadSearchOptions));
-		eadSearchOptions.setEadClazz(SourceGuide.class);
+		eadSearchOptions.setEadClass(SourceGuide.class);
 		modelAndView.getModelMap().addAttribute("hasSourceGuides",eadDAO.existEads(eadSearchOptions));
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		return modelAndView;
