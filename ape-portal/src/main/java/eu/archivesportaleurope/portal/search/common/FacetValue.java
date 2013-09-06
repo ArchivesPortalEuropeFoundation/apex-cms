@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +21,7 @@ public class FacetValue {
 	private static final int MAX_NUMBER_OF_CHARACTERS = 25;
 	private String id;
 	private String description;
-	private Long numberOfResults;
+	private String numberOfResults;
 	private boolean selected;
 
 	public FacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,
@@ -58,7 +59,7 @@ public class FacetValue {
 		} else {
 			selected = false;
 		}
-		numberOfResults = count.getCount();
+		numberOfResults = NumberFormat.getInstance(resourceBundleSource.getLocale()).format(count.getCount());
 	}
 
 	public void initDateFacetValue(FacetField facetField, Count count, FacetType facetType, List<String> selectedItems,
@@ -85,7 +86,7 @@ public class FacetValue {
 		} else {
 			selected = false;
 		}
-		numberOfResults = count.getCount();
+		numberOfResults = NumberFormat.getInstance(resourceBundleSource.getLocale()).format(count.getCount());
 	}
 
 	private String getDateSpan(DateGap dateGap, String dateString) throws ParseException {
@@ -106,7 +107,7 @@ public class FacetValue {
 		return result;
 	}
 
-	public Long getNumberOfResults() {
+	public String getNumberOfResults() {
 		return numberOfResults;
 	}
 
