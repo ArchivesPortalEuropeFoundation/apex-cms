@@ -192,9 +192,13 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl){
 			if (archivalInstitutionName){
 				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + selectedCountryCode;
 			}
-			$("#maps").attr("src", embebbedMapUrl + parameters);
+			$("iframe#maps").attr("src", embebbedMapUrl + parameters);
+			$("iframe#maps").load(function(){
+				self.print();
+			});
 		}else{
 			$("iframe#maps").remove();
+			self.print();
 			}
 		});
 	//remove see-more/see-less
@@ -206,5 +210,4 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl){
 			$(this).html(html.replace("()",""));
 		}
 	});
-	self.print();
 }
