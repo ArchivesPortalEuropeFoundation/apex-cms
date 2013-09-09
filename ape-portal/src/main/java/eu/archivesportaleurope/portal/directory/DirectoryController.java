@@ -208,6 +208,7 @@ public class DirectoryController {
 		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
 		modelAndView.getModelMap().addAttribute("archivalInstitutionName", archivalInstitution.getAiname());
 		modelAndView.getModelMap().addAttribute("country", archivalInstitution.getCountry().getIsoname());
+		modelAndView.getModelMap().addAttribute("countryName", archivalInstitution.getCountry().getCname());
 		return modelAndView;
 	}
 

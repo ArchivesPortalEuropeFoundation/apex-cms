@@ -38,7 +38,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					var eagDetailsUrl = aiDetailsUrl +"&id=" + node.data.aiId;
 					$("#directory-column-right-content").load(eagDetailsUrl, function() {
-						initEagDetails();
+						initEagDetails(selectedCountryCode,node);
 					});
 					logAction("directory-eag", eagDetailsUrl);
 
@@ -60,7 +60,7 @@ function printEagByURL(url){
 	'width=1000,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 	preview.focus();
 }
-function displayMaps(googleMapsAddress, archivalInstitutionName){
+function displayMaps(googleMapsAddress, archivalInstitutionName, selectedCountryCode,node){
 	// geocoder
 	var geocoder = new google.maps.Geocoder();
 	var input_address = googleMapsAddress;
@@ -69,8 +69,7 @@ function displayMaps(googleMapsAddress, archivalInstitutionName){
 	if (input_address.indexOf("<p>") != '-1') {
 		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
 	}
-
-	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
+	geocoder.geocode( { address: input_address, region: selectedCountryCode  }, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var lat = results[0].geometry.location.lat();
 			var lng = results[0].geometry.location.lng();
@@ -84,11 +83,16 @@ function displayMaps(googleMapsAddress, archivalInstitutionName){
 			}
 			$("#maps").attr("src", globalEmbeddedMapsUrl+ parameters);
 			$("#externalMap").attr("href", globalMapsUrl+ parameters);
-		} 
-		else {
-			alert("Google Maps not found address!");
+		} else if(node){
+			var found = false;
+			while((node = node.getParent()) && !found){ //try to get the country parent node
+				if (node.data.googleMapsAddress){
+					found = true;
+					displayMaps(node.data.googleMapsAddress);
+				}
 			}
-		});
+		}
+	});
 }
 
 function displayRepository(id){
@@ -118,10 +122,10 @@ function seeMore(clazz,identifier){
 	$(prefix + ".displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
 }
-function initEagDetails(){
+function initEagDetails(selectedCountryCode,node){
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
-	showRepositoryOnMap("#repository_1");
+	showRepositoryOnMap("#repository_1",selectedCountryCode,node);
 	closeAllRepositories();
 	if(!($(".emaillang").length>0)){
 		$(".emailsnolang").removeClass("emailsnolang");
@@ -145,7 +149,7 @@ function showRepository(identifier){
 	$(identifier + " .repositoryInfo").show();
 	showRepositoryOnMap(identifier);
 }
-function showRepositoryOnMap(prefix){
+function showRepositoryOnMap(prefix,selectedCountryCode,node){
 	if ($(prefix + " .repositoryName").length > 0){
 		repoName = $(prefix + " .repositoryName").html();		
 	}else {
@@ -155,7 +159,7 @@ function showRepositoryOnMap(prefix){
     if($(prefix + " .address").length == 0) {
     	address = $(prefix + ".postalAddress").html();
     } 
-	displayMaps(address, repoName);
+	displayMaps(address, repoName, selectedCountryCode, node);
 }
 function closeAllRepositories(){
 	if ($(".repositoryName").length > 0){
@@ -170,16 +174,29 @@ function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
 }
 
-function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl){
+function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
 	var input_address = "";
 	$(".address").each(function(){
 		input_address += $(this).html();
 	});
-	var geocoder = new google.maps.Geocoder();
 	// If necessary, recover the first element in visitors address element.
 	if (input_address.indexOf("<p>") != '-1') {
 		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
 	}
+	printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName);
+	//remove see-more/see-less
+	$(".displayLinkSeeMore").each(function(){$(this).remove();});
+	$(".displayLinkSeeLess").each(function(){$(this).remove();});
+	$("th").each(function(){
+		var html = $(this).html();
+		if(html.indexOf("()")!=-1){
+			$(this).html(html.replace("()",""));
+		}
+	});
+}
+
+function printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
+	var geocoder = new google.maps.Geocoder();
 	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			var lat = results[0].geometry.location.lat();
@@ -196,18 +213,8 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl){
 			$("iframe#maps").load(function(){
 				self.print();
 			});
-		}else{
-			$("iframe#maps").remove();
-			self.print();
-			}
-		});
-	//remove see-more/see-less
-	$(".displayLinkSeeMore").each(function(){$(this).remove();});
-	$(".displayLinkSeeLess").each(function(){$(this).remove();});
-	$("th").each(function(){
-		var html = $(this).html();
-		if(html.indexOf("()")!=-1){
-			$(this).html(html.replace("()",""));
+		}else if(countryName){
+			printMap(countryName,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,null);
 		}
-	});
+		});
 }
