@@ -11,5 +11,10 @@
 			<template-path>/ape-directory.tpl</template-path>
 			<wap-template-path>/ape-directory.tpl</wap-template-path>
 		</layout-template>
+		<layout-template id="ape-frontpage-without-fe" name="ape-frontpage-without-fe">
+			<template-path>/ape-home-without-fe.tpl</template-path>
+			<wap-template-path>/ape-home-without-fe.tpl</wap-template-path>
+		</layout-template>
+		
 	</custom>
 </layout-templates>
