@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.advanced.tree;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -141,7 +142,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		StringBuilder buffer = new StringBuilder();
 		addStartArray(buffer);
 		for (int i = 0; i < counts.size(); i++) {
-			TreeFacetValue facetValue = new TreeFacetValue(counts.get(i), TreeFacetValue.Type.FOND);
+			TreeFacetValue facetValue = new TreeFacetValue(counts.get(i), TreeFacetValue.Type.FOND, locale);
 			buffer.append(START_ITEM);
 			if (i == (maxNumberOfItems - 1)) {
 				addMore(buffer, locale);
@@ -197,7 +198,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			Iterator<Count> iterator = archivalInstitutions.iterator();
 			while (iterator.hasNext() && clevelAdded < MAX_NUMBER_OF_ITEMS) {
 				TreeFacetValue aiFacetValue = new TreeFacetValue(iterator.next(),
-						TreeFacetValue.Type.ARCHIVAL_INSTITUTION);
+						TreeFacetValue.Type.ARCHIVAL_INSTITUTION, locale);
 				buffer.append(START_ITEM);
 				addLevel(buffer, levelInt + 1);
 				buffer.append(COMMA);
@@ -259,7 +260,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		Map<String, CLevelInfo> clevelInfos = new TreeMap<String, CLevelInfo>();
 		if (mapCounts != null) {
 			for (Count count : mapCounts) {
-				TreeFacetValue facetValue = new TreeFacetValue(count, TreeFacetValue.Type.CLEVEL);
+				TreeFacetValue facetValue = new TreeFacetValue(count, TreeFacetValue.Type.CLEVEL, locale);
 				CLevelInfo cLevelInfo = new CLevelInfo();
 				cLevelInfo.setClevelWithCounts(facetValue);
 				clevelInfos.put(facetValue.getId(), cLevelInfo);
@@ -355,7 +356,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	}
 
-	private void addTitle(String styleClass, StringBuilder buffer, String title, Long count, Locale locale) {
+	private void addTitle(String styleClass, StringBuilder buffer, String title, String count, Locale locale) {
 		addNoIcon(buffer);
 		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
@@ -386,7 +387,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		}
 	}
 
-	private void addTitleWithLinkAndCount(StringBuilder buffer, String title, long count, Locale locale) {
+	private void addTitleWithLinkAndCount(StringBuilder buffer, String title, String count, Locale locale) {
 		addTitle("contextTitleWithLink", buffer, title, count, locale);
 	}
 

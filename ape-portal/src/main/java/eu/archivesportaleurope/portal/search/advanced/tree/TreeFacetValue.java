@@ -1,5 +1,8 @@
 package eu.archivesportaleurope.portal.search.advanced.tree;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.apache.solr.client.solrj.response.FacetField.Count;
 
 import eu.apenet.commons.solr.SolrValues;
@@ -9,9 +12,9 @@ public class TreeFacetValue {
 	private String id;
 	private String name;
 	private long orderId;
-	private long count;
+	private String count;
 	private boolean leaf;
-	public TreeFacetValue(Count count, Type type){
+	public TreeFacetValue(Count count, Type type, Locale locale){
 		
 		String temp = count.getName();
 		int lastColonIndex = temp.lastIndexOf(":");
@@ -28,9 +31,8 @@ public class TreeFacetValue {
 		}else {
 			name = temp.substring(0);
 		}
+		this.count = NumberFormat.getInstance(locale).format(count.getCount());
 	
-		this.count = count.getCount();
-		
 
 	}
 	public String getId() {
@@ -40,7 +42,7 @@ public class TreeFacetValue {
 		return name;
 	}
 
-	public long getCount() {
+	public String getCount() {
 		return count;
 	}
 	public long getOrderId() {
