@@ -161,6 +161,7 @@ public class DirectoryController {
 			modelAndView.getModelMap().addAttribute("mapUrlCenterParameters", mapUrlCenterParameters);
 
 		}
+		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
 		return modelAndView;
 	}
 
