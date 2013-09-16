@@ -2,8 +2,13 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
 
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.ResourceRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
@@ -20,6 +26,7 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
  * 
@@ -35,7 +42,16 @@ public class DisplayEadDetailsContoller {
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadDetailsContoller.class);
 	private CLevelDAO clevelDAO;
 	private EadContentDAO eadContentDAO;
+	private MessageSource messageSource;
+	
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
 
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+	
 	public void setEadContentDAO(EadContentDAO eadContentDAO) {
 		this.eadContentDAO = eadContentDAO;
 	}
@@ -45,29 +61,29 @@ public class DisplayEadDetailsContoller {
 	}
 
 	@ResourceMapping(value = "displayEadDetails")
-	public ModelAndView displayDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams) {
+	public ModelAndView displayDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams, ResourceRequest resourceRequest) {
 		if (StringUtils.isNotBlank(eadDetailsParams.getId())) {
-			return displayCDetails(eadDetailsParams);
+			return displayCDetails(eadDetailsParams,resourceRequest);
 		} else {
-			return displayEadDetails(eadDetailsParams);
+			return displayEadDetails(eadDetailsParams,resourceRequest);
 		}
 
 	}
 
 	@RenderMapping(params = "myaction=printEadDetails")
-	public ModelAndView printDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams) {
+	public ModelAndView printDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams, RenderRequest renderRequest) {
 		ModelAndView modelAndView = null;
 		if (StringUtils.isNotBlank(eadDetailsParams.getId())) {
-			modelAndView = displayCDetails(eadDetailsParams);
+			modelAndView = displayCDetails(eadDetailsParams, renderRequest);
 		} else {
-			modelAndView = displayEadDetails(eadDetailsParams);
+			modelAndView = displayEadDetails(eadDetailsParams, renderRequest);
 		}
 		modelAndView.setViewName("printEaddetails");
 		return modelAndView;
 
 	}
 
-	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams) {
+	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		Long id = null;
 		if (eadDetailsParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
@@ -91,13 +107,15 @@ public class DisplayEadDetailsContoller {
 		}
 		builder.append("</c>");
 		ArchivalInstitution archivalInstitution = currentCLevel.getEadContent().getEad().getArchivalInstitution();
-		modelAndView.getModelMap().addAttribute("country", archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
 		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
-
+		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+				portletRequest.getLocale());
+		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
+		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
 		if (StringUtils.isNotBlank(currentCLevel.getUnitid())) {
 			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
@@ -112,14 +130,16 @@ public class DisplayEadDetailsContoller {
 		return modelAndView;
 	}
 
-	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams) {
+	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		if (eadDetailsParams.getEcId() != null) {
 			EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
 			if (eadContent != null) {
-				modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);				
-				modelAndView.getModelMap().addAttribute("country",
-						eadContent.getEad().getArchivalInstitution().getCountry());
+				modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);	
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						portletRequest.getLocale());
+				String localizedName = DisplayUtils.getLocalizedCountryName(source, eadContent.getEad().getArchivalInstitution().getCountry());
+				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				String documentTitle = eadContent.getUnittitle();
 				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);

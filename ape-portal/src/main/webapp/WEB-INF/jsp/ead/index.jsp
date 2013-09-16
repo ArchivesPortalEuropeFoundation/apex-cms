@@ -28,7 +28,6 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <script type='text/javascript'>
 	$(document).ready(function() {
-		initHeader("${pageContext.request.contextPath}/images/ead/header_${fn:toLowerCase(country.isoname)}.png");
 		initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
 		displayEadDetails("${displayEadUrl}", "${solrId}", null, "<portlet:namespace/>");
 		initPanes();
@@ -36,7 +35,7 @@
 </script>
 <div id="eadDisplayPortlet">
 	<h3 id="contextInformation">
-		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
+		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 	<div id="eadcontent">

@@ -26,11 +26,13 @@
 		class="eu.archivesportaleurope.portal.ead.DisplayEadDetailsContoller">
 				<property name="clevelDAO" ref="cLevelDAO"/>  
 				<property name="eadContentDAO" ref="eadContentDAO"/>
+				<property name="messageSource" ref="messageSource"/>
 	</bean>	      
 	<bean
 		class="eu.archivesportaleurope.portal.ead.DisplayEadContoller">
 				<property name="clevelDAO" ref="cLevelDAO"/> 
 				<property name="eadDAO" ref="eadDAO"/> 
+				<property name="messageSource" ref="messageSource"/>
 	</bean>
 		
 	<bean id="viewResolver"

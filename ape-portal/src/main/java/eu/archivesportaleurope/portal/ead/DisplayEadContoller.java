@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +16,16 @@ import com.liferay.portal.util.PortalUtil;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
-import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
  * 
@@ -38,6 +40,8 @@ public class DisplayEadContoller {
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadContoller.class);
 	private CLevelDAO clevelDAO;
 	private EadDAO eadDAO;
+	private MessageSource messageSource;
+	
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
 	}
@@ -47,16 +51,32 @@ public class DisplayEadContoller {
 	}
 
 
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
 	@RenderMapping
 	public ModelAndView displayEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = new ModelAndView();
+		try {
+		
 		Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
 		if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
 			return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
 		}else {
 			return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
 		}
-
+		}catch (Exception e){
+			LOGGER.error("Error in second display process", e);
+	
+		}
+		modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+		modelAndView.setViewName("indexError");
+		return modelAndView;	
 	}
 	public Ead retrieveEad(RenderRequest renderRequest,EadParams eadParams,ModelAndView modelAndView){
 		Ead ead = null;
@@ -122,9 +142,10 @@ public class DisplayEadContoller {
 				modelAndView.getModelMap().addAttribute("ead", ead);
 				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				Country country = archivalInstitution.getCountry();
-                country.setCname(country.getCname().replace(" ", "_"));
-				modelAndView.getModelMap().addAttribute("country", country);
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
+				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				modelAndView.setViewName("index");
 				return modelAndView;
 			}
@@ -162,9 +183,10 @@ public class DisplayEadContoller {
 				modelAndView.getModelMap().addAttribute("eadContent",eadContent );
 				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				Country country = archivalInstitution.getCountry();
-                country.setCname(country.getCname().replace(" ", "_"));
-				modelAndView.getModelMap().addAttribute("country", country);
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
+				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				modelAndView.setViewName("eaddetails-noscript");
 				return modelAndView;
 			}
