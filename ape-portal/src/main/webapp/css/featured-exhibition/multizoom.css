@@ -10,9 +10,7 @@
 	width: 350px; /* wide or wider than the widest zoomable image */
 	height: 350px; /* high or higher than the tallest zoomable image */
 	margin-top:3px;
-	border:1px solid #eee;
 	float: left;
-	background-color: white;
 }
 
 #two { /* Added CSS for second target div of zoomable images */
@@ -27,7 +25,7 @@
 }
 
 .thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
-	padding-top: 25px;
+	padding-top: 13px;
 	width: 350px;
 	text-align: center;
 }
