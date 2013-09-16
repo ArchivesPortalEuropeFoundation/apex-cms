@@ -23,15 +23,20 @@ public class PortalDisplayUtil {
 		return result;
 	}
 	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
+		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
 		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
 		return !UserAgentType.BROWSER.equals(agent.getType());
 	}
 	public static boolean isNotNormalBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
+		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
 		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
 		return !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
+	}
+	public static void setPageTitle(PortletRequest portletRequest, String title){
+		String documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
+		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
+		PortalUtil.setPageTitle(documentTitle, request);
 	}
 }
