@@ -26,6 +26,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
 import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
@@ -62,7 +63,8 @@ public class AdvancedSearchController {
 
 	// --maps the incoming portlet request to this method
 	@RenderMapping
-	public String showAdvancedSearch() {
+	public String showAdvancedSearch(RenderRequest request) {
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH);
 		return "home";
 	}
 	
@@ -75,6 +77,7 @@ public class AdvancedSearchController {
 		modelAndView.setViewName("home");
 		modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
 		modelAndView.getModelMap().addAttribute("results", results);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		return modelAndView;
 	}
 	
