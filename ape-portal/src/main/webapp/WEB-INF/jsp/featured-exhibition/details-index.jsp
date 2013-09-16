@@ -11,13 +11,6 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
 <portal:friendlyUrl var="friendlyUrl" type="featured-exhibition-details"/>
-<script type='text/javascript'>
-		var documentTitle = "${documentTitle}";
-		if (documentTitle !=""){
-			document.title = documentTitle;
-		}
-
-</script>
 <div id="featuredExhibitionDetailsPortlet">
 <c:if test="${!empty  articleDetails}">
 <div id="featuredExhibitionDetails">
