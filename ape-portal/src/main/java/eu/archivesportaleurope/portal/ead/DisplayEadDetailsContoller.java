@@ -121,7 +121,7 @@ public class DisplayEadDetailsContoller {
 			documentTitle = currentCLevel.getUnitid() + " " + documentTitle;
 			
 		}
-		documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
+		documentTitle = PortalDisplayUtil.getEadDisplayTitle(currentCLevel.getEadContent().getEad(), documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
@@ -141,7 +141,7 @@ public class DisplayEadDetailsContoller {
 				String localizedName = DisplayUtils.getLocalizedCountryName(source, eadContent.getEad().getArchivalInstitution().getCountry());
 				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				String documentTitle = eadContent.getUnittitle();
-				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
+				documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
