@@ -12,7 +12,9 @@ import com.liferay.portal.util.PortalUtil;
 
 public class PortalDisplayUtil {
     private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
-
+    public static final String TITLE_HOME = "HOME";
+    public static final String TITLE_DIRECTORY = "DIRECTORY";
+    public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
