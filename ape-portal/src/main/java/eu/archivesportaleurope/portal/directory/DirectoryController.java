@@ -79,12 +79,12 @@ public class DirectoryController {
 			modelAndView.getModelMap().addAttribute("parent", localizedName);
 			modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
 			modelAndView.setViewName("institutions-noscript");
-
+			PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getCountryDisplayTitle(country));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
+
 		return modelAndView;
 	}
 
@@ -106,12 +106,12 @@ public class DirectoryController {
 				modelAndView.getModelMap().addAttribute("parent", archivalInstitution.getAiname());
 				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
 				modelAndView.setViewName("institutions-noscript");
+				PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
 		return modelAndView;
 	}
 
@@ -129,7 +129,7 @@ public class DirectoryController {
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
 			}
-			String documentTitle = PortalDisplayUtil.TITLE_DIRECTORY + " " + archivalInstitution.getRepositorycode() + " " + archivalInstitution.getAiname();
+			String documentTitle = PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution);
 			modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 			PortalDisplayUtil.setPageTitle(renderRequest, documentTitle);
 			modelAndView.setViewName("aidetails-direct");
@@ -152,7 +152,6 @@ public class DirectoryController {
 			List<CountryUnit> countryList = navigationTree.getALCountriesWithArchivalInstitutionsWithEAG();
 			Collections.sort(countryList);
 			modelAndView.getModelMap().addAttribute("countries", countryList);
-			return modelAndView;
 		} else {
 			String mapUrl = "https://maps.google.com/maps?ie=UTF8&t=m&hl=";
 			mapUrl += renderRequest.getLocale().getLanguage();
@@ -177,8 +176,7 @@ public class DirectoryController {
 				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(id);
 				ModelAndView modelAndView = fillAIDetails(archivalInstitution);
 				modelAndView.setViewName("aidetails");
-				String documentTitle = PortalDisplayUtil.TITLE_DIRECTORY + " " + archivalInstitution.getRepositorycode() + " " + archivalInstitution.getAiname();
-				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+				modelAndView.getModelMap().addAttribute("documentTitle",PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 				return modelAndView;
 			}
 		} catch (Exception e) {
@@ -208,6 +206,7 @@ public class DirectoryController {
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
 				modelAndView.getModelMap().addAttribute("countryName", DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry()));
+				PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 				return modelAndView;
 			}
 		} catch (Exception e) {

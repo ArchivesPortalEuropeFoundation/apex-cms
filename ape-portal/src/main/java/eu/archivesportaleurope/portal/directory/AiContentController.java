@@ -65,7 +65,7 @@ public class AiContentController {
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", eadDAO.countEads(eadSearchOptions));
 			modelAndView.getModelMap().addAttribute("pageSize", eadSearchOptions.getPageSize());
 			modelAndView.getModelMap().addAttribute("eads", eadDAO.getEads(eadSearchOptions));
-			
+			PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");

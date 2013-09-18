@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 
 import com.liferay.portal.util.PortalUtil;
 
+import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
 
 public class PortalDisplayUtil {
@@ -46,5 +48,16 @@ public class PortalDisplayUtil {
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
 		return PortalDisplayUtil.replaceQuotesAndReturns( title + " (" + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + ")");
+	}
+	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
+		if (institution.isGroup()){
+			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + " (" + institution.getCountry().getIsoname() + ")");
+		}else {
+			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + " (" + institution.getRepositorycode() + ")");
+		}
+		
+	}
+	public static String getCountryDisplayTitle(Country country){
+		return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + " (" + country.getIsoname() + ")");
 	}
 }
