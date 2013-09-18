@@ -17,7 +17,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
-    public static final String TITLE_SIMPLE_SEARCH = "SIMPLE SEARCH";
+    public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
