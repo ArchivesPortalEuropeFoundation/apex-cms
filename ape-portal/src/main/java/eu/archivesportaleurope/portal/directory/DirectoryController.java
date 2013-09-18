@@ -84,7 +84,7 @@ public class DirectoryController {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-
+		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
 		return modelAndView;
 	}
 
@@ -111,7 +111,7 @@ public class DirectoryController {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-
+		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
 		return modelAndView;
 	}
 
@@ -129,6 +129,9 @@ public class DirectoryController {
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
 			}
+			String documentTitle = PortalDisplayUtil.TITLE_DIRECTORY + " " + archivalInstitution.getRepositorycode() + " " + archivalInstitution.getAiname();
+			modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+			PortalDisplayUtil.setPageTitle(renderRequest, documentTitle);
 			modelAndView.setViewName("aidetails-direct");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
@@ -174,6 +177,8 @@ public class DirectoryController {
 				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(id);
 				ModelAndView modelAndView = fillAIDetails(archivalInstitution);
 				modelAndView.setViewName("aidetails");
+				String documentTitle = PortalDisplayUtil.TITLE_DIRECTORY + " " + archivalInstitution.getRepositorycode() + " " + archivalInstitution.getAiname();
+				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				return modelAndView;
 			}
 		} catch (Exception e) {
