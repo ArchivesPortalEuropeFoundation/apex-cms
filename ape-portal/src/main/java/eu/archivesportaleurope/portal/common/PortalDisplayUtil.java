@@ -3,13 +3,14 @@ package eu.archivesportaleurope.portal.common;
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.apenet.persistence.vo.Ead;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentType;
 
 import org.apache.log4j.Logger;
 
 import com.liferay.portal.util.PortalUtil;
+
+import eu.apenet.persistence.vo.Ead;
 
 public class PortalDisplayUtil {
     private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
@@ -43,7 +44,7 @@ public class PortalDisplayUtil {
 		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
 		PortalUtil.setPageTitle(documentTitle, request);
 	}
-    public static String getEadDisplayTitle(Ead ead, String string) {
-        return string;
-    }
+	public static String getEadDisplayTitle(Ead ead, String title){
+		return PortalDisplayUtil.replaceQuotesAndReturns(ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + ": " + title);
+	}
 }
