@@ -45,6 +45,6 @@ public class PortalDisplayUtil {
 		PortalUtil.setPageTitle(documentTitle, request);
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
-		return PortalDisplayUtil.replaceQuotesAndReturns(ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + ": " + title);
+		return PortalDisplayUtil.replaceQuotesAndReturns( title + " (" + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + ")");
 	}
 }
