@@ -40,7 +40,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").load(eagDetailsUrl, function() {
 						initEagDetails(selectedCountryCode,node);
 					});
-					logAction("directory-eag", eagDetailsUrl);
+					logAction(document.title, eagDetailsUrl);
 
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
