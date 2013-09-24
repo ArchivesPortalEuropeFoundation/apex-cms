@@ -32,8 +32,8 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
 		urls.put(EAD_DISPLAY_FRONTPAGE, "/ead-display/-/ead/fp"); 	
-		urls.put(FEATURED_EXHIBITION, "/featured-exhibition/-/fed/pk"); 
-		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-exhibition/-/fed/a");
+		urls.put(FEATURED_EXHIBITION, "/featured-document/-/fed/pk"); 
+		urls.put(FEATURED_EXHIBITION_ARTICLE, "/featured-document/-/fed/a");
 		urls.put(DIRECTORY_COUNTRY, "/directory/-/dir/co");
 		urls.put(DIRECTORY_INSTITUTION_ID, "/directory/-/dir/ai/id");
 		urls.put(DIRECTORY_INSTITUTION_CODE, "/directory/-/dir/ai/code");
