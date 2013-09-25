@@ -38,12 +38,12 @@
 	border-width: 0; /* avoid default borders in some browsers */
 }
 
-#description {
+#description-part {
+	padding:10px;
 	height: 350px;
 	overflow:auto;
-	padding:10px;
-
 }
+
 #image-collection {
 	padding:5px;
 	background-color: #E8E8E8;
