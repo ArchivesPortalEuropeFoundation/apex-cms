@@ -16,11 +16,10 @@
 <div id="featuredExhibitionDetails">
 ${articleDetails}
 </div>
+
 	<script type="text/javascript">
-	jQuery(document).ready(function($){
-
-
-		
+	createOpenGraphTags();
+	$(document).ready(function($){
 		$('#multiplezoom').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
 			descArea: '#description', // description selector (optional - but required if descriptions are used) - new
 			speed: 1500, // duration of fade in for new zoomable images (in milliseconds, optional) - new
@@ -37,7 +36,7 @@ ${articleDetails}
 		$(document).bind("contextmenu", function(e) {
 		    return false;
 		});
-	})
+	});
 	</script>
 <div id="likeBar">
 <span class='st_facebook_hcount' displayText='Facebook'></span>

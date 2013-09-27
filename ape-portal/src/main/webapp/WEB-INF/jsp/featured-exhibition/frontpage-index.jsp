@@ -34,7 +34,7 @@
 			   
 			});
 	        $('#slider').nivoSlider({
-	        	 pauseTime: 5000,
+	        	 pauseTime: 7000,
 	        	 pauseOnHover: false
 	        	});
 		};
