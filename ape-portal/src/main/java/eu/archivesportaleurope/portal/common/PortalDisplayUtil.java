@@ -1,6 +1,9 @@
 package eu.archivesportaleurope.portal.common;
 
+import java.util.Enumeration;
+
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletSession;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.uadetector.ReadableUserAgent;
