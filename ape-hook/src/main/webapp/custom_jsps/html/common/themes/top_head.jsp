@@ -13,7 +13,13 @@
  * details.
  */
 --%>
-
+<%
+String ogMetadata = (String) request.getAttribute("_featuredexhibitiondetails_WAR_Portal_ogMetadata");
+if (ogMetadata == null){
+	ogMetadata = "";
+}
+%>
+<%=ogMetadata%>
 <%@ include file="/html/common/init.jsp" %>
 
 <c:if test="<%= PropsValues.MONITORING_PORTAL_REQUEST %>">
