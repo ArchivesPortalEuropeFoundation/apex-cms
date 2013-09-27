@@ -21,13 +21,17 @@ if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
 String webContentTemplateId = preferences.getValue("webContentTemplateId", "");
-
+String webContentTemplateOpenGraphId = preferences.getValue("webContentTemplateOpenGraphId", "");
 %>
 <table class="lfr-table">
 
 <tr>
 	<td>Webcontent template id for Featured Exhibition:</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--webContentTemplateId--" value="<%=webContentTemplateId %>"/></td>
+</tr>
+<tr>
+	<td>Webcontent template id for Featured Exhibition (Open Graph):</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--webContentTemplateOpenGraphId--" value="<%=webContentTemplateOpenGraphId %>"/></td>
 </tr>
 </table>  
 <input type="button" value="Save" onClick="submitForm(document.<portlet:namespace />fm);" /> </form>

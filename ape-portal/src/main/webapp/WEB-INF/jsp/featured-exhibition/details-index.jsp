@@ -18,7 +18,6 @@ ${articleDetails}
 </div>
 
 	<script type="text/javascript">
-	createOpenGraphTags();
 	$(document).ready(function($){
 		$('#multiplezoom').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
 			descArea: '#description', // description selector (optional - but required if descriptions are used) - new
@@ -47,6 +46,7 @@ ${articleDetails}
 <span class='st_email_hcount' displayText='Email'></span>
 </div>
 </c:if>
+<c:set var="ogMetadata" value="${ogMetadata} HELLO"> </c:set>
 <div id="featuredExhibitionDetailsList">
 <h2><fmt:message key="featuredexhibition.all" /></h2>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">

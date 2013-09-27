@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -36,9 +37,10 @@ public class FeaturedExhibitionDetailsController {
 		String articleId = request.getParameter("articleId");
 		String classPK = request.getParameter("classPK");
 		String templateId = request.getPreferences().getValue("webContentTemplateId", "");
+		String webContentTemplateOpenGraphId = request.getPreferences().getValue("webContentTemplateOpenGraphId", "");
 		String languageId = themeDisplay.getLanguageId();
-		
 		String articleContent = null;
+		String facebookContent = null;
 		String documentTitle = null;
 		try {
 			if (StringUtils.isNumeric(classPK)){
@@ -46,20 +48,29 @@ public class FeaturedExhibitionDetailsController {
 				JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(classPkLong);
 				JournalArticleDisplay articleDisplay = JournalArticleLocalServiceUtil.getArticleDisplay(
 						themeDisplay.getScopeGroupId(), journalArticle.getArticleId() , "view",languageId , themeDisplay);
+				JournalArticleDisplay faceBookArticle = JournalArticleLocalServiceUtil.getArticleDisplay(themeDisplay.getScopeGroupId(), journalArticle.getArticleId(), webContentTemplateOpenGraphId,"view", languageId, themeDisplay); 
 				articleContent = articleDisplay.getContent();
 				documentTitle = articleDisplay.getTitle();
+				facebookContent = faceBookArticle.getContent();
+				if (StringUtils.isNotBlank(webContentTemplateOpenGraphId))
+					modelAndView.getModelMap().addAttribute("ogMetadata", facebookContent);
 			}else if (StringUtils.isNotBlank(articleId)){
 				JournalArticleDisplay article = JournalArticleLocalServiceUtil.getArticleDisplay(themeDisplay.getScopeGroupId(), articleId,"view", languageId, themeDisplay);
+				JournalArticleDisplay faceBookArticle = JournalArticleLocalServiceUtil.getArticleDisplay(themeDisplay.getScopeGroupId(), articleId, webContentTemplateOpenGraphId,"view", languageId, themeDisplay); 
 				if (article == null){
 					articleContent = "Article does not exists";
 				}else {
 					articleContent = article.getContent();
 					documentTitle =  article.getTitle();
+					facebookContent = faceBookArticle.getContent();
+					if (StringUtils.isNotBlank(webContentTemplateOpenGraphId))
+						modelAndView.getModelMap().addAttribute("ogMetadata", facebookContent);
 					
 				}
 			}
 
 		} catch (Exception e) {
+			LOGGER.error(e.getMessage(),e);
 			articleContent = "Article does not exists";
 		}
 		modelAndView.addObject("articleDetails", articleContent);
