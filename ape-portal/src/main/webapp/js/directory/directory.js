@@ -133,6 +133,91 @@ function initEagDetails(selectedCountryCode,node){
 	if(!($(".webpagelang").length>0)){
 		$(".webpagesnolang").removeClass("webpagesnolang");
 	}
+
+	if ($("div[class^='emailLang_']").length>0) { //if class^='emailLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='emailLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="emailLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageLang_']").length>0) { //if class^='webpageLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='addressLang_']").length>0) { //if class^='addressLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='addressLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="addressLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='nonpreformLang_']").length>0) { //if class^='nonpreformLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='nonpreformLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="nonpreformLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageLang_']").length>0) { //if class^='multilanguageLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageWithChildsLang_']").length>0) { //if class^='multilanguageWithChildsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageWithChildsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageWithChildsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
 	$('h3.repositoryName').click(function() {
 		if ($(this).hasClass("expanded")) {
 			$(this).removeClass("expanded").addClass("collapsed");
@@ -193,6 +278,90 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl,co
 			$(this).html(html.replace("()",""));
 		}
 	});
+	if ($("div[class^='emailLang_']").length>0) { //if class^='emailLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='emailLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="emailLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageLang_']").length>0) { //if class^='emailLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	} 
+	if ($("p[class^='addressLang_']").length>0) { //if class^='addressLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='addressLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="addressLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='nonpreformLang_']").length>0) { //if class^='nonpreformLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='nonpreformLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="nonpreformLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageLang_']").length>0) { //if class^='multilanguageLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageWithChildsLang_']").length>0) { //if class^='multilanguageWithChildsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageWithChildsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageWithChildsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
 }
 
 function printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
