@@ -63,9 +63,8 @@ public class FeaturedExhibitionDetailsController {
 			articleContent = "Article does not exists";
 		}
 		modelAndView.addObject("articleDetails", articleContent);
-		if (StringUtils.isNotBlank(documentTitle)){
-			PortalDisplayUtil.setPageTitle(request, documentTitle);
-		}
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.getFeaturedExhibitionTitle(documentTitle));
+
 		List<FeaturedExhibitionSummary> featuredExhibitionSummaries = new ArrayList<FeaturedExhibitionSummary>();
 		try {
 			List<JournalArticle> articles = JournalArticleLocalServiceUtil.search(themeDisplay.getCompanyId(),
