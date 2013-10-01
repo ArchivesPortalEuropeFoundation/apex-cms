@@ -63,18 +63,14 @@ public class DisplayEadContoller {
 	public ModelAndView displayEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
-		
-		Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
-		EadContent eadContent = ead.getEadContent();
-		String documentTitle = eadContent.getUnittitle();
-		documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(ead.getArchivalInstitution().getRepositorycode() + ": " + documentTitle);
-		HttpServletRequest request = PortalUtil. getHttpServletRequest(renderRequest);
-		PortalUtil.setPageTitle(documentTitle, request);
-		if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
-			return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
-		}else {
-			return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
-		}
+			Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
+			EadContent eadContent = ead.getEadContent();
+			PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+			if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
+				return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
+			}else {
+				return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
+			}
 		}catch (Exception e){
 			LOGGER.error("Error in second display process", e);
 	
