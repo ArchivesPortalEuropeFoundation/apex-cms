@@ -79,7 +79,7 @@ public class DirectoryController {
 			modelAndView.getModelMap().addAttribute("parent", localizedName);
 			modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
 			modelAndView.setViewName("institutions-noscript");
-
+			PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getCountryDisplayTitle(country));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
@@ -106,12 +106,12 @@ public class DirectoryController {
 				modelAndView.getModelMap().addAttribute("parent", archivalInstitution.getAiname());
 				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
 				modelAndView.setViewName("institutions-noscript");
+				PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-
 		return modelAndView;
 	}
 
@@ -129,6 +129,9 @@ public class DirectoryController {
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
 			}
+			String documentTitle = PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution);
+			modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+			PortalDisplayUtil.setPageTitle(renderRequest, documentTitle);
 			modelAndView.setViewName("aidetails-direct");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
@@ -149,7 +152,6 @@ public class DirectoryController {
 			List<CountryUnit> countryList = navigationTree.getALCountriesWithArchivalInstitutionsWithEAG();
 			Collections.sort(countryList);
 			modelAndView.getModelMap().addAttribute("countries", countryList);
-			return modelAndView;
 		} else {
 			String mapUrl = "https://maps.google.com/maps?ie=UTF8&t=m&hl=";
 			mapUrl += renderRequest.getLocale().getLanguage();
@@ -174,6 +176,7 @@ public class DirectoryController {
 				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(id);
 				ModelAndView modelAndView = fillAIDetails(archivalInstitution);
 				modelAndView.setViewName("aidetails");
+				modelAndView.getModelMap().addAttribute("documentTitle",PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 				return modelAndView;
 			}
 		} catch (Exception e) {
@@ -203,6 +206,7 @@ public class DirectoryController {
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
 				modelAndView.getModelMap().addAttribute("countryName", DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry()));
+				PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 				return modelAndView;
 			}
 		} catch (Exception e) {

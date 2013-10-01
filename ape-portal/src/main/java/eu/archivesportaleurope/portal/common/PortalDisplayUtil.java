@@ -3,7 +3,6 @@ package eu.archivesportaleurope.portal.common;
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.apenet.persistence.vo.Ead;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentType;
 
@@ -11,12 +10,16 @@ import org.apache.log4j.Logger;
 
 import com.liferay.portal.util.PortalUtil;
 
+import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Country;
+import eu.apenet.persistence.vo.Ead;
+
 public class PortalDisplayUtil {
     private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
-    public static final String TITLE_SIMPLE_SEARCH = "SIMPLE SEARCH";
+    public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
@@ -43,7 +46,18 @@ public class PortalDisplayUtil {
 		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
 		PortalUtil.setPageTitle(documentTitle, request);
 	}
-    public static String getEadDisplayTitle(Ead ead, String string) {
-        return string;
-    }
+	public static String getEadDisplayTitle(Ead ead, String title){
+		return PortalDisplayUtil.replaceQuotesAndReturns( title + " (" + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + ")");
+	}
+	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
+		if (institution.isGroup()){
+			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + " (" + institution.getCountry().getIsoname() + ")");
+		}else {
+			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + " (" + institution.getRepositorycode() + ")");
+		}
+		
+	}
+	public static String getCountryDisplayTitle(Country country){
+		return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + " (" + country.getIsoname() + ")");
+	}
 }
