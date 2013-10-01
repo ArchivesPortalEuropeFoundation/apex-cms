@@ -13,7 +13,7 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="eadDisplayPortlet">
 	<h3 id="contextInformation">
-		<fmt:message key="country.${fn:toLowerCase(country.cname)}" />
+		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 	<div id="eaddetailsContent">

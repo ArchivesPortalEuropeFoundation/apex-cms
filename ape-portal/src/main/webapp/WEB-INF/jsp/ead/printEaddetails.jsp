@@ -22,7 +22,6 @@
 		document.title = "${documentTitle}";
 	});
 </script>
-<fmt:message var="localizedCountryName" key="country.${fn:toLowerCase(country.cname)}" />
 <div id="eadDisplayPortlet">
 		<div id="header">
 			<div id="logo"></div>	

@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
@@ -22,6 +21,7 @@ import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.utils.APEnetUtilities;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
@@ -74,9 +74,9 @@ public class DirectoryController {
 					.getArchivalInstitutionsByParentAiId("country_" + country.getId());
 			archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
 			Collections.sort(archivalInstitutionList);
-			CountryUnit countryUnit = navigationTree.getCountryUnit(country);
+			String localizedName = DisplayUtils.getLocalizedCountryName(source, country);
 			modelAndView.getModelMap().addAttribute("countryCode", countryCode);
-			modelAndView.getModelMap().addAttribute("parent", countryUnit.getLocalizedName());
+			modelAndView.getModelMap().addAttribute("parent", localizedName);
 			modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
 			modelAndView.setViewName("institutions-noscript");
 
@@ -182,33 +182,32 @@ public class DirectoryController {
 	}
 
 	@RenderMapping(params = "myaction=printEagDetails")
-	public ModelAndView displayEagPrint(@RequestParam String id) {
+	public ModelAndView displayEagPrint(RenderRequest renderRequest) {
+		String id = renderRequest.getParameter("id");
 		try {
 			if (StringUtils.isNotBlank(id)) {
-				return fillPrint(new Long(id));
+				ModelAndView modelAndView = new ModelAndView("print");
+				// Google Maps part
+				String mapUrl = "https://maps.google.com/maps?ie=UTF8&t=m";
+				String mapUrlCenterParameters = "&ll=54.5259614,15.255118700000025&spn=48.804369699999995,102.17279989999997";
+				modelAndView.getModelMap().addAttribute("embeddedMapUrl", mapUrl + "&output=embed");
+				modelAndView.getModelMap().addAttribute("mapUrl", mapUrl);
+				modelAndView.getModelMap().addAttribute("mapUrlCenterParameters", mapUrlCenterParameters);
+				// EAG part
+				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(Integer.parseInt(id));
+				String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
+				modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
+				modelAndView.getModelMap().addAttribute("archivalInstitutionName", archivalInstitution.getAiname());
+				modelAndView.getModelMap().addAttribute("countryCode", archivalInstitution.getCountry().getIsoname());
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				modelAndView.getModelMap().addAttribute("countryName", DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry()));
+				return modelAndView;
 			}
 		} catch (Exception e) {
 			LOGGER.error("Exception on print process: " + e.getMessage());
 		}
 		return new ModelAndView("indexError");
-	}
-
-	private ModelAndView fillPrint(Long idLong) throws IOException {
-		ModelAndView modelAndView = new ModelAndView("ape-pagelayout-directory ");
-		modelAndView.setViewName("print");
-		// Google Maps part
-		String mapUrl = "https://maps.google.com/maps?ie=UTF8&t=m";
-		String mapUrlCenterParameters = "&ll=54.5259614,15.255118700000025&spn=48.804369699999995,102.17279989999997";
-		modelAndView.getModelMap().addAttribute("embeddedMapUrl", mapUrl + "&output=embed");
-		modelAndView.getModelMap().addAttribute("mapUrl", mapUrl);
-		modelAndView.getModelMap().addAttribute("mapUrlCenterParameters", mapUrlCenterParameters);
-		// EAG part
-		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
-		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
-		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
-		modelAndView.getModelMap().addAttribute("archivalInstitutionName", archivalInstitution.getAiname());
-		modelAndView.getModelMap().addAttribute("country", archivalInstitution.getCountry().getIsoname());
-		return modelAndView;
 	}
 
 	private ModelAndView fillAIDetails(ArchivalInstitution archivalInstitution) throws IOException {

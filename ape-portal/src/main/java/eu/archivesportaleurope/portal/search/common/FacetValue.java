@@ -50,7 +50,11 @@ public class FacetValue {
 
 				description = resourceBundleSource.getString(description.toLowerCase());
 			} else {
-				description = resourceBundleSource.getString(facetType.getPrefix() + description.toLowerCase());
+				if (FacetType.COUNTRY.equals(facetType)){
+					description = DisplayUtils.getLocalizedCountryName(resourceBundleSource, description);
+				}else {
+					description = resourceBundleSource.getString(facetType.getPrefix() + description.toLowerCase());
+				}
 			}
 
 		}
