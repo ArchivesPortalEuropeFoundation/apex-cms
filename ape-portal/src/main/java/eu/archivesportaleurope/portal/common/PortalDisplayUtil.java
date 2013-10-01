@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.common;
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.apenet.persistence.vo.Ead;
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentType;
 
@@ -42,4 +43,7 @@ public class PortalDisplayUtil {
 		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
 		PortalUtil.setPageTitle(documentTitle, request);
 	}
+    public static String getEadDisplayTitle(Ead ead, String string) {
+        return string;
+    }
 }
