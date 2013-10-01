@@ -65,6 +65,11 @@ public class DisplayEadContoller {
 		try {
 		
 		Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
+		EadContent eadContent = ead.getEadContent();
+		String documentTitle = eadContent.getUnittitle();
+		documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(ead.getArchivalInstitution().getRepositorycode() + ": " + documentTitle);
+		HttpServletRequest request = PortalUtil. getHttpServletRequest(renderRequest);
+		PortalUtil.setPageTitle(documentTitle, request);
 		if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
 			return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
 		}else {
@@ -177,7 +182,7 @@ public class DisplayEadContoller {
 				}
 				EadContent eadContent = ead.getEadContent();
 				String documentTitle = eadContent.getUnittitle();
-				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(documentTitle);
+				documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(archivalInstitution.getRepositorycode() + documentTitle);
 				HttpServletRequest request = PortalUtil. getHttpServletRequest(renderRequest);
 				PortalUtil.setPageTitle(documentTitle, request);
 				modelAndView.getModelMap().addAttribute("eadContent",eadContent );

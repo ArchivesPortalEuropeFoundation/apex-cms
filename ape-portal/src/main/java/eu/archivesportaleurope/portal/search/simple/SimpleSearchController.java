@@ -13,6 +13,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.EadDAO;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 @Controller(value = "simpleSearchController")
 @RequestMapping(value = "VIEW")
@@ -36,6 +37,7 @@ public class SimpleSearchController {
 			
 		}
 		modelAndView.getModelMap().addAttribute("numberOfDaoUnits", numberFormat.format(numberOfDaoUnits));
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_HOME);
 		return modelAndView;
 	}
 	@ModelAttribute("simpleSearch")

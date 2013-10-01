@@ -15,12 +15,12 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.asset.model.AssetEntry;
-import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portlet.journal.util.comparator.ArticleDisplayDateComparator;
+
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 @Controller(value = "featuredExhibitionDetailsController")
 @RequestMapping(value = "VIEW")
@@ -63,7 +63,9 @@ public class FeaturedExhibitionDetailsController {
 			articleContent = "Article does not exists";
 		}
 		modelAndView.addObject("articleDetails", articleContent);
-		modelAndView.addObject("documentTitle", documentTitle);
+		if (StringUtils.isNotBlank(documentTitle)){
+			PortalDisplayUtil.setPageTitle(request, documentTitle);
+		}
 		List<FeaturedExhibitionSummary> featuredExhibitionSummaries = new ArrayList<FeaturedExhibitionSummary>();
 		try {
 			List<JournalArticle> articles = JournalArticleLocalServiceUtil.search(themeDisplay.getCompanyId(),

@@ -238,11 +238,13 @@ function initSearchOptions() {
 function performNewSearch() {
 
 	// The Navigation Tree nodes selected are stored
-
+	var documentTitle = document.title;
 	if ($("#checkboxHierarchy").is(':checked')) {
 		selectedTabsSelector = "#tabs-context";
+		documentTitle = documentTitle + " (new-context-search)";
 	} else {
 		selectedTabsSelector = "#tabs-list";
+		documentTitle = documentTitle + " (new-list-search)";
 	}
 	$("#tabs-context").empty();
 	$("#tabs-list").empty();
@@ -257,7 +259,7 @@ function performNewSearch() {
 		$("#searchResultsContainer").removeClass("hidden");
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
-	logAction("advanced-search-new", newSearchUrl);
+	logAction(documentTitle, newSearchUrl);
 }
 
 function updateCurrentSearchResults(addRemoveRefinement) {
@@ -282,7 +284,7 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		//makeRefinementsCollapsible();
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
-	logAction("advanced-search-list-update", newSearchUrl);
+	logAction(document.title + " (update-current-list-search)", newSearchUrl);
 }
 function blockSearch(){
 	$.blockUI.defaults.css = {}; 
