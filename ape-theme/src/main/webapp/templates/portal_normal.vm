@@ -53,7 +53,7 @@ $theme.include($body_top_include)
      #end
 #end
 	
-#if($hasPermission == true)
+#if ( $is_signed_in )   
   #dockbar()
 #end
 
