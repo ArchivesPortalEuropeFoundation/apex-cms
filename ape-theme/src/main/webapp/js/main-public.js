@@ -1,6 +1,9 @@
 function logAction(title, url) {
 	var baseUrl = window.location.protocol + '//' + window.location.hostname;
 	var shortUrl = url.replace(baseUrl, "");
+	if (title != undefined && title.length > 0){
+		_gaq.push(["_set", "title", title]);
+	}
 	_gaq.push([ '_trackPageview', shortUrl ]);
 }
 function loadSurvey() {
