@@ -23,7 +23,7 @@ var featuredimagezoomer = { // the two options for Featured Image Zoomer:
 
 	//////////////// No Need To Edit Beyond Here ////////////////
 
-jQuery.noConflict();
+
 
 (function($){
 
