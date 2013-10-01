@@ -49,7 +49,7 @@ ${articleDetails}
 </div>
 </c:if>
 <div id="featuredExhibitionDetailsList">
-<h2>All Featured Exhibitions</h2>
+<h2><fmt:message key="featuredexhibition.all" /></h2>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">
 	<a href="${friendlyUrl}/${featuredExhibitionSummary.classPk}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
 </c:forEach>
