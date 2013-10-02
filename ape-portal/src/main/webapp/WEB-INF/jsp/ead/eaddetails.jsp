@@ -94,3 +94,11 @@
 	</c:otherwise>
 </c:choose>
 </div>
+<!-- there is the user's feedback feature for WEB 2.0 -->
+	<div id="usersFeedback" class="linkButton">
+	<script type="text/javascript">
+		//var docId =encodeURIComponent(document.title);
+		var docId = escape(document.title);
+	</script>
+		<a href="javascript:sendFeedback(docId)"><fmt:message key="label.feedback" /><span class="icon_help">&nbsp;</span></a>
+</div>
