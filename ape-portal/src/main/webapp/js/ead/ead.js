@@ -153,3 +153,8 @@ function printEadDetails(url) {
 	preview.focus();
 
 }
+function sendFeedback(docId) {
+	var preview = window.open("/web/guest/contact?"+docId, 'usersFeedback',
+			'width=auto,height=auto,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
+	preview.focus();
+}
