@@ -11,6 +11,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         initContactForm();
+        getFile();
     });
 </script>
 
@@ -40,6 +41,7 @@
                     <option value="1"><fmt:message key="label.contact.item.issues" /></option>
                     <option value="2"><fmt:message key="label.contact.item.contribute" /></option>
                     <option value="3"><fmt:message key="label.contact.item.suggestions" /></option>
+                    <option value="4"><fmt:message key="label.contact.item.feedback" /></option>
                 </form:select>
             </td>
             <td>
