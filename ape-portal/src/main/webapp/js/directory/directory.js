@@ -133,6 +133,7 @@ function initEagDetails(selectedCountryCode,node){
 	if(!($(".webpagelang").length>0)){
 		$(".webpagesnolang").removeClass("webpagesnolang");
 	}
+	multiLanguage();
 	$('h3.repositoryName').click(function() {
 		if ($(this).hasClass("expanded")) {
 			$(this).removeClass("expanded").addClass("collapsed");
@@ -168,7 +169,498 @@ function closeAllRepositories(){
 		$(".repositoryInfo .longDisplay").hide();
 	}
 }
-
+function multiLanguage(){
+	if ($("div[class^='emailLang_']").length>0) { //if class^='emailLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='emailLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="emailLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageLang_']").length>0) { //if class^='webpageLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageExhibitionLang_']").length>0) { //if class^='webpageExhibitionLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageExhibitionLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageExhibitionLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageExhibitionLang_']").length>0) { //if class^='multilanguageExhibitionLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageExhibitionLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageExhibitionLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageToursSessionsLang_']").length>0) { //if class^='webpageToursSessionsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageToursSessionsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageToursSessionsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageToursSesiionsLang_']").length>0) { //if class^='multilanguageToursSesiionsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageToursSesiionsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageToursSessionsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("div[class^='webpageOtherServicesLang_']").length>0) { //if class^='webpageOtherServicesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("div[class^='webpageOtherServicesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="webpageOtherServicesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageOtherServicesLang_']").length>0) { //if class^='multilanguageOtherServicesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageOtherServicesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageOtherServicesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRelatedResourcesLang_']").length>0) { //if class^='multilanguageRelatedResourcesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRelatedResourcesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRelatedResourcesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageAssociatedrepositoriesLang_']").length>0) { //if class^='multilanguageAssociatedrepositoriesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageAssociatedrepositoriesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageAssociatedrepositoriesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='addressLang_']").length>0) { //if class^='addressLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='addressLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="addressLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='postalAddressLang_']").length>0) { //if class^='postalAddressLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='postalAddressLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="postalAddressLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='nonpreformLang_']").length>0) { //if class^='nonpreformLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='nonpreformLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="nonpreformLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageLang_']").length>0) { //if class^='multilanguageLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageAccessibilityLang_']").length>0) { //if class^='multilanguageAccessibilityLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageAccessibilityLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageAccessibilityLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRestaccessLang_']").length>0) { //if class^='multilanguageRestaccessLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRestaccessLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRestaccessLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageOpeningLang_']").length>0) { //if class^='multilanguageOpeningLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageOpeningLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageOpeningLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageClosingLang_']").length>0) { //if class^='multilanguageClosingLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageClosingLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageClosingLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageWithChildsLang_']").length>0) { //if class^='multilanguageWithChildsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageWithChildsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageWithChildsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageTermsofuseLang_']").length>0) { //if class^='multilanguageTermsofuseLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageTermsofuseLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageTermsofuseLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageReadersTicketLang_']").length>0) { //if class^='multilanguageReadersTicketLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageReadersTicketLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageReadersTicketLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageAdvancedOrdersLang_']").length>0) { //if class^='multilanguageAdvancedOrdersLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageAdvancedOrdersLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageAdvancedOrdersLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageComputerPlacesLang_']").length>0) { //if class^='multilanguageComputerPlacesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageComputerPlacesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageComputerPlacesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRefreshmentLang_']").length>0) { //if class^='multilanguageRefreshmentLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRefreshmentLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRefreshmentLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageResearchServicesLang_']").length>0) { //if class^='multilanguageResearchServicesLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageResearchServicesLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageResearchServicesLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageReproductionserLang_']").length>0) { //if class^='multilanguageReproductionserLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageReproductionserLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageReproductionserLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageInternetaccessLang_']").length>0) { //if class^='multilanguageInternetaccessLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageInternetaccessLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageInternetaccessLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageConservationLaboratoryLang_']").length>0) { //if class^='multilanguageConservationLaboratoryLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageConservationLaboratoryLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageConservationLaboratoryLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageHoldingsLang_']").length>0) { //if class^='multilanguageHoldingsLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageHoldingsLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageHoldingsLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRepositorhistLang_']").length>0) { //if class^='multilanguageRepositorhistLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRepositorhistLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRepositorhistLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRepositorfoundLang_']").length>0) { //if class^='multilanguageRepositorfoundLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRepositorfoundLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRepositorfoundLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageRepositorsupLang_']").length>0) { //if class^='multilanguageRepositorsupLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageRepositorsupLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageRepositorsupLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageAdminunitLang_']").length>0) { //if class^='multilanguageAdminunitLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageAdminunitLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageAdminunitLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageBuildingLang_']").length>0) { //if class^='multilanguageBuildingLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageBuildingLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageBuildingLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+	if ($("p[class^='multilanguageParformLang_']").length>0) { //if class^='multilanguageParformLang_' exists, there is not eng lang
+		var firstLang = ""; //storage for first language
+		$("p[class^='multilanguageParformLang_']").each(function(){
+			if(firstLang.length==0){
+				firstLang = $(this).attr("class");
+				firstLang = firstLang.substring(firstLang.indexOf("_"));
+			}
+			//hide all languages that are not the first lang
+			$(this).hide();
+			if($(this).attr("class")=="multilanguageParformLang"+firstLang){
+				$(this).show();
+			}
+		});
+	}
+}
 
 function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
@@ -193,6 +685,7 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl,co
 			$(this).html(html.replace("()",""));
 		}
 	});
+	multiLanguage();
 }
 
 function printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
