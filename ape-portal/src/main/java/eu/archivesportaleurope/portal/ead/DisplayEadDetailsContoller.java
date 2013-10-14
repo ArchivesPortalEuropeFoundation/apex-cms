@@ -1,18 +1,24 @@
 package eu.archivesportaleurope.portal.ead;
 
+import java.io.Console;
 import java.util.List;
 
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -27,6 +33,9 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.email.EmailSender;
+import eu.archivesportaleurope.portal.contact.Contact;
+import eu.archivesportaleurope.portal.contact.ContactValidator;
 
 /**
  * 
@@ -67,7 +76,6 @@ public class DisplayEadDetailsContoller {
 		} else {
 			return displayEadDetails(eadDetailsParams,resourceRequest);
 		}
-
 	}
 
 	@RenderMapping(params = "myaction=printEadDetails")
@@ -82,7 +90,7 @@ public class DisplayEadDetailsContoller {
 		return modelAndView;
 
 	}
-
+	    
 	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		Long id = null;
@@ -161,4 +169,30 @@ public class DisplayEadDetailsContoller {
 		return modelAndView;
 	}
 
+    @RenderMapping(params = "myaction=success")
+    public String showPageResult(RenderResponse response, Model model) {
+        return "success";
+    }
+
+    @RenderMapping(params = "myaction=error")
+    public String showPageError(RenderResponse response, Model model) {
+        return "error";
+    }
+
+
+    @ActionMapping(params = "myaction=contact")
+    public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
+        ContactValidator contactValidator = new ContactValidator();
+        contactValidator.validate(contact, result);
+        if(result.hasErrors()) {
+            response.setRenderParameter("myaction", "error");
+            return;
+        }
+        try {
+            EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
+            response.setRenderParameter("myaction", "success");
+        } catch (Exception e) {
+            response.setRenderParameter("myaction", "error");
+        }
+    }
 }

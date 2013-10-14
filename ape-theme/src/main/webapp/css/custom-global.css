@@ -74,7 +74,7 @@ a:visited {
 	width: 1000px;
 }
 
-#breadcrumbs {
+#breadcrumbs, .feedback {
 	display: none;
 }
 
@@ -329,4 +329,3 @@ h2.blockHeader {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
-

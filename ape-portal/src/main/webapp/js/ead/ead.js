@@ -147,14 +147,57 @@ function initPanes() {
 function resizePage() {
 	$("#eadcontent").height(($(window).height()-$("#eadcontent").offset().top));
 }
+
 function printEadDetails(url) {
 	var preview = window.open(url, 'printpreview',
 			'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 	preview.focus();
 
 }
+
 function sendFeedback(docId) {
 	var preview = window.open("/web/guest/contact?"+docId, 'usersFeedback',
 			'width=1020,height=525,left=10,top=5,menubar=0,toolbar=0,status=0,location=0,scrollbars=0,resizable=1');
 	preview.focus();
+}
+
+function sendFeedback() {
+	var email = $("input#email-input").val();
+	var feedback = $("textarea#feedback-textarea").val();
+	
+//	var link = "mailto:fernando.vicente@mecd.es"
+//        + "?cc=fernando.vicente@mecd.es"
+//        + "&subject=feedback from " + escape(email)
+//        + "&body=" + escape(feedback);
+	
+	if (validateForm(email, feedback)){
+//		window.location.href = link;
+//		EmailSender.sendEmail(3, email, escape(feedback));
+    }
+	else{
+		alert("fields wrong");
+	}
+}
+
+function validateForm(email, feedback)
+{
+    var format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+    var ok=true;
+	
+    if (feedback=="" || feedback==null) {
+        ok=false;
+    }
+    if(!email.match(format)){        
+    	ok=false;
+    }
+    
+    return ok;
+}
+
+function showFeedback() {
+	if ($("#contactForm").hasClass("feedback")) {
+		$("#contactForm").removeClass("feedback");
+	} else {
+		$("#contactForm").addClass("feedback");
+	}
 }

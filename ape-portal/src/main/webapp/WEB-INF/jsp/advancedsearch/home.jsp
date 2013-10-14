@@ -26,6 +26,8 @@
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}" );
 				init();
 				initArchivalLandscapeTree("${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
+				/* alert(themeDisplay.getLanguageId()); */
+
 			});
 		</script>
 		<div id="advancedSearchPortlet">
