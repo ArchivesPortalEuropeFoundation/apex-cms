@@ -46,7 +46,35 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 				"javax.portlet.request");
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			getJspContext().setAttribute(var, themeDisplay.getURLHome()+urls.get(type));
+			String urlHome = themeDisplay.getURLHome();
+			if (themeDisplay.isI18n()
+					&& themeDisplay.getI18nPath() != null && !themeDisplay.getI18nPath().isEmpty()
+					&& !urlHome.contains(themeDisplay.getI18nPath())) {
+				// Try to change the URLHome from "http://www.archivesportaleurope.net/web/guest" to
+				// "http://www.archivesportaleurope.net/lg/web/guest". (NOTE: <lg> is the selected
+				// translation.
+				int correctPosition = 3;
+				int position = -1;
+				int count = 0;
+				for (int i = 0; i < urlHome.length(); i++) {
+					String currentChar = urlHome.substring(i, (i + 1));
+					if (currentChar.equalsIgnoreCase("/")) {
+						position = i;
+						count ++;
+					}
+					if (count == correctPosition) {
+						break;
+					}
+				}
+
+				if (position != -1) {
+					String startString = urlHome.substring(0, position);
+					String endString = urlHome.substring(position);
+					urlHome = startString + themeDisplay.getI18nPath() + endString;
+				}
+			}
+
+			getJspContext().setAttribute(var, urlHome +urls.get(type));
 		} catch (Exception e) {
 			LOGGER.error("Unable to retrieve portletId and plId: " +e.getMessage(), e);
 		}
@@ -59,8 +87,4 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	public void setVar(String var) {
 		this.var = var;
 	}
-
-
-
-
 }
