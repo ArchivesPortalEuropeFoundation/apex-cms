@@ -55,9 +55,7 @@
 	        tracking:'google'
 	    });
 	    stButtons.locateElements();	    
-/* 	    PortletSession portletSession = renderRequest.getPortletSession();
-	    String lang = (String) portletSession.getAttribute("language_id", PortletSession.APPLICATION_SCOPE);
-	    alert(lang); */
+
 	});
 </script>
 
@@ -111,12 +109,8 @@
 
 <div id="usersFeedback" class="linkButton">
 	<script type="text/javascript">
-		//var docId =encodeURIComponent(document.title);
 		var docId = escape(document.title);
-		var docUrl = document.location;
-		document.getElementById('feedback').value = " feedback info: " + unescape(docId);
-		document.getElementById('feedback').value +=" from: " + unescape(docUrl);
-		/* alert(themeDisplay.getLanguageId()); */
+		document.getElementById('feedback').value = unescape(docId) +" : ";
 	</script>
 </div>
 
@@ -127,7 +121,6 @@
 	</div>	
 	</p>
 	<p>
-
 	<form:form id="contactForm" name="contactForm" 
 				commandName="contact" method="post" class="feedback" action="${contactUrl}" >
 		<table class="contactForm">
