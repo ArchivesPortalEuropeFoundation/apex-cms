@@ -8,6 +8,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
+
+<liferay-theme:defineObjects />
 
 <portlet:defineObjects />
 <c:set var="element">
@@ -110,6 +113,12 @@
 <div id="usersFeedback" class="linkButton">
 	<script type="text/javascript">
 		var docId = escape(document.title);
+		var userEmail = '${user.emailAddress}';
+		//if user has logged in the mail imput apears filled with the emai address, if not, it appears in blank
+		if(userEmail!="default@liferay.com"){
+			document.getElementById('contact_email').value = userEmail;
+		}
+
 		document.getElementById('feedback').value = unescape(docId) +" : ";
 	</script>
 </div>
