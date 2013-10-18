@@ -28,7 +28,6 @@
 			<table>
 				<c:forEach var="ead" items="${eads}">
 					<tr class="child">
-						<td>${ead.eadid}</td>
 						<td><a href="${eadUrl}/${aiRepoCode}/${xmlTypeName}/${ead.eadid}">${ead.title}</a></td>
 					</tr>
 				</c:forEach>
