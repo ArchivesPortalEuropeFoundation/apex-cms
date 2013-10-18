@@ -1,9 +1,6 @@
 package eu.archivesportaleurope.portal.common;
 
-import java.util.Enumeration;
-
 import javax.portlet.PortletRequest;
-import javax.portlet.PortletSession;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.uadetector.ReadableUserAgent;
@@ -26,7 +23,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
-    public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENT";
+    public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
