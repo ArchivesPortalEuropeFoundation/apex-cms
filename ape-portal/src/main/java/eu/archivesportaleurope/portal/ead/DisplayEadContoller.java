@@ -64,15 +64,17 @@ public class DisplayEadContoller {
 		ModelAndView modelAndView = new ModelAndView();
 		try {
 			Ead ead = retrieveEad(renderRequest,eadParams, modelAndView);
-			EadContent eadContent = ead.getEadContent();
-			PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
-			if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
-				return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
-			}else {
-				return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
+			if (ead != null){
+				EadContent eadContent = ead.getEadContent();
+				PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+				if (PortalDisplayUtil.isNotNormalBrowser(renderRequest)){
+					return displayEadDetails(renderRequest,eadParams, modelAndView,ead);
+				}else {
+					return displayEadIndex(renderRequest,eadParams, modelAndView,ead);
+				}
 			}
 		}catch (Exception e){
-			LOGGER.error("Error in second display process", e);
+			LOGGER.error("Error in second display process:" + e.getMessage());
 	
 		}
 		modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
@@ -152,7 +154,7 @@ public class DisplayEadContoller {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error("Error in second display process", e);
+			LOGGER.error("Error in second display process: " + e.getMessage());
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
 			return modelAndView;
@@ -190,7 +192,7 @@ public class DisplayEadContoller {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error("Error in second display process", e);
+			LOGGER.error("Error in second display process: " + e.getMessage());
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
 			return modelAndView;
