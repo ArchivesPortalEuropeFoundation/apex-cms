@@ -56,7 +56,7 @@ public class AiContentController {
 			eadSearchOptions.setEadClass(XmlType.getTypeByResourceName(aiContentParams.getXmlTypeName()).getClazz());
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setPageSize(100);
-			eadSearchOptions.setOrderByField("eadid");
+			eadSearchOptions.setOrderByField("title");
 			eadSearchOptions.setPageNumber(Integer.parseInt(aiContentParams.getPageNumber()));
 			modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 			modelAndView.getModelMap().addAttribute("aiRepoCode", aiContentParams.getRepoCode());
