@@ -55,14 +55,13 @@ $theme.include($body_top_include)
 	
 #if ( $is_signed_in )   
   #dockbar()
-#end
-
+#else
 <div id="headerMenu">
 
 	<ul>
-		#if (!$is_signed_in)
+		
 			<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
-		#end
+		
 		#if ($show_sign_out)
             <li class="sign-out">
                 <a href="$sign_out_url">$sign_out_text</a>
@@ -73,6 +72,7 @@ $theme.include($body_top_include)
        
 	</ul>
 </div>
+#end
 	<header id="banner" role="banner">
 		<div id="header">
 			<a href="$company_url"><div id="logo"></div></a>		
