@@ -202,10 +202,9 @@
 }
 
 #advancedSearchPortlet #selectedRefinements {
-	display: block;
-	clear: both;
-	padding-top: 5px;
-	padding-bottom: 20px;
+    clear: both;
+    display: inline-block;
+    padding-top: 5px;
 }
 
 #advancedSearchPortlet #selectedRefinementsTitle {
@@ -231,6 +230,7 @@
 	padding-right: 5px;
 	margin-left: 2px;
 	margin-right: 2px;
+	margin-bottom: 5px;
 }
 
 #advancedSearchPortlet .list-searchresult-actions {
