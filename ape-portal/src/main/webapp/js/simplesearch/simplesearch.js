@@ -44,6 +44,11 @@ function init(autocompletionUrl) {
 			terms.push("");
 			this.value = terms.join(" ");
 			return false;
-		}
+		}, 
+		open: function(){
+	        setTimeout(function () {
+	            $('.ui-autocomplete').css('z-index', 99999999999999);
+	        }, 0);
+	    }
 	});
 }
