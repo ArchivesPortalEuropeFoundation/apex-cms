@@ -185,3 +185,13 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	font-weight: bold;
 	font-style: normal;
 }
+
+
+#eadDisplayPortlet  ul.daolist {
+    list-style: none outside none;
+    padding: 0;
+}
+
+#eadDisplayPortlet  ul.daolist li{
+	float: left;
+}
