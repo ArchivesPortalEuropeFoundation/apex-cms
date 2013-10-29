@@ -12,11 +12,11 @@
 </portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
+<portal:removeParameters  var="displayPreviewUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="displayPreview" /></portal:removeParameters>
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portlet:resourceURL var="navigatedTreeUrl" id="navigatedTree" />
 <portlet:resourceURL var="generateNavigatedTreeAiUrl" id="generateNavigatedTreeAi" />
 <portlet:resourceURL var="generateNavigatedTreeAiContentUrl" id="generateNavigatedTreeAiContent" />
-<portlet:resourceURL var="displayPreviewUrl" id="displayPreview"/>
 <portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
 
 <c:choose>
