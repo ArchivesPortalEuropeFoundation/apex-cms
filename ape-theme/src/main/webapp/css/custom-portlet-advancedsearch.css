@@ -440,6 +440,9 @@
 	display: inline-block;
 	width: 100%;
 }
+#advancedSearchPortlet .list-searchresult-context {
+	color: black;
+}
 
 #advancedSearchPortlet .subtitle,#advancedSearchPortlet .secondSubtitle
 	{
