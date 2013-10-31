@@ -106,10 +106,11 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     font-weight: bold;
     margin: 0.3em 0;
     text-align: left;	
+    padding-left: 15px;
 }
 #eadDisplayPortlet #expandableContent h2 {
 	cursor: pointer;
-	padding-left: 15px;
+
 }
 #eadDisplayPortlet .defaultlayout {
 	text-align: center;
@@ -119,6 +120,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 #eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
 	padding-left: 15px;
 	padding-right: 15px;
+	display: inline-block;
 }
 
 #eadDisplayPortlet .expand-unitid {
