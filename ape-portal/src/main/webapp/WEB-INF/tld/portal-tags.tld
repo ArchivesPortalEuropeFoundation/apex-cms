@@ -60,6 +60,17 @@
 		</attribute>			
 	</tag>
 	<tag>
+		<name>eadNavigation</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadNavigationTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>clevel</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+	</tag>
+	<tag>
 		<name>eag</name>
 		<tag-class>eu.archivesportaleurope.portal.common.jsp.EagTag</tag-class>
 		<body-content>empty</body-content>
