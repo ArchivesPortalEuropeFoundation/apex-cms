@@ -88,6 +88,9 @@ function initExpandableParts(){
 			contentWithHighlightedItems.prev().removeClass("collapsed").addClass("expanded");
 		}
 	});
+	$('ul.daolist a').click(function(event) {
+		$(this).children().css( "opacity", "0.4" );
+	});	
 }
 function updatePageNumber(displayEadUrl) {
 	var params = {};
