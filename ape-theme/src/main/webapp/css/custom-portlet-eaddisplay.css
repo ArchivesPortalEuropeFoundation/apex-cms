@@ -189,7 +189,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 }
 
 
-#eadDisplayPortlet  ul.daolist {
+#eadDisplayPortlet  ul.daolist, #eadDisplayPortlet  ul.context{
     list-style: none outside none;
     padding: 0;
 }
@@ -197,3 +197,9 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 #eadDisplayPortlet  ul.daolist li{
 	float: left;
 }
+#eadDisplayPortlet  .context_space {
+    display: inline-block;
+    width: 10px;
+}
+
+
