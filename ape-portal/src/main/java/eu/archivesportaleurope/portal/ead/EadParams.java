@@ -7,6 +7,7 @@ public class EadParams {
 	private Integer aiId;
 	private String repoCode;
 	private String xmlTypeName;
+	private Integer pageNumber;
 
 
 	public String getEadDisplayId() {
@@ -44,6 +45,12 @@ public class EadParams {
 	}
 	public void setXmlTypeName(String xmlTypeName) {
 		this.xmlTypeName = xmlTypeName;
+	}
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 
 }
