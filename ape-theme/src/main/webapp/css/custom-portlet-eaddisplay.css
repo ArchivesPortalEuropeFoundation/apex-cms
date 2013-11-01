@@ -201,5 +201,11 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     display: inline-block;
     width: 10px;
 }
-
+#eadDisplayPortlet .mobile table{
+	width: 100%;
+}
+#eadDisplayPortlet .mobile td {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
