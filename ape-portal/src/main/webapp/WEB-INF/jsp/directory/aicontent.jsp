@@ -11,7 +11,7 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="directoryPortlet">
 	<div class="${mobile}">
-		<h2><a href="${aiCodeUrl}/${archivalInstitution.repositorycode}">${archivalInstitution.ainame}</a> &gt; <fmt:message key="advancedsearch.text.${xmlTypeName}"/></h2>
+		<h2><a href="${aiCodeUrl}/${archivalInstitution.repositorycodeForUrl}">${archivalInstitution.ainame}</a> &gt; <fmt:message key="advancedsearch.text.${xmlTypeName}"/></h2>
 		<div id="children" class="box">
 			<div class="boxtitle">
 				<div class="numberOfPages">
