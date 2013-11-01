@@ -329,3 +329,6 @@ h2.blockHeader {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
+.fullwidth {
+	width: 100%;
+}
