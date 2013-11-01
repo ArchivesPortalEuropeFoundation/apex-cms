@@ -66,8 +66,7 @@ public class DisplayPreviewContoller {
 						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 						Ead ead = eadContent.getEad();
 						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
-						String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
-						modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
+						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycodeForUrl());
 						modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
 						modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 						return modelAndView;

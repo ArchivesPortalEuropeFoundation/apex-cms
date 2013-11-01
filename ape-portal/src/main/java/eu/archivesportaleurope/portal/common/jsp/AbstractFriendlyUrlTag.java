@@ -16,6 +16,8 @@ public abstract class AbstractFriendlyUrlTag extends SimpleTagSupport {
 	private final static Logger LOGGER = Logger.getLogger(AbstractFriendlyUrlTag.class);
 	public static final String EAD_DISPLAY_SEARCH = "eaddisplay-search";
 	public static final String EAD_DISPLAY_FRONTPAGE = "eaddisplay-frontpage";
+	public static final String EAD_DISPLAY_SEARCH_PAGING = "eaddisplay-search-paging";
+	public static final String EAD_DISPLAY_FRONTPAGE_PAGING = "eaddisplay-frontpage-paging";
 	public static final String FEATURED_EXHIBITION = "featured-exhibition-details";
 	public static final String FEATURED_EXHIBITION_ARTICLE = "featured-exhibition-details-article";
 	public static final String DIRECTORY_COUNTRY = "directory-country";
@@ -33,7 +35,8 @@ public abstract class AbstractFriendlyUrlTag extends SimpleTagSupport {
 		urls.put(DIRECTORY_INSTITUTION_ID, "/directory/-/dir/ai/id");
 		urls.put(DIRECTORY_INSTITUTION_CODE, "/directory/-/dir/ai/code");
 		urls.put(DIRECTORY_CONTENT, "/directory/-/dir/content");
-
+		urls.put(EAD_DISPLAY_SEARCH_PAGING, "/ead-display/-/ead/s-p");
+		urls.put(EAD_DISPLAY_FRONTPAGE_PAGING, "/ead-display/-/ead/fp-p");
 	}
 
 	public String getUrl(String type) {

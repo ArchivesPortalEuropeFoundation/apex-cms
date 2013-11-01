@@ -127,8 +127,7 @@ public class DisplayEadDetailsContoller {
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(currentCLevel.getEadContent().getEad(), documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
-		modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
+		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		modelAndView.setViewName("eaddetails");
 		return modelAndView;
 	}
@@ -141,15 +140,15 @@ public class DisplayEadDetailsContoller {
 				modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);	
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						portletRequest.getLocale());
-				String localizedName = DisplayUtils.getLocalizedCountryName(source, eadContent.getEad().getArchivalInstitution().getCountry());
+				ArchivalInstitution archivalInstitution = eadContent.getEad().getArchivalInstitution();
+				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				String documentTitle = eadContent.getUnittitle();
 				documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
-				String repoCode = eadContent.getEad().getArchivalInstitution().getRepositorycode().replace('/', '_');
-				modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
+				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.setViewName("eaddetails");
 			} else {

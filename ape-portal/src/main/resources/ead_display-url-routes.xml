@@ -18,4 +18,23 @@
 		<pattern>/s/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 	</route>
+	<route>
+		<pattern>/fp-p/{pageNumber:\d+}/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+ 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+	</route>
+	<route>
+		<pattern>/s-p/{pageNumber:\d+}/{eadDisplayId:[^/]+}/{element:\d+}/{term:.+}</pattern>
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+	</route>
+	<route>
+		<pattern>/s-p/{pageNumber:\d+}/{eadDisplayId:[^/]+}</pattern>
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+	</route>
 </routes>

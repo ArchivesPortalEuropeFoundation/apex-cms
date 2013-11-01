@@ -197,9 +197,12 @@ public class DisplayEadContoller {
 				EadContent eadContent = ead.getEadContent();
 				PortalDisplayUtil.setPageTitle(renderRequest,
 						PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+				XmlType xmlType = XmlType.getEadType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+				modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
+				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
+				modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + ead.getId());
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
 				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
@@ -250,11 +253,8 @@ public class DisplayEadContoller {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
 		PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle));
-
-		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
-		modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+
 		modelAndView.setViewName("eaddetails-noscript");
 		return modelAndView;
 	}
