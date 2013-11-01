@@ -57,7 +57,7 @@
 							</c:otherwise>
 						</c:choose>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
-							aiId="${aiId}" secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.repositorycodeForUrl}/fa" />
+							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.repositorycodeForUrl}/fa" />
 
 					</c:otherwise>
 				</c:choose>
