@@ -705,11 +705,14 @@
 	font-weight: bold;
 	font-style: normal;
 }
-#advancedSearchPortlet  ul.daolist, #eadDisplayPortlet  ul.context{
+#advancedSearchPortlet  ul.daolist{
     list-style: none outside none;
     padding: 0;
 }
 
 #advancedSearchPortlet  ul.daolist li{
 	float: left;
+}
+#advancedSearchPortlet .ead-content{
+    display: inline-block;
 }
