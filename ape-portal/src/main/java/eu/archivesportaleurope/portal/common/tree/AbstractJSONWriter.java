@@ -12,7 +12,6 @@ import javax.portlet.ResourceResponse;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
-import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.search.common.Searcher;
 
@@ -30,7 +29,6 @@ public abstract class AbstractJSONWriter {
 	protected static final String COMMA = ",";
 	private static final String MORE_CLASS = "more";
 	private static final String MORE_TEXT = "advancedsearch.context.more";
-	private static final String ICON_MORE = "\"icon\": \"more_folder.gif\"";
 	protected static final String ADVANCEDSEARCH_TEXT_NOTITLE = "advancedsearch.text.notitle";
 	private Searcher searcher;
 	private MessageSource messageSource;

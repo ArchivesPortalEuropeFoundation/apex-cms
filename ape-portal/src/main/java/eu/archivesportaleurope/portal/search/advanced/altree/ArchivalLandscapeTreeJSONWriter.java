@@ -172,7 +172,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	private List<AlTreeNode> generateArchivalInstitutionsTreeJSON(Integer countryId, Integer parentAiId, Locale locale) {
 		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
-				.getArchivalInstitutionsWithSearchableItems(countryId, parentAiId);
+				.getArchivalInstitutionsWithSearchableItems(countryId, parentAiId, false);
 		List<AlTreeNode> alTreeNodes = new ArrayList<AlTreeNode>();
 		for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
 			AlTreeNode node = new AlTreeNode();
