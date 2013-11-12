@@ -31,7 +31,13 @@
 			<property name="countryDAO" ref="countryDAO"/>
 			<property name="eadDAO" ref="eadDAO"/>
 	</bean>	        
-   
+ 	<bean
+		class="eu.archivesportaleurope.portal.directory.SitemapController">
+			<property name="messageSource" ref="messageSource"/>	
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="countryDAO" ref="countryDAO"/>
+			<property name="eadDAO" ref="eadDAO"/>
+	</bean>	  
 		
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
