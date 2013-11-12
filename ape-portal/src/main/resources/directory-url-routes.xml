@@ -31,4 +31,9 @@
 		<implicit-parameter name="pageNumber">1</implicit-parameter>
 		<implicit-parameter name="myaction">showAiContent</implicit-parameter>
 	</route>
+	<route>
+		<pattern>/sitemap</pattern>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateIndexSitemap</implicit-parameter>
+	</route>	
 </routes>
