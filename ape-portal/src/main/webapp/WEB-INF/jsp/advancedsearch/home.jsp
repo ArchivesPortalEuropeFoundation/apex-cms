@@ -11,8 +11,8 @@
 	<portlet:param name="myaction" value="advancedSearch" />
 </portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
-<portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
-<portal:removeParameters  var="displayPreviewUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="displayPreview" /></portal:removeParameters>
+<portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
+<portal:removeParameters  var="displayPreviewUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view"><portlet:resourceURL id="displayPreview" /></portal:removeParameters>
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portlet:resourceURL var="navigatedTreeUrl" id="navigatedTree" />
 <portlet:resourceURL var="generateNavigatedTreeAiUrl" id="generateNavigatedTreeAi" />
