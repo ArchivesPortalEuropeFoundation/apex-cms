@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.archivesportaleurope.frontend</groupId>
 	<artifactId>frontend-project</artifactId>
-	<version>1.4.10</version>
+	<version>1.4.11-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>frontend-project</name>
 	<url>http://www.archivesportaleurope.net</url>
 	<scm>
-		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/frontend-project-1.4.10</connection>
-		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/frontend-project-1.4.10</developerConnection>
+		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.4</connection>
+		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.4</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -154,17 +154,17 @@
 			<dependency>
 				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>commons</artifactId>
-				<version>1.4.8</version>
+				<version>1.4.9-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>persistence</artifactId>
-				<version>1.4.8</version>
+				<version>1.4.9-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.archivesportaleurope.dpt</groupId>
 				<artifactId>DPTutils</artifactId>
-				<version>1.4.8</version>
+				<version>1.4.9-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
