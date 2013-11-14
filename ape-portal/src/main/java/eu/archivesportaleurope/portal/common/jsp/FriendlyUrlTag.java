@@ -46,7 +46,7 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 				"javax.portlet.request");
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			getJspContext().setAttribute(var, themeDisplay.getURLHome()+urls.get(type));
+			getJspContext().setAttribute(var, themeDisplay.getPortalURL()+urls.get(type));
 		} catch (Exception e) {
 			LOGGER.error("Unable to retrieve portletId and plId: " +e.getMessage(), e);
 		}
