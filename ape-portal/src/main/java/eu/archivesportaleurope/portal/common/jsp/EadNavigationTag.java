@@ -4,18 +4,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.PortletRequest;
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
+import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 
-public class EadNavigationTag extends AbstractFriendlyUrlTag {
+public class EadNavigationTag extends SimpleTagSupport {
 
 	private Object clevel;
 
 	public void doTag() throws JspException, IOException {
+		PortletRequest portletRequest = (PortletRequest) ((PageContext) getJspContext()).getRequest().getAttribute(
+				"javax.portlet.request");
 		List<HierarchyInfo> hierarchy = new ArrayList<HierarchyInfo>();
 		EadContent eadContent = null;
 		StringBuilder result = new StringBuilder();
@@ -24,15 +30,15 @@ public class EadNavigationTag extends AbstractFriendlyUrlTag {
 			CLevel parent = currentCLevel.getParent();
 			
 			while (parent != null ){
-				String url = getUrl(EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
+				String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
 				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
 				parent = parent.getParent();
 			}
 			eadContent = currentCLevel.getEadContent();
 			Ead ead = eadContent.getEad();
-			String repoCode = ead.getArchivalInstitution().getRepositorycode().replace('/', '_');
+			String repoCode = ead.getArchivalInstitution().getRepositorycodeForUrl();
 			XmlType xmlType = XmlType.getEadType(ead);
-			String url = getUrl(EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ ead.getEadid();
+			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ ead.getEadid();
 			hierarchy.add(new HierarchyInfo(url,eadContent.getUnittitle()));
 		}
 		
