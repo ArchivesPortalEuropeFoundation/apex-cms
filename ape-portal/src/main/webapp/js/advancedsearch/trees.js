@@ -33,7 +33,7 @@ function initContextTab(contextTreeUrl, previewUrl, namespace) {
 				onActivate : function(dtnode) {
 					// Retrievieng all the search filters
 					// Use our custom attribute to load the new target content:
-					if (dtnode.data.parentId != undefined && dtnode.data.searchType != "ai" && dtnode.data.searchType != "hgfa") {
+					if (dtnode!=null && dtnode!=undefined && dtnode.data!=null && dtnode.data!=undefined && dtnode.data.parentId != undefined && dtnode.data.searchType != "ai" && dtnode.data.searchType != "hgfa") {
 						var url = previewUrl + "&" + namespace + "id=" + dtnode.data.parentId;
 						var element = $("#updateCurrentSearch_element").val();
 						var term = $("#updateCurrentSearch_term").val();
@@ -109,7 +109,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		// user wants to expand
 		onLazyRead : function(node) {
 			//$("#expandedNodes").append("<option value='" + node.data.key + "' selected='selected'></option>");
-			if (node.data.more == "true"){
+			if (node!=null && node!=undefined && node.data!=null && node.data!=undefined && node.data.more == "true"){
 				
 				var moreNode = node;
 				node.parent.appendAjaxWithoutRemove({
@@ -216,7 +216,7 @@ function selectChildren(node) {
 		typeNode = new String(nodeParent.data.key);
 		typeNode = typeNode.substring(0, typeNode.indexOf('_'));
 
-		if (nodeParent.isSelected) {
+		if (nodeParent.isSelected && children!=null) {
 			// If the parent is selected, then it is necessary to select the
 			// children
 			for ( var i = 0; i < children.length; i++) {
