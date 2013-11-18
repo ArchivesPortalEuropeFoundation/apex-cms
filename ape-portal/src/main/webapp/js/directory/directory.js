@@ -144,6 +144,11 @@ function initEagDetails(selectedCountryCode,node){
 
 		}
 	});
+	$('html, body').stop().animate({
+        'scrollTop': $("a#eagDetails").offset().top
+    }, 900, 'swing', function () {
+    	logAction("scroll moved to: ", $("#eagDetails").offset().top);
+    });
 }
 function showRepository(identifier){
 	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");

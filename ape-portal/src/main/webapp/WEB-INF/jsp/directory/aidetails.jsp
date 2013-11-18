@@ -21,6 +21,7 @@
 	</div>
 </div>
 <div>
+<a id="eagDetails"></a>
 <portal:eag eagUrl="${eagUrl}"/>
 					<c:if test="${hasHoldingsGuides or hasFindingAids or hasSourceGuides}">
 						<table class="aiSection otherDisplay">
