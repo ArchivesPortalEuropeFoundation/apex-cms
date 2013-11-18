@@ -33,9 +33,8 @@
 	</bean>	        
  	<bean
 		class="eu.archivesportaleurope.portal.directory.SitemapController">
-			<property name="messageSource" ref="messageSource"/>	
+			<property name="cLevelDAO" ref="cLevelDAO"/>	
 			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
-			<property name="countryDAO" ref="countryDAO"/>
 			<property name="eadDAO" ref="eadDAO"/>
 	</bean>	  
 		
