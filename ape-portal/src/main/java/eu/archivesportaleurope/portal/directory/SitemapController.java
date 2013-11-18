@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.directory;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.portlet.ResourceRequest;
@@ -11,16 +12,17 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
-import eu.apenet.persistence.dao.CountryDAO;
+import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.EadSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.FindingAid;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
@@ -28,17 +30,22 @@ import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 @Controller(value = "SitemapController")
 @RequestMapping(value = "VIEW")
 public class SitemapController {
+	private static final String PRIORITY = "priority";
+	private static final String URL = "url";
+	private static final String LASTMOD = "lastmod";
+	private static final String LOC = "loc";
+	private static final String SITEMAP = "sitemap";
 	private static final double PAGESIZE = 100;
 	private static final String APPLICATION_XML = "application/xml";
 	private static final String UTF8 = "UTF-8";
-	private static final String SITEMAP = "http://www.sitemaps.org/schemas/sitemap/0.9";
-	private static final QName SITEMAP_INDEX_ELEMENT = new QName(SITEMAP, "sitemapindex");
+	private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
+	private static final QName SITEMAP_INDEX_ELEMENT = new QName(SITEMAP_NAMESPACE, "sitemapindex");
+	private static final QName URLSET_ELEMENT = new QName(SITEMAP_NAMESPACE, "urlset");
 	private final static Logger LOGGER = Logger.getLogger(SitemapController.class);
-	private static SimpleDateFormat XML_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat XML_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
-	private CountryDAO countryDAO;
-	private MessageSource messageSource;
+	private CLevelDAO cLevelDAO;
 
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
@@ -48,12 +55,9 @@ public class SitemapController {
 		this.eadDAO = eadDAO;
 	}
 
-	public void setCountryDAO(CountryDAO countryDAO) {
-		this.countryDAO = countryDAO;
-	}
 
-	public void setMessageSource(MessageSource messageSource) {
-		this.messageSource = messageSource;
+	public void setCLevelDAO(CLevelDAO cLevelDAO) {
+		this.cLevelDAO = cLevelDAO;
 	}
 
 	@ResourceMapping(value = "generateGlobalSitemapIndex")
@@ -63,15 +67,20 @@ public class SitemapController {
 		resourceResponse.setContentType(APPLICATION_XML);
 		XMLStreamWriter xmlWriter = (XMLOutputFactory.newInstance()).createXMLStreamWriter(
 				resourceResponse.getPortletOutputStream(), UTF8);
-		writeSitemapIndex(xmlWriter);
+		writeIndexStartElement(xmlWriter);
 		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 				.getArchivalInstitutionsWithoutGroupsWithSearchableItems();
 		for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
-			xmlWriter.writeStartElement("sitemap");
-			xmlWriter.writeStartElement("loc");
+			xmlWriter.writeStartElement(SITEMAP);
+			xmlWriter.writeStartElement(LOC);
 			xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + "/ai/"
 					+ archivalInstitution.getAiId());
 			xmlWriter.writeEndElement();
+			if (archivalInstitution.getContentLastModifiedDate() != null){
+				xmlWriter.writeStartElement(LASTMOD);
+				xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(archivalInstitution.getContentLastModifiedDate()));
+				xmlWriter.writeEndElement();	
+			}
 			xmlWriter.writeEndElement();
 		}
 		xmlWriter.writeEndElement();
@@ -87,6 +96,7 @@ public class SitemapController {
 
 		Integer aiId = Integer.parseInt(resourceRequest.getParameter("aiId"));
 		long numberOfItems = 0;
+		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
 		EadSearchOptions eadSearchOptions = new EadSearchOptions();
 		eadSearchOptions.setPublished(true);
 		eadSearchOptions.setEadClass(FindingAid.class);
@@ -98,21 +108,18 @@ public class SitemapController {
 			resourceResponse.setContentType(APPLICATION_XML);
 			XMLStreamWriter xmlWriter = (XMLOutputFactory.newInstance()).createXMLStreamWriter(
 					resourceResponse.getPortletOutputStream(), UTF8);
-			writeSitemapIndex(xmlWriter);
+			writeIndexStartElement(xmlWriter);
 			for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-				xmlWriter.writeStartElement("sitemap");
-				xmlWriter.writeStartElement("loc");
-				xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
-						+ "/ai/" + aiId + "/" + pageNumber);
-				xmlWriter.writeEndElement();
-				xmlWriter.writeEndElement();
+				String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
+						+ "/ai/" + aiId + "/" + pageNumber;
+				writeIndexElement(xmlWriter, url, archivalInstitution.getContentLastModifiedDate());
 			}
 			xmlWriter.writeEndElement();
 			xmlWriter.writeEndDocument();
 			xmlWriter.flush();
 			xmlWriter.close();
 		}else {
-			generateEadContent(resourceRequest, resourceResponse,aiId, 1);
+			generateAiContent(resourceRequest, resourceResponse,aiId, 1);
 		}
 
 	}
@@ -121,14 +128,12 @@ public class SitemapController {
 	public void generateAiSitemap(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws Exception {
 		Integer aiId = Integer.parseInt(resourceRequest.getParameter("aiId"));
 		Integer pageNumber = Integer.parseInt(resourceRequest.getParameter("pageNumber"));
-		generateEadContent(resourceRequest, resourceResponse,aiId, pageNumber);
-	
+		generateAiContent(resourceRequest, resourceResponse,aiId, pageNumber);
 
 	}
 
-	public void generateEadContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, int aiId, int pageNumber)
+	public void generateAiContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, int aiId, int pageNumber)
 			throws Exception {
-
 		EadSearchOptions eadSearchOptions = new EadSearchOptions();
 		eadSearchOptions.setPublished(true);
 		eadSearchOptions.setEadClass(FindingAid.class);
@@ -141,68 +146,145 @@ public class SitemapController {
 			resourceResponse.setContentType(APPLICATION_XML);
 			XMLStreamWriter xmlWriter = XMLOutputFactory.newInstance().createXMLStreamWriter(
 					resourceResponse.getPortletOutputStream(), UTF8);
-			writeSitemapIndex(xmlWriter);
+			writeIndexStartElement(xmlWriter);
 			for (Ead ead : eads) {
-				xmlWriter.writeStartElement("sitemap");
-				xmlWriter.writeStartElement("loc");
-				xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
-						+ "/ead/fa/" + ead.getId());
-				xmlWriter.writeEndElement();
-				if (ead.getPublishDate() != null){
-					xmlWriter.writeStartElement("lastmod");
-					xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(ead.getPublishDate()));
-					xmlWriter.writeEndElement();	
-				}
-				xmlWriter.writeEndElement();
+				String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
+						+ "/ead/" + XmlType.getEadType(ead).getResourceName() +  "/" + ead.getId();
+				writeIndexElement(xmlWriter, url, ead.getPublishDate());
 			}
 			xmlWriter.writeEndElement();
 			xmlWriter.writeEndDocument();
 			xmlWriter.flush();
 			xmlWriter.close();
+		}else {
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, "404");
 		}
 
 	}
 
-	protected void writeSitemapIndex(XMLStreamWriter xmlWriter) throws XMLStreamException {
+
+	@ResourceMapping(value = "generateEadSitemapIndex")
+	public void generateEadSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws Exception {
+		
+		Integer eadId = Integer.parseInt(resourceRequest.getParameter("id"));
+		XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
+		long numberOfItems = 0;
+		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		eadSearchOptions.setPublished(true);
+		eadSearchOptions.setEadClass(xmlType.getClazz());
+		eadSearchOptions.setId(eadId);
+		Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
+		numberOfItems = cLevelDAO.countCLevels(xmlType.getClazz(), eadId);
+		if (numberOfItems > PAGESIZE) {
+			int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
+			resourceResponse.setCharacterEncoding(UTF8);
+			resourceResponse.setContentType(APPLICATION_XML);
+			XMLStreamWriter xmlWriter = (XMLOutputFactory.newInstance()).createXMLStreamWriter(
+					resourceResponse.getPortletOutputStream(), UTF8);
+			writeIndexStartElement(xmlWriter);
+			for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
+				String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
+						+ "/ead/" + XmlType.getEadType(ead).getResourceName() +  "/" + ead.getId() + "/" + pageNumber;
+				writeIndexElement(xmlWriter, url, ead.getPublishDate());
+			}
+			xmlWriter.writeEndElement();
+			xmlWriter.writeEndDocument();
+			xmlWriter.flush();
+			xmlWriter.close();
+		}else {
+			generateEadContent(resourceRequest, resourceResponse,xmlType, eadId, 1);
+		}
+
+	}
+	@ResourceMapping(value = "generateEadSitemap")
+	public void generateEadSitemap(ResourceRequest resourceRequest, ResourceResponse resourceResponse) throws Exception {
+		Integer id = Integer.parseInt(resourceRequest.getParameter("id"));
+		Integer pageNumber = Integer.parseInt(resourceRequest.getParameter("pageNumber"));
+		XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
+		generateEadContent(resourceRequest, resourceResponse,xmlType, id, pageNumber);
+
+	}
+
+	public void generateEadContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, XmlType xmlType, int eadId, int pageNumber)
+			throws Exception {
+		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		eadSearchOptions.setPublished(true);
+		eadSearchOptions.setEadClass(xmlType.getClazz());
+		eadSearchOptions.setId(eadId);
+		Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
+		List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getClazz(), eadId, pageNumber, (int) PAGESIZE);
+		if (clevels.size() > 0) {
+			resourceResponse.setCharacterEncoding(UTF8);
+			resourceResponse.setContentType(APPLICATION_XML);
+			XMLStreamWriter xmlWriter = XMLOutputFactory.newInstance().createXMLStreamWriter(
+					resourceResponse.getPortletOutputStream(), UTF8);
+			writeSitemapStartElement(xmlWriter);
+			if (pageNumber == 1){
+				String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" +ead.getArchivalInstitution().getRepositorycodeForUrl() + "/" + xmlType.getResourceName() + "/" + ead.getEadid();
+				writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.7");
+			}
+			for (CLevel cLevel : clevels) {
+				String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C"+ cLevel.getClId();
+				writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);
+			}
+			xmlWriter.writeEndElement();
+			xmlWriter.writeEndDocument();
+			xmlWriter.flush();
+			xmlWriter.close();
+		}else {
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, "404");
+		}
+
+	}
+	
+	private static void writeIndexStartElement(XMLStreamWriter xmlWriter) throws XMLStreamException {
 		if (xmlWriter != null) {
 			xmlWriter.writeStartElement(SITEMAP_INDEX_ELEMENT.getPrefix(), SITEMAP_INDEX_ELEMENT.getLocalPart(),
 					SITEMAP_INDEX_ELEMENT.getNamespaceURI());
-			xmlWriter.writeDefaultNamespace(SITEMAP);
+			xmlWriter.writeDefaultNamespace(SITEMAP_NAMESPACE);
 		}
 	}
-//	@ResourceMapping(value = "generateEadSitemapIndex")
-//	public void generateEadSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-//			throws Exception {
-//		
-//		Integer eadId = Integer.parseInt(resourceRequest.getParameter("id"));
-//		long numberOfItems = 0;
-//		EadSearchOptions eadSearchOptions = new EadSearchOptions();
-//		eadSearchOptions.setPublished(true);
-//		eadSearchOptions.setEadClass(FindingAid.class);
-//		eadSearchOptions.setArchivalInstitionId(aiId);
-//		numberOfItems = eadDAO.countEads(eadSearchOptions);
-//		if (numberOfItems > PAGESIZE) {
-//			int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
-//			resourceResponse.setCharacterEncoding(UTF8);
-//			resourceResponse.setContentType(APPLICATION_XML);
-//			XMLStreamWriter xmlWriter = (XMLOutputFactory.newInstance()).createXMLStreamWriter(
-//					resourceResponse.getPortletOutputStream(), UTF8);
-//			writeSitemapIndex(xmlWriter);
-//			for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-//				xmlWriter.writeStartElement("sitemap");
-//				xmlWriter.writeStartElement("loc");
-//				xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
-//						+ "/ai/" + aiId + "/" + pageNumber);
-//				xmlWriter.writeEndElement();
-//				xmlWriter.writeEndElement();
-//			}
-//			xmlWriter.writeEndElement();
-//			xmlWriter.writeEndDocument();
-//			xmlWriter.flush();
-//			xmlWriter.close();
-//		}else {
-//			generateEadContent(resourceRequest, resourceResponse,aiId, 1);
-//		}
-//
-//	}
+	
+	private static void writeIndexElement(XMLStreamWriter xmlWriter, String url, Date lastModDate) throws XMLStreamException {
+		if (xmlWriter != null) {
+			xmlWriter.writeStartElement(URL);
+			xmlWriter.writeStartElement(LOC);
+			xmlWriter.writeCharacters(url);
+			xmlWriter.writeEndElement();
+			if (lastModDate != null){
+				xmlWriter.writeStartElement(LASTMOD);
+				xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(lastModDate));
+				xmlWriter.writeEndElement();	
+			}
+			xmlWriter.writeEndElement();
+		}
+	}
+	private static void writeSitemapElement(XMLStreamWriter xmlWriter, String url, Date lastModDate, String priority) throws XMLStreamException {
+		if (xmlWriter != null) {
+			xmlWriter.writeStartElement(SITEMAP);
+			xmlWriter.writeStartElement(LOC);
+			xmlWriter.writeCharacters(url);
+			xmlWriter.writeEndElement();
+			if (lastModDate != null){
+				xmlWriter.writeStartElement(LASTMOD);
+				xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(lastModDate));
+				xmlWriter.writeEndElement();	
+			}
+			if (priority != null){
+				xmlWriter.writeStartElement(PRIORITY);
+				xmlWriter.writeCharacters(priority);
+				xmlWriter.writeEndElement();	
+			}
+			xmlWriter.writeEndElement();
+		}
+	}
+	private static void writeSitemapStartElement(XMLStreamWriter xmlWriter) throws XMLStreamException {
+		if (xmlWriter != null) {
+			xmlWriter.writeStartElement(URLSET_ELEMENT.getPrefix(), URLSET_ELEMENT.getLocalPart(),
+					URLSET_ELEMENT.getNamespaceURI());
+			xmlWriter.writeDefaultNamespace(SITEMAP_NAMESPACE);
+		}
+	}	
+	
 }

@@ -49,6 +49,20 @@
 		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
 		<implicit-parameter name="p_p_resource_id">generateAiSitemap</implicit-parameter>
 	</route>
-
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateEadSitemapIndex</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateEadSitemap</implicit-parameter>
+	</route>	
 
 </routes>
