@@ -10,10 +10,12 @@
 	</portlet>
 	<portlet>
 		<portlet-name>advancedsearch</portlet-name>
+		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>saved</friendly-url-mapping>
+		<friendly-url-routes>search-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/advancedsearch/search.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/advancedsearch/trees.js</header-portlet-javascript>
-
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
@@ -30,7 +32,6 @@
 		<friendly-url-routes>ead_display-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/ead/ead.js</header-portlet-javascript>
-
 	</portlet>
 	<portlet>
 		<portlet-name>contact</portlet-name>
