@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
+"http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
+<routes>
+	<route>
+		<pattern>/public/{id:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<implicit-parameter name="myaction">showPublicSavedSearch</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/private/{id:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<implicit-parameter name="myaction">showPrivateSavedSearch</implicit-parameter>
+	</route>	
+
+</routes>

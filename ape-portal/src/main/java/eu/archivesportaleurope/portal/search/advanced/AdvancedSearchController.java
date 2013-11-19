@@ -68,6 +68,25 @@ public class AdvancedSearchController {
 		return "home";
 	}
 	
+	@RenderMapping(params = "myaction=showPublicSavedSearch")
+	public ModelAndView showPublicSavedSearch(RenderRequest request) {
+		AdvancedSearch advancedSearch = new AdvancedSearch();
+		advancedSearch.setMode(MODE_NEW_SEARCH);
+		advancedSearch.setTerm("Kaart");
+		AnalyzeLogger.logSimpleSearch(advancedSearch);
+		Results results = performNewSearch(request, advancedSearch);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("home");
+		modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
+		modelAndView.getModelMap().addAttribute("results", results);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
+		return modelAndView;
+	}
+	@RenderMapping(params = "myaction=showPrivateSavedSearch")
+	public ModelAndView showPrivateSavedSearch(RenderRequest request) {
+		return null;
+	}
+	
 	@RenderMapping(params = "myaction=simpleSearch")
 	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch, RenderRequest request) {
 		advancedSearch.setMode(MODE_NEW_SEARCH);
