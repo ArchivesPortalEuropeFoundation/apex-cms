@@ -33,6 +33,11 @@ public class PortalDisplayUtil {
 		}
 		return result;
 	}
+	public static ReadableUserAgent getUserAgent(PortletRequest portletRequest){
+		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
+		String header = request.getHeader("User-Agent");
+		return CachedUserAgentStringParser.getInstance().parse(header);
+	}
 	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
