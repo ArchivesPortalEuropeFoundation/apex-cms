@@ -13,6 +13,7 @@ import eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 public final class AnalyzeLogger {
+	private static final String OPTIONAL = "optional";
 	private static final String HIERARCHY = "hierarchy";
 	private static final String TRUE = "true";
     private static final Logger SIMPLE_SEARCH_ANALYZE_LOGGER = Logger.getLogger("SIMPLE_SEARCH_ANALYZE");
@@ -158,7 +159,7 @@ public final class AnalyzeLogger {
     		}else {
     			logLine +=";";
     		}   
-    		if (TRUE.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
@@ -223,11 +224,7 @@ public final class AnalyzeLogger {
     		}else {
     			logLine +=";";
     		}   
-    		if (TRUE.equals(advancedSearch.getMethod())) {
-    			logLine +="or;";
-    		}else {
-    			logLine +=";";
-    		} 
+
     		logLine +="\""+ advancedSearch.getTerm() + "\"";
     		SIMPLE_SEARCH_ANALYZE_LOGGER.debug(logLine);
     	}
