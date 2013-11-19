@@ -64,6 +64,13 @@
 			<param name="ConversionPattern" value="%d{ABSOLUTE};%m%n" />
 		</layout>
 	</appender>
+	<appender name="sitemapFile" class="org.apache.log4j.DailyRollingFileAppender">	 
+		<param name="Threshold" value="DEBUG" /> 
+		<param name="File" value="${catalina.base}/logs/portal-sitemap.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE};%m%n" />
+		</layout>
+	</appender>
     <logger name="SIMPLE_SEARCH_ANALYZE">
 		<level value="debug" />
 		<appender-ref ref="analyzeSimpleSearchFile" /> 
@@ -87,6 +94,10 @@
 	<logger name="ADVANCED_SEARCH_CONTEXT_ANALYZE">
 		<level value="debug" />
 		<appender-ref ref="analyzeAdvancedSearchContextFile" /> 
+	</logger>
+	<logger name="SITEMAP">
+		<level value="debug" />
+		<appender-ref ref="sitemapFile" /> 
 	</logger>
 	<logger name="eu">
 		<level value="info" />
