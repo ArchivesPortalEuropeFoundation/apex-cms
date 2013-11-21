@@ -36,7 +36,6 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @RequestMapping(value = "VIEW")
 public class SitemapController {
 	private static final String HTTP_NOT_FOUND = "404";
-	private static final String HTTP_BAD_REQUEST = "400";
 	private static final String EAD = "/ead/";
 	private static final String SEPARATOR = "/";
 	private static final String AI = "/ai/";
@@ -100,7 +99,7 @@ public class SitemapController {
 			xmlWriter.close();
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate global sitemap: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 	}
 
@@ -138,7 +137,7 @@ public class SitemapController {
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ai index: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 	}
 
@@ -150,7 +149,7 @@ public class SitemapController {
 			generateAiContent(resourceRequest, resourceResponse, aiId, pageNumber);
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ai sitemap: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 
 	}
@@ -194,7 +193,7 @@ public class SitemapController {
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ai content: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 	}
 
@@ -233,7 +232,7 @@ public class SitemapController {
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ead index: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 	}
 
@@ -246,7 +245,7 @@ public class SitemapController {
 			generateEadContent(resourceRequest, resourceResponse, xmlType, id, pageNumber);
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ead sitemap: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 
 	}
@@ -287,7 +286,7 @@ public class SitemapController {
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ead sitemap: " + e.getMessage());
-			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_BAD_REQUEST);
+			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
 		}
 	}
 
