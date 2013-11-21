@@ -261,7 +261,7 @@ public class SitemapController {
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-content:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " pn:" + pageNumber);
 			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getClazz(), eadId, pageNumber, (int) PAGESIZE);
-			if (clevels.size() > 0) {
+			if (clevels.size() >= 0) {
 				resourceResponse.setCharacterEncoding(UTF8);
 				resourceResponse.setContentType(APPLICATION_XML);
 				XMLStreamWriter xmlWriter = XMLOutputFactory.newInstance().createXMLStreamWriter(
