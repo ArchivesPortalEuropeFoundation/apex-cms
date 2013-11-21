@@ -302,7 +302,7 @@ public class SitemapController {
 	private static void writeIndexElement(XMLStreamWriter xmlWriter, String url, Date lastModDate)
 			throws XMLStreamException {
 		if (xmlWriter != null) {
-			xmlWriter.writeStartElement(URL);
+			xmlWriter.writeStartElement(SITEMAP);
 			xmlWriter.writeStartElement(LOC);
 			xmlWriter.writeCharacters(url);
 			xmlWriter.writeEndElement();
@@ -318,7 +318,7 @@ public class SitemapController {
 	private static void writeSitemapElement(XMLStreamWriter xmlWriter, String url, Date lastModDate, String priority)
 			throws XMLStreamException {
 		if (xmlWriter != null) {
-			xmlWriter.writeStartElement(SITEMAP);
+			xmlWriter.writeStartElement(URL);
 			xmlWriter.writeStartElement(LOC);
 			xmlWriter.writeCharacters(url);
 			xmlWriter.writeEndElement();
