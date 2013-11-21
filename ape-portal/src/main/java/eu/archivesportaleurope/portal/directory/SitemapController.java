@@ -45,7 +45,7 @@ public class SitemapController {
 	private static final String LASTMOD = "lastmod";
 	private static final String LOC = "loc";
 	private static final String SITEMAP = "sitemap";
-	private static final double PAGESIZE = 100;
+	private static final double PAGESIZE = 10000;
 	private static final String APPLICATION_XML = "application/xml";
 	private static final String UTF8 = "UTF-8";
 	private static final String SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
