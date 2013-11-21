@@ -52,7 +52,7 @@ public class SitemapController {
 	private static final QName SITEMAP_INDEX_ELEMENT = new QName(SITEMAP_NAMESPACE, "sitemapindex");
 	private static final QName URLSET_ELEMENT = new QName(SITEMAP_NAMESPACE, "urlset");
 	private final static Logger LOGGER = Logger.getLogger("SITEMAP");
-	private static SimpleDateFormat XML_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	private static SimpleDateFormat W3C_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+00:00'");
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
 	private CLevelDAO cLevelDAO;
@@ -88,7 +88,7 @@ public class SitemapController {
 				xmlWriter.writeEndElement();
 				if (archivalInstitution.getContentLastModifiedDate() != null) {
 					xmlWriter.writeStartElement(LASTMOD);
-					xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(archivalInstitution
+					xmlWriter.writeCharacters(W3C_DATETIME_FORMAT.format(archivalInstitution
 							.getContentLastModifiedDate()));
 					xmlWriter.writeEndElement();
 				}
@@ -308,7 +308,7 @@ public class SitemapController {
 			xmlWriter.writeEndElement();
 			if (lastModDate != null) {
 				xmlWriter.writeStartElement(LASTMOD);
-				xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(lastModDate));
+				xmlWriter.writeCharacters(W3C_DATETIME_FORMAT.format(lastModDate));
 				xmlWriter.writeEndElement();
 			}
 			xmlWriter.writeEndElement();
@@ -324,7 +324,7 @@ public class SitemapController {
 			xmlWriter.writeEndElement();
 			if (lastModDate != null) {
 				xmlWriter.writeStartElement(LASTMOD);
-				xmlWriter.writeCharacters(XML_DATETIME_FORMAT.format(lastModDate));
+				xmlWriter.writeCharacters(W3C_DATETIME_FORMAT.format(lastModDate));
 				xmlWriter.writeEndElement();
 			}
 			if (priority != null) {
