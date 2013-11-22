@@ -74,6 +74,9 @@ a:visited {
 	width: 1000px;
 }
 
+.fullwidth #wrapper {
+    min-width: 1000px;
+}
 #breadcrumbs, .feedback {
 	display: none;
 }
