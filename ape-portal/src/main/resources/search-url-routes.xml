@@ -3,14 +3,8 @@
 "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
 <routes>
 	<route>
-		<pattern>/public/{id:[\d]+}</pattern>
+		<pattern>/{id:[\d]+}</pattern>
 		<generated-parameter name="id">{id}</generated-parameter>
-		<implicit-parameter name="myaction">showPublicSavedSearch</implicit-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
 	</route>	
-	<route>
-		<pattern>/private/{id:[\d]+}</pattern>
-		<generated-parameter name="id">{id}</generated-parameter>
-		<implicit-parameter name="myaction">showPrivateSavedSearch</implicit-parameter>
-	</route>	
-
 </routes>
