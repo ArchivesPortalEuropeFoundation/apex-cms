@@ -1,7 +1,8 @@
-var newSearchUrl, autocompletionUrl;
-function setUrls(nUrl, aUrl) {
+var newSearchUrl, autocompletionUrl, savedSearchUrl;
+function setUrls(nUrl, aUrl, sUrl) {
 	newSearchUrl = nUrl;
 	autocompletionUrl = aUrl;
+	savedSearchUrl = sUrl;
 
 }
 
@@ -438,3 +439,20 @@ function makeRefinementsCollapsible() {
 
 }
 
+function saveSearch() {
+	
+	$.post(savedSearchUrl, $("#updateCurrentSearch").serialize(), function(dataResponse) {
+		if (dataResponse.answerCode != "") {
+			$('#answerMessageSavedSearch').removeClass("success").removeClass("failure");
+			$('#answerMessageSavedSearch').html(dataResponse.answerMessage);		
+			if (dataResponse.answerCode == "true") {
+				$('#answerMessageSavedSearch').addClass("success");
+			} else {
+				$('#answerMessageSavedSearch').addClass("failure");
+			}
+			$('#answerMessageSavedSearch').show();
+		}
+		$('#answerMessageSavedSearch').delay(3000).fadeOut('slow');
+
+	});
+}

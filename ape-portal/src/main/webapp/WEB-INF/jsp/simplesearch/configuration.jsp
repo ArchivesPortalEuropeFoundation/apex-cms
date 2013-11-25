@@ -20,21 +20,11 @@ String portletResource = ParamUtil.getString(request, "portletResource");
 if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
-String advancedSearchFriendlyUrl = preferences.getValue("advancedSearchFriendlyUrl", "");
-String advancedSearchPortletName = preferences.getValue("advancedSearchPortletName", "");
 String numberOfDaoUnits = preferences.getValue("numberOfDaoUnits", "");
 
 %>
 <table class="lfr-table">
 
-<tr>
-	<td>Advanced Search Friendly Url:</td>
-	<td><input  type="text" name="<portlet:namespace />preferences--advancedSearchFriendlyUrl--" value="<%=advancedSearchFriendlyUrl %>"/></td>
-</tr>
-<tr>
-	<td>Advanced Search Portlet name:</td>
-	<td><input  type="text" name="<portlet:namespace />preferences--advancedSearchPortletName--" value="<%=advancedSearchPortletName %>"/> </td>
-</tr>
 <tr>
 	<td>Number of DAO units:</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--numberOfDaoUnits--" value="<%=numberOfDaoUnits %>"/> </td>

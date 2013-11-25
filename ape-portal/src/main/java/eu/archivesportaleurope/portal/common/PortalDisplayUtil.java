@@ -24,6 +24,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
+    public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {

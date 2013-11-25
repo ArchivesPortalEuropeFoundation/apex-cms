@@ -21,7 +21,12 @@
 	</bean>
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch">
-	</bean>				
+	</bean>	
+	<bean
+		class="eu.archivesportaleurope.portal.search.advanced.SaveSearchJSONControllor">
+		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+		<property name="messageSource" ref="messageSource"></property>
+	</bean>			
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.DisplayPreviewContoller">
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>

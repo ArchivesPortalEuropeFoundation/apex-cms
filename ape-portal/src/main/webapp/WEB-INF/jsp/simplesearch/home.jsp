@@ -7,12 +7,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<c:choose>
-	<c:when test="${!empty portletPreferences.map.advancedSearchFriendlyUrl and !empty portletPreferences.map.advancedSearchPortletName and !empty portletPreferences.map.numberOfDaoUnits}">
-
-		<c:set var="advancedSearchFriendlyUrl" value="${portletPreferences.map.advancedSearchFriendlyUrl[0]}"/>
-		<c:set var="advancedSearchPortletName" value="${portletPreferences.map.advancedSearchPortletName[0]}"/>
-<portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="${advancedSearchPortletName}" friendlyUrl="${advancedSearchFriendlyUrl}"/>		
+<portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="advancedsearch" friendlyUrl="/search"/>		
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
@@ -62,8 +57,3 @@
 		</div>
 	</form:form>
 </div>
-	</c:when>
-	<c:otherwise>
-		<liferay-ui:message key="please-contact-the-administrator-to-setup-this-portlet" />
-	</c:otherwise>
-</c:choose>

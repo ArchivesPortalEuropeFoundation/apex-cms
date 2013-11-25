@@ -5,6 +5,7 @@
 	<category name="Archives Portal Europe">
 		<portlet id="simplesearch"/>
 		<portlet id="advancedsearch" />
+		<portlet id="savedsearch" />
 		<portlet id="directory" />
 		<portlet id="eaddisplay" />						
 		<portlet id="contact" />

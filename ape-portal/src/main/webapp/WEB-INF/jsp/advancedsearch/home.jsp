@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <fmt:requestEncoding value="UTF-8" />
 <portlet:defineObjects />
 <portlet:renderURL var="advancedSearchUrl">
@@ -18,12 +19,10 @@
 <portlet:resourceURL var="generateNavigatedTreeAiUrl" id="generateNavigatedTreeAi" />
 <portlet:resourceURL var="generateNavigatedTreeAiContentUrl" id="generateNavigatedTreeAiContent" />
 <portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
-
-<c:choose>
-	<c:when test="${!empty renderRequest.preferences.map.eadDisplayFriendlyUrl and !empty renderRequest.preferences.map.eadDisplayPortletName}">
+<portlet:resourceURL var="saveSearchUrl" id="saveSearch" />
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}" );
+				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}" );
 				init();
 				initArchivalLandscapeTree("${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				/* alert(themeDisplay.getLanguageId()); */
@@ -198,8 +197,13 @@
 					<ul id="tabscontainer">
 						<li><a href="#tabs-list"><fmt:message key="advancedsearch.text.list" /></a></li>
 						<li><a href="#tabs-context"><fmt:message key="advancedsearch.text.context" /></a></li>
-		
 					</ul>
+					<div id="saveSearch">
+						 <div id="saveSearchButton" class="linkButton">
+							<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+						</div>
+						<div id="answerMessageSavedSearch"></div>
+					</div>
 					<div id="tabs-context">
 						<c:if test="${advancedSearch.mode != 'new' and advancedSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />
@@ -215,9 +219,4 @@
 			<div id="loadingText" class="hidden"><fmt:message key="advancedsearch.message.loading"/>
 			</div>
 		</div>
-	</c:when>
-	<c:otherwise>
-		<liferay-ui:message key="please-contact-the-administrator-to-setup-this-portlet" />
-	</c:otherwise>
-</c:choose>
 

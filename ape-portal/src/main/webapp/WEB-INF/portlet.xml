@@ -25,16 +25,6 @@
 		</portlet-info>
         <portlet-preferences>
             <preference>
-                <name>advancedSearchFriendlyUrl</name>
-                <value>/advanced-search</value>
-                <read-only>false</read-only>
-            </preference>
-            <preference>
-                <name>advancedSearchPortletName</name>
-                <value>advancedsearch</value>
-                <read-only>false</read-only>
-            </preference>
-            <preference>
                 <name>numberOfDaoUnits</name>
                 <value>40290342</value>
                 <read-only>false</read-only>
@@ -57,10 +47,6 @@
 		<portlet-name>advancedsearch</portlet-name>
 		<display-name>Advanced Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-        <init-param>
-            <name>config-jsp</name>
-            <value>/WEB-INF/jsp/advancedsearch/configuration.jsp</value>
-        </init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -77,6 +63,35 @@
 		</security-role-ref>
 		<security-role-ref>
 			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>savedsearch</portlet-name>
+		<display-name>Saved Search</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <init-param>
+            <name>config-jsp</name>
+            <value>/WEB-INF/jsp/simplesearch/configuration.jsp</value>
+        </init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Saved Search</title>
+			<short-title>Saved Search</short-title>
+			<keywords>saved-search</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
 		</security-role-ref>
 		<security-role-ref>
 			<role-name>power-user</role-name>

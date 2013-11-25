@@ -18,6 +18,10 @@
 		<header-portlet-javascript>/js/advancedsearch/trees.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
+		<portlet-name>savedsearch</portlet-name>
+		<instanceable>false</instanceable>
+	</portlet>
+	<portlet>
 		<portlet-name>directory</portlet-name>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
 		<friendly-url-mapping>dir</friendly-url-mapping>
