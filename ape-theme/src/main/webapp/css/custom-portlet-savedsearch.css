@@ -19,3 +19,8 @@
 #savedSearchesPortlet .longInput {
 	width: 300px;
 }
+
+#savedSearchesPortlet th {
+	font-weight: bold;
+	padding-right:10px;
+}
