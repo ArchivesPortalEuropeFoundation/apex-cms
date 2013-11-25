@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,17 +36,21 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 				resourceRequest.getLocale());
 		String answerMessage = "";
 		boolean saved = false;
-		LOGGER.info("saveSearch");
 		if (resourceRequest.getUserPrincipal() == null){
 			answerMessage = source.getString("advancedsearch.text.savesearch.guest");
 		}else {
-			EadSavedSearch eadSavedSearch = new EadSavedSearch();
-			eadSavedSearch.setLiferayUserId(Long.parseLong(resourceRequest.getUserPrincipal().toString()));
-			eadSavedSearch.setTerm(advancedSearch.getTerm());
-			eadSavedSearch.setModifiedDate(new Date());
-			eadSavedSearchDAO.store(eadSavedSearch);
-			answerMessage = source.getString("advancedsearch.text.savesearch.success");
-			saved = true;
+			if (StringUtils.isBlank(advancedSearch.getTerm())){
+				answerMessage = source.getString("advancedsearch.text.savesearch.nosearchterm");
+				saved = false;				
+			}else {
+				EadSavedSearch eadSavedSearch = new EadSavedSearch();
+				eadSavedSearch.setLiferayUserId(Long.parseLong(resourceRequest.getUserPrincipal().toString()));
+				eadSavedSearch.setTerm(advancedSearch.getTerm());
+				eadSavedSearch.setModifiedDate(new Date());
+				eadSavedSearchDAO.store(eadSavedSearch);
+				answerMessage = source.getString("advancedsearch.text.savesearch.success");
+				saved = true;
+			}
 		}
 		long startTime = System.currentTimeMillis();
 		try {

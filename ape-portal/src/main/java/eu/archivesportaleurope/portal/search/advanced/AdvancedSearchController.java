@@ -25,6 +25,8 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.persistence.dao.EadSavedSearchDAO;
+import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
@@ -48,6 +50,11 @@ public class AdvancedSearchController {
 	public static final String MODE_UPDATE_SEARCH = "update-search";
 	private Searcher searcher;
 	private ResourceBundleMessageSource messageSource;
+	private EadSavedSearchDAO eadSavedSearchDAO;
+
+	public void setEadSavedSearchDAO(EadSavedSearchDAO eadSavedSearchDAO) {
+		this.eadSavedSearchDAO = eadSavedSearchDAO;
+	}
 
 	public Searcher getSearcher() {
 		return searcher;
@@ -67,28 +74,40 @@ public class AdvancedSearchController {
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH);
 		return "home";
 	}
-	
-	@RenderMapping(params = "myaction=showPublicSavedSearch")
-	public ModelAndView showPublicSavedSearch(RenderRequest request) {
-		AdvancedSearch advancedSearch = new AdvancedSearch();
-		advancedSearch.setMode(MODE_NEW_SEARCH);
-		advancedSearch.setTerm("Kaart");
-		AnalyzeLogger.logSimpleSearch(advancedSearch);
-		Results results = performNewSearch(request, advancedSearch);
+
+	@RenderMapping(params = "myaction=showSavedSearch")
+	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
+
+		try {
+			String id = request.getParameter("id");
+			Long savedSearchId = Long.parseLong(id);
+			Long liferayUserId = null;
+			if (request.getUserPrincipal() != null) {
+				liferayUserId = Long.parseLong(request.getUserPrincipal().toString());
+			}
+			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(savedSearchId, liferayUserId);
+			if (eadSavedSearch != null) {
+				AdvancedSearch advancedSearch = new AdvancedSearch();
+				advancedSearch.setMode(MODE_NEW_SEARCH);
+				advancedSearch.setTerm(eadSavedSearch.getTerm());
+				//AnalyzeLogger.logSimpleSearch(advancedSearch);
+				Results results = performNewSearch(request, advancedSearch);
+
+				modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
+				modelAndView.getModelMap().addAttribute("results", results);
+			}
+		} catch (Exception e) {
+
+		}
 		modelAndView.setViewName("home");
-		modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
-		modelAndView.getModelMap().addAttribute("results", results);
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		return modelAndView;
 	}
-	@RenderMapping(params = "myaction=showPrivateSavedSearch")
-	public ModelAndView showPrivateSavedSearch(RenderRequest request) {
-		return null;
-	}
-	
+
 	@RenderMapping(params = "myaction=simpleSearch")
-	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch, RenderRequest request) {
+	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
+			RenderRequest request) {
 		advancedSearch.setMode(MODE_NEW_SEARCH);
 		AnalyzeLogger.logSimpleSearch(advancedSearch);
 		Results results = performNewSearch(request, advancedSearch);
@@ -99,7 +118,6 @@ public class AdvancedSearchController {
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		return modelAndView;
 	}
-	
 
 	@ResourceMapping(value = "advancedSearch")
 	public ModelAndView searchAjax(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
@@ -127,10 +145,10 @@ public class AdvancedSearchController {
 		Results results = null;
 		try {
 			String error = validate(advancedSearch);
-			if (error == null) {	
+			if (error == null) {
 				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				handleSearchParameters(advancedSearch, solrQueryParameters);
-				AnalyzeLogger.logAdvancedSearch(advancedSearch,solrQueryParameters);
+				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
 				if (HIERARCHY.equals(advancedSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
@@ -138,8 +156,7 @@ public class AdvancedSearchController {
 				}
 				boolean showSuggestions = false;
 				if (results.getSpellCheckResponse() != null) {
-					List<Collation> suggestions = results.getSpellCheckResponse()
-							.getCollatedResults();
+					List<Collation> suggestions = results.getSpellCheckResponse().getCollatedResults();
 					if (suggestions != null) {
 						for (Collation collation : suggestions) {
 							showSuggestions = showSuggestions
@@ -157,7 +174,7 @@ public class AdvancedSearchController {
 				results.setErrorMessage(error);
 			}
 
-			//request.setAttribute("results", results);
+			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
 			LOGGER.error("There was an error during the execution of the advanced search: Error: " + e.getMessage(), e);
@@ -191,11 +208,12 @@ public class AdvancedSearchController {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
 		Integer pageNumber = Integer.parseInt(advancedSearch.getPageNumber());
-		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize() * (pageNumber - 1),
-				results.getPageSize(), advancedSearch.getFacetSettingsList(), advancedSearch.getOrder(), advancedSearch.getStartdate(),
-				advancedSearch.getEnddate());
+		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize()
+				* (pageNumber - 1), results.getPageSize(), advancedSearch.getFacetSettingsList(),
+				advancedSearch.getOrder(), advancedSearch.getStartdate(), advancedSearch.getEnddate());
 		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-		results.init(solrResponse,advancedSearch.getFacetSettingsList(), advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
+		results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
+				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
 			results.setItems(new SolrDocumentListHolder(solrResponse));
@@ -209,9 +227,11 @@ public class AdvancedSearchController {
 			AdvancedSearch advancedSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
 		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
-		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(), advancedSearch.getFacetSettingsList());
+		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(),
+				advancedSearch.getFacetSettingsList());
 		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-		results.init(solrResponse,advancedSearch.getFacetSettingsList(),advancedSearch,new SpringResourceBundleSource(messageSource, request.getLocale()));
+		results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
+				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
 			results.setItems(new SolrDocumentListHolder(solrResponse));
@@ -230,7 +250,8 @@ public class AdvancedSearchController {
 		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
 		if (countries != null) {
 			for (Count country : countries) {
-				results.getCountries().add(new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY, request.getLocale()));
+				results.getCountries().add(
+						new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY, request.getLocale()));
 			}
 		}
 		return results;
@@ -240,8 +261,10 @@ public class AdvancedSearchController {
 	protected void handleSearchParameters(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters) {
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 				advancedSearch.getTypedocument());
-		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(), advancedSearch.hasExactDateSearch());
-		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(), advancedSearch.hasExactDateSearch());
+		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
+				advancedSearch.hasExactDateSearch());
+		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
+				advancedSearch.hasExactDateSearch());
 
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 
@@ -280,11 +303,13 @@ public class AdvancedSearchController {
 	}
 
 	public String validate(AdvancedSearch advancedSearch) {
-		if (StringUtils.isNotBlank(advancedSearch.getFromdate()) && !AdvancedSearchUtil.isValidDate(advancedSearch.getFromdate())) {
+		if (StringUtils.isNotBlank(advancedSearch.getFromdate())
+				&& !AdvancedSearchUtil.isValidDate(advancedSearch.getFromdate())) {
 			return "search.message.IncorrectDateTyped";
 
 		}
-		if (StringUtils.isNotBlank(advancedSearch.getTodate()) && !AdvancedSearchUtil.isValidDate(advancedSearch.getTodate())) {
+		if (StringUtils.isNotBlank(advancedSearch.getTodate())
+				&& !AdvancedSearchUtil.isValidDate(advancedSearch.getTodate())) {
 			return "search.message.IncorrectDateTyped";
 		}
 		return null;

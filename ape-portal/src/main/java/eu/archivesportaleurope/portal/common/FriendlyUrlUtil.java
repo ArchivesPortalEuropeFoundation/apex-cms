@@ -25,6 +25,7 @@ public final class FriendlyUrlUtil {
 	public static final String DIRECTORY_CONTENT = "directory-content";
 	public static final String DIRECTORY_SITEMAP = "directory-sitemap";
 	public static final String SEARCH = "advancedsearch";
+	public static final String SAVED_SEARCH = "saved-search";
 	private final static Map<String, String> urls = new HashMap<String, String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
@@ -39,6 +40,7 @@ public final class FriendlyUrlUtil {
 		urls.put(EAD_DISPLAY_FRONTPAGE_PAGING, "/ead-display/-/ead/fp-p");
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
+		urls.put(SAVED_SEARCH, "/search/-/saved");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
