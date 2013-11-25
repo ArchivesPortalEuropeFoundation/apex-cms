@@ -335,3 +335,48 @@ h2.blockHeader {
 .fullwidth {
 	width: 100%;
 }
+
+
+table.defaultlayout td, table.defaultlayout th{
+	font-size:10pt;
+	padding-left:2px;
+	padding-right:2px;
+}
+table.defaultlayout td{
+	 border: 1px solid #DBDBDB;
+}
+
+table.defaultlayout th {
+	 border: 1px solid white;
+	 background-color: #DBDBDB;
+	 vertical-align: top;
+}
+table.defaultlayout input[type="submit"] {
+	padding:0px;
+	font-size:8pt;
+	margin:1px;
+}
+table.defaultlayout td.nocenter{
+	text-align: left;
+}
+table.defaultlayout td.title{
+	text-align: left;
+	width:200px;
+}
+table.defaultlayout td .title {
+	display: inline-block;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 400px;
+}
+table.defaultlayout td.actions{
+	text-align: left;
+	width:300px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+table.defaultlayout form{
+	display:inline;
+}

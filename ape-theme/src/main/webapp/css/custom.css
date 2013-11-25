@@ -1,5 +1,6 @@
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 @import url(custom-portlet-advancedsearch.css);
+@import url(custom-portlet-savedsearch.css);
 @import url(custom-portlet-simplesearch.css);
 @import url(custom-search.css);
 @import url(custom-portlet-directory.css);

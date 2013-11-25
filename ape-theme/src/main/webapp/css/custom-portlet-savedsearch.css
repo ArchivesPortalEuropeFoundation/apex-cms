@@ -1,0 +1,21 @@
+#savedSearchesPortlet #top-paging {
+    float: right;
+    margin-right: 10px;
+}
+
+#savedSearchesPortlet .numberOfPages {
+	float: left;
+	font-weight: normal;
+}
+#savedSearchesPortlet #savedSearchesTable {
+	width: 100%;
+	padding-left:10px;
+	padding-right:10px;
+}
+#savedSearchesPortlet #children .boxtitle {
+    background: url("../images/ape/search/tabbg.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    height: 18px;
+}
+#savedSearchesPortlet .longInput {
+	width: 300px;
+}
