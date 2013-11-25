@@ -50,6 +50,7 @@
 		class="eu.archivesportaleurope.portal.search.advanced.AdvancedSearchController">
 		<property name="searcher" ref="searcher"></property>
 		<property name="messageSource" ref="messageSource"></property>
+		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
 	</bean>
 
 		
