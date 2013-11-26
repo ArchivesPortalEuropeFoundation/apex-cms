@@ -110,6 +110,9 @@ public class SavedSearchController {
 				savedSearch.setPublicSearch(eadSavedSearch.isPublicSearch());
 				savedSearch.setTemplate(eadSavedSearch.isTemplate());
 				savedSearch.setContainsSimpleSearchOptions(eadSavedSearch.isContainsSimpleSearchOptions());
+				savedSearch.setContainsAdvancedSearchOptions(eadSavedSearch.isContainsAdvancedSearchOptions());
+				savedSearch.setContainsAlSearchOptions(eadSavedSearch.isContainsAlSearchOptions());
+				savedSearch.setContainsRefinements(eadSavedSearch.isContainsRefinements());
 				savedSearch.setId(eadSavedSearch.getId() +"");
 				return savedSearch;
 			}
