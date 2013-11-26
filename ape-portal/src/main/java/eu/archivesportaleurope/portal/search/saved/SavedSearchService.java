@@ -25,8 +25,11 @@ public class SavedSearchService {
 		eadSavedSearchDAO.store(eadSavedSearch);
 	}
 	
-	public AdvancedSearch getEadSavedSearch(Long liferayUserId, Long savedSearchId){
-		EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(savedSearchId, liferayUserId);
+	public EadSavedSearch getEadSavedSearch(Long liferayUserId, Long savedSearchId){
+		return eadSavedSearchDAO.getEadSavedSearch(savedSearchId, liferayUserId);
+
+	}
+	public AdvancedSearch convert(EadSavedSearch eadSavedSearch){
 		if (eadSavedSearch != null) {
 			AdvancedSearch advancedSearch = new AdvancedSearch();
 			advancedSearch.setTerm(eadSavedSearch.getSearchTerm());
@@ -42,6 +45,6 @@ public class SavedSearchService {
 			return advancedSearch;
 		}else {
 			return null;
-		}
+		}		
 	}
 }
