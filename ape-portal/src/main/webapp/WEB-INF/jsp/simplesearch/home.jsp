@@ -26,7 +26,7 @@
 					<table id="simplesearchCriteria">
 						<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
 						<tr>
-							<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" /> <input
+							<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100" /> <input
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" /></td>
 						</tr>

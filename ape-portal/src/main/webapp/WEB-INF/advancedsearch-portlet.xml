@@ -22,9 +22,13 @@
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch">
 	</bean>	
+	<bean id="savedSearchService"
+		class="eu.archivesportaleurope.portal.search.saved.SavedSearchService">
+		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+	</bean>	
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.SaveSearchJSONControllor">
-		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+		<property name="savedSearchService" ref="savedSearchService"></property>
 		<property name="messageSource" ref="messageSource"></property>
 	</bean>			
 	<bean
@@ -50,7 +54,7 @@
 		class="eu.archivesportaleurope.portal.search.advanced.AdvancedSearchController">
 		<property name="searcher" ref="searcher"></property>
 		<property name="messageSource" ref="messageSource"></property>
-		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+		<property name="savedSearchService" ref="savedSearchService"></property>
 	</bean>
 
 		

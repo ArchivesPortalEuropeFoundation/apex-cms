@@ -91,9 +91,9 @@
 								</tr>
 								<tr>
 									<td><label for="fromdate"><fmt:message key="advancedsearch.text.datefrom" /></label></td>
-									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="8" /></td>
+									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="8" maxlength="10" /></td>
 									<td id="datetoHeader"><label id="todateLabel" for="todate"><fmt:message key="advancedsearch.text.dateto" /></label></td>
-									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="9" /></td>
+									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="9"  maxlength="10"/></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -112,43 +112,22 @@
 								<table id="simplesearchCriteria">
 									<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
 									<tr>
-										<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" /> <input
+										<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"/> <input
 											type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 											value="<fmt:message key="advancedsearch.message.search"/>" /></td>
 									</tr>
 									<tr>
 										<td class="leftcolumn">
 											<div class="row">
-												<c:choose>
-													<c:when test="${param['view'] == 'hierarchy'}">
-														<input type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" checked="checked" tabindex="2">
-													</c:when>
-													<c:otherwise>
-														<input type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2">
-													</c:otherwise>
-												</c:choose>
+												<form:checkbox path="view" id="checkboxHierarchy" tabindex="2" value="hierarchy"/>
 												<label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label>
 											</div>
 											<div class="row">
-												<c:choose>
-													<c:when test="${param['method'] == 'optional'}">
-														<input type="checkbox" id="checkboxMethod" value="optional" name="method" checked="checked" tabindex="3">
-													</c:when>
-													<c:otherwise>
-														<input type="checkbox" id="checkboxMethod" value="optional" name="method" tabindex="3">
-													</c:otherwise>
-												</c:choose>
+												<form:checkbox path="method" id="checkboxMethod" tabindex="3" value="optional"/>
 												<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
 											</div>
 											<div class="row">
-												<c:choose>
-													<c:when test="${param['dao'] == 'true'}">
-														<input type="checkbox" id="checkboxDao" value="true" name="dao" checked="checked" tabindex="4">
-													</c:when>
-													<c:otherwise>
-														<input type="checkbox" id="checkboxDao" value="true" name="dao" tabindex="4">
-													</c:otherwise>
-												</c:choose>
+												<form:checkbox path="dao" id="checkboxDao" tabindex="4" value="true"/>
 												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 											</div>
 										</td>

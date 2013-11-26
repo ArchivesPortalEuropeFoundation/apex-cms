@@ -25,13 +25,21 @@
 
 			<table id="savedSearchesTable" class="defaultlayout">
 				<tr>
-					<th><fmt:message key="savedsearch.id"/></th><th><fmt:message key="savedsearch.term"/></th><th><fmt:message key="savedsearch.description"/></th><th><fmt:message key="savedsearch.modified"/></th><th><fmt:message key="savedsearches.overview.actions"/></th>
+					<th><fmt:message key="savedsearch.id"/></th><th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th><fmt:message key="savedsearch.characteristics"/></th><th><fmt:message key="savedsearch.modified"/></th><th><fmt:message key="savedsearches.overview.actions"/></th>
 				</tr>
 				<c:forEach var="eadSavedSearch" items="${eadSavedSearches}">
 				<tr>
-					<td>${eadSavedSearch.id}</td>
-					<td><a href="${savedSearchUrl}/${eadSavedSearch.id}"><c:out value="${eadSavedSearch.term}"/></a></td>
-					<td><c:out value="${eadSavedSearch.label}"/></td>
+					<td><a href="${savedSearchUrl}/${eadSavedSearch.id}">${eadSavedSearch.id}</a></td>
+					<td><c:out value="${eadSavedSearch.searchTerm}"/></td>
+					<td><c:out value="${eadSavedSearch.description}"/></td>
+					<td>
+						<c:if test="${eadSavedSearch.publicSearch}"><div class="characteristic"><fmt:message key="savedsearch.publicaccessible"/></div></c:if>
+						<c:if test="${eadSavedSearch.template}"><div class="characteristic"><fmt:message key="savedsearch.template"/></div></c:if>
+						<c:if test="${eadSavedSearch.containsSimpleSearchOptions}"><div class="characteristic"><fmt:message key="savedsearch.contains.simple.searchoptions"/></div></c:if>
+						<c:if test="${eadSavedSearch.containsAdvancedSearchOptions}"><div class="characteristic"><fmt:message key="advancedsearch.title.advancedsearch"/></div></c:if>
+						<c:if test="${eadSavedSearch.containsAlSearchOptions}"><div class="characteristic"><fmt:message key="advancedsearch.title.navigatedsearch"/></div></c:if>
+						<c:if test="${eadSavedSearch.containsRefinements}"><div class="characteristic"><fmt:message key="savedsearch.contains.refinements"/></div></c:if>
+					</td>
 					<td><fmt:formatDate type="both"  value="${eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 					<td>
 						<a

@@ -13,13 +13,18 @@
 <form:form name="editSavedSearchForm" commandName="savedSearch" method="post"
 	action="${saveEadSavedSearchActionUrl}">
 	<form:hidden path="id"/>
-	<table>
-		<tr><th><fmt:message key="savedsearch.id"/>:</th><td><c:out value="${savedSearch.id}"/></td><td></td></tr>
-		<tr><th><fmt:message key="savedsearch.term"/>:</th><td><c:out value="${savedSearch.term}"/></td><td></td></tr>
-		<tr><th><fmt:message key="savedsearch.description"/>:</th><td><form:input path="description"  cssClass="longInput"/></td><td><span class="error"><form:errors
-				path="description" /></span></td></tr>
-		<tr><th><fmt:message key="savedsearch.modified"/>:</th><td><fmt:formatDate type="both"  value="${savedSearch.modifiedDate}" timeZone="${timeZone}"/></td><td></td></tr>
-		<tr><td><input type="submit" class="mainButton" value="<fmt:message key="savedsearch.save"/>"></td>
+	<table class="defaultlayout">
+		<tr><th><fmt:message key="savedsearch.id"/>:</th><td><c:out value="${savedSearch.id}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.searchterm"/>:</th><td><c:out value="${savedSearch.searchTerm}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.description"/>:</th><td><form:input path="description"  cssClass="longInput"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.contains.simple.searchoptions"/>:</th><td><c:out value="${savedSearch.containsSimpleSearchOptions}"/></td></tr>
+		<tr><th><fmt:message key="advancedsearch.title.advancedsearch"/>:</th><td><c:out value="${savedSearch.containsAdvancedSearchOptions}"/></td></tr>
+		<tr><th><fmt:message key="advancedsearch.title.navigatedsearch"/>:</th><td><c:out value="${savedSearch.containsAlSearchOptions}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.contains.refinements"/>:</th><td><c:out value="${savedSearch.containsRefinements}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.modified"/>:</th><td><fmt:formatDate type="both"  value="${savedSearch.modifiedDate}" timeZone="${timeZone}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.publicaccessible"/>:</th><td><form:checkbox path="publicSearch" value="true"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.template"/>:</th><td><form:checkbox path="template" value="true"/></td></tr>
+		<tr><td colspan="2"><input type="submit" class="mainButton" value="<fmt:message key="savedsearch.save"/>"></td>
 		</tr>
 
 	</table>
