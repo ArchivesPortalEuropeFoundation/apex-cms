@@ -81,8 +81,6 @@ public class SavedSearchController {
 
 	@ActionMapping(params="myaction=saveEditSavedSearch")
 	public void saveSavedSearch(@ModelAttribute("savedSearch") SavedSearch savedSearch, BindingResult bindingResult,ActionRequest request, ActionResponse response)  {
-//		myValidator.validate(book, bindingResult);
-//		if (!bindingResult.hasErrors()) {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -94,14 +92,7 @@ public class SavedSearchController {
 				eadSavedSearchDAO.store(eadSavedSearch);
 			}
 		}	
-//			bookService.editBook(book);
-//			response.setRenderParameter("myaction", "books");
-//		} else {
-//			//--this is required. the getBook method is not invoked but the @RequestParam
-//			//--is still evaluated
-//			response.setRenderParameter("isbnNumber", book.getIsbnNumber().toString());
-//			response.setRenderParameter("myaction", "editBookForm");
-//		}
+
 	}
 	
 	@ModelAttribute("savedSearch")
