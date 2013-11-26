@@ -1,34 +1,28 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
-import java.util.Date;
-
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.persistence.dao.EadSavedSearchDAO;
-import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchController;
+import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 
 @Controller(value = "saveSearchJSONControllor")
 @RequestMapping(value = "VIEW")
 public class SaveSearchJSONControllor extends AbstractJSONWriter {
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchController.class);
-	private EadSavedSearchDAO eadSavedSearchDAO;
-	
-	
-	public void setEadSavedSearchDAO(EadSavedSearchDAO eadSavedSearchDAO) {
-		this.eadSavedSearchDAO = eadSavedSearchDAO;
-	}
+	private SavedSearchService savedSearchService;
 
+	public void setSavedSearchService(SavedSearchService savedSearchService) {
+		this.savedSearchService = savedSearchService;
+	}
 
 	@ResourceMapping(value = "saveSearch")
 	public void saveSearch(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
@@ -39,18 +33,10 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 		if (resourceRequest.getUserPrincipal() == null){
 			answerMessage = source.getString("advancedsearch.text.savesearch.guest");
 		}else {
-			if (StringUtils.isBlank(advancedSearch.getTerm())){
-				answerMessage = source.getString("advancedsearch.text.savesearch.nosearchterm");
-				saved = false;				
-			}else {
-				EadSavedSearch eadSavedSearch = new EadSavedSearch();
-				eadSavedSearch.setLiferayUserId(Long.parseLong(resourceRequest.getUserPrincipal().toString()));
-				eadSavedSearch.setTerm(advancedSearch.getTerm());
-				eadSavedSearch.setModifiedDate(new Date());
-				eadSavedSearchDAO.store(eadSavedSearch);
+				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
+				savedSearchService.saveSearch(liferayUserId, advancedSearch);
 				answerMessage = source.getString("advancedsearch.text.savesearch.success");
 				saved = true;
-			}
 		}
 		long startTime = System.currentTimeMillis();
 		try {

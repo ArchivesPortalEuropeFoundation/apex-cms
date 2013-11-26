@@ -88,7 +88,9 @@ public class SavedSearchController {
 			Long liferayUserId = Long.parseLong(principal.toString());
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(savedSearch.getId()), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
-				eadSavedSearch.setLabel(savedSearch.getDescription());
+				eadSavedSearch.setDescription(savedSearch.getDescription());
+				eadSavedSearch.setPublicSearch(savedSearch.isPublicSearch());
+				eadSavedSearch.setTemplate(savedSearch.isTemplate());
 				eadSavedSearchDAO.store(eadSavedSearch);
 			}
 		}	
@@ -111,14 +113,17 @@ public class SavedSearchController {
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(id), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
 				SavedSearch savedSearch = new SavedSearch();
-				savedSearch.setDescription(eadSavedSearch.getLabel());
-				savedSearch.setTerm(eadSavedSearch.getTerm());
+				savedSearch.setDescription(eadSavedSearch.getDescription());
+				savedSearch.setSearchTerm(eadSavedSearch.getSearchTerm());
 				savedSearch.setModifiedDate(eadSavedSearch.getModifiedDate());
+				savedSearch.setPublicSearch(eadSavedSearch.isPublicSearch());
+				savedSearch.setTemplate(eadSavedSearch.isTemplate());
+				savedSearch.setContainsSimpleSearchOptions(eadSavedSearch.isContainsSimpleSearchOptions());
 				savedSearch.setId(eadSavedSearch.getId() +"");
 				return savedSearch;
 			}
 		}		
 		
-		return  new SavedSearch();
+		return new SavedSearch();
 	}
 }

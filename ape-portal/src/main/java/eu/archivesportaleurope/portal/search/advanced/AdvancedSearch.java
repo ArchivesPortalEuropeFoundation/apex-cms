@@ -10,6 +10,8 @@ import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class AdvancedSearch implements Serializable {
+	public static final String VIEW_HIERARCHY = "hierarchy";
+	public static final String METHOD_OPTIONAL = "optional";
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
@@ -29,7 +31,7 @@ public class AdvancedSearch implements Serializable {
 	private String resultsperpage = "10";
 	private String dao;
 	private boolean advanced = true;
-	private String exactDateSearch;;
+	private String exactDateSearch;
 
 	private String country;
 	private String ai;

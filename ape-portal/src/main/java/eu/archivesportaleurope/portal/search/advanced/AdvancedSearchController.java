@@ -39,21 +39,22 @@ import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.Searcher;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
+import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 
 @Controller(value = "advancedSearchController")
 @RequestMapping(value = "VIEW")
 public class AdvancedSearchController {
-	private static final String HIERARCHY = "hierarchy";
+
 	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchController.class);
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
 	private Searcher searcher;
 	private ResourceBundleMessageSource messageSource;
-	private EadSavedSearchDAO eadSavedSearchDAO;
+	private SavedSearchService savedSearchService;
 
-	public void setEadSavedSearchDAO(EadSavedSearchDAO eadSavedSearchDAO) {
-		this.eadSavedSearchDAO = eadSavedSearchDAO;
+	public void setSavedSearchService(SavedSearchService savedSearchService) {
+		this.savedSearchService = savedSearchService;
 	}
 
 	public Searcher getSearcher() {
@@ -78,7 +79,7 @@ public class AdvancedSearchController {
 	@RenderMapping(params = "myaction=showSavedSearch")
 	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		try {
 			String id = request.getParameter("id");
 			Long savedSearchId = Long.parseLong(id);
@@ -86,22 +87,21 @@ public class AdvancedSearchController {
 			if (request.getUserPrincipal() != null) {
 				liferayUserId = Long.parseLong(request.getUserPrincipal().toString());
 			}
-			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(savedSearchId, liferayUserId);
-			if (eadSavedSearch != null) {
-				AdvancedSearch advancedSearch = new AdvancedSearch();
+			AdvancedSearch advancedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
+			if (advancedSearch != null) {
 				advancedSearch.setMode(MODE_NEW_SEARCH);
-				advancedSearch.setTerm(eadSavedSearch.getTerm());
-				//AnalyzeLogger.logSimpleSearch(advancedSearch);
 				Results results = performNewSearch(request, advancedSearch);
 
 				modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
 				modelAndView.getModelMap().addAttribute("results", results);
+				modelAndView.setViewName("home");
+				return modelAndView;
 			}
 		} catch (Exception e) {
 
 		}
-		modelAndView.setViewName("home");
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
+		
+		modelAndView.setViewName("nosaved-search");
 		return modelAndView;
 	}
 
@@ -149,7 +149,7 @@ public class AdvancedSearchController {
 				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				handleSearchParameters(advancedSearch, solrQueryParameters);
 				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
-				if (HIERARCHY.equals(advancedSearch.getView())) {
+				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
 					results = performNewSearchForListView(request, solrQueryParameters, advancedSearch);
@@ -166,7 +166,7 @@ public class AdvancedSearchController {
 				}
 				results.setShowSuggestions(showSuggestions);
 			} else {
-				if (HIERARCHY.equals(advancedSearch.getView())) {
+				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 					results = new ContextResults();
 				} else {
 					results = new ListResults();
@@ -187,7 +187,7 @@ public class AdvancedSearchController {
 		try {
 
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (HIERARCHY.equals(advancedSearch.getView())) {
+			if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 				handleSearchParametersForContextUpdate(advancedSearch, solrQueryParameters);
 				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
 				results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);

@@ -40,7 +40,7 @@ public final class FriendlyUrlUtil {
 		urls.put(EAD_DISPLAY_FRONTPAGE_PAGING, "/ead-display/-/ead/fp-p");
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
-		urls.put(SAVED_SEARCH, "/search/-/saved");
+		urls.put(SAVED_SEARCH, "/search/-/search");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
