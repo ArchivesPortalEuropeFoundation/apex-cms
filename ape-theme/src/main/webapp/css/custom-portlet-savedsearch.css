@@ -24,3 +24,9 @@
 	font-weight: bold;
 	padding-right:10px;
 }
+
+#savedSearchesPortlet .mainButton {
+	font-size: 10pt;
+    margin: 4px;
+    padding: 5px;
+}
