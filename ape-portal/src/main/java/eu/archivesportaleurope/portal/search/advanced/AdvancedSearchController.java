@@ -288,7 +288,7 @@ public class AdvancedSearchController {
 		}
 		
 		solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
-		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DAO, advancedSearch.getDaoList());
+		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), advancedSearch.getSimpleSearchDao());
 	}
 
 	protected void handleSearchParametersForListUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch,
@@ -298,6 +298,7 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, advancedSearch.getAiList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.TYPE, advancedSearch.getTypeList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, advancedSearch.getDateTypeList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DAO, advancedSearch.getDaoList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.ROLEDAO, advancedSearch.getRoledaoList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, advancedSearch.getFondList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.LEVEL, advancedSearch.getLevelList());

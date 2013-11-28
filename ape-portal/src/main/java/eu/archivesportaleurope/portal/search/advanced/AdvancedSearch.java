@@ -29,6 +29,7 @@ public class AdvancedSearch implements Serializable {
 	private String todate;
 	private String method;
 	private String resultsperpage = "10";
+	private String simpleSearchDao;
 	private String dao;
 	private boolean advanced = true;
 	private String exactDateSearch;
@@ -36,6 +37,7 @@ public class AdvancedSearch implements Serializable {
 	private String country;
 	private String ai;
 	private String fond;
+
 	private String roledao;
 	private String type;
 	private String level;
@@ -84,6 +86,14 @@ public class AdvancedSearch implements Serializable {
 
 	public void setMethod(String method) {
 		this.method = method;
+	}
+
+	public String getSimpleSearchDao() {
+		return simpleSearchDao;
+	}
+
+	public void setSimpleSearchDao(String simpleSearchDao) {
+		this.simpleSearchDao = simpleSearchDao;
 	}
 
 	public String getDao() {
@@ -395,6 +405,8 @@ public class AdvancedSearch implements Serializable {
 	public boolean hasExactDateSearch(){
 		return Boolean.parseBoolean(exactDateSearch);
 	}
+
+
 
 	
 }
