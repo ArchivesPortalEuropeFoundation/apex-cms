@@ -127,7 +127,7 @@
 												<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
 											</div>
 											<div class="row">
-												<form:checkbox path="dao" id="checkboxDao" tabindex="4" value="true"/>
+												<form:checkbox path="simpleSearchDao" id="checkboxDao" tabindex="4" value="true"/>
 												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 											</div>
 										</td>

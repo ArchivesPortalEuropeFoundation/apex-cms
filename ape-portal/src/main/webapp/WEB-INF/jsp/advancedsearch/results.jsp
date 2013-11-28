@@ -26,7 +26,7 @@
 		<form:hidden id="updateCurrentSearch_method" path="method"/>
 		<form:hidden id="updateCurrentSearch_mode" path="mode" value="update-search"/>
 		<form:hidden id="updateCurrentSearch_advanced" path="advanced"/>
-		<form:hidden id="updateCurrentSearch_dao" path="dao"/>
+		<form:hidden id="updateCurrentSearch_simpleSearchDao" path="simpleSearchDao"/>
 		<form:hidden id="updateCurrentSearch_view" path="view"/>
 		<form:hidden id="updateCurrentSearch_element" path="element"/>
 		<form:hidden id="updateCurrentSearch_typedocument" path="typedocument"/>
@@ -37,6 +37,7 @@
 		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${advancedSearch.ai}"/>
 		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${advancedSearch.fond}"/>
 		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${advancedSearch.type}"/>
+		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${advancedSearch.dao}"/>
 		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${advancedSearch.roledao}"/>
 		<input type="hidden" id="updateCurrentSearch_level" name="level" value="${advancedSearch.level}"/>
 		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${advancedSearch.dateType}"/>
@@ -46,7 +47,7 @@
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
 		<form:hidden id="updateCurrentSearch_selectedNodes" path="selectedNodes"/>
 		<form:hidden id="updateCurrentSearch_expandedNodes" path="expandedNodes"/>
-								<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
+		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
 	<c:choose>
 		<c:when test="${advancedSearch.view == 'hierarchy'}">
 			<jsp:include page="results-contexttab.jsp"/>

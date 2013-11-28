@@ -38,7 +38,7 @@
 								</div>
 								<div class="row">
 									 <input type="checkbox"
-										id="checkboxDao" value="true" name="dao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
+										id="checkboxDao" value="true" name="simpleSearchDao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 								</div>
 							</td>
 						</tr>
