@@ -30,3 +30,14 @@
     margin: 4px;
     padding: 5px;
 }
+#savedSearchesPortlet .characteristic {
+    font-size: 11px;
+}
+
+#savedSearchesPortlet div.public {
+    font-weight: bold;
+	color: red;
+}
+#savedSearchesPortlet tr.public {
+    background-color: #F0F7FC;
+}
