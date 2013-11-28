@@ -15,7 +15,7 @@ public class AdvancedSearch implements Serializable {
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
-
+	public static final String SEARCH_ALL_STRING = "*:*";
 	/**
 	 * 
 	 */

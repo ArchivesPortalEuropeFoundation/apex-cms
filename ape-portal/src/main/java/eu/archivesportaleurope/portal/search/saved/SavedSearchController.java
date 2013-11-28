@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
@@ -25,6 +24,7 @@ import com.liferay.portal.model.User;
 import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 
 @Controller(value = "savedSearchController")
 @RequestMapping(value = "VIEW")
@@ -87,7 +87,9 @@ public class SavedSearchController {
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(savedSearch.getId()), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
 				eadSavedSearch.setDescription(savedSearch.getDescription());
-				eadSavedSearch.setPublicSearch(savedSearch.isPublicSearch());
+				if (! AdvancedSearch.SEARCH_ALL_STRING.equals(eadSavedSearch.getSearchTerm())){
+					eadSavedSearch.setPublicSearch(savedSearch.isPublicSearch());
+				}
 				eadSavedSearch.setTemplate(savedSearch.isTemplate());
 				eadSavedSearchDAO.store(eadSavedSearch);
 			}

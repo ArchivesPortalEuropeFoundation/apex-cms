@@ -25,7 +25,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
-import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
@@ -45,7 +44,7 @@ import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 @RequestMapping(value = "VIEW")
 public class AdvancedSearchController {
 
-	private static final String SEARCH_ALL_STRING = "*:*";
+
 	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchController.class);
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
@@ -282,7 +281,7 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-		if (SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
+		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
 			solrQueryParameters.setTerm("");
 		}else {
 			solrQueryParameters.setTerm(advancedSearch.getTerm());
