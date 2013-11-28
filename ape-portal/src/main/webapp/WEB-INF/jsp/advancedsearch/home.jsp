@@ -58,7 +58,7 @@
 								<tr>
 									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" /></label></td>
 									<td colspan="3"><form:select path="element" id="element" tabindex="6">
-											<form:option value="0">
+											<form:option value="">
 												<fmt:message key="advancedsearch.text.noselection" />
 											</form:option>
 											<form:option value="1">
