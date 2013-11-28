@@ -11,7 +11,7 @@
 	<portlet>
 		<portlet-name>advancedsearch</portlet-name>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>search</friendly-url-mapping>
+		<friendly-url-mapping>s</friendly-url-mapping>
 		<friendly-url-routes>search-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/advancedsearch/search.js</header-portlet-javascript>
