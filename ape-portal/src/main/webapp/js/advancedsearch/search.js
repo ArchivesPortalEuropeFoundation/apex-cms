@@ -257,6 +257,12 @@ function performNewSearch() {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
 		//makeRefinementsCollapsible();
+		
+		if ($("#noResults").length > 0){
+			$("#tabscontainer").removeClass("hidden").addClass("hidden");
+		}else {
+			$("#tabscontainer").removeClass("hidden");
+		}
 		$("#searchResultsContainer").removeClass("hidden");
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
