@@ -16,7 +16,7 @@
 	<table class="defaultlayout">
 		<tr><th><fmt:message key="savedsearch.id"/>:</th><td><c:out value="${savedSearch.id}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.searchterm"/>:</th><td><c:out value="${savedSearch.searchTerm}"/></td></tr>
-		<tr><th><fmt:message key="savedsearch.description"/>:</th><td><form:input path="description"  cssClass="longInput"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.description"/>:</th><td><form:input path="description"  cssClass="longInput" maxlength="100"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.contains.simple.searchoptions"/>:</th><td><c:out value="${savedSearch.containsSimpleSearchOptions}"/></td></tr>
 		<tr><th><fmt:message key="advancedsearch.title.advancedsearch"/>:</th><td><c:out value="${savedSearch.containsAdvancedSearchOptions}"/></td></tr>
 		<tr><th><fmt:message key="advancedsearch.title.navigatedsearch"/>:</th><td><c:out value="${savedSearch.containsAlSearchOptions}"/></td></tr>
