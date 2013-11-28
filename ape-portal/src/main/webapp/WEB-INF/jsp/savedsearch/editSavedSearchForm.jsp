@@ -22,7 +22,9 @@
 		<tr><th><fmt:message key="advancedsearch.title.navigatedsearch"/>:</th><td><c:out value="${savedSearch.containsAlSearchOptions}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.contains.refinements"/>:</th><td><c:out value="${savedSearch.containsRefinements}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.modified"/>:</th><td><fmt:formatDate type="both"  value="${savedSearch.modifiedDate}" timeZone="${timeZone}"/></td></tr>
-		<tr><th><fmt:message key="savedsearch.publicaccessible"/>:</th><td><form:checkbox path="publicSearch" value="true"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.publicaccessible"/>:</th><td>
+			<c:choose><c:when test="${savedSearch.searchAllSearch}"><c:out value="${savedSearch.publicSearch}"/></c:when><c:otherwise><form:checkbox path="publicSearch" value="true"/></c:otherwise>
+																			</c:choose></td></tr>
 		<tr><th><fmt:message key="savedsearch.template"/>:</th><td><form:checkbox path="template" value="true"/></td></tr>
 		<tr><td colspan="2"><input type="submit" class="mainButton" value="<fmt:message key="savedsearch.save"/>"></td>
 		</tr>
