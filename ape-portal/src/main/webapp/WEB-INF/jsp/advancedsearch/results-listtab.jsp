@@ -46,7 +46,7 @@
 					</div>			
 				</c:when>
 				<c:otherwise>
-					<fmt:message key="search.message.notResults" />
+					<span id="noResults"><fmt:message key="search.message.notResults" /></span>
 				</c:otherwise>
 			</c:choose>
 			</div>
