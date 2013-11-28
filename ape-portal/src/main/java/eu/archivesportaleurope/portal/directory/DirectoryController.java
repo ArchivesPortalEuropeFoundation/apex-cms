@@ -206,6 +206,7 @@ public class DirectoryController {
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
 				modelAndView.getModelMap().addAttribute("countryName", DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry()));
+				modelAndView.getModelMap().addAttribute("selectedAiId", id);
 				PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 				return modelAndView;
 			}

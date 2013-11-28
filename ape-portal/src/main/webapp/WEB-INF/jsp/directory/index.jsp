@@ -9,12 +9,15 @@
 <portlet:resourceURL var="directoryTreeUrl" id="directoryTree" />
 <portlet:resourceURL var="directoryTreeAiUrl" id="directoryTreeAi" />
 <portlet:resourceURL var="aiDetailsUrl" id="aiDetails" />
-	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<portlet:resourceURL var="directoryTreeMapsUrl" id="directoryTreeGMaps" />
+<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}", '<fmt:message key="label.print" />');
+		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}", "${directoryTreeMapsUrl}");
 	});
 </script>
+
 <div id="directoryPortlet">
 	<div class="portlet-layout">
 		<div id="directory-column-left" class="aui-w50 portlet-column portlet-column-first">
@@ -35,11 +38,6 @@
 		</div>
 	</div>
 	<div class="portlet-layout">
-		<iframe id="maps" width="1000" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-			src="${embeddedMapUrl}${mapUrlCenterParameters}"></iframe>
-		<div id="viewLargerMap">
-		<a id="externalMap" href="${mapUrl}${mapUrlCenterParameters}" target="_blank"><fmt:message key="directory.text.largermap" /></a>
-		</div>
-	</div>
-
+		<div id="map_div" style="width: 1000px; height: 400px">	</div>
+  	</div>
 </div>

@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.directory;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,6 +16,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
+import eu.apenet.persistence.factory.DAOFactory;
+import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Coordinates;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
@@ -223,6 +227,74 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		} else if (nodeType.equals("archival_institution_no_eag")) {
 			buffer.append("\"key\":" + "\"ainoeag_" + key + "\"");
 		}
+	}
+	
+	@ResourceMapping(value = "directoryTreeGMaps")
+	public void displayGmaps(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+		long startTime = System.currentTimeMillis();
+		try {
+			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+					resourceRequest.getLocale());
+			NavigationTree navigationTree = new NavigationTree(source);
+
+			String countryCode = resourceRequest.getParameter("countryCode");
+			String institutionID = resourceRequest.getParameter("institutionID");
+			
+			//parse bad params (if jquery parse a null to "null", it has to be reconverted
+			countryCode = (countryCode!=null && countryCode.equalsIgnoreCase("null"))?null:countryCode;
+			institutionID = (institutionID!=null && institutionID.equalsIgnoreCase("null"))?null:institutionID;
+			
+			List<Coordinates> reposList = null;
+			if (institutionID != null && !institutionID.isEmpty()) {
+				ArchivalInstitution archivalInstitution = DAOFactory.instance().getArchivalInstitutionDAO().findById(Integer.parseInt(institutionID));
+				reposList = DAOFactory.instance().getCoordinatesDAO().findCoordinatesByArchivalInstitution(archivalInstitution);
+			} else if (countryCode != null && !countryCode.isEmpty()) {
+				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinatesByCountryCode(countryCode);
+			} else {
+				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
+			}
+			//Collections.sort(reposList);
+			writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList), resourceResponse);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
+	}
+	
+	private StringBuilder generateGmapsJSON(NavigationTree navigationTree, List<Coordinates> repoList) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(START_ITEM);
+		builder.append("\"count\":" + repoList.size());
+		builder.append(COMMA);
+		builder.append("\"repos\":");
+		
+		builder.append(START_ARRAY);
+		if(repoList!=null){
+			Iterator<Coordinates> itRepoList = repoList.iterator();
+			while(itRepoList.hasNext()){
+				Coordinates repo = itRepoList.next();
+				builder.append(buildNode(repo));
+				if(itRepoList.hasNext()){
+					builder.append(COMMA);
+				}
+			}
+		}
+		builder.append(END_ARRAY);
+		
+		builder.append(END_ITEM);
+		return builder;
+	}
+	
+	private StringBuilder buildNode(Coordinates repo){
+		StringBuilder builder = new StringBuilder();
+		builder.append(START_ITEM);
+		builder.append("\"latitude\":\""+repo.getLat()+"\"");
+		builder.append(COMMA);
+		builder.append("\"longitude\":\""+repo.getLon()+"\"");
+		builder.append(COMMA);
+		builder.append("\"name\":\""+repo.getNameInstitution()+"\"");
+		builder.append(END_ITEM);
+		return builder;
 	}
 
 }

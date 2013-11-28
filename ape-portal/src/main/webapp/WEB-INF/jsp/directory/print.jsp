@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
+<portlet:resourceURL var="directoryTreeMapsUrl" id="directoryTreeGMaps" />
 <div id="directoryPortlet">
 		<div id="header">
 			<div id="logo"></div>	
@@ -14,12 +15,13 @@
 		<portal:eag eagUrl="${eagUrl}"/>
 	</div>
 	<div class="portlet-layout">
-		<iframe id="maps" width="970" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="${embeddedMapUrl}${mapUrlCenterParameters}"></iframe>
+		<div id="map_div" style="width: 1000px; height: 400px">	</div>
 	</div>
 </div>
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		initPrint("${countryCode}","${archivalInstitutionName}","${embeddedMapUrl}","${countryName}");
+		initPrint("${countryCode}","${directoryTreeMapsUrl}", "${selectedAiId}");
 	});
 </script>

@@ -23,42 +23,42 @@
 <div>
 <a id="eagDetails"></a>
 <portal:eag eagUrl="${eagUrl}"/>
-					<c:if test="${hasHoldingsGuides or hasFindingAids or hasSourceGuides}">
-						<table class="aiSection otherDisplay">
-							<thead>
-								<tr>
-									<th colspan="2"><fmt:message key="directory.archivalmaterial.title"/></th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:if test="${hasHoldingsGuides}">
-								<tr>
-									<td colspan="2">
-										<div>
-											<a href="${contentUrl}/${archivalInstitution.repositorycode}/hg"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
-										</div>
-									</td>
-								</tr>
-								</c:if>
-								<c:if test="${hasFindingAids}">
-								<tr>
-									<td colspan="2">
-										<div>
-											<a href="${contentUrl}/${archivalInstitution.repositorycode}/fa"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
-										</div>
-									</td>
-								</tr>
-								</c:if>
-								<c:if test="${hasSourceGuides}">
-								<tr>
-									<td colspan="2">
-										<div>
-											<a href="${contentUrl}/${archivalInstitution.repositorycode}/sg"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
-										</div>
-									</td>
-								</tr>
-								</c:if>
-							</tbody>
-						</table>
-					</c:if>
+	<c:if test="${hasHoldingsGuides or hasFindingAids or hasSourceGuides}">
+		<table class="aiSection otherDisplay">
+			<thead>
+				<tr>
+					<th colspan="2"><fmt:message key="directory.archivalmaterial.title"/></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${hasHoldingsGuides}">
+				<tr>
+					<td colspan="2">
+						<div>
+							<a href="${contentUrl}/${archivalInstitution.repositorycode}/hg"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
+						</div>
+					</td>
+				</tr>
+				</c:if>
+				<c:if test="${hasFindingAids}">
+				<tr>
+					<td colspan="2">
+						<div>
+							<a href="${contentUrl}/${archivalInstitution.repositorycode}/fa"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+						</div>
+					</td>
+				</tr>
+				</c:if>
+				<c:if test="${hasSourceGuides}">
+				<tr>
+					<td colspan="2">
+						<div>
+							<a href="${contentUrl}/${archivalInstitution.repositorycode}/sg"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
+						</div>
+					</td>
+				</tr>
+				</c:if>
+			</tbody>
+		</table>
+	</c:if>
 </div>

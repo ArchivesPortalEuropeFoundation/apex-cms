@@ -1,7 +1,5 @@
-var globalEmbeddedMapsUrl, globalMapsUrl, selectedCountryCode, selectedAiname;
-function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl) {
-	globalEmbeddedMapsUrl = embeddedMapsUrl;
-	globalMapsUrl = mapsUrl;
+var selectedCountryCode, selectedAiname;
+function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl, directoryTreeMapsUrl) {
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -41,10 +39,10 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 						initEagDetails(selectedCountryCode,node);
 					});
 					logAction(document.title, eagDetailsUrl);
-
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,node.data.aiId);
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
-					displayMaps(node.data.googleMapsAddress);
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
 				}else {
 					selectedAiname = null;
 				}
@@ -53,45 +51,59 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 		// Generate id attributes like <span id='dynatree-id-KEY'>
 		generateIds: true
 	});
-
+	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
 }
 function printEagByURL(url){
 	var preview = window.open(url, 'printeag',
 	'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 	preview.focus();
 }
-function displayMaps(googleMapsAddress, archivalInstitutionName, selectedCountryCode,node){
-	// geocoder
-	var geocoder = new google.maps.Geocoder();
-	var input_address = googleMapsAddress;
 
-	// If necessary, recover the first element in visitors address element.
-	if (input_address.indexOf("<p>") != '-1') {
-		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
-	}
-	geocoder.geocode( { address: input_address, region: selectedCountryCode  }, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			var lat = results[0].geometry.location.lat();
-			var lng = results[0].geometry.location.lng();
-			var span = results[0].geometry.viewport.toSpan();
-			var spanLat = span.lat();
-			var spanLng = span.lng();
-			var parameters = "&ll=" + lat +"," + lng;
-			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
-			if (archivalInstitutionName){
-				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + selectedCountryCode;
-			}
-			$("#maps").attr("src", globalEmbeddedMapsUrl+ parameters);
-			$("#externalMap").attr("href", globalMapsUrl+ parameters);
-		} else if(node){
-			var found = false;
-			while((node = node.getParent()) && !found){ //try to get the country parent node
-				if (node.data.googleMapsAddress){
-					found = true;
-					displayMaps(node.data.googleMapsAddress);
-				}
-			}
-		}
+function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
+//	//Map limits
+//	var strictBounds = new google.maps.LatLngBounds(
+//	    new google.maps.LatLng(85, -180),           // top left corner of map
+//	    new google.maps.LatLng(-85, 180)            // bottom right corner
+//	);
+
+	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId },function(data){
+	    var markers = [];
+	    var marker,i=0;
+	    var infowindow = new google.maps.InfoWindow();
+	    // load all repos with names and coords
+	    var bounds = new google.maps.LatLngBounds();
+	    $.each(data.repos,function(){
+	    	var dataRepo = $(this);
+	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+	        bounds.extend(latLng);
+	        markers.push(marker);
+	        
+	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+	            return function() {
+	                var content=dataRepo[0].name;
+	                infowindow.setContent(content);
+	                infowindow.open(map, marker);
+	            }
+	        })(marker, i));
+	        i++;
+	        
+	    });
+	    
+	    if (aiId==null){
+		    var map = new google.maps.Map(document.getElementById('map_div'), {
+		      zoom: 7,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP
+		    });
+	    }
+	    else{
+		    var map = new google.maps.Map(document.getElementById('map_div'), {
+			      zoom: 16,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    });
+    	}
+	    map.fitBounds(bounds);
+	    var markerCluster = new MarkerClusterer(map, markers);
 	});
 }
 
@@ -164,8 +176,7 @@ function showRepositoryOnMap(prefix,selectedCountryCode,node){
 	var address =  $(prefix + " .address").html();
     if($(prefix + " .address").length == 0) {
     	address = $(prefix + ".postalAddress").html();
-    } 
-	displayMaps(address, repoName, selectedCountryCode, node);
+    }
 }
 function closeAllRepositories(){
 	if ($(".repositoryName").length > 0){
@@ -671,16 +682,8 @@ function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
 }
 
-function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
-	var input_address = "";
-	$(".address").each(function(){
-		input_address += $(this).html();
-	});
-	// If necessary, recover the first element in visitors address element.
-	if (input_address.indexOf("<p>") != '-1') {
-		input_address = input_address.substring((input_address.indexOf("<p>") + 3), input_address.indexOf("</p>"));
-	}
-	printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName);
+function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
+	google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
 	//remove see-more/see-less
 	$(".displayLinkSeeMore").each(function(){$(this).remove();});
 	$(".displayLinkSeeLess").each(function(){$(this).remove();});
@@ -693,26 +696,74 @@ function initPrint(selectedCountryCode,archivalInstitutionName,embebbedMapUrl,co
 	multiLanguage();
 }
 
-function printMap(input_address,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,countryName){
-	var geocoder = new google.maps.Geocoder();
-	geocoder.geocode( { address: input_address, region: selectedCountryCode }, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			var lat = results[0].geometry.location.lat();
-			var lng = results[0].geometry.location.lng();
-			var span = results[0].geometry.viewport.toSpan();
-			var spanLat = span.lat();
-			var spanLng = span.lng();
-			var parameters = "&ll=" + lat +"," + lng;
-			parameters = parameters + "&spn=" + spanLat +"," + spanLng;
-			if (archivalInstitutionName){
-				parameters = parameters + "&q=" + encodeURIComponent(archivalInstitutionName) +",+" + selectedCountryCode;
-			}
-			$("iframe#maps").attr("src", embebbedMapUrl + parameters);
-			$("iframe#maps").load(function(){
-				self.print();
-			});
-		}else if(countryName){
-			printMap(countryName,selectedCountryCode,archivalInstitutionName,embebbedMapUrl,null);
-		}
+function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
+	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
+	    var markers = [];
+	    var marker,i=0;
+	    var infowindow = new google.maps.InfoWindow();
+	    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+	    'chco=FFFFFF,008CFF,000000&ext=.png';
+	    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
+	    
+      var styles = [[{
+            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
+            height: 35,
+            width: 35,
+            anchor: [16, 0],
+            textColor: '#ff00ff',
+            textSize: 10
+          }, {
+            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
+            height: 45,
+            width: 45,
+            anchor: [24, 0],
+            textColor: '#ff0000',
+            textSize: 11
+          }, {
+            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
+            height: 55,
+            width: 55,
+            anchor: [32, 0],
+            textColor: '#ffffff',
+            textSize: 12
+          }]];
+	    
+	    // load all repos with names and coords
+	    var bounds = new google.maps.LatLngBounds();
+	    $.each(data.repos,function(){
+	    	var dataRepo = $(this);
+	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+	        bounds.extend(latLng);
+	        markers.push(marker);
+	        
+	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+	            return function() {
+	                var content=dataRepo[0].name;
+	                infowindow.setContent(content);
+	                infowindow.open(map, marker);
+	            }
+	        })(marker, i));
+	        i++;
+	        
+	    });
+	    var map = new google.maps.Map(document.getElementById('map_div'), {
+	      zoom: 16,
+	      mapTypeId: google.maps.MapTypeId.ROADMAP
+	    });
+	    map.fitBounds(bounds);
+
+	    // Whether to make the cluster icons printable. 
+	    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+	    // The default value is false
+	    var markerCluster = new MarkerClusterer(map, markers, {
+	        ignoreHidden: true,
+	        printable: true,
+        	styles: styles[-1]
+          });
+	    
+		google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+			self.print();
 		});
+	}); //JSON
 }
