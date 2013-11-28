@@ -191,16 +191,23 @@ public class AdvancedSearchController {
 	public Results updateCurrentSearch(PortletRequest request, AdvancedSearch advancedSearch) {
 		Results results = null;
 		try {
-
-			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
-				handleSearchParametersForContextUpdate(request, advancedSearch, solrQueryParameters);
-				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
-				results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
-			} else {
-				handleSearchParametersForListUpdate(request, advancedSearch, solrQueryParameters);
-				AnalyzeLogger.logUpdateAdvancedSearchList(advancedSearch, solrQueryParameters);
-				results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
+			if (StringUtils.isNotBlank(advancedSearch.getTerm())){
+				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
+					handleSearchParametersForContextUpdate(request, advancedSearch, solrQueryParameters);
+					AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
+					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
+				} else {
+					handleSearchParametersForListUpdate(request, advancedSearch, solrQueryParameters);
+					AnalyzeLogger.logUpdateAdvancedSearchList(advancedSearch, solrQueryParameters);
+					results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
+				}
+			}else {
+				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
+					results = new ContextResults();
+				} else {
+					results = new ListResults();
+				}				
 			}
 		} catch (Exception e) {
 			LOGGER.error("There was an error during the execution of the advanced search: Error: " + e.getMessage(), e);
