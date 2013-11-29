@@ -30,7 +30,7 @@ import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 @RequestMapping(value = "VIEW")
 public class SavedSearchController {
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchController.class);
-
+	private final static int PAGESIZE  = 50;
 	private EadSavedSearchDAO eadSavedSearchDAO;
 	private ResourceBundleMessageSource messageSource;
 
@@ -52,12 +52,16 @@ public class SavedSearchController {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
+			Integer pageNumber = 1;
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
-			modelAndView.getModelMap().addAttribute("pageNumber", 1);
+			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", eadSavedSearchDAO.countEadSavedSearches(liferayUserId));
-			modelAndView.getModelMap().addAttribute("pageSize", 20);
-			modelAndView.getModelMap().addAttribute("eadSavedSearches",eadSavedSearchDAO.getEadSavedSearches(liferayUserId, 1, 20));
+			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+			modelAndView.getModelMap().addAttribute("eadSavedSearches",eadSavedSearchDAO.getEadSavedSearches(liferayUserId, pageNumber, PAGESIZE));
 		}
 		return modelAndView;
 	}
