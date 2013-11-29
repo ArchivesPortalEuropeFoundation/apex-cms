@@ -21,7 +21,7 @@
 		<tr><th><fmt:message key="advancedsearch.title.advancedsearch"/>:</th><td><c:out value="${savedSearch.containsAdvancedSearchOptions}"/></td></tr>
 		<tr><th><fmt:message key="advancedsearch.title.navigatedsearch"/>:</th><td><c:out value="${savedSearch.containsAlSearchOptions}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.contains.refinements"/>:</th><td><c:out value="${savedSearch.containsRefinements}"/></td></tr>
-		<tr><th><fmt:message key="savedsearch.modified"/>:</th><td><fmt:formatDate type="both"  value="${savedSearch.modifiedDate}" timeZone="${timeZone}"/></td></tr>
+		<tr><th><fmt:message key="savedsearch.modified"/>:</th><td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${savedSearch.modifiedDate}" timeZone="${timeZone}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.publicaccessible"/>:</th><td>
 			<c:choose><c:when test="${savedSearch.searchAllSearch}"><c:out value="${savedSearch.publicSearch}"/></c:when><c:otherwise><form:checkbox path="publicSearch" value="true"/></c:otherwise>
 																			</c:choose></td></tr>

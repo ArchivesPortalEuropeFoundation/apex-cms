@@ -6,6 +6,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
+<portal:friendlyUrl var="savedSearchPagingUrl" type="saved-search-overview" />
 <div id="savedSearchesPortlet">
 <c:choose>
 	<c:when test="${not empty eadSavedSearches}">
@@ -17,14 +18,14 @@
 				</div>
 				<div id="top-paging" class="paging">
 					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-						refreshUrl="test/{pageNumber}" pageNumberId="pageNumber"  liferayFriendlyUrl="true"/>
+						refreshUrl="${savedSearchPagingUrl}/{pageNumber}" pageNumberId="pageNumber"  liferayFriendlyUrl="true"/>
 
 				</div>
 			</div>
 
 			<table id="savedSearchesTable" class="defaultlayout">
 				<tr>
-					<th><fmt:message key="savedsearch.id"/></th><th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th><fmt:message key="savedsearch.characteristics"/></th><th><fmt:message key="savedsearch.modified"/></th><th><fmt:message key="savedsearches.overview.actions"/></th>
+					<th><fmt:message key="savedsearch.id"/></th><th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th class="characteristics"><fmt:message key="savedsearch.characteristics"/></th><th class="modified"><fmt:message key="savedsearch.modified"/></th><th class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
 				</tr>
 				<c:forEach var="eadSavedSearch" items="${eadSavedSearches}">
 				<c:choose>
@@ -43,7 +44,7 @@
 						<c:if test="${eadSavedSearch.containsAlSearchOptions}"><div class="characteristic"><fmt:message key="advancedsearch.title.navigatedsearch"/></div></c:if>
 						<c:if test="${eadSavedSearch.containsRefinements}"><div class="characteristic"><fmt:message key="savedsearch.contains.refinements"/></div></c:if>
 					</td>
-					<td><fmt:formatDate type="both"  value="${eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
+					<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 					<td>
 						<a
 						href="
