@@ -100,7 +100,6 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		initAjax : {
 			url : archivalLandscapeUrl,
 			data : {
-				expandedNodes : $("#advancedSearchPortlet #expandedNodes").val(),
 				selectedNodes : $("#advancedSearchPortlet #selectedNodes").val()
 			}
 		},
