@@ -98,9 +98,9 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
 	    }
 	    else{
 		    var map = new google.maps.Map(document.getElementById('map_div'), {
-			      zoom: 16,
-			      mapTypeId: google.maps.MapTypeId.ROADMAP
-			    });
+		      zoom: 16,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP
+		    });
     	}
 	    map.fitBounds(bounds);
 	    var markerCluster = new MarkerClusterer(map, markers);
@@ -705,27 +705,15 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 	    'chco=FFFFFF,008CFF,000000&ext=.png';
 	    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
 	    
-      var styles = [[{
+	    var styles = [[{
             url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
-            height: 35,
-            width: 35,
-            anchor: [16, 0],
-            textColor: '#ff00ff',
-            textSize: 10
+            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
           }, {
             url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
-            height: 45,
-            width: 45,
-            anchor: [24, 0],
-            textColor: '#ff0000',
-            textSize: 11
+            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
           }, {
             url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
-            height: 55,
-            width: 55,
-            anchor: [32, 0],
-            textColor: '#ffffff',
-            textSize: 12
+            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
           }]];
 	    
 	    // load all repos with names and coords
@@ -747,6 +735,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 	        i++;
 	        
 	    });
+		
 	    var map = new google.maps.Map(document.getElementById('map_div'), {
 	      zoom: 16,
 	      mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -762,8 +751,11 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
         	styles: styles[-1]
           });
 	    
-		google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-			self.print();
+		google.maps.event.addListener(map, 'tilesloaded', function(){
+			window.setTimeout(function() {
+				self.print();
+			}, 3000);
 		});
+		
 	}); //JSON
 }
