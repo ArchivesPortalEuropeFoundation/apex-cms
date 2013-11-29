@@ -747,3 +747,6 @@
 #advancedSearchPortlet #saveSearch .failure {
 	color: red;
 }
+#advancedSearchPortlet #search-preview {
+	width: 205px;
+}
