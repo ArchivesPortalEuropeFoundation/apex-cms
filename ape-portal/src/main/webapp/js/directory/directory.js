@@ -754,7 +754,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		google.maps.event.addListener(map, 'tilesloaded', function(){
 			window.setTimeout(function() {
 				self.print();
-			}, 3000);
+			}, 1500);
 		});
 		
 	}); //JSON
