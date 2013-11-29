@@ -30,10 +30,16 @@
     margin: 4px;
     padding: 5px;
 }
-#savedSearchesPortlet .characteristic {
+#savedSearchesPortlet div.characteristic {
     font-size: 11px;
+    white-space: nowrap;
 }
-
+#savedSearchesPortlet th.modified {
+	width: 140px;
+}
+#savedSearchesPortlet th.actions {
+	min-width: 100px;
+}
 #savedSearchesPortlet div.public {
     font-weight: bold;
 	color: red;
