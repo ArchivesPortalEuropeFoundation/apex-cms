@@ -37,13 +37,15 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 		}else {
 			boolean faHgSgFound = false;
 			int numberOfArchivalInstitions = 0;
-			for (int i = 0; i < advancedSearch.getSelectedNodesList().size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
-				String selectedNode = advancedSearch.getSelectedNodesList().get(i);
-				AlType alType = AlType.getAlType(selectedNode);
-				if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
-					numberOfArchivalInstitions++;
-				}else if (!AlType.COUNTRY.equals(alType)){
-					faHgSgFound = true;
+			if (advancedSearch.getSelectedNodes() != null){
+				for (int i = 0; i < advancedSearch.getSelectedNodesList().size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
+					String selectedNode = advancedSearch.getSelectedNodesList().get(i);
+					AlType alType = AlType.getAlType(selectedNode);
+					if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
+						numberOfArchivalInstitions++;
+					}else if (!AlType.COUNTRY.equals(alType)){
+						faHgSgFound = true;
+					}
 				}
 			}
 			if (faHgSgFound){
