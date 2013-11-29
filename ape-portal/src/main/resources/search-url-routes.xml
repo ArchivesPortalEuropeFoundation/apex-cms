@@ -3,8 +3,14 @@
 "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
 <routes>
 	<route>
-		<pattern>/d/{id:[\d]+}</pattern>
-		<generated-parameter name="id">{id}</generated-parameter>
+		<pattern>/d/{savedSearchId:[\d]+}</pattern>
+		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/d/{savedSearchId:[\d]+}/from/{publishedFromDate:[^/]+}</pattern>
+		<generated-parameter name="publishedFromDate">{publishedFromDate}</generated-parameter>
+		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
 		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
 	</route>	
 </routes>

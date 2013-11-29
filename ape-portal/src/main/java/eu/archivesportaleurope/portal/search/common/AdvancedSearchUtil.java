@@ -204,4 +204,19 @@ public final class AdvancedSearchUtil {
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
 		}
 	}
+	
+	public static void addPublishedFromDate(String publishFromDate, SolrQueryParameters solrQueryParameters) {
+		if (StringUtils.isNotBlank(publishFromDate)) {
+			SimpleDateFormat fullDateFormat = new SimpleDateFormat(YYYY_MM_DD);
+			Date date;
+			try {
+				date = fullDateFormat.parse(publishFromDate);
+				String solrDate = fullDateFormat.format(date);
+				setParameter(solrQueryParameters.getAndParameters(), SolrFields.TIMESTAMP, "[" + solrDate + "T00:00:00Z TO *]");
+			} catch (ParseException e) {
+			}
+			
+			
+		}
+	}
 }

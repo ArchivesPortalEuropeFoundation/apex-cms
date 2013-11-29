@@ -81,7 +81,8 @@ public class AdvancedSearchController {
 		ModelAndView modelAndView = new ModelAndView();
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		try {
-			String id = request.getParameter("id");
+			String id = request.getParameter("savedSearchId");
+			String publishedFromDate = request.getParameter("publishedFromDate");
 			Long savedSearchId = Long.parseLong(id);
 			Long liferayUserId = null;
 			if (request.getUserPrincipal() != null) {
@@ -90,6 +91,7 @@ public class AdvancedSearchController {
 			EadSavedSearch eadSavedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
 			if (eadSavedSearch != null) {
 				AdvancedSearch advancedSearch = savedSearchService.convert(eadSavedSearch);
+				advancedSearch.setPublishedFromDate(publishedFromDate);
 				if (eadSavedSearch.isTemplate()){
 					advancedSearch.setMode(MODE_NEW);
 				}else{
@@ -278,7 +280,7 @@ public class AdvancedSearchController {
 				advancedSearch.hasExactDateSearch());
 
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
-
+		AdvancedSearchUtil.addPublishedFromDate(advancedSearch.getPublishedFromDate(), solrQueryParameters);
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
 			solrQueryParameters.setTerm("");

@@ -53,7 +53,7 @@ public class AdvancedSearch implements Serializable {
 	private String hasId;
 	private List<ListFacetSettings> facetSettingsList = FacetType.getDefaultListFacetSettings();
 	private String selectedNodes;
-
+	private String publishedFromDate;
 
 	public String getMode() {
 		return mode;
@@ -396,6 +396,14 @@ public class AdvancedSearch implements Serializable {
 	}
 	public boolean hasExactDateSearch(){
 		return Boolean.parseBoolean(exactDateSearch);
+	}
+
+	public String getPublishedFromDate() {
+		return publishedFromDate;
+	}
+
+	public void setPublishedFromDate(String publishedFromDate) {
+		this.publishedFromDate = publishedFromDate;
 	}
 
 

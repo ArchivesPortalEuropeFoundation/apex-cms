@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
+import java.util.List;
+
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
@@ -37,9 +39,10 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 		}else {
 			boolean faHgSgFound = false;
 			int numberOfArchivalInstitions = 0;
-			if (advancedSearch.getSelectedNodes() != null){
-				for (int i = 0; i < advancedSearch.getSelectedNodesList().size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
-					String selectedNode = advancedSearch.getSelectedNodesList().get(i);
+			List<String> selectedNodesList = advancedSearch.getSelectedNodesList();
+			if (selectedNodesList != null){
+				for (int i = 0; i < selectedNodesList.size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
+					String selectedNode = selectedNodesList.get(i);
 					AlType alType = AlType.getAlType(selectedNode);
 					if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
 						numberOfArchivalInstitions++;
