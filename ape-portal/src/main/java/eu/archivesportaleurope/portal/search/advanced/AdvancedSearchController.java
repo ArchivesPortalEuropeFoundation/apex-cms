@@ -90,7 +90,6 @@ public class AdvancedSearchController {
 			EadSavedSearch eadSavedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
 			if (eadSavedSearch != null) {
 				AdvancedSearch advancedSearch = savedSearchService.convert(eadSavedSearch);
-				
 				if (eadSavedSearch.isTemplate()){
 					advancedSearch.setMode(MODE_NEW);
 				}else{

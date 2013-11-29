@@ -52,7 +52,6 @@ public class AdvancedSearch implements Serializable {
 	private String valueIsKey;
 	private String hasId;
 	private List<ListFacetSettings> facetSettingsList = FacetType.getDefaultListFacetSettings();
-	private String expandedNodes; // This list contains all the
 	private String selectedNodes;
 
 
@@ -178,13 +177,6 @@ public class AdvancedSearch implements Serializable {
 		}else {
 			return null;
 		}
-	}
-	public String getExpandedNodes() {
-		return expandedNodes;
-	}
-
-	public void setExpandedNodes(String expandedNodes) {
-		this.expandedNodes = expandedNodes;
 	}
 
 	public String getSelectedNodes() {

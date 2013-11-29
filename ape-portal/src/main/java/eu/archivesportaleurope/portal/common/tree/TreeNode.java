@@ -27,7 +27,7 @@ public class TreeNode {
 	private boolean lazy = true;
 	private String more;
 	private Integer start;
-	private List<TreeNode> children = new ArrayList<TreeNode>();
+	private List<? extends TreeNode> children = new ArrayList<TreeNode>();
 
 	public boolean isIcon() {
 		return icon;
@@ -84,10 +84,10 @@ public class TreeNode {
 	public void setLazy(boolean lazy) {
 		this.lazy = lazy;
 	}
-	public List<TreeNode> getChildren() {
+	public List<? extends TreeNode> getChildren() {
 		return children;
 	}
-	public void setChildren(List<TreeNode> children) {
+	public void setChildren(List<? extends TreeNode> children) {
 		this.children = children;
 	}
 	

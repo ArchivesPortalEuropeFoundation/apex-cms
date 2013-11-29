@@ -8,6 +8,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ import eu.archivesportaleurope.portal.common.tree.TreeNode;
 @Controller(value = "archivalLandscapeTreeJSONWriter")
 @RequestMapping(value = "VIEW")
 public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
-
+	private final static Logger LOGGER = Logger.getLogger(ArchivalLandscapeTreeJSONWriter.class);
 	private static final Integer MAX_NUMBER_OF_CLEVELS = 20;
 	private static final Integer MAX_NUMBER_OF_EADS = 20;
 	private CountryDAO countryDAO;
@@ -76,10 +77,13 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		try {
 			Locale locale = resourceRequest.getLocale();
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-					resourceRequest.getLocale());
+					locale);
 			ArchivalLandscapeUtil archivalLandscapeUtil = new ArchivalLandscapeUtil(source);
 			if (StringUtils.isBlank(alTreeParams.getKey())) {
-				writeToResponseAndClose(generateCountriesTreeJSON(archivalLandscapeUtil), resourceResponse);
+				if (alTreeParams.isContainSelectedNodes()){
+					alTreeParams.setExpandedNodesList(generateExpandedNodes(alTreeParams.getSelectedNodesList()));
+				}
+				writeToResponseAndClose(generateCountriesTreeJSON(alTreeParams, archivalLandscapeUtil, locale), resourceResponse);
 			} else {
 				AlType parentType = AlType.getAlType(alTreeParams.getKey());
 				TreeType treeType = AlType.getTreeType(alTreeParams.getKey());
@@ -94,7 +98,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 						countryId = id.intValue();
 						displayAis = true;
 					} else if (AlType.ARCHIVAL_INSTITUTION.equals(parentType)) {
-						aiId = id.intValue();;
+						aiId = id.intValue();
 						if (TreeType.GROUP.equals(treeType)) {
 							displayAis = true;
 						} else {
@@ -102,7 +106,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 						}
 					}
 					if (displayAis) {
-						writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(countryId, aiId, locale),
+						writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, aiId, locale),
 								resourceResponse);
 					}
 				} else if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)
@@ -154,7 +158,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	 * @param archivalLandscapeUtil
 	 * @return
 	 */
-	private List<AlTreeNode> generateCountriesTreeJSON(ArchivalLandscapeUtil archivalLandscapeUtil) {
+	private List<AlTreeNode> generateCountriesTreeJSON(AlTreeParams alTreeParams, ArchivalLandscapeUtil archivalLandscapeUtil, Locale locale) {
 		List<CountryUnit> countryList = archivalLandscapeUtil.localizeCountries(countryDAO
 				.getCountriesWithSearchableItems());
 		List<AlTreeNode> alTreeNodes = new ArrayList<AlTreeNode>();
@@ -162,31 +166,67 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			AlTreeNode node = new AlTreeNode();
 			addTitle(node, countryUnit.getLocalizedName(), archivalLandscapeUtil.getLocale());
 			node.setFolder(true);
-			addKey(node, AlType.COUNTRY, countryUnit.getCountry().getId(), TreeType.GROUP);
+			Integer countryId = countryUnit.getCountry().getId();
+			node.setSelected(alTreeParams.existInSelectedNodes(AlType.COUNTRY, countryId, TreeType.GROUP));
+			addKey(node, AlType.COUNTRY, countryId, TreeType.GROUP);
+			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryId, TreeType.GROUP)){
+				node.setLazy(false);
+				node.setExpanded(true);
+				node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, null, locale));
+			}
 			alTreeNodes.add(node);
 		}
-
 		return alTreeNodes;
 
 	}
 
-	private List<AlTreeNode> generateArchivalInstitutionsTreeJSON(Integer countryId, Integer parentAiId, Locale locale) {
+	private List<AlTreeNode> generateArchivalInstitutionsTreeJSON(AlTreeParams alTreeParams,Integer countryId, Integer parentAiId, Locale locale) {
 		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 				.getArchivalInstitutionsWithSearchableItems(countryId, parentAiId);
 		List<AlTreeNode> alTreeNodes = new ArrayList<AlTreeNode>();
 		for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
 			AlTreeNode node = new AlTreeNode();
 			addTitle(node, archivalInstitution.getAiname(), locale);
-			node.setFolder(true);
 			if (archivalInstitution.isGroup()) {	
+				node.setFolder(true);
 				node.setHideCheckbox(true);
 				addKey(node, AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP);
+				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP)){
+					node.setLazy(false);
+					node.setExpanded(true);
+					node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, archivalInstitution.getAiId(), locale));
+				}
 			} else {
+				node.setSelected(alTreeParams.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.LEAF));
 				addKey(node, AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.LEAF);
+				if (hasHGorSG(archivalInstitution.getAiId())){
+					node.setFolder(true);
+				}
 			}
 			alTreeNodes.add(node);
 		}
 		return alTreeNodes;
+
+	}
+	private boolean hasHGorSG(Integer aiId){
+		/*
+		 * check if Holdings Guide exist
+		 */
+		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		eadSearchOptions.setArchivalInstitionId(aiId);
+		eadSearchOptions.setPublished(true);
+		eadSearchOptions.setEadClass(HoldingsGuide.class);
+		boolean hasHGorSG = eadDAO.existEads(eadSearchOptions);
+		if (hasHGorSG){
+			return true;
+		}else {
+			/*
+			 * check if Source Guide exist
+			 */
+			eadSearchOptions.setEadClass(SourceGuide.class);
+			return eadDAO.existEads(eadSearchOptions);		
+		}
+
 
 	}
 
@@ -222,15 +262,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			addKey(sgNode, AlType.SOURCE_GUIDE, aiId, TreeType.GROUP);
 			alTreeNodes.add(sgNode);
 		}
-		// Adding the Other Finding Aid folder and children
-//		if (otherFindingAidExists) {
-//			AlTreeNode faNode = new AlTreeNode();
-//			addTitleFromKey(faNode, "text.other.finding.aid.folder", locale);
-//			faNode.setFolder(true);
-//			faNode.setHideCheckbox(true);
-//			addKey(faNode, AlType.FINDING_AID, aiId, TreeType.GROUP);
-//			alTreeNodes.add(faNode);
-//		}
 		return alTreeNodes;
 	}
 
@@ -317,6 +348,30 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			alTreeNodes.add(node);
 		}
 		return alTreeNodes;
+	}
+	private List<String> generateExpandedNodes(List<String> selectedNodes){
+		List<String> expandedNodesList = new ArrayList<String>();
+		for (String selectedNode: selectedNodes){
+			LOGGER.info("selected: " + selectedNode);
+			AlType alType = AlType.getAlType(selectedNode);
+			Long id = AlType.getId(selectedNode);
+//			TreeType treeType = AlType.getTreeType(selectedNode);
+			if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
+				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(id.intValue());
+				Integer parentAiId = archivalInstitution.getParentAiId();
+				ArchivalInstitution current = archivalInstitution;
+				while (parentAiId != null){
+					current = current.getParent();
+					expandedNodesList.add(AlType.getKey(AlType.ARCHIVAL_INSTITUTION, parentAiId, TreeType.GROUP));
+					parentAiId = current.getParentAiId();
+				}
+				if (current.getParentAiId() == null){
+					expandedNodesList.add(AlType.getKey(AlType.COUNTRY, current.getCountryId(), TreeType.GROUP));
+				}
+			}
+		}
+		return expandedNodesList;
+		
 	}
 
 	private void addTitle(TreeNode dynaTreeNode, String title, Locale locale) {

@@ -42,6 +42,10 @@ public class SavedSearchService {
 		eadSavedSearch.setResultPerPage(Integer.parseInt(advancedSearch.getResultsperpage()));
 		
 		/*
+		 * al search options
+		 */
+		eadSavedSearch.setAlTreeSelectedNodes(removeEmptyString(advancedSearch.getSelectedNodes()));		
+		/*
 		 * refinements
 		 */
 		eadSavedSearch.setRefinementCountry(removeEmptyString(advancedSearch.getCountry()));
@@ -88,7 +92,7 @@ public class SavedSearchService {
 			if (eadSavedSearch.isExactDateSearch()){
 				advancedSearch.setExactDateSearch(TRUE);
 			}
-
+			advancedSearch.setSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes());	
 			if (!eadSavedSearch.isTemplate()){
 				if (eadSavedSearch.getPageNumber() != null){
 					advancedSearch.setPageNumber(eadSavedSearch.getPageNumber() + "");
@@ -113,6 +117,7 @@ public class SavedSearchService {
 				advancedSearch.setEnddate(eadSavedSearch.getRefinementEnddate());
 				advancedSearch.setFacetSettings(eadSavedSearch.getRefinementFacetSettings());
 			}
+			advancedSearch.setAdvanced(eadSavedSearch.isContainsAlSearchOptions());
 			return advancedSearch;
 		}else {
 			return null;
