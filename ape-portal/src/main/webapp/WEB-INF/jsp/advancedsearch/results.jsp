@@ -47,6 +47,8 @@
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
 		<form:hidden id="updateCurrentSearch_selectedNodes" path="selectedNodes"/>
 		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
+		<form:hidden id="updateCurrentSearch_publishedFromDate" path="publishedFromDate"/>
+		<form:hidden id="updateCurrentSearch_publishedToDate" path="publishedToDate"/>
 	<c:choose>
 		<c:when test="${advancedSearch.view == 'hierarchy'}">
 			<jsp:include page="results-contexttab.jsp"/>

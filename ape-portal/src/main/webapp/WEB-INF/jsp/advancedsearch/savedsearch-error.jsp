@@ -11,5 +11,5 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
 <div class="error">
-	<fmt:message key="savedsearch.notexist" />
+	<fmt:message key="${errorMessage}" />
 </div>
