@@ -46,9 +46,15 @@ public final class FriendlyUrlUtil {
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
+		return getUrl(portletRequest, type, false);
+	}
+	public static String getUrl(PortletRequest portletRequest, String type, boolean noHttps) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
 			String urlHome = themeDisplay.getPortalURL();
+			if (noHttps){
+				urlHome = urlHome.replaceFirst("https://", "http://");
+			}
 			if (themeDisplay.isI18n() && StringUtils.isNotBlank(themeDisplay.getI18nPath())
 					&& !urlHome.contains(themeDisplay.getI18nPath())) {
 				// only desktop users have extra multilanguage urls. This is to prevent search engines to have everything multiplied

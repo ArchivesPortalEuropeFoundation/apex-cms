@@ -20,6 +20,9 @@
 
 <div id="directoryPortlet">
 	<div class="portlet-layout">
+		<div id="map_div" style="width: 1000px; height: 500px">	</div>
+  	</div>
+	<div class="portlet-layout">
 		<div id="directory-column-left" class="aui-w50 portlet-column portlet-column-first">
 			<div id="directory-column-left-content" class="portlet-column-content portlet-column-content-first">
 				<div class="directoryTree" id="directoryTree"></div>
@@ -37,7 +40,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="portlet-layout">
-		<div id="map_div" style="width: 1000px; height: 400px">	</div>
-  	</div>
+
 </div>

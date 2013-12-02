@@ -6,6 +6,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
+<portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
 <portal:friendlyUrl var="savedSearchPagingUrl" type="saved-search-overview" />
 <div id="savedSearchesPortlet">
 <c:choose>
@@ -25,7 +26,7 @@
 
 			<table id="savedSearchesTable" class="defaultlayout">
 				<tr>
-					<th><fmt:message key="savedsearch.id"/></th><th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th class="characteristics"><fmt:message key="savedsearch.characteristics"/></th><th class="modified"><fmt:message key="savedsearch.modified"/></th><th class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
+					<th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th class="characteristics"><fmt:message key="savedsearch.characteristics"/></th><th class="modified"><fmt:message key="savedsearch.modified"/></th><th class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
 				</tr>
 				<c:forEach var="eadSavedSearch" items="${eadSavedSearches}">
 				<c:choose>
@@ -33,7 +34,6 @@
 					<c:otherwise><c:set var="trClass" value=""/></c:otherwise>
 				</c:choose>
 				<tr class="${trClass}">
-					<td><a href="${savedSearchUrl}/${eadSavedSearch.id}">${eadSavedSearch.id}</a></td>
 					<td><c:out value="${eadSavedSearch.searchTerm}"/></td>
 					<td><c:out value="${eadSavedSearch.description}"/></td>
 					<td>
@@ -46,19 +46,21 @@
 					</td>
 					<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 					<td>
+						<c:choose>
+							<c:when test="${eadSavedSearch.publicSearch}"><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:when>
+							<c:otherwise><a href="${savedSearchUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:otherwise>
+						</c:choose>
 						<a
-						href="
-						<portlet:renderURL>
+						href="<portlet:renderURL>
 							<portlet:param name="myaction" value="editSavedSearchForm" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />
 						</portlet:renderURL>					
 					"><fmt:message key="savedsearches.overview.edit"/></a>
-					<a href="
-						<portlet:actionURL>
+					<a href="<portlet:actionURL>
 							<portlet:param name="myaction" value="deleteSavedSearch" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />
 						</portlet:actionURL>					
-					" onclick="javascript: return confirmRemove()"><fmt:message key="savedsearches.overview.delete"/></a>
+					" onclick="return confirm(<fmt:message key="savedsearches.overview.delete.areyousure"/>)"><fmt:message key="savedsearches.overview.delete"/></a>
 						</td>
 					</tr>
 				</c:forEach>

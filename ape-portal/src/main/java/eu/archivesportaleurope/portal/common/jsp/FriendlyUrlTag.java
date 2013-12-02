@@ -14,12 +14,14 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	
 	private String type;
 	private String var;
+	private String noHttps;
 
 	@Override
 	public void doTag() throws JspException, IOException {
 		PortletRequest portletRequest = (PortletRequest) ((PageContext) getJspContext()).getRequest().getAttribute(
 				"javax.portlet.request");
-		getJspContext().setAttribute(var, FriendlyUrlUtil.getUrl(portletRequest, type));
+		boolean noHttpsBoolean = "true".equalsIgnoreCase(noHttps);
+		getJspContext().setAttribute(var, FriendlyUrlUtil.getUrl(portletRequest, type,noHttpsBoolean));
 		super.doTag();
 	}
 	public void setType(String type) {
@@ -28,4 +30,8 @@ public class FriendlyUrlTag extends SimpleTagSupport {
 	public void setVar(String var) {
 		this.var = var;
 	}
+	public void setNoHttps(String noHttps) {
+		this.noHttps = noHttps;
+	}
+	
 }
