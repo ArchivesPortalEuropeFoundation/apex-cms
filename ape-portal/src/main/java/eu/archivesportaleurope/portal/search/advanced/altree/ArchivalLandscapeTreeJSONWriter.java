@@ -8,7 +8,6 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +44,6 @@ import eu.archivesportaleurope.portal.common.tree.TreeNode;
 @Controller(value = "archivalLandscapeTreeJSONWriter")
 @RequestMapping(value = "VIEW")
 public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
-	private final static Logger LOGGER = Logger.getLogger(ArchivalLandscapeTreeJSONWriter.class);
 	private static final Integer MAX_NUMBER_OF_CLEVELS = 20;
 	private static final Integer MAX_NUMBER_OF_EADS = 20;
 	private CountryDAO countryDAO;
@@ -352,7 +350,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	private List<String> generateExpandedNodes(List<String> selectedNodes){
 		List<String> expandedNodesList = new ArrayList<String>();
 		for (String selectedNode: selectedNodes){
-			LOGGER.info("selected: " + selectedNode);
 			AlType alType = AlType.getAlType(selectedNode);
 			Long id = AlType.getId(selectedNode);
 //			TreeType treeType = AlType.getTreeType(selectedNode);
