@@ -31,7 +31,9 @@ public class SavedSearchService {
 		/*
 		 * advanced search options
 		 */
-		eadSavedSearch.setElement(removeEmptyString(advancedSearch.getElement()));
+		if (!"0".equals(advancedSearch.getElement())){
+			eadSavedSearch.setElement(removeEmptyString(advancedSearch.getElement()));
+		}
 		eadSavedSearch.setTypedocument(removeEmptyString(advancedSearch.getTypedocument()));
 		eadSavedSearch.setFromdate(removeEmptyString(advancedSearch.getFromdate()));
 		eadSavedSearch.setTodate(removeEmptyString(advancedSearch.getTodate()));
@@ -86,6 +88,9 @@ public class SavedSearchService {
 			 * advanced search options
 			 */
 			advancedSearch.setElement(eadSavedSearch.getElement());
+			if (!"0".equals(eadSavedSearch.getElement())){
+				advancedSearch.setElement(removeEmptyString(eadSavedSearch.getElement()));
+			}
 			advancedSearch.setTypedocument(eadSavedSearch.getTypedocument());
 			advancedSearch.setFromdate(eadSavedSearch.getFromdate());
 			advancedSearch.setTodate(eadSavedSearch.getTodate());
@@ -129,9 +134,5 @@ public class SavedSearchService {
 		}else {
 			return string;
 		}
-	}
-	private static Boolean convertToBoolean(String string){
-		Boolean result = null;
-		return result;
 	}
 }
