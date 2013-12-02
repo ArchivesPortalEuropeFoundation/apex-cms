@@ -79,35 +79,60 @@ public class AdvancedSearchController {
 	@RenderMapping(params = "myaction=showSavedSearch")
 	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH);
+		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
 			String publishedFromDate = request.getParameter("publishedFromDate");
+			String publishedToDate = request.getParameter("publishedToDate");
+			String showOnlyNew = request.getParameter("showOnlyNew");
 			Long savedSearchId = Long.parseLong(id);
 			Long liferayUserId = null;
 			if (request.getUserPrincipal() != null) {
 				liferayUserId = Long.parseLong(request.getUserPrincipal().toString());
 			}
 			EadSavedSearch eadSavedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
+			
 			if (eadSavedSearch != null) {
 				AdvancedSearch advancedSearch = savedSearchService.convert(eadSavedSearch);
-				advancedSearch.setPublishedFromDate(publishedFromDate);
-				if (eadSavedSearch.isTemplate()){
-					advancedSearch.setMode(MODE_NEW);
-				}else{
-					Results results = performNewSearch(request, advancedSearch);
-					advancedSearch.setMode(MODE_NEW_SEARCH);
-					modelAndView.getModelMap().addAttribute("results", results);
+				if (StringUtils.isNotEmpty(publishedFromDate)
+						&& !AdvancedSearchUtil.isValidPublishedDate(publishedFromDate)) {
+					errorMessage= "savedsearch.publisheddates.wrong";					
+
 				}
-				modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
-				
-				modelAndView.setViewName("home");
-				return modelAndView;
+				if (StringUtils.isNotEmpty(publishedToDate)
+						&& !AdvancedSearchUtil.isValidPublishedDate(publishedToDate)) {
+					errorMessage= "savedsearch.publisheddates.wrong";					
+
+				}
+				if (errorMessage == null){
+					if ("true".equals(showOnlyNew)){
+						advancedSearch.setPublishedFromDate(AdvancedSearchUtil.getFullDateTimePublishedDate(eadSavedSearch.getModifiedDate()));
+					}else {
+						advancedSearch.setPublishedFromDate(publishedFromDate);
+						advancedSearch.setPublishedToDate(publishedToDate);
+					}
+					if (eadSavedSearch.isTemplate()){
+						advancedSearch.setMode(MODE_NEW);
+					}else{
+						Results results = performNewSearch(request, advancedSearch);
+						advancedSearch.setMode(MODE_NEW_SEARCH);
+						modelAndView.getModelMap().addAttribute("results", results);
+					}
+					modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
+					
+					modelAndView.setViewName("home");
+					return modelAndView;
+				}
 			}
 		} catch (Exception e) {
 
 		}
-		modelAndView.setViewName("nosaved-search");
+		if (errorMessage == null){
+			errorMessage = "savedsearch.notexist";
+		}
+		modelAndView.getModelMap().addAttribute("errorMessage", errorMessage);
+		modelAndView.setViewName("savedsearch-error");
 		return modelAndView;
 	}
 
@@ -280,7 +305,7 @@ public class AdvancedSearchController {
 				advancedSearch.hasExactDateSearch());
 
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
-		AdvancedSearchUtil.addPublishedFromDate(advancedSearch.getPublishedFromDate(), solrQueryParameters);
+		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
 			solrQueryParameters.setTerm("");

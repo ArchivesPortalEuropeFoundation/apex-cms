@@ -9,7 +9,7 @@
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
 	</route>
 	<route>
-		<pattern>/s/{eadDisplayId:[^/]+}/{element:\d+}/{term:.+}</pattern>
+		<pattern>/s/{eadDisplayId:[^/]+}/{element:\d*}/{term:.+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>

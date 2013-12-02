@@ -53,7 +53,7 @@ public final class Searcher {
 		//query.setShowDebugInfo(true);
 		query.setTermsPrefix(term.toLowerCase());
 		query.setTermsLower(term.toLowerCase());
-		query.setQueryType("/terms");
+		query.setRequestHandler("/terms");
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.debug("Query(autocompletion): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
 		}
@@ -82,9 +82,9 @@ public final class Searcher {
 		query.setRows(rows);
 		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
-			query.addSortField(orderByField, ORDER.asc);
+			query.addSort(orderByField, ORDER.asc);
 			if(orderByField.equals("startdate")){
-				query.addSortField("enddate", ORDER.asc);
+				query.addSort("enddate", ORDER.asc);
 			}
 		}
 		return executeQuery(query, solrQueryParameters,QUERY_TYPE_LIST, needSuggestions);
@@ -235,14 +235,16 @@ public final class Searcher {
 			query.set("mm", "0%");
 		}
 		if (queryType != null){
-			query.setQueryType(queryType);
+			query.setRequestHandler(queryType);
 		}
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
+		long startTime = System.currentTimeMillis();
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
 		if (LOGGER.isDebugEnabled()){
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ "): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
+			long duration = System.currentTimeMillis() - startTime;
+			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}
@@ -317,7 +319,7 @@ public final class Searcher {
 		query.addFilterQuery(SolrFields.PARENT_ID + COLON + parentId );
 		query.setRows(maxNumberOfRows);
 		query.setStart(start);
-		query.addSortField(SolrFields.ORDER_ID, ORDER.asc);
+		query.addSort(SolrFields.ORDER_ID, ORDER.asc);
 		return executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 	}
 

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
@@ -19,6 +20,11 @@ public final class AdvancedSearchUtil {
 	private static final String YYYY = "yyyy";
 	private static final String YYYY_MM = "yyyy-MM";
 	private static final String YYYY_MM_DD = "yyyy-MM-dd";
+	private static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd'T'hh:mm:ss'Z'";
+	private static final String FULL_DATE_TIME = "yyyy-MM-dd'T'hh_mm_ss";
+	private static final SimpleDateFormat FULL_DATE_FORMAT = new SimpleDateFormat(YYYY_MM_DD);
+	private static final SimpleDateFormat FULL_SOLR_FORMAT = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+	private static final SimpleDateFormat FULL_DATE_TIME_FORMAT = new SimpleDateFormat(FULL_DATE_TIME);
 
 	public static void setParameter(Map<String, List<String>> parameters, String name, String toBeAdded) {
 		if (StringUtils.isNotBlank(toBeAdded)) {
@@ -100,7 +106,6 @@ public final class AdvancedSearchUtil {
 		fullDateFormat.setCalendar(calendar);
 		fullDateFormat.setLenient(lenient);
 
-
 		/*
 		 * full date parsing
 		 */
@@ -131,8 +136,7 @@ public final class AdvancedSearchUtil {
 			} catch (ParseException e1) {
 
 			}
-		}
-		else if (isOnlyYearDate){
+		} else if (isOnlyYearDate) {
 			/*
 			 * year date parsing
 			 */
@@ -157,8 +161,6 @@ public final class AdvancedSearchUtil {
 		}
 		return null;
 	}
-
-
 
 	public static String getHighlightedString(Map<String, Map<String, List<String>>> highlightingMap, String id,
 			String fieldName, String defaultValue) {
@@ -204,19 +206,54 @@ public final class AdvancedSearchUtil {
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
 		}
 	}
-	
-	public static void addPublishedFromDate(String publishFromDate, SolrQueryParameters solrQueryParameters) {
-		if (StringUtils.isNotBlank(publishFromDate)) {
-			SimpleDateFormat fullDateFormat = new SimpleDateFormat(YYYY_MM_DD);
-			Date date;
-			try {
-				date = fullDateFormat.parse(publishFromDate);
-				String solrDate = fullDateFormat.format(date);
-				setParameter(solrQueryParameters.getAndParameters(), SolrFields.TIMESTAMP, "[" + solrDate + "T00:00:00Z TO *]");
-			} catch (ParseException e) {
+
+	public static void addPublishedDates(String publishFromDate, String publishToDate,
+			SolrQueryParameters solrQueryParameters) {
+		if (StringUtils.isNotBlank(publishFromDate) || StringUtils.isNotBlank(publishToDate)) {
+			String solrFromDate = getSolrPublishedDate(publishFromDate);
+			String solrToDate = getSolrPublishedDate(publishToDate);
+			if (solrFromDate != null || solrToDate != null) {
+				if (solrFromDate == null) {
+					solrFromDate = "*";
+				} else if (!solrFromDate.endsWith("Z")) {
+					solrFromDate += "T00:00:00Z";
+				}
+				if (solrToDate == null) {
+					solrToDate = "*";
+				} else if (!solrToDate.endsWith("Z")) {
+					solrToDate += "T23:59:59Z";
+				}
+				String solrQuery = "[" + solrFromDate + " TO " + solrToDate + "]";
+				setParameter(solrQueryParameters.getAndParameters(), SolrFields.TIMESTAMP, solrQuery);
 			}
-			
-			
 		}
+	}
+
+	public static boolean isValidPublishedDate(String dateString) {
+		return getSolrPublishedDate(dateString) != null;
+	}
+
+	private static String getSolrPublishedDate(String dateString) {
+		if (StringUtils.isNotBlank(dateString)) {
+			if (dateString.contains("T")){
+				try {
+					Date date = FULL_DATE_TIME_FORMAT.parse(dateString);
+					return FULL_SOLR_FORMAT.format(date);
+				} catch (ParseException e) {
+				}				
+			}else {
+				try {
+					Date date = FULL_DATE_FORMAT.parse(dateString);
+					return FULL_DATE_FORMAT.format(date);
+				} catch (ParseException e) {
+				}
+			}
+
+		}
+		return null;
+	}
+
+	public static String getFullDateTimePublishedDate(Date date) {
+		return FULL_DATE_TIME_FORMAT.format(date);
 	}
 }

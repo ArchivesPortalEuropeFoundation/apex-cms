@@ -12,5 +12,23 @@
 		<generated-parameter name="publishedFromDate">{publishedFromDate}</generated-parameter>
 		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
 		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/d/{savedSearchId:[\d]+}/to/{publishedToDate:[^/]+}</pattern>
+		<generated-parameter name="publishedToDate">{publishedToDate}</generated-parameter>
+		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/d/{savedSearchId:[\d]+}/from/{publishedFromDate:[^/]+}/to/{publishedToDate:[^/]+}</pattern>
+		<generated-parameter name="publishedToDate">{publishedToDate}</generated-parameter>
+		<generated-parameter name="publishedFromDate">{publishedFromDate}</generated-parameter>
+		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/d/{savedSearchId:[\d]+}/new</pattern>
+		<implicit-parameter name="showOnlyNew">true</implicit-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
 	</route>	
 </routes>
