@@ -23,7 +23,8 @@
 			<c:set var="url" value="${eadDisplayDirectUrl}/${aiRepoCode}/${xmlTypeName}/${eadid}"/>
 		</c:when>
 		<c:otherwise>
-			<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${term}"/>
+			<portal:encodeUrl var="encodedTerm" value="${term}" liferayFriendlyUrl="true"/>
+			<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${encodedTerm}"/>
 		</c:otherwise>
 	</c:choose>	
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>

@@ -99,7 +99,8 @@
 										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
 									</c:when>
 									<c:otherwise>
-										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.element}/${advancedSearch.term}"/>
+										<portal:encodeUrl var="encodedTerm" value="${advancedSearch.term}" liferayFriendlyUrl="true"/>
+										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.element}/${encodedTerm}"/>
 									</c:otherwise>
 								</c:choose>		
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
