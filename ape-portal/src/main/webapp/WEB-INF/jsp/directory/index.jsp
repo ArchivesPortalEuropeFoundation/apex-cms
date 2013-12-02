@@ -10,8 +10,8 @@
 <portlet:resourceURL var="directoryTreeAiUrl" id="directoryTreeAi" />
 <portlet:resourceURL var="aiDetailsUrl" id="aiDetails" />
 <portlet:resourceURL var="directoryTreeMapsUrl" id="directoryTreeGMaps" />
-<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
-<script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
+<script src="https://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}", "${directoryTreeMapsUrl}");
