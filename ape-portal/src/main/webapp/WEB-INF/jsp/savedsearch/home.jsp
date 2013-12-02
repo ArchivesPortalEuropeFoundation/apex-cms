@@ -60,7 +60,7 @@
 							<portlet:param name="myaction" value="deleteSavedSearch" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />
 						</portlet:actionURL>					
-					" onclick="return confirm(<fmt:message key="savedsearches.overview.delete.areyousure"/>)"><fmt:message key="savedsearches.overview.delete"/></a>
+					" onclick="return confirm('<fmt:message key="savedsearches.overview.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/></a>
 						</td>
 					</tr>
 				</c:forEach>
