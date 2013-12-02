@@ -47,3 +47,7 @@
 #savedSearchesPortlet tr.public {
     background-color: #F0F7FC;
 }
+#savedSearchesPortlet #savedSearchesTable a{
+	display:block;
+	font-size:11px;
+}
