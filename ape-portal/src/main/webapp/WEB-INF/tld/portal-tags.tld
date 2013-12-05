@@ -146,8 +146,8 @@
 		</attribute>		
 	</tag>
 	<tag>
-		<name>encodeUrl</name>
-		<tag-class>eu.archivesportaleurope.portal.common.jsp.EncodeUrlTag</tag-class>
+		<name>generateSearchWords</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.GenerateSearchWordsTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>var</name>
@@ -155,15 +155,14 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>	
 		<attribute>
-			<name>value</name>
+			<name>term</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>liferayFriendlyUrl</name>
-			<required>false</required>
+			<name>element</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		
 	</tag>		
 </taglib>
