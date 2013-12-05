@@ -18,12 +18,12 @@
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
+<portal:generateSearchWords var="encodedTerm" term="${advancedSearch.term}" element="${advancedSearch.element}"/>		
 	<c:choose>
-		<c:when test="${empty term }">
+		<c:when test="${empty encodedTerm }">
 			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}"/>
 		</c:when>
 		<c:otherwise>
-			<portal:encodeUrl var="encodedTerm" value="${term}" liferayFriendlyUrl="true"/>
 			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}/${element}/${encodedTerm}"/>
 		</c:otherwise>
 	</c:choose>	
