@@ -61,25 +61,13 @@ $theme.include($body_top_include)
   #dockbar()
 #end
 <div id="headerMenu">
-	<ul>
-		
-		#if ($show_sign_out)
-			#if ($has_navigation || $is_signed_in)
-				#parse ("$full_templates_path/navigation-top.vm")
-			#end	           
-        #else
-        	<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
-        #end
-        
-        <li>$theme.runtime("82")</li>
-       
-	</ul>
+	#parse ("$full_templates_path/navigation-top.vm")
 </div>
 	<header id="banner" role="banner">
 		<div id="header">
 			<a href="$company_url"><div id="logo"></div></a>		
 			<div class="left-header"></div>
-			<div class="right-header"></div>
+			<div class="right-header">$theme.runtime("82")</div>
 		#if ($has_navigation || $is_signed_in)
 			#parse ("$full_templates_path/navigation.vm")
 		#end	
