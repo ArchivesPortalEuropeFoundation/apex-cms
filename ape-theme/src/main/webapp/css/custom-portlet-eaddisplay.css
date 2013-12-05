@@ -196,6 +196,9 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 
 #eadDisplayPortlet  ul.daolist li{
 	float: left;
+	min-height: 27px;
+    margin: 1px;
+    min-width: 36px;
 }
 #eadDisplayPortlet  .context_space {
     display: inline-block;
