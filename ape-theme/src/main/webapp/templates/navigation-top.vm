@@ -27,6 +27,19 @@
 									<li>
 								#end
 									<a href="$nav_child.getURL()" $nav_child.getTarget()>$nav_child.getName()</a>
+									#if ($nav_child.hasChildren())
+										<ul class="child-menu">
+											#foreach ($nav_subchild in $nav_child.getChildren())
+												#if ($nav_subchild.isSelected())
+													<li class="selected">
+												#else
+													<li>
+												#end
+													<a href="$nav_subchild.getURL()" $nav_subchild.getTarget()>$nav_subchild.getName()</a>
+												</li>
+											#end
+										</ul>
+									#end
 								</li>
 							#end
 						</ul>
