@@ -1,8 +1,12 @@
-<nav class="$nav_css_class" id="navigation">
+<nav class="$nav_css_class" id="navigation-top">
 	<ul>
+            <li class="sign-out">
+                <a href="$sign_out_url">$sign_out_text</a>
+            </li>
+			<li><a href="$my_account_url" id="my-account" rel="nofollow" class="user-fullname use-dialog" title="$my_account_text" data-controlpanelcategory="my">$user_name</a></li>
 		#foreach ($nav_item in $nav_items) 
 			#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
-			 #if ($navigationPosition.get(0) !="footer" && $navigationPosition.get(0) !="top")
+			 #if ($navigationPosition.get(0) =="top")
 				#if ($nav_item.isSelected())
 					<li class="selected">
 				#else

@@ -3,7 +3,8 @@
 			<nav class="$nav_css_class" id="footer-navigation">
 				<ul>
 					#foreach ($nav_item in $nav_items)
-						#if ($nav_item.getLayout().getExpandoBridge().getAttribute("display-in-footer"))
+						#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
+			 			#if ($navigationPosition.get(0) =="footer")
 							#if ($nav_item.isSelected())
 								<li class="selected">
 							#else

@@ -44,35 +44,37 @@ $theme.include($body_top_include)
 	#set ($rService = $serviceLocator.findService("com.liferay.portal.service.RoleLocalService"))
 	#set ($usrRoles = $rService.getUserRoles( $user_id ))
     
-	#set ($hasPermission = false)
+	#set ($adminRole = false)
+	#set ($contentEditorRole = false)
 
 	#foreach( $usrRole in $usrRoles )
-	        #if ( $usrRole.getName() == "Administrator" || $usrRole.getName() == "Content-Admin" || $usrRole.getName() == "Power User"|| $usrRole.getName() == "Content-Editor" || $usrRole.getName() == "Portal Content Reviewer" )
-	           #set ($hasPermission = true)
+	        #if ( $usrRole.getName() == "Administrator" )
+	           #set ($adminRole = true)
+	        #end
+	        #if ( $usrRole.getName() == "Editor Role")
+	           #set ($contentEditorRole = true)	        
 	        #end
      #end
 #end
 	
-#if ( $is_signed_in )   
+#if ( $adminRole )   
   #dockbar()
-#else
+#end
 <div id="headerMenu">
-
 	<ul>
 		
-			<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
-		
 		#if ($show_sign_out)
-            <li class="sign-out">
-                <a href="$sign_out_url">$sign_out_text</a>
-            </li>
+			#if ($has_navigation || $is_signed_in)
+				#parse ("$full_templates_path/navigation-top.vm")
+			#end	           
+        #else
+        	<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
         #end
         
         <li>$theme.runtime("82")</li>
        
 	</ul>
 </div>
-#end
 	<header id="banner" role="banner">
 		<div id="header">
 			<a href="$company_url"><div id="logo"></div></a>		
