@@ -31,7 +31,7 @@
   
 }
 #navigation-top ul {
-  background: #ffffff;
+  
 
 
 }
@@ -49,10 +49,13 @@
 	  background: #fff8e5;
 }
 
-#navigation-top ul > li.selected > ul > li.selected {
+#navigation-top ul > li > ul > li.selected {
 	  background: white;
 }
-#navigation-top ul > li.selected > ul > li a:hover {
+#navigation-top ul > li > ul > li > ul > li.selected {
+	  background: white;
+}
+#navigation-top ul > li a:hover {
 	  color: black;
 }
 
