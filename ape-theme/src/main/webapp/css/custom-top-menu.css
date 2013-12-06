@@ -31,6 +31,7 @@
 #navigation-top ul > li {
   float: right;
   list-style: none;
+  	  background: #fff8e5;
 }
 #navigation-top > ul > li {
   border-left: 1px solid  #ffcd49;
@@ -48,7 +49,7 @@
 border-top: 1px solid  #ffcd49;
 }
 #navigation-top ul > li.selected {
-	  background: #fff8e5;
+	  background: white;
 }
 
 #navigation-top ul > li > ul > li.selected {
@@ -57,17 +58,9 @@ border-top: 1px solid  #ffcd49;
 #navigation-top ul > li > ul > li > ul > li.selected {
 	  background: white;
 }
-#navigation-top > ul > li a:hover {
-
-}
 
 #navigation-top ul > li > a:hover {
-  background: #fff8e5;
-  -webkit-box-shadow: inset 0 0 1px #cccccc;
-  -o-box-shadow: inset 0 0 1px #cccccc;
-  -moz-box-shadow: inset 0 0 1px #cccccc;
-  -ms-box-shadow: inset 0 0 1px #cccccc;
-  box-shadow: inset 0 0 1px #cccccc;
+  background: white;
   -webkit-transition: all ease .3s;
   -o-transition: all ease .3s;
   -moz-transition: all ease .3s;
