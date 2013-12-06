@@ -329,12 +329,12 @@ table.defaultlayout td, table.defaultlayout th{
 	padding-right:2px;
 }
 table.defaultlayout td{
-	 border: 1px solid #DBDBDB;
+	 border: 1px solid #d9eef7;
 }
 
 table.defaultlayout th {
 	 border: 1px solid white;
-	 background-color: #DBDBDB;
+	 background-color: #d9eef7;
 	 vertical-align: top;
 }
 table.defaultlayout input[type="submit"] {
