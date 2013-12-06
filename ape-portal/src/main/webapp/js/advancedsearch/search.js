@@ -13,6 +13,7 @@ function init() {
 	// initHelpFunction();
 	$("#searchTerms").focus();
 	activateAutocompletion("#searchTerms");
+	hideTabsIfNoResults();
 }
 
 function initContextTabHandlers(contextTreeUrl, previewUrl, namespace) {
@@ -258,17 +259,19 @@ function performNewSearch() {
 		updateSuggestions();
 		//makeRefinementsCollapsible();
 		
-		if ($("#noResults").length > 0){
-			$("#tabscontainer").removeClass("hidden").addClass("hidden");
-		}else {
-			$("#tabscontainer").removeClass("hidden");
-		}
+		hideTabsIfNoResults();
 		$("#searchResultsContainer").removeClass("hidden");
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
 	logAction(documentTitle, newSearchUrl);
 }
-
+function hideTabsIfNoResults(){
+	if ($("#noResults").length > 0){
+		$("#tabscontainer").removeClass("hidden").addClass("hidden");
+	}else {
+		$("#tabscontainer").removeClass("hidden");
+	}
+}
 function updateCurrentSearchResults(addRemoveRefinement) {
 	if ($("#updateCurrentSearch_view").val() == "hierarchy") {
 		selectedTabsSelector = "#tabs-context";
