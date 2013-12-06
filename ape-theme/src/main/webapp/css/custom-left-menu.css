@@ -36,7 +36,7 @@
 .nav-menu  > ul.layouts > li > a {
   font-size: 13px;
   display: block;
-  color: #C65400;
+  color: #2A4862;
   font-weight: bold;
 
 }
@@ -46,7 +46,7 @@
 
 .nav-menu  > ul.layouts > li.selected > a {
   background: #F0F7FC;
-  color: black;
+  color: #2A4862;
 }
 .nav-menu  > ul.layouts > li.has-sub > a:after {
   content: '';
@@ -60,7 +60,7 @@
   right: 14px;
   top: 12px;
   border: 5px solid transparent;
-  border-top: 5px solid black;
+  border-top: 5px solid #2A4862;
 }
 
 /* Sub menu */
@@ -68,7 +68,7 @@
 .nav-menu  > ul.layouts ul a {
 
   display: block;
-  color: #C65400;
+  color: #2A4862;
   font-size: 11px;
   font-weight: bold;
   
