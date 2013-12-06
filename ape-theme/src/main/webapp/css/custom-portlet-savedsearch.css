@@ -8,6 +8,7 @@
 	font-weight: normal;
 }
 #savedSearchesPortlet #savedSearchesTable {
+	font-size: 8pt;
 	width: 100%;
 	padding-left:10px;
 	padding-right:10px;
@@ -35,7 +36,7 @@
     white-space: nowrap;
 }
 #savedSearchesPortlet th.modified {
-	width: 140px;
+
 }
 #savedSearchesPortlet th.actions {
 	min-width: 100px;
