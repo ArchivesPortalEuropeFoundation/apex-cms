@@ -45,7 +45,7 @@
 }
 
 .nav-menu  > ul.layouts > li.selected > a {
-  background: #F0F7FC;
+  background: white;
   color: #2A4862;
 }
 .nav-menu  > ul.layouts > li.has-sub > a:after {
@@ -76,7 +76,6 @@
 .nav-menu  > ul.layouts ul li {
   padding-left:20px;
   border-bottom: 1px solid  #ffcd49; 
-  background-color:white;
 }
 .nav-menu  > ul.layouts ul li.odd a {
 
