@@ -35,6 +35,12 @@
     font-size: 11px;
     white-space: nowrap;
 }
+#savedSearchesPortlet th.searchTerm {
+	min-width: 15%;
+}
+#savedSearchesPortlet th.description {
+	min-width: 30%;
+}
 #savedSearchesPortlet th.modified {
 
 }
