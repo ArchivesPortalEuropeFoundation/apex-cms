@@ -42,7 +42,7 @@ public final class FriendlyUrlUtil {
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
-		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-search/-/sv");
+		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
