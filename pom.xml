@@ -154,17 +154,17 @@
 			<dependency>
 				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>commons</artifactId>
-				<version>1.5.0-beta-1</version>
+				<version>1.5.0-beta-2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.archivesportaleurope.backend</groupId>
 				<artifactId>persistence</artifactId>
-				<version>1.5.0-beta-1</version>
+				<version>1.5.0-beta-2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>eu.archivesportaleurope.dpt</groupId>
 				<artifactId>DPTutils</artifactId>
-				<version>1.5.0-beta-1</version>
+				<version>1.5.0-beta-2-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
