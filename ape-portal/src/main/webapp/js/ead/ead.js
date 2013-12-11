@@ -25,12 +25,13 @@ function initEadTree(eadTreeUrl, displayEadUrl, namespace) {
 							data : getMoreTreeData(namespace, dtnode)
 						});
 						var parent = dtnode.parent;
+                        parent.select(true);
 						dtnode.remove();
-						var children = parent.getChildren();
-						var index = children.length - 1;
-						var lastChild = children[index];
-						var relativeTop = $('#eadTree').scrollTop() + $(lastChild.span).offset().top
-								- $("#eadTree").offset().top - 40;
+						var relativeTop = $('#eadTree').scrollTop() + $(parent.span).offset().top - $("#eadTree").offset().top - 40;
+                        if (parent.data.more != "undefined") {
+                            displayEadDetails(displayEadUrl, parent.data.id, parent.data.type, namespace);
+                        }
+
 						$('#eadTree').animate({
 							scrollTop : relativeTop
 						}, 500);
@@ -39,7 +40,12 @@ function initEadTree(eadTreeUrl, displayEadUrl, namespace) {
 							url : eadTreeUrl,
 							data : getMoreTreeData(namespace, dtnode)
 						}, dtnode);
+                        var parent = dtnode.parent;
+                        parent.select(true);
 						dtnode.remove();
+                        if (parent.data.more != "undefined") {
+                            displayEadDetails(displayEadUrl, parent.data.id, parent.data.type, namespace);
+                        }
 					}
 
 					else {
