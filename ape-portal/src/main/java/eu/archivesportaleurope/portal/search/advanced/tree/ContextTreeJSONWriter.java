@@ -30,6 +30,7 @@ import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
@@ -68,6 +69,11 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 					advancedSearch.hasExactDateSearch());
 			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
 					advancedSearch.hasExactDateSearch());
+			if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && resourceRequest.getUserPrincipal() != null){
+				solrQueryParameters.setTerm("");
+			}else {
+				solrQueryParameters.setTerm(advancedSearch.getTerm());
+			}
 			// Only refine on dao if selected
 			if ("true".equals(advancedSearch.getDao())) {
 				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
@@ -82,7 +88,6 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			}
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
 					advancedSearch.getCountry());
-			solrQueryParameters.setTerm(advancedSearch.getTerm());
 			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 			AnalyzeLogger.logUpdateAdvancedSearchContext(advancedSearch, solrQueryParameters);
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
