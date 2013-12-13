@@ -50,12 +50,13 @@
 							<c:when test="${eadSavedSearch.publicSearch}"><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:when>
 							<c:otherwise><a href="${savedSearchUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:otherwise>
 						</c:choose>
-						<a
-						href="<portlet:renderURL>
+						<portlet:renderURL var="editUrl">
 							<portlet:param name="myaction" value="editSavedSearchForm" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />
-						</portlet:renderURL>					
-					"><fmt:message key="savedsearches.overview.edit"/></a>
+							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
+						</portlet:renderURL>
+						<a
+						href="${editUrl}"><fmt:message key="savedsearches.overview.edit"/></a>
 					<a href="<portlet:actionURL>
 							<portlet:param name="myaction" value="deleteSavedSearch" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />

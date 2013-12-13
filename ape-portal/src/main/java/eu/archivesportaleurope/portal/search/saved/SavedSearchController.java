@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.saved;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import javax.portlet.ActionRequest;
@@ -23,6 +24,7 @@ import com.liferay.portal.model.User;
 
 import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.EadSavedSearch;
+import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 
@@ -30,7 +32,7 @@ import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 @RequestMapping(value = "VIEW")
 public class SavedSearchController {
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchController.class);
-	private final static int PAGESIZE  = 50;
+	private final static int PAGESIZE  = 10;
 	private EadSavedSearchDAO eadSavedSearchDAO;
 	private ResourceBundleMessageSource messageSource;
 
@@ -84,7 +86,7 @@ public class SavedSearchController {
 	}
 
 	@ActionMapping(params="myaction=saveEditSavedSearch")
-	public void saveSavedSearch(@ModelAttribute("savedSearch") SavedSearch savedSearch, BindingResult bindingResult,ActionRequest request, ActionResponse response)  {
+	public void saveSavedSearch(@ModelAttribute("savedSearch") SavedSearch savedSearch, BindingResult bindingResult,ActionRequest request, ActionResponse response) throws IOException  {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -96,7 +98,9 @@ public class SavedSearchController {
 				}
 				eadSavedSearch.setTemplate(savedSearch.isTemplate());
 				eadSavedSearchDAO.store(eadSavedSearch);
+				response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.SAVED_SEARCH_OVERVIEW) + FriendlyUrlUtil.SEPARATOR + savedSearch.getOverviewPageNumber());
 			}
+			
 		}	
 
 	}
@@ -105,11 +109,14 @@ public class SavedSearchController {
 	public SavedSearch getEadSavedSearch(PortletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		String id = request.getParameter("id");
+		String overviewPageNumber = request.getParameter("overviewPageNumber");
+		SavedSearch savedSearch = new SavedSearch();
+		savedSearch.setOverviewPageNumber(overviewPageNumber);
 		if (principal != null && StringUtils.isNotBlank(id)){
 			Long liferayUserId = Long.parseLong(principal.toString());
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(id), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
-				SavedSearch savedSearch = new SavedSearch();
+				
 				savedSearch.setDescription(eadSavedSearch.getDescription());
 				savedSearch.setSearchTerm(eadSavedSearch.getSearchTerm());
 				savedSearch.setModifiedDate(eadSavedSearch.getModifiedDate());
@@ -120,10 +127,10 @@ public class SavedSearchController {
 				savedSearch.setContainsAlSearchOptions(eadSavedSearch.isContainsAlSearchOptions());
 				savedSearch.setContainsRefinements(eadSavedSearch.isContainsRefinements());
 				savedSearch.setId(eadSavedSearch.getId() +"");
-				return savedSearch;
+
 			}
 		}		
 		
-		return new SavedSearch();
+		return savedSearch;
 	}
 }
