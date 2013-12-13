@@ -83,7 +83,7 @@ public class DisplayPreviewContoller {
 		}catch (NotExistInDatabaseException e){
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
-			modelAndView.setViewName("indexError");
+			modelAndView.setViewName("preview/indexError");
 			return modelAndView;
 		}catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
