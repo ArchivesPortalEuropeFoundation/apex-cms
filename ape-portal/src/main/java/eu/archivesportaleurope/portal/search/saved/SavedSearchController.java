@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.search.saved;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -58,12 +59,17 @@ public class SavedSearchController {
 			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			}
+			List<EadSavedSearch> eadSavedSearches = eadSavedSearchDAO.getEadSavedSearches(liferayUserId, pageNumber, PAGESIZE);
+			for (EadSavedSearch eadSavedSearch: eadSavedSearches){
+				LOGGER.info(eadSavedSearch.getId()+ " " + eadSavedSearch.getDescription());
+			}
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", eadSavedSearchDAO.countEadSavedSearches(liferayUserId));
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
-			modelAndView.getModelMap().addAttribute("eadSavedSearches",eadSavedSearchDAO.getEadSavedSearches(liferayUserId, pageNumber, PAGESIZE));
+			modelAndView.getModelMap().addAttribute("eadSavedSearches",eadSavedSearches);
+
 		}
 		return modelAndView;
 	}
