@@ -24,6 +24,7 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
@@ -65,7 +66,9 @@ public class DisplayEadContoller {
 		try {
 			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
 
-		} catch (Exception e) {
+		}catch (NotExistInDatabaseException e) { 
+			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
+		}catch (Exception e) {
 			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
 
 		}
@@ -77,7 +80,7 @@ public class DisplayEadContoller {
 		return modelAndView;
 	}
 
-	public ModelAndView displayEadOrCLevelInternal(RenderRequest renderRequest, EadParams eadParams) {
+	public ModelAndView displayEadOrCLevelInternal(RenderRequest renderRequest, EadParams eadParams) throws NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		Ead ead = null;
 		if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
@@ -106,6 +109,9 @@ public class DisplayEadContoller {
 						ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 					}
 
+				}
+				if (ead == null){
+					
 				}
 			}
 
