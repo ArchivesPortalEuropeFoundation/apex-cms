@@ -11,9 +11,16 @@
 <portlet:actionURL var="translationShowUrl">
     <portlet:param name="myaction" value="display" />
 </portlet:actionURL>
-
+<portlet:actionURL var="cleanTranslationsUrl">
+    <portlet:param name="myaction" value="cleanTranslations" />
+</portlet:actionURL>
+<portlet:actionURL var="updateTranslationsUrl">
+    <portlet:param name="myaction" value="updateTranslations" />
+</portlet:actionURL>
 <div id="languagePortlet">
-
+<h2>Translations</h2>
+<a href="${cleanTranslationsUrl}">Remove all menu translations</a>
+<a href="${updateTranslationsUrl}">Update all menu translations</a>
     <table>
         <c:forEach var="layout" varStatus="stat" items="${layouts}">
             <form:form id="layout" name="layout" method="post" action="${translationShowUrl}">
