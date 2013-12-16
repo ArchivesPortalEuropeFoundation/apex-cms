@@ -27,12 +27,12 @@ import com.liferay.portal.theme.ThemeDisplay;
 
 /**
  * 
- * This is display ead controller
+ * 
  * 
  * @author bverhoef
  * 
  */
-@Controller(value = "menuTranslationsController")
+@Controller(value = "adminController")
 @RequestMapping(value = "VIEW")
 public class AdminController {
 	private final static Logger LOGGER = Logger.getLogger(AdminController.class);
