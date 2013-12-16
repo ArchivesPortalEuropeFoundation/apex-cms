@@ -60,9 +60,6 @@ public class SavedSearchController {
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			}
 			List<EadSavedSearch> eadSavedSearches = eadSavedSearchDAO.getEadSavedSearches(liferayUserId, pageNumber, PAGESIZE);
-			for (EadSavedSearch eadSavedSearch: eadSavedSearches){
-				LOGGER.info(eadSavedSearch.getId()+ " " + eadSavedSearch.getDescription());
-			}
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
