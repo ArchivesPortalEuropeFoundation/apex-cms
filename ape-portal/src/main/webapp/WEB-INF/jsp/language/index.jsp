@@ -13,12 +13,8 @@
     <portlet:param name="index" value="${stat.index}" />
 </portlet:actionURL>
 
-<portlet:actionURL var="cleanTranslationsUrl">
-    <portlet:param name="myaction" value="cleanTranslations" />
-</portlet:actionURL>
+
 <div id="languagePortlet">
-<h2>Translations</h2>
-<a href="${cleanTranslationsUrl}">Remove all menu translations</a>
     <table>
         <c:forEach var="translation" varStatus="stat" items="${translationForm.translations}">
             <form:form id="translation" name="translation" modelAttribute="translationForm" method="post" action="${translationSaveUrl}">
