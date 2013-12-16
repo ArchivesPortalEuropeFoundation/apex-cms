@@ -319,4 +319,9 @@
         <filter-name>APEFilter</filter-name>
         <portlet-name>contact</portlet-name>
     </filter-mapping>
+     <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>savedsearch</portlet-name>
+    </filter-mapping>   
+    
 </portlet-app>
