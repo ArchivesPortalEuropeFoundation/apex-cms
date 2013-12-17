@@ -57,9 +57,16 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 				answerMessage = this.getMessageSource().getMessage("advancedsearch.text.savesearch.maxai", new String[]{MAX_NUMBER_OF_AI+""}, resourceRequest.getLocale());
 			}else {
 				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
-				savedSearchService.saveSearch(liferayUserId, advancedSearch);
-				answerMessage = source.getString("advancedsearch.text.savesearch.success");
-				saved = true;
+				try {
+					savedSearchService.saveSearch(liferayUserId, advancedSearch);
+					answerMessage = source.getString("advancedsearch.text.savesearch.success");
+					saved = true;
+				}catch (Exception e) {
+					LOGGER.error(e.getMessage());
+					answerMessage = source.getString("advancedsearch.text.savesearch.error");
+					saved = false;
+				}
+
 			}
 		}
 		long startTime = System.currentTimeMillis();
