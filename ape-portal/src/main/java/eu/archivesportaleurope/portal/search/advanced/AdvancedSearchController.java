@@ -115,7 +115,7 @@ public class AdvancedSearchController {
 					if (eadSavedSearch.isTemplate()){
 						advancedSearch.setMode(MODE_NEW);
 					}else{
-						Results results = performNewSearch(request, advancedSearch);
+						Results results = updateCurrentSearch(request, advancedSearch);
 						advancedSearch.setMode(MODE_NEW_SEARCH);
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
