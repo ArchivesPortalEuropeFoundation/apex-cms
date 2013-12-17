@@ -56,7 +56,7 @@ public class AdminController {
         List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
         for (Layout layout: layouts){
         	layout.setThemeId(null);
-        	layout.getExpandoBridge().setAttribute("display-in-footer", null);
+        	//layout.getExpandoBridge().setAttribute("display-in-footer", null);
         	LayoutLocalServiceUtil.updateLayout(layout);
         }
     	}catch (Exception e){
