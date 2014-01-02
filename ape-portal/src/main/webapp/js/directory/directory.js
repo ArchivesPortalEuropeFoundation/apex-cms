@@ -1,6 +1,5 @@
 var selectedCountryCode, selectedAiname;
 function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl, directoryTreeMapsUrl) {
-	
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -26,7 +25,6 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
-				
 				if (node.data.countryCode) {
 					selectedCountryCode = node.data.countryCode;
 				}else {
@@ -38,13 +36,13 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					var eagDetailsUrl = aiDetailsUrl +"&id=" + node.data.aiId;
 					$("#directory-column-right-content").load(eagDetailsUrl, function() {
-						initEagDetails(selectedCountryCode,node);
+						initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl);
 					});
 					logAction(document.title, eagDetailsUrl);
-					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,node.data.aiId);
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,node.data.aiId, null);
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
-					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null, null);
 				}else {
 					selectedAiname = null;
 				}
@@ -53,7 +51,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 		// Generate id attributes like <span id='dynatree-id-KEY'>
 		generateIds: true
 	});
-	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
+	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null, null);
 }
 function printEagByURL(url){
 	var preview = window.open(url, 'printeag',
@@ -61,7 +59,7 @@ function printEagByURL(url){
 	preview.focus();
 }
 
-function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
+function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponame){
 //	//Map limits
 //	var strictBounds = new google.maps.LatLngBounds(
 //	    new google.maps.LatLng(85, -180),           // top left corner of map
@@ -69,7 +67,7 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
 //	);
 
 	try{
-		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId },function(data){
+		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId, repositoryName: reponame },function(data){
 		    var markers = [];
 		    var marker,i=0;
 		    var infowindow = new google.maps.InfoWindow();
@@ -95,18 +93,40 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
 		    
 		    if (aiId==null){
 			    var map = new google.maps.Map(document.getElementById('map_div'), {
-			      zoom: 7,
 			      mapTypeId: google.maps.MapTypeId.ROADMAP
 			    });
+
+			    // Check if exists country bounds.
+			    if (data.bounds != undefined) {
+			    	var southwestLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	var northeastLatLng = new google.maps.LatLng(data.bounds[1].latitude, data.bounds[1].longitude);
+			    	bounds = new google.maps.LatLngBounds(southwestLatLng, northeastLatLng);
+			    	bounds.extend(southwestLatLng);
+			    	bounds.extend(northeastLatLng);
+			    }
+			    map.fitBounds(bounds);
+			    var markerCluster = new MarkerClusterer(map, markers);
 		    }
 		    else{
 			    var map = new google.maps.Map(document.getElementById('map_div'), {
-			      zoom: 16,
+		    	  zoom: 18,
 			      mapTypeId: google.maps.MapTypeId.ROADMAP
 			    });
+
+			    // Check if exists institution bounds.
+			    if (data.bounds != undefined) {
+			    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	bounds = new google.maps.LatLngBounds(boundLatLng);
+			    	bounds.extend(boundLatLng);
+				    map.fitBounds(bounds);
+				    var markerCluster = new MarkerClusterer(map, markers, {
+				        	maxZoom: 18,
+				        	setZoomOnClick:18
+				     	});
+				    map.setZoom(18);
+				    map.setCenter(boundLatLng);
+			    }
 	    	}
-		    map.fitBounds(bounds);
-		    var markerCluster = new MarkerClusterer(map, markers);
 		});
 	}catch (e) {
 		// TODO: handle exception
@@ -142,10 +162,10 @@ function seeMore(clazz,identifier){
 	$(prefix + ".longDisplay").show();
 }
 
-function initEagDetails(selectedCountryCode,node){
+function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
-	showRepositoryOnMap("#repository_1",selectedCountryCode,node);
+	showRepositoryOnMap("#repository_1",selectedCountryCode,node, directoryTreeMapsUrl);
 	closeAllRepositories();
 	if(!($(".emaillang").length>0)){
 		$(".emailsnolang").removeClass("emailsnolang");
@@ -160,7 +180,7 @@ function initEagDetails(selectedCountryCode,node){
 			$(this).next().hide();
 		} else {
 			closeAllRepositories();
-			showRepository("#" + $(this).parent().attr("id"));
+			showRepository("#" + $(this).parent().attr("id"), selectedCountryCode, node, directoryTreeMapsUrl);
 
 		}
 	});
@@ -171,12 +191,12 @@ function initEagDetails(selectedCountryCode,node){
     });
 }
 
-function showRepository(identifier){
+function showRepository(identifier, selectedCountryCode, node, directoryTreeMapsUrl){
 	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");
 	$(identifier + " .repositoryInfo").show();
-	showRepositoryOnMap(identifier);
+	showRepositoryOnMap(identifier, selectedCountryCode, node, directoryTreeMapsUrl);
 }
-function showRepositoryOnMap(prefix,selectedCountryCode,node){
+function showRepositoryOnMap(prefix,selectedCountryCode,node, directoryTreeMapsUrl){
 	if ($(prefix + " .repositoryName").length > 0){
 		repoName = $(prefix + " .repositoryName").html();		
 	}else {
@@ -186,6 +206,7 @@ function showRepositoryOnMap(prefix,selectedCountryCode,node){
     if($(prefix + " .address").length == 0) {
     	address = $(prefix + ".postalAddress").html();
     }
+    displaySecondMap(directoryTreeMapsUrl, selectedCountryCode, node.data.aiId, repoName);
 }
 function closeAllRepositories(){
 	if ($(".repositoryName").length > 0){
