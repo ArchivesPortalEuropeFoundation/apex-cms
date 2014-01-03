@@ -771,22 +771,50 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		        i++;
 		        
 		    });
-			
+
 		    var map = new google.maps.Map(document.getElementById('map_div'), {
-		      zoom: 16,
+		      zoom: 18,
+		      maxZoom: 18,
 		      mapTypeId: google.maps.MapTypeId.ROADMAP
 		    });
-		    map.fitBounds(bounds);
-	
-		    // Whether to make the cluster icons printable. 
-		    // Do not set to true if the url fields in the styles array refer to image sprite files. 
-		    // The default value is false
-		    var markerCluster = new MarkerClusterer(map, markers, {
-		        ignoreHidden: true,
-		        printable: true,
-	        	styles: styles[-1]
-	          });
-		    
+
+		    // Check if exists institution bounds.
+		    if (data.bounds != undefined) {
+		    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+		    	bounds = new google.maps.LatLngBounds(boundLatLng);
+		    	bounds.extend(boundLatLng);
+		    	map.fitBounds(bounds);
+
+		    	// Whether to make the cluster icons printable. 
+			    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+			    // The default value is false
+			    var markerCluster = new MarkerClusterer(map, markers, {
+			        	maxZoom: 18,
+			        	setZoomOnClick:18,
+				        ignoreHidden: true,
+				        printable: true,
+			        	styles: styles[-1]
+			     	});
+
+			    map.setZoom(18);
+			    map.setCenter(boundLatLng);
+		    } else {
+		    	map.fitBounds(bounds);
+
+		    	// Whether to make the cluster icons printable. 
+			    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+			    // The default value is false
+			    var markerCluster = new MarkerClusterer(map, markers, {
+			        	maxZoom: 18,
+			        	setZoomOnClick:18,
+				        ignoreHidden: true,
+				        printable: true,
+			        	styles: styles[-1]
+			     	});
+
+			    map.setZoom(18);
+		    }
+
 			google.maps.event.addListener(map, 'tilesloaded', function(){
 				window.setTimeout(function() {
 					self.print();
