@@ -25,6 +25,9 @@
 	<bean id="savedSearchService"
 		class="eu.archivesportaleurope.portal.search.saved.SavedSearchService">
 		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+		<property name="messageSource" ref="messageSource"></property>
+		<property name="countryDAO" ref="countryDAO"/>
+		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 	</bean>	
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.SaveSearchJSONControllor">
