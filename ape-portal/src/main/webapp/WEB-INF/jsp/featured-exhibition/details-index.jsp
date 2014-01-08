@@ -46,7 +46,6 @@ ${articleDetails}
 <span class='st_email_large' displayText='Email'></span>
 </div>
 </c:if>
-<c:set var="ogMetadata" value="${ogMetadata} HELLO"> </c:set>
 <div id="featuredExhibitionDetailsList">
 <h2><fmt:message key="featuredexhibition.all" /></h2>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">
