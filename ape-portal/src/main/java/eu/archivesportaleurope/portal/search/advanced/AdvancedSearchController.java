@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.search.advanced;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -117,6 +118,7 @@ public class AdvancedSearchController {
 					}else{
 						Results results = updateCurrentSearch(request, advancedSearch);
 						advancedSearch.setMode(MODE_NEW_SEARCH);
+						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, advancedSearch, eadSavedSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
 					modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
@@ -357,4 +359,5 @@ public class AdvancedSearchController {
 		}
 		return null;
 	}
+
 }
