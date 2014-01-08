@@ -36,13 +36,13 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 					$("#directory-column-right-content").append("<div id='waitingImage'></div>");
 					var eagDetailsUrl = aiDetailsUrl +"&id=" + node.data.aiId;
 					$("#directory-column-right-content").load(eagDetailsUrl, function() {
-						initEagDetails(selectedCountryCode,node);
+						initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl);
 					});
 					logAction(document.title, eagDetailsUrl);
-					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,node.data.aiId);
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,node.data.aiId, null);
 				}else if (node.data.googleMapsAddress){
 					selectedAiname = null;
-					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
+					displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null, null);
 				}else {
 					selectedAiname = null;
 				}
@@ -51,7 +51,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 		// Generate id attributes like <span id='dynatree-id-KEY'>
 		generateIds: true
 	});
-	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null);
+	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null, null);
 }
 function printEagByURL(url){
 	var preview = window.open(url, 'printeag',
@@ -59,52 +59,78 @@ function printEagByURL(url){
 	preview.focus();
 }
 
-function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
+function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponame){
 //	//Map limits
 //	var strictBounds = new google.maps.LatLngBounds(
 //	    new google.maps.LatLng(85, -180),           // top left corner of map
 //	    new google.maps.LatLng(-85, 180)            // bottom right corner
 //	);
 
-	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId },function(data){
-	    var markers = [];
-	    var marker,i=0;
-	    var infowindow = new google.maps.InfoWindow();
-	    // load all repos with names and coords
-	    var bounds = new google.maps.LatLngBounds();
-	    $.each(data.repos,function(){
-	    	var dataRepo = $(this);
-	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
-	        bounds.extend(latLng);
-	        markers.push(marker);
-	        
-	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-	            return function() {
-	                var content=dataRepo[0].name;
-	                infowindow.setContent(content);
-	                infowindow.open(map, marker);
-	            }
-	        })(marker, i));
-	        i++;
-	        
-	    });
-	    
-	    if (aiId==null){
-		    var map = new google.maps.Map(document.getElementById('map_div'), {
-		      zoom: 7,
-		      mapTypeId: google.maps.MapTypeId.ROADMAP
+	try{
+		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId, repositoryName: reponame },function(data){
+		    var markers = [];
+		    var marker,i=0;
+		    var infowindow = new google.maps.InfoWindow();
+		    // load all repos with names and coords
+		    var bounds = new google.maps.LatLngBounds();
+		    $.each(data.repos,function(){
+		    	var dataRepo = $(this);
+		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+		        bounds.extend(latLng);
+		        markers.push(marker);
+		        
+		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		            return function() {
+		                var content=dataRepo[0].name;
+		                infowindow.setContent(content);
+		                infowindow.open(map, marker);
+		            }
+		        })(marker, i));
+		        i++;
+		        
 		    });
-	    }
-	    else{
-		    var map = new google.maps.Map(document.getElementById('map_div'), {
-		      zoom: 16,
-		      mapTypeId: google.maps.MapTypeId.ROADMAP
-		    });
-    	}
-	    map.fitBounds(bounds);
-	    var markerCluster = new MarkerClusterer(map, markers);
-	});
+		    
+		    if (aiId==null){
+			    var map = new google.maps.Map(document.getElementById('map_div'), {
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    });
+
+			    // Check if exists country bounds.
+			    if (data.bounds != undefined) {
+			    	var southwestLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	var northeastLatLng = new google.maps.LatLng(data.bounds[1].latitude, data.bounds[1].longitude);
+			    	bounds = new google.maps.LatLngBounds(southwestLatLng, northeastLatLng);
+			    	bounds.extend(southwestLatLng);
+			    	bounds.extend(northeastLatLng);
+			    }
+			    map.fitBounds(bounds);
+			    var markerCluster = new MarkerClusterer(map, markers);
+		    }
+		    else{
+			    var map = new google.maps.Map(document.getElementById('map_div'), {
+		    	  zoom: 18,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    });
+
+			    // Check if exists institution bounds.
+			    if (data.bounds != undefined) {
+			    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	bounds = new google.maps.LatLngBounds(boundLatLng);
+			    	bounds.extend(boundLatLng);
+				    map.fitBounds(bounds);
+				    var markerCluster = new MarkerClusterer(map, markers, {
+				        	maxZoom: 18,
+				        	setZoomOnClick:18
+				     	});
+				    map.setZoom(18);
+				    map.setCenter(boundLatLng);
+			    }
+	    	}
+		});
+	}catch (e) {
+		// TODO: handle exception
+	}
 }
 
 function displayRepository(id){
@@ -114,6 +140,7 @@ function displayRepository(id){
         scrollTop: $("#repository_" + id + " .repositoryName").offset().top
          }, 2000);
 }
+
 function seeLess(clazz,identifier){
 	if (identifier){
 		prefix = "#repository_" + identifier + " ." +clazz + " ";
@@ -134,10 +161,11 @@ function seeMore(clazz,identifier){
 	$(prefix + ".displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
 }
-function initEagDetails(selectedCountryCode,node){
+
+function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
-	showRepositoryOnMap("#repository_1",selectedCountryCode,node);
+	showRepositoryOnMap("#repository_1",selectedCountryCode,node, directoryTreeMapsUrl);
 	closeAllRepositories();
 	if(!($(".emaillang").length>0)){
 		$(".emailsnolang").removeClass("emailsnolang");
@@ -152,22 +180,23 @@ function initEagDetails(selectedCountryCode,node){
 			$(this).next().hide();
 		} else {
 			closeAllRepositories();
-			showRepository("#" + $(this).parent().attr("id"));
+			showRepository("#" + $(this).parent().attr("id"), selectedCountryCode, node, directoryTreeMapsUrl);
 
 		}
 	});
 	$('html, body').stop().animate({
         'scrollTop': $("a#eagDetails").offset().top
     }, 900, 'swing', function () {
-    	logAction("scroll moved to: ", $("#eagDetails").offset().top);
+    	//logAction("scroll moved to: ", $("#eagDetails").offset().top);
     });
 }
-function showRepository(identifier){
+
+function showRepository(identifier, selectedCountryCode, node, directoryTreeMapsUrl){
 	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");
 	$(identifier + " .repositoryInfo").show();
-	showRepositoryOnMap(identifier);
+	showRepositoryOnMap(identifier, selectedCountryCode, node, directoryTreeMapsUrl);
 }
-function showRepositoryOnMap(prefix,selectedCountryCode,node){
+function showRepositoryOnMap(prefix,selectedCountryCode,node, directoryTreeMapsUrl){
 	if ($(prefix + " .repositoryName").length > 0){
 		repoName = $(prefix + " .repositoryName").html();		
 	}else {
@@ -177,6 +206,7 @@ function showRepositoryOnMap(prefix,selectedCountryCode,node){
     if($(prefix + " .address").length == 0) {
     	address = $(prefix + ".postalAddress").html();
     }
+    displaySecondMap(directoryTreeMapsUrl, selectedCountryCode, node.data.aiId, repoName);
 }
 function closeAllRepositories(){
 	if ($(".repositoryName").length > 0){
@@ -683,79 +713,116 @@ function recoverRelatedInstitution(relatedAIId) {
 }
 
 function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
-	google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
-	//remove see-more/see-less
-	$(".displayLinkSeeMore").each(function(){$(this).remove();});
-	$(".displayLinkSeeLess").each(function(){$(this).remove();});
-	$("th").each(function(){
-		var html = $(this).html();
-		if(html.indexOf("()")!=-1){
-			$(this).html(html.replace("()",""));
-		}
-	});
-	multiLanguage();
+	try{
+		google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
+		//remove see-more/see-less
+		$(".displayLinkSeeMore").each(function(){$(this).remove();});
+		$(".displayLinkSeeLess").each(function(){$(this).remove();});
+		$("th").each(function(){
+			var html = $(this).html();
+			if(html.indexOf("()")!=-1){
+				$(this).html(html.replace("()",""));
+			}
+		});
+		multiLanguage();	
+	}catch (e) {
+		// TODO: handle exception
+	}
+	
 }
 
 function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
-	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
-	    var markers = [];
-	    var marker,i=0;
-	    var infowindow = new google.maps.InfoWindow();
-	    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
-	    'chco=FFFFFF,008CFF,000000&ext=.png';
-	    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
-	    
-	    var styles = [[{
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
-            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
-          }, {
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
-            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
-          }, {
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
-            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
-          }]];
-	    
-	    // load all repos with names and coords
-	    var bounds = new google.maps.LatLngBounds();
-	    $.each(data.repos,function(){
-	    	var dataRepo = $(this);
-	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
-	        bounds.extend(latLng);
-	        markers.push(marker);
-	        
-	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-	            return function() {
-	                var content=dataRepo[0].name;
-	                infowindow.setContent(content);
-	                infowindow.open(map, marker);
-	            }
-	        })(marker, i));
-	        i++;
-	        
-	    });
-		
-	    var map = new google.maps.Map(document.getElementById('map_div'), {
-	      zoom: 16,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP
-	    });
-	    map.fitBounds(bounds);
+	try {
+		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
+		    var markers = [];
+		    var marker,i=0;
+		    var infowindow = new google.maps.InfoWindow();
+		    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+		    'chco=FFFFFF,008CFF,000000&ext=.png';
+		    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
+		    
+		    var styles = [[{
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
+	            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
+	          }, {
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
+	            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
+	          }, {
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
+	            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
+	          }]];
+		    
+		    // load all repos with names and coords
+		    var bounds = new google.maps.LatLngBounds();
+		    $.each(data.repos,function(){
+		    	var dataRepo = $(this);
+		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+		        bounds.extend(latLng);
+		        markers.push(marker);
+		        
+		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		            return function() {
+		                var content=dataRepo[0].name;
+		                infowindow.setContent(content);
+		                infowindow.open(map, marker);
+		            }
+		        })(marker, i));
+		        i++;
+		        
+		    });
 
-	    // Whether to make the cluster icons printable. 
-	    // Do not set to true if the url fields in the styles array refer to image sprite files. 
-	    // The default value is false
-	    var markerCluster = new MarkerClusterer(map, markers, {
-	        ignoreHidden: true,
-	        printable: true,
-        	styles: styles[-1]
-          });
-	    
-		google.maps.event.addListener(map, 'tilesloaded', function(){
-			window.setTimeout(function() {
-				self.print();
-			}, 1500);
-		});
+		    var map = new google.maps.Map(document.getElementById('map_div'), {
+		      zoom: 18,
+		      maxZoom: 18,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP
+		    });
+
+		    // Check if exists institution bounds.
+		    if (data.bounds != undefined) {
+		    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+		    	bounds = new google.maps.LatLngBounds(boundLatLng);
+		    	bounds.extend(boundLatLng);
+		    	map.fitBounds(bounds);
+
+		    	// Whether to make the cluster icons printable. 
+			    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+			    // The default value is false
+			    var markerCluster = new MarkerClusterer(map, markers, {
+			        	maxZoom: 18,
+			        	setZoomOnClick:18,
+				        ignoreHidden: true,
+				        printable: true,
+			        	styles: styles[-1]
+			     	});
+
+			    map.setZoom(18);
+			    map.setCenter(boundLatLng);
+		    } else {
+		    	map.fitBounds(bounds);
+
+		    	// Whether to make the cluster icons printable. 
+			    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+			    // The default value is false
+			    var markerCluster = new MarkerClusterer(map, markers, {
+			        	maxZoom: 18,
+			        	setZoomOnClick:18,
+				        ignoreHidden: true,
+				        printable: true,
+			        	styles: styles[-1]
+			     	});
+
+			    map.setZoom(18);
+		    }
+
+			google.maps.event.addListener(map, 'tilesloaded', function(){
+				window.setTimeout(function() {
+					self.print();
+				}, 1500);
+			});
 		
-	}); //JSON
+		}); //JSON
+	} catch (e) {
+		// TODO: handle exception
+	}
 }
