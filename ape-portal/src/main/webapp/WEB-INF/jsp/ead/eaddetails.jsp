@@ -1,13 +1,13 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
-<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet"%>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
-<%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://commons.archivesportaleurope.eu/tags" prefix="ape"%>
+<%@ taglib uri="http://portal.archivesportaleurope.eu/tags" prefix="portal"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 
 <liferay-theme:defineObjects />
@@ -128,34 +128,28 @@
 	<div class="sendFeedback">
 		<a href="javascript:showFeedback()" class="linkButton"><fmt:message key="label.feedback" /></a>
 	</div>
-	<p></p>
-	<p>
-		<form:form id="contactForm" name="contactForm" commandName="contact" method="post" class="feedback"
-			action="${contactUrl}">
-			<table class="contactForm">
-				<tr>
-					<td class="tdLabel"><label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span
-							class="required">*</span>:</label></td>
-					<td><input path="email" type="text" name="email" size="50" value="" id="contact_email" /></td>
-					<td><form:errors path="email" cssClass="error" /></td>
-				</tr>
-				<tr>
-					<td class="tdLabel"><label for="contact_feedbackText" class="label"><fmt:message
-								key="label.feedback.comments" /><span class="required">*</span>:</label></td>
-					<td><textarea path="feedback" name="feedback" size="50" rows="4" cols="50" id="feedback"></textarea></td>
-					<td><form:errors path="feedback" cssClass="error" /></td>
-				</tr>
-				<tr>
-					<td colspan="3"><input type="submit" id="contact_label_feedback_send"
-						value='<fmt:message key="label.feedback.send" />' class="mainButton" /></td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<!-- value="3" equals to feedback, in case the addresses will cnage, update the mailer adding a new addresses group -->
-						<input path="type" type="text" name="type" value="3" id="type" style="display: none;" />
-					</td>
-				</tr>
-			</table>
-		</form:form>
-	</p>
+	<form:form id="contactForm" name="contactForm" commandName="contact" method="post" class="feedback"
+		action="${contactUrl}">
+		<table class="contactForm">
+			<tr>
+				<td class="tdLabel"><label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span	class="required">*</span>:</label></td>
+				<td><input path="email" type="text" name="email" size="50" value="" id="contact_email" /></td>
+				<td><form:errors path="email" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td class="tdLabel"><label for="contact_feedbackText" class="label"><fmt:message key="label.feedback.comments" /><span class="required">*</span>:</label></td>
+				<td><textarea path="feedback" name="feedback" size="50" rows="4" cols="50" id="feedback"></textarea></td>
+				<td><form:errors path="feedback" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td colspan="3"><input type="submit" id="contact_label_feedback_send" value='<fmt:message key="label.feedback.send" />' class="mainButton" /></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<!-- value="3" equals to feedback, in case the addresses will cnage, update the mailer adding a new addresses group -->
+					<input path="type" type="text" name="type" value="3" id="type" style="display: none;" />
+				</td>
+			</tr>
+		</table>
+	</form:form>
 </div>
