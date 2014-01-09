@@ -238,6 +238,13 @@ public class SavedSearchService {
 							 source.getString(FacetType.DAO.getPrefix()+dao)));
 				}				
 			}
+			List<String> roledaos = advancedSearch.getRoledaoList();
+			if (roledaos != null){
+				for(String roledao : roledaos) {
+					refinements.add(new Refinement(FacetType.ROLEDAO.getName(), roledao,
+							 source.getString(FacetType.ROLEDAO.getPrefix()+roledao.toLowerCase())));
+				}				
+			}
 			List<String> dateTypes = advancedSearch.getDateTypeList();
 			if (dateTypes != null){
 				for (String dateType : dateTypes) {
