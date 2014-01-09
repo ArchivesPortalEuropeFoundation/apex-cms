@@ -48,7 +48,10 @@
 					<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 					<td>
 						<c:choose>
-							<c:when test="${eadSavedSearch.publicSearch}"><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchPublicUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:when>
+							<c:when test="${eadSavedSearch.publicSearch}">
+							<a href="${savedSearchPublicUrl}/${eadSavedSearch.id}" 
+							onclick="return confirm('<fmt:message key="savedsearches.overview.public.areyousure"/>')"> <fmt:message key="savedsearches.overview.viewresults"/></a>
+							<a href="${savedSearchPublicUrl}/${eadSavedSearch.id}/new" onclick="return confirm('<fmt:message key="savedsearches.overview.public.areyousure"/>')"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:when>
 							<c:otherwise><a href="${savedSearchUrl}/${eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><a href="${savedSearchUrl}/${eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a></c:otherwise>
 						</c:choose>
 						<portlet:renderURL var="editUrl">

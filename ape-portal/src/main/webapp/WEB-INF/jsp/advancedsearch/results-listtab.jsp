@@ -57,7 +57,7 @@
 				<ul>
 					<c:if test="${!empty selectedRefinements }">
 						<c:forEach var="selectedRefinement" items="${selectedRefinements}">
-						<li id='${selectedRefinement.fieldName}_${selectedRefinement.fieldValue}'><a title='${selectedRefinement.longDescription}' href="javascript:removeRefinement('${selectedRefinement.fieldName}','${selectedRefinement.fieldValue}')">
+						<li id='${selectedRefinement.fieldName}_${selectedRefinement.fieldValue}' class="${selectedRefinement.cssClass}"><a title='${selectedRefinement.longDescription}' href="javascript:removeRefinement('${selectedRefinement.fieldName}','${selectedRefinement.fieldValue}')">
 				${selectedRefinement.longDescription}<span class='close-icon'></span></a></li>
 						</c:forEach>
 					</c:if>

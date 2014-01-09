@@ -28,6 +28,7 @@
 		<property name="messageSource" ref="messageSource"></property>
 		<property name="countryDAO" ref="countryDAO"/>
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+		<property name="eadDAO" ref="eadDAO"/>
 	</bean>	
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.SaveSearchJSONControllor">
