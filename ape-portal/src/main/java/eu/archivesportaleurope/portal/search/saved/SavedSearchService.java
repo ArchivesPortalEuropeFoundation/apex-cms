@@ -23,13 +23,15 @@ import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.advanced.DateRefinement;
 import eu.archivesportaleurope.portal.search.advanced.Refinement;
+import eu.archivesportaleurope.portal.search.common.DateGap;
 import eu.archivesportaleurope.portal.search.common.FacetType;
+import eu.archivesportaleurope.portal.search.common.FacetValue;
 
 public class SavedSearchService {
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchService.class);
 	private static final String TRUE = "true";
-	private static final String FALSE = "false";
 	private EadSavedSearchDAO eadSavedSearchDAO;
 	private CountryDAO countryDAO;
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
@@ -44,7 +46,6 @@ public class SavedSearchService {
 		this.countryDAO = countryDAO;
 	}
 
-	
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
 	}
@@ -90,10 +91,10 @@ public class SavedSearchService {
 		/*
 		 * refinements
 		 */
-		if (StringUtils.isBlank(advancedSearch.getFond())){
+		if (StringUtils.isBlank(advancedSearch.getFond())) {
 			eadSavedSearch.setRefinementCountry(removeEmptyString(advancedSearch.getCountry()));
-			eadSavedSearch.setRefinementAi(removeEmptyString(advancedSearch.getAi()));			
-		}else {
+			eadSavedSearch.setRefinementAi(removeEmptyString(advancedSearch.getAi()));
+		} else {
 			eadSavedSearch.setRefinementFond(removeEmptyString(advancedSearch.getFond()));
 		}
 		eadSavedSearch.setRefinementType(removeEmptyString(advancedSearch.getType()));
@@ -200,63 +201,97 @@ public class SavedSearchService {
 				String aiName = source.getString("advancedsearch.text.savesearch.removedai");
 				refinements.add(new Refinement(FacetType.AI.getName(), aiId, aiName, true));
 			}
-			if (StringUtils.isNotBlank(advancedSearch.getFond()) && advancedSearch.getFond().length() > 1){
-				XmlType xmlType = XmlType.getTypeBySolrPrefix(advancedSearch.getFond().substring(0,1));
+			if (StringUtils.isNotBlank(advancedSearch.getFond()) && advancedSearch.getFond().length() > 1) {
+				XmlType xmlType = XmlType.getTypeBySolrPrefix(advancedSearch.getFond().substring(0, 1));
 				String identifier = advancedSearch.getFond().substring(1);
 				Integer id = Integer.parseInt(identifier);
 				EadSearchOptions eadSearchOptions = new EadSearchOptions();
 				eadSearchOptions.setEadClass(xmlType.getClazz());
 				eadSearchOptions.setId(id);
 				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
-				if (eads.size() > 0){
+				if (eads.size() > 0) {
 					Ead ead = eads.get(0);
-					refinements.add(new Refinement(FacetType.FOND.getName(), advancedSearch.getFond(), ead.getTitle()));					
-				}else {
+					refinements.add(new Refinement(FacetType.FOND.getName(), advancedSearch.getFond(), ead.getTitle()));
+				} else {
 					String fondName = source.getString("advancedsearch.text.savesearch.removedfond");
 					refinements.add(new Refinement(FacetType.FOND.getName(), advancedSearch.getFond(), fondName, true));
 				}
-				
+
 			}
 			List<String> types = advancedSearch.getTypeList();
-			if (types != null){
+			if (types != null) {
 				for (String type : types) {
-					refinements.add(new Refinement(FacetType.TYPE.getName(), type,
-							 source.getString(FacetType.TYPE.getPrefix()+type)));
-				}				
+					refinements.add(new Refinement(FacetType.TYPE.getName(), type, source.getString(FacetType.TYPE
+							.getPrefix() + type)));
+				}
 			}
 			List<String> levels = advancedSearch.getLevelList();
-			if (levels != null){
+			if (levels != null) {
 				for (String level : levels) {
-					refinements.add(new Refinement(FacetType.LEVEL.getName(), level,
-							 source.getString(FacetType.LEVEL.getPrefix()+level)));
-				}				
+					refinements.add(new Refinement(FacetType.LEVEL.getName(), level, source.getString(FacetType.LEVEL
+							.getPrefix() + level)));
+				}
 			}
 			List<String> daos = advancedSearch.getDaoList();
-			if (daos != null){
+			if (daos != null) {
 				for (String dao : daos) {
-					refinements.add(new Refinement(FacetType.DAO.getName(), dao,
-							 source.getString(FacetType.DAO.getPrefix()+dao)));
-				}				
+					refinements.add(new Refinement(FacetType.DAO.getName(), dao, source.getString(FacetType.DAO
+							.getPrefix() + dao)));
+				}
 			}
 			List<String> roledaos = advancedSearch.getRoledaoList();
-			if (roledaos != null){
-				for(String roledao : roledaos) {
-					refinements.add(new Refinement(FacetType.ROLEDAO.getName(), roledao,
-							 source.getString(FacetType.ROLEDAO.getPrefix()+roledao.toLowerCase())));
-				}				
+			if (roledaos != null) {
+				for (String roledao : roledaos) {
+					refinements.add(new Refinement(FacetType.ROLEDAO.getName(), roledao, source
+							.getString(FacetType.ROLEDAO.getPrefix() + roledao.toLowerCase())));
+				}
 			}
 			List<String> dateTypes = advancedSearch.getDateTypeList();
-			if (dateTypes != null){
+			if (dateTypes != null) {
 				for (String dateType : dateTypes) {
-					refinements.add(new Refinement(FacetType.DATE_TYPE.getName(), dateType,
-							 source.getString(FacetType.DATE_TYPE.getPrefix()+dateType)));
-				}				
+					refinements.add(new Refinement(FacetType.DATE_TYPE.getName(), dateType, source
+							.getString(FacetType.DATE_TYPE.getPrefix() + dateType)));
+				}
+			}
+			if (StringUtils.isNotBlank(advancedSearch.getStartdate())) {
+				String dateSpan = getDateSpan(advancedSearch.getStartdate());
+				String description = source.getString("advancedsearch.facet.title."
+						+ FacetType.START_DATE.getName().toLowerCase())
+						+ " " + dateSpan;
+				refinements.add(new DateRefinement(FacetType.START_DATE.getName(), advancedSearch.getStartdate(),
+						description));
+
+			}
+			if (StringUtils.isNotBlank(advancedSearch.getEnddate())) {
+				String dateSpan = getDateSpan(advancedSearch.getEnddate());
+				String description = source.getString("advancedsearch.facet.title."
+						+ FacetType.END_DATE.getName().toLowerCase())
+						+ " " + dateSpan;
+				refinements.add(new DateRefinement(FacetType.END_DATE.getName(), advancedSearch.getStartdate(),
+						description));
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
 		return refinements;
 
+	}
+
+	private String getDateSpan(String date) {
+		String[] splittedStartDate = date.split("_");
+		String startDateString = splittedStartDate[0];
+		String gapString = splittedStartDate[1];
+		DateGap dateGap = DateGap.getGapById(gapString);
+		if (dateGap != null) {
+			dateGap = dateGap.previous();
+			try {
+				return FacetValue.getDateSpan(dateGap, startDateString);
+			} catch (Exception e) {
+				LOGGER.error("Unable to parse: " + date + " " + gapString);
+			}
+
+		}
+		return null;
 	}
 
 	private static List<Integer> convertToIntegers(List<String> strings) {

@@ -40,4 +40,14 @@ public class Refinement {
 			return "";
 		}
 	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public boolean isDate() {
+		return false;
+	}
+
+
 }
