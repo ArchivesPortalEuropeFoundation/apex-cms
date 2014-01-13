@@ -85,6 +85,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			} else {
 				AlType parentType = AlType.getAlType(alTreeParams.getKey());
 				TreeType treeType = AlType.getTreeType(alTreeParams.getKey());
+				int depth = AlType.getDepth(alTreeParams.getKey());
 				Long id = AlType.getId(alTreeParams.getKey());
 				Integer start = AlType.getStart(alTreeParams.getKey());
 				Integer countryId = null;
@@ -104,7 +105,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 						}
 					}
 					if (displayAis) {
-						writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, aiId, locale),
+						writeToResponseAndClose(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, aiId, locale,depth),
 								resourceResponse);
 					}
 				} else if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)
@@ -170,7 +171,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			if (alTreeParams.existInExpandedNodes(AlType.COUNTRY, countryId, TreeType.GROUP)){
 				node.setLazy(false);
 				node.setExpanded(true);
-				node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, null, locale));
+				node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, null, locale, -1));
 			}
 			alTreeNodes.add(node);
 		}
@@ -178,7 +179,8 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	}
 
-	private List<AlTreeNode> generateArchivalInstitutionsTreeJSON(AlTreeParams alTreeParams,Integer countryId, Integer parentAiId, Locale locale) {
+	private List<AlTreeNode> generateArchivalInstitutionsTreeJSON(AlTreeParams alTreeParams,Integer countryId, Integer parentAiId, Locale locale, int parentDepth) {
+		int depth = parentDepth+1;
 		List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 				.getArchivalInstitutionsWithSearchableItems(countryId, parentAiId);
 		List<AlTreeNode> alTreeNodes = new ArrayList<AlTreeNode>();
@@ -187,12 +189,12 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			addTitle(node, archivalInstitution.getAiname(), locale);
 			if (archivalInstitution.isGroup()) {	
 				node.setFolder(true);
-				node.setHideCheckbox(true);
-				addKey(node, AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP);
+				node.setSelected(alTreeParams.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP));
+				addKeyWithDepth(node, AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP, depth);
 				if (alTreeParams.existInExpandedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP)){
 					node.setLazy(false);
 					node.setExpanded(true);
-					node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, archivalInstitution.getAiId(), locale));
+					node.setChildren(generateArchivalInstitutionsTreeJSON(alTreeParams, countryId, archivalInstitution.getAiId(), locale,depth));
 				}
 			} else {
 				node.setSelected(alTreeParams.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.LEAF));
@@ -382,7 +384,9 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 	private void addTitleFromKey(AlTreeNode node, String titleKey, Locale locale) {
 		addTitle(node, null, this.getMessageSource().getMessage(titleKey, null, locale), locale);
 	}
-
+	private static void addKeyWithDepth(AlTreeNode node, AlType alType, Number id, TreeType treeType, int depth) {
+		node.setKey(AlType.getKeyWithDepth(alType, id, treeType, depth));
+	}
 	private static void addKey(AlTreeNode node, AlType alType, Number id, TreeType treeType) {
 		node.setKey(AlType.getKey(alType, id, treeType));
 	}

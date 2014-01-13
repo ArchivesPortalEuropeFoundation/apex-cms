@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
+import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public final class AdvancedSearchUtil {
 
@@ -25,6 +26,19 @@ public final class AdvancedSearchUtil {
 	private static final SimpleDateFormat FULL_SOLR_FORMAT = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 	private static final SimpleDateFormat FULL_DATE_TIME_FORMAT = new SimpleDateFormat(FULL_DATE_TIME);
 
+	public static void addParameter(Map<String, List<String>> parameters, String name, String toBeAdded) {
+		if (StringUtils.isNotBlank(toBeAdded)) {
+			if (parameters.containsKey(name)){
+				List<String> list = parameters.get(name);
+				list.add(toBeAdded);	
+			}else {
+				List<String> list = new ArrayList<String>();
+				list.add(toBeAdded);
+				parameters.put(name, list);						
+			}
+		}
+	}
+	
 	public static void setParameter(Map<String, List<String>> parameters, String name, String toBeAdded) {
 		if (StringUtils.isNotBlank(toBeAdded)) {
 			List<String> list = new ArrayList<String>();
@@ -183,7 +197,14 @@ public final class AdvancedSearchUtil {
 				if (AlType.COUNTRY.equals(alType)) {
 					countriesSelected.add(id.toString());
 				} else if (AlType.ARCHIVAL_INSTITUTION.equals(alType)) {
-					archivalInstitutionsIdsSelected.add(id.toString());
+					TreeType treeType = AlType.getTreeType(item);
+					if (TreeType.GROUP.equals(treeType)){
+						int depth = AlType.getDepth(item);
+						String name = SolrFields.AI_DYNAMIC_ID + depth + SolrFields.DYNAMIC_STRING_SUFFIX;
+						AdvancedSearchUtil.addParameter(solrQueryParameters.getOrParameters(), name, SolrFields.AI_DYNAMIC + id.toString());
+					}else {
+						archivalInstitutionsIdsSelected.add(id.toString());
+					}
 				} else if (AlType.FINDING_AID.equals(alType)) {
 					faHgIdsSelected.add(alType.toString() + id);
 				} else if (AlType.SOURCE_GUIDE.equals(alType)) {

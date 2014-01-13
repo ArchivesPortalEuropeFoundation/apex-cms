@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.search.saved;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.al.AlType;
+import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 import eu.archivesportaleurope.portal.search.advanced.DateRefinement;
 import eu.archivesportaleurope.portal.search.advanced.Refinement;
@@ -87,7 +90,7 @@ public class SavedSearchService {
 		/*
 		 * al search options
 		 */
-		eadSavedSearch.setAlTreeSelectedNodes(removeEmptyString(advancedSearch.getSelectedNodes()));
+		eadSavedSearch.setAlTreeSelectedNodes(removeDepthFromSelectedNodes(advancedSearch.getSelectedNodes()));
 		/*
 		 * refinements
 		 */
@@ -142,7 +145,7 @@ public class SavedSearchService {
 			if (eadSavedSearch.isExactDateSearch()) {
 				advancedSearch.setExactDateSearch(TRUE);
 			}
-			advancedSearch.setSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes());
+			advancedSearch.setSelectedNodes(addDepthToSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes()));
 			if (!eadSavedSearch.isTemplate()) {
 				if (eadSavedSearch.getPageNumber() != null) {
 					advancedSearch.setPageNumber(eadSavedSearch.getPageNumber() + "");
@@ -322,5 +325,55 @@ public class SavedSearchService {
 		} else {
 			return string;
 		}
+	}
+	private static String removeDepthFromSelectedNodes(String selectedNodes){
+		String result =null;
+		if (StringUtils.isNotBlank(selectedNodes)) {
+			List<String> tempList = Arrays.asList(selectedNodes.split(AlType.LIST_SEPARATOR));
+			for (int i = 0; i < tempList.size(); i++){
+				String selectedNode = tempList.get(i);
+				AlType alType = AlType.getAlType(selectedNode);
+				Long id = AlType.getId(selectedNode);
+				TreeType treeType = AlType.getTreeType(selectedNode);
+				String key = AlType.getKey(alType, id, treeType);
+				if (i == 0){
+					result = key;
+				}else {
+					result += AlType.LIST_SEPARATOR + key;
+				}
+			}
+		}
+		return result;
+	}
+	private String addDepthToSelectedNodes(String selectedNodes){
+		String result =null;
+		if (StringUtils.isNotBlank(selectedNodes)) {
+			List<String> tempList = Arrays.asList(selectedNodes.split(AlType.LIST_SEPARATOR));
+			for (int i = 0; i < tempList.size(); i++){
+				String selectedNode = tempList.get(i);
+				AlType alType = AlType.getAlType(selectedNode);
+				Long id = AlType.getId(selectedNode);
+				TreeType treeType = AlType.getTreeType(selectedNode);
+				String key = null;
+				if (AlType.ARCHIVAL_INSTITUTION.equals(alType) && TreeType.GROUP.equals(treeType)){
+					int depth = 0;
+					ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(id.intValue());
+					ArchivalInstitution parent  = archivalInstitution.getParent();
+					while (parent != null){
+						depth++;
+						parent = parent.getParent();
+					}
+					key = AlType.getKeyWithDepth(alType, id, treeType, depth);
+				}else {
+					key = AlType.getKey(alType, id, treeType);
+				}
+				if (i == 0){
+					result = key;
+				}else {
+					result += AlType.LIST_SEPARATOR + key;
+				}
+			}
+		}
+		return result;
 	}
 }
