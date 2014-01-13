@@ -12,7 +12,6 @@ import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public class AlTreeParams {
 	private final static Logger LOGGER = Logger.getLogger(ArchivalLandscapeTreeJSONWriter.class);
-	private static final String SEPARATOR = ",";
 	private String key;
 	private String selectedNodes;
 	private Integer aiId;
@@ -68,7 +67,14 @@ public class AlTreeParams {
 	}
 	public List<String> getSelectedNodesList() {
 		if (selectedNodesList == null && containSelectedNodes){
-			selectedNodesList = Arrays.asList(selectedNodes.split(SEPARATOR));
+			selectedNodesList = new ArrayList<String>();
+			List<String> tempList = Arrays.asList(selectedNodes.split(AlType.LIST_SEPARATOR));
+			for (String selectedNode: tempList){
+				AlType alType = AlType.getAlType(selectedNode);
+				Long id = AlType.getId(selectedNode);
+				TreeType treeType = AlType.getTreeType(selectedNode);
+				selectedNodesList.add(AlType.getKey(alType, id, treeType));
+			}
 		}else if (selectedNodesList == null){
 			selectedNodesList = new ArrayList<String>();
 		}

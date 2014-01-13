@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.common.al;
 
+import org.apache.commons.lang.StringUtils;
+
 import eu.apenet.commons.solr.SolrValues;
 
 public enum AlType {
@@ -8,7 +10,9 @@ public enum AlType {
 			SolrValues.SG_PREFIX), FINDING_AID(SolrValues.FA_PREFIX), C_LEVEL(SolrValues.C_LEVEL_PREFIX);
 	private static final String COLON = ":";
 	private static final String SEPARATOR = "_";
+	private static final String DEPTH_SEPARATOR = "|";
 	private static final String START_SEPARATOR = "-";
+	public static final String LIST_SEPARATOR = ",";
 	private String type;
 
 	private AlType(String type) {
@@ -35,9 +39,12 @@ public enum AlType {
 		String subString = string.substring(firstIndex, lastIndex);
 		return Long.parseLong(subString);
 	}
+	public static String getKeyWithDepth(AlType alType, Number id, TreeType treeType, int depth) {
+		return alType + SEPARATOR + id + COLON + treeType + DEPTH_SEPARATOR + depth;
+	}
 
 	public static String getKey(AlType alType, Number id, TreeType treeType) {
-		return alType + SEPARATOR + id + COLON + treeType;
+		return alType + SEPARATOR + id + COLON + treeType + DEPTH_SEPARATOR;
 	}
 
 	public static String getKey(String key, Integer start) {
@@ -48,12 +55,12 @@ public enum AlType {
 	}
 
 	public static String getKey(AlType alType, Number id, TreeType treeType, Integer start) {
-		return alType + SEPARATOR + id + COLON + treeType + START_SEPARATOR + start;
+		return alType + SEPARATOR + id + COLON + treeType + DEPTH_SEPARATOR + START_SEPARATOR + start;
 	}
 
 	public static TreeType getTreeType(String string) {
 		int firstIndex = string.indexOf(COLON) + 1;
-		int lastIndex = string.indexOf(START_SEPARATOR);
+		int lastIndex = string.indexOf(DEPTH_SEPARATOR);
 		String subString = null;
 		if (lastIndex > 0) {
 			subString = string.substring(firstIndex, lastIndex);
@@ -70,6 +77,21 @@ public enum AlType {
 			return Integer.parseInt(subString);
 		} else {
 			return 0;
+		}
+	}
+	public static Integer getDepth(String string){
+		int firstIndex = string.indexOf(DEPTH_SEPARATOR) + 1;
+		int lastIndex = string.indexOf(START_SEPARATOR);
+		String subString = null;
+		if (lastIndex > 0) {
+			subString = string.substring(firstIndex, lastIndex);
+		} else {
+			subString = string.substring(firstIndex);
+		}
+		if (StringUtils.isBlank(subString)){
+			return -1;
+		}else {
+			return Integer.parseInt(subString);
 		}
 	}
 }
