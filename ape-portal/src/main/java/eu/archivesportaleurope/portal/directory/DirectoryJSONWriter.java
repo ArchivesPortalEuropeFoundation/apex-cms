@@ -269,9 +269,11 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				Iterator<Coordinates> reposIt = reposList.iterator();
 				while (reposIt.hasNext()) {
 					Coordinates coordinates = reposIt.next();
-					if (coordinates.getLat() != 0
-							|| coordinates.getLon() != 0) {
-						cleanReposList.add(coordinates);
+					if (coordinates.getLat() != 0 || coordinates.getLon() != 0) {
+						//control elements outside earth coordinates (-85,-180) and (85,180)
+						if ((coordinates.getLat() >-85 && coordinates.getLat() < 85) && (coordinates.getLon() >-180 && coordinates.getLon() < 180)) {
+							cleanReposList.add(coordinates);
+						}
 					}
 				}
 				// Pass the clean array to the existing one.
@@ -339,7 +341,8 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(COMMA);
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
-		builder.append("\"name\":\""+repo.getNameInstitution()+"\"");
+		//this escapes " in field
+		builder.append("\"name\":\""+repo.getNameInstitution().replaceAll("\"", "'")+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}
