@@ -270,8 +270,8 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				while (reposIt.hasNext()) {
 					Coordinates coordinates = reposIt.next();
 					if (coordinates.getLat() != 0 || coordinates.getLon() != 0) {
-						//control elements outside earth coordinates (-85,-180) and (85,180)
-						if ((coordinates.getLat() >-85 && coordinates.getLat() < 85) && (coordinates.getLon() >-180 && coordinates.getLon() < 180)) {
+						//control elements outside the printable earth coordinates (-77 to 82) and (-177 to 178)
+						if ((coordinates.getLat() >=-77 && coordinates.getLat() <= 82) && (coordinates.getLon() >=-177 && coordinates.getLon() <= 178)) {
 							cleanReposList.add(coordinates);
 						}
 					}
