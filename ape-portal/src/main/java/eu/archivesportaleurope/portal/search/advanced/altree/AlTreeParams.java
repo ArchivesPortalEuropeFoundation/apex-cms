@@ -5,13 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public class AlTreeParams {
-	private final static Logger LOGGER = Logger.getLogger(ArchivalLandscapeTreeJSONWriter.class);
 	private String key;
 	private String selectedNodes;
 	private Integer aiId;
@@ -60,9 +58,6 @@ public class AlTreeParams {
 		return expandedNodesList;
 	}
 	public void setExpandedNodesList(List<String> expandedNodesList) {
-		for (String expandedNode: expandedNodesList){
-			LOGGER.info(expandedNode);
-		}
 		this.expandedNodesList = expandedNodesList;
 	}
 	public List<String> getSelectedNodesList() {
