@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
 import java.util.List;
+
 import java.util.Map;
 
 import javax.portlet.ResourceRequest;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+
 
 /**
  * Generates an json for autocompletion
@@ -28,7 +31,8 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 	@ResourceMapping(value = "autocompletion")
 	public void writeJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
-		String term = resourceRequest.getParameter("term");
+		String term = resourceRequest.getParameter("term").trim();
+		
 		try {
 			
 			StringBuilder builder = new StringBuilder();
