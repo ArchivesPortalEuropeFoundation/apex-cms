@@ -28,7 +28,8 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 	@ResourceMapping(value = "autocompletion")
 	public void writeJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
-		String term = resourceRequest.getParameter("term");
+		String term = resourceRequest.getParameter("term").trim();
+		
 		try {
 			
 			StringBuilder builder = new StringBuilder();
