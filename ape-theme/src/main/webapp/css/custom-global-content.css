@@ -26,6 +26,13 @@ h1.content-page-title {
     margin-left: 5px;
     margin-top:5px;
 }
+#survey #remove {
+	background: url("../images/ape/otherbutton.gif") repeat-x scroll right top white;
+    border: 1px solid #00A0DF;
+    color: #00384D;
+    margin-left: 5px;
+    margin-top:5px;
+}
 #survey p {
 	padding: 5px;
 }
