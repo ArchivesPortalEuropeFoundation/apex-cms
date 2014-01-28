@@ -1,3 +1,7 @@
+$( document ).ready(function() {
+	console.log( "ready!" );
+	loadSurvey();
+});
 function logAction(title, url) {
 	var baseUrl = window.location.protocol + '//' + window.location.hostname;
 	var shortUrl = url.replace(baseUrl, "");
@@ -7,6 +11,7 @@ function logAction(title, url) {
 	_gaq.push([ '_trackPageview', shortUrl ]);
 }
 function loadSurvey() {
+	console.info("loadSurvey-main-public");
 	$('#survey').removeClass("hidden");
 	$("#survey #start").click(function(event) {
 		event.preventDefault();
