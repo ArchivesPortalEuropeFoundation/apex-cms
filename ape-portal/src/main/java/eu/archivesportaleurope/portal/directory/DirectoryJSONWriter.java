@@ -393,18 +393,27 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				coordinates = repoCoordinatesList.get(0);
 			}
 
-			// Build bounds node.
-			builder.append(COMMA);
-			builder.append("\"bounds\":");
-
-			// Build coordinates node.
-			builder.append(START_ARRAY);
-			builder.append(START_ITEM);
-			builder.append("\"latitude\":\"" + coordinates.getLat() + "\"");
-			builder.append(COMMA);
-			builder.append("\"longitude\":\"" + coordinates.getLon() + "\"");
-			builder.append(END_ITEM);
-			builder.append(END_ARRAY);
+			// if coords=0,0 or null call to show the country
+			if(coordinates.getLat()==0.0 && coordinates.getLon()==0.0){
+				builder.append(buildCountryBounds(archivalInstitution.getCountry().getIsoname()));
+			}
+			else{	
+				// Build bounds node.
+				builder.append(COMMA);
+				builder.append("\"bounds\":");
+	
+				// Build coordinates node.
+				builder.append(START_ARRAY);
+				builder.append(START_ITEM);
+				builder.append("\"latitude\":\"" + coordinates.getLat() + "\"");
+				builder.append(COMMA);
+				builder.append("\"longitude\":\"" + coordinates.getLon() + "\"");
+				builder.append(END_ITEM);
+				builder.append(END_ARRAY);
+			}
+		}
+		else{
+			builder.append(buildCountryBounds(archivalInstitution.getCountry().getIsoname()));
 		}
 
 		return builder;
