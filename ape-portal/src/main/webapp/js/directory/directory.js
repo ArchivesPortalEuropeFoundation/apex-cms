@@ -59,8 +59,9 @@ function printEagByURL(url){
 		var preview = window.open(url, 'printeag',
 		'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 		preview.focus();
-		$(".displayLinkSeeMore").each(function(){$(this).remove();});
-		$(".displayLinkSeeLess").each(function(){$(this).remove();});
+		//SeeMore / SeeLess in Print preview
+//		$(".displayLinkSeeMore").each(function(){$(this).remove();});
+//		$(".displayLinkSeeLess").each(function(){$(this).remove();});
 	}catch (e) {
 		// TODO: handle exception
 		$("body").css("cursor", "default");
@@ -721,6 +722,7 @@ function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 	try{
 		$(document).ready(function () {
 			google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
+			//SeeMore / SeeLess in Directory
 			$(".displayLinkSeeMore").each(function(){$(this).remove();});
 			$(".displayLinkSeeLess").each(function(){$(this).remove();});
 			$("th").each(function(){
@@ -789,9 +791,18 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 
 		    // Check if exists institution bounds.
 		    if (data.bounds != undefined) {
-		    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
-		    	bounds = new google.maps.LatLngBounds(boundLatLng);
-		    	bounds.extend(boundLatLng);
+		    	var boundLatLng;
+		    	if (data.bounds.length>1) {
+		    		var southwestLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	var northeastLatLng = new google.maps.LatLng(data.bounds[1].latitude, data.bounds[1].longitude);
+			    	bounds = new google.maps.LatLngBounds(southwestLatLng, northeastLatLng);
+			    	bounds.extend(southwestLatLng);
+			    	bounds.extend(northeastLatLng);
+		    	} else {
+			    	boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	bounds = new google.maps.LatLngBounds(boundLatLng);
+			    	bounds.extend(boundLatLng);
+		    	}
 		    	map.fitBounds(bounds);
 
 		    	// Whether to make the cluster icons printable. 
@@ -806,7 +817,9 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 			     	});
 
 			    map.setZoom(18);
-			    map.setCenter(boundLatLng);
+		    	if (data.bounds.length == 1) {
+		    		map.setCenter(boundLatLng);
+		    	}
 		    } else {
 		    	map.fitBounds(bounds);
 
@@ -823,7 +836,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 
 			    map.setZoom(18);
 		    }
-
+		    
 			google.maps.event.addListener(map, 'tilesloaded', function(){
 				window.setTimeout(function() {
 					self.print();
