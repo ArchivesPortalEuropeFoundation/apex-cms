@@ -1,5 +1,6 @@
 var selectedCountryCode, selectedAiname;
 function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl, directoryTreeMapsUrl) {
+	
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
 		title: "Navigated Search Tree for Archival Landscape - Countries, Archival Insitution Groups and Archival Institutions",
@@ -25,6 +26,7 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 
 		//Function to load the EAG information in the right part of the page using AJAX
 			onActivate: function(node) {
+				
 				if (node.data.countryCode) {
 					selectedCountryCode = node.data.countryCode;
 				}else {
@@ -66,45 +68,49 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId){
 //	    new google.maps.LatLng(-85, 180)            // bottom right corner
 //	);
 
-	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId },function(data){
-	    var markers = [];
-	    var marker,i=0;
-	    var infowindow = new google.maps.InfoWindow();
-	    // load all repos with names and coords
-	    var bounds = new google.maps.LatLngBounds();
-	    $.each(data.repos,function(){
-	    	var dataRepo = $(this);
-	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
-	        bounds.extend(latLng);
-	        markers.push(marker);
-	        
-	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-	            return function() {
-	                var content=dataRepo[0].name;
-	                infowindow.setContent(content);
-	                infowindow.open(map, marker);
-	            }
-	        })(marker, i));
-	        i++;
-	        
-	    });
-	    
-	    if (aiId==null){
-		    var map = new google.maps.Map(document.getElementById('map_div'), {
-		      zoom: 7,
-		      mapTypeId: google.maps.MapTypeId.ROADMAP
+	try{
+		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId },function(data){
+		    var markers = [];
+		    var marker,i=0;
+		    var infowindow = new google.maps.InfoWindow();
+		    // load all repos with names and coords
+		    var bounds = new google.maps.LatLngBounds();
+		    $.each(data.repos,function(){
+		    	var dataRepo = $(this);
+		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+		        bounds.extend(latLng);
+		        markers.push(marker);
+		        
+		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		            return function() {
+		                var content=dataRepo[0].name;
+		                infowindow.setContent(content);
+		                infowindow.open(map, marker);
+		            }
+		        })(marker, i));
+		        i++;
+		        
 		    });
-	    }
-	    else{
-		    var map = new google.maps.Map(document.getElementById('map_div'), {
-		      zoom: 16,
-		      mapTypeId: google.maps.MapTypeId.ROADMAP
-		    });
-    	}
-	    map.fitBounds(bounds);
-	    var markerCluster = new MarkerClusterer(map, markers);
-	});
+		    
+		    if (aiId==null){
+			    var map = new google.maps.Map(document.getElementById('map_div'), {
+			      zoom: 7,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    });
+		    }
+		    else{
+			    var map = new google.maps.Map(document.getElementById('map_div'), {
+			      zoom: 16,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    });
+	    	}
+		    map.fitBounds(bounds);
+		    var markerCluster = new MarkerClusterer(map, markers);
+		});
+	}catch (e) {
+		// TODO: handle exception
+	}
 }
 
 function displayRepository(id){
@@ -114,6 +120,7 @@ function displayRepository(id){
         scrollTop: $("#repository_" + id + " .repositoryName").offset().top
          }, 2000);
 }
+
 function seeLess(clazz,identifier){
 	if (identifier){
 		prefix = "#repository_" + identifier + " ." +clazz + " ";
@@ -134,6 +141,7 @@ function seeMore(clazz,identifier){
 	$(prefix + ".displayLinkSeeMore").addClass("hidden");
 	$(prefix + ".longDisplay").show();
 }
+
 function initEagDetails(selectedCountryCode,node){
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
@@ -159,9 +167,10 @@ function initEagDetails(selectedCountryCode,node){
 	$('html, body').stop().animate({
         'scrollTop': $("a#eagDetails").offset().top
     }, 900, 'swing', function () {
-    	logAction("scroll moved to: ", $("#eagDetails").offset().top);
+    	//logAction("scroll moved to: ", $("#eagDetails").offset().top);
     });
 }
+
 function showRepository(identifier){
 	$(identifier + " .repositoryName").removeClass("collapsed").addClass("expanded");
 	$(identifier + " .repositoryInfo").show();
@@ -683,79 +692,88 @@ function recoverRelatedInstitution(relatedAIId) {
 }
 
 function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
-	google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
-	//remove see-more/see-less
-	$(".displayLinkSeeMore").each(function(){$(this).remove();});
-	$(".displayLinkSeeLess").each(function(){$(this).remove();});
-	$("th").each(function(){
-		var html = $(this).html();
-		if(html.indexOf("()")!=-1){
-			$(this).html(html.replace("()",""));
-		}
-	});
-	multiLanguage();
+	try{
+		google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
+		//remove see-more/see-less
+		$(".displayLinkSeeMore").each(function(){$(this).remove();});
+		$(".displayLinkSeeLess").each(function(){$(this).remove();});
+		$("th").each(function(){
+			var html = $(this).html();
+			if(html.indexOf("()")!=-1){
+				$(this).html(html.replace("()",""));
+			}
+		});
+		multiLanguage();	
+	}catch (e) {
+		// TODO: handle exception
+	}
+	
 }
 
 function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
-	$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
-	    var markers = [];
-	    var marker,i=0;
-	    var infowindow = new google.maps.InfoWindow();
-	    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
-	    'chco=FFFFFF,008CFF,000000&ext=.png';
-	    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
-	    
-	    var styles = [[{
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
-            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
-          }, {
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
-            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
-          }, {
-            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
-            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
-          }]];
-	    
-	    // load all repos with names and coords
-	    var bounds = new google.maps.LatLngBounds();
-	    $.each(data.repos,function(){
-	    	var dataRepo = $(this);
-	        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-	        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
-	        bounds.extend(latLng);
-	        markers.push(marker);
-	        
-	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-	            return function() {
-	                var content=dataRepo[0].name;
-	                infowindow.setContent(content);
-	                infowindow.open(map, marker);
-	            }
-	        })(marker, i));
-	        i++;
-	        
-	    });
+	try {
+		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
+		    var markers = [];
+		    var marker,i=0;
+		    var infowindow = new google.maps.InfoWindow();
+		    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+		    'chco=FFFFFF,008CFF,000000&ext=.png';
+		    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
+		    
+		    var styles = [[{
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
+	            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
+	          }, {
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
+	            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
+	          }, {
+	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
+	            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
+	          }]];
+		    
+		    // load all repos with names and coords
+		    var bounds = new google.maps.LatLngBounds();
+		    $.each(data.repos,function(){
+		    	var dataRepo = $(this);
+		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
+		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+		        bounds.extend(latLng);
+		        markers.push(marker);
+		        
+		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+		            return function() {
+		                var content=dataRepo[0].name;
+		                infowindow.setContent(content);
+		                infowindow.open(map, marker);
+		            }
+		        })(marker, i));
+		        i++;
+		        
+		    });
+			
+		    var map = new google.maps.Map(document.getElementById('map_div'), {
+		      zoom: 16,
+		      mapTypeId: google.maps.MapTypeId.ROADMAP
+		    });
+		    map.fitBounds(bounds);
+	
+		    // Whether to make the cluster icons printable. 
+		    // Do not set to true if the url fields in the styles array refer to image sprite files. 
+		    // The default value is false
+		    var markerCluster = new MarkerClusterer(map, markers, {
+		        ignoreHidden: true,
+		        printable: true,
+	        	styles: styles[-1]
+	          });
+		    
+			google.maps.event.addListener(map, 'tilesloaded', function(){
+				window.setTimeout(function() {
+					self.print();
+				}, 1500);
+			});
 		
-	    var map = new google.maps.Map(document.getElementById('map_div'), {
-	      zoom: 16,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP
-	    });
-	    map.fitBounds(bounds);
-
-	    // Whether to make the cluster icons printable. 
-	    // Do not set to true if the url fields in the styles array refer to image sprite files. 
-	    // The default value is false
-	    var markerCluster = new MarkerClusterer(map, markers, {
-	        ignoreHidden: true,
-	        printable: true,
-        	styles: styles[-1]
-          });
-	    
-		google.maps.event.addListener(map, 'tilesloaded', function(){
-			window.setTimeout(function() {
-				self.print();
-			}, 1500);
-		});
-		
-	}); //JSON
+		}); //JSON
+	} catch (e) {
+		// TODO: handle exception
+	}
 }
