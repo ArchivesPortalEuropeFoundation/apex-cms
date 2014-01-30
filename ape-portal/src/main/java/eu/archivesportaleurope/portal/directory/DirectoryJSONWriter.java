@@ -1,6 +1,5 @@
 package eu.archivesportaleurope.portal.directory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -14,23 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderGeometry;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.google.code.geocoder.model.GeocoderResult;
-import com.google.code.geocoder.model.GeocoderStatus;
-import com.google.code.geocoder.model.LatLng;
-import com.google.code.geocoder.model.LatLngBounds;
-
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
-import eu.apenet.persistence.vo.Country;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
@@ -169,7 +157,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
 				addCountryCode(buffer, countryCode);
 				buffer.append(END_ITEM);
-			} else if (archivalInstitutionUnit.getIsgroup() && !archivalInstitutionUnit.isHasArchivalInstitutions()) {
+			} else if (archivalInstitutionUnit.getIsgroup() && archivalInstitutionUnit.isHasArchivalInstitutions()) {
 				// The Archival Institution is a group but it doesn't have any
 				// archival institutions within it
 				buffer.append(START_ITEM);
@@ -251,53 +239,29 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 
 			String countryCode = resourceRequest.getParameter("countryCode");
 			String institutionID = resourceRequest.getParameter("institutionID");
-			String repositoryName = resourceRequest.getParameter("repositoryName");
 			
 			//parse bad params (if jquery parse a null to "null", it has to be reconverted
 			countryCode = (countryCode!=null && countryCode.equalsIgnoreCase("null"))?null:countryCode;
 			institutionID = (institutionID!=null && institutionID.equalsIgnoreCase("null"))?null:institutionID;
-			repositoryName = (repositoryName!=null && repositoryName.equalsIgnoreCase("null"))?null:repositoryName;
-
-			// Always recovers all the coordinates.
-			List<Coordinates> reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
-			//Collections.sort(reposList);
-
-			// Remove coordinates with values (0, 0).
-			if (reposList != null && !reposList.isEmpty()) {
-				// New list without (0, 0) values.
-				List<Coordinates> cleanReposList = new ArrayList<Coordinates>();
-				Iterator<Coordinates> reposIt = reposList.iterator();
-				while (reposIt.hasNext()) {
-					Coordinates coordinates = reposIt.next();
-					if (coordinates.getLat() != 0 || coordinates.getLon() != 0) {
-						//control elements outside the printable earth coordinates (-77 to 82) and (-177 to 178)
-						if ((coordinates.getLat() >=-77 && coordinates.getLat() <= 82) && (coordinates.getLon() >=-177 && coordinates.getLon() <= 178)) {
-							cleanReposList.add(coordinates);
-						}
-					}
-				}
-				// Pass the clean array to the existing one.
-				reposList = cleanReposList;
-			}
-
-			// Check the part to center.
-			if (repositoryName != null && !repositoryName.isEmpty()
-					&& institutionID != null && !institutionID.isEmpty()) {
-				writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList, null, institutionID, repositoryName), resourceResponse);
-			} else if (institutionID != null && !institutionID.isEmpty()) {
-				writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList, null, institutionID, null), resourceResponse);
+			
+			List<Coordinates> reposList = null;
+			if (institutionID != null && !institutionID.isEmpty()) {
+				ArchivalInstitution archivalInstitution = DAOFactory.instance().getArchivalInstitutionDAO().findById(Integer.parseInt(institutionID));
+				reposList = DAOFactory.instance().getCoordinatesDAO().findCoordinatesByArchivalInstitution(archivalInstitution);
 			} else if (countryCode != null && !countryCode.isEmpty()) {
-				writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList, countryCode, null, null), resourceResponse);
+				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinatesByCountryCode(countryCode);
 			} else {
-				writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList, null, null, null), resourceResponse);
+				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
 			}
+			//Collections.sort(reposList);
+			writeToResponseAndClose(generateGmapsJSON(navigationTree, reposList), resourceResponse);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
 	
-	private StringBuilder generateGmapsJSON(NavigationTree navigationTree, List<Coordinates> repoList, String countryCode, String institutionID, String repositoryName) {
+	private StringBuilder generateGmapsJSON(NavigationTree navigationTree, List<Coordinates> repoList) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ITEM);
 		builder.append("\"count\":" + repoList.size());
@@ -316,19 +280,6 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			}
 		}
 		builder.append(END_ARRAY);
-
-		// Add the center values.
-		if (repositoryName != null && !repositoryName.isEmpty()
-				&& institutionID != null && !institutionID.isEmpty()) {
-			// Call the method to add the bounds for the repository of the institution.
-			builder.append(this.buildInstitutionBounds(institutionID, repositoryName));
-		} else if (institutionID != null && !institutionID.isEmpty()) {
-			// Call the method to add the bounds for the institution.
-			builder.append(this.buildInstitutionBounds(institutionID, null));
-		} else if (countryCode != null && !countryCode.isEmpty()) {
-			// Call the method to add the bounds for the country.
-			builder.append(this.buildCountryBounds(countryCode));
-		}
 		
 		builder.append(END_ITEM);
 		return builder;
@@ -341,151 +292,8 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(COMMA);
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
-		//this escapes " in field
-		builder.append("\"name\":\""+repo.getNameInstitution().replaceAll("\"", "'")+"\"");
+		builder.append("\"name\":\""+repo.getNameInstitution()+"\"");
 		builder.append(END_ITEM);
-		return builder;
-	}
-
-	/**
-	 * Method to build the data for the institution bounds.
-	 *
-	 * @param institutionID Institution for recover the bounds.
-	 * @return Element with the bounds for the institution passed.
-	 */
-	private StringBuilder buildInstitutionBounds(String institutionID, String repositoryName) {
-		StringBuilder builder = new StringBuilder();
-		// Recover the list of coordinates for the current institution.
-		ArchivalInstitution archivalInstitution = DAOFactory.instance().getArchivalInstitutionDAO().findById(Integer.parseInt(institutionID));
-		List<Coordinates> repoCoordinatesList = DAOFactory.instance().getCoordinatesDAO().findCoordinatesByArchivalInstitution(archivalInstitution);
-
-		// If the list contains more than one elemet, find the proper element.
-		if (repoCoordinatesList != null && !repoCoordinatesList.isEmpty()) {
-			Coordinates coordinates = null;
-			if (repoCoordinatesList.size() > 1) {
-				Iterator<Coordinates> repoCoordinatesIt = repoCoordinatesList.iterator();
-				if (repositoryName != null && !repositoryName.isEmpty()) {
-					// Select the proper element from database.
-					while (repoCoordinatesIt.hasNext()) {
-						Coordinates coordinatesTest = repoCoordinatesIt.next();
-						if (repositoryName.startsWith(coordinatesTest.getNameInstitution())) {
-							coordinates = coordinatesTest;
-						}
-					}
-				} else {
-					// First element in database (main institution)
-					while (repoCoordinatesIt.hasNext()) {
-						Coordinates coordinatesTest = repoCoordinatesIt.next();
-						if (coordinates != null) {
-							if (coordinates.getId() > coordinatesTest.getId()) {
-								coordinates = coordinatesTest;
-							}
-						} else {
-							coordinates = coordinatesTest;
-						}
-					}
-				}
-			}
-
-			// At this point, if coordinates still null, set the value of the
-			// first element of the list.
-			if (coordinates == null) {
-				coordinates = repoCoordinatesList.get(0);
-			}
-
-			// if coords=0,0 or null call to show the country
-			if(coordinates.getLat()==0.0 && coordinates.getLon()==0.0){
-				builder.append(buildCountryBounds(archivalInstitution.getCountry().getIsoname()));
-			}
-			else{	
-				// Build bounds node.
-				builder.append(COMMA);
-				builder.append("\"bounds\":");
-	
-				// Build coordinates node.
-				builder.append(START_ARRAY);
-				builder.append(START_ITEM);
-				builder.append("\"latitude\":\"" + coordinates.getLat() + "\"");
-				builder.append(COMMA);
-				builder.append("\"longitude\":\"" + coordinates.getLon() + "\"");
-				builder.append(END_ITEM);
-				builder.append(END_ARRAY);
-			}
-		}
-		else{
-			builder.append(buildCountryBounds(archivalInstitution.getCountry().getIsoname()));
-		}
-
-		return builder;
-	}
-
-	/**
-	 * Method to build the data for the country bounds.
-	 *
-	 * @param countryCode Country code for recover the bounds.
-	 * @return Element with the bounds for the country code passed.
-	 */
-	private StringBuilder buildCountryBounds(String countryCode) {
-		StringBuilder builder = new StringBuilder();
-		// Recover the name of the current country by country code.
-		List<Country> countriesList = DAOFactory.instance().getCountryDAO().getCountries(countryCode);
-		
-		if (countriesList != null && !countriesList.isEmpty()) {
-			String selectedCountryName = countriesList.get(0).getCname();
-
-			// Try to recover the coordinates to bound.
-			Geocoder geocoder = new Geocoder();
-			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(selectedCountryName).getGeocoderRequest();
-			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-			if (geocoderResponse.getStatus().equals(GeocoderStatus.OK)) {
-				List<GeocoderResult> geocoderResultList = geocoderResponse.getResults();
-
-				// Always recover the first result.
-				if (geocoderResultList.size() > 0) {
-					GeocoderResult geocoderResult = geocoderResultList.get(0);
-
-					// Get Geometry Object.
-					GeocoderGeometry geocoderGeometry = geocoderResult.getGeometry();
-					// Get Bounds Object.
-					LatLngBounds latLngBounds = geocoderGeometry.getBounds();
-
-					// Get southwest bound.
-					LatLng southwestLatLng = latLngBounds.getSouthwest();
-					// Get southwest latitude.
-					Double southwestLatitude = southwestLatLng.getLat().doubleValue();
-					// Get southwest longitude.
-					Double southwestLongitude = southwestLatLng.getLng().doubleValue();
-
-					// Get northeast bound.
-					LatLng northeastLatLng = latLngBounds.getNortheast();
-					// Get northeast latitude.
-					Double northeastLatitude = northeastLatLng.getLat().doubleValue();
-					// Get northeast longitude.
-					Double northeastLongitude = northeastLatLng.getLng().doubleValue();
-
-					// Build bounds node.
-					builder.append(COMMA);
-					builder.append("\"bounds\":");
-
-					builder.append(START_ARRAY);
-					// Build southwest node.
-					builder.append(START_ITEM);
-					builder.append("\"latitude\":\"" + southwestLatitude + "\"");
-					builder.append(COMMA);
-					builder.append("\"longitude\":\"" + southwestLongitude + "\"");
-					builder.append(END_ITEM);
-
-					// Build northeast node.
-					builder.append(COMMA);
-					builder.append(START_ITEM);
-					builder.append("\"latitude\":\"" + northeastLatitude + "\"");
-					builder.append(COMMA);
-					builder.append("\"longitude\":\"" + northeastLongitude + "\"");
-					builder.append(END_ITEM);
-					builder.append(END_ARRAY);
-				}
-			}
-		}
 		return builder;
 	}
 

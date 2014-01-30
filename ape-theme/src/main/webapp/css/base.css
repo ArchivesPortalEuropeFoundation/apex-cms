@@ -8,15 +8,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, 
 	margin: 0;
 	padding: 0;
 }
-.tdEntry{
-	padding-left:0.5em;
-	padding-right:0.5em;
-}
-.thEntry{
-	text-align:center;
-	padding-left:0.5em;
-	padding-right:0.5em;
-}
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
