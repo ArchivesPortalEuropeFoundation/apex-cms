@@ -31,6 +31,7 @@ function activateAutocompletion(selector) {
 		return val.split(/\s+/);
 	}
 	function extractLast(term) {
+		term=term.trim();
 		return split(term).pop();
 	}
 
@@ -39,6 +40,17 @@ function activateAutocompletion(selector) {
 			event.preventDefault();
 		}
 	});
+	
+	var position=autocompletionUrl.indexOf("_advancedsearch_WAR_Portal_term");
+	if (position!= -1) {
+		// if autocompletionUrl has "_advancedsearch_WAR_Portal_term" you have to remove it from the url in advanced-search
+		// because otherwise the term in the autocomplete method does not refreshed
+		var firstPart=autocompletionUrl.substring(0,position);
+		var finalPart=autocompletionUrl.substring(position,autocompletionUrl.length);
+		position=finalPart.indexOf("&");
+		finalPart=finalPart.substring(position+1,finalPart.length);
+		autocompletionUrl=firstPart+finalPart;
+	}
 	$(selector).autocomplete({
 		minLength : 0,
 		source : function(request, response) {

@@ -96,7 +96,7 @@
 								</tr>
 								<tr>
 									<td></td>
-									<td colspan="3"><input type="checkbox" id="exactDateSearch" value="true" name="exactDateSearch" tabindex="10"><label for="exactDateSearch"><fmt:message key="advancedsearch.message.exactdatesearch" /></label></td>
+									<td colspan="3"><form:checkbox id="exactDateSearch" path="exactDateSearch" value="true" tabindex="10"/><label for="exactDateSearch"><fmt:message key="advancedsearch.message.exactdatesearch" /></label></td>
 								</tr>
 		
 							</table>

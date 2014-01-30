@@ -276,7 +276,7 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 	</ul>
 
 	<ul class="aui-toolbar user-toolbar">
-		<c:if test="<%= user.hasMySites() %>">
+		<c:if test="<%= user.hasMySites() && themeDisplay.isShowPageCustomizationIcon() %>">
 			<li class="my-sites has-submenu" id="<portlet:namespace />mySites">
 				<a class="menu-button" href="javascript:;">
 					<span>
@@ -290,12 +290,11 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 					</div>
 				</div>
 			</li>
-		</c:if>
-
+		
 		<li class="aui-toolbar-separator">
 			<span></span>
 		</li>
-
+		</c:if>
 		<li class="user-avatar <%= themeDisplay.isImpersonated() ? "impersonating-user has-submenu" : "" %>" id="<portlet:namespace />userAvatar">
 			<span class="user-links <%= themeDisplay.isImpersonated() ? "menu-button": "" %>">
 
