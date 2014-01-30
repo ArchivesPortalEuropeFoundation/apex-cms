@@ -8,6 +8,7 @@
 	font-weight: normal;
 }
 #savedSearchesPortlet #savedSearchesTable {
+	font-size: 8pt;
 	width: 100%;
 	padding-left:10px;
 	padding-right:10px;
@@ -34,8 +35,14 @@
     font-size: 11px;
     white-space: nowrap;
 }
+#savedSearchesPortlet th.searchTerm {
+	min-width: 15%;
+}
+#savedSearchesPortlet th.description {
+	min-width: 30%;
+}
 #savedSearchesPortlet th.modified {
-	width: 140px;
+
 }
 #savedSearchesPortlet th.actions {
 	min-width: 100px;

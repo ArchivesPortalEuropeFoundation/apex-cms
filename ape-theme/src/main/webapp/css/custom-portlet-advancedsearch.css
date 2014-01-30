@@ -711,6 +711,9 @@
 
 #advancedSearchPortlet  ul.daolist li{
 	float: left;
+    min-height: 27px;
+    margin: 1px;
+    min-width: 36px;
 }
 #advancedSearchPortlet .ead-content{
     display: inline-block;

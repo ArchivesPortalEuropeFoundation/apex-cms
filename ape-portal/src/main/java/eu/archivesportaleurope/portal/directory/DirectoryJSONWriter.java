@@ -157,7 +157,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
 				addCountryCode(buffer, countryCode);
 				buffer.append(END_ITEM);
-			} else if (archivalInstitutionUnit.getIsgroup() && archivalInstitutionUnit.isHasArchivalInstitutions()) {
+			} else if (archivalInstitutionUnit.getIsgroup() && !archivalInstitutionUnit.isHasArchivalInstitutions()) {
 				// The Archival Institution is a group but it doesn't have any
 				// archival institutions within it
 				buffer.append(START_ITEM);

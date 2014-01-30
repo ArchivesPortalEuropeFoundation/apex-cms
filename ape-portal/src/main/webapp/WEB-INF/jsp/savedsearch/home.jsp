@@ -26,7 +26,7 @@
 
 			<table id="savedSearchesTable" class="defaultlayout">
 				<tr>
-					<th><fmt:message key="savedsearch.searchterm"/></th><th><fmt:message key="savedsearch.description"/></th><th class="characteristics"><fmt:message key="savedsearch.characteristics"/></th><th class="modified"><fmt:message key="savedsearch.modified"/></th><th class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
+					<th class="searchTerms"><fmt:message key="savedsearch.searchterm"/></th><th class="description"><fmt:message key="savedsearch.description"/></th><th class="characteristics"><fmt:message key="savedsearch.characteristics"/></th><th class="modified"><fmt:message key="savedsearch.modified"/></th><th class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
 				</tr>
 				<c:forEach var="eadSavedSearch" items="${eadSavedSearches}">
 				<c:choose>

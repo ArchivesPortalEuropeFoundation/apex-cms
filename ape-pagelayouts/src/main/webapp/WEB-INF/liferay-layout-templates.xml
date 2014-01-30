@@ -15,6 +15,9 @@
 			<template-path>/ape-home-without-fe.tpl</template-path>
 			<wap-template-path>/ape-home-without-fe.tpl</wap-template-path>
 		</layout-template>
-		
+		<layout-template id="ape-pagelayout-mypages" name="ape-pagelayout-mypages">
+			<template-path>/ape-mypages.tpl</template-path>
+			<wap-template-path>/ape-mypages.tpl</wap-template-path>
+		</layout-template>		
 	</custom>
 </layout-templates>

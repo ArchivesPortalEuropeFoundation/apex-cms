@@ -76,7 +76,8 @@
 					|
 					<searchresults:order currentValue="${advancedSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
 				</div>
-			<c:if test="${results.totalNumberOfResults > 0}">					
+			<c:if test="${results.totalNumberOfResults > 0}">	
+			<portal:generateSearchWords var="encodedTerm" term="${advancedSearch.term}" element="${advancedSearch.element}"/>				
 			<div id="searchresultsList">
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
@@ -95,11 +96,10 @@
 									</c:otherwise>
 								</c:choose>
 								<c:choose>
-									<c:when test="${empty advancedSearch.term }">
+									<c:when test="${empty encodedTerm}">
 										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
 									</c:when>
 									<c:otherwise>
-										<portal:encodeUrl var="encodedTerm" value="${advancedSearch.term}" liferayFriendlyUrl="true"/>
 										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.element}/${encodedTerm}"/>
 									</c:otherwise>
 								</c:choose>		
@@ -175,7 +175,7 @@
 						</div>
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 							<portlet:param  name="id" value="${result.id}"/>
-							<portlet:param  name="term" value="${advancedSearch.term}"/>
+							<portlet:param  name="term" value="${encodedTerm}"/>
 							<portlet:param  name="element" value="${advancedSearch.element}"/>
 						</portlet:resourceURL>
 						<div class="preview-button-holder"
