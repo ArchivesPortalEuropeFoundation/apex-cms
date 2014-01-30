@@ -47,7 +47,7 @@
 
 	</portlet>
 	<portlet>
-		<portlet-name>language</portlet-name>
+		<portlet-name>admin</portlet-name>
 		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>

@@ -22,6 +22,7 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 
 /**
  * 
@@ -63,6 +64,9 @@ public class DisplayPreviewContoller {
 						modelAndView.setViewName("preview/frontpage");
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getClazz());
+						if (eadContent == null) {
+							throw new NotExistInDatabaseException(id);
+						}
 						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 						Ead ead = eadContent.getEad();
 						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
@@ -76,26 +80,37 @@ public class DisplayPreviewContoller {
 				}
 
 			} 
-		} catch (Exception e) {
+		}catch (NotExistInDatabaseException e){
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.setViewName("preview/indexError");
+			return modelAndView;
+		}catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
 		}
 
 		return null;
 	}
 
-	private ModelAndView fillAIDetails(Long idLong) throws IOException {
+	private ModelAndView fillAIDetails(Long idLong) throws IOException, NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("preview/ai");
 		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(idLong.intValue());
+		if (archivalInstitution == null) {
+			throw new NotExistInDatabaseException();
+		}
 		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
 		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
 		return modelAndView;
 	}
 
-	private ModelAndView fillCDetails(Long idLong) {
+	private ModelAndView fillCDetails(Long idLong) throws NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("preview/cdetails");
 		CLevel currentCLevel = clevelDAO.findById(idLong);
+		if (currentCLevel == null) {
+			throw new NotExistInDatabaseException();
+		}
 		Ead ead = currentCLevel.getEadContent().getEad();
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
 		XmlType xmlType = XmlType.getEadType(ead);

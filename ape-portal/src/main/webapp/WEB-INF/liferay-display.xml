@@ -9,7 +9,7 @@
 		<portlet id="directory" />
 		<portlet id="eaddisplay" />						
 		<portlet id="contact" />
-		<portlet id="language" />
+		<portlet id="admin" />
 		<portlet id="featured-exhibition-details"/>
 		<portlet id="featured-exhibition-frontpage"/>
 	</category>

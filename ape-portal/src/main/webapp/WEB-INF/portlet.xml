@@ -186,8 +186,8 @@
         </security-role-ref>
     </portlet>
     <portlet>
-        <portlet-name>language</portlet-name>
-        <display-name>Language</display-name>
+        <portlet-name>admin</portlet-name>
+        <display-name>Administration Portlet</display-name>
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <expiration-cache>0</expiration-cache>
         <supports>
@@ -196,15 +196,12 @@
         </supports>
         <resource-bundle>i18n.ApplicationResources</resource-bundle>
         <portlet-info>
-            <title>Language</title>
-            <short-title>Language</short-title>
-            <keywords>Language</keywords>
+            <title>Administration</title>
+            <short-title>Administration</short-title>
+            <keywords>Administration</keywords>
         </portlet-info>
         <security-role-ref>
             <role-name>administrator</role-name>
-        </security-role-ref>
-        <security-role-ref>
-            <role-name>power-user</role-name>
         </security-role-ref>
     </portlet>
 	<portlet>
@@ -319,4 +316,9 @@
         <filter-name>APEFilter</filter-name>
         <portlet-name>contact</portlet-name>
     </filter-mapping>
+     <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>savedsearch</portlet-name>
+    </filter-mapping>   
+    
 </portlet-app>

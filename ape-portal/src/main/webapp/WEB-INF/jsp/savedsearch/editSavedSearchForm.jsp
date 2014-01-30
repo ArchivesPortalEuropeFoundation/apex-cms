@@ -13,6 +13,7 @@
 <form:form name="editSavedSearchForm" commandName="savedSearch" method="post"
 	action="${saveEadSavedSearchActionUrl}">
 	<form:hidden path="id"/>
+	<form:hidden path="overviewPageNumber"/>
 	<table class="defaultlayout">
 		<tr><th><fmt:message key="savedsearch.id"/>:</th><td><c:out value="${savedSearch.id}"/></td></tr>
 		<tr><th><fmt:message key="savedsearch.searchterm"/>:</th><td><c:out value="${savedSearch.searchTerm}"/></td></tr>

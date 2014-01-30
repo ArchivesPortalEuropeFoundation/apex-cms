@@ -27,6 +27,7 @@ public final class FriendlyUrlUtil {
 	public static final String SEARCH = "advancedsearch";
 	public static final String SAVED_SEARCH = "saved-search";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
+	public static final String SEPARATOR = "/";
 	private final static Map<String, String> urls = new HashMap<String, String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
@@ -42,7 +43,7 @@ public final class FriendlyUrlUtil {
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
-		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-search/-/sv");
+		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
@@ -67,6 +68,10 @@ public final class FriendlyUrlUtil {
 			LOGGER.error("Unable to generate url: " + e.getMessage());
 		}
 		return null;
+
+	}
+	public static String getRelativeUrl(String type) {
+			return urls.get(type);
 
 	}
 }

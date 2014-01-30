@@ -10,7 +10,7 @@
 	        #end
  		#foreach ($nav_item in $nav_items) 
 			#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
-			 #if ($navigationPosition.get(0) =="top")
+			 #if ($navigationPosition.size() > 0 && $navigationPosition.get(0) =="top")
 				#if ($nav_item.isSelected())
 					<li class="selected">
 				#else

@@ -8,23 +8,20 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
-<portlet:actionURL var="translationShowUrl">
-    <portlet:param name="myaction" value="display" />
+<portlet:actionURL var="cleanTranslationsUrl">
+    <portlet:param name="myaction" value="cleanTranslations" />
 </portlet:actionURL>
-
+<portlet:actionURL var="updateTranslationsUrl">
+    <portlet:param name="myaction" value="updateTranslations" />
+</portlet:actionURL>
+<portlet:actionURL var="cleanServerUrl">
+    <portlet:param name="myaction" value="cleanServer" />
+</portlet:actionURL>
 <div id="languagePortlet">
-
-    <table>
-        <c:forEach var="layout" varStatus="stat" items="${layouts}">
-            <form:form id="layout" name="layout" method="post" action="${translationShowUrl}">
-                <tr>
-                    <td>${layout}</td>
-                    <td>
-                        <input type="hidden" name="layout" size="50" id="layout" value="${layout}"/>
-                        <input type="submit" id="translations_save_send" name="method:execute" value="Go" class="mainButton" />
-                    </td>
-                </tr>
-            </form:form>
-        </c:forEach>
-    </table>
+<h2>Admin portlet</h2>
+<ul>
+<li><a href="${cleanTranslationsUrl}">Remove all menu translations</a></li>
+<li><a href="${updateTranslationsUrl}">Update all menu translations</a></li>
+<li><a href="${cleanServerUrl}">Clean server</a></li>
+</ul> 
 </div>

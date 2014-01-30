@@ -12,6 +12,7 @@ public class SavedSearch implements Serializable {
 	 */
 	private static final long serialVersionUID = 1125380681178677726L;
 	private String id;
+	private String overviewPageNumber;
 	private String description;
 	private String searchTerm;
 	private Date modifiedDate;
@@ -87,5 +88,12 @@ public class SavedSearch implements Serializable {
 	public void setContainsRefinements(boolean containsRefinements) {
 		this.containsRefinements = containsRefinements;
 	}
+	public String getOverviewPageNumber() {
+		return overviewPageNumber;
+	}
+	public void setOverviewPageNumber(String overviewPageNumber) {
+		this.overviewPageNumber = overviewPageNumber;
+	}
+
 	
 }
