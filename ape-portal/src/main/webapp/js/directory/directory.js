@@ -54,18 +54,22 @@ function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embedd
 	displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,null, null);
 }
 function printEagByURL(url){
-	var preview = window.open(url, 'printeag',
-	'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
-	preview.focus();
+	try{
+		$("body").css("cursor", "progress");
+		var preview = window.open(url, 'printeag',
+		'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
+		preview.focus();
+		//SeeMore / SeeLess in Print preview
+//		$(".displayLinkSeeMore").each(function(){$(this).remove();});
+//		$(".displayLinkSeeLess").each(function(){$(this).remove();});
+	}catch (e) {
+		// TODO: handle exception
+		$("body").css("cursor", "default");
+	}
+	$("body").css("cursor", "default");
 }
 
 function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponame){
-//	//Map limits
-//	var strictBounds = new google.maps.LatLngBounds(
-//	    new google.maps.LatLng(85, -180),           // top left corner of map
-//	    new google.maps.LatLng(-85, 180)            // bottom right corner
-//	);
-
 	try{
 		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId, repositoryName: reponame },function(data){
 		    var markers = [];
@@ -91,7 +95,7 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		        
 		    });
 		    
-		    if (aiId==null){
+		    if (aiId==null || (data.bounds != undefined && data.bounds.length>1)){
 			    var map = new google.maps.Map(document.getElementById('map_div'), {
 			      mapTypeId: google.maps.MapTypeId.ROADMAP
 			    });
@@ -713,22 +717,29 @@ function recoverRelatedInstitution(relatedAIId) {
 }
 
 function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
+
+	$("body").css("cursor", "progress");	
 	try{
-		google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
-		//remove see-more/see-less
-		$(".displayLinkSeeMore").each(function(){$(this).remove();});
-		$(".displayLinkSeeLess").each(function(){$(this).remove();});
-		$("th").each(function(){
-			var html = $(this).html();
-			if(html.indexOf("()")!=-1){
-				$(this).html(html.replace("()",""));
-			}
+		$(document).ready(function () {
+			google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
+			//SeeMore / SeeLess in Directory
+			$(".displayLinkSeeMore").each(function(){$(this).remove();});
+			$(".displayLinkSeeLess").each(function(){$(this).remove();});
+			$("th").each(function(){
+				var html = $(this).html();
+				if(html.indexOf("()")!=-1){
+					$(this).html(html.replace("()",""));
+				}
+			});
+			multiLanguage();
 		});
-		multiLanguage();	
-	}catch (e) {
-		// TODO: handle exception
 	}
-	
+	catch (e) {
+		// TODO: handle exception
+		$("body").css("cursor", "default");
+		alert(e);
+	}
+	$("body").css("cursor", "default");
 }
 
 function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
@@ -780,9 +791,18 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 
 		    // Check if exists institution bounds.
 		    if (data.bounds != undefined) {
-		    	var boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
-		    	bounds = new google.maps.LatLngBounds(boundLatLng);
-		    	bounds.extend(boundLatLng);
+		    	var boundLatLng;
+		    	if (data.bounds.length>1) {
+		    		var southwestLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	var northeastLatLng = new google.maps.LatLng(data.bounds[1].latitude, data.bounds[1].longitude);
+			    	bounds = new google.maps.LatLngBounds(southwestLatLng, northeastLatLng);
+			    	bounds.extend(southwestLatLng);
+			    	bounds.extend(northeastLatLng);
+		    	} else {
+			    	boundLatLng = new google.maps.LatLng(data.bounds[0].latitude, data.bounds[0].longitude);
+			    	bounds = new google.maps.LatLngBounds(boundLatLng);
+			    	bounds.extend(boundLatLng);
+		    	}
 		    	map.fitBounds(bounds);
 
 		    	// Whether to make the cluster icons printable. 
@@ -797,7 +817,9 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 			     	});
 
 			    map.setZoom(18);
-			    map.setCenter(boundLatLng);
+		    	if (data.bounds.length == 1) {
+		    		map.setCenter(boundLatLng);
+		    	}
 		    } else {
 		    	map.fitBounds(bounds);
 
@@ -814,7 +836,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 
 			    map.setZoom(18);
 		    }
-
+		    
 			google.maps.event.addListener(map, 'tilesloaded', function(){
 				window.setTimeout(function() {
 					self.print();

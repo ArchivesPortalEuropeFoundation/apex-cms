@@ -1,3 +1,6 @@
+$( document ).ready(function() {
+	checkCookie("survey2014");
+});
 function logAction(title, url) {
 	var baseUrl = window.location.protocol + '//' + window.location.hostname;
 	var shortUrl = url.replace(baseUrl, "");
@@ -6,16 +9,16 @@ function logAction(title, url) {
 	}
 	_gaq.push([ '_trackPageview', shortUrl ]);
 }
-function loadSurvey() {
+function loadSurvey(c_name) {
 	$('#survey').removeClass("hidden");
 	$("#survey #start").click(function(event) {
 		event.preventDefault();
-		setCookie('survey','remindlater',365);
+		setCookie(c_name,'remindlater',365);
 		window.open($("#survey-url").attr("href"));
 	});
 	$("#survey #remove").click(function(event) {
 		event.preventDefault();
-		setCookie('survey','remindlater',365);
+		setCookie(c_name,'remindlater',365);
 		$('#survey').addClass("hidden");
 	});
 
@@ -44,7 +47,7 @@ function getCookie(c_name) {
 function checkCookie(c_name) {
 	cookie_value = getCookie(c_name);
 	if (cookie_value == "") {
-		loadSurvey();
+		loadSurvey(c_name);
 	}else {
 		$('#survey').addClass("hidden");
 	}
