@@ -55,6 +55,21 @@
 			<div id="selectedRefinements">
 				<div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.choosed" /></div>
 				<ul>
+					<c:if test="${!empty selectedRefinements }">
+						<c:forEach var="selectedRefinement" items="${selectedRefinements}">
+						<c:choose>
+							<c:when test="${selectedRefinement.date}">
+						<li id='${selectedRefinement.fieldName}' class="${selectedRefinement.cssClass}"><a title='${selectedRefinement.longDescription}' href="javascript:removeDateRefinement('${selectedRefinement.fieldName}')">
+				${selectedRefinement.longDescription}<span class='close-icon'></span></a></li>
+							</c:when>
+							<c:otherwise>
+						<li id='${selectedRefinement.fieldName}_${selectedRefinement.fieldValue}' class="${selectedRefinement.cssClass}"><a title='${selectedRefinement.longDescription}' href="javascript:removeRefinement('${selectedRefinement.fieldName}','${selectedRefinement.fieldValue}')">
+				${selectedRefinement.longDescription}<span class='close-icon'></span></a></li>							
+							</c:otherwise>
+						</c:choose>
+
+						</c:forEach>
+					</c:if>
 				</ul>				
 			</div>
 			

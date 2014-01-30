@@ -10,6 +10,7 @@ import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class AdvancedSearch implements Serializable {
+	public static final String LIST_SEPARATOR = ",";
 	public static final String VIEW_HIERARCHY = "hierarchy";
 	public static final String METHOD_OPTIONAL = "optional";
 	public static final String MODE_NEW = "new";
@@ -120,63 +121,63 @@ public class AdvancedSearch implements Serializable {
 
 	public List<String> getCountryList(){
 		if (StringUtils.isNotBlank(country)){
-			return Arrays.asList(country.split(","));
+			return Arrays.asList(country.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getAiList(){
 		if (StringUtils.isNotBlank(ai)){
-			return Arrays.asList(ai.split(","));
+			return Arrays.asList(ai.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getTypeList(){
 		if (StringUtils.isNotBlank(type)){
-			return Arrays.asList(type.split(","));
+			return Arrays.asList(type.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getDateTypeList(){
 		if (StringUtils.isNotBlank(dateType)){
-			return Arrays.asList(dateType.split(","));
+			return Arrays.asList(dateType.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getRoledaoList(){
 		if (StringUtils.isNotBlank(roledao)){
-			return Arrays.asList(roledao.split(","));
+			return Arrays.asList(roledao.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getDaoList(){
 		if (StringUtils.isNotBlank(dao)){
-			return Arrays.asList(dao.split(","));
+			return Arrays.asList(dao.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getFondList(){
 		if (StringUtils.isNotBlank(fond)){
-			return Arrays.asList(fond.split(","));
+			return Arrays.asList(fond.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getSelectedNodesList(){
 		if (StringUtils.isNotBlank(selectedNodes)){
-			return Arrays.asList(selectedNodes.split(","));
+			return Arrays.asList(selectedNodes.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
 	}
 	public List<String> getLevelList(){
 		if (StringUtils.isNotBlank(level)){
-			return Arrays.asList(level.split(","));
+			return Arrays.asList(level.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
@@ -369,7 +370,7 @@ public class AdvancedSearch implements Serializable {
 			if (result == null){
 				result = facetSettings.toString();
 			}else {
-				result += ","  + facetSettings;
+				result += LIST_SEPARATOR  + facetSettings;
 			}
 		}
 		return result;
@@ -378,7 +379,7 @@ public class AdvancedSearch implements Serializable {
 	public void setFacetSettings(String facetSettings) {
 		if (StringUtils.isNotBlank(facetSettings)){
 			facetSettingsList.clear();
-			String[] temp = facetSettings.split(",");
+			String[] temp = facetSettings.split(LIST_SEPARATOR);
 			for (String tempItem: temp){
 				facetSettingsList.add(new ListFacetSettings(tempItem));
 			}

@@ -51,9 +51,14 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 					}
 				}
 			}
+			List<String> aiList = advancedSearch.getAiList();
+			int refinementAiSize = 0;
+			if (aiList != null){
+				refinementAiSize = aiList.size();
+			}
 			if (faHgSgFound){
 				answerMessage = source.getString("advancedsearch.text.savesearch.fahgsg");
-			}else if (numberOfArchivalInstitions >= MAX_NUMBER_OF_AI){
+			}else if (numberOfArchivalInstitions >= MAX_NUMBER_OF_AI || refinementAiSize >= MAX_NUMBER_OF_AI ){
 				answerMessage = this.getMessageSource().getMessage("advancedsearch.text.savesearch.maxai", new String[]{MAX_NUMBER_OF_AI+""}, resourceRequest.getLocale());
 			}else {
 				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());

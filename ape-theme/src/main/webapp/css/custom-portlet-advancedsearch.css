@@ -94,6 +94,7 @@
 
 #advancedSearchPortlet #advancedSearchOptionsContent {
 	height: 85px;
+	font-size: 11px;
 }
 
 #advancedSearchPortlet #advancedSearch {
@@ -127,7 +128,6 @@
 #advancedSearchPortlet #advancedSearch table {
 	padding: 0px;
 	margin: 0px;
-	font-size: 12px;
 	border-collapse: collapse;
 }
 
@@ -266,7 +266,12 @@
 #advancedSearchPortlet #selectedRefinements ul li a {
 	color: #006CB0;
 }
-
+#advancedSearchPortlet #selectedRefinements ul li.removed {
+    border: 1px solid #FF0000;
+}
+#advancedSearchPortlet #selectedRefinements ul li.removed a {
+	color: #FF0000;
+}
 #advancedSearchPortlet #selectedRefinements ul li a:hover {
 	text-decoration: line-through;
 }

@@ -20,6 +20,7 @@ import javax.portlet.filter.ResourceFilter;
 
 import org.apache.log4j.Logger;
 
+import eu.apenet.commons.utils.APEnetUtilities;
 import eu.archivesportaleurope.persistence.jpa.JpaUtil;
 
 public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, EventFilter {
@@ -232,7 +233,7 @@ public class APEFilter implements RenderFilter, ResourceFilter, ActionFilter, Ev
 
     private void logError(Throwable e){
     	if (logStackTraces){
-    		log.error(e.getMessage(), e);
+    		log.error(APEnetUtilities.generateThrowableLog(e));
     	}else {
     		log.error(e.getMessage());
     	}

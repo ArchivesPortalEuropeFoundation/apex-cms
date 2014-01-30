@@ -78,7 +78,7 @@ public class FacetValue {
 		try {
 			dateSpan = getDateSpan(dateGap, dateString);
 		} catch (Exception e) {
-			LOGGER.error("Unable to parse: " + value);
+			LOGGER.error("Unable to parse: " + value + " " + gapString);
 		}
 		DateGap nextDateGap = dateGap.next();
 		if (nextDateGap != null) {
@@ -93,7 +93,7 @@ public class FacetValue {
 		numberOfResults = NumberFormat.getInstance(resourceBundleSource.getLocale()).format(count.getCount());
 	}
 
-	private String getDateSpan(DateGap dateGap, String dateString) throws ParseException {
+	public static String getDateSpan(DateGap dateGap, String dateString) throws ParseException {
 		String result = "";
 		Date beginDate = SOLR_DATE_FORMAT.parse(dateString);
 

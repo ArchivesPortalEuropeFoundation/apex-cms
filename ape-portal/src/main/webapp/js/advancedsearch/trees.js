@@ -191,15 +191,17 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 function getSelectedChildren(node){
 	var result = "";
 	var children = node.getChildren();
-	for ( var i = 0; i < children.length; i++) {
-		var child = children[i];
-		if (i > 0){
-			result = result + ",";
-		}
-		if (child.data.hideCheckbox){
-			result = getSelectedChildren(child);
-		}else {
-			result = result + child.data.key;
+	if (children != null ){
+		for ( var i = 0; i < children.length; i++) {
+			var child = children[i];
+			if (i > 0){
+				result = result + ",";
+			}
+			if (child.data.hideCheckbox){
+				result = getSelectedChildren(child);
+			}else {
+				result = result + child.data.key;
+			}
 		}
 	}
 	return result;
