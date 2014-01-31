@@ -342,9 +342,8 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(COMMA);
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
-		//this escapes non valid characters in field
-		String foo = PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution());
-		builder.append("\"name\":\""+foo+"\"");
+		//this escapes " in field
+		builder.append("\"name\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution())+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}
