@@ -22,6 +22,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
+    public static final String TITLE_ADVANCED_SEARCH_SAVED = "ADVANCED SEARCH (SAVED)";
     public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
