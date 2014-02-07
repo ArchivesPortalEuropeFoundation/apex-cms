@@ -80,7 +80,7 @@ public class AdvancedSearchController {
 	@RenderMapping(params = "myaction=showSavedSearch")
 	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_SAVED);
 		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
@@ -94,7 +94,7 @@ public class AdvancedSearchController {
 			}
 			EadSavedSearch eadSavedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
 			if (eadSavedSearch.isPublicSearch()){
-				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_SAVED);
+				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_PUBLIC_SAVED);
 			}else {
 				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_MY_SAVED);
 			}
