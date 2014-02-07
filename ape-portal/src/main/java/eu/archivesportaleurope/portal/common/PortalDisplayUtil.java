@@ -27,9 +27,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
-    public static void main(String args[]){
-    	System.out.println(replaceQuotesAndReturns("taba\t \\%\\; algo   por \\p algo2 \n go \r con \r\n más \\ con /"));
-    }
+
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
