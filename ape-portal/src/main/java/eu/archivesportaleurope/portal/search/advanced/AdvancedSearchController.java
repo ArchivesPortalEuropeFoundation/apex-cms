@@ -80,7 +80,7 @@ public class AdvancedSearchController {
 	@RenderMapping(params = "myaction=showSavedSearch")
 	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_SAVED);
 		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
