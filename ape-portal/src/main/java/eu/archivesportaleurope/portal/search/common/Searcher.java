@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.common;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,10 +14,8 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.TermsResponse;
 import org.apache.solr.common.params.FacetParams;
 
 import eu.apenet.commons.solr.SolrField;
@@ -24,41 +23,25 @@ import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 
-public final class Searcher {
-	private static final String WHITESPACE = " ";
-	private static final String OR = " OR ";
+public final class Searcher extends AbstractSearcher {
+
 	//private static final String FACET_SORT_INDEX = "index";
 	private static final String FACET_SORT_COUNT = "count";
 	private static final String QUERY_TYPE_CONTEXT = "context";
 	private static final String QUERY_TYPE_LIST = "list";
 	private static final String COLON = ":";
 	//private static final String WHITESPACE = " ";
-	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
 	private final static Logger LOGGER = Logger.getLogger(Searcher.class);
-	private HttpSolrServer solrServer;
-	private HttpSolrServer getSolrServer(){
-		if (solrServer == null){
-			try {
-				solrServer = new HttpSolrServer(APEnetUtilities.getApePortalConfig().getSolrSearchUrl(), null);
-				LOGGER.info("Successfully instantiate the solr client: " + APEnetUtilities.getApePortalConfig().getSolrSearchUrl());
-			} catch (Exception e) {
-				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
-			}			
-		}
-		return solrServer;
-	}
+
 	
-	public TermsResponse getTerms(String term) throws SolrServerException{
-		SolrQuery  query = new SolrQuery ();
-		//query.setShowDebugInfo(true);
-		query.setTermsPrefix(term.toLowerCase());
-		query.setTermsLower(term.toLowerCase());
-		query.setRequestHandler("/terms");
-		if (LOGGER.isDebugEnabled()){
-			LOGGER.debug("Query(autocompletion): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
-		}
-	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
+
+	@Override
+	protected String getSolrSearchUrl() {
+		return APEnetUtilities.getApePortalConfig().getBaseSolrSearchUrl() + "/eads";
 	}
+
+
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
 	}
@@ -170,25 +153,7 @@ public final class Searcher {
 
 
 
-	public static String convertToOrQuery(List<String> list) {
-		String result = null;
-		if (list != null && list.size() > 0) {
-			
-			if (list.size() == 1) {
-				result = list.get(0);
-			} else {
-				result = "(";
-				for (int i = 0; i < list.size(); i++) {
-					if (i == list.size() - 1) {
-						result+=   list.get(i)  + ")";
-					} else {
-						result +=  list.get(i)  + OR;
-					}
-				}
-			}
-		}
-		return result;
-	}
+
 	private QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType, boolean needSuggestions)
 			throws SolrServerException {
 		query.setQuery(escapeSolrCharacters(solrQueryParameters.getTerm()));
@@ -244,18 +209,12 @@ public final class Searcher {
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
 		if (LOGGER.isDebugEnabled()){
 			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +APEnetUtilities.getApePortalConfig().getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}
 	
-	private static String escapeSolrCharacters(String term){
-		if (StringUtils.isNotBlank(term)){
-			term = term.replaceAll(" - ", " \"-\" " );
-			term = term.replaceAll(" \\+ ", " \"+\" " );
-		}
-		return term;
-	}
+
 	
 	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
