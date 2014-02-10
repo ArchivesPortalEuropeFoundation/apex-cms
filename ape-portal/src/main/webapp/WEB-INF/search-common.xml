@@ -13,9 +13,10 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
 
-	<bean id="searcher" class="eu.archivesportaleurope.portal.search.common.Searcher"/>
+	<bean id="eadSearcher" class="eu.archivesportaleurope.portal.search.common.EadSearcher"/>
+
 	<bean
 		class="eu.archivesportaleurope.portal.search.common.autocompletion.AutocompletionJSONController">
-		<property name="searcher" ref="searcher"></property>
+		<property name="searcher" ref="eadSearcher"></property>
 	</bean>
 </beans>
