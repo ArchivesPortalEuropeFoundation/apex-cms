@@ -17,7 +17,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
 
-import eu.apenet.commons.solr.SolrField;
+import eu.apenet.commons.solr.eads.EadSolrField;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 
 public abstract class AbstractSearcher {
@@ -215,7 +215,7 @@ public abstract class AbstractSearcher {
 			}
 		}
 		String searchableField = null;
-		for (SolrField field: solrQueryParameters.getSolrFields()){
+		for (EadSolrField field: solrQueryParameters.getSolrFields()){
 			if (searchableField == null){
 				searchableField = field.toString();
 			}else {
@@ -233,7 +233,7 @@ public abstract class AbstractSearcher {
 		if (queryType != null){
 			query.setRequestHandler(queryType);
 		}
-		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
+		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(EadSolrField.UNITID) || solrQueryParameters.getSolrFields().contains(EadSolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
 		long startTime = System.currentTimeMillis();

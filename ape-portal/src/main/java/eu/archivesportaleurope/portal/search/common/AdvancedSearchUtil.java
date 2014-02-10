@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.eads.EadSolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
@@ -86,9 +86,9 @@ public final class AdvancedSearchUtil {
 		if (StringUtils.isNotBlank(fromDate)) {
 			String date = parseDate(fromDate, true);
 			if (exact) {
-				setParameter(parameters, SolrFields.START_DATE, "[" + date + "T00:00:00Z TO *]");
+				setParameter(parameters, EadSolrFields.START_DATE, "[" + date + "T00:00:00Z TO *]");
 			} else {
-				setParameter(parameters, SolrFields.END_DATE, "[" + date + "T00:00:00Z TO *]");
+				setParameter(parameters, EadSolrFields.END_DATE, "[" + date + "T00:00:00Z TO *]");
 			}
 		}
 	}
@@ -97,9 +97,9 @@ public final class AdvancedSearchUtil {
 		if (StringUtils.isNotBlank(toDate)) {
 			String date = parseDate(toDate, false);
 			if (exact) {
-				setParameter(parameters, SolrFields.END_DATE, "[* TO " + date + "T23:59:59Z]");
+				setParameter(parameters, EadSolrFields.END_DATE, "[* TO " + date + "T23:59:59Z]");
 			} else {
-				setParameter(parameters, SolrFields.START_DATE, "[* TO " + date + "T23:59:59Z]");
+				setParameter(parameters, EadSolrFields.START_DATE, "[* TO " + date + "T23:59:59Z]");
 			}
 		}
 	}
@@ -200,8 +200,8 @@ public final class AdvancedSearchUtil {
 					TreeType treeType = AlType.getTreeType(item);
 					if (TreeType.GROUP.equals(treeType)){
 						int depth = AlType.getDepth(item);
-						String name = SolrFields.AI_DYNAMIC_ID + depth + SolrFields.DYNAMIC_STRING_SUFFIX;
-						AdvancedSearchUtil.addParameter(solrQueryParameters.getOrParameters(), name, SolrFields.AI_DYNAMIC + id.toString());
+						String name = EadSolrFields.AI_DYNAMIC_ID + depth + EadSolrFields.DYNAMIC_STRING_SUFFIX;
+						AdvancedSearchUtil.addParameter(solrQueryParameters.getOrParameters(), name, EadSolrFields.AI_DYNAMIC + id.toString());
 					}else {
 						archivalInstitutionsIdsSelected.add(id.toString());
 					}
@@ -215,15 +215,15 @@ public final class AdvancedSearchUtil {
 			}
 
 			if (countriesSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
+				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), EadSolrFields.COUNTRY_ID,
 						countriesSelected);
 			}
 			if (archivalInstitutionsIdsSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,
+				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), EadSolrFields.AI_ID,
 						archivalInstitutionsIdsSelected);
 			}
 
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), EadSolrFields.FOND_ID, faHgIdsSelected);
 		}
 	}
 
@@ -244,7 +244,7 @@ public final class AdvancedSearchUtil {
 					solrToDate += "T23:59:59Z";
 				}
 				String solrQuery = "[" + solrFromDate + " TO " + solrToDate + "]";
-				setParameter(solrQueryParameters.getAndParameters(), SolrFields.TIMESTAMP, solrQuery);
+				setParameter(solrQueryParameters.getAndParameters(), EadSolrFields.TIMESTAMP, solrQuery);
 			}
 		}
 	}
