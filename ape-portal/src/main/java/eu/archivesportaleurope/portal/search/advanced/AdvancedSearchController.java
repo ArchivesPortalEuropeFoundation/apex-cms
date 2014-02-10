@@ -37,7 +37,7 @@ import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
-import eu.archivesportaleurope.portal.search.common.Searcher;
+import eu.archivesportaleurope.portal.search.common.EadSearcher;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 
@@ -50,7 +50,7 @@ public class AdvancedSearchController {
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
-	private Searcher searcher;
+	private EadSearcher searcher;
 	private ResourceBundleMessageSource messageSource;
 	private SavedSearchService savedSearchService;
 
@@ -58,11 +58,11 @@ public class AdvancedSearchController {
 		this.savedSearchService = savedSearchService;
 	}
 
-	public Searcher getSearcher() {
+	public EadSearcher getSearcher() {
 		return searcher;
 	}
 
-	public void setSearcher(Searcher searcher) {
+	public void setSearcher(EadSearcher searcher) {
 		this.searcher = searcher;
 	}
 
