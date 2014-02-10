@@ -9,5 +9,18 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
 <div id="eacCpfSearchPortlet">
-	EAC CPF Search Portlet
+<portlet:renderURL var="eacCpfSearchUrl">
+	<portlet:param name="myaction" value="eacCpfSearch" />
+</portlet:renderURL>
+<form:form id="eacCpfSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
+				action="${eacCpfSearchUrl}">
+					<div id="simpleSearch">
+						<div><form:input path="term" id="searchTerms"  tabindex="1" maxlength="100"/> <input
+											type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
+											value="<fmt:message key="advancedsearch.message.search"/>" /></div>
+					</div>
+</form:form>
+<div>
+<h2>${test}</h2>
+</div>
 </div>
