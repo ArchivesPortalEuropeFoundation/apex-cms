@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.search.common.Searcher;
+import eu.archivesportaleurope.portal.search.common.EadSearcher;
 
 public abstract class AbstractJSONWriter {
 
@@ -30,14 +30,14 @@ public abstract class AbstractJSONWriter {
 	private static final String MORE_CLASS = "more";
 	private static final String MORE_TEXT = "advancedsearch.context.more";
 	protected static final String ADVANCEDSEARCH_TEXT_NOTITLE = "advancedsearch.text.notitle";
-	private Searcher searcher;
+	private EadSearcher searcher;
 	private MessageSource messageSource;
 
-	public Searcher getSearcher() {
+	public EadSearcher getSearcher() {
 		return searcher;
 	}
 
-	public void setSearcher(Searcher searcher) {
+	public void setSearcher(EadSearcher searcher) {
 		this.searcher = searcher;
 	}
 	
