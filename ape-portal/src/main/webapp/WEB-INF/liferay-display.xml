@@ -12,5 +12,7 @@
 		<portlet id="admin" />
 		<portlet id="featured-exhibition-details"/>
 		<portlet id="featured-exhibition-frontpage"/>
+		<portlet id="eac-cpf-display" />
+		<portlet id="eac-cpf-search" />		
 	</category>
 </display>

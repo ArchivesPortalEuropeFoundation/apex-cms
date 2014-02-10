@@ -127,7 +127,8 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-	</portlet>	
+	</portlet>
+		
 	<portlet>
 		<portlet-name>eaddisplay</portlet-name>
 		<display-name>EAD Display</display-name>
@@ -156,7 +157,62 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
-
+	<portlet>
+		<portlet-name>eac-cpf-search</portlet-name>
+		<display-name>EAC-CPF Search</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>EAC-CPF Search</title>
+			<short-title>EAC-CPF Search</short-title>
+			<keywords>EAC-CPF Search</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>eac-cpf-display</portlet-name>
+		<display-name>EAC-CPF Display</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>EAC-CPF Display</title>
+			<short-title>EAC-CPF Display</short-title>
+			<keywords>EAC-CPF Display</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
     <portlet>
         <portlet-name>contact</portlet-name>
         <display-name>Contact</display-name>

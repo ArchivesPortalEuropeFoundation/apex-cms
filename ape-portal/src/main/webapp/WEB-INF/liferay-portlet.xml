@@ -39,12 +39,20 @@
 		<friendly-url-routes>ead_display-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/ead/ead.js</header-portlet-javascript>
+		
+	</portlet>
+	<portlet>
+		<portlet-name>eac-cpf-search</portlet-name>
+		<instanceable>false</instanceable>
+	</portlet>
+	<portlet>
+		<portlet-name>eac-cpf-display</portlet-name>
+		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>
 		<portlet-name>contact</portlet-name>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/contact/contact.js</header-portlet-javascript>
-
 	</portlet>
 	<portlet>
 		<portlet-name>admin</portlet-name>
