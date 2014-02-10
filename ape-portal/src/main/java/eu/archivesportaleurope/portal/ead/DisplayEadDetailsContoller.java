@@ -21,7 +21,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.solr.eads.EadSolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
@@ -93,7 +93,7 @@ public class DisplayEadDetailsContoller {
 	private ModelAndView displayCDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		Long id = null;
-		if (eadDetailsParams.getId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+		if (eadDetailsParams.getId().startsWith(EadSolrValues.C_LEVEL_PREFIX)) {
 			id = Long.parseLong(eadDetailsParams.getId().substring(1));
 		} else {
 			id = Long.parseLong(eadDetailsParams.getId());

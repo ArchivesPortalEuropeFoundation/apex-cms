@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.solr.eads.EadSolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.commons.xslt.tags.AbstractEadTag;
@@ -85,7 +85,7 @@ public class DisplayEadContoller {
 		Ead ead = null;
 		if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
 			AnalyzeLogger.logSecondDisplay(eadParams.getEadDisplayId());
-			if (eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+			if (eadParams.getEadDisplayId().startsWith(EadSolrValues.C_LEVEL_PREFIX)) {
 				String subSolrId = eadParams.getEadDisplayId().substring(1);
 				if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
 					CLevel clevel = clevelDAO.findById(Long.parseLong(subSolrId));

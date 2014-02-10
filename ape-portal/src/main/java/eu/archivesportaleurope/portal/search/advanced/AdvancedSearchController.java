@@ -24,8 +24,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.commons.solr.SolrField;
-import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.eads.EadSolrField;
+import eu.apenet.commons.solr.eads.EadSolrFields;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
@@ -299,7 +299,7 @@ public class AdvancedSearchController {
 	}
 
 	protected void handleSearchParameters(PortletRequest portletRequest, AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters) {
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
+		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), EadSolrFields.TYPE,
 				advancedSearch.getTypedocument());
 		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
 				advancedSearch.hasExactDateSearch());
@@ -308,7 +308,7 @@ public class AdvancedSearchController {
 
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
-		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
+		solrQueryParameters.setSolrFields(EadSolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
 			solrQueryParameters.setTerm("");
 		}else {
