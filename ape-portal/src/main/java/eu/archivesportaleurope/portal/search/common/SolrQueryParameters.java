@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.apenet.commons.solr.SolrField;
+import eu.apenet.commons.solr.eads.EadSolrField;
 
 public final class SolrQueryParameters {
 	private String term;
 	private boolean matchAllWords;
 	private Map<String, List<String>> andParameters = new HashMap<String, List<String>>();
 	private Map<String, List<String>> orParameters = new HashMap<String, List<String>>();
-	private List<SolrField> solrFields = new ArrayList<SolrField>();
+	private List<EadSolrField> solrFields = new ArrayList<EadSolrField>();
 	public Map<String, List<String>> getAndParameters() {
 		return andParameters;
 	}
@@ -25,10 +25,10 @@ public final class SolrQueryParameters {
 	public void setOrParameters(Map<String, List<String>> orParameters) {
 		this.orParameters = orParameters;
 	}
-	public List<SolrField> getSolrFields() {
+	public List<EadSolrField> getSolrFields() {
 		return solrFields;
 	}
-	public void setSolrFields(List<SolrField> solrFields) {
+	public void setSolrFields(List<EadSolrField> solrFields) {
 		this.solrFields = solrFields;
 	}
 	public String getTerm() {
