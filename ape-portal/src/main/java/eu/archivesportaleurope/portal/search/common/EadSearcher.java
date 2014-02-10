@@ -23,7 +23,7 @@ import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 
-public final class Searcher extends AbstractSearcher {
+public final class EadSearcher extends AbstractSearcher {
 
 	//private static final String FACET_SORT_INDEX = "index";
 	private static final String FACET_SORT_COUNT = "count";
@@ -32,7 +32,7 @@ public final class Searcher extends AbstractSearcher {
 	private static final String COLON = ":";
 	//private static final String WHITESPACE = " ";
 
-	private final static Logger LOGGER = Logger.getLogger(Searcher.class);
+	private final static Logger LOGGER = Logger.getLogger(EadSearcher.class);
 
 	
 
