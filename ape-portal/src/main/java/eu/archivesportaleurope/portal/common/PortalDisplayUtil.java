@@ -22,12 +22,13 @@ public class PortalDisplayUtil {
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
+    public static final String TITLE_ADVANCED_SEARCH_SAVED = "ADVANCED SEARCH (SAVED SEARCH)";
+    public static final String TITLE_ADVANCED_SEARCH_PUBLIC_SAVED = "ADVANCED SEARCH (PUBLIC SAVED SEARCH)";
+    public static final String TITLE_ADVANCED_SEARCH_MY_SAVED = "ADVANCED SEARCH (MY SAVED SEARCH)";
     public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
-    public static void main(String args[]){
-    	System.out.println(replaceQuotesAndReturns("taba\t \\%\\; algo   por \\p algo2 \n go \r con \r\n más \\ con /"));
-    }
+
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
