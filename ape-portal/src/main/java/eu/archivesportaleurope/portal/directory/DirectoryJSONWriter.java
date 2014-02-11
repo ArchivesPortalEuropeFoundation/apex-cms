@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.directory;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -242,6 +244,55 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		}
 	}
 	
+	@ResourceMapping(value = "directoryTreeArchivalInstitution")
+	public void displayArchivalInstitutionParentsTree(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+		String aiId = null;
+		if(resourceRequest.getParameter("aiId")!=null){
+			aiId = (String)resourceRequest.getParameter("aiId");
+		}
+		if(aiId!=null){
+			StringBuilder builder = new StringBuilder();
+			builder.append(START_ARRAY);
+			try{
+				ArchivalInstitution ai = DAOFactory.instance().getArchivalInstitutionDAO().getArchivalInstitution(new Integer(aiId));
+				Integer countryId = ai.getCountryId();
+				builder.append(START_ITEM);
+				Number key = ai.getAiId();
+				addKey(builder,key,(ai.getEagPath()!=null)?"archival_institution_eag":"archival_institution_no_eag");
+				builder.append(END_ITEM);
+				builder.append(COMMA);
+				boolean loop = ai.getParent()!=null;
+				do{
+					builder.append(START_ITEM);
+					ai = ai.getParent();
+					key = (ai!=null)?ai.getAiId():countryId;
+					addKey(builder,key,(ai!=null)?"archival_institution_group":"country");
+					builder.append(END_ITEM);
+					if(loop){
+						builder.append(COMMA);
+					}
+					if(ai.getParent()==null){
+						builder.append(START_ITEM);
+						addKey(builder,countryId,"country");
+						builder.append(END_ITEM);
+						loop = false;
+					}
+				}while(loop);
+			}catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}finally{
+				builder.append(END_ARRAY);
+				try {
+					writeToResponseAndClose(builder, resourceResponse);
+				} catch (UnsupportedEncodingException e) {
+					log.error(e.getMessage(), e);
+				} catch (IOException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+	}
+	
 	@ResourceMapping(value = "directoryTreeGMaps")
 	public void displayGmaps(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
@@ -344,6 +395,11 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(COMMA);
 		//this escapes " in field
 		builder.append("\"name\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution())+"\"");
+		ArchivalInstitution ai = repo.getArchivalInstitution();
+		if(ai!=null){
+			builder.append(COMMA);
+			builder.append("\"aiId\":\""+ai.getAiId()+"\"");
+		}
 		builder.append(END_ITEM);
 		return builder;
 	}

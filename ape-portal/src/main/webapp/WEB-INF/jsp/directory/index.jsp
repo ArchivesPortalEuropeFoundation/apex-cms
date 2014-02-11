@@ -10,6 +10,10 @@
 <portlet:resourceURL var="directoryTreeAiUrl" id="directoryTreeAi" />
 <portlet:resourceURL var="aiDetailsUrl" id="aiDetails" />
 <portlet:resourceURL var="directoryTreeMapsUrl" id="directoryTreeGMaps" />
+<portlet:resourceURL var="getAndClickOnParentsAction" id="directoryTreeArchivalInstitution" />
+
+<input type="hidden" id="getAndClickOnParentsAction" value="${getAndClickOnParentsAction}" />
+
 <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
 <script src="https://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
 <script type="text/javascript">
