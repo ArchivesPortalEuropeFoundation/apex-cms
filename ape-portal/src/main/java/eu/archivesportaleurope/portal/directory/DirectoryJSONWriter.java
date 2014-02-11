@@ -31,6 +31,7 @@ import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
@@ -342,7 +343,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
 		//this escapes " in field
-		builder.append("\"name\":\""+repo.getNameInstitution().replaceAll("\"", "'")+"\"");
+		builder.append("\"name\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution())+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}
