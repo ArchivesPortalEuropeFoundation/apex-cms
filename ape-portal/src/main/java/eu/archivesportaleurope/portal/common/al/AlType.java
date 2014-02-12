@@ -2,12 +2,12 @@ package eu.archivesportaleurope.portal.common.al;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.apenet.commons.solr.eads.EadSolrValues;
+import eu.apenet.commons.solr.SolrValues;
 
 public enum AlType {
 
-	COUNTRY("country"), ARCHIVAL_INSTITUTION(EadSolrValues.AI_PREFIX), HOLDINGS_GUIDE(EadSolrValues.HG_PREFIX), SOURCE_GUIDE(
-			EadSolrValues.SG_PREFIX), FINDING_AID(EadSolrValues.FA_PREFIX), C_LEVEL(EadSolrValues.C_LEVEL_PREFIX);
+	COUNTRY("country"), ARCHIVAL_INSTITUTION(SolrValues.AI_PREFIX), HOLDINGS_GUIDE(SolrValues.HG_PREFIX), SOURCE_GUIDE(
+			SolrValues.SG_PREFIX), FINDING_AID(SolrValues.FA_PREFIX), C_LEVEL(SolrValues.C_LEVEL_PREFIX);
 	private static final String COLON = ":";
 	private static final String SEPARATOR = "_";
 	private static final String DEPTH_SEPARATOR = "|";
