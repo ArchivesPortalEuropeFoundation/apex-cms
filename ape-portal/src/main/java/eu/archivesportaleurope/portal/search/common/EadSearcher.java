@@ -1,21 +1,15 @@
 package eu.archivesportaleurope.portal.search.common;
 
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.FacetParams;
 
-import eu.apenet.commons.solr.eads.EadSolrField;
-import eu.apenet.commons.solr.eads.EadSolrFields;
+import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
 
 public final class EadSearcher extends AbstractSearcher {
@@ -49,7 +43,7 @@ public final class EadSearcher extends AbstractSearcher {
 	
 	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
-		query.addFacetField(EadSolrFields.COUNTRY);
+		query.addFacetField(SolrFields.COUNTRY);
 		query.setFacetSort(FACET_SORT_COUNT);
 		query.setFacetLimit(-1);
 		query.setFacetMinCount(1);
@@ -61,9 +55,9 @@ public final class EadSearcher extends AbstractSearcher {
 	public FacetField getAis(SolrQueryParameters solrQueryParameters, String parentId,int level, int start, int maxNumber) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 		if (parentId != null){
-			query.addFilterQuery(EadSolrFields.AI_DYNAMIC_ID + level+EadSolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
+			query.addFilterQuery(SolrFields.AI_DYNAMIC_ID + level+SolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
 		}
-		query.addFacetField(EadSolrFields.AI_DYNAMIC + (level+1)+EadSolrFields.DYNAMIC_STRING_SUFFIX);
+		query.addFacetField(SolrFields.AI_DYNAMIC + (level+1)+SolrFields.DYNAMIC_STRING_SUFFIX);
 		query.setFacetSort(FacetParams.FACET_SORT_INDEX);
 		query.setParam("facet.offset", start + "");
 		query.setFacetSort(FACET_SORT_COUNT);
@@ -90,8 +84,8 @@ public final class EadSearcher extends AbstractSearcher {
 	
 	public FacetField getLevels(SolrQueryParameters solrQueryParameters, String prefixFondType,String parentId,int level, int start, int maxNumber) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
-		query.addFilterQuery(prefixFondType+ EadSolrFields.DYNAMIC_ID + level+EadSolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
-		query.addFacetField(prefixFondType + (level+1)+EadSolrFields.DYNAMIC_STRING_SUFFIX);
+		query.addFilterQuery(prefixFondType+ SolrFields.DYNAMIC_ID + level+SolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
+		query.addFacetField(prefixFondType + (level+1)+SolrFields.DYNAMIC_STRING_SUFFIX);
 		query.setFacetSort(FacetParams.FACET_SORT_INDEX);
 		query.setParam("facet.offset", start + "");
 		query.setFacetMinCount(1);
@@ -106,10 +100,10 @@ public final class EadSearcher extends AbstractSearcher {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
 		//query.setFields(SolrFields.TITLE, SolrFields.ID, "orderId_i");
-		query.addFilterQuery(EadSolrFields.PARENT_ID + COLON + parentId );
+		query.addFilterQuery(SolrFields.PARENT_ID + COLON + parentId );
 		query.setRows(maxNumberOfRows);
 		query.setStart(start);
-		query.addSort(EadSolrFields.ORDER_ID, ORDER.asc);
+		query.addSort(SolrFields.ORDER_ID, ORDER.asc);
 		return executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 	}
 

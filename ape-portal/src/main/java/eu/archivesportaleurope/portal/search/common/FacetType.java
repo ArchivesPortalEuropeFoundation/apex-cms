@@ -3,20 +3,20 @@ package eu.archivesportaleurope.portal.search.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.apenet.commons.solr.eads.EadSolrFields;
+import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 
 public enum FacetType {
-	COUNTRY(EadSolrFields.COUNTRY, EadSolrFields.COUNTRY_ID,true,true,"country."),
-	AI(EadSolrFields.AI, EadSolrFields.AI_ID, true),
-	FOND(EadSolrFields.TITLE_OF_FOND, EadSolrFields.FOND_ID, true),
-	TYPE(EadSolrFields.TYPE ,false, true,"advancedsearch.text."),
-	LEVEL(EadSolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
-	DAO(EadSolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
-	ROLEDAO(EadSolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
-	DATE_TYPE(EadSolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),
-	START_DATE(EadSolrFields.START_DATE, true),
-	END_DATE(EadSolrFields.END_DATE, true);
+	COUNTRY(SolrFields.COUNTRY, SolrFields.COUNTRY_ID,true,true,"country."),
+	AI(SolrFields.AI, SolrFields.AI_ID, true),
+	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, true),
+	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
+	LEVEL(SolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
+	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
+	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
+	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),
+	START_DATE(SolrFields.START_DATE, true),
+	END_DATE(SolrFields.END_DATE, true);
 	private final String name;
 	private final String refinementField;
 	private final boolean multiSelect;
