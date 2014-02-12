@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.search.advanced;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -24,20 +23,20 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.commons.solr.eads.EadSolrField;
-import eu.apenet.commons.solr.eads.EadSolrFields;
+import eu.apenet.commons.solr.SolrField;
+import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.search.advanced.list.ListResults;
-import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.FacetType;
-import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.EadSearcher;
+import eu.archivesportaleurope.portal.search.common.FacetType;
+import eu.archivesportaleurope.portal.search.common.ListResults;
+import eu.archivesportaleurope.portal.search.common.Results;
+import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 
@@ -260,7 +259,7 @@ public class AdvancedSearchController {
 				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse));
+			results.setItems(new SolrDocumentListHolder(solrResponse, true));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}
@@ -278,7 +277,7 @@ public class AdvancedSearchController {
 				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse));
+			results.setItems(new SolrDocumentListHolder(solrResponse, true));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}
@@ -303,7 +302,7 @@ public class AdvancedSearchController {
 	}
 
 	protected void handleSearchParameters(PortletRequest portletRequest, AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters) {
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), EadSolrFields.TYPE,
+		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 				advancedSearch.getTypedocument());
 		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
 				advancedSearch.hasExactDateSearch());
@@ -312,7 +311,7 @@ public class AdvancedSearchController {
 
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
-		solrQueryParameters.setSolrFields(EadSolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
+		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
 		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
 			solrQueryParameters.setTerm("");
 		}else {
