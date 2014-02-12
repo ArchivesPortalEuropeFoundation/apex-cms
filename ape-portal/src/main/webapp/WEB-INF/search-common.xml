@@ -14,7 +14,7 @@
         ">
 
 	<bean id="eadSearcher" class="eu.archivesportaleurope.portal.search.common.EadSearcher"/>
-
+	<bean id="eacCpfSearcher" class="eu.archivesportaleurope.portal.search.common.EacCpfSearcher"/>
 	<bean
 		class="eu.archivesportaleurope.portal.search.common.autocompletion.AutocompletionJSONController">
 		<property name="searcher" ref="eadSearcher"></property>

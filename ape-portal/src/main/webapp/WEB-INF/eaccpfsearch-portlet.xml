@@ -13,11 +13,13 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
     <import resource="i18n-common.xml"/>
-  		
+  		 <import resource="search-common.xml"/>
      
 	<bean
 		class="eu.archivesportaleurope.portal.eaccpf.search.SearchEacCpfContoller">
 				<property name="messageSource" ref="messageSource"/>
+				<property name="searcher" ref="eacCpfSearcher"/>
+				
 	</bean>
 		
 		
