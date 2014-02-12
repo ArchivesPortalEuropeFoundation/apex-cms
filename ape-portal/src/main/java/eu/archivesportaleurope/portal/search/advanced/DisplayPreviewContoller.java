@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.commons.solr.eads.EadSolrValues;
+import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
@@ -50,9 +50,9 @@ public class DisplayPreviewContoller {
 		try {
 			if (StringUtils.isNotBlank(id)) {
 				AnalyzeLogger.logPreview(id);
-				if (id.startsWith(EadSolrValues.C_LEVEL_PREFIX)) {
+				if (id.startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					Long idLong = new Long(id.substring(1));
-					if (id.startsWith(EadSolrValues.C_LEVEL_PREFIX))
+					if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
 						return fillCDetails(idLong);
 
 				} else {
