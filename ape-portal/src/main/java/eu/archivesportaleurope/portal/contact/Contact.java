@@ -2,6 +2,8 @@ package eu.archivesportaleurope.portal.contact;
 
 import java.io.Serializable;
 
+import com.liferay.portal.kernel.util.PropsUtil;
+
 /**
  * User: Yoann Moranville
  * Date: 09/01/2013
