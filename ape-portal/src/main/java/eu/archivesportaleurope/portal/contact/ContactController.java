@@ -1,6 +1,9 @@
 package eu.archivesportaleurope.portal.contact;
 
+import java.security.Principal;
+
 import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.log4j.Logger;
@@ -13,8 +16,12 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import eu.archivesportaleurope.portal.common.email.EmailSender;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.UserLocalServiceUtil;
 
+import eu.archivesportaleurope.portal.common.email.EmailSender;
 /**
  * User: Yoann Moranville
  * Date: 09/01/2013
@@ -32,10 +39,38 @@ public class ContactController {
 
     private static final Logger LOG = Logger.getLogger(ContactController.class);
 
-    @RenderMapping
-    public ModelAndView showContact() {
+    private Principal principal;
+
+    public Principal getPrincipal() {
+		return this.principal;
+	}
+
+	public void setPrincipal(Principal principal) {
+		this.principal = principal;
+	}
+
+	@RenderMapping
+    public ModelAndView showContact(RenderRequest renderRequest) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");
+        this.setPrincipal(renderRequest.getUserPrincipal());
+        modelAndView.getModelMap().addAttribute("loggedIn", renderRequest.getUserPrincipal());
+        if (this.getPrincipal() != null) {
+        	try {
+				User user = UserLocalServiceUtil.getUser(Long.parseLong(this.getPrincipal().getName()));
+
+		        modelAndView.getModelMap().addAttribute("eMail", user.getEmailAddress());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (PortalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         return modelAndView;
     }
 
@@ -54,12 +89,15 @@ public class ContactController {
         return "error";
     }
 
-
     @ActionMapping(params = "myaction=contact")
     public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
-        ContactValidator contactValidator = new ContactValidator();
+    	ContactValidator contactValidator = new ContactValidator();
+        if (this.getPrincipal() != null) {
+        	contactValidator.setUserName(this.getPrincipal().getName());
+        }
         contactValidator.validate(contact, result);
-        if(result.hasErrors()) {
+
+		if(result.hasErrors()) {
             response.setRenderParameter("myaction", "contact");
             return;
         }
@@ -71,4 +109,11 @@ public class ContactController {
             response.setRenderParameter("myaction", "error");
         }
     }
+
+    @ActionMapping(params = "myaction=recaptcha")
+    public void getRecaptcha(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
+            response.setRenderParameter("myaction", "success");
+            response.setRenderParameter("recaptchaPubKey", contact.getCaptcha());
+    }
+
 }
