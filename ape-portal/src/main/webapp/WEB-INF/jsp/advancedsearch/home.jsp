@@ -27,7 +27,8 @@
 				initArchivalLandscapeTree("${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 			});
 		</script>
-		<div id="advancedSearchPortlet">
+<div id="searchingPart">
+		<div id="advancedSearchPortlet" >
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -195,4 +196,4 @@
 			<div id="loadingText" class="hidden"><fmt:message key="advancedsearch.message.loading"/>
 			</div>
 		</div>
-
+</div>
