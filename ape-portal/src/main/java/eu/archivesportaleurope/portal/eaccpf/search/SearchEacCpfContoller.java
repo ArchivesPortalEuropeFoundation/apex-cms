@@ -7,6 +7,7 @@ import java.util.List;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -57,12 +58,16 @@ public class SearchEacCpfContoller {
 	}
 	@RenderMapping(params = "myaction=eacCpfSearch")
 	public ModelAndView search(@ModelAttribute(value = "eacCpfSearch") EacCpfSearch eacCpfSearch,RenderRequest request) throws SolrServerException, ParseException {
-		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-		handleSearchParameters(request, eacCpfSearch, solrQueryParameters);
-		ListResults results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
 		ModelAndView modelAndView = new ModelAndView();
+		if (StringUtils.isNotBlank(eacCpfSearch.getTerm())){
+			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+			handleSearchParameters(request, eacCpfSearch, solrQueryParameters);
+			ListResults results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
+			modelAndView.getModelMap().addAttribute("results", results);
+		}
+
 		modelAndView.setViewName("index");
-		modelAndView.getModelMap().addAttribute("results", results);
+		
 		return modelAndView;
 	}
 
