@@ -26,7 +26,7 @@ public class EacCpfSearch implements Serializable{
 	private String fromdate;
 	private String todate;
 	private String method;
-	private String resultsperpage = "10";
+	private String resultsperpage = "100";
 	private String exactDateSearch;
 
 	private String country;
