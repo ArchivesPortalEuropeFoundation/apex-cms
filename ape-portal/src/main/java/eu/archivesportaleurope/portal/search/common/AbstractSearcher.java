@@ -239,11 +239,10 @@ public abstract class AbstractSearcher {
 			query.set("spellcheck", "on");
 		}
 		long startTime = System.currentTimeMillis();
-		LOGGER.info("Query(" + queryType + "): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
-		if (true || LOGGER.isDebugEnabled()){
+		if (LOGGER.isDebugEnabled()){
 			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}
