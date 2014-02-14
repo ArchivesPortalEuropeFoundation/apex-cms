@@ -13,7 +13,8 @@
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<div id="eacCpfSearchPortlet">
+<div id="searchingPart">
+<div id="eacCpfSearchPortlet" class="searchPortlet">
 <portlet:renderURL var="eacCpfSearchUrl">
 	<portlet:param name="myaction" value="eacCpfSearch" />
 </portlet:renderURL>
@@ -27,10 +28,43 @@
 </form:form>
 <div>
 <c:if test="${!empty results}">
+<h2 id="searchResultsHeader">
+	<fmt:message key="advancedsearch.text.results" />:
+</h2>
 <div class="results">
-			<div id="searchresultsList">
+		<div class="tab_header">
+			<div id="tabHeaderContent">
+				
+						<div id="numberOfResults">
+							<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
+							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}" numberFormat="${numberFormat}" />
+						</div>
+						<div id="top-paging" class="paging">
+						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
+								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+						</div>
+
+			</div>
+		</div>
+			<div id="resultsContainer">
+			<div id="refinements">
+				Facets comes here
+				&nbsp;	
+			</div>
+			<div  id="searchresultsContainer">	
+				<div id="searchOrder">
+					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
+					<searchresults:order currentValue="${eacCpfSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+					|
+					sdfadf
+					|
+					asdf		
+				</div>
+	
+		<div id="searchresultsList">	
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
+						<div class="list-searchresult-content list-searchresult-content-eac-cpf">
 						<div class="list-searchresult-header">
 								<c:choose>
 									<c:when test="${empty result.title}">
@@ -47,13 +81,30 @@
 
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
 									href="hello">${title}
-								</a>													
+								</a>
+								<c:if test="${!empty result.alterdate}">
+									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
+								</c:if>																					
 							</div>
+							<div class="scopecontent">${result.description}</div>
+
+						<div class="list-searchresult-context">
+								<div class="left">
+									<div class="other"><span class="subtitle">Places:</span>${result.places}</div>
+									<div class="other"><span class="subtitle">Occupation:</span>${result.occupation}</div>								
+									<div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.id}</div>
+									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
+								</div>						
+						</div>							
 						</div>
+					</div>
 					</c:forEach>
 				</div>
 			</div>
-
+</div>
+</div>
 </c:if>
+</div>
+
 </div>
 </div>
