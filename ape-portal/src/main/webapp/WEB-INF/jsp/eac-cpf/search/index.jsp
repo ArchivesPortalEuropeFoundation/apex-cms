@@ -18,6 +18,7 @@
 <portlet:renderURL var="eacCpfSearchUrl">
 	<portlet:param name="myaction" value="eacCpfSearch" />
 </portlet:renderURL>
+<portal:friendlyUrl var="friendlyUrl" type="eac-cpf-display"/>
 <form:form id="eacCpfSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
 					<div id="simpleSearch">
@@ -80,7 +81,7 @@
 								</c:choose>
 
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
-									href="hello">${title}
+									href="${friendlyUrl}">${title}
 								</a>
 								<c:if test="${!empty result.alterdate}">
 									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
