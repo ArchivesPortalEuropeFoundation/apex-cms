@@ -1,12 +1,12 @@
-#advancedSearchPortlet {
+#searchingPart {
 	font-size: 8pt;
 }
 
-#advancedSearchPortlet #tabs {
+#searchingPart #tabs {
 	border: none;
 }
 
-#advancedSearchPortlet ul#tabscontainer {
+#searchingPart ul#tabscontainer {
 	margin: 0;
 	padding: 0;
 	float: left;
@@ -16,7 +16,7 @@
 	border-left: 1px solid #006699;
 }
 
-#advancedSearchPortlet ul#tabscontainer li {
+#searchingPart ul#tabscontainer li {
 	float: left;
 	margin: 0;
 	padding: 0;
@@ -27,7 +27,7 @@
 	color: #ccc;
 }
 
-#advancedSearchPortlet ul#tabscontainer li a {
+#searchingPart ul#tabscontainer li a {
 	text-decoration: none;
 	color: #000;
 	display: block;
@@ -37,32 +37,32 @@
 	height: 22px;
 }
 
-#advancedSearchPortlet ul#tabscontainer li.ui-state-active,#advancedSearchPortlet  ul#tabscontainer li.ui-state-active a:hover
+#searchingPart ul#tabscontainer li.ui-state-active,#searchingPart  ul#tabscontainer li.ui-state-active a:hover
 	{
 	background: #99CCFF;
 	background-image: url(../images/ape/search/tabbg.jpg);
 	color: black;
 }
 
-#advancedSearchPortlet ul#tabscontainer li.ui-tabs-selected {
+#searchingPart ul#tabscontainer li.ui-tabs-selected {
 	height: 28px;
 }
 
-#advancedSearchPortlet ul#tabscontainer li a:hover {
+#searchingPart ul#tabscontainer li a:hover {
 	background: #fff;
 	color: #4D8BCB;
 }
 
-#advancedSearchPortlet #tabs .ui-widget-header {
+#searchingPart #tabs .ui-widget-header {
 	border: none;
 	background: none;
 }
 
-#advancedSearchPortlet #tabs .ui-tabs-selected {
+#searchingPart #tabs .ui-tabs-selected {
 	
 }
 
-#advancedSearchPortlet .tab_header {
+#searchingPart .tab_header {
 	border: 1px solid #79B7E7;
 	background: url("../images/ape/search/tabbg.jpg") repeat-x;
 	border-top-right-radius: 5px;
@@ -73,65 +73,65 @@
 	height: 24px;
 }
 
-#advancedSearchPortlet #tabs-context,#tabs-list {
+#searchingPart #tabs-context,#tabs-list {
 	padding: 0em 0em;
 }
 
-#advancedSearchPortlet #contextTabResults {
+#searchingPart #contextTabResults {
 	padding-top: 5px;
 }
 
-#advancedSearchPortlet .treeWithPreview {
+#searchingPart .treeWithPreview {
 	float: left;
 	vertical-align: top;
 	width: 750px;
 }
 
-#advancedSearchPortlet #simpleAndAdvancedSearch {
+#searchingPart #simpleAndAdvancedSearch {
 	width: 100%;
 	display: block;
 }
 
-#advancedSearchPortlet #advancedSearchOptionsContent {
+#searchingPart #advancedSearchOptionsContent {
 	height: 85px;
 	font-size: 11px;
 }
 
-#advancedSearchPortlet #advancedSearch {
+#searchingPart #advancedSearch {
 	float: left;
 	width: 483px;
 }
 
-#advancedSearchPortlet #navigatedSearch {
+#searchingPart #navigatedSearch {
 	float: left;
 	width: 100%;
 	padding-bottom: 20px;
 }
 
-#advancedSearchPortlet #navigatedSearchOptionsContent {
+#searchingPart #navigatedSearchOptionsContent {
 	font-size: 12px;
 	background-color: white;
 }
 
-#advancedSearchPortlet #navigatedSearchOptionsHeader {
+#searchingPart #navigatedSearchOptionsHeader {
 	background-repeat: no-repeat;
 	background-position: left;
 	cursor: pointer;
 }
 
-#advancedSearchPortlet #navigatedSearchOptionsHeader {
+#searchingPart #navigatedSearchOptionsHeader {
 	background-repeat: no-repeat;
 	background-position: left;
 	cursor: pointer;
 }
 
-#advancedSearchPortlet #advancedSearch table {
+#searchingPart #advancedSearch table {
 	padding: 0px;
 	margin: 0px;
 	border-collapse: collapse;
 }
 
-#advancedSearchPortlet #advancedSearch select,#advancedSearch input {
+#searchingPart #advancedSearch select,#advancedSearch input {
 	font-size: 12px;
 	vertical-align: top;
 }
@@ -140,12 +140,12 @@
 	margin-right: 2px;
 }
 
-#advancedSearchPortlet #advancedSearch tbody,#advancedSearchPortlet #advancedSearch label,#advancedSearchPortlet #advancedSearch tr
+#searchingPart #advancedSearch tbody,#searchingPart #advancedSearch label,#searchingPart #advancedSearch tr
 	{
 	padding: 0px;
 }
 
-#advancedSearchPortlet #advancedSearch td,#advancedSearchPortlet #advancedSearch th
+#searchingPart #advancedSearch td,#searchingPart #advancedSearch th
 	{
 	padding-left: 0px;
 	padding-top: 0px;
@@ -153,12 +153,12 @@
 	padding-bottom: 6px;
 }
 
-#advancedSearchPortlet .datefield {
+#searchingPart .datefield {
 	width: 80px;
 	padding: 0;
 }
 
-#advancedSearchPortlet #searchResultsHeader {
+#searchingPart #searchResultsHeader {
 	display: block;
 	clear: both;
 	font-weight: bold;
@@ -169,7 +169,7 @@
 	border-bottom: none;
 }
 
-#advancedSearchPortlet #tabHeaderContent {
+#searchingPart #tabHeaderContent {
 	padding-right: 5px;
 	font-size: 8pt;
 	padding-bottom: 3px;
@@ -177,51 +177,51 @@
 	padding-left: 20px;
 }
 
-#advancedSearchPortlet #numberOfResults {
+#searchingPart #numberOfResults {
 	float: left;
 }
 
-#advancedSearchPortlet #resultPerPageContainer {
+#searchingPart #resultPerPageContainer {
 	padding-left: 100px;
 	float: left;
 }
 
-#advancedSearchPortlet #tabHeaderContent select,#advancedSearchPortlet #tabHeaderContent input
+#searchingPart #tabHeaderContent select,#searchingPart #tabHeaderContent input
 	{
 	font-size: 9px;
 	padding: 1px;
 }
 
-#advancedSearchPortlet  #searchTabContent {
+#searchingPart  #searchTabContent {
 	
 }
 
-#advancedSearchPortlet #tabs-list {
+#searchingPart #tabs-list {
 	font-size: 8pt;
 }
 
-#advancedSearchPortlet #selectedRefinements {
+#searchingPart #selectedRefinements {
     clear: both;
     display: inline-block;
     padding-top: 5px;
  	width: 100%;   
 }
 
-#advancedSearchPortlet #selectedRefinementsTitle {
+#searchingPart #selectedRefinementsTitle {
 	float: left;
 	padding-right: 5px;
 	padding-left: 2px;
 	padding-top: 2px;
 }
 
-#advancedSearchPortlet #selectedRefinements ul {
+#searchingPart #selectedRefinements ul {
 	list-style-type: none;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 }
 
-#advancedSearchPortlet #selectedRefinements ul li {
+#searchingPart #selectedRefinements ul li {
 	float: left;
 	display: block;
 	border: 1px solid #afdefc;
@@ -233,20 +233,20 @@
 	margin-bottom: 5px;
 }
 
-#advancedSearchPortlet .list-searchresult-actions {
+#searchingPart .list-searchresult-actions {
 	font-size: 11px;
 	float: right;
 }
 
-#advancedSearchPortlet .list-searchresult-actions ul {
+#searchingPart .list-searchresult-actions ul {
 	list-style-type: none;
 }
 
-#advancedSearchPortlet .list-searchresult-actions ul li {
+#searchingPart .list-searchresult-actions ul li {
 	float: right;
 }
 
-#advancedSearchPortlet .list-searchresult-actions ul li a {
+#searchingPart .list-searchresult-actions ul li a {
 	border: 1px solid #afdefc;
 	border-radius: 10px;
 	padding-left: 5px;
@@ -256,27 +256,27 @@
 	color: #006CB0;
 }
 
-#advancedSearchPortlet .list-searchresult-actions ul li a:hover {
+#searchingPart .list-searchresult-actions ul li a:hover {
 	color: #00384D;
 	border: 1px solid #afdefc;
 	border-radius: 10px;
 	background-color: rgba(0, 160, 223, 0.2);
 }
 
-#advancedSearchPortlet #selectedRefinements ul li a {
+#searchingPart #selectedRefinements ul li a {
 	color: #006CB0;
 }
-#advancedSearchPortlet #selectedRefinements ul li.removed {
+#searchingPart #selectedRefinements ul li.removed {
     border: 1px solid #FF0000;
 }
-#advancedSearchPortlet #selectedRefinements ul li.removed a {
+#searchingPart #selectedRefinements ul li.removed a {
 	color: #FF0000;
 }
-#advancedSearchPortlet #selectedRefinements ul li a:hover {
+#searchingPart #selectedRefinements ul li a:hover {
 	text-decoration: line-through;
 }
 
-#advancedSearchPortlet #selectedRefinements ul li a .close-icon {
+#searchingPart #selectedRefinements ul li a .close-icon {
 	display: inline-block;
 	background-image:
 		url("../images/ape/jquery/ui-icons_217bc0_256x240.png");
@@ -286,7 +286,7 @@
 	height: 12px;
 }
 
-#advancedSearchPortlet  #searchOrder {
+#searchingPart  #searchOrder {
 	padding-bottom: 5px;
 	background-image: url("../images/ape/bg_headers.jpg");
 	background-color: #afdefc;
@@ -297,77 +297,77 @@
 	color: gray;
 }
 
-#advancedSearchPortlet #selectedOrder {
+#searchingPart #selectedOrder {
 	color: black;
 	font-weight: bold;
 }
 
-#advancedSearchPortlet #searchOrderTitle {
+#searchingPart #searchOrderTitle {
 	color: black;
 	padding-bottom: 2px;
 	padding-top: 2px;
 }
 
-#advancedSearchPortlet .searchTitle {
+#searchingPart .searchTitle {
 	font-weight: bold;
 	font-style: italic;
 	color: rgb(77, 139, 203);
 }
 
-#advancedSearchPortlet #refinements  .box {
+#searchingPart #refinements  .box {
 	margin-right: 5px;
 }
 
-#advancedSearchPortlet #refinements  ul {
+#searchingPart #refinements  ul {
 	list-style-type: none;
 	padding: 0px 0px 0px 5px;
 	margin: 0;
 }
 
-#advancedSearchPortlet #refinements .collapsibleIcon {
+#searchingPart #refinements .collapsibleIcon {
 	display: inline-block;
 	height: 10px;
 	width: 10px;
 }
 
-#advancedSearchPortlet #refinements .boxtitle {
+#searchingPart #refinements .boxtitle {
 	cursor: pointer;
 }
 
-#advancedSearchPortlet #refinements  .numberOfHits {
+#searchingPart #refinements  .numberOfHits {
 	color: gray;
 	padding-left: 2px;
 }
 
-#advancedSearchPortlet #refinements a.refinement_multiple_selected {
+#searchingPart #refinements a.refinement_multiple_selected {
 	background: url("../images/ape/search/selected.gif") no-repeat scroll
 		left center transparent;
 }
 
-#advancedSearchPortlet #refinements a.refinement_multiple_notselected {
+#searchingPart #refinements a.refinement_multiple_notselected {
 	background: url("../images/ape/search/not_selected.gif") no-repeat
 		scroll left center transparent;
 }
 
-#advancedSearchPortlet #refinements a.refinement_multiple_selected:hover
+#searchingPart #refinements a.refinement_multiple_selected:hover
 	{
 	background: url("../images/ape/search/selected_hover.gif") no-repeat
 		scroll left center transparent;
 }
 
-#advancedSearchPortlet #refinements a.refinement_multiple_notselected:hover
+#searchingPart #refinements a.refinement_multiple_notselected:hover
 	{
 	background: url("../images/ape/search/not_selected_hover.gif") no-repeat
 		scroll left center transparent;
 }
 
-#advancedSearchPortlet #refinements a.refinement_multiple_notselected,#advancedSearchPortlet #refinements a.refinement_multiple_selected
+#searchingPart #refinements a.refinement_multiple_notselected,#searchingPart #refinements a.refinement_multiple_selected
 	{
 	padding-left: 14px;
 	display: inline-block;
 }
 
-#advancedSearchPortlet #refinements a {
+#searchingPart #refinements a {
 	max-width: 120px;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -375,26 +375,26 @@
 	vertical-align: top;
 }
 
-#advancedSearchPortlet  #searchresultsContainer {
+#searchingPart  #searchresultsContainer {
 	float: left;
 	width: 570px;
 }
 
-#advancedSearchPortlet  #searchresultsList {
+#searchingPart  #searchresultsList {
 
 }
 
-#advancedSearchPortlet  #refinements {
+#searchingPart  #refinements {
 	float: left;
 	width: 210px;
 }
 
-#advancedSearchPortlet .list-searchresult {
+#searchingPart .list-searchresult {
 	display: block;
 	width: 100%;
 }
 
-#advancedSearchPortlet .list-searchresult-content {
+#searchingPart .list-searchresult-content {
 	float: left;
 	padding: 5px;
 	width: 537px;
@@ -403,15 +403,15 @@
 	border-bottom: 1px solid #E6E6E6;
 	min-height: 60px;
 }
-#advancedSearchPortlet .list-searchresult-content-archdesc {
+#searchingPart .list-searchresult-content-archdesc {
 	background-color: #F0F7FC;
 	border-radius: 5px;
 }
 
-#advancedSearchPortlet .list-searchresult-content-archdesc .list-searchresult-context {
+#searchingPart .list-searchresult-content-archdesc .list-searchresult-context {
 	color: #636363;
 }
-#advancedSearchPortlet .list-searchresult-content .scopecontent,#advancedSearchPortlet .list-searchresult-content .other
+#searchingPart .list-searchresult-content .scopecontent,#searchingPart .list-searchresult-content .other
 	{
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -420,7 +420,7 @@
 	max-width: 540px;
 }
 
-#advancedSearchPortlet .list-searchresult-context .fond,#advancedSearchPortlet .list-searchresult-context .unitid,#advancedSearchPortlet .list-searchresult-context .countryAndInstitution
+#searchingPart .list-searchresult-context .fond,#searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
 	{
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -428,16 +428,16 @@
 	vertical-align: top;
 }
 
-#advancedSearchPortlet .list-searchresult-context .unitid,#advancedSearchPortlet .list-searchresult-context .countryAndInstitution
+#searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
 	{
 	max-width: 300px;
 }
 
-#advancedSearchPortlet .list-searchresult-context .fond {
+#searchingPart .list-searchresult-context .fond {
 	max-width: 440px;
 }
 
-#advancedSearchPortlet .list-searchresult-context {
+#searchingPart .list-searchresult-context {
 	font-size: 11px;
 	line-height: 13px;
 	color: gray;
@@ -445,25 +445,25 @@
 	display: inline-block;
 	width: 100%;
 }
-#advancedSearchPortlet .list-searchresult-context em {
+#searchingPart .list-searchresult-context em {
 	color: black;
 }
 
-#advancedSearchPortlet .subtitle,#advancedSearchPortlet .secondSubtitle
+#searchingPart .subtitle,#searchingPart .secondSubtitle
 	{
 	font-weight: bold;
 	margin-right: 5px;
 }
 
-#advancedSearchPortlet .secondSubtitle {
+#searchingPart .secondSubtitle {
 	margin-left: 20px;
 }
 
-#advancedSearchPortlet .list-searchresult-header {
+#searchingPart .list-searchresult-header {
 	overflow: hidden;
 }
 
-#advancedSearchPortlet .alterdate {
+#searchingPart .alterdate {
 	float: right;
 	font-size: 8pt;
 	text-overflow: ellipsis;
@@ -473,7 +473,7 @@
 	max-width: 100px;
 }
 
-#advancedSearchPortlet .list-searchresult-header a {
+#searchingPart .list-searchresult-header a {
 	font-size: 10pt;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -483,14 +483,14 @@
 	display: inline-block;
 }
 
-#advancedSearchPortlet .preview-button-holder {
+#searchingPart .preview-button-holder {
 	float: right;
 	width: 20px;
 	height: auto;
 	min-height: 60px;
 }
 
-#advancedSearchPortlet .preview-button-holder-show {
+#searchingPart .preview-button-holder-show {
 	border: 1px solid #E6E6E6;
 	background-color: #FAFAFA;
 	background-image: none;
@@ -499,26 +499,26 @@
 	background-position: center center;
 }
 
-#advancedSearchPortlet .notitle {
+#searchingPart .notitle {
 	font-style: italic;
 }
 
-#advancedSearchPortlet a.facet-more {
+#searchingPart a.facet-more {
 	color: gray;
 	font-style: italic;
 	font-weight: normal;
 }
 
-#advancedSearchPortlet #errorContainer ul {
+#searchingPart #errorContainer ul {
 	list-style-type: none;
 }
 
-#advancedSearchPortlet #searchResultsContainer {
+#searchingPart #searchResultsContainer {
 	clear: both;
 	display: block;
 }
 
-#advancedSearchPortlet .suggestionSearch {
+#searchingPart .suggestionSearch {
 	clear: both;
 	float: left;
 	padding-left: 7px;
@@ -526,27 +526,27 @@
 	font-size: 14px;
 }
 
-#advancedSearchPortlet .suggestionNumberOfHits {
+#searchingPart .suggestionNumberOfHits {
 	color: gray;
 }
 
-#advancedSearchPortlet .suggestionMisspelled {
+#searchingPart .suggestionMisspelled {
 	font-weight: bold;
 	font-style: italic;
 }
 
-#advancedSearchPortlet #todateLabel {
+#searchingPart #todateLabel {
 	padding-left: 5px;
 	padding-right: 5px;
 }
 
-#advancedSearchPortlet .preview-column {
+#searchingPart .preview-column {
 	float: right;
 	width: 213px;
 	margin-top: 7px;
 }
 
-#advancedSearchPortlet .preview-container {
+#searchingPart .preview-container {
 	vertical-align: top;
 	float: right;
 	font-size: 8pt;
@@ -555,39 +555,39 @@
 	border-radius: 4px;
 }
 
-#advancedSearchPortlet .preview-content {
+#searchingPart .preview-content {
 	background-color: #e9f3fa;
 	color: #333333;
 }
 
-#advancedSearchPortlet .search-result-preview-container #content {
+#searchingPart .search-result-preview-container #content {
 	max-height: 500px;
 }
 
-#advancedSearchPortlet .al-preview-container #content {
+#searchingPart .al-preview-container #content {
 	max-height: 200px;
 }
 
-#advancedSearchPortlet .preview-container #content {
+#searchingPart .preview-container #content {
 	overflow: hidden;
 }
 
-#advancedSearchPortlet .preview-container #more-line {
+#searchingPart .preview-container #more-line {
 	background-color: white;
 	width: 100%;
 }
 
-#advancedSearchPortlet .preview-container .show-more-line {
+#searchingPart .preview-container .show-more-line {
 	background-repeat: no-repeat;
 	background-image: url("../images/ape/search/preview-more.gif");
 	height: 7px;
 }
 
-#advancedSearchPortlet .preview-container .hide-more-line {
+#searchingPart .preview-container .hide-more-line {
 	height: 0px;
 }
 
-#advancedSearchPortlet .preview-container .eadid,#advancedSearchPortlet .preview-container .subtitle
+#searchingPart .preview-container .eadid,#searchingPart .preview-container .subtitle
 	{
 	font-size: 10px;
 	font-style: italic;
@@ -595,7 +595,7 @@
 	color: gray;
 }
 
-#advancedSearchPortlet .preview-container .titleproper,#advancedSearchPortlet .preview-container h2.blockHeader
+#searchingPart .preview-container .titleproper,#searchingPart .preview-container h2.blockHeader
 	{
 	font-size: 10pt;
 	font-style: normal;
@@ -606,7 +606,7 @@
 	padding-bottom: 0px;
 }
 
-#advancedSearchPortlet .preview-container h2,#advancedSearchPortlet .preview-container table.aiSection th
+#searchingPart .preview-container h2,#searchingPart .preview-container table.aiSection th
 	{
 	margin: 0.3em 0;
 	font-size: 9pt;
@@ -616,12 +616,12 @@
 	font-weight: bold;
 }
 
-#advancedSearchPortlet .preview-container table.aiSection td {
+#searchingPart .preview-container table.aiSection td {
 	padding: 1px;
 	vertical-align: top;
 }
 
-#advancedSearchPortlet .preview-container p {
+#searchingPart .preview-container p {
 	margin-top: 0px;
 	margin-bottom: 0.3em;
 	margin-right: 0px;
@@ -630,31 +630,31 @@
 	line-height: 1.3em;
 }
 
-#advancedSearchPortlet .preview-container .collapse,#advancedSearchPortlet .preview-container .creation-content
+#searchingPart .preview-container .collapse,#searchingPart .preview-container .creation-content
 	{
 	margin-left: 3px;
 	margin-right: 3px;
 }
 
-#advancedSearchPortlet .preview-container .collapse img {
+#searchingPart .preview-container .collapse img {
 	width: 204px;
 }
 
-#advancedSearchPortlet .preview-container .expand-unitid {
+#searchingPart .preview-container .expand-unitid {
 	padding-right: 10px;
 }
 
-#advancedSearchPortlet .preview-container .defaultlayout {
+#searchingPart .preview-container .defaultlayout {
 	text-align: center;
 	color: gray;
 }
 
-#advancedSearchPortlet .preview-container table.aiSection {
+#searchingPart .preview-container table.aiSection {
 	font-size: 8pt;
 	line-height: 1.3em;
 }
 
-#advancedSearchPortlet .special_info {
+#searchingPart .special_info {
 	background-color: #E8EDFF;
 	border-radius: 5px;
 	padding-top: 4px;
@@ -666,7 +666,7 @@
 	color: gray;
 }
 
-#advancedSearchPortlet #bottom-paging {
+#searchingPart #bottom-paging {
 	float: left;
 	color: gray;
 	margin-bottom: 7px;
@@ -677,69 +677,69 @@
 	width: 100%;
 }
 
-#advancedSearchPortlet  #bottom-paging ul {
+#searchingPart  #bottom-paging ul {
 	margin-right: 30px;
 }
 
-#advancedSearchPortlet  #bottom-paging li {
+#searchingPart  #bottom-paging li {
 	background-image: url("../images/ape/bg_headers.jpg");
 }
 
-#advancedSearchPortlet  #bottom-paging li.nolink {
+#searchingPart  #bottom-paging li.nolink {
 	color: gray;
 	background-image: none;
 	border: 1px solid gray;
 }
 
-#advancedSearchPortlet  #bottom-paging li.active {
+#searchingPart  #bottom-paging li.active {
 	color: black;
 	background-image: none;
 }
 
-#advancedSearchPortlet #top-paging {
+#searchingPart #top-paging {
 	float: right;
 	margin-right: 10px;
 }
 
-#advancedSearchPortlet #viewFullFond {
+#searchingPart #viewFullFond {
 	background-color: white;
 }
 
-#advancedSearchPortlet em {
+#searchingPart em {
 	font-weight: bold;
 	font-style: normal;
 }
-#advancedSearchPortlet  ul.daolist{
+#searchingPart  ul.daolist{
     list-style: none outside none;
     padding: 0;
 }
 
-#advancedSearchPortlet  ul.daolist li{
+#searchingPart  ul.daolist li{
 	float: left;
     min-height: 28px;
     margin: 1px;
     min-width: 36px;
 }
-#advancedSearchPortlet .ead-content{
+#searchingPart .ead-content{
     display: inline-block;
 }
 
-#advancedSearchPortlet #answerMessageSavedSearch {
+#searchingPart #answerMessageSavedSearch {
     display: inline-block;
     font-weight: bold;
     padding: 2px 10px;
     font-size: 13px;
 }
-#advancedSearchPortlet #saveSearchButton {
+#searchingPart #saveSearchButton {
 	float:left;
 }
-#advancedSearchPortlet #saveSearchButton a {
+#searchingPart #saveSearchButton a {
     border-radius: 15px;
     margin: 0;
     padding: 2px 10px;
     color:#00384D;
 }
-#advancedSearchPortlet #saveSearch {
+#searchingPart #saveSearch {
     float: left;
     padding-left: 15px;
     padding-top: 3px;
@@ -747,14 +747,14 @@
 }
 
 
-#advancedSearchPortlet #saveSearch .success {
+#searchingPart #saveSearch .success {
 	color: green;
 
 }
 
-#advancedSearchPortlet #saveSearch .failure {
+#searchingPart #saveSearch .failure {
 	color: red;
 }
-#advancedSearchPortlet #search-preview {
+#searchingPart #search-preview {
 	width: 205px;
 }
