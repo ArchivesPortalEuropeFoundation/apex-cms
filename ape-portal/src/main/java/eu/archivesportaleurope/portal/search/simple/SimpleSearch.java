@@ -12,7 +12,8 @@ public class SimpleSearch implements Serializable {
 	private String term;
 	private String view;
 	private String method;
-	private String resultsperpage = "10";
+	private String resultsperpage = "15";
+	private String pageNumber = "1";
 	private String dao;
 	public String getTerm() {
 		return term;
@@ -43,6 +44,12 @@ public class SimpleSearch implements Serializable {
 	}
 	public void setDao(String dao) {
 		this.dao = dao;
+	}
+	public String getPageNumber() {
+		return pageNumber;
+	}
+	public void setPageNumber(String pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 
 }

@@ -61,16 +61,18 @@ public abstract class AbstractSearcher {
 	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
-		query.setFacetMinCount(1);
-		for (ListFacetSettings facetSettings: facetSettingsList){
-			FacetType facetType = facetSettings.getFacetType();
-			if (!facetType.isDate()){
-				query.addFacetField(facetType.getNameWithLabel());
-				query.setParam("f."+ facetType.getName() +".facet.limit", facetSettings.getLimit() +"");
+		if (facetSettingsList != null){
+			query.setFacetMinCount(1);
+			for (ListFacetSettings facetSettings: facetSettingsList){
+				FacetType facetType = facetSettings.getFacetType();
+				if (!facetType.isDate()){
+					query.addFacetField(facetType.getNameWithLabel());
+					query.setParam("f."+ facetType.getName() +".facet.limit", facetSettings.getLimit() +"");
+				}
+				
 			}
-			
+			buildDateRefinement(query,startDate, endDate, true);
 		}
-		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
 		query.setRows(rows);
 		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);

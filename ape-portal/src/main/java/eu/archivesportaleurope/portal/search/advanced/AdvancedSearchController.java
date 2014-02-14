@@ -312,7 +312,7 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && portletRequest.getUserPrincipal() != null){
+		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm())){
 			solrQueryParameters.setTerm("");
 		}else {
 			solrQueryParameters.setTerm(advancedSearch.getTerm());
