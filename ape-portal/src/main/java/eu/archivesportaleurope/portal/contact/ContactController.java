@@ -61,14 +61,11 @@ public class ContactController {
 
 		        modelAndView.getModelMap().addAttribute("eMail", user.getEmailAddress());
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error("Number format exception: " + e.getMessage());
 			} catch (PortalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error("Portal exception: " + e.getMessage());
 			} catch (SystemException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error("System exception: " + e.getMessage());
 			}
         }
         return modelAndView;

@@ -19,8 +19,26 @@ public class Contact implements Serializable {
     private String recaptcha_challenge_field;
     private String recaptcha_response_field;
     private String recaptchaPubKey = PropsUtil.get("captcha.engine.recaptcha.key.public");
+    private String reCaptchaUrl_script = PropsUtil.get("captcha.engine.recaptcha.url.script");
+    private String reCaptchaUrl_noscript = PropsUtil.get("captcha.engine.recaptcha.url.noscript");
 
-    public String getEmail() {
+    public String getReCaptchaUrl_script() {
+		return reCaptchaUrl_script;
+	}
+
+	public void setReCaptchaUrl_script(String reCaptchaUrl_script) {
+		this.reCaptchaUrl_script = reCaptchaUrl_script;
+	}
+
+	public String getReCaptchaUrl_noscript() {
+		return reCaptchaUrl_noscript;
+	}
+
+	public void setReCaptchaUrl_noscript(String reCaptchaUrl_noscript) {
+		this.reCaptchaUrl_noscript = reCaptchaUrl_noscript;
+	}
+
+	public String getEmail() {
         return email;
     }
 

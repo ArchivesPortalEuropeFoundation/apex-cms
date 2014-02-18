@@ -21,6 +21,12 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.UserLocalServiceUtil;
+
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.DisplayUtils;
@@ -129,9 +135,10 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		modelAndView.setViewName("eaddetails");
-		return modelAndView;
+		
+		return addAttributes(modelAndView, portletRequest);
 	}
-
+	
 	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
 		ModelAndView modelAndView = new ModelAndView();
 		if (eadDetailsParams.getEcId() != null) {
@@ -161,6 +168,39 @@ public class DisplayEadDetailsContoller {
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("eadDetailsError");
 		}
+		
+		return addAttributes(modelAndView, portletRequest);
+	}
+
+	/**
+	 * This method loads all required fields to load reCaptcha object in the "Send feedback" page from the portal-ext.properties file using the PropsUtil.get method.
+	 * @param model ModelAndView object.
+	 * @param portletRequest PortletRequest object.
+	 * @return modelAndView object with the next attributes loaded: "loggedIn", "reCaptchaUrl_script", "reCaptchaUrl_noscript" and "recaptchaPubKey".
+	 */
+	private ModelAndView addAttributes (ModelAndView model, PortletRequest portletRequest){
+		ModelAndView modelAndView = model;
+		
+		String logged = null;
+		if (portletRequest.getUserPrincipal() != null && portletRequest.getUserPrincipal().getName() != null) {
+			logged = portletRequest.getUserPrincipal().getName();
+			try {
+				User user = UserLocalServiceUtil.getUser(Long.parseLong(portletRequest.getUserPrincipal().getName()));
+
+		        modelAndView.getModelMap().addAttribute("eMail", user.getEmailAddress());
+			} catch (NumberFormatException e) {
+				LOGGER.error("Number format exception: " + e.getMessage());
+			} catch (PortalException e) {
+				LOGGER.error("Portal exception: " + e.getMessage());
+			} catch (SystemException e) {
+				LOGGER.error("System exception: " + e.getMessage());
+			}
+		}
+		modelAndView.getModelMap().addAttribute("loggedIn", logged);
+		modelAndView.getModelMap().addAttribute("reCaptchaUrl_script", PropsUtil.get("captcha.engine.recaptcha.url.script"));
+		modelAndView.getModelMap().addAttribute("reCaptchaUrl_noscript", PropsUtil.get("captcha.engine.recaptcha.url.noscript"));
+		modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropsUtil.get("captcha.engine.recaptcha.key.public"));
+		
 		return modelAndView;
 	}
 

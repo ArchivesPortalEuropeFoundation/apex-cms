@@ -72,16 +72,18 @@
                 <form:errors path="feedback" cssClass="error" />
             </td>
         </tr>
-        <c:if test="${!empty loggedIn}"><!-- you are logged -->
+        <c:if test="${!empty loggedIn}">
+        	<!-- you are logged -->
         	<!-- no need for captcha -->
         	<script type="text/javascript">
         		document.getElementById('contact_email').value = '${eMail}';
         	</script>
         </c:if>
-        <c:if test="${empty loggedIn}"><!-- then you are not logged -->     
+        <c:if test="${empty loggedIn}">
+        	<!-- then you are not logged -->     
 	        <tr>
 	            <td colspan="2">
-					<script type="text/javascript" src="http://api.recaptcha.net/challenge?k='${contact.recaptchaPubKey}'"></script>
+					<script type="text/javascript" src="${contact.reCaptchaUrl_script}${contact.recaptchaPubKey}"></script>
 				</td>
 	           <td>
 	                <form:errors path="captcha" cssClass="error" />

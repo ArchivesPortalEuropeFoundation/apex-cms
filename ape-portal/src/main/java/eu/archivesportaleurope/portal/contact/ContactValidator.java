@@ -59,7 +59,7 @@ public class ContactValidator implements Validator {
 
         if (this.getUserName() == null || this.getUserName().isEmpty()) {
 	        // Captcha test.
-	        String remoteAddr = "http://www.google.com/recaptcha/api/verify";
+	        String remoteAddr = PropsUtil.get("captcha.engine.recaptcha.url.verify");
 	    	ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
 	    	reCaptcha.setPrivateKey(PropsUtil.get("captcha.engine.recaptcha.key.private"));  	
 	    	ReCaptchaResponse reCaptchaResponse =  reCaptcha.checkAnswer(remoteAddr, contact.getRecaptcha_challenge_field(), contact.getRecaptcha_response_field());
