@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.contact;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -23,7 +24,7 @@ public class ContactValidator implements Validator {
         Contact contact = (Contact)target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "feedback.error.email");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "feedback", "feedback.error.feedback");
-        if(contact.getType().equals("-1")) {
+        if(StringUtils.isNotBlank(contact.getType()) || contact.getType().equals("-1")) {
             errors.rejectValue("type", "feedback.error.type");
         }
         String email = contact.getEmail();
