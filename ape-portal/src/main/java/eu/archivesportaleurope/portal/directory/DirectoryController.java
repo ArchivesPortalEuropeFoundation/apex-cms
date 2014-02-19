@@ -16,6 +16,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.liferay.portal.kernel.util.PropsUtil;
+
 import eu.apenet.commons.exceptions.APEnetException;
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
@@ -42,6 +44,10 @@ public class DirectoryController {
 	private MessageSource messageSource;
 	private EadDAO eadDAO;
 	private final static Logger LOGGER = Logger.getLogger(DirectoryController.class);
+	
+	private String google_maps_license = PropsUtil.get("google.maps.license");		// License key
+	private String google_maps_url = PropsUtil.get("google.maps.url");				// used to insulate https://maps.googleapis.com/maps/api/js?key=
+	private String google_maps_jsapi = PropsUtil.get("google.maps.jsapi");			// used to insulate https://www.google.com/jsapi
 
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
@@ -57,6 +63,30 @@ public class DirectoryController {
 
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
+	}
+
+	public String getGoogle_maps_license() {
+		return google_maps_license;
+	}
+
+	public void setGoogle_maps_license(String google_maps_license) {
+		this.google_maps_license = google_maps_license;
+	}
+
+	public String getGoogle_maps_url() {
+		return google_maps_url;
+	}
+
+	public void setGoogle_maps_url(String google_maps_url) {
+		this.google_maps_url = google_maps_url;
+	}
+
+	public String getGoogle_maps_jsapi() {
+		return google_maps_jsapi;
+	}
+
+	public void setGoogle_maps_jsapi(String google_maps_jsapi) {
+		this.google_maps_jsapi = google_maps_jsapi;
 	}
 
 	@RenderMapping(params = "myaction=showCountryDetails")
@@ -85,7 +115,7 @@ public class DirectoryController {
 			modelAndView.setViewName("indexError");
 		}
 
-		return modelAndView;
+		return this.addGoogleInfo(modelAndView);
 	}
 
 	@RenderMapping(params = "myaction=showAiGroup")
@@ -112,7 +142,7 @@ public class DirectoryController {
 			LOGGER.error(e.getMessage());
 			modelAndView.setViewName("indexError");
 		}
-		return modelAndView;
+		return this.addGoogleInfo(modelAndView);
 	}
 
 	@RenderMapping(params = "myaction=showAiDetails")
@@ -138,7 +168,7 @@ public class DirectoryController {
 			modelAndView = new ModelAndView();
 			modelAndView.setViewName("indexError");
 		}
-		return modelAndView;
+		return this.addGoogleInfo(modelAndView);
 	}
 
 	@RenderMapping
@@ -164,7 +194,7 @@ public class DirectoryController {
 
 		}
 		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
-		return modelAndView;
+		return this.addGoogleInfo(modelAndView);
 	}
 
 	@ResourceMapping(value = "aiDetails")
@@ -177,7 +207,7 @@ public class DirectoryController {
 				ModelAndView modelAndView = fillAIDetails(archivalInstitution);
 				modelAndView.setViewName("aidetails");
 				modelAndView.getModelMap().addAttribute("documentTitle",PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
-				return modelAndView;
+				return this.addGoogleInfo(modelAndView);
 			}
 		} catch (Exception e) {
 
@@ -208,7 +238,7 @@ public class DirectoryController {
 				modelAndView.getModelMap().addAttribute("countryName", DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry()));
 				modelAndView.getModelMap().addAttribute("selectedAiId", id);
 				PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
-				return modelAndView;
+				return this.addGoogleInfo(modelAndView);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Exception on print process: " + e.getMessage());
@@ -231,7 +261,7 @@ public class DirectoryController {
 		eadSearchOptions.setEadClass(SourceGuide.class);
 		modelAndView.getModelMap().addAttribute("hasSourceGuides",eadDAO.existEads(eadSearchOptions));
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-		return modelAndView;
+		return this.addGoogleInfo(modelAndView);
 	}
 
 	public ArchivalInstitutionDAO getArchivalInstitutionDAO() {
@@ -240,5 +270,13 @@ public class DirectoryController {
 
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+
+	private ModelAndView addGoogleInfo(ModelAndView modelAndView) {
+		ModelAndView model = modelAndView;
+		modelAndView.getModelMap().addAttribute("google_maps_jsapi", this.getGoogle_maps_jsapi());
+		modelAndView.getModelMap().addAttribute("google_maps_license", this.getGoogle_maps_license());
+		modelAndView.getModelMap().addAttribute("google_maps_url", this.getGoogle_maps_url());
+		return model;
 	}
 }

@@ -1,4 +1,5 @@
 var selectedCountryCode, selectedAiname;
+
 function initDirectory(directoryTreeUrl, directoryTreeAIUrl, aiDetailsUrl,embeddedMapsUrl, mapsUrl, directoryTreeMapsUrl) {
 	$("#directoryTree").dynatree({
 		//Navigated Search Tree for Countries, Archival Institution Groups and Archival Institutions configuration
@@ -59,9 +60,6 @@ function printEagByURL(url){
 		var preview = window.open(url, 'printeag',
 		'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
 		preview.focus();
-		//SeeMore / SeeLess in Print preview
-//		$(".displayLinkSeeMore").each(function(){$(this).remove();});
-//		$(".displayLinkSeeLess").each(function(){$(this).remove();});
 	}catch (e) {
 		// TODO: handle exception
 		$("body").css("cursor", "default");
@@ -103,6 +101,13 @@ function doTreeAction(target,clicks,i){
 	}
 }
 
+/***
+ * displaySecondMap is a function that load the map with the institutions in the directory page. This institutions are taken from the coordinates table in the database. 
+ * @param directoryTreeMapsUrl Is the generated URL to load the map.
+ * @param selectedCountryCode Is null when map loads from the first time and when the root of the tree is selected to show all institutions. It has two letter country code in case a country has been selected.
+ * @param aiId Is null when map loads from the first time, when the root of the tree is selected to show all institutions and when a country is selected. It shows the archival institution identifier of the selected institution in the tree.
+ * @param reponame Is null when map loads from the first time, when the root of the tree is selected to show all institutions and when a country is selected. It shows the name of the selected institution in the tree.
+ */
 function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponame){
 	try{
 		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId, repositoryName: reponame },function(data){
@@ -172,7 +177,6 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 	    	}
 		});
 	}catch (e) {
-		// TODO: handle exception
 	}
 }
 
@@ -230,7 +234,6 @@ function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
 	$('html, body').stop().animate({
         'scrollTop': $("a#eagDetails").offset().top
     }, 900, 'swing', function () {
-    	//logAction("scroll moved to: ", $("#eagDetails").offset().top);
     });
 }
 
@@ -755,10 +758,10 @@ function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
 }
 
-function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 
-	$("body").css("cursor", "progress");	
+function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 	try{
+		$("body").css("cursor", "progress");
 		$(document).ready(function () {
 			google.setOnLoadCallback(printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId));
 			//SeeMore / SeeLess in Directory
@@ -774,33 +777,23 @@ function initPrint(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		});
 	}
 	catch (e) {
-		// TODO: handle exception
 		$("body").css("cursor", "default");
-		alert(e);
 	}
 	$("body").css("cursor", "default");
 }
 
+/***
+ * printSecondMap prints the selected map shown in the directory page with the last result loaded.
+ * @param selectedCountryCode Is null when the page is loaded for the first time and when all directory is selected. Shows two letter country name in case there is a country or an institution selected.
+ * @param directoryTreeMapsUrl the url generated to load the map.
+ * @param selectedAiId Is null when the page loads from the first ime or there is a country selected. Shows the id of the selected institution in case the user selects an institution.
+ */
 function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 	try {
 		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : selectedAiId },function(data){
 		    var markers = [];
 		    var marker,i=0;
 		    var infowindow = new google.maps.InfoWindow();
-		    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
-		    'chco=FFFFFF,008CFF,000000&ext=.png';
-		    var markerImage = new google.maps.MarkerImage(imageUrl, new google.maps.Size(24, 32));
-		    
-		    var styles = [[{
-	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people35.png',
-	            height: 35, width: 35, anchor: [16, 0], textColor: '#ff00ff', textSize: 10
-	          }, {
-	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people45.png',
-	            height: 45, width: 45, anchor: [24, 0], textColor: '#ff0000', textSize: 11
-	          }, {
-	            url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/people55.png',
-	            height: 55, width: 55, anchor: [32, 0], textColor: '#ffffff', textSize: 12
-	          }]];
 		    
 		    // load all repos with names and coords
 		    var bounds = new google.maps.LatLngBounds();
@@ -810,11 +803,10 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
 		        bounds.extend(latLng);
 		        markers.push(marker);
-		        
+		        //place and feed the markers
 		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		            return function() {
 		            	var content="<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country;
-		                //var content=dataRepo[0].name;
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
 		            }
@@ -852,8 +844,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 			        	maxZoom: 18,
 			        	setZoomOnClick:18,
 				        ignoreHidden: true,
-				        printable: true,
-			        	styles: styles[-1]
+				        printable: true
 			     	});
 
 			    map.setZoom(18);
@@ -870,8 +861,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 			        	maxZoom: 18,
 			        	setZoomOnClick:18,
 				        ignoreHidden: true,
-				        printable: true,
-			        	styles: styles[-1]
+				        printable: true
 			     	});
 
 			    map.setZoom(18);
@@ -885,6 +875,5 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		
 		}); //JSON
 	} catch (e) {
-		// TODO: handle exception
 	}
 }
