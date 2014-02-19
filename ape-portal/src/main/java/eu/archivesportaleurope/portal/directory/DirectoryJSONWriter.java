@@ -400,17 +400,13 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			builder.append(COMMA);
 			builder.append("\"aiId\":\""+ai.getAiId()+"\"");
 		}
-		// Parse address.
-		String address = repo.getAddress();
-		String arrayAddress [] = address.split(",");
-		if (arrayAddress != null && arrayAddress.length > 0){
-			builder.append(COMMA);
-			builder.append("\"street\":\""+arrayAddress[0].trim()+"\"");
-			builder.append(COMMA);
-			builder.append("\"postalcity\":\""+arrayAddress[1].trim()+"\"");
-			builder.append(COMMA);
-			builder.append("\"country\":\""+arrayAddress[2].trim()+"\"");
-		}
+		//Parse street, postalCity and country 
+		builder.append(COMMA);
+		builder.append("\"street\":\""+repo.getStreet()+"\"");
+		builder.append(COMMA);
+		builder.append("\"postalcity\":\""+repo.getPostalCity()+"\"");
+		builder.append(COMMA);
+		builder.append("\"country\":\""+repo.getCountry()+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}
