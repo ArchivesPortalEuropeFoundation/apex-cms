@@ -2,7 +2,7 @@ package eu.archivesportaleurope.portal.contact;
 
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -42,7 +42,7 @@ public class ContactValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "feedback", "feedback.error.feedback");
 
         // Topic test.
-		if(contact.getType().equals("-1")) {
+		if(StringUtils.isNotBlank(contact.getType()) || contact.getType().equals("-1")) {
             errors.rejectValue("type", "feedback.error.type");
         }
 
