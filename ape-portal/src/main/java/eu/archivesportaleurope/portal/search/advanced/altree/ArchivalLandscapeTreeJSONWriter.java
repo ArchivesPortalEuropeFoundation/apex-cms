@@ -18,7 +18,7 @@ import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.dao.EadSearchOptions;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
@@ -37,9 +37,9 @@ import eu.archivesportaleurope.portal.common.tree.TreeNode;
 
 /**
  * JSON Writer for the navigated tree
- * 
+ *
  * @author bastiaan
- * 
+ *
  */
 @Controller(value = "archivalLandscapeTreeJSONWriter")
 @RequestMapping(value = "VIEW")
@@ -113,11 +113,11 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 					if (TreeType.GROUP.equals(treeType)) {
 						aiId = id.intValue();
 						if (AlType.SOURCE_GUIDE.equals(parentType) || AlType.HOLDINGS_GUIDE.equals(parentType)) {
-							EadSearchOptions eadSearchOptions = new EadSearchOptions();
+							ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 							if (AlType.HOLDINGS_GUIDE.equals(parentType)) {
-								eadSearchOptions.setEadClass(HoldingsGuide.class);
+								eadSearchOptions.setContentClass(HoldingsGuide.class);
 							} else if (AlType.SOURCE_GUIDE.equals(parentType)) {
-								eadSearchOptions.setEadClass(SourceGuide.class);
+								eadSearchOptions.setContentClass(SourceGuide.class);
 							}
 							eadSearchOptions.setArchivalInstitionId(aiId);
 							eadSearchOptions.setPublished(true);
@@ -127,10 +127,10 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 							writeToResponseAndClose(
 									generateEadFolderTreeJSON(eads, parentType, aiId, start, locale),
 									resourceResponse);
-						} 
+						}
 					} else {
 						Integer parentId = id.intValue();
-						List<CLevel> topClevels = cLevelDAO.getTopClevelsByFileId(parentId, XmlType
+						List<CLevel> topClevels = cLevelDAO.getTopClevelsByFileId(parentId, (Class<? extends Ead>) XmlType
 								.getTypeBySolrPrefix(parentType.toString()).getClazz(), start,
 								MAX_NUMBER_OF_CLEVELS + 1);
 						writeToResponseAndClose(
@@ -153,7 +153,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 
 	/**
 	 * Generate countries in the archival landscape tree
-	 * 
+	 *
 	 * @param archivalLandscapeUtil
 	 * @return
 	 */
@@ -187,7 +187,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
 			AlTreeNode node = new AlTreeNode();
 			addTitle(node, archivalInstitution.getAiname(), locale);
-			if (archivalInstitution.isGroup()) {	
+			if (archivalInstitution.isGroup()) {
 				node.setFolder(true);
 				node.setSelected(alTreeParams.existInSelectedNodes(AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP));
 				addKeyWithDepth(node, AlType.ARCHIVAL_INSTITUTION, archivalInstitution.getAiId(), TreeType.GROUP, depth);
@@ -212,10 +212,10 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		/*
 		 * check if Holdings Guide exist
 		 */
-		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 		eadSearchOptions.setArchivalInstitionId(aiId);
 		eadSearchOptions.setPublished(true);
-		eadSearchOptions.setEadClass(HoldingsGuide.class);
+		eadSearchOptions.setContentClass(HoldingsGuide.class);
 		boolean hasHGorSG = eadDAO.existEads(eadSearchOptions);
 		if (hasHGorSG){
 			return true;
@@ -223,8 +223,8 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			/*
 			 * check if Source Guide exist
 			 */
-			eadSearchOptions.setEadClass(SourceGuide.class);
-			return eadDAO.existEads(eadSearchOptions);		
+			eadSearchOptions.setContentClass(SourceGuide.class);
+			return eadDAO.existEads(eadSearchOptions);
 		}
 
 
@@ -235,15 +235,15 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 		/*
 		 * check if Holdings Guide exist
 		 */
-		EadSearchOptions eadSearchOptions = new EadSearchOptions();
+		ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 		eadSearchOptions.setArchivalInstitionId(aiId);
 		eadSearchOptions.setPublished(true);
-		eadSearchOptions.setEadClass(HoldingsGuide.class);
+		eadSearchOptions.setContentClass(HoldingsGuide.class);
 		boolean holdingsGuideExists = eadDAO.existEads(eadSearchOptions);
 		/*
 		 * check if Source Guide exist
 		 */
-		eadSearchOptions.setEadClass(SourceGuide.class);
+		eadSearchOptions.setContentClass(SourceGuide.class);
 		boolean sourceGuideExists = eadDAO.existEads(eadSearchOptions);
 		//boolean otherFindingAidExists = findingAidDAO.existFindingAidsNotLinkedByArchivalInstitution(aiId);
 		if (holdingsGuideExists) {
@@ -370,7 +370,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			}
 		}
 		return expandedNodesList;
-		
+
 	}
 
 	private void addTitle(TreeNode dynaTreeNode, String title, Locale locale) {

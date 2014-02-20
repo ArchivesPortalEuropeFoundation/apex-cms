@@ -17,7 +17,7 @@ import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.EadSavedSearchDAO;
-import eu.apenet.persistence.dao.EadSearchOptions;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
@@ -208,8 +208,8 @@ public class SavedSearchService {
 				XmlType xmlType = XmlType.getTypeBySolrPrefix(advancedSearch.getFond().substring(0, 1));
 				String identifier = advancedSearch.getFond().substring(1);
 				Integer id = Integer.parseInt(identifier);
-				EadSearchOptions eadSearchOptions = new EadSearchOptions();
-				eadSearchOptions.setEadClass(xmlType.getClazz());
+				ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
+				eadSearchOptions.setContentClass(xmlType.getClazz());
 				eadSearchOptions.setId(id);
 				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
 				if (eads.size() > 0) {

@@ -22,7 +22,7 @@ import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.dao.EadSearchOptions;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
@@ -110,9 +110,9 @@ public class SitemapController {
 			Integer aiId = Integer.parseInt(resourceRequest.getParameter("aiId"));
 			long numberOfItems = 0;
 			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
-			EadSearchOptions eadSearchOptions = new EadSearchOptions();
+			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
-			eadSearchOptions.setEadClass(FindingAid.class);
+			eadSearchOptions.setContentClass(FindingAid.class);
 			eadSearchOptions.setArchivalInstitionId(aiId);
 			numberOfItems = eadDAO.countEads(eadSearchOptions);
 			if (numberOfItems > PAGESIZE) {
@@ -159,18 +159,18 @@ public class SitemapController {
 		try {
 			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": AI-content:" + archivalInstitution.getRepositorycode() + " pn:" + pageNumber);
-			EadSearchOptions eadSearchOptions = new EadSearchOptions();
+			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
-			eadSearchOptions.setEadClass(FindingAid.class);
+			eadSearchOptions.setContentClass(FindingAid.class);
 			eadSearchOptions.setArchivalInstitionId(aiId);
 			eadSearchOptions.setPageNumber(pageNumber);
 			eadSearchOptions.setPageSize((int) PAGESIZE);
 			List<Ead> eads = eadDAO.getEads(eadSearchOptions);
 			if (pageNumber == 1) {
-				eadSearchOptions.setEadClass(HoldingsGuide.class);
+				eadSearchOptions.setContentClass(HoldingsGuide.class);
 				eadSearchOptions.setPageSize(0);
 				eads.addAll(eadDAO.getEads(eadSearchOptions));
-				eadSearchOptions.setEadClass(SourceGuide.class);
+				eadSearchOptions.setContentClass(SourceGuide.class);
 				eads.addAll(eadDAO.getEads(eadSearchOptions));
 			}
 			if (eads.size() > 0) {
@@ -203,12 +203,12 @@ public class SitemapController {
 			Integer eadId = Integer.parseInt(resourceRequest.getParameter("id"));
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
 			long numberOfItems = 0;
-			EadSearchOptions eadSearchOptions = new EadSearchOptions();
+			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
-			eadSearchOptions.setEadClass(xmlType.getClazz());
+			eadSearchOptions.setContentClass(xmlType.getClazz());
 			eadSearchOptions.setId(eadId);
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
-			numberOfItems = cLevelDAO.countCLevels(xmlType.getClazz(), eadId);
+			numberOfItems = cLevelDAO.countCLevels((Class<? extends Ead>) xmlType.getClazz(), eadId);
 			if (numberOfItems > PAGESIZE) {
 				int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
 				LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-index:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " #p:" + numberOfPages);
@@ -253,13 +253,13 @@ public class SitemapController {
 	public void generateEadContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, XmlType xmlType,
 			int eadId, int pageNumber) {
 		try {
-			EadSearchOptions eadSearchOptions = new EadSearchOptions();
+			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
-			eadSearchOptions.setEadClass(xmlType.getClazz());
+			eadSearchOptions.setContentClass(xmlType.getClazz());
 			eadSearchOptions.setId(eadId);
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-content:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " pn:" + pageNumber);
-			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getClazz(), eadId, pageNumber, (int) PAGESIZE);
+			List<CLevel> clevels = cLevelDAO.getCLevels((Class<? extends Ead>) xmlType.getClazz(), eadId, pageNumber, (int) PAGESIZE);
 			if (clevels.size() >= 0) {
 				resourceResponse.setCharacterEncoding(UTF8);
 				resourceResponse.setContentType(APPLICATION_XML);

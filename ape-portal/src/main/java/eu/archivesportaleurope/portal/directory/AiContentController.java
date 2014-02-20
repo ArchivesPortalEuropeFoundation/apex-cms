@@ -15,7 +15,7 @@ import eu.apenet.commons.exceptions.APEnetException;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.dao.EadSearchOptions;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
@@ -26,7 +26,7 @@ public class AiContentController {
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
 
-	
+
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
 	}
@@ -51,9 +51,9 @@ public class AiContentController {
 			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 					.getArchivalInstitutionsByRepositorycode(aiContentParams.getRepoCode());
 			ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
-			EadSearchOptions eadSearchOptions = new EadSearchOptions();
+			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
-			eadSearchOptions.setEadClass(XmlType.getTypeByResourceName(aiContentParams.getXmlTypeName()).getClazz());
+			eadSearchOptions.setContentClass(XmlType.getTypeByResourceName(aiContentParams.getXmlTypeName()).getClazz());
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setPageSize(100);
 			eadSearchOptions.setOrderByField("title");

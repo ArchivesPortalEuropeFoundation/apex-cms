@@ -29,11 +29,11 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
- * 
+ *
  * This is display ead controller
- * 
+ *
  * @author bverhoef
- * 
+ *
  */
 @Controller(value = "displayEadController")
 @RequestMapping(value = "VIEW")
@@ -66,14 +66,14 @@ public class DisplayEadContoller {
 		try {
 			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
 
-		}catch (NotExistInDatabaseException e) { 
+		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
 			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
 
 		}
 		if (modelAndView == null){
-			modelAndView = new ModelAndView(); 
+			modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
 		}
@@ -106,25 +106,25 @@ public class DisplayEadContoller {
 				} else if (eadParams.getAiId() != null) {
 					xmlType = XmlType.getType(eadParams.getXmlTypeId());
 					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+						ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 					}
 
 				}
 				if (ead == null){
-					
+
 				}
 			}
 
 		} else if (eadParams.getAiId() != null) {
 			XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+				ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
 			}
 		} else if (eadParams.getRepoCode() != null) {
 			String repoCode = eadParams.getRepoCode().replace('_', '/');
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getClazz(), repoCode, eadParams.getEadid());
+				ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), repoCode, eadParams.getEadid());
 			}
 		}
 

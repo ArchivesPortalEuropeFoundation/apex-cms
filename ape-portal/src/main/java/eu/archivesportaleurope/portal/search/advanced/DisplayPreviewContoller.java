@@ -25,18 +25,18 @@ import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 
 /**
- * 
+ *
  * This is preview ead controller
- * 
+ *
  * @author bverhoef
- * 
+ *
  */
 @Controller(value = "displayPreviewController")
 @RequestMapping(value = "VIEW")
 public class DisplayPreviewContoller {
 
 	/**
-	 * 
+	 *
 	 */
 	private final static Logger LOGGER = Logger.getLogger(DisplayPreviewContoller.class);
 
@@ -63,7 +63,7 @@ public class DisplayPreviewContoller {
 						ModelAndView modelAndView = new ModelAndView();
 						modelAndView.setViewName("preview/frontpage");
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
-						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getClazz());
+						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), (Class<? extends Ead>) xmlType.getClazz());
 						if (eadContent == null) {
 							throw new NotExistInDatabaseException(id);
 						}
@@ -79,7 +79,7 @@ public class DisplayPreviewContoller {
 					}
 				}
 
-			} 
+			}
 		}catch (NotExistInDatabaseException e){
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
