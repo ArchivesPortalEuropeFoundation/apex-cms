@@ -146,7 +146,7 @@ public class AdvancedSearchController {
 	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
 			RenderRequest request) {
 		advancedSearch.setMode(MODE_NEW_SEARCH);
-		AnalyzeLogger.logSimpleSearch(advancedSearch);
+		AnalyzeLogger.logSimpleSearch(request.getRemoteUser(),advancedSearch);
 		Results results = performNewSearch(request, advancedSearch);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
@@ -185,7 +185,7 @@ public class AdvancedSearchController {
 			if (error == null && StringUtils.isNotBlank(advancedSearch.getTerm())) {
 					SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 					handleSearchParameters(request, advancedSearch, solrQueryParameters);
-					AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
+					AnalyzeLogger.logAdvancedSearch(request.getRemoteUser(),advancedSearch, solrQueryParameters);
 					if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 						results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 					} else {
@@ -226,11 +226,11 @@ public class AdvancedSearchController {
 				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 					handleSearchParametersForContextUpdate(request, advancedSearch, solrQueryParameters);
-					AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
+					AnalyzeLogger.logAdvancedSearch(request.getRemoteUser(), advancedSearch, solrQueryParameters);
 					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
 					handleSearchParametersForListUpdate(request, advancedSearch, solrQueryParameters);
-					AnalyzeLogger.logUpdateAdvancedSearchList(advancedSearch, solrQueryParameters);
+					AnalyzeLogger.logUpdateAdvancedSearchList(request.getRemoteUser(), advancedSearch, solrQueryParameters);
 					results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
 				}
 			}else {
