@@ -43,9 +43,14 @@ public final class AnalyzeLogger {
     		AL_ANALYZE_LOGGER.debug(logLine);
     	}
     }
-    public static void logAdvancedSearch(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logAdvancedSearch(String userId, AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_ANALYZE_LOGGER.isDebugEnabled()){
     		String logLine = "";
+    		if (StringUtils.isBlank(userId)){
+    			logLine +="none;";
+    		}else {
+    			logLine +=userId +";";
+    		}
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
     		}else {
@@ -89,9 +94,14 @@ public final class AnalyzeLogger {
     		ADVANCED_SEARCH_ANALYZE_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logUpdateAdvancedSearchContext(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logUpdateAdvancedSearchContext(String userId,TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_CONTEXT_LOGGER.isDebugEnabled()){
     		String logLine = "";
+    		if (StringUtils.isBlank(userId)){
+    			logLine +="none;";
+    		}else {
+    			logLine +=userId +";";
+    		}
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
     		}else {
@@ -146,9 +156,14 @@ public final class AnalyzeLogger {
     		ADVANCED_SEARCH_CONTEXT_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logUpdateAdvancedSearchList(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logUpdateAdvancedSearchList(String userId, AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_LIST_LOGGER.isDebugEnabled()){
     		String logLine = "";
+    		if (StringUtils.isBlank(userId)){
+    			logLine +="none;";
+    		}else {
+    			logLine +=userId +";";
+    		}
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
     		}else {
@@ -211,9 +226,14 @@ public final class AnalyzeLogger {
     		ADVANCED_SEARCH_LIST_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logSimpleSearch(AdvancedSearch advancedSearch){
+    public static void logSimpleSearch(String userId, AdvancedSearch advancedSearch){
     	if (SIMPLE_SEARCH_ANALYZE_LOGGER.isDebugEnabled()){
     		String logLine = "";
+    		if (StringUtils.isBlank(userId)){
+    			logLine +="none;";
+    		}else {
+    			logLine +=userId +";";
+    		}
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
     		}else {
