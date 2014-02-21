@@ -149,11 +149,6 @@ function initTabs() {
 	});
 }
 function initSearchOptionsHandlers() {
-	$("#newSearchForm input").keypress(function(event) {
-		if (event.keyCode == 13) {
-			performNewSearch();
-		}
-	});
 	$("#newSearchForm select").keypress(function(event) {
 		if (event.keyCode == 13) {
 			performNewSearch();
