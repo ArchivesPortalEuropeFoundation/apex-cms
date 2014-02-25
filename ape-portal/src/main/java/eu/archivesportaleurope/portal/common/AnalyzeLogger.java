@@ -255,12 +255,6 @@ public final class AnalyzeLogger {
     		PREVIEW_SECOND_DISPLAY_ANALYZE_LOGGER.debug(logLine);
     	}   	
     }
-    public static void logSecondDisplay(String id){
-    	if (PREVIEW_SECOND_DISPLAY_ANALYZE_LOGGER.isDebugEnabled()){
-    		String logLine = "s;" +id;
-    		PREVIEW_SECOND_DISPLAY_ANALYZE_LOGGER.debug(logLine);
-    	}
-    }
 	private static String countList(List<String> list){
 		if (list == null){
 			return "";
