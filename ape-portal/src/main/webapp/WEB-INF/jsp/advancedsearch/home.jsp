@@ -31,7 +31,6 @@
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
-				<form:hidden id="advanced" path="advanced" />
 				<form:hidden id="selectedNodes" path="selectedNodes"/>	
 				<div id="navigatedSearch">
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
