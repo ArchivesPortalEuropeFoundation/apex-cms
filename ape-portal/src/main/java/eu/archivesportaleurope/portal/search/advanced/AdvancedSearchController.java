@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.search.advanced;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -146,7 +145,6 @@ public class AdvancedSearchController {
 	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
 			RenderRequest request) {
 		advancedSearch.setMode(MODE_NEW_SEARCH);
-		AnalyzeLogger.logSimpleSearch(request.getRemoteUser(),advancedSearch);
 		Results results = performNewSearch(request, advancedSearch);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
