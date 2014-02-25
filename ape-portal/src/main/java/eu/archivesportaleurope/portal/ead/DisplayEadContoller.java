@@ -84,7 +84,6 @@ public class DisplayEadContoller {
 		ModelAndView modelAndView = new ModelAndView();
 		Ead ead = null;
 		if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
-			AnalyzeLogger.logSecondDisplay(eadParams.getEadDisplayId());
 			if (eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
 				String subSolrId = eadParams.getEadDisplayId().substring(1);
 				if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
