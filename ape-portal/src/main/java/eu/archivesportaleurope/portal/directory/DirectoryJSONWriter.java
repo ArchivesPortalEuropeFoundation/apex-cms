@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
+import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
@@ -282,15 +283,15 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 					}
 				}while(loop);
 			}catch (Exception e) {
-				log.error(e.getMessage(), e);
+				log.error(APEnetUtilities.generateThrowableLog(e));
 			}finally{
 				builder.append(END_ARRAY);
 				try {
 					writeToResponseAndClose(builder, resourceResponse);
 				} catch (UnsupportedEncodingException e) {
-					log.error(e.getMessage(), e);
+					log.error(APEnetUtilities.generateThrowableLog(e));
 				} catch (IOException e) {
-					log.error(e.getMessage(), e);
+					log.error(APEnetUtilities.generateThrowableLog(e));
 				}
 			}
 		}
@@ -526,10 +527,10 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 				geocoder = new Geocoder(this.getGoogle_maps_clientId(), this.getGoogle_maps_clientKey());
 				log.debug("geocoder defined with clientID: " + this.getGoogle_maps_clientId() + " & clientKey: " + this.getGoogle_maps_clientKey());
 			} catch (InvalidKeyException e) {
-				log.error(e.getMessage(), e);
+				log.error(e.getMessage());
 				geocoder = null;
 			} catch (IllegalArgumentException iae) {
-				log.error(iae.getMessage(), iae);
+				log.error(iae.getMessage());
 				geocoder = null;
 			}
 
