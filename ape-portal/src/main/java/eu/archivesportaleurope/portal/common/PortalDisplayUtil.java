@@ -71,10 +71,11 @@ public class PortalDisplayUtil {
 		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
 	}
 	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
+		String aiName = institution.getAiname().replaceAll("&amp", "&");
 		if (institution.isGroup()){
-			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + START_CHARACTER + institution.getCountry().getIsoname() + END_CHARACTER);
+			return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getCountry().getIsoname() + END_CHARACTER);
 		}else {
-			return PortalDisplayUtil.replaceQuotesAndReturns(institution.getAiname() + START_CHARACTER + institution.getRepositorycode() + END_CHARACTER);
+			return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getRepositorycode() + END_CHARACTER);
 		}
 		
 	}
