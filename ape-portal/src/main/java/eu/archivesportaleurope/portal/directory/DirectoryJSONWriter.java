@@ -400,6 +400,13 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			builder.append(COMMA);
 			builder.append("\"aiId\":\""+ai.getAiId()+"\"");
 		}
+		//Parse street, postalCity and country 
+		builder.append(COMMA);
+		builder.append("\"street\":\""+repo.getStreet()+"\"");
+		builder.append(COMMA);
+		builder.append("\"postalcity\":\""+repo.getPostalCity()+"\"");
+		builder.append(COMMA);
+		builder.append("\"country\":\""+repo.getCountry()+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}

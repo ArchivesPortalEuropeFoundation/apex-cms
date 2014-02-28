@@ -233,7 +233,9 @@ code, pre {
 
 .popup-alert-warning {
 	background-color: #FDD;
-	border-bottom-color: #F00;
+	border-bottom-color:  #F00;
+	border-top:1px solid #F00;
+	top:21px;
 }
 
 /* ---------- Portal add content ---------- */

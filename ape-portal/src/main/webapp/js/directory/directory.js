@@ -124,7 +124,7 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		        
 		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		            return function() {
-		                var content=dataRepo[0].name;
+		                var content="<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country;
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
 		                getAndClickOnParents(marker.aiId);
@@ -813,7 +813,8 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		        
 		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		            return function() {
-		                var content=dataRepo[0].name;
+		            	var content="<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country;
+		                //var content=dataRepo[0].name;
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
 		            }
