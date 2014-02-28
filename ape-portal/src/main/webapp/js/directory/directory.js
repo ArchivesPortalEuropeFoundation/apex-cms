@@ -69,6 +69,40 @@ function printEagByURL(url){
 	$("body").css("cursor", "default");
 }
 
+function getAndClickOnParents(aiId){
+	var url = $("input#getAndClickOnParentsAction").val();
+	if(url && url.length>0){
+		$.post(url,{"aiId":aiId},function(e){
+			var clicks = new Array();
+			i=-1;
+			$.each(e,function(k,v){
+				clicks[++i]=v.key;
+			});
+			if(clicks.length>0){
+				doClick(clicks,i);
+			}
+		});
+	}
+}
+function doClick(clicks,i){
+	var key = clicks[i];
+	var dynatree = $("#directoryTree").dynatree("getTree");
+	var target = dynatree.getNodeByKey(key);
+	if(!target){
+		setTimeout(function(){doClick(clicks,i);},100);
+	}else{
+		doTreeAction(target,clicks,i);
+	}
+}
+function doTreeAction(target,clicks,i){
+	if(--i>=0){
+		target.expand(true);
+		doClick(clicks,i);
+	}else{
+		target.activate(true);
+	}
+}
+
 function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponame){
 	try{
 		$.getJSON(directoryTreeMapsUrl,{ countryCode : selectedCountryCode, institutionID : aiId, repositoryName: reponame },function(data){
@@ -80,7 +114,11 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		    $.each(data.repos,function(){
 		    	var dataRepo = $(this);
 		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
+		        marker = new google.maps.Marker({
+		        	position: latLng, 
+		        	title: dataRepo[0].name,
+		        	aiId: dataRepo[0].aiId
+		        });
 		        bounds.extend(latLng);
 		        markers.push(marker);
 		        
@@ -89,6 +127,7 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		                var content=dataRepo[0].name;
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
+		                getAndClickOnParents(marker.aiId);
 		            }
 		        })(marker, i));
 		        i++;
