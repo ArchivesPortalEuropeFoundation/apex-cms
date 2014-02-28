@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.contact;
 
-import java.security.Principal;
-
+import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -16,22 +15,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalServiceUtil;
-
 import eu.archivesportaleurope.portal.common.email.EmailSender;
-/**
- * User: Yoann Moranville
- * Date: 09/01/2013
- *
- * reCAPTCHA information:
- *  - public key: 6LebX9sSAAAAAPNhohQ93xnzFSbMdKsdLeuSI2dq
- *  - private key: 6LebX9sSAAAAABqCOOeDCKMWdB0fMApqxJk87AqQ
- *
- * @author Yoann Moranville
- */
 
 @Controller(value = "contactController")
 @RequestMapping(value = "VIEW")
@@ -39,35 +23,11 @@ public class ContactController {
 
     private static final Logger LOG = Logger.getLogger(ContactController.class);
 
-    private Principal principal;
-
-    public Principal getPrincipal() {
-		return this.principal;
-	}
-
-	public void setPrincipal(Principal principal) {
-		this.principal = principal;
-	}
-
 	@RenderMapping
-    public ModelAndView showContact(RenderRequest renderRequest) {
+    public ModelAndView showContact(RenderRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");
-        this.setPrincipal(renderRequest.getUserPrincipal());
-        modelAndView.getModelMap().addAttribute("loggedIn", renderRequest.getUserPrincipal());
-        if (this.getPrincipal() != null) {
-        	try {
-				User user = UserLocalServiceUtil.getUser(Long.parseLong(this.getPrincipal().getName()));
-
-		        modelAndView.getModelMap().addAttribute("eMail", user.getEmailAddress());
-			} catch (NumberFormatException e) {
-				LOG.error("Number format exception: " + e.getMessage());
-			} catch (PortalException e) {
-				LOG.error("Portal exception: " + e.getMessage());
-			} catch (SystemException e) {
-				LOG.error("System exception: " + e.getMessage());
-			}
-        }
+        modelAndView.getModelMap().addAttribute("loggedIn", request.getUserPrincipal() != null);
         return modelAndView;
     }
 
@@ -87,11 +47,8 @@ public class ContactController {
     }
 
     @ActionMapping(params = "myaction=contact")
-    public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
-    	ContactValidator contactValidator = new ContactValidator();
-        if (this.getPrincipal() != null) {
-        	contactValidator.setUserName(this.getPrincipal().getName());
-        }
+    public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionRequest request, ActionResponse response) {
+    	ContactValidator contactValidator = new ContactValidator(request.getUserPrincipal() != null);
         contactValidator.validate(contact, result);
 
 		if(result.hasErrors()) {

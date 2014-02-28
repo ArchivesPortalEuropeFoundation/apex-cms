@@ -33,6 +33,7 @@
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${contactUrl}">
     <table class="contactForm">
+        <c:if test="${!loggedIn}">
         <tr>
             <td class="tdLabel">
                 <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
@@ -44,6 +45,7 @@
                 <form:errors path="email" cssClass="error" />
             </td>
         </tr>
+        </c:if>
         <tr>
             <td class="tdLabel">
                 <label for="contact_topicSubject" class="label"><fmt:message key="label.email.subject" /><span class="required">*</span>:</label>
@@ -72,14 +74,7 @@
                 <form:errors path="feedback" cssClass="error" />
             </td>
         </tr>
-        <c:if test="${!empty loggedIn}">
-        	<!-- you are logged -->
-        	<!-- no need for captcha -->
-        	<script type="text/javascript">
-        		document.getElementById('contact_email').value = '${eMail}';
-        	</script>
-        </c:if>
-        <c:if test="${empty loggedIn}">
+        <c:if test="${!loggedIn}">
         	<!-- then you are not logged -->     
 	        <tr>
 	            <td colspan="2">
