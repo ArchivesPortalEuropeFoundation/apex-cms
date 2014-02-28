@@ -52,9 +52,6 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
 	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
 	private static final String NO_LINK = "\"noLink\": true";
-
-	private String google_maps_clientId = PropsUtil.get("google.maps.clientId");	// clientID used to build geocoder = new Geocoder(clientId,clientKey)
-	private String google_maps_clientKey = PropsUtil.get("google.maps.clientKey");	// clientID used to build geocoder = new Geocoder(clientId,clientKey)
 	
 	@ResourceMapping(value = "directoryTree")
 	public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
@@ -522,32 +519,10 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 			String selectedCountryName = countriesList.get(0).getCname();
 
 			// Try to recover the coordinates to bound.
-			Geocoder geocoder = null;
-			try {
-				geocoder = new Geocoder(this.getGoogle_maps_clientId(), this.getGoogle_maps_clientKey());
-				log.debug("geocoder defined with clientID: " + this.getGoogle_maps_clientId() + " & clientKey: " + this.getGoogle_maps_clientKey());
-			} catch (InvalidKeyException e) {
-				log.error(e.getMessage());
-				geocoder = null;
-			} catch (IllegalArgumentException iae) {
-				log.error(iae.getMessage());
-				geocoder = null;
-			}
+			Geocoder geocoder = new Geocoder();
 
 			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(selectedCountryName).getGeocoderRequest();
-			GeocodeResponse geocoderResponse;
-
-			if (geocoder == null) {
-				log.debug("geocoder defined without clientID and/or clientKey");
-				geocoder = new Geocoder();
-				geocoderResponse = geocoder.geocode(geocoderRequest);
-			} else if (geocoder.geocode(geocoderRequest) == null) {
-				log.debug("geocoder defined with non valid clientID and/or clientKey");
-				geocoder = new Geocoder();
-				geocoderResponse = geocoder.geocode(geocoderRequest);
-			} else {
-				geocoderResponse = geocoder.geocode(geocoderRequest);
-			}
+			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
 
 			if (geocoderResponse.getStatus().equals(GeocoderStatus.OK)) {
 				List<GeocoderResult> geocoderResultList = geocoderResponse.getResults();
@@ -600,21 +575,4 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		}
 		return builder;
 	}
-
-	public String getGoogle_maps_clientId() {
-		return google_maps_clientId;
-	}
-
-	public void setGoogle_maps_clientId(String google_maps_clientId) {
-		this.google_maps_clientId = google_maps_clientId;
-	}
-
-	public String getGoogle_maps_clientKey() {
-		return google_maps_clientKey;
-	}
-
-	public void setGoogle_maps_clientKey(String google_maps_clientKey) {
-		this.google_maps_clientKey = google_maps_clientKey;
-	}
-
 }
