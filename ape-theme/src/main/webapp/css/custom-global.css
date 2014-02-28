@@ -171,9 +171,12 @@ a:visited {
 	/* CSS3 standard */
 	opacity: 0.8;
 }
-.error {
+.error, .errorBlock {
 	color: red;	
 	font-weight: bold;
+}
+.errorBlock{
+	display:block;
 }
 .left {
 	float:left;
