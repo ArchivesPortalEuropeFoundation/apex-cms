@@ -48,12 +48,12 @@
                 <label for="contact_topicSubject" class="label"><fmt:message key="label.email.subject" /><span class="required">*</span>:</label>
             </td>
             <td>
-                <form:select path="type" name="topicSubject" id="contact_topicSubject">
-                    <option value="-1">--- <fmt:message key="label.contact.items.select" /> ---</option>
-                    <option value="1"><fmt:message key="label.contact.item.issues" /></option>
-                    <option value="2"><fmt:message key="label.contact.item.contribute" /></option>
-                    <option value="3"><fmt:message key="label.contact.item.suggestions" /></option>
-                    <option value="4"><fmt:message key="label.contact.item.feedback" /></option>
+                <form:select path="type" name="topicSubject" id="contact_topicSubject" >
+                    <form:option value="">--- <fmt:message key="label.contact.items.select" /> ---</form:option>
+                    <form:option value="1"><fmt:message key="label.contact.item.issues" /></form:option>
+                    <form:option value="2"><fmt:message key="label.contact.item.contribute" /></form:option>
+                    <form:option value="3"><fmt:message key="label.contact.item.suggestions" /></form:option>
+                    <form:option value="4"><fmt:message key="label.contact.item.feedback" /></form:option>
                 </form:select><form:errors path="type" cssClass="errorBlock" />
             </td>
         </tr>
