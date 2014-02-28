@@ -15,13 +15,16 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.model.User;
+import com.liferay.portal.util.PortalUtil;
+
 import eu.archivesportaleurope.portal.common.email.EmailSender;
 
 @Controller(value = "contactController")
 @RequestMapping(value = "VIEW")
 public class ContactController {
 
-    private static final Logger LOG = Logger.getLogger(ContactController.class);
+    private static final Logger LOGGER = Logger.getLogger(ContactController.class);
 
 	@RenderMapping
     public ModelAndView showContact(RenderRequest request) {
@@ -48,20 +51,23 @@ public class ContactController {
 
     @ActionMapping(params = "myaction=contact")
     public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionRequest request, ActionResponse response) {
-    	ContactValidator contactValidator = new ContactValidator(request.getUserPrincipal() != null);
+    	boolean loggedIn = request.getUserPrincipal() != null;
+    	ContactValidator contactValidator = new ContactValidator(loggedIn);
         contactValidator.validate(contact, result);
-
-		if(result.hasErrors()) {
-            response.setRenderParameter("myaction", "contact");
-            return;
-        }
-        try {
-            EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
-            response.setRenderParameter("myaction", "success");
-        } catch (Exception e) {
-            LOG.error("Error sending the email", e);
-            response.setRenderParameter("myaction", "error");
-        }
+		if (!result.hasErrors()){
+	        try {
+	        	if (loggedIn){
+	        		User currentUser = PortalUtil.getUser(request);
+	        		EmailSender.sendEmail(contact.getType(), currentUser.getEmailAddress(), contact.getFeedback());
+	        	}else {
+	        		EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
+	        	}
+	            response.setRenderParameter("myaction", "success");
+	        } catch (Exception e) {
+	        	LOGGER.error("Error sending the email", e);
+	            response.setRenderParameter("myaction", "error");
+	        }
+		}
     }
 
     @ActionMapping(params = "myaction=recaptcha")

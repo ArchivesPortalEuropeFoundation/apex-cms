@@ -37,14 +37,11 @@ public class ContactValidator implements Validator {
 
 	public void validate(Object target, Errors errors) {
 		Contact contact = (Contact) target;
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "feedback.error.email");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "feedback", "feedback.error.feedback");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "feedback.error.type");
 
-		// Topic test.
-		if (StringUtils.isNotBlank(contact.getType()) || contact.getType().equals("-1")) {
-			errors.rejectValue("type", "feedback.error.type");
-		}
 		if (!loggedIn) {
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "feedback.error.email");
 			// Email test.
 			String email = contact.getEmail();
 			if (!email.isEmpty()) { // it's rejected in preview
