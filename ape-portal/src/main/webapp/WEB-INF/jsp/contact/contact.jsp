@@ -39,10 +39,7 @@
                 <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
             </td>
             <td>
-                <form:input path="email" type="text" name="email" size="50" id="contact_email" />
-            </td>
-            <td>
-                <form:errors path="email" cssClass="error" />
+                <form:input path="email" type="text" name="email" size="50" id="contact_email" /> <form:errors path="email" cssClass="errorBlock" />
             </td>
         </tr>
         </c:if>
@@ -57,10 +54,7 @@
                     <option value="2"><fmt:message key="label.contact.item.contribute" /></option>
                     <option value="3"><fmt:message key="label.contact.item.suggestions" /></option>
                     <option value="4"><fmt:message key="label.contact.item.feedback" /></option>
-                </form:select>
-            </td>
-            <td>
-                <form:errors path="type" cssClass="error" />
+                </form:select><form:errors path="type" cssClass="errorBlock" />
             </td>
         </tr>
         <tr>
@@ -68,30 +62,25 @@
                 <label for="contact_feedbackText" class="label"><fmt:message key="label.feedback.comments" /><span class="required">*</span>:</label>
             </td>
             <td>
-                <form:textarea path="feedback" name="feedbackText" cols="" rows="" id="contact_feedbackText" />
-            </td>
-            <td>
-                <form:errors path="feedback" cssClass="error" />
+                <form:textarea path="feedback" name="feedbackText" cols="" rows="" id="contact_feedbackText" /> <form:errors path="feedback" cssClass="errorBlock" />
             </td>
         </tr>
         <c:if test="${!loggedIn}">
         	<!-- then you are not logged -->     
 	        <tr>
-	            <td colspan="2">
-					<script type="text/javascript" src="${contact.reCaptchaUrl_script}${contact.recaptchaPubKey}"></script>
+	        	<td></td>
+	            <td>
+					<script type="text/javascript" src="${contact.reCaptchaUrl_script}${contact.recaptchaPubKey}"></script><form:errors path="captcha" cssClass="errorBlock" />
 				</td>
-	           <td>
-	                <form:errors path="captcha" cssClass="error" />
-	            </td>
 	        </tr> 
         </c:if>
         <tr>
-            <td colspan="3">
+            <td colspan="2">
                 <fmt:message key="feedbackText.info.tips" />
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="2">
                 <table>
                     <tr>
                         <td class="leftBtn">
