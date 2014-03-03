@@ -26,6 +26,8 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
@@ -121,7 +123,7 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		modelAndView.setViewName("eaddetails");
-		
+		modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;
 	}
 	
@@ -143,6 +145,7 @@ public class DisplayEadDetailsContoller {
 				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
+				modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 				modelAndView.setViewName("eaddetails");
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());

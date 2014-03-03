@@ -26,6 +26,8 @@ import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
@@ -65,7 +67,8 @@ public class DisplayEadContoller {
 		ModelAndView modelAndView = null;
 		try {
 			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
-
+			
+			modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
 		}catch (NotExistInDatabaseException e) { 
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
