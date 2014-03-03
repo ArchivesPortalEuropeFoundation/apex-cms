@@ -164,12 +164,12 @@ function printEadDetails(url) {
 
 }
 
-function showFeedback(feedbackUrl, documentTitle, documentUrl) {
+function showFeedback(feedbackUrl, documentTitle, documentUrl, publicKey) {
 
 	if ($('#feedbackContent').is(':empty')){
 		$.post(feedbackUrl, {title: documentTitle, url: documentUrl}, function(data) {
 			$("#feedbackContent").html(data);
-	        Recaptcha.create("6Le7ZOkSAAAAAH1a_2F9uUrJA9R7DFXBJTpys384", "recaptchaDiv", {
+	        Recaptcha.create(publicKey, "recaptchaDiv", {
 	            theme: "white",
 	            callback: Recaptcha.focus_response_field});
 	        $("#feedbackContent").removeClass("feedbackContent").addClass("feedbackContent");
