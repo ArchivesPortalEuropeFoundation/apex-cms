@@ -14,6 +14,6 @@ public class PropertiesKeys {
 	public static final String LIFERAY_RECAPTCHA_URL_VERIFY = "captcha.engine.recaptcha.url.verify";
 	public static final String LIFERAY_RECAPTCHA_PUB_KEY = "captcha.engine.recaptcha.key.public";
 	public static final String LIFERAY_RECAPTCHA_URL = "captcha.engine.recaptcha.url.script";
-	public static final String APE_RECAPTCHA_URL = "ape.captcha.engine.recaptcha.url.script.ajax";
+	public static final String APE_RECAPTCHA_AJAX_URL = "ape.captcha.engine.recaptcha.url.script.ajax";
 
 }
