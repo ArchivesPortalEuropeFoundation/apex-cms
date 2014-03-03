@@ -15,6 +15,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
 
@@ -27,25 +29,41 @@ public class ContactController {
     private static final Logger LOGGER = Logger.getLogger(ContactController.class);
 
 	@RenderMapping
-    public ModelAndView showContact(RenderRequest request) {
+    public ModelAndView showInitialPage(@ModelAttribute("contact") Contact contact,RenderRequest request) throws PortalException, SystemException {
+		boolean loggedIn = request.getUserPrincipal() != null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");
-        modelAndView.getModelMap().addAttribute("loggedIn", request.getUserPrincipal() != null);
+        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
+    	if (loggedIn){
+    		User currentUser = PortalUtil.getUser(request);
+    		contact.setEmail(currentUser.getEmailAddress());
+    	}
         return modelAndView;
     }
 
+    @RenderMapping(params = "myaction=input")
+    public ModelAndView showInput(RenderRequest request) {
+		boolean loggedIn = request.getUserPrincipal() != null;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("contact");
+        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
+        return modelAndView;
+    }
+	
     @ModelAttribute("contact")
     public Contact getCommandObject() {
         return new Contact();
     }
 
+
+    
     @RenderMapping(params = "myaction=success")
-    public String showPageResult(RenderResponse response, Model model) {
+    public String showPageResult() {
         return "success";
     }
 
     @RenderMapping(params = "myaction=error")
-    public String showPageError(RenderResponse response, Model model) {
+    public String showPageError() {
         return "error";
     }
 
@@ -54,14 +72,11 @@ public class ContactController {
     	boolean loggedIn = request.getUserPrincipal() != null;
     	ContactValidator contactValidator = new ContactValidator(loggedIn);
         contactValidator.validate(contact, result);
-		if (!result.hasErrors()){
+		if (result.hasErrors()){
+			 response.setRenderParameter("myaction", "input");
+		}else {
 	        try {
-	        	if (loggedIn){
-	        		User currentUser = PortalUtil.getUser(request);
-	        		EmailSender.sendEmail(contact.getType(), currentUser.getEmailAddress(), contact.getFeedback());
-	        	}else {
-	        		EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
-	        	}
+        		EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
 	            response.setRenderParameter("myaction", "success");
 	        } catch (Exception e) {
 	        	LOGGER.error("Error sending the email", e);
@@ -69,11 +84,4 @@ public class ContactController {
 	        }
 		}
     }
-
-    @ActionMapping(params = "myaction=recaptcha")
-    public void getRecaptcha(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
-            response.setRenderParameter("myaction", "success");
-            response.setRenderParameter("recaptchaPubKey", contact.getCaptcha());
-    }
-
 }
