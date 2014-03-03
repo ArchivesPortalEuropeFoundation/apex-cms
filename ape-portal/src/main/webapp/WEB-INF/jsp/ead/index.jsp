@@ -7,6 +7,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 <portlet:defineObjects />
 <c:set var="element">
 	<c:out value="${param['element']}" />

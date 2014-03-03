@@ -6,43 +6,36 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
+<portlet:resourceURL var="feedbackUrl" id="feedbackAction"/>
 
-<portlet:actionURL var="contactUrl">
-    <portlet:param name="myaction" value="contact" />
-</portlet:actionURL>
-
-<script type="text/javascript">
-	 var RecaptchaOptions = {
-	    theme : 'white'
-	 };
-</script>
 <div id="contactPortlet">
-<h1><fmt:message key="contact.form.title" /></h1>
+<h1><fmt:message key="label.feedback" /></h1>
 
-<form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${contactUrl}">
+<form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
                 <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
             </td>
             <td>
-                <form:input path="email" type="text" name="email" size="50" id="contact_email" /><form:errors path="email" cssClass="errorBlock" />
+                <form:input path="email" type="text" name="email" size="50" id="contact_email" /> <form:errors path="email" cssClass="errorBlock" />
             </td>
         </tr>
         <tr>
         	<td> <label for="receiveCopy" class="label"><fmt:message key="label.email.contact.receivecopy" />:</label></td>
         	<td><form:checkbox path="receiveCopy" id="receiveCopy"/> </td>
-        </tr>
+        </tr>        
         <tr>
             <td class="tdLabel">
-                <label for="contact_topicSubject" class="label"><fmt:message key="label.email.subject" /><span class="required">*</span>:</label>
+               <fmt:message key="label.email.subject" />
             </td>
             <td>
-                <form:select path="type" name="topicSubject" id="contact_topicSubject" >
-                    <form:option value="">--- <fmt:message key="label.contact.items.select" /> ---</form:option>
-                    <form:options items="${contact.typeList }"/>
-                </form:select><form:errors path="type" cssClass="errorBlock" />
+            	<c:out value="${contact.title}"/><form:hidden path="title"/>
             </td>
+        </tr>
+        <tr>
+        	<td><fmt:message key="feedback.url" /></td>
+        	<td><c:out value="${contact.url}"/><form:hidden path="url"/></td>
         </tr>
         <tr>
             <td class="tdLabel">
@@ -53,11 +46,10 @@
             </td>
         </tr>
         <c:if test="${!loggedIn}">
-        	<!-- then you are not logged -->     
 	        <tr>
 	        	<td></td>
 	            <td>
-					<script type="text/javascript" src="${contact.reCaptchaUrl}"></script><form:errors path="captcha" cssClass="errorBlock" />
+					<div id="recaptchaDiv"></div><form:errors path="captcha" cssClass="errorBlock" />
 				</td>
 	        </tr> 
         </c:if>
@@ -71,7 +63,7 @@
                 <table>
                     <tr>
                         <td class="leftBtn">
-                            <input type="submit" id="contact_label_feedback_send" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
+                            <input type="submit" id="contactFeedbackSend" value="<fmt:message key="label.feedback.send" />" class="mainButton"/>
                         </td>
                     </tr>
                 </table>
