@@ -1,8 +1,12 @@
 package eu.archivesportaleurope.portal.contact;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import com.liferay.portal.kernel.util.PropsUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
+
 
 /**
  * User: Yoann Moranville
@@ -12,31 +16,26 @@ import com.liferay.portal.kernel.util.PropsUtil;
  */
 public class Contact implements Serializable {
 
-    private String email;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1372031592145506858L;
+	private String email;
     private String type;
+    private String title;
+    private String url;
     private String feedback;
     private String captcha;
     private String recaptcha_challenge_field;
     private String recaptcha_response_field;
-    private String recaptchaPubKey = PropsUtil.get("captcha.engine.recaptcha.key.public");
-    private String reCaptchaUrl_script = PropsUtil.get("captcha.engine.recaptcha.url.script");
-    private String reCaptchaUrl_noscript = PropsUtil.get("captcha.engine.recaptcha.url.noscript");
+    private String recaptchaPubKey = PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY);
+    private String reCaptchaUrl_script = PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_URL);
+    private boolean receiveCopy = true;
+    private Map<String,String> typeList = new LinkedHashMap<String,String>();
 
-    public String getReCaptchaUrl_script() {
-		return reCaptchaUrl_script;
-	}
-
-	public void setReCaptchaUrl_script(String reCaptchaUrl_script) {
-		this.reCaptchaUrl_script = reCaptchaUrl_script;
-	}
-
-	public String getReCaptchaUrl_noscript() {
-		return reCaptchaUrl_noscript;
-	}
-
-	public void setReCaptchaUrl_noscript(String reCaptchaUrl_noscript) {
-		this.reCaptchaUrl_noscript = reCaptchaUrl_noscript;
-	}
+    public String getReCaptchaUrl(){
+    	return reCaptchaUrl_script + recaptchaPubKey;
+    }
 
 	public String getEmail() {
         return email;
@@ -86,11 +85,37 @@ public class Contact implements Serializable {
 		this.captcha = captcha;
 	}
 
-	public String getRecaptchaPubKey() {
-		return recaptchaPubKey;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setRecaptchaPubKey(String recaptchaPubKey) {
-		this.recaptchaPubKey = recaptchaPubKey;
+	public void setUrl(String url) {
+		this.url = url;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public boolean isReceiveCopy() {
+		return receiveCopy;
+	}
+
+	public void setReceiveCopy(boolean receiveCopy) {
+		this.receiveCopy = receiveCopy;
+	}
+
+	public Map<String, String> getTypeList() {
+		return typeList;
+	}
+
+	public void setTypeList(Map<String, String> typeList) {
+		this.typeList = typeList;
+	}
+
+
 }
