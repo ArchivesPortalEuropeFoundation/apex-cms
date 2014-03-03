@@ -164,10 +164,34 @@ function printEadDetails(url) {
 
 }
 
-function showFeedback() {
-	if ($("#contactForm").hasClass("feedback")) {
-		$("#contactForm").removeClass("feedback");
-	} else {
-		$("#contactForm").addClass("feedback");
+function showFeedback(feedbackUrl, documentTitle, documentUrl) {
+
+	if ($('#feedbackContent').is(':empty')){
+		$.post(feedbackUrl, {title: documentTitle, url: documentUrl}, function(data) {
+			$("#feedbackContent").html(data);
+	        Recaptcha.create("6Le7ZOkSAAAAAH1a_2F9uUrJA9R7DFXBJTpys384", "recaptchaDiv", {
+	            theme: "white",
+	            callback: Recaptcha.focus_response_field});
+	        $("#feedbackContent").removeClass("feedbackContent").addClass("feedbackContent");
+	    	$("#contactFeedbackSend").click(function(event) {
+	    		event.preventDefault();
+	    		sendFeedback();
+	    	});
+	
+		});
 	}
+	logAction("SHOW FEEDBACK FORM", feedbackUrl);
+	if ($("#feedbackContent").hasClass("hidden")) {
+		$("#feedbackContent").removeClass("hidden");
+	} else {
+		$("#feedbackContent").addClass("hidden");
+	}
+
+}
+function sendFeedback(){
+	var url = $("#contactForm").attr("action");
+	$.post(url, $("#contactForm").serialize(), function(data) {
+		$("#feedbackContent").html(data);
+	});
+	logAction("SEND FEEDBACK FORM", feedbackUrl);
 }
