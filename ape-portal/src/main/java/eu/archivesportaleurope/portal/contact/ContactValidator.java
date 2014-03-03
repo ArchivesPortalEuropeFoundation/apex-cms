@@ -67,7 +67,6 @@ public class ContactValidator implements Validator {
 
 			if (!reCaptchaResponse.isValid()) {
 				String errMsg = reCaptchaResponse.getErrorMessage();
-				LOG.error("reCaptchaResponse.getErrorMessage(): " + errMsg);
 				errors.rejectValue("captcha", "feedback.error.captcha.incorrect");
 			}
 		}
