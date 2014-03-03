@@ -2,30 +2,19 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
 
-import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalServiceUtil;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
@@ -38,9 +27,6 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.common.email.EmailSender;
-import eu.archivesportaleurope.portal.contact.Contact;
-import eu.archivesportaleurope.portal.contact.ContactValidator;
 
 /**
  * 
@@ -136,7 +122,7 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		modelAndView.setViewName("eaddetails");
 		
-		return addAttributes(modelAndView, portletRequest);
+		return modelAndView;
 	}
 	
 	private ModelAndView displayEadDetails(EadDetailsParams eadDetailsParams, PortletRequest portletRequest) {
@@ -169,65 +155,8 @@ public class DisplayEadDetailsContoller {
 			modelAndView.setViewName("eadDetailsError");
 		}
 		
-		return addAttributes(modelAndView, portletRequest);
-	}
-
-	/**
-	 * This method loads all required fields to load reCaptcha object in the "Send feedback" page from the portal-ext.properties file using the PropsUtil.get method.
-	 * @param model ModelAndView object.
-	 * @param portletRequest PortletRequest object.
-	 * @return modelAndView object with the next attributes loaded: "loggedIn", "reCaptchaUrl_script", "reCaptchaUrl_noscript" and "recaptchaPubKey".
-	 */
-	private ModelAndView addAttributes (ModelAndView model, PortletRequest portletRequest){
-		ModelAndView modelAndView = model;
-		
-		String logged = null;
-		if (portletRequest.getUserPrincipal() != null && portletRequest.getUserPrincipal().getName() != null) {
-			logged = portletRequest.getUserPrincipal().getName();
-			try {
-				User user = UserLocalServiceUtil.getUser(Long.parseLong(portletRequest.getUserPrincipal().getName()));
-
-		        modelAndView.getModelMap().addAttribute("eMail", user.getEmailAddress());
-			} catch (NumberFormatException e) {
-				LOGGER.error("Number format exception: " + e.getMessage());
-			} catch (PortalException e) {
-				LOGGER.error("Portal exception: " + e.getMessage());
-			} catch (SystemException e) {
-				LOGGER.error("System exception: " + e.getMessage());
-			}
-		}
-		modelAndView.getModelMap().addAttribute("loggedIn", logged);
-		modelAndView.getModelMap().addAttribute("reCaptchaUrl_script", PropsUtil.get("captcha.engine.recaptcha.url.script"));
-		modelAndView.getModelMap().addAttribute("reCaptchaUrl_noscript", PropsUtil.get("captcha.engine.recaptcha.url.noscript"));
-		modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropsUtil.get("captcha.engine.recaptcha.key.public"));
-		
 		return modelAndView;
 	}
 
-    @RenderMapping(params = "myaction=success")
-    public String showPageResult(RenderResponse response, Model model) {
-        return "success";
-    }
 
-    @RenderMapping(params = "myaction=error")
-    public String showPageError(RenderResponse response, Model model) {
-        return "error";
-    }
-
-
-    @ActionMapping(params = "myaction=contact")
-    public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
-        ContactValidator contactValidator = new ContactValidator();
-        contactValidator.validate(contact, result);
-        if(result.hasErrors()) {
-            response.setRenderParameter("myaction", "error");
-            return;
-        }
-        try {
-            EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
-            response.setRenderParameter("myaction", "success");
-        } catch (Exception e) {
-            response.setRenderParameter("myaction", "error");
-        }
-    }
 }
