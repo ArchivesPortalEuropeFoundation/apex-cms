@@ -28,7 +28,7 @@ public class EadNavigationTag extends SimpleTagSupport {
 		if (clevel != null){
 			CLevel currentCLevel = (CLevel) clevel;
 			CLevel parent = currentCLevel.getParent();
-			
+
 			while (parent != null ){
 				String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
 				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
@@ -38,10 +38,14 @@ public class EadNavigationTag extends SimpleTagSupport {
 			Ead ead = eadContent.getEad();
 			String repoCode = ead.getArchivalInstitution().getRepositorycodeForUrl();
 			XmlType xmlType = XmlType.getEadType(ead);
-			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ ead.getEadid();
+                        String eadid = ead.getEadid();
+                        if(eadid.contains(":")){
+                            eadid = eadid.replace(":", "_COLON_");
+                        }
+			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ eadid;
 			hierarchy.add(new HierarchyInfo(url,eadContent.getUnittitle()));
 		}
-		
+
 		if (eadContent != null){
 			result.append("<ul class=\"context\">");
 			int numberOfWhitespaces = 0;
@@ -52,7 +56,7 @@ public class EadNavigationTag extends SimpleTagSupport {
 				for (int j = 0; j < numberOfWhitespaces;j++){
 					result.append("<span class=\"context_space\"> </span>");
 				}
-				
+
 				result.append("<a href=\"" + hierarchyInfo.url+  "\">"+ hierarchyInfo.description+"</a>");
 				result.append("</li>");
 				numberOfWhitespaces++;
