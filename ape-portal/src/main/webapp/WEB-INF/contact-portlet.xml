@@ -13,11 +13,9 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
     <import resource="i18n-common.xml"/>
-    <bean class="eu.archivesportaleurope.portal.directory.DirectoryJSONWriter">
-        <property name="messageSource" ref="messageSource" />
+    <bean class="eu.archivesportaleurope.portal.contact.ContactController" >
+    		<property name="messageSource" ref="messageSource"/>
     </bean>
-
-    <bean class="eu.archivesportaleurope.portal.contact.ContactController" />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

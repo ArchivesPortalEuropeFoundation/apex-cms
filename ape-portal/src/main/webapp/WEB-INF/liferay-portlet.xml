@@ -44,8 +44,6 @@
 	<portlet>
 		<portlet-name>contact</portlet-name>
 		<instanceable>false</instanceable>
-		<header-portlet-javascript>/js/contact/contact.js</header-portlet-javascript>
-
 	</portlet>
 	<portlet>
 		<portlet-name>admin</portlet-name>

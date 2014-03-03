@@ -34,7 +34,7 @@
 				<property name="eadDAO" ref="eadDAO"/> 
 				<property name="messageSource" ref="messageSource"/>
 	</bean>
-		
+    <bean class="eu.archivesportaleurope.portal.contact.FeedbackController" />		
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
