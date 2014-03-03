@@ -16,4 +16,7 @@ public class PropertiesKeys {
 	public static final String LIFERAY_RECAPTCHA_URL = "captcha.engine.recaptcha.url.script";
 	public static final String APE_RECAPTCHA_AJAX_URL = "ape.captcha.engine.recaptcha.url.script.ajax";
 
+	public static final String APE_GOOGLEMAPS_KEY = "ape.google_maps_license";
+	public static final String APE_GOOGLEMAPS_URL = "ape.google.maps.url";
+	public static final String APE_GOOGLEMAPS_JSAPI = "ape.google.maps.jsapi";
 }
