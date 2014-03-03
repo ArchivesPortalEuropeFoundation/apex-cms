@@ -34,6 +34,8 @@ import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 @Controller(value = "directoryController")
@@ -45,9 +47,9 @@ public class DirectoryController {
 	private EadDAO eadDAO;
 	private final static Logger LOGGER = Logger.getLogger(DirectoryController.class);
 	
-	private String google_maps_license = PropsUtil.get("google.maps.license");		// License key
-	private String google_maps_url = PropsUtil.get("google.maps.url");				// used to insulate https://maps.googleapis.com/maps/api/js?key=
-	private String google_maps_jsapi = PropsUtil.get("google.maps.jsapi");			// used to insulate https://www.google.com/jsapi
+	private String google_maps_license = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_KEY);		// License key
+	private String google_maps_url = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_URL);				// used to insulate https://maps.googleapis.com/maps/api/js?key=
+	private String google_maps_jsapi = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_JSAPI);			// used to insulate https://www.google.com/jsapi
 
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
