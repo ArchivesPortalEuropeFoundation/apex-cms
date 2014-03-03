@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -20,7 +19,6 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
  * @author Yoann Moranville
  */
 public class ContactValidator implements Validator {
-	private static final Logger LOG = Logger.getLogger(ContactValidator.class);
 	private static final Pattern EMAIL_PATTERN = Pattern
 			.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
 
@@ -66,7 +64,6 @@ public class ContactValidator implements Validator {
 					contact.getRecaptcha_challenge_field(), contact.getRecaptcha_response_field());
 
 			if (!reCaptchaResponse.isValid()) {
-				String errMsg = reCaptchaResponse.getErrorMessage();
 				errors.rejectValue("captcha", "feedback.error.captcha.incorrect");
 			}
 		}

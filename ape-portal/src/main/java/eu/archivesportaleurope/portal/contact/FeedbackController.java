@@ -1,6 +1,5 @@
 package eu.archivesportaleurope.portal.contact;
 
-import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
 import org.apache.log4j.Logger;
@@ -9,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.liferay.portal.kernel.exception.PortalException;
