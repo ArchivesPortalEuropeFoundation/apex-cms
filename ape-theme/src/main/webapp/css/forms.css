@@ -1,6 +1,6 @@
 @mixin input-field-default {
-	background-image: url(../images/forms/input_shadow.png);
-	background-repeat: no-repeat;
+/*	background-image: url(../images/forms/input_shadow.png);
+	background-repeat: no-repeat;*/
 	border: 1px solid;
 	border-color: #BFBFBF #DEDEDE #DEDEDE #BFBFBF;
 	font: 1em Arial, Helvetica, Verdana, sans-serif;
