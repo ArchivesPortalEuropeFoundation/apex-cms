@@ -7,10 +7,6 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 
-<%-- reCaptcha--%>
-<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
-<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
-
 <portlet:actionURL var="contactUrl">
     <portlet:param name="myaction" value="contact" />
 </portlet:actionURL>
@@ -33,7 +29,6 @@
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${contactUrl}">
     <table class="contactForm">
-        <c:if test="${!loggedIn}">
         <tr>
             <td class="tdLabel">
                 <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
@@ -42,7 +37,6 @@
                 <form:input path="email" type="text" name="email" size="50" id="contact_email" /> <form:errors path="email" cssClass="errorBlock" />
             </td>
         </tr>
-        </c:if>
         <tr>
             <td class="tdLabel">
                 <label for="contact_topicSubject" class="label"><fmt:message key="label.email.subject" /><span class="required">*</span>:</label>
