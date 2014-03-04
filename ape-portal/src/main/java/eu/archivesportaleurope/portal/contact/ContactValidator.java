@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -46,7 +47,7 @@ public class ContactValidator implements Validator {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "feedback.error.email");
 			// Email test.
 			String email = contact.getEmail();
-			if (!email.isEmpty()) { // it's rejected in preview
+			if (StringUtils.isNotBlank(email)) { // it's rejected in preview
 									// check(rejectIfEmptyOrWhitespace), prevent
 									// repeated messages
 				// RFC regexp for emails
