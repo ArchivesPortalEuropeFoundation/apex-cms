@@ -58,14 +58,18 @@ public class ContactValidator implements Validator {
 			}
 
 			// Captcha test.
-			String remoteAddr = PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_URL_VERIFY);
-			ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-			reCaptcha.setPrivateKey(PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PRIVATE_KEY));
-			ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr,
-					contact.getRecaptcha_challenge_field(), contact.getRecaptcha_response_field());
-
-			if (!reCaptchaResponse.isValid()) {
+			if (StringUtils.isBlank(contact.getRecaptcha_challenge_field()) || StringUtils.isBlank(contact.getRecaptcha_response_field()) ){
 				errors.rejectValue("captcha", "feedback.error.captcha.incorrect");
+			}else {
+				String remoteAddr = PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_URL_VERIFY);
+				ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+				reCaptcha.setPrivateKey(PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PRIVATE_KEY));
+				ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr,
+						contact.getRecaptcha_challenge_field(), contact.getRecaptcha_response_field());
+	
+				if (!reCaptchaResponse.isValid()) {
+					errors.rejectValue("captcha", "feedback.error.captcha.incorrect");
+				}
 			}
 		}
 	}
