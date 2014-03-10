@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
+
 <portlet:defineObjects />
 <portlet:resourceURL var="directoryTreeUrl" id="directoryTree" />
 <portlet:resourceURL var="directoryTreeAiUrl" id="directoryTreeAi" />
@@ -14,8 +15,8 @@
 
 <input type="hidden" id="getAndClickOnParentsAction" value="${getAndClickOnParentsAction}" />
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
-<script src="https://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
+<script src="${google_maps_url}${google_maps_license}&sensor=false"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		initDirectory("${directoryTreeUrl}", "${directoryTreeAiUrl}", "${aiDetailsUrl}", "${embeddedMapUrl}", "${mapUrl}", "${directoryTreeMapsUrl}");

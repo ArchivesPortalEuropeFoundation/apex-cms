@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.directory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -25,10 +26,12 @@ import com.google.code.geocoder.model.GeocoderResult;
 import com.google.code.geocoder.model.GeocoderStatus;
 import com.google.code.geocoder.model.LatLng;
 import com.google.code.geocoder.model.LatLngBounds;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
+import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
@@ -49,7 +52,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
 	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
 	private static final String NO_LINK = "\"noLink\": true";
-
+	
 	@ResourceMapping(value = "directoryTree")
 	public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
@@ -166,8 +169,6 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				addTitle(buffer, archivalInstitutionUnit.getAiname(), locale);
 				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
-				// buffer.append(COMMA);
-				// buffer.append(NO_LINK);
 				buffer.append(COMMA);
 				addKey(buffer, archivalInstitutionUnit.getAiId(), "archival_institution_group");
 				addCountryCode(buffer, countryCode);
@@ -279,20 +280,41 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 					}
 				}while(loop);
 			}catch (Exception e) {
-				log.error(e.getMessage(), e);
+				log.error(APEnetUtilities.generateThrowableLog(e));
 			}finally{
 				builder.append(END_ARRAY);
 				try {
 					writeToResponseAndClose(builder, resourceResponse);
 				} catch (UnsupportedEncodingException e) {
-					log.error(e.getMessage(), e);
+					log.error(APEnetUtilities.generateThrowableLog(e));
 				} catch (IOException e) {
-					log.error(e.getMessage(), e);
+					log.error(APEnetUtilities.generateThrowableLog(e));
 				}
 			}
 		}
 	}
 	
+/***
+ * This method recovers the coordinates and other data from the database, In case of the selected item on the tree is a country this method call geocoder and gets coordinates for that country. Also This method prints only coordinates "inside the world" limits avoiding the use of non valid coordinates 
+ * @param resourceRequest The ResourceRequest interface represents the request send to the portlet for rendering resources. It 
+ extends the ClientDataRequest interface and provides resource request information to portlets. 
+The portlet container creates an ResourceRequest object and passes it as argument to the portlet's 
+ serveResource method. 
+The ResourceRequest is provided with the current portlet mode, window state, and render parameters 
+ that the portlet can access via the PortletResourceRequest with getPortletMode and, getWindowState, or 
+ one of the getParameter methods. ResourceURLs cannot change the current portlet mode, window state 
+ or render parameters. Parameters set on a resource URL are not render parameters but parameters for 
+ serving this resource and will last only for only this the current serveResource request.
+ * @param resourceResponse The ResourceResponse defines an object to assist a portlet for rendering a resource. 
+The difference between the RenderResponse is that for the ResourceResponse the output of this 
+ response is delivered directly to the client without any additional markup added by the portal. It is 
+ therefore allowed for the portlet to return binary content in this response. 
+A portlet can set HTTP headers for the response via the setProperty or addProperty call in the 
+ ResourceResponse. To be successfully transmitted back to the client, headers must be set before the 
+ response is committed. Headers set after the response is committed will be ignored by the portlet 
+ container. 
+The portlet container creates a ResourceResponse object and passes it as argument to the portlet's 
+ */
 	@ResourceMapping(value = "directoryTreeGMaps")
 	public void displayGmaps(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
@@ -312,7 +334,6 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 
 			// Always recovers all the coordinates.
 			List<Coordinates> reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
-			//Collections.sort(reposList);
 
 			// Remove coordinates with values (0, 0).
 			if (reposList != null && !reposList.isEmpty()) {
@@ -499,8 +520,10 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 
 			// Try to recover the coordinates to bound.
 			Geocoder geocoder = new Geocoder();
+
 			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(selectedCountryName).getGeocoderRequest();
 			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+
 			if (geocoderResponse.getStatus().equals(GeocoderStatus.OK)) {
 				List<GeocoderResult> geocoderResultList = geocoderResponse.getResults();
 
@@ -552,5 +575,4 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		}
 		return builder;
 	}
-
 }

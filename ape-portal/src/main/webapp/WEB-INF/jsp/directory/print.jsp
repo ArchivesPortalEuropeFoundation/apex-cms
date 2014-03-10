@@ -18,9 +18,10 @@
 		<div id="map_div" style="width: 1000px; height: 400px">	</div>
 	</div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false" ></script>
-<script src="https://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/src/markerclusterer_packed.js"></script>
-<script src="https://www.google.com/jsapi"></script>  <!-- type="text/javascript" -->
+
+<script src="${google_maps_url}${google_maps_license}&sensor=false"></script>
+<script src="${google_maps_jsapi}"></script> 
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		initPrint("${countryCode}","${directoryTreeMapsUrl}", "${selectedAiId}");
