@@ -35,7 +35,6 @@ public class Contact implements Serializable {
     private boolean receiveCopy = true;
     private Map<String,String> typeList = new LinkedHashMap<String,String>();
 
-    public String getEmail() {
     public String getReCaptchaUrl(){
     	return reCaptchaUrl_script + recaptchaPubKey;
     }
