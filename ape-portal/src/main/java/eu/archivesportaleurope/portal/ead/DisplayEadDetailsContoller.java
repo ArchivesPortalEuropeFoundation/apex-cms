@@ -31,10 +31,9 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.common.email.EmailSender;
-import eu.archivesportaleurope.portal.contact.Contact;
-import eu.archivesportaleurope.portal.contact.ContactValidator;
 
 /**
  * 
@@ -129,6 +128,7 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		modelAndView.setViewName("eaddetails");
+		modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;
 	}
 
@@ -161,33 +161,10 @@ public class DisplayEadDetailsContoller {
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("eadDetailsError");
 		}
+
+		
 		return modelAndView;
 	}
 
-    @RenderMapping(params = "myaction=success")
-    public String showPageResult(RenderResponse response, Model model) {
-        return "success";
-    }
 
-    @RenderMapping(params = "myaction=error")
-    public String showPageError(RenderResponse response, Model model) {
-        return "error";
-    }
-
-
-    @ActionMapping(params = "myaction=contact")
-    public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionResponse response) {
-        ContactValidator contactValidator = new ContactValidator();
-        contactValidator.validate(contact, result);
-        if(result.hasErrors()) {
-            response.setRenderParameter("myaction", "error");
-            return;
-        }
-        try {
-            EmailSender.sendEmail(contact.getType(), contact.getEmail(), contact.getFeedback());
-            response.setRenderParameter("myaction", "success");
-        } catch (Exception e) {
-            response.setRenderParameter("myaction", "error");
-        }
-    }
 }
