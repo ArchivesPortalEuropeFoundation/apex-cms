@@ -1,3 +1,5 @@
+package eu.archivesportaleurope.portal.contact;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
