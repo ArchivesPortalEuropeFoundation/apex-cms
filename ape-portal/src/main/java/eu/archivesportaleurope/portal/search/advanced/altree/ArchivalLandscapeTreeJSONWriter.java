@@ -281,7 +281,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			addTitle(node, ead.getTitle(), locale);
 			addAiId(node, aiId);
 			addKey(node, alType, ead.getId(), TreeType.LEAF);
-			addPreviewId(node, ead.getId(), XmlType.getEadType(ead));
+			addPreviewId(node, ead.getId(), XmlType.getContentType(ead));
 			if (!(ead instanceof FindingAid)) {
 				node.setFolder(true);
 			}

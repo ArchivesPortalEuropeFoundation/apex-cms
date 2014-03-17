@@ -109,7 +109,7 @@ public class DisplayEadContoller {
 				} else if (eadParams.getAiId() != null) {
 					xmlType = XmlType.getType(eadParams.getXmlTypeId());
 					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
 					}
 
 				}
@@ -121,13 +121,13 @@ public class DisplayEadContoller {
 		} else if (eadParams.getAiId() != null) {
 			XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), eadParams.getAiId(), eadParams.getEadid());
+				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
 			}
 		} else if (eadParams.getRepoCode() != null) {
 			String repoCode = eadParams.getRepoCode().replace('_', '/');
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid((Class<? extends Ead>) xmlType.getClazz(), repoCode, eadParams.getEadid());
+				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), repoCode, eadParams.getEadid());
 			}
 		}
 
@@ -166,7 +166,7 @@ public class DisplayEadContoller {
 					return modelAndView;
 				}
 				modelAndView.getModelMap().addAttribute("ead", ead);
-				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getEadType(ead).getIdentifier());
+				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(ead).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
@@ -206,7 +206,7 @@ public class DisplayEadContoller {
 				EadContent eadContent = ead.getEadContent();
 				PortalDisplayUtil.setPageTitle(renderRequest,
 						PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
-				XmlType xmlType = XmlType.getEadType(ead);
+				XmlType xmlType = XmlType.getContentType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());

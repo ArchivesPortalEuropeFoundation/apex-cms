@@ -181,7 +181,7 @@ public class SitemapController {
 				writeIndexStartElement(xmlWriter);
 				for (Ead ead : eads) {
 					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + EAD
-							+ XmlType.getEadType(ead).getResourceName() + SEPARATOR + ead.getId();
+							+ XmlType.getContentType(ead).getResourceName() + SEPARATOR + ead.getId();
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
 				xmlWriter.writeEndElement();
@@ -208,7 +208,7 @@ public class SitemapController {
 			eadSearchOptions.setContentClass(xmlType.getClazz());
 			eadSearchOptions.setId(eadId);
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
-			numberOfItems = cLevelDAO.countCLevels((Class<? extends Ead>) xmlType.getClazz(), eadId);
+			numberOfItems = cLevelDAO.countCLevels(xmlType.getEadClazz(), eadId);
 			if (numberOfItems > PAGESIZE) {
 				int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
 				LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-index:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " #p:" + numberOfPages);
@@ -219,7 +219,7 @@ public class SitemapController {
 				writeIndexStartElement(xmlWriter);
 				for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
 					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + EAD
-							+ XmlType.getEadType(ead).getResourceName() + SEPARATOR + ead.getId() + SEPARATOR
+							+ XmlType.getContentType(ead).getResourceName() + SEPARATOR + ead.getId() + SEPARATOR
 							+ pageNumber;
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
@@ -259,7 +259,7 @@ public class SitemapController {
 			eadSearchOptions.setId(eadId);
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-content:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " pn:" + pageNumber);
-			List<CLevel> clevels = cLevelDAO.getCLevels((Class<? extends Ead>) xmlType.getClazz(), eadId, pageNumber, (int) PAGESIZE);
+			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getEadClazz(), eadId, pageNumber, (int) PAGESIZE);
 			if (clevels.size() >= 0) {
 				resourceResponse.setCharacterEncoding(UTF8);
 				resourceResponse.setContentType(APPLICATION_XML);

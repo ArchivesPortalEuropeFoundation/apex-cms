@@ -63,7 +63,7 @@ public class DisplayPreviewContoller {
 						ModelAndView modelAndView = new ModelAndView();
 						modelAndView.setViewName("preview/frontpage");
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
-						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), (Class<? extends Ead>) xmlType.getClazz());
+						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getEadClazz());
 						if (eadContent == null) {
 							throw new NotExistInDatabaseException(id);
 						}
@@ -113,7 +113,7 @@ public class DisplayPreviewContoller {
 		}
 		Ead ead = currentCLevel.getEadContent().getEad();
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
-		XmlType xmlType = XmlType.getEadType(ead);
+		XmlType xmlType = XmlType.getContentType(ead);
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
