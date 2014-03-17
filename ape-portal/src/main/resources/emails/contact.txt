@@ -5,11 +5,7 @@ Username: ${username}
 Email: ${email}
 Userid: ${userid}
 
-has sent feedback to you about the following content:
-
-Title: ${title}
-Url: ${url}
-
+has sent to you the follow comment:
 ---------------------------------------------------------------------------
 
 ${body}
