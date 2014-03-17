@@ -118,12 +118,10 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		    var bounds = new google.maps.LatLngBounds();
 		    $.each(data.repos,function(){
 		    	var dataRepo = $(this);
-		    	var titleName = dataRepo[0].name;
-		        titleName = escapeAmpersand(titleName); //escape the character "&amp" to "&"
 		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
 		        marker = new google.maps.Marker({
 		        	position: latLng, 
-		        	title: titleName,
+		        	title:dataRepo[0].name, 
 		        	aiId: dataRepo[0].aiId
 		        });
 		        bounds.extend(latLng);
@@ -180,20 +178,6 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		});
 	}catch (e) {
 	}
-}
-function escapeAmpersand(name){
-	//this function replace the character "&amp" to "&" in the tooltip of the marker
-	var ampersand = name;
-	var result = "";
-	var index = ampersand.indexOf("&amp");
-	while(index != -1){
-		 ampersand = ampersand.replace("&amp","&");
-		 result = result + ampersand.substring(0, index+1);
-		 ampersand = ampersand.substring(index+1,ampersand.length);
-		 index = ampersand.indexOf("&amp");
-	 }
-	result = result + ampersand;
-	return result;
 }
 function displayRepository(id){
 	closeAllRepositories();
@@ -814,10 +798,8 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		    var bounds = new google.maps.LatLngBounds();
 		    $.each(data.repos,function(){
 		    	var dataRepo = $(this);
-		    	var titleName = dataRepo[0].name;
-		        titleName = escapeAmpersand(titleName); //escape the character "&amp" to "&"
 		        var latLng = new google.maps.LatLng(dataRepo[0].latitude, dataRepo[0].longitude);
-		        marker = new google.maps.Marker({ position: latLng, title: titleName });
+		        marker = new google.maps.Marker({ position: latLng, title: dataRepo[0].name });
 		        bounds.extend(latLng);
 		        markers.push(marker);
 		        //place and feed the markers
