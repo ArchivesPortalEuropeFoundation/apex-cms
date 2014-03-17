@@ -10,8 +10,6 @@
 <%@ taglib uri="http://portal.archivesportaleurope.eu/tags" prefix="portal"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 
-<liferay-theme:defineObjects />
-
 <portlet:defineObjects />
 <c:set var="element">
 	<c:out value="${param['element']}" />
@@ -47,6 +45,12 @@
 <portlet:actionURL var="contactUrl">
 	<portlet:param name="myaction" value="contact" />
 </portlet:actionURL>
+
+<script type="text/javascript">
+	 var RecaptchaOptions = {
+	    theme : 'white'
+	 };
+</script>
 
 <script type='text/javascript'>
 	$(document).ready(function() {
@@ -113,43 +117,11 @@
 </div>
 <!-- there is the user's feedback feature for WEB 2.0 -->
 
-<div id="usersFeedback" class="linkButton">
-	<script type="text/javascript">
-		//As escape() and unescape() are deprecated functions and decodeURI() and decodeURIComponent() seems not work in all browsers, we will not unescape the document title.
-		if ('${user.emailAddress}' != "default@liferay.com") {
-			document.getElementById('contact_email').value = '${user.emailAddress}';
-		}
-		document.getElementById('feedback').value = document.title;
-	</script>
-</div>
-
-<div>
-	<p></p>
-	<div class="sendFeedback">
-		<a href="javascript:showFeedback()" class="linkButton"><fmt:message key="label.feedback" /></a>
+<div id="feedbackArea">
+<portlet:resourceURL var="feedbackUrl" id="feedback"/>
+	<div class="sendFeedback"  class="linkButton">
+		<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
+				key="label.feedback" /></a>
 	</div>
-	<form:form id="contactForm" name="contactForm" commandName="contact" method="post" class="feedback"
-		action="${contactUrl}">
-		<table class="contactForm">
-			<tr>
-				<td class="tdLabel"><label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span	class="required">*</span>:</label></td>
-				<td><input path="email" type="text" name="email" size="50" value="" id="contact_email" /></td>
-				<td><form:errors path="email" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td class="tdLabel"><label for="contact_feedbackText" class="label"><fmt:message key="label.feedback.comments" /><span class="required">*</span>:</label></td>
-				<td><textarea path="feedback" name="feedback" size="50" rows="4" cols="50" id="feedback"></textarea></td>
-				<td><form:errors path="feedback" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td colspan="3"><input type="submit" id="contact_label_feedback_send" value='<fmt:message key="label.feedback.send" />' class="mainButton" /></td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<!-- value="3" equals to feedback, in case the addresses will cnage, update the mailer adding a new addresses group -->
-					<input path="type" type="text" name="type" value="3" id="type" style="display: none;" />
-				</td>
-			</tr>
-		</table>
-	</form:form>
+	<div id="feedbackContent" class="hidden"></div>
 </div>
