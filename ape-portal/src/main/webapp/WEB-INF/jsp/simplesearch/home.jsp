@@ -30,18 +30,6 @@
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" /></td>
 						</tr>
-						<tr>
-							<td class="leftcolumn">
-								<div class="row">
-									 <input
-										type="checkbox" id="checkboxHierarchy" value="hierarchy" name="view" tabindex="2"/><label for="checkboxHierarchy"><fmt:message key="advancedsearch.message.hierarchy" /></label>
-								</div>
-								<div class="row">
-									 <input type="checkbox"
-										id="checkboxDao" value="true" name="simpleSearchDao" tabindex="4"/><label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
-								</div>
-							</td>
-						</tr>
 					</table>
 				</div>
 			</div>
