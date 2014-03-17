@@ -68,7 +68,7 @@ function getSearchTreeData(dtnode) {
 		country : dtnode.data.country,
 		parentId : dtnode.data.parentId,
 		method : $("#updateCurrentSearch_method").val(),
-		dao : $("#updateCurrentSearch_dao").val(),
+		dao : $("#updateCurrentSearch_simpleSearchDao").val(),
 		level : dtnode.data.level,
 		oldlevel : dtnode.data.oldlevel,
 		searchType : dtnode.data.searchType,
