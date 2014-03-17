@@ -60,7 +60,7 @@ public class SimpleSearchController {
 	@RenderMapping
 	public ModelAndView showSimpleSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("home-all-in-one");
+		modelAndView.setViewName("home");
 
 		modelAndView.getModelMap().addAttribute("institutions", archivalInstitutionDAO.countArchivalInstitutionsWithContentIndexed());
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
