@@ -71,7 +71,7 @@ public class PortalDisplayUtil {
 		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
 	}
 	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
-		String aiName = institution.getAiname().replaceAll("&amp", "&");
+		String aiName = institution.getAiname();
 		if (institution.isGroup()){
 			return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getCountry().getIsoname() + END_CHARACTER);
 		}else {
@@ -82,4 +82,18 @@ public class PortalDisplayUtil {
 	public static String getCountryDisplayTitle(Country country){
 		return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + START_CHARACTER + country.getIsoname() + END_CHARACTER);
 	}
+	
+    public static String removeSpecialUrlCharactersFromEadid(String eadid) {
+    	//TODO: implement replacement of "* : / \\ [ ] + % @ $ # ^ & ( ) ! ~"
+    	String result = eadid.replaceAll(":", "_1_");
+    	result = result.replaceAll("/", "_2_");
+        return result;
+    }
+
+    public static String restoreSpecialUrlCharactersInEadid(String eadidFromUrl) {
+    	//TODO:  implement replacement  "* : / \\ [ ] + % @ $ # ^ & ( ) ! ~"
+    	String result = eadidFromUrl.replaceAll("_1_", ":");
+    	result = result.replaceAll("_1_", "/");
+        return result;
+    }
 }
