@@ -44,6 +44,15 @@
 	color: black;
 }
 
+#searchingPart #sourceTabs ul#tabscontainer li.disabled a:hover,#searchingPart #sourceTabs ul#tabscontainer li.disabled a{
+	color:#808080;
+	background:none;
+	cursor: default;
+}
+#searchingPart #sourceTabs ul#tabscontainer li a {
+	font-weight: normal;
+}
+
 #searchingPart ul#tabscontainer li.ui-tabs-selected {
 	height: 28px;
 }
@@ -53,7 +62,7 @@
 	color: #4D8BCB;
 }
 
-#searchingPart #tabs .ui-widget-header {
+#searchingPart #tabs .ui-widget-header, #searchingPart #sourceTabs .ui-widget-header {
 	border: none;
 	background: none;
 }
@@ -105,18 +114,27 @@
 #searchingPart #navigatedSearch {
 	float: left;
 	width: 100%;
-	padding-bottom: 20px;
+
 }
 
 #searchingPart #navigatedSearchOptionsContent {
 	font-size: 12px;
 	background-color: white;
+	padding-bottom: 0;
 }
 
 #searchingPart #navigatedSearchOptionsHeader {
 	background-repeat: no-repeat;
 	background-position: left;
 	cursor: pointer;
+	
+}
+#searchingPart h2.blockHeader {
+    font-size: 1.2em;
+    margin-bottom: 0.4em;
+   	margin-top:0;
+	padding-left: 15px;
+	border-bottom: 1px solid #79B7E7;
 }
 
 #searchingPart #navigatedSearchOptionsHeader {
@@ -757,4 +775,12 @@
 }
 #searchingPart #search-preview {
 	width: 205px;
+}
+
+#searchingPart #sourceTabs{
+    border: 0 none;
+}
+
+#searchingPart #sourceTabs .numberOfResults {
+    padding-left: 5px;
 }
