@@ -44,7 +44,7 @@ public final class AnalyzeLogger {
     	}
     }
     public static void logAdvancedSearch(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
-    	if (ADVANCED_SEARCH_ANALYZE_LOGGER.isDebugEnabled()){
+    	if (ADVANCED_SEARCH_ANALYZE_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
@@ -90,7 +90,7 @@ public final class AnalyzeLogger {
     	}    	
     }
     public static void logUpdateAdvancedSearchContext(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
-    	if (ADVANCED_SEARCH_CONTEXT_LOGGER.isDebugEnabled()){
+    	if (ADVANCED_SEARCH_CONTEXT_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
@@ -147,7 +147,7 @@ public final class AnalyzeLogger {
     	}    	
     }
     public static void logUpdateAdvancedSearchList(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
-    	if (ADVANCED_SEARCH_LIST_LOGGER.isDebugEnabled()){
+    	if (ADVANCED_SEARCH_LIST_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
     		if (HIERARCHY.equals(advancedSearch.getView())) {
     			logLine +="c;";
