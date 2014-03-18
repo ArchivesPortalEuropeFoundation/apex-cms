@@ -104,7 +104,11 @@ function searchOnSuggestion(value) {
 	$("#searchTerms").val(value);
 	performNewSearch();
 }
-
+function updateSourceTabs(){
+	$("#sourceTabs").empty();
+	$("#sourceTabs").html($("#NEWsourceTabs").html());
+	$("#NEWsourceTabs").remove();
+}
 function updateSuggestions() {
 	$("#suggestionSearch").empty();
 	$("#suggestionSearch").html($("#NEWsuggestionSearch").html());
@@ -251,7 +255,7 @@ function performNewSearch() {
 	$.post(newSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
-		//makeRefinementsCollapsible();
+		updateSourceTabs();
 		
 		hideTabsIfNoResults();
 		$("#searchResultsContainer").removeClass("hidden");
@@ -261,9 +265,9 @@ function performNewSearch() {
 }
 function hideTabsIfNoResults(){
 	if ($("#noResults").length > 0){
-		$("#tabscontainer").removeClass("hidden").addClass("hidden");
+		$("#tabs #tabscontainer").removeClass("hidden").addClass("hidden");
 	}else {
-		$("#tabscontainer").removeClass("hidden");
+		$("#tabs #tabscontainer").removeClass("hidden");
 	}
 }
 function updateCurrentSearchResults(addRemoveRefinement) {
