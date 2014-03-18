@@ -16,6 +16,9 @@ public class Results implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1960734220972318520L;
+	private long eadNumberOfResults = 0;
+	private long eagNumberOfResults = 0;
+	private long eacCpfNumberOfResults = 0;
 	private long totalNumberOfResults;
 	private boolean showSuggestions;
 	private String errorMessage;
@@ -48,6 +51,38 @@ public class Results implements Serializable {
 	public SpellCheckResponse getSpellCheckResponse() {
 		return spellCheckResponse;
 	}
+	public long getEadNumberOfResults() {
+		return eadNumberOfResults;
+	}
+	public void setEadNumberOfResults(long eadNumberOfResults) {
+		this.eadNumberOfResults = eadNumberOfResults;
+	}
+	public long getEagNumberOfResults() {
+		return eagNumberOfResults;
+	}
+	public void setEagNumberOfResults(long eagNumberOfResults) {
+		this.eagNumberOfResults = eagNumberOfResults;
+	}
+	public long getEacCpfNumberOfResults() {
+		return eacCpfNumberOfResults;
+	}
+	public void setEacCpfNumberOfResults(long eacCpfNumberOfResults) {
+		this.eacCpfNumberOfResults = eacCpfNumberOfResults;
+	}
 
-	
+	public String getEagNumberOfResultsClass(){
+		return getCssClass(eagNumberOfResults);		
+	}
+	public String getEacCpfNumberOfResultsClass(){
+		return getCssClass(eacCpfNumberOfResults);
+	}
+	public String getEadNumberOfResultsClass(){
+		return getCssClass(eadNumberOfResults);
+	}
+	private String getCssClass(long number){
+		if (number == 0){
+			return "disabled";
+		}
+		return "";
+	}
 }

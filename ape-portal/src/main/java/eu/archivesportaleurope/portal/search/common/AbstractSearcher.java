@@ -52,6 +52,10 @@ public abstract class AbstractSearcher {
 		}
 	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
 	}
+	public long getNumberOfResults(SolrQueryParameters solrQueryParameters) throws SolrServerException, ParseException{
+		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0,null, null, null, null, false);
+		return queryResponse.getResults().getNumFound();
+	}
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
 		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
 	}
@@ -240,9 +244,9 @@ public abstract class AbstractSearcher {
 		}
 		long startTime = System.currentTimeMillis();
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
-		if (LOGGER.isDebugEnabled()){
+		if (LOGGER.isInfoEnabled()){
 			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}
