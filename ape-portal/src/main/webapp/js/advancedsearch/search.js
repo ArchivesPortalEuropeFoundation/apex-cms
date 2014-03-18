@@ -1,9 +1,11 @@
-var newSearchUrl, autocompletionUrl, savedSearchUrl;
-function setUrls(nUrl, aUrl, sUrl) {
+var newSearchUrl, autocompletionUrl, savedSearchUrl, archivalLandscapeTreeUrl,displayPreviewUrl, portletNamespace;
+function setUrls(nUrl, aUrl, sUrl, treeUrl, pUrl, pNamespace) {
 	newSearchUrl = nUrl;
 	autocompletionUrl = aUrl;
 	savedSearchUrl = sUrl;
-
+	archivalLandscapeTreeUrl= treeUrl;
+	displayPreviewUrl= pUrl;
+	portletNamespace = pNamespace;
 }
 
 function init() {
@@ -230,21 +232,17 @@ function displayPreview (preview, data){
 	$previewDiv.removeClass("preview-content").addClass("preview-content");
 }
 function initSearchOptions() {
-	var advanced = $("#advanced").val();
-	if (advanced != null && advanced == "true") {
-		$('#navigatedSearchOptionsHeader').removeClass("collapsed").addClass("expanded");
-		$('#navigatedSearchOptionsContent').show();
-	} else {
-		$('#navigatedSearchOptionsHeader').removeClass("expanded").addClass("collapsed");
-		$('#navigatedSearchOptionsContent').hide();
-	}
+
 	$('#navigatedSearchOptionsHeader').click(function() {
 		if ($('#navigatedSearchOptionsHeader').hasClass("expanded")) {
 			$('#navigatedSearchOptionsHeader').removeClass("expanded").addClass("collapsed");
-			$('#navigatedSearchOptionsContent').hide();
+			$('#navigatedSearchOptionsContent').addClass("hidden");
 		} else {
+			if ($('#archivalLandscapeTree').is(':empty')){
+				initArchivalLandscapeTree(archivalLandscapeTreeUrl,displayPreviewUrl, portletNamespace);
+			}
 			$('#navigatedSearchOptionsHeader').removeClass("collapsed").addClass("expanded");
-			$('#navigatedSearchOptionsContent').show();
+			$('#navigatedSearchOptionsContent').removeClass("hidden");
 		}
 	});
 
