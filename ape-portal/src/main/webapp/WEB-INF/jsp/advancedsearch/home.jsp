@@ -22,13 +22,23 @@
 <portlet:resourceURL var="saveSearchUrl" id="saveSearch" />
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}" );
+				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
-				initArchivalLandscapeTree("${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 			});
 		</script>
 <div id="searchingPart">
+		<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+				<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="">Record search<span class="numberOfResults">(13)</span></a></li>
+				<li class="ui-state-default ui-corner-top"><a href="">Name search<span class="numberOfResults">(2)</span></a></li>
+				<li class="ui-state-default ui-corner-top disabled"><a href="">Institutions search<span class="numberOfResults">(0)</span></a></li>
+			</ul>
+			<div class="tab_header">
+				<div id="tabHeaderContent"></div>
+			</div>
+		</div>
 		<div id="advancedSearchPortlet" >
+		
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -38,7 +48,7 @@
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
 						<fmt:message key="advancedsearch.title.navigatedsearch" />
 					</h2>
-					<div id="navigatedSearchOptionsContent" class="searchOptionsContent">
+					<div id="navigatedSearchOptionsContent" class="searchOptionsContent hidden">
 						<div id="navigatedSearchOptionsSubHeader">
 							<fmt:message key="advancedsearch.subtitle.navigatedsearch" />
 						</div>
