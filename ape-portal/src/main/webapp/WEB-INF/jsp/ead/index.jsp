@@ -27,6 +27,9 @@
 	<portlet:param name="term" value="${term}" />
 </portlet:resourceURL>
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
 <script type='text/javascript'>
 	$(document).ready(function() {
 		initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
