@@ -5,35 +5,6 @@
 <html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
 
 <head>	
-
-	#if ($browserSniffer.isIe($request))
-	  #if($browserSniffer.getMajorVersion($request) < 8)
-			<div id="browser" style="background-color: yellow; text-align: center; text-anchor: inherit;">
-				#language("header.browser")
-			</div> 	  
-		#end
-	#elseif ($browserSniffer.isChrome($request))
-	  #if($browserSniffer.getMajorVersion($request) < 23)
-			<div id="browser" style="background-color: yellow; text-align: center; text-anchor: inherit;">
-				#language("header.browser")
-			</div> 		  
-		#end
-	#elseif ($browserSniffer.isFirefox($request))
-	  #if($browserSniffer.getMajorVersion($request) < 17)
-			<div id="browser" style="background-color: yellow; text-align: center; text-anchor: inherit;">
-				#language("header.browser")
-			</div> 	 	  
-		#end
-	#elseif ($browserSniffer.isSafari($request))
-	  #if($browserSniffer.getMajorVersion($request) < 533)
-			<div id="browser" style="background-color: yellow; text-align: center; text-anchor: inherit;">
-				#language("header.browser")
-			</div> 		  
-		#end
-	#end
-	
-
-
 	<title>$the_title - $company_name</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
 	#js("$javascript_folder/jquery-1.7.2.min.js")
@@ -60,6 +31,32 @@
 </head>
 
 <body class="$css_class">
+
+	#if ($browserSniffer.isIe($request))
+	  #if($browserSniffer.getMajorVersion($request) < 8)
+			<div id="browser">
+				#language("header.browser")
+			</div> 	  
+		#end
+	#elseif ($browserSniffer.isChrome($request))
+	  #if($browserSniffer.getMajorVersion($request) < 23)
+			<div id="browser">
+				#language("header.browser")
+			</div> 		  
+		#end
+	#elseif ($browserSniffer.isFirefox($request))
+	  #if($browserSniffer.getMajorVersion($request) < 17)
+			<div id="browser">
+				#language("header.browser")
+			</div> 	 	  
+		#end
+	#elseif ($browserSniffer.isSafari($request))
+	  #if($browserSniffer.getMajorVersion($request) < 533)
+			<div id="browser">
+				#language("header.browser")
+			</div> 		  
+		#end
+	#end
 
 $theme.include($body_top_include)
 

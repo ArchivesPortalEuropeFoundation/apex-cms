@@ -238,6 +238,13 @@ code, pre {
 	top:21px;
 }
 
+#browser{
+	background-color: yellow; 
+	text-align: center; 
+	text-anchor: inherit;
+	color: #000000;
+}
+
 /* ---------- Portal add content ---------- */
 
 .portal-add-content {
