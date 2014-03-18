@@ -151,21 +151,6 @@ function initTabs() {
 	});
 }
 function initSearchOptionsHandlers() {
-	$("#newSearchForm input").keypress(function(event) {
-		if (event.keyCode == 13) {
-			performNewSearch();
-		}
-	});
-	$("#newSearchForm select").keypress(function(event) {
-		if (event.keyCode == 13) {
-			performNewSearch();
-		}
-	});
-	$("#archivalLandscapeTree").keypress(function(event) {
-		if (event.keyCode == 13) {
-			performNewSearch();
-		}
-	});
 	activateAutocompletion("#searchTerms");
 	$("#searchTerms").focus();
 	$("#searchTerms").keypress(function(event) {
@@ -248,7 +233,6 @@ function initSearchOptions() {
 
 }
 function performNewSearch() {
-
 	// The Navigation Tree nodes selected are stored
 	var documentTitle = document.title;
 	if ($("#checkboxHierarchy").is(':checked')) {

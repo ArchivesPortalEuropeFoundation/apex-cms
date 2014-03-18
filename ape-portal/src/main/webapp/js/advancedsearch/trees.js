@@ -274,20 +274,22 @@ function selectSiblings(node) {
 }
 
 function fillInputFromNavTree() {
-	var archivalLandscapeTree = $("#advancedSearchPortlet #archivalLandscapeTree").dynatree("getTree");
-	var selRootNodes = archivalLandscapeTree.getSelectedNodes(true);
-    var text = "";
-	for ( var i = 0; i < selRootNodes.length; i++) {
-		var selectedNode = selRootNodes[i];
-		if (i > 0){
-			text = text + ",";
+	if (!$('#archivalLandscapeTree').is(':empty')){
+		var archivalLandscapeTree = $("#advancedSearchPortlet #archivalLandscapeTree").dynatree("getTree");
+		var selRootNodes = archivalLandscapeTree.getSelectedNodes(true);
+	    var text = "";
+		for ( var i = 0; i < selRootNodes.length; i++) {
+			var selectedNode = selRootNodes[i];
+			if (i > 0){
+				text = text + ",";
+			}
+			if (selectedNode.data.hideCheckbox){
+				text = text + getSelectedChildren(selectedNode);
+			}else {
+				text = text + selectedNode.data.key;
+			}
+			
 		}
-		if (selectedNode.data.hideCheckbox){
-			text = text + getSelectedChildren(selectedNode);
-		}else {
-			text = text + selectedNode.data.key;
-		}
-		
+		$("#advancedSearchPortlet #selectedNodes").val(text);
 	}
-	$("#advancedSearchPortlet #selectedNodes").val(text);
 }
