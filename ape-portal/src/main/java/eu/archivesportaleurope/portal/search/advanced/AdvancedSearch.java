@@ -1,27 +1,26 @@
 package eu.archivesportaleurope.portal.search.advanced;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
-public class AdvancedSearch implements Serializable {
+public class AdvancedSearch extends AbstractSearchForm{
 	public static final String LIST_SEPARATOR = ",";
 	public static final String VIEW_HIERARCHY = "hierarchy";
 	public static final String METHOD_OPTIONAL = "optional";
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
-	public static final String SEARCH_ALL_STRING = "*:*";
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8762103831853635524L;
-	private String term;
 	private String mode = MODE_NEW;
 	private String view;
 	private String element = "0";
@@ -64,15 +63,8 @@ public class AdvancedSearch implements Serializable {
 		this.mode = mode;
 	}
 
-	public String getTerm() {
-		return term;
-	}
 	public String getTermWords() {
-		return term;
-	}
-
-	public void setTerm(String term) {
-		this.term = term;
+		return getTerm();
 	}
 
 	public String getView() {

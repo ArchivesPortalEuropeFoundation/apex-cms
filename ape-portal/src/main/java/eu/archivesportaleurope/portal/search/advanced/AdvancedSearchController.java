@@ -31,8 +31,10 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
+import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
+import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
-import eu.archivesportaleurope.portal.search.common.EadSearcher;
+import eu.archivesportaleurope.portal.search.common.EacCpfSearcher;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
@@ -42,27 +44,19 @@ import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 
 @Controller(value = "advancedSearchController")
 @RequestMapping(value = "VIEW")
-public class AdvancedSearchController {
+public class AdvancedSearchController extends AbstractSearchController{
 
 
 	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchController.class);
 	public static final String MODE_NEW = "new";
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
-	private EadSearcher searcher;
+
 	private ResourceBundleMessageSource messageSource;
 	private SavedSearchService savedSearchService;
 
 	public void setSavedSearchService(SavedSearchService savedSearchService) {
 		this.savedSearchService = savedSearchService;
-	}
-
-	public EadSearcher getSearcher() {
-		return searcher;
-	}
-
-	public void setSearcher(EadSearcher searcher) {
-		this.searcher = searcher;
 	}
 
 	public void setMessageSource(ResourceBundleMessageSource messageSource) {
@@ -152,6 +146,7 @@ public class AdvancedSearchController {
 		modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
 		modelAndView.getModelMap().addAttribute("results", results);
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
+		LOGGER.info(results.getEacCpfNumberOfResults());
 		return modelAndView;
 	}
 
@@ -181,26 +176,26 @@ public class AdvancedSearchController {
 		Results results = null;
 		try {
 			String error = validate(advancedSearch);
-			if (error == null && StringUtils.isNotBlank(advancedSearch.getTerm())) {
-					SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-					handleSearchParameters(request, advancedSearch, solrQueryParameters);
-					AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
-					if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
-						results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
-					} else {
-						results = performNewSearchForListView(request, solrQueryParameters, advancedSearch);
-					}
-					boolean showSuggestions = false;
-					if (results.getSpellCheckResponse() != null) {
-						List<Collation> suggestions = results.getSpellCheckResponse().getCollatedResults();
-						if (suggestions != null) {
-							for (Collation collation : suggestions) {
-								showSuggestions = showSuggestions
-										|| (collation.getNumberOfHits() > results.getTotalNumberOfResults());
-							}
+			if (error == null) {
+				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, advancedSearch);
+				AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
+				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
+					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
+				} else {
+					results = performNewSearchForListView(request, solrQueryParameters, advancedSearch);
+				}
+				boolean showSuggestions = false;
+				if (results.getSpellCheckResponse() != null) {
+					List<Collation> suggestions = results.getSpellCheckResponse().getCollatedResults();
+					if (suggestions != null) {
+						for (Collation collation : suggestions) {
+							showSuggestions = showSuggestions
+									|| (collation.getNumberOfHits() > results.getTotalNumberOfResults());
 						}
 					}
-					results.setShowSuggestions(showSuggestions);
+				}
+				results.setShowSuggestions(showSuggestions);
+				countOtherSearchResults(request, advancedSearch, results);
 			} else {
 				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
 					results = new ContextResults();
@@ -209,7 +204,6 @@ public class AdvancedSearchController {
 				}
 				results.setErrorMessage(error);
 			}
-
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
@@ -221,24 +215,15 @@ public class AdvancedSearchController {
 	public Results updateCurrentSearch(PortletRequest request, AdvancedSearch advancedSearch) {
 		Results results = null;
 		try {
-			if (StringUtils.isNotBlank(advancedSearch.getTerm())){
-				SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
-					handleSearchParametersForContextUpdate(request, advancedSearch, solrQueryParameters);
+					SolrQueryParameters solrQueryParameters = handleSearchParametersForContextUpdate(request, advancedSearch);
 					AnalyzeLogger.logAdvancedSearch(advancedSearch, solrQueryParameters);
 					results = performNewSearchForContextView(request, solrQueryParameters, advancedSearch);
 				} else {
-					handleSearchParametersForListUpdate(request, advancedSearch, solrQueryParameters);
+					SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, advancedSearch);
 					AnalyzeLogger.logUpdateAdvancedSearchList(advancedSearch, solrQueryParameters);
 					results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
 				}
-			}else {
-				if (AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView())) {
-					results = new ContextResults();
-				} else {
-					results = new ListResults();
-				}				
-			}
 		} catch (Exception e) {
 			LOGGER.error("There was an error during the execution of the advanced search: Error: " + e.getMessage(), e);
 		}
@@ -249,19 +234,21 @@ public class AdvancedSearchController {
 			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException,
 			ParseException {
 		ListResults results = new ListResults();
-		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
-		Integer pageNumber = Integer.parseInt(advancedSearch.getPageNumber());
-		QueryResponse solrResponse = searcher.updateListView(solrQueryParameters, results.getPageSize()
-				* (pageNumber - 1), results.getPageSize(), advancedSearch.getFacetSettingsList(),
-				advancedSearch.getOrder(), advancedSearch.getStartdate(), advancedSearch.getEnddate());
-		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-		results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
-				new SpringResourceBundleSource(messageSource, request.getLocale()));
-		updatePagination(advancedSearch, results);
-		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse, true));
-		} else {
-			results.setItems(new SolrDocumentListHolder());
+		if (solrQueryParameters != null){
+			results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
+			Integer pageNumber = Integer.parseInt(advancedSearch.getPageNumber());
+			QueryResponse solrResponse = getEadSearcher().updateListView(solrQueryParameters, results.getPageSize()
+					* (pageNumber - 1), results.getPageSize(), advancedSearch.getFacetSettingsList(),
+					advancedSearch.getOrder(), advancedSearch.getStartdate(), advancedSearch.getEnddate());
+			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
+			results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
+					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			updatePagination(advancedSearch, results);
+			if (results.getTotalNumberOfResults() > 0) {
+				results.setItems(new SolrDocumentListHolder(solrResponse, true));
+			} else {
+				results.setItems(new SolrDocumentListHolder());
+			}
 		}
 		return results;
 	}
@@ -269,17 +256,19 @@ public class AdvancedSearchController {
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
 			AdvancedSearch advancedSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
-		results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
-		QueryResponse solrResponse = searcher.performNewSearchForListView(solrQueryParameters, results.getPageSize(),
-				advancedSearch.getFacetSettingsList());
-		request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-		results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
-				new SpringResourceBundleSource(messageSource, request.getLocale()));
-		updatePagination(advancedSearch, results);
-		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse, true));
-		} else {
-			results.setItems(new SolrDocumentListHolder());
+		if (solrQueryParameters != null){
+			results.setPageSize(Integer.parseInt(advancedSearch.getResultsperpage()));
+			QueryResponse solrResponse = getEadSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
+					advancedSearch.getFacetSettingsList());
+			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
+			results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
+					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			updatePagination(advancedSearch, results);
+			if (results.getTotalNumberOfResults() > 0) {
+				results.setItems(new SolrDocumentListHolder(solrResponse, true));
+			} else {
+				results.setItems(new SolrDocumentListHolder());
+			}
 		}
 		return results;
 	}
@@ -287,7 +276,7 @@ public class AdvancedSearchController {
 	protected ContextResults performNewSearchForContextView(PortletRequest request,
 			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException {
 		ContextResults results = new ContextResults();
-		QueryResponse solrResponse = searcher.performNewSearchForContextView(solrQueryParameters);
+		QueryResponse solrResponse = getEadSearcher().performNewSearchForContextView(solrQueryParameters);
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
 		results.init(solrResponse, numberFormat);
 		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
@@ -301,7 +290,8 @@ public class AdvancedSearchController {
 
 	}
 
-	protected void handleSearchParameters(PortletRequest portletRequest, AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters) {
+	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, AdvancedSearch advancedSearch) {
+		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(advancedSearch, portletRequest);
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
 				advancedSearch.getTypedocument());
 		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
@@ -312,19 +302,13 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-		if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm())){
-			solrQueryParameters.setTerm("");
-		}else {
-			solrQueryParameters.setTerm(advancedSearch.getTerm());
-		}
-		
 		solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), advancedSearch.getSimpleSearchDao());
+		return solrQueryParameters;
 	}
 
-	protected void handleSearchParametersForListUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch,
-			SolrQueryParameters solrQueryParameters) {
-		handleSearchParameters(portletRequest, advancedSearch, solrQueryParameters);
+	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch) {
+		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, advancedSearch);
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, advancedSearch.getCountryList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, advancedSearch.getAiList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.TYPE, advancedSearch.getTypeList());
@@ -333,6 +317,7 @@ public class AdvancedSearchController {
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.ROLEDAO, advancedSearch.getRoledaoList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, advancedSearch.getFondList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.LEVEL, advancedSearch.getLevelList());
+		return solrQueryParameters;
 	}
 
 	protected void updatePagination(AdvancedSearch advancedSearch, ListResults results) {
@@ -344,9 +329,8 @@ public class AdvancedSearchController {
 		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
 
-	protected void handleSearchParametersForContextUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch,
-			SolrQueryParameters solrQueryParameters) {
-		handleSearchParameters(portletRequest, advancedSearch, solrQueryParameters);
+	protected SolrQueryParameters handleSearchParametersForContextUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch) {
+		return handleSearchParameters(portletRequest, advancedSearch);
 
 	}
 
@@ -362,5 +346,10 @@ public class AdvancedSearchController {
 		}
 		return null;
 	}
-
+	protected void countOtherSearchResults(PortletRequest request, 
+			AdvancedSearch advancedSearch, Results results) throws SolrServerException, ParseException{
+		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(advancedSearch, request);
+		results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
+		results.setEadNumberOfResults(results.getTotalNumberOfResults());
+	}
 }
