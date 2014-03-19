@@ -1,20 +1,19 @@
 package eu.archivesportaleurope.portal.eaccpf.search;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
-public class EacCpfSearch implements Serializable{
+public class EacCpfSearch extends AbstractSearchForm {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1707315274413272934L;
-	private String term;
+
 	public static final String LIST_SEPARATOR = ",";
 	public static final String VIEW_HIERARCHY = "hierarchy";
 	public static final String METHOD_OPTIONAL = "optional";
@@ -25,7 +24,6 @@ public class EacCpfSearch implements Serializable{
 
 	private String fromdate;
 	private String todate;
-	private String method;
 	private String resultsperpage = "100";
 	private String exactDateSearch;
 
@@ -46,38 +44,31 @@ public class EacCpfSearch implements Serializable{
 	private String publishedFromDate;
 	private String publishedToDate;
 
-	public String getTermWords() {
-		return term;
-	}
-
 	public String getCountry() {
 		return country;
 	}
 
-
-//	public List<String> getCountryList(){
-//		if (StringUtils.isNotBlank(country)){
-//			return Arrays.asList(country.split(LIST_SEPARATOR));
-//		}else {
-//			return null;
-//		}
-//	}
-//	public List<String> getAiList(){
-//		if (StringUtils.isNotBlank(ai)){
-//			return Arrays.asList(ai.split(LIST_SEPARATOR));
-//		}else {
-//			return null;
-//		}
-//	}
-//	public List<String> getDateTypeList(){
-//		if (StringUtils.isNotBlank(dateType)){
-//			return Arrays.asList(dateType.split(LIST_SEPARATOR));
-//		}else {
-//			return null;
-//		}
-//	}
-
-
+	// public List<String> getCountryList(){
+	// if (StringUtils.isNotBlank(country)){
+	// return Arrays.asList(country.split(LIST_SEPARATOR));
+	// }else {
+	// return null;
+	// }
+	// }
+	// public List<String> getAiList(){
+	// if (StringUtils.isNotBlank(ai)){
+	// return Arrays.asList(ai.split(LIST_SEPARATOR));
+	// }else {
+	// return null;
+	// }
+	// }
+	// public List<String> getDateTypeList(){
+	// if (StringUtils.isNotBlank(dateType)){
+	// return Arrays.asList(dateType.split(LIST_SEPARATOR));
+	// }else {
+	// return null;
+	// }
+	// }
 
 	public void setCountry(String country) {
 		this.country = country;
@@ -90,7 +81,6 @@ public class EacCpfSearch implements Serializable{
 	public void setAi(String ai) {
 		this.ai = ai;
 	}
-
 
 	public String getDateType() {
 		return dateType;
@@ -140,8 +130,6 @@ public class EacCpfSearch implements Serializable{
 		this.facetOffset = facetOffset;
 	}
 
-
-
 	public String getFromdate() {
 		return fromdate;
 	}
@@ -164,15 +152,6 @@ public class EacCpfSearch implements Serializable{
 
 	public void setResultsperpage(String resultsperpage) {
 		this.resultsperpage = resultsperpage;
-	}
-
-
-	public boolean matchAllWords() {
-		// return !"optional".equals(method);
-		if (this.method != null && !this.method.isEmpty())
-			return !method.contains("optional");
-		else
-			return true;
 	}
 
 	public String getPageNumber() {
@@ -207,31 +186,31 @@ public class EacCpfSearch implements Serializable{
 		this.hasId = hasId;
 	}
 
-
 	public String getFacetSettings() {
 		String result = null;
-		for (ListFacetSettings facetSettings: facetSettingsList){
-			if (result == null){
+		for (ListFacetSettings facetSettings : facetSettingsList) {
+			if (result == null) {
 				result = facetSettings.toString();
-			}else {
-				result += LIST_SEPARATOR  + facetSettings;
+			} else {
+				result += LIST_SEPARATOR + facetSettings;
 			}
 		}
 		return result;
 	}
 
 	public void setFacetSettings(String facetSettings) {
-		if (StringUtils.isNotBlank(facetSettings)){
+		if (StringUtils.isNotBlank(facetSettings)) {
 			facetSettingsList.clear();
 			String[] temp = facetSettings.split(LIST_SEPARATOR);
-			for (String tempItem: temp){
+			for (String tempItem : temp) {
 				facetSettingsList.add(new ListFacetSettings(tempItem));
 			}
-		}else {
+		} else {
 			facetSettingsList = FacetType.getDefaultListFacetSettings();
 		}
 	}
-	public List<ListFacetSettings> getFacetSettingsList(){
+
+	public List<ListFacetSettings> getFacetSettingsList() {
 		return facetSettingsList;
 	}
 
@@ -242,7 +221,8 @@ public class EacCpfSearch implements Serializable{
 	public void setExactDateSearch(String exactDateSearch) {
 		this.exactDateSearch = exactDateSearch;
 	}
-	public boolean hasExactDateSearch(){
+
+	public boolean hasExactDateSearch() {
 		return Boolean.parseBoolean(exactDateSearch);
 	}
 
@@ -261,12 +241,5 @@ public class EacCpfSearch implements Serializable{
 	public void setPublishedToDate(String publishedToDate) {
 		this.publishedToDate = publishedToDate;
 	}
-	public String getTerm() {
-		return term;
-	}
 
-	public void setTerm(String term) {
-		this.term = term;
-	}
-	
 }
