@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
@@ -51,6 +54,19 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		modelAndView.setViewName("index");
 		return modelAndView;
 	}
+	@RenderMapping(params = "myaction=simpleSearch")
+	public ModelAndView searchSimple(@ModelAttribute(value = "eacCpfSearch")  EacCpfSearch eacCpfSearch,
+			RenderRequest request) throws SolrServerException, ParseException {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("index");
+		modelAndView.getModelMap().addAttribute("eacCpfSearch", eacCpfSearch);
+		if (StringUtils.isNotBlank(eacCpfSearch.getTerm())){
+			SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eacCpfSearch);
+			ListResults results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
+			modelAndView.getModelMap().addAttribute("results", results);
+		}
+		return modelAndView;
+	}
 	@RenderMapping(params = "myaction=eacCpfSearch")
 	public ModelAndView search(@ModelAttribute(value = "eacCpfSearch") EacCpfSearch eacCpfSearch,RenderRequest request) throws SolrServerException, ParseException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -73,7 +89,6 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 				eacCpfSearch.hasExactDateSearch());
 
 		AdvancedSearchUtil.addPublishedDates(eacCpfSearch.getPublishedFromDate(), eacCpfSearch.getPublishedToDate(), solrQueryParameters);	
-		solrQueryParameters.setMatchAllWords(eacCpfSearch.matchAllWords());
 		return solrQueryParameters;
 	}
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
