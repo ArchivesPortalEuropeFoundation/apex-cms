@@ -31,6 +31,7 @@ public class AbstractSearchController {
 			}else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());
 			}
+			solrQueryParameters.setMatchAllWords(abstractSearchForm.matchAllWords());
 			return solrQueryParameters;			
 		}
 		return null;
