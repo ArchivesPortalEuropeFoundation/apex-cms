@@ -23,7 +23,7 @@ public class AbstractSearchController {
 	public void setEacCpfSearcher(EacCpfSearcher eacCpfSearcher) {
 		this.eacCpfSearcher = eacCpfSearcher;
 	}
-	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
+	protected static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())){
@@ -35,5 +35,13 @@ public class AbstractSearchController {
 		}
 		return null;
 
+	}
+	protected static void updatePagination( ListResults results) {
+		Long totalNumberOfPages = results.getTotalNumberOfResults() / results.getPageSize();
+		Long rest = results.getTotalNumberOfResults() % results.getPageSize();
+		if (rest > 0) {
+			totalNumberOfPages++;
+		}
+		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
 }

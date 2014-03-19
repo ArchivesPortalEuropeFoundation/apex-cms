@@ -12,7 +12,7 @@ public class AbstractSearchForm implements Serializable{
 	public static final String SEARCH_ALL_STRING = "*:*";
 	
 	private String term;
-
+	private String method;
 	public String getTerm() {
 		return term;
 	}
@@ -20,5 +20,21 @@ public class AbstractSearchForm implements Serializable{
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	
+	public String getTermWords() {
+		return term;
+	}
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	public boolean matchAllWords() {
+		// return !"optional".equals(method);
+		if (this.method != null && !this.method.isEmpty())
+			return !method.contains("optional");
+		else
+			return true;
+	}
 }
