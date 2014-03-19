@@ -1,4 +1,4 @@
-var newSearchUrl, autocompletionUrl, savedSearchUrl, archivalLandscapeTreeUrl,displayPreviewUrl, portletNamespace, nameSearchUrl;
+var newSearchUrl, autocompletionUrl, savedSearchUrl, archivalLandscapeTreeUrl,displayPreviewUrl, portletNamespace;
 function setUrls(nUrl, aUrl, sUrl, treeUrl, pUrl, pNamespace, nSUrl) {
 	newSearchUrl = nUrl;
 	autocompletionUrl = aUrl;
@@ -6,7 +6,6 @@ function setUrls(nUrl, aUrl, sUrl, treeUrl, pUrl, pNamespace, nSUrl) {
 	archivalLandscapeTreeUrl= treeUrl;
 	displayPreviewUrl= pUrl;
 	portletNamespace = pNamespace;
-	nameSearchUrl=nSUrl;
 }
 
 function init() {
@@ -86,10 +85,9 @@ function activateAutocompletion(selector) {
 	});
 }
 function clearSearch(){
-	$("#searchTerms").val("");
+	commonClearSearch();
 	$('#checkboxHierarchy').attr('checked', false);
 	$('#checkboxDao').attr('checked', false);
-	$('#checkboxMethod').attr('checked', false);
 	$("#element").val("");
 	$("#typedocument").val("");
 	$("#fromdate").val("");
@@ -269,15 +267,7 @@ function performNewSearch() {
 	});
 	logAction(documentTitle, newSearchUrl);
 }
-function changeSearch(type){
-	if (type == "name-search"){
-		$("#newSearchForm").attr("action", nameSearchUrl);
-		$("#newSearchForm").attr("name", "eacCpfSearchForm");
-		$("#newSearchForm").submit();
-	}else {
-		alert("Not implemented yet");
-	}
-}
+
 function hideTabsIfNoResults(){
 	if ($("#noResults").length > 0){
 		$("#tabs #tabscontainer").removeClass("hidden").addClass("hidden");
