@@ -243,7 +243,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 			results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
-			updatePagination(advancedSearch, results);
+			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
 				results.setItems(new SolrDocumentListHolder(solrResponse, true));
 			} else {
@@ -263,7 +263,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 			results.init(solrResponse, advancedSearch.getFacetSettingsList(), advancedSearch,
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
-			updatePagination(advancedSearch, results);
+			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
 				results.setItems(new SolrDocumentListHolder(solrResponse, true));
 			} else {
@@ -320,14 +320,6 @@ public class AdvancedSearchController extends AbstractSearchController{
 		return solrQueryParameters;
 	}
 
-	protected void updatePagination(AdvancedSearch advancedSearch, ListResults results) {
-		Long totalNumberOfPages = results.getTotalNumberOfResults() / results.getPageSize();
-		Long rest = results.getTotalNumberOfResults() % results.getPageSize();
-		if (rest > 0) {
-			totalNumberOfPages++;
-		}
-		results.setTotalNumberOfPages(totalNumberOfPages);
-	}
 
 	protected SolrQueryParameters handleSearchParametersForContextUpdate(PortletRequest portletRequest, AdvancedSearch advancedSearch) {
 		return handleSearchParameters(portletRequest, advancedSearch);

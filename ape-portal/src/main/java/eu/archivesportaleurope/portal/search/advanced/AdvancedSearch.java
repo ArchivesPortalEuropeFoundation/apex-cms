@@ -27,7 +27,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 	private String typedocument = "";
 	private String fromdate;
 	private String todate;
-	private String method;
+
 	private String resultsperpage = "10";
 	private String simpleSearchDao;
 	private String dao;
@@ -63,9 +63,6 @@ public class AdvancedSearch extends AbstractSearchForm{
 		this.mode = mode;
 	}
 
-	public String getTermWords() {
-		return getTerm();
-	}
 
 	public String getView() {
 		return view;
@@ -75,13 +72,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 		this.view = view;
 	}
 
-	public String getMethod() {
-		return method;
-	}
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
 
 	public String getSimpleSearchDao() {
 		return simpleSearchDao;
@@ -315,13 +306,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 		this.advanced = advanced;
 	}
 
-	public boolean matchAllWords() {
-		// return !"optional".equals(method);
-		if (this.method != null && !this.method.isEmpty())
-			return !method.contains("optional");
-		else
-			return true;
-	}
+
 
 	public String getPageNumber() {
 		return pageNumber;
