@@ -20,9 +20,15 @@
 <portlet:resourceURL var="generateNavigatedTreeAiContentUrl" id="generateNavigatedTreeAiContent" />
 <portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
 <portlet:resourceURL var="saveSearchUrl" id="saveSearch" />
+
+<portal:page  varPlId="nameSearchPlId"  varPortletId="nameSearchPortletId" portletName="eaccpfsearch" friendlyUrl="/name-search"/>		
+<liferay-portlet:renderURL var="nameSearchUrl"  plid="${nameSearchPlId}" portletName="${nameSearchPortletId}">
+	<portlet:param name="myaction" value="simpleSearch" />
+</liferay-portlet:renderURL>
+
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
+				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>", "${nameSearchUrl}");
 				init();
 			});
 		</script>
@@ -33,13 +39,13 @@
 				<c:choose>
 					<c:when test="${empty results}">
 						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /></a></li>
-						<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.name-search" /></a></li>
-						<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.institutions-search" /></a></li>		
+						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /></a></li>
+						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institutions-search" /></a></li>		
 					</c:when>
 					<c:otherwise>
 						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href=""><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
+						<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
+						<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
 					</c:otherwise>
 				</c:choose>
 				</ul>
