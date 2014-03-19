@@ -128,7 +128,6 @@
 	background-repeat: no-repeat;
 	background-position: left;
 	cursor: pointer;
-   	margin-top:12px;
 }
 #searchingPart h2.blockHeader {
     font-size: 1.2em;
@@ -468,7 +467,7 @@
 	color: black;
 }
 
-#searchingPart .subtitle,#searchingPart .secondSubtitle
+#searchingPart .subtitle, #searchingPart .secondSubtitle
 	{
 	font-weight: bold;
 	margin-right: 5px;
@@ -785,4 +784,8 @@
 #searchingPart #sourceTabs .numberOfResults {
     margin-left: 5px;
     font-weight:bold;
+}
+
+#searchingPart #sourceTabs .tab_header {
+	margin-bottom:2px;
 }
