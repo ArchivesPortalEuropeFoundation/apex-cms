@@ -27,26 +27,27 @@
 			});
 		</script>
 <div id="searchingPart">
-		<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-			<c:choose>
-				<c:when test="${empty results}">
-					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /></a></li>
-					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.name-search" /></a></li>
-					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.institutions-search" /></a></li>		
-				</c:when>
-				<c:otherwise>
-					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
-					<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-					<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href=""><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
-				</c:otherwise>
-			</c:choose>
-			</ul>
-			<div class="tab_header">
-				<div id="tabHeaderContent"></div>
-			</div>
-		</div>
 		<div id="advancedSearchPortlet" >
+			<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+				<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+				<c:choose>
+					<c:when test="${empty results}">
+						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /></a></li>
+						<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.name-search" /></a></li>
+						<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.institutions-search" /></a></li>		
+					</c:when>
+					<c:otherwise>
+						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
+						<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
+						<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href=""><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
+					</c:otherwise>
+				</c:choose>
+				</ul>
+				<div class="tab_header">
+					<div id="tabHeaderContent"></div>
+				</div>
+			</div>
+
 		
 			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
 				action="${advancedSearchUrl}">

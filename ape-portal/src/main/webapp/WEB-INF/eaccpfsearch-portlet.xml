@@ -18,7 +18,8 @@
 	<bean
 		class="eu.archivesportaleurope.portal.eaccpf.search.SearchEacCpfContoller">
 				<property name="messageSource" ref="messageSource"/>
-				<property name="searcher" ref="eacCpfSearcher"/>
+			<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
+			<property name="eadSearcher" ref="eadSearcher"/>
 				
 	</bean>
 		

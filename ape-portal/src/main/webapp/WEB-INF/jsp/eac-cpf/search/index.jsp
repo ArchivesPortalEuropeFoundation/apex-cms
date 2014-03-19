@@ -14,18 +14,61 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
 <div id="searchingPart">
-<div id="eacCpfSearchPortlet" class="searchPortlet">
+	<div id="eacCpfSearchPortlet" class="searchPortlet">
+		<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<c:choose>
+				<c:when test="${empty results}">
+					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.archives-search" /></a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /></a></li>
+					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.institutions-search" /></a></li>		
+				</c:when>
+				<c:otherwise>
+					<li class="ui-state-default ui-corner-top ${results.eadNumberOfResultsClass}"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href=""><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
+				</c:otherwise>
+			</c:choose>
+			</ul>
+			<div class="tab_header">
+				<div id="tabHeaderContent"></div>
+			</div>
+		</div>
+
 <portlet:renderURL var="eacCpfSearchUrl">
 	<portlet:param name="myaction" value="eacCpfSearch" />
 </portlet:renderURL>
 <portal:friendlyUrl var="friendlyUrl" type="eac-cpf-display"/>
+
 <form:form id="eacCpfSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
 					<div id="simpleSearch">
-						<div><form:input path="term" id="searchTerms"  tabindex="1" maxlength="100"/> <input
+						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
+							<div class="simpleSearchOptions">
+								<table id="simplesearchCriteria">
+									<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
+									<tr>
+										<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"/> <input
 											type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
-											value="<fmt:message key="advancedsearch.message.search"/>" /></div>
-					</div>
+											value="<fmt:message key="advancedsearch.message.search"/>" /></td>
+									</tr>
+									<tr>
+										<td class="leftcolumn">
+											<div class="row">
+												<form:checkbox path="method" id="checkboxMethod" tabindex="3" value="optional"/>
+												<label for="checkboxMethod"><fmt:message key="advancedsearch.message.method" /></label>
+											</div>
+										</td>
+										<td class="rightcolumn">
+											<div id="clearSearchRow" class="row">
+												<a href="javascript:clearSearch()"><fmt:message key="searchpage.options.simple.clearsearch" /></a>	
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>				
 </form:form>
 <div>
 <c:if test="${!empty results}">
