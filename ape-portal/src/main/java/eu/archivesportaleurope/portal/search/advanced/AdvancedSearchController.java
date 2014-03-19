@@ -146,7 +146,6 @@ public class AdvancedSearchController extends AbstractSearchController{
 		modelAndView.getModelMap().addAttribute("advancedSearch", advancedSearch);
 		modelAndView.getModelMap().addAttribute("results", results);
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
-		LOGGER.info(results.getEacCpfNumberOfResults());
 		return modelAndView;
 	}
 
@@ -302,7 +301,6 @@ public class AdvancedSearchController extends AbstractSearchController{
 		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
 		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-		solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), advancedSearch.getSimpleSearchDao());
 		return solrQueryParameters;
 	}
