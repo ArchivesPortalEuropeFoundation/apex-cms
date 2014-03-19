@@ -13,20 +13,31 @@
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
+<portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="advancedsearch" friendlyUrl="/search"/>	
+<liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
+	<portlet:param name="myaction" value="simpleSearch" />
+	<liferay-portlet:param  name="advanced" value="false"/>
+</liferay-portlet:renderURL>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				setCommonUrls("","${advancedSearchUrl}");
+				initCommon();
+			});
+		</script>
 <div id="searchingPart">
 	<div id="eacCpfSearchPortlet" class="searchPortlet">
 		<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 			<c:choose>
 				<c:when test="${empty results}">
-					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.archives-search" /></a></li>
+					<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /></a></li>
 					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /></a></li>
-					<li class="ui-state-default ui-corner-top"><a href=""><fmt:message key="menu.institutions-search" /></a></li>		
+					<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('institutions-search')"><fmt:message key="menu.institutions-search" /></a></li>		
 				</c:when>
 				<c:otherwise>
-					<li class="ui-state-default ui-corner-top ${results.eadNumberOfResultsClass}"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ${results.eadNumberOfResultsClass}"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
 					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-					<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href=""><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href="javascript:changeSearch('institutions-search')"><fmt:message key="menu.institutions-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
 				</c:otherwise>
 			</c:choose>
 			</ul>
@@ -40,7 +51,7 @@
 </portlet:renderURL>
 <portal:friendlyUrl var="friendlyUrl" type="eac-cpf-display"/>
 
-<form:form id="eacCpfSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
+<form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
 					<div id="simpleSearch">
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">

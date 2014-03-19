@@ -28,7 +28,9 @@
 
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>", "${nameSearchUrl}");
+				setCommonUrls("${nameSearchUrl}","");
+				initCommon();
+				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
 			});
 		</script>
