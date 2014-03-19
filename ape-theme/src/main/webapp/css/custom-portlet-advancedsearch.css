@@ -128,12 +128,12 @@
 	background-repeat: no-repeat;
 	background-position: left;
 	cursor: pointer;
-	
+   	margin-top:12px;
 }
 #searchingPart h2.blockHeader {
     font-size: 1.2em;
-    margin-bottom: 0.4em;
-   	margin-top:0;
+    margin-bottom: 2px;
+   	margin-top:10px;
 	padding-left: 15px;
 	border-bottom: 1px solid #79B7E7;
 }
@@ -783,5 +783,6 @@
 }
 
 #searchingPart #sourceTabs .numberOfResults {
-    padding-left: 5px;
+    margin-left: 5px;
+    font-weight:bold;
 }
