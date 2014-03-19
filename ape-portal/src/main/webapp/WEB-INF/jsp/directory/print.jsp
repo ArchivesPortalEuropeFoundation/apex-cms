@@ -11,12 +11,15 @@
 			<div class="left-header"></div>
 			<div class="right-header"></div>
 		</div>
+	<br></br>
+	<div class="portlet-layout" >
+		<div id="map_div" style="width: 1000px; height: 400px">	</div>
+	</div>
+	<br></br>
 	<div id="directory-column-right-content" class="portlet-layout">
 		<portal:eag eagUrl="${eagUrl}"/>
 	</div>
-	<div class="portlet-layout">
-		<div id="map_div" style="width: 1000px; height: 400px">	</div>
-	</div>
+	
 </div>
 
 <script src="${google_maps_url}${google_maps_license}&sensor=false"></script>
