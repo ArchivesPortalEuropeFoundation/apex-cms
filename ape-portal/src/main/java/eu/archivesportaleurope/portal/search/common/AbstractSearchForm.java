@@ -13,6 +13,13 @@ public class AbstractSearchForm implements Serializable{
 	
 	private String term;
 	private String method;
+	
+	private String fromdate;
+	private String todate;
+
+	private String resultsperpage = "10";
+	private String exactDateSearch;
+	private String pageNumber = "1";
 	public String getTerm() {
 		return term;
 	}
@@ -36,5 +43,46 @@ public class AbstractSearchForm implements Serializable{
 			return !method.contains("optional");
 		else
 			return true;
+	}
+	public String getFromdate() {
+		return fromdate;
+	}
+
+	public void setFromdate(String fromdate) {
+		this.fromdate = fromdate;
+	}
+
+	public String getTodate() {
+		return todate;
+	}
+
+	public void setTodate(String todate) {
+		this.todate = todate;
+	}
+
+	public String getResultsperpage() {
+		return resultsperpage;
+	}
+
+	public void setResultsperpage(String resultsperpage) {
+		this.resultsperpage = resultsperpage;
+	}
+	
+	public String getExactDateSearch() {
+		return exactDateSearch;
+	}
+
+	public void setExactDateSearch(String exactDateSearch) {
+		this.exactDateSearch = exactDateSearch;
+	}
+	public boolean hasExactDateSearch(){
+		return Boolean.parseBoolean(exactDateSearch);
+	}
+	public String getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(String pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 }
