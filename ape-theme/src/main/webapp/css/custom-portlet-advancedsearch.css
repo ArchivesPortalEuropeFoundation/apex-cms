@@ -789,3 +789,8 @@
 #searchingPart #sourceTabs .tab_header {
 	margin-bottom:2px;
 }
+
+
+#searchingPart #eacCpfSearchPortlet  #advancedSearchOptionsContent {
+    height: 100px;
+}
