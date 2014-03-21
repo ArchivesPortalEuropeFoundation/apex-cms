@@ -57,7 +57,8 @@ function activateAutocompletion(selector) {
 		minLength : 0,
 		source : function(request, response) {
 			$.getJSON(autocompletionUrl, {
-				term : extractLast(request.term)
+				term : extractLast(request.term),
+				sourceType : "ead"
 			}, response);
 		},
 		search : function() {
