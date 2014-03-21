@@ -55,7 +55,57 @@
 
 <form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
+				<div id="simpleAndAdvancedSearch">
+					<div id="advancedSearch">
+						<h2 id="advancedSearchOptionsHeader" class="blockHeader">
+							<fmt:message key="advancedsearch.title.advancedsearch" />
+						</h2>
+						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
+							<table id="advancedsearchCriteria">
+								<tr>
+									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" /></label></td>
+									<td colspan="3"><form:select path="element" id="element" tabindex="6">
+											<form:option value="0">
+												<fmt:message key="advancedsearch.text.noselection" />
+											</form:option>
+										</form:select></td>
+								</tr>
+								<tr>
+									<td><label for="typedocument"><fmt:message key="advancedsearch.eaccpf.text.typeofentity" /></label></td>
+									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7">
+											<form:option value="">
+												<fmt:message key="advancedsearch.text.noselection" />
+											</form:option>
+									
+										</form:select></td>
+								</tr>
+								<tr>
+									<td><label for="typedocument"><fmt:message key="advancedsearch.eaccpf.text.typeofname" /></label></td>
+									<td colspan="3"><form:select path="nameType" id="nameType" tabindex="8">
+											<form:option value="">
+												<fmt:message key="advancedsearch.text.noselection" />
+											</form:option>
+									
+										</form:select></td>
+								</tr>								
+								<tr>
+									<td><label for="fromdate"><fmt:message key="advancedsearch.text.datefrom" /></label></td>
+									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="9" maxlength="10" /></td>
+									<td id="datetoHeader"><label id="todateLabel" for="todate"><fmt:message key="advancedsearch.text.dateto" /></label></td>
+									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="10"  maxlength="10"/></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td colspan="3"><form:checkbox id="exactDateSearch" path="exactDateSearch" value="true" tabindex="11"/><label for="exactDateSearch"><fmt:message key="advancedsearch.message.exactdatesearch" /></label></td>
+								</tr>
+		
+							</table>
+						</div>
+					</div>				
 					<div id="simpleSearch">
+						<h2 id="simpleSearchOptionsHeader" class="blockHeader">
+							<fmt:message key="advancedsearch.title.simplesearch" />
+						</h2>					
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
 								<table id="simplesearchCriteria">
@@ -81,7 +131,8 @@
 								</table>
 							</div>
 						</div>
-					</div>				
+					</div>
+				</div>				
 </form:form>
 <div>
 <c:if test="${!empty results}">
