@@ -21,11 +21,9 @@ public class EacCpfSearch extends AbstractSearchForm {
 	public static final String MODE_NEW_SEARCH = "new-search";
 	public static final String MODE_UPDATE_SEARCH = "update-search";
 	public static final String SEARCH_ALL_STRING = "*:*";
-
-	private String fromdate;
-	private String todate;
-	private String resultsperpage = "100";
-	private String exactDateSearch;
+	private String element;
+	private String entityType;
+	private String nameType;
 
 	private String country;
 	private String ai;
@@ -130,29 +128,6 @@ public class EacCpfSearch extends AbstractSearchForm {
 		this.facetOffset = facetOffset;
 	}
 
-	public String getFromdate() {
-		return fromdate;
-	}
-
-	public void setFromdate(String fromdate) {
-		this.fromdate = fromdate;
-	}
-
-	public String getTodate() {
-		return todate;
-	}
-
-	public void setTodate(String todate) {
-		this.todate = todate;
-	}
-
-	public String getResultsperpage() {
-		return resultsperpage;
-	}
-
-	public void setResultsperpage(String resultsperpage) {
-		this.resultsperpage = resultsperpage;
-	}
 
 	public String getPageNumber() {
 		return pageNumber;
@@ -214,17 +189,6 @@ public class EacCpfSearch extends AbstractSearchForm {
 		return facetSettingsList;
 	}
 
-	public String getExactDateSearch() {
-		return exactDateSearch;
-	}
-
-	public void setExactDateSearch(String exactDateSearch) {
-		this.exactDateSearch = exactDateSearch;
-	}
-
-	public boolean hasExactDateSearch() {
-		return Boolean.parseBoolean(exactDateSearch);
-	}
 
 	public String getPublishedFromDate() {
 		return publishedFromDate;
@@ -241,5 +205,31 @@ public class EacCpfSearch extends AbstractSearchForm {
 	public void setPublishedToDate(String publishedToDate) {
 		this.publishedToDate = publishedToDate;
 	}
+
+	public String getElement() {
+		return element;
+	}
+
+	public void setElement(String element) {
+		this.element = element;
+	}
+
+	public String getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(String entityType) {
+		this.entityType = entityType;
+	}
+
+	public String getNameType() {
+		return nameType;
+	}
+
+	public void setNameType(String nameType) {
+		this.nameType = nameType;
+	}
+
+
 
 }

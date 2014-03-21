@@ -25,14 +25,11 @@ public class AdvancedSearch extends AbstractSearchForm{
 	private String view;
 	private String element = "0";
 	private String typedocument = "";
-	private String fromdate;
-	private String todate;
 
-	private String resultsperpage = "10";
 	private String simpleSearchDao;
 	private String dao;
 	private boolean advanced = true;
-	private String exactDateSearch;
+
 
 	private String country;
 	private String ai;
@@ -47,7 +44,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 	private String enddate;
 	private String facetField;
 	private String facetOffset;
-	private String pageNumber = "1";
+
 	private String keyPrefix;
 	private String valueIsKey;
 	private String hasId;
@@ -274,29 +271,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 		this.typedocument = typedocument;
 	}
 
-	public String getFromdate() {
-		return fromdate;
-	}
 
-	public void setFromdate(String fromdate) {
-		this.fromdate = fromdate;
-	}
-
-	public String getTodate() {
-		return todate;
-	}
-
-	public void setTodate(String todate) {
-		this.todate = todate;
-	}
-
-	public String getResultsperpage() {
-		return resultsperpage;
-	}
-
-	public void setResultsperpage(String resultsperpage) {
-		this.resultsperpage = resultsperpage;
-	}
 
 	public boolean isAdvanced() {
 		return advanced;
@@ -308,13 +283,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 
 
 
-	public String getPageNumber() {
-		return pageNumber;
-	}
 
-	public void setPageNumber(String pageNumber) {
-		this.pageNumber = pageNumber;
-	}
 
 	public String getKeyPrefix() {
 		return keyPrefix;
@@ -368,16 +337,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 		return facetSettingsList;
 	}
 
-	public String getExactDateSearch() {
-		return exactDateSearch;
-	}
 
-	public void setExactDateSearch(String exactDateSearch) {
-		this.exactDateSearch = exactDateSearch;
-	}
-	public boolean hasExactDateSearch(){
-		return Boolean.parseBoolean(exactDateSearch);
-	}
 
 	public String getPublishedFromDate() {
 		return publishedFromDate;
