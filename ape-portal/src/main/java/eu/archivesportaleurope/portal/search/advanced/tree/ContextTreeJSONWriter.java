@@ -29,7 +29,7 @@ import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
@@ -58,7 +58,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		long startTime = System.currentTimeMillis();
 
 		try {
-			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+			SolrQueryParameters solrQueryParameters = AbstractSearchController.getSolrQueryParametersByForm(advancedSearch, resourceRequest);
 
 			AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
 
@@ -68,11 +68,8 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 					advancedSearch.hasExactDateSearch());
 			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
 					advancedSearch.hasExactDateSearch());
-			if (AdvancedSearch.SEARCH_ALL_STRING.equals(advancedSearch.getTerm()) && resourceRequest.getUserPrincipal() != null){
-				solrQueryParameters.setTerm("");
-			}else {
-				solrQueryParameters.setTerm(advancedSearch.getTerm());
-			}
+			
+
 			// Only refine on dao if selected
 			if ("true".equals(advancedSearch.getDao())) {
 				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
@@ -87,7 +84,6 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			}
 			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
 					advancedSearch.getCountry());
-			solrQueryParameters.setMatchAllWords(advancedSearch.matchAllWords());
 			AnalyzeLogger.logUpdateAdvancedSearchContext(advancedSearch, solrQueryParameters);
 			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
 				writeToResponseAndClose(generateAiJSON(advancedSearch, solrQueryParameters, locale), resourceResponse);
@@ -118,13 +114,13 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			startInt = new Integer(advancedSearch.getStart());
 		} else {
 
-			FacetField holdingGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.HG_DYNAMIC_NAME,
+			FacetField holdingGuides = getEadSearcher().getFonds(solrQueryParameters, SolrFields.HG_DYNAMIC_NAME,
 					startInt, NO_LIMIT);
 			List<Count> hgCounts = holdingGuides.getValues();
 			if (hgCounts != null) {
 				counts.addAll(hgCounts);
 			}
-			FacetField sourceGuides = getSearcher().getFonds(solrQueryParameters, SolrFields.SG_DYNAMIC_NAME, startInt,
+			FacetField sourceGuides = getEadSearcher().getFonds(solrQueryParameters, SolrFields.SG_DYNAMIC_NAME, startInt,
 					NO_LIMIT);
 			List<Count> sgCounts = sourceGuides.getValues();
 			if (sgCounts != null) {
@@ -137,7 +133,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			faMaxCount = 2;
 		}
 		maxNumberOfItems += faMaxCount;
-		FacetField findingAids = getSearcher().getFonds(solrQueryParameters, SolrFields.FA_DYNAMIC_NAME, startInt,
+		FacetField findingAids = getEadSearcher().getFonds(solrQueryParameters, SolrFields.FA_DYNAMIC_NAME, startInt,
 				faMaxCount);
 		List<Count> faCounts = findingAids.getValues();
 		if (faCounts != null) {
@@ -191,7 +187,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			Locale locale) throws SolrServerException {
 		int startInt = advancedSearch.getStartInt();
 		int levelInt = advancedSearch.getLevelInt();
-		FacetField aiFacetField = getSearcher().getAis(solrQueryParameters, advancedSearch.getParentId(), levelInt,
+		FacetField aiFacetField = getEadSearcher().getAis(solrQueryParameters, advancedSearch.getParentId(), levelInt,
 				startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> archivalInstitutions = aiFacetField.getValues();
 		boolean moreResultsAvailable = (archivalInstitutions != null && archivalInstitutions.size() > MAX_NUMBER_OF_ITEMS);
@@ -252,10 +248,10 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
 		int startInt = advancedSearch.getStartInt();
 		int levelInt = advancedSearch.getLevelInt();
-		FacetField fonds = getSearcher().getLevels(solrQueryParameters, advancedSearch.getSearchType(),
+		FacetField fonds = getEadSearcher().getLevels(solrQueryParameters, advancedSearch.getSearchType(),
 				advancedSearch.getParentId(), levelInt, startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> mapCounts = fonds.getValues();
-		QueryResponse searchResultResponse = getSearcher().getResultsInLevels(solrQueryParameters,
+		QueryResponse searchResultResponse = getEadSearcher().getResultsInLevels(solrQueryParameters,
 				advancedSearch.getParentId(), startInt, MAX_NUMBER_OF_ITEMS);
 		SolrDocumentList results = searchResultResponse.getResults();
 		Map<String, Map<String, List<String>>> highlightingMap = searchResultResponse.getHighlighting();

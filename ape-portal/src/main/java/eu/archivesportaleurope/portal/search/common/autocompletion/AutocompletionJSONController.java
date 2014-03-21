@@ -1,22 +1,24 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
 import java.util.Map;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.TermsResponse;
 import org.apache.solr.client.solrj.response.TermsResponse.Term;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
-
+import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
 
 /**
  * Generates an json for autocompletion
@@ -29,29 +31,31 @@ import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 public class AutocompletionJSONController extends AbstractJSONWriter {
 
 	@ResourceMapping(value = "autocompletion")
-	public void writeJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+	public void writeJSON(@ModelAttribute(value = "autocompletionForm") AutocompletionForm autocompletionForm,
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
-		String term = resourceRequest.getParameter("term").trim();
-		
+
 		try {
-			
+
 			StringBuilder builder = new StringBuilder();
 			builder.append(START_ARRAY);
-			if (StringUtils.isNotBlank(term)) {
-				TermsResponse termsResponse = getSearcher().getTerms(term);
-				boolean isAdded = false;
-				for (Map.Entry<String, List<Term>> entry : termsResponse.getTermMap().entrySet()) {
-					for (Term termItem : entry.getValue()) {
-						if (isAdded) {
-							builder.append(COMMA);
-						} else {
-							isAdded = true;
-						}
-						builder.append("\"");
-						builder.append(termItem.getTerm());
-						builder.append("\"");
-					}
+			if (StringUtils.isNotBlank(autocompletionForm.getTerm())) {
+				List<AutocompletionResult> results = new ArrayList<AutocompletionResult>();
+				AbstractSearcher abstractSearcher = null;
+				if (AutocompletionForm.EAD.equals(autocompletionForm.getSourceType())) {
+					abstractSearcher = getEadSearcher();
+					add(results,abstractSearcher, autocompletionForm, null);
+					write(builder, results, false);
+				} else if (AutocompletionForm.EAC_CPF.equals(autocompletionForm.getSourceType())) {
+					abstractSearcher = getEacCpfSearcher();
+					add(results,abstractSearcher, autocompletionForm, null);
+					write(builder, results, false);
+				} else {
+					add(results, getEadSearcher(), autocompletionForm, "archives");
+					add(results, getEacCpfSearcher(), autocompletionForm, "names");
+					write(builder, results, true);
 				}
+
 			}
 			builder.append(END_ARRAY);
 			writeToResponseAndClose(builder, resourceResponse);
@@ -60,6 +64,85 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 			log.error(e.getMessage(), e);
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
+	}
+
+	private static void write(StringBuilder builder, List<AutocompletionResult> results, boolean advanced) {
+		boolean isAdded = false;
+		if (advanced) {
+			Collections.sort(results);
+			for (int i = 0; i < 10 && i < results.size(); i++) {
+				AutocompletionResult result = results.get(i);
+				if (isAdded) {
+					builder.append(COMMA);
+				} else {
+					isAdded = true;
+				}
+				builder.append(START_ITEM);
+				builder.append("\"value\":");
+				builder.append("\"" + result.getTerm() + "\"");
+				builder.append(COMMA);
+				builder.append("\"label\":");
+				builder.append("\"" + result.getTerm() + " (" + result.getFrequency() + " results found in "
+						+ result.getType() + ")\"");
+				builder.append(END_ITEM);
+			}
+		} else {
+			for (AutocompletionResult result : results) {
+				if (isAdded) {
+					builder.append(COMMA);
+				} else {
+					isAdded = true;
+				}
+				builder.append("\"");
+				builder.append(result.getTerm());
+				builder.append("\"");
+			}
+		}
+	}
+
+	private static void add(List<AutocompletionResult> results, AbstractSearcher abstractSearcher,
+			AutocompletionForm autocompletionForm, String sourceType) throws SolrServerException {
+		TermsResponse termsResponse = abstractSearcher.getTerms(autocompletionForm.getTerm().trim());
+		for (Map.Entry<String, List<Term>> entry : termsResponse.getTermMap().entrySet()) {
+			for (Term termItem : entry.getValue()) {
+				results.add(new AutocompletionResult(termItem, sourceType));
+			}
+		}
+	}
+
+	private static class AutocompletionResult implements Comparable<AutocompletionResult> {
+		String type;
+		String term;
+		long frequency;
+
+		protected AutocompletionResult(Term term, String type) {
+			this.type = type;
+			this.term = term.getTerm();
+			this.frequency = term.getFrequency();
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public String getTerm() {
+			return term;
+		}
+
+		public long getFrequency() {
+			return frequency;
+		}
+
+		@Override
+		public int compareTo(AutocompletionResult o) {
+			if (frequency > o.getFrequency()) {
+				return -1;
+			} else if (frequency < o.getFrequency()) {
+				return 1;
+			}
+			return 0;
+		}
+
 	}
 
 }

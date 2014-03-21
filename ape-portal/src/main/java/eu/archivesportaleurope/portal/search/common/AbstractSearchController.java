@@ -23,7 +23,7 @@ public class AbstractSearchController {
 	public void setEacCpfSearcher(EacCpfSearcher eacCpfSearcher) {
 		this.eacCpfSearcher = eacCpfSearcher;
 	}
-	protected static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
+	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())){
