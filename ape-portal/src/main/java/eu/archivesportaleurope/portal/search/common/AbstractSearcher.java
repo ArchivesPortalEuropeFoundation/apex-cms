@@ -47,8 +47,8 @@ public abstract class AbstractSearcher {
 		query.setTermsPrefix(term.toLowerCase());
 		query.setTermsLower(term.toLowerCase());
 		query.setRequestHandler("/terms");
-		if (LOGGER.isInfoEnabled()){
-			LOGGER.info("Query(autocompletion): " +getSolrSearchUrl() + "/select?"+ query.toString());
+		if (LOGGER.isDebugEnabled()){
+			LOGGER.debug("Query(autocompletion): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
 	}
