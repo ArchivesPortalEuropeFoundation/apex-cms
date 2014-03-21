@@ -13,6 +13,7 @@
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
+<portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="advancedsearch" friendlyUrl="/search"/>	
 <liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
@@ -21,7 +22,8 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setCommonUrls("","${advancedSearchUrl}");
-				initCommon();
+				setUrls("${autocompletionUrl}");
+				init();
 			});
 		</script>
 <div id="searchingPart">

@@ -13,6 +13,11 @@
 	<portlet:param name="myaction" value="simpleSearch" />
 	<liferay-portlet:param  name="advanced" value="false"/>
 </liferay-portlet:renderURL>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				init("${autocompletionUrl}" );
+			});
+		</script>
 <div id="simpleSearchPortlet">
 	<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
 		<div id="simpleSearch">

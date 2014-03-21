@@ -44,7 +44,7 @@
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.tree.ContextTreeJSONWriter">
 		<property name="messageSource" ref="messageSource"></property>
-		<property name="searcher" ref="eadSearcher"></property>
+		<property name="eadSearcher" ref="eadSearcher"></property>
 	</bean>	
 	<bean
 		class="eu.archivesportaleurope.portal.search.advanced.altree.ArchivalLandscapeTreeJSONWriter">
