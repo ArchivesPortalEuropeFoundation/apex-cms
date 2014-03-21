@@ -129,7 +129,7 @@ function displaySecondMap(directoryTreeMapsUrl,selectedCountryCode,aiId, reponam
 		        
 		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		            return function() {
-		            	var content="<div style=\"line-height:1.35;overflow:hidden;white-space:nowrap;\">" + "<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country +"</div";
+		            	var content="<div style=\"line-height:1.35;overflow:hidden;white-space:nowrap;\">" + "<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country +"</div>";
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
 		                getAndClickOnParents(marker.aiId);
@@ -805,7 +805,7 @@ function printSecondMap(selectedCountryCode,directoryTreeMapsUrl,selectedAiId){
 		        //place and feed the markers
 		        google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		            return function() {
-		            	var content="<div style=\"line-height:1.35;overflow:hidden;white-space:nowrap;\">" + "<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country +"</div";
+		            	var content="<div style=\"line-height:1.35;overflow:hidden;white-space:nowrap;\">" + "<strong>" + dataRepo[0].name + "</strong>" + "<br/><br/>" + dataRepo[0].street + "<br/>" + dataRepo[0].postalcity + "<br/>" + dataRepo[0].country +"</div>";
 		                infowindow.setContent(content);
 		                infowindow.open(map, marker);
 		            };
