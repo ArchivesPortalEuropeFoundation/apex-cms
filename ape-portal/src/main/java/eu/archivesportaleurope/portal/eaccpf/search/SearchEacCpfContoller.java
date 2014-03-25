@@ -22,12 +22,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.archivesportaleurope.portal.common.AnalyzeLogger;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
-import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
@@ -94,14 +90,10 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			BindingResult bindingResult, ResourceRequest request) throws SolrServerException, ParseException {
 		Results results = null;
 		if (AbstractSearchForm.MODE_NEW_SEARCH.equalsIgnoreCase(eacCpfSearch.getMode())) {
-			LOGGER.info("NEW");
 			results = performNewSearch(request, eacCpfSearch);
 		} else if (AbstractSearchForm.MODE_UPDATE_SEARCH.equalsIgnoreCase(eacCpfSearch.getMode())) {
-			LOGGER.info("update");
 			results = updateCurrentSearch(request, eacCpfSearch);
 
-		}else {
-			LOGGER.info("other");
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("results");
