@@ -61,7 +61,7 @@ public final class AnalyzeLogger {
     		}else {
     			logLine +=";";
     		}   
-    		if (TRUE.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
@@ -112,7 +112,7 @@ public final class AnalyzeLogger {
     		}else {
     			logLine +=";";
     		}   
-    		if (TRUE.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
