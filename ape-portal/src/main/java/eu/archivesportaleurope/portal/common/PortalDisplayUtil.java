@@ -16,9 +16,10 @@ import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
 
 public class PortalDisplayUtil {
+
     private static final String END_CHARACTER = ")";
-	private static final String START_CHARACTER = " (";
-	private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
+    private static final String START_CHARACTER = " (";
+    private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
@@ -29,71 +30,108 @@ public class PortalDisplayUtil {
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
 
-	public static String replaceQuotesAndReturns(String string) {
-		String result = string;
-		if (result != null) {
-			result = result.replaceAll("\"", "'");
-			result = result.replaceAll("[\n\t\r\\\\/%;]", "");
-			result = result.trim();
-		}
-		return result;
-	}
-	public static ReadableUserAgent getUserAgent(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
-		String header = request.getHeader("User-Agent");
-		return CachedUserAgentStringParser.getInstance().parse(header);
-	}
-	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
-		String header = request.getHeader("User-Agent");
-		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
-		return !UserAgentType.BROWSER.equals(agent.getType());
-	}
-	public static boolean isNotNormalBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
-		String header = request.getHeader("User-Agent");
-		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
-		return !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
-	}
-	public static void setPageTitle(PortletRequest portletRequest, String title){
-		String documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
-		HttpServletRequest request = PortalUtil. getHttpServletRequest(portletRequest);
-		PortalUtil.setPageTitle(documentTitle, request);
-	}
-	public static String getFeaturedExhibitionTitle(String title){
-		if (StringUtils.isBlank(title)){
-			return TITLE_FEATURED_DOCUMENT;
-		}else {
-			return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + TITLE_FEATURED_DOCUMENT + END_CHARACTER);
-		}
-	}
-	public static String getEadDisplayTitle(Ead ead, String title){
-		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
-	}
-	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
-		String aiName = institution.getAiname();
-		if (institution.isGroup()){
-			return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getCountry().getIsoname() + END_CHARACTER);
-		}else {
-			return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getRepositorycode() + END_CHARACTER);
-		}
-		
-	}
-	public static String getCountryDisplayTitle(Country country){
-		return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + START_CHARACTER + country.getIsoname() + END_CHARACTER);
-	}
-	
+    public static String replaceQuotesAndReturns(String string) {
+        String result = string;
+        if (result != null) {
+            result = result.replaceAll("\"", "'");
+            result = result.replaceAll("[\n\t\r\\\\/%;]", "");
+            result = result.trim();
+        }
+        return result;
+    }
+
+    public static ReadableUserAgent getUserAgent(PortletRequest portletRequest) {
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
+        String header = request.getHeader("User-Agent");
+        return CachedUserAgentStringParser.getInstance().parse(header);
+    }
+
+    public static boolean isNotDesktopBrowser(PortletRequest portletRequest) {
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
+        String header = request.getHeader("User-Agent");
+        ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
+        return !UserAgentType.BROWSER.equals(agent.getType());
+    }
+
+    public static boolean isNotNormalBrowser(PortletRequest portletRequest) {
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
+        String header = request.getHeader("User-Agent");
+        ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
+        return !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
+    }
+
+    public static void setPageTitle(PortletRequest portletRequest, String title) {
+        String documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
+        PortalUtil.setPageTitle(documentTitle, request);
+    }
+
+    public static String getFeaturedExhibitionTitle(String title) {
+        if (StringUtils.isBlank(title)) {
+            return TITLE_FEATURED_DOCUMENT;
+        } else {
+            return PortalDisplayUtil.replaceQuotesAndReturns(title + START_CHARACTER + TITLE_FEATURED_DOCUMENT + END_CHARACTER);
+        }
+    }
+
+    public static String getEadDisplayTitle(Ead ead, String title) {
+        return PortalDisplayUtil.replaceQuotesAndReturns(title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
+    }
+
+    public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution) {
+        String aiName = institution.getAiname();
+        if (institution.isGroup()) {
+            return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getCountry().getIsoname() + END_CHARACTER);
+        } else {
+            return PortalDisplayUtil.replaceQuotesAndReturns(aiName + START_CHARACTER + institution.getRepositorycode() + END_CHARACTER);
+        }
+
+    }
+
+    public static String getCountryDisplayTitle(Country country) {
+        return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + START_CHARACTER + country.getIsoname() + END_CHARACTER);
+    }
+
+    @SuppressWarnings("MalformedRegexp")
     public static String removeSpecialUrlCharactersFromEadid(String eadid) {
-    	//TODO: implement replacement of "* : / \\ [ ] + % @ $ # ^ & ( ) ! ~"
-    	String result = eadid.replaceAll(":", "_1_");
-    	result = result.replaceAll("/", "_2_");
+        String result = eadid.replaceAll("*", "_ASTERISK_");
+        result = result.replaceAll(":", "_COLON_");
+        result = result.replaceAll("/", "_SLASH_");
+        result = result.replaceAll("\\", "_BSLASH_");
+        result = result.replaceAll("[", "_LSQBRKT_");
+        result = result.replaceAll("]", "_RSQBRKT_");
+        result = result.replaceAll("+", "_PLUS_");
+        result = result.replaceAll("%", "_PERCENT_");
+        result = result.replaceAll("@", "_ATCHAR_");
+        result = result.replaceAll("$", "_DOLLAR_");
+        result = result.replaceAll("#", "_HASH_");
+        result = result.replaceAll("^", "_CFLEX_");
+        result = result.replaceAll("&", "_AMP_");
+        result = result.replaceAll("(", "_LRDBRKT_");
+        result = result.replaceAll(")", "_RRDBRKT_");
+        result = result.replaceAll("!", "_EXCLMARK_");
+        result = result.replaceAll("~", "_TILDE_");
         return result;
     }
 
     public static String restoreSpecialUrlCharactersInEadid(String eadidFromUrl) {
-    	//TODO:  implement replacement  "* : / \\ [ ] + % @ $ # ^ & ( ) ! ~"
-    	String result = eadidFromUrl.replaceAll("_1_", ":");
-    	result = result.replaceAll("_1_", "/");
+        String result = eadidFromUrl.replaceAll("_ASTERISK_", "*");
+        result = result.replaceAll("_COLON_", ":");
+        result = result.replaceAll("_SLASH_", "/");
+        result = result.replaceAll("_BSLASH_", "\\");
+        result = result.replaceAll("_LSQBRKT_", "[");
+        result = result.replaceAll("_RSQBRKT_", "]");
+        result = result.replaceAll("_PLUS_", "+");
+        result = result.replaceAll("_PERCENT_", "%");
+        result = result.replaceAll("_ATCHAR_", "@");
+        result = result.replaceAll("_DOLLAR_", "$");
+        result = result.replaceAll("_HASH_", "#");
+        result = result.replaceAll("_CFLEX_", "^");
+        result = result.replaceAll("_AMP_", "&");
+        result = result.replaceAll("_LRDBRKT_", "(");
+        result = result.replaceAll("_RRDBRKT_", ")");
+        result = result.replaceAll("_EXCLMARK_", "!");
+        result = result.replaceAll("_TILDE_", "~");
         return result;
     }
 }
