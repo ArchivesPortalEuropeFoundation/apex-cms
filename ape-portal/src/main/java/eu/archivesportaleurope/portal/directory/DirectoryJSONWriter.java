@@ -407,10 +407,10 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 			String focusOnEurope = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_FOCUS_ON_EUROPE);
 				
 			//To get Map bounds to fit the map in Europe
-			String southwestLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_southwestLatitude);
-			String southwestLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_southwestLongitude);
-			String northeastLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_northeastLatitude);
-			String northeastLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_northeastLongitude);
+			String southwestLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_SOUTHWEST_LATITUDE);
+			String southwestLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_SOUTHWEST_LONGITUDE);
+			String northeastLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_NORTHEAST_LATITUDE);
+			String northeastLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_NORTHEAST_LONGITUDE);
 			if(southwestLatitude!=null && southwestLongitude!=null && northeastLatitude!=null && northeastLongitude!=null){
 				if(focusOnEurope.compareTo("true")==0){
 					// Call the method to add the bounds for Europe.
