@@ -13,16 +13,18 @@
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="advancedsearch" friendlyUrl="/search"/>	
 <liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 	<liferay-portlet:param  name="advanced" value="false"/>
 </liferay-portlet:renderURL>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="ajaxEacCpfSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="eacCpfSearch" /></portal:removeParameters>
+<portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setCommonUrls("","${advancedSearchUrl}");
-				setUrls("${autocompletionUrl}");
+				setUrls("${ajaxEacCpfSearchUrl}","${autocompletionUrl}");
 				init();
 			});
 		</script>
@@ -55,6 +57,7 @@
 
 <form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
+				<form:hidden id="mode" path="mode" />
 				<div id="simpleAndAdvancedSearch">
 					<div id="advancedSearch">
 						<h2 id="advancedSearchOptionsHeader" class="blockHeader">
@@ -134,85 +137,45 @@
 					</div>
 				</div>				
 </form:form>
-<div>
-<c:if test="${!empty results}">
-<h2 id="searchResultsHeader">
-	<fmt:message key="advancedsearch.text.results" />:
-</h2>
-<div class="results">
-		<div class="tab_header">
-			<div id="tabHeaderContent">
-				
-						<div id="numberOfResults">
-							<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
-							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}" numberFormat="${numberFormat}" />
-						</div>
-						<div id="top-paging" class="paging">
-						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
-								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
-						</div>
-
-			</div>
-		</div>
-			<div id="resultsContainer">
-			<div id="refinements">
-				Facets comes here
-				&nbsp;	
-			</div>
-			<div  id="searchresultsContainer">	
-				<div id="searchOrder">
-					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${eacCpfSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
-					|
-					sdfadf
-					|
-					asdf		
+			<c:if test="${eacCpfSearch.mode == 'new'}">
+				<c:set var="showResults" value="hidden" />
+			</c:if>
+			<div id="searchResultsContainer" class="${showResults }">
+				<div class="suggestionSearch" id="suggestionSearch">
+					<c:if test="${results.showSuggestions}">
+						<span class="suggestionText"> <c:choose>
+								<c:when test="${results.totalNumberOfResults > 0}">
+									<fmt:message key="advancedsearch.message.suggestion.results" />
+								</c:when>
+								<c:otherwise>
+									<fmt:message key="advancedsearch.message.suggestion.noresults" />
+								</c:otherwise>
+							</c:choose>
+						</span>
+						<br />
+						<portal:autosuggestion spellCheckResponse="${results.spellCheckResponse}" styleClass="suggestionLink"
+							numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
+					</c:if>
 				</div>
-	
-		<div id="searchresultsList">	
-				<c:forEach var="result" items="${results.items}">
-					<div class="list-searchresult" id="list-searchresult-${result.id}">
-						<div class="list-searchresult-content list-searchresult-content-eac-cpf">
-						<div class="list-searchresult-header">
-								<c:choose>
-									<c:when test="${empty result.title}">
-										<c:set var="title"><fmt:message key="advancedsearch.text.notitle" /></c:set>
-										<c:set var="titleWithoutHighlighting"><fmt:message key="advancedsearch.text.notitle" /></c:set>
-										<c:set var="titleClass" value="notitle"/>
-									</c:when>
-									<c:otherwise>
-										<c:set var="title" value="${result.title}"/>
-										<c:set var="titleWithoutHighlighting" value="${result.titleWithoutHighlighting}"/>
-										<c:set var="titleClass" value=""/>								
-									</c:otherwise>
-								</c:choose>
-
-								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
-									href="${friendlyUrl}">${title}
-								</a>
-								<c:if test="${!empty result.alterdate}">
-									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
-								</c:if>																					
-							</div>
-							<div class="scopecontent">${result.description}</div>
-
-						<div class="list-searchresult-context">
-								<div class="left">
-									<div class="other"><span class="subtitle">Places:</span>${result.places}</div>
-									<div class="other"><span class="subtitle">Occupation:</span>${result.occupation}</div>								
-									<div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.id}</div>
-									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
-								</div>						
-						</div>							
+				<h2 id="searchResultsHeader">
+					<fmt:message key="advancedsearch.text.results" />:
+				</h2>
+		
+				<div id="tabs">
+					<div id="saveSearch">
+						 <div id="saveSearchButton" class="linkButton">
+							<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
 						</div>
+						<div id="answerMessageSavedSearch"></div>
 					</div>
-					</c:forEach>
+					<div id="tabs-list">
+						<c:if test="${eacCpfSearch.mode != 'new'}">
+						<jsp:include page="results.jsp" />
+					</c:if>
+					</div>
 				</div>
 			</div>
-</div>
-</div>
-</c:if>
-</div>
-
+			<div id="loadingText" class="hidden"><fmt:message key="advancedsearch.message.loading"/>
+			</div>
 </div>
 </div>
