@@ -1,10 +1,35 @@
 package eu.archivesportaleurope.portal.common;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
 import com.liferay.portal.kernel.util.PropsUtil;
 
-public class PropertiesUtil {
+import eu.apenet.commons.utils.APEnetUtilities;
 
-	public static String get(String key){
-		return PropsUtil.get(key);
+public class PropertiesUtil {
+	private static final Logger LOGGER = Logger.getLogger(PropertiesUtil.class);
+
+	private static Properties defaultProperties = new Properties();
+	static {
+		try {
+			InputStream inputStream = PropertiesUtil.class.getClassLoader()
+		        .getResourceAsStream("/default.properties");
+	    	defaultProperties.load(inputStream);
+		}catch (IOException ioe){
+			LOGGER.error(APEnetUtilities.generateThrowableLog(ioe));
+		}
 	}
+	
+	public static String get(String key){
+		String value = PropsUtil.get(key);
+		if (value == null){
+			value =  defaultProperties.getProperty(key);
+		}
+		return value;
+	}
+
 }
