@@ -4,7 +4,10 @@ import javax.portlet.PortletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
+import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+
 public class AbstractSearchController {
+
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
 	
@@ -44,5 +47,17 @@ public class AbstractSearchController {
 			totalNumberOfPages++;
 		}
 		results.setTotalNumberOfPages(totalNumberOfPages);
+	}
+	public String validate(AbstractSearchForm abstractSearchForm) {
+		if (StringUtils.isNotBlank(abstractSearchForm.getFromdate())
+				&& !AdvancedSearchUtil.isValidDate(abstractSearchForm.getFromdate())) {
+			return "search.message.IncorrectDateTyped";
+
+		}
+		if (StringUtils.isNotBlank(abstractSearchForm.getTodate())
+				&& !AdvancedSearchUtil.isValidDate(abstractSearchForm.getTodate())) {
+			return "search.message.IncorrectDateTyped";
+		}
+		return null;
 	}
 }

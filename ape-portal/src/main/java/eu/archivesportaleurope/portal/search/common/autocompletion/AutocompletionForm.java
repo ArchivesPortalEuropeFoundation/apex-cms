@@ -1,5 +1,8 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
+import java.util.List;
+
+import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 
 public class AutocompletionForm extends AbstractSearchForm {
@@ -17,6 +20,10 @@ public class AutocompletionForm extends AbstractSearchForm {
 	}
 	public void setSourceType(String sourceType) {
 		this.sourceType = sourceType;
+	}
+	@Override
+	protected List<ListFacetSettings> getDefaultListFacetSettings() {
+		return null;
 	}
 	
 }

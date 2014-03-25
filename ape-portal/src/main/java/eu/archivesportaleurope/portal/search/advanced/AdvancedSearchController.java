@@ -48,9 +48,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 
 
 	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchController.class);
-	public static final String MODE_NEW = "new";
-	public static final String MODE_NEW_SEARCH = "new-search";
-	public static final String MODE_UPDATE_SEARCH = "update-search";
+
 
 	private ResourceBundleMessageSource messageSource;
 	private SavedSearchService savedSearchService;
@@ -111,10 +109,10 @@ public class AdvancedSearchController extends AbstractSearchController{
 						advancedSearch.setPublishedToDate(publishedToDate);
 					}
 					if (eadSavedSearch.isTemplate()){
-						advancedSearch.setMode(MODE_NEW);
+						advancedSearch.setMode(AdvancedSearch.MODE_NEW);
 					}else{
 						Results results = updateCurrentSearch(request, advancedSearch);
-						advancedSearch.setMode(MODE_NEW_SEARCH);
+						advancedSearch.setMode(AdvancedSearch.MODE_NEW_SEARCH);
 						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, advancedSearch, eadSavedSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
@@ -138,7 +136,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 	@RenderMapping(params = "myaction=simpleSearch")
 	public ModelAndView search(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
 			RenderRequest request) {
-		advancedSearch.setMode(MODE_NEW_SEARCH);
+		advancedSearch.setMode(AdvancedSearch.MODE_NEW_SEARCH);
 		AnalyzeLogger.logSimpleSearch(advancedSearch);
 		Results results = performNewSearch(request, advancedSearch);
 		ModelAndView modelAndView = new ModelAndView();
@@ -153,9 +151,9 @@ public class AdvancedSearchController extends AbstractSearchController{
 	public ModelAndView searchAjax(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,
 			BindingResult bindingResult, ResourceRequest request) throws SolrServerException, ParseException {
 		Results results = null;
-		if (MODE_NEW_SEARCH.equalsIgnoreCase(advancedSearch.getMode())) {
+		if (AdvancedSearch.MODE_NEW_SEARCH.equalsIgnoreCase(advancedSearch.getMode())) {
 			results = performNewSearch(request, advancedSearch);
-		} else if (MODE_UPDATE_SEARCH.equalsIgnoreCase(advancedSearch.getMode())) {
+		} else if (AdvancedSearch.MODE_UPDATE_SEARCH.equalsIgnoreCase(advancedSearch.getMode())) {
 			results = updateCurrentSearch(request, advancedSearch);
 
 		}
@@ -324,18 +322,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 
 	}
 
-	public String validate(AdvancedSearch advancedSearch) {
-		if (StringUtils.isNotBlank(advancedSearch.getFromdate())
-				&& !AdvancedSearchUtil.isValidDate(advancedSearch.getFromdate())) {
-			return "search.message.IncorrectDateTyped";
 
-		}
-		if (StringUtils.isNotBlank(advancedSearch.getTodate())
-				&& !AdvancedSearchUtil.isValidDate(advancedSearch.getTodate())) {
-			return "search.message.IncorrectDateTyped";
-		}
-		return null;
-	}
 	protected void countOtherSearchResults(PortletRequest request, 
 			AdvancedSearch advancedSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(advancedSearch, request);

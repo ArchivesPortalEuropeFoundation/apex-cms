@@ -16,7 +16,9 @@ public enum FacetType {
 	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
 	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),
 	START_DATE(SolrFields.START_DATE, true),
-	END_DATE(SolrFields.END_DATE, true);
+	END_DATE(SolrFields.END_DATE, true),
+	EAC_CPF_PLACES(SolrFields.EAC_CPF_FACET_PLACES,false),
+	EAC_CPF_OCCUPATION(SolrFields.EAC_CPF_FACET_OCCUPATION,false);;
 	private final String name;
 	private final String refinementField;
 	private final boolean multiSelect;
@@ -31,8 +33,12 @@ public enum FacetType {
 		this.hasId = false;
 		this.valueIsKey = false;
 		this.prefix = null;
-		this.date = true;
-		this.multiSelect = false;
+		this.date = isDateType;
+		if (date){
+			this.multiSelect = false;
+		}else {
+			this.multiSelect = true;
+		}
 	}
 	
 	private FacetType(String name, String refinementField, boolean hasId, boolean valueIsKey, String prefix){
@@ -83,16 +89,26 @@ public enum FacetType {
         }
         return null;
     }
-    public static List<ListFacetSettings> getDefaultListFacetSettings(){
+    public static List<ListFacetSettings> getDefaultEadListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
-        for(FacetType facet : FacetType.values()){
-        	if (!FOND.equals(facet)){
-        		result.add(new ListFacetSettings(facet));
-        	}
-        } 	
+    	result.add(new ListFacetSettings(FacetType.COUNTRY));
+    	result.add(new ListFacetSettings(FacetType.AI));
+    	result.add(new ListFacetSettings(FacetType.TYPE));
+    	result.add(new ListFacetSettings(FacetType.DAO));
+    	result.add(new ListFacetSettings(FacetType.ROLEDAO));
+    	result.add(new ListFacetSettings(FacetType.DATE_TYPE));    	
+    	result.add(new ListFacetSettings(FacetType.START_DATE));
+    	result.add(new ListFacetSettings(FacetType.END_DATE));     	
         return result;
     }
-
+    public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
+    	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION));	
+    	result.add(new ListFacetSettings(FacetType.START_DATE));
+    	result.add(new ListFacetSettings(FacetType.END_DATE));      	
+        return result;
+    }
 	public boolean isHasId() {
 		return hasId;
 	}

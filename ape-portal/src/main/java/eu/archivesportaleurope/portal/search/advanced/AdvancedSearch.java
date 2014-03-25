@@ -10,18 +10,16 @@ import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class AdvancedSearch extends AbstractSearchForm{
-	public static final String LIST_SEPARATOR = ",";
+
 	public static final String VIEW_HIERARCHY = "hierarchy";
 	public static final String METHOD_OPTIONAL = "optional";
-	public static final String MODE_NEW = "new";
-	public static final String MODE_NEW_SEARCH = "new-search";
-	public static final String MODE_UPDATE_SEARCH = "update-search";
+
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8762103831853635524L;
-	private String mode = MODE_NEW;
+
 	private String view;
 	private String element = "0";
 	private String typedocument = "";
@@ -39,26 +37,9 @@ public class AdvancedSearch extends AbstractSearchForm{
 	private String type;
 	private String level;
 	private String dateType;
-	private String order;
-	private String startdate;
-	private String enddate;
-	private String facetField;
-	private String facetOffset;
 
-	private String keyPrefix;
-	private String valueIsKey;
-	private String hasId;
-	private List<ListFacetSettings> facetSettingsList = FacetType.getDefaultListFacetSettings();
+
 	private String selectedNodes;
-	private String publishedFromDate;
-	private String publishedToDate;
-	public String getMode() {
-		return mode;
-	}
-
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
 
 
 	public String getView() {
@@ -215,45 +196,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 		this.dateType = dateType;
 	}
 
-	public String getOrder() {
-		return order;
-	}
 
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
-	public String getStartdate() {
-		return startdate;
-	}
-
-	public void setStartdate(String startdate) {
-		this.startdate = startdate;
-	}
-
-	public String getEnddate() {
-		return enddate;
-	}
-
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
-	}
-
-	public String getFacetField() {
-		return facetField;
-	}
-
-	public void setFacetField(String facetField) {
-		this.facetField = facetField;
-	}
-
-	public String getFacetOffset() {
-		return facetOffset;
-	}
-
-	public void setFacetOffset(String facetOffset) {
-		this.facetOffset = facetOffset;
-	}
 
 	public String getElement() {
 		return element;
@@ -282,77 +225,9 @@ public class AdvancedSearch extends AbstractSearchForm{
 	}
 
 
-
-
-
-	public String getKeyPrefix() {
-		return keyPrefix;
-	}
-
-	public void setKeyPrefix(String keyPrefix) {
-		this.keyPrefix = keyPrefix;
-	}
-
-	public String getValueIsKey() {
-		return valueIsKey;
-	}
-
-	public void setValueIsKey(String valueIsKey) {
-		this.valueIsKey = valueIsKey;
-	}
-
-	public String getHasId() {
-		return hasId;
-	}
-
-	public void setHasId(String hasId) {
-		this.hasId = hasId;
-	}
-
-
-	public String getFacetSettings() {
-		String result = null;
-		for (ListFacetSettings facetSettings: facetSettingsList){
-			if (result == null){
-				result = facetSettings.toString();
-			}else {
-				result += LIST_SEPARATOR  + facetSettings;
-			}
-		}
-		return result;
-	}
-
-	public void setFacetSettings(String facetSettings) {
-		if (StringUtils.isNotBlank(facetSettings)){
-			facetSettingsList.clear();
-			String[] temp = facetSettings.split(LIST_SEPARATOR);
-			for (String tempItem: temp){
-				facetSettingsList.add(new ListFacetSettings(tempItem));
-			}
-		}else {
-			facetSettingsList = FacetType.getDefaultListFacetSettings();
-		}
-	}
-	public List<ListFacetSettings> getFacetSettingsList(){
-		return facetSettingsList;
-	}
-
-
-
-	public String getPublishedFromDate() {
-		return publishedFromDate;
-	}
-
-	public void setPublishedFromDate(String publishedFromDate) {
-		this.publishedFromDate = publishedFromDate;
-	}
-
-	public String getPublishedToDate() {
-		return publishedToDate;
-	}
-
-	public void setPublishedToDate(String publishedToDate) {
-		this.publishedToDate = publishedToDate;
+	@Override
+	protected List<ListFacetSettings> getDefaultListFacetSettings() {
+		return FacetType.getDefaultEadListFacetSettings();
 	}
 
 

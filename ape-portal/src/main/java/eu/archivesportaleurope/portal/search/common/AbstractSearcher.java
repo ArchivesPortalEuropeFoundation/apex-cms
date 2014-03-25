@@ -188,6 +188,8 @@ public abstract class AbstractSearcher {
 		if (StringUtils.isNotBlank(term)){
 			term = term.replaceAll(" - ", " \"-\" " );
 			term = term.replaceAll(" \\+ ", " \"+\" " );
+			term = term.replaceAll("(", "\\(" );
+			term = term.replaceAll(")", "\\)" );
 		}
 		return term;
 	}
@@ -244,9 +246,9 @@ public abstract class AbstractSearcher {
 		}
 		long startTime = System.currentTimeMillis();
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
-		if (LOGGER.isDebugEnabled()){
+		if (LOGGER.isInfoEnabled()){
 			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}
