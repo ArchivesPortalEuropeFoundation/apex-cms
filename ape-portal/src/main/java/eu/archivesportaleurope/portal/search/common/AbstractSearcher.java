@@ -23,6 +23,7 @@ import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 public abstract class AbstractSearcher {
 	public static final String OR = " OR ";
 	protected static final String WHITESPACE = " ";
+	private static final String ESCAPING_CHARACTER= "\\\\";
 	private static final String QUERY_TYPE_LIST = "list";
 	protected static final String COLON = ":";
 	protected final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -170,14 +171,14 @@ public abstract class AbstractSearcher {
 		if (list != null && list.size() > 0) {
 			
 			if (list.size() == 1) {
-				result = list.get(0);
+				result = escapeSolrCharactersInRefinements(list.get(0));
 			} else {
 				result = "(";
 				for (int i = 0; i < list.size(); i++) {
 					if (i == list.size() - 1) {
-						result+=   list.get(i)  + ")";
+						result+=   escapeSolrCharactersInRefinements(list.get(i))  + ")";
 					} else {
-						result +=  list.get(i)  + OR;
+						result +=  escapeSolrCharactersInRefinements(list.get(i))  + OR;
 					}
 				}
 			}
@@ -185,14 +186,38 @@ public abstract class AbstractSearcher {
 		return result;
 	}
 	public static String escapeSolrCharacters(String term){
-		if (StringUtils.isNotBlank(term)){
-			term = term.replaceAll(" - ", " \"-\" " );
-			term = term.replaceAll(" \\+ ", " \"+\" " );
-			term = term.replaceAll("(", "\\(" );
-			term = term.replaceAll(")", "\\)" );
-		}
+//		if (StringUtils.isNotBlank(term)){
+//			term = term.replaceAll(" - ", " \"-\" " );
+//			term = term.replaceAll(" \\+ ", " \"+\" " );
+//		}
+		term = escapeSolrCharactersInRefinements(term);
 		return term;
 	}
+	public static String escapeSolrCharactersInRefinements(String refinement){
+		if (StringUtils.isNotBlank(refinement)){
+			refinement = refinement.replaceAll(ESCAPING_CHARACTER, ESCAPING_CHARACTER + ESCAPING_CHARACTER);
+			refinement = refinement.replaceAll("-", ESCAPING_CHARACTER + "-");
+			refinement = refinement.replaceAll("\\+", ESCAPING_CHARACTER + "+");
+			refinement = refinement.replaceAll("&&", ESCAPING_CHARACTER + "&&");	
+			refinement = refinement.replaceAll("\\|\\|", ESCAPING_CHARACTER + "||");		
+			refinement = refinement.replaceAll("!", ESCAPING_CHARACTER + "!");
+			refinement = refinement.replaceAll("\\(", ESCAPING_CHARACTER + "(");	
+			refinement = refinement.replaceAll("\\)", ESCAPING_CHARACTER + ")");
+			refinement = refinement.replaceAll("\\{", ESCAPING_CHARACTER + "{");	
+			refinement = refinement.replaceAll("\\}", ESCAPING_CHARACTER + "}");	
+			refinement = refinement.replaceAll("\\[", ESCAPING_CHARACTER + "[");	
+			refinement = refinement.replaceAll("\\]", ESCAPING_CHARACTER + "]");	
+			refinement = refinement.replaceAll("\\^", ESCAPING_CHARACTER + "^");	
+			refinement = refinement.replaceAll("\"", ESCAPING_CHARACTER + "\"");	
+			refinement = refinement.replaceAll("~", ESCAPING_CHARACTER + "~");
+			refinement = refinement.replaceAll("\\*", ESCAPING_CHARACTER + "*");
+			refinement = refinement.replaceAll("\\?", ESCAPING_CHARACTER + "?");
+			refinement = refinement.replaceAll(":", ESCAPING_CHARACTER + ":");
+
+		}
+		return refinement;
+	}
+	
 	protected QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType, boolean needSuggestions)
 			throws SolrServerException {
 		query.setQuery(escapeSolrCharacters(solrQueryParameters.getTerm()));
