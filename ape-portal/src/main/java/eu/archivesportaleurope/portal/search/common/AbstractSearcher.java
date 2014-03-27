@@ -186,36 +186,37 @@ public abstract class AbstractSearcher {
 		return result;
 	}
 	public static String escapeSolrCharacters(String term){
-//		if (StringUtils.isNotBlank(term)){
-//			term = term.replaceAll(" - ", " \"-\" " );
-//			term = term.replaceAll(" \\+ ", " \"+\" " );
-//		}
-		term = escapeSolrCharactersInRefinements(term);
+		if (StringUtils.isNotBlank(term)){
+			term = term.replaceAll(" - ", " \"-\" " );
+			term = term.replaceAll(" \\+ ", " \"+\" " );
+		}
+		//term = escapeSolrCharactersInRefinements(term);
 		return term;
 	}
 	public static String escapeSolrCharactersInRefinements(String refinement){
-		if (StringUtils.isNotBlank(refinement)){
-			refinement = refinement.replaceAll(ESCAPING_CHARACTER, ESCAPING_CHARACTER + ESCAPING_CHARACTER);
-			refinement = refinement.replaceAll("-", ESCAPING_CHARACTER + "-");
-			refinement = refinement.replaceAll("\\+", ESCAPING_CHARACTER + "+");
-			refinement = refinement.replaceAll("&&", ESCAPING_CHARACTER + "&&");	
-			refinement = refinement.replaceAll("\\|\\|", ESCAPING_CHARACTER + "||");		
-			refinement = refinement.replaceAll("!", ESCAPING_CHARACTER + "!");
-			refinement = refinement.replaceAll("\\(", ESCAPING_CHARACTER + "(");	
-			refinement = refinement.replaceAll("\\)", ESCAPING_CHARACTER + ")");
-			refinement = refinement.replaceAll("\\{", ESCAPING_CHARACTER + "{");	
-			refinement = refinement.replaceAll("\\}", ESCAPING_CHARACTER + "}");	
-			refinement = refinement.replaceAll("\\[", ESCAPING_CHARACTER + "[");	
-			refinement = refinement.replaceAll("\\]", ESCAPING_CHARACTER + "]");	
-			refinement = refinement.replaceAll("\\^", ESCAPING_CHARACTER + "^");	
-			refinement = refinement.replaceAll("\"", ESCAPING_CHARACTER + "\"");	
-			refinement = refinement.replaceAll("~", ESCAPING_CHARACTER + "~");
-			refinement = refinement.replaceAll("\\*", ESCAPING_CHARACTER + "*");
-			refinement = refinement.replaceAll("\\?", ESCAPING_CHARACTER + "?");
-			refinement = refinement.replaceAll(":", ESCAPING_CHARACTER + ":");
-
-		}
-		return refinement;
+		return escapeSolrCharacters(refinement);
+//		if (StringUtils.isNotBlank(refinement)){
+//			refinement = refinement.replaceAll(ESCAPING_CHARACTER, ESCAPING_CHARACTER + ESCAPING_CHARACTER);
+//			refinement = refinement.replaceAll("-", ESCAPING_CHARACTER + "-");
+//			refinement = refinement.replaceAll("\\+", ESCAPING_CHARACTER + "+");
+//			refinement = refinement.replaceAll("&&", ESCAPING_CHARACTER + "&&");	
+//			refinement = refinement.replaceAll("\\|\\|", ESCAPING_CHARACTER + "||");		
+//			refinement = refinement.replaceAll("!", ESCAPING_CHARACTER + "!");
+//			refinement = refinement.replaceAll("\\(", ESCAPING_CHARACTER + "(");	
+//			refinement = refinement.replaceAll("\\)", ESCAPING_CHARACTER + ")");
+//			refinement = refinement.replaceAll("\\{", ESCAPING_CHARACTER + "{");	
+//			refinement = refinement.replaceAll("\\}", ESCAPING_CHARACTER + "}");	
+//			refinement = refinement.replaceAll("\\[", ESCAPING_CHARACTER + "[");	
+//			refinement = refinement.replaceAll("\\]", ESCAPING_CHARACTER + "]");	
+//			refinement = refinement.replaceAll("\\^", ESCAPING_CHARACTER + "^");	
+//			refinement = refinement.replaceAll("\"", ESCAPING_CHARACTER + "\"");	
+//			refinement = refinement.replaceAll("~", ESCAPING_CHARACTER + "~");
+//			refinement = refinement.replaceAll("\\*", ESCAPING_CHARACTER + "*");
+//			refinement = refinement.replaceAll("\\?", ESCAPING_CHARACTER + "?");
+//			refinement = refinement.replaceAll(":", ESCAPING_CHARACTER + ":");
+//
+//		}
+//		return refinement;
 	}
 	
 	protected QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType, boolean needSuggestions)
@@ -271,9 +272,9 @@ public abstract class AbstractSearcher {
 		}
 		long startTime = System.currentTimeMillis();
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
-		if (LOGGER.isInfoEnabled()){
+		if (LOGGER.isDebugEnabled()){
 			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
 	}

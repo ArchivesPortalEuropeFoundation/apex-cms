@@ -70,7 +70,15 @@ public final class AdvancedSearchUtil {
 			solrQueryParameters.getAndParameters().put(facet.getRefinementFieldWithLabel(), list);
 		}
 	}
-
+	public static void addTextRefinement(SolrQueryParameters solrQueryParameters, FacetType facet, List<String> toBeAdded) {
+		if (toBeAdded != null && toBeAdded.size() > 0) {
+			List<String> textRefinements = new ArrayList<String>();
+			for (String text: toBeAdded){
+				textRefinements.add("\"" + text + "\"");
+			}
+			solrQueryParameters.getAndParameters().put(facet.getRefinementFieldWithLabel(), textRefinements);
+		}
+	}
 	public static void addRefinement(SolrQueryParameters solrQueryParameters, FacetType facet, List<String> toBeAdded) {
 		if (toBeAdded != null && toBeAdded.size() > 0) {
 			// solrQueryParameters.getOrParameters().remove(facet.getRefinementField());
