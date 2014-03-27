@@ -45,11 +45,7 @@ function searchOnSuggestion(value) {
 	$("#searchTerms").val(value);
 	performNewSearch();
 }
-function updateSourceTabs(){
-	$("#sourceTabs").empty();
-	$("#sourceTabs").html($("#NEWsourceTabs").html());
-	$("#NEWsourceTabs").remove();
-}
+
 function updateSuggestions() {
 	$("#suggestionSearch").empty();
 	$("#suggestionSearch").html($("#NEWsuggestionSearch").html());

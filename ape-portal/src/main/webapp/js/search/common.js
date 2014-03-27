@@ -7,6 +7,11 @@ function setCommonUrls(nSUrl,eadSUrl) {
 function initCommon() {
 	initCommonSearchOptionsHandlers();
 }
+function updateSourceTabs(){
+	$("#sourceTabs").empty();
+	$("#sourceTabs").html($("#NEWsourceTabs").html());
+	$("#NEWsourceTabs").remove();
+}
 function changeSearch(type){
 	var term = $("#searchTerms").val();
 	var newForm = $("<form action='' method='POST'/>");
@@ -132,7 +137,7 @@ function removeRefinement(fieldName, fieldValue) {
 		var first = true;
 		for ( var i in ids) {
 			var id = ids[i];
-			if (id == fieldValueToCompare) {
+			if (id == fieldValue) {
 
 			} else {
 				if (first) {
@@ -171,7 +176,7 @@ function addRefinement(fieldName, fieldValue, longDescription) {
 	if (alreadyExist.length == 0) {
 		var escapedLongDescription = longDescription.replace("'", "&#039");
 		var addRemoveRefinement = "<li id='" + fieldName + "_" + newFieldValue + "'><a title='" + escapedLongDescription
-				+ "' href=\"javascript:removeRefinement('" + fieldName + "','" + newFieldValue + "')\">"
+				+ "' href=\"javascript:removeRefinement('" + fieldName + "','" + fieldValue + "')\">"
 				+ escapedLongDescription + "<span class='close-icon'></span></a></li>";
 		updateCurrentSearchResults(addRemoveRefinement);
 	}
