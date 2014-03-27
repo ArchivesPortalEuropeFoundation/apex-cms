@@ -23,20 +23,21 @@ import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 /**
- * 
+ *
  * This is preview ead controller
- * 
+ *
  * @author bverhoef
- * 
+ *
  */
 @Controller(value = "displayPreviewController")
 @RequestMapping(value = "VIEW")
 public class DisplayPreviewContoller {
 
 	/**
-	 * 
+	 *
 	 */
 	private final static Logger LOGGER = Logger.getLogger(DisplayPreviewContoller.class);
 
@@ -71,7 +72,7 @@ public class DisplayPreviewContoller {
 						Ead ead = eadContent.getEad();
 						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
 						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycodeForUrl());
-						modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
+						modelAndView.getModelMap().addAttribute("eadid", PortalDisplayUtil.restoreSpecialUrlCharactersInEadid(ead.getEadid()));
 						modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 						return modelAndView;
 					}else {
@@ -79,7 +80,7 @@ public class DisplayPreviewContoller {
 					}
 				}
 
-			} 
+			}
 		}catch (NotExistInDatabaseException e){
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");

@@ -31,11 +31,11 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
- * 
+ *
  * This is display ead controller
- * 
+ *
  * @author bverhoef
- * 
+ *
  */
 @Controller(value = "displayEadController")
 @RequestMapping(value = "VIEW")
@@ -67,16 +67,16 @@ public class DisplayEadContoller {
 		ModelAndView modelAndView = null;
 		try {
 			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
-			
+
 			modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
-		}catch (NotExistInDatabaseException e) { 
+		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
 			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
 
 		}
 		if (modelAndView == null){
-			modelAndView = new ModelAndView(); 
+			modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
 		}
@@ -114,7 +114,7 @@ public class DisplayEadContoller {
 
 				}
 				if (ead == null){
-					
+
 				}
 			}
 
@@ -209,7 +209,7 @@ public class DisplayEadContoller {
 				XmlType xmlType = XmlType.getEadType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
+				modelAndView.getModelMap().addAttribute("eadid", PortalDisplayUtil.restoreSpecialUrlCharactersInEadid(ead.getEadid()));
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + ead.getId());
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
