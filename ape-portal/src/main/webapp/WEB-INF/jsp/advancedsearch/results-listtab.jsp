@@ -78,7 +78,7 @@
 				<facets:facets-default facetContainers="${results.facetContainers}"/>
 				&nbsp;	
 			</div>
-			<div  id="searchresultsContainer">	
+			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
 					<searchresults:order currentValue="${advancedSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />

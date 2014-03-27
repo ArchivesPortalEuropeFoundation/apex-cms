@@ -113,14 +113,12 @@
 				<facets:facets-default facetContainers="${results.facetContainers}"/>
 				&nbsp;	
 			</div>
-			<div  id="searchresultsContainer">	
+			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
 					<searchresults:order currentValue="${eacCpfSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
 					|
-					sdfadf
-					|
-					asdf		
+					<searchresults:order currentValue="${eacCpfSearch.order}" value="startdate" key="advancedsearch.text.date" />	
 				</div>
 	
 		<div id="searchresultsList">	
@@ -161,6 +159,10 @@
 						</div>
 					</div>
 					</c:forEach>
+				</div>
+				<div id="bottom-paging" class="paging">
+					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 				</div>
 			</div>
 </div>
