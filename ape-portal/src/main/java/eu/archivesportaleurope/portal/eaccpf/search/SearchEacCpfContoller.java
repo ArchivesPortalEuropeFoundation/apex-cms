@@ -168,7 +168,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
-			countOtherSearchResults(request, eacCpfSearch, results);
+
 		}
 		return results;
 	}
@@ -208,7 +208,9 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	protected void countOtherSearchResults(PortletRequest request, 
 			EacCpfSearch eacCpfSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eacCpfSearch, request);
-		results.setEacCpfNumberOfResults(results.getTotalNumberOfResults());
-		results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
+		if (solrQueryParameters != null){ 
+			results.setEacCpfNumberOfResults(results.getTotalNumberOfResults());
+			results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
+		}
 	}
 }

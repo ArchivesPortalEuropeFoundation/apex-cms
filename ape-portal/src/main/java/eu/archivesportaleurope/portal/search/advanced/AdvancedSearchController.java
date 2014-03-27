@@ -326,7 +326,9 @@ public class AdvancedSearchController extends AbstractSearchController{
 	protected void countOtherSearchResults(PortletRequest request, 
 			AdvancedSearch advancedSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(advancedSearch, request);
-		results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
-		results.setEadNumberOfResults(results.getTotalNumberOfResults());
+		if (solrQueryParameters != null){ 
+			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
+			results.setEadNumberOfResults(results.getTotalNumberOfResults());
+		}
 	}
 }

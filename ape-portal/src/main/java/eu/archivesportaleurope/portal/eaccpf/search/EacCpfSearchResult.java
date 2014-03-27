@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.eaccpf.search;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,12 +57,12 @@ public class EacCpfSearchResult extends SearchResult{
 		}
 		this.description =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_DESCRIPTION, null));
 		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_OCCUPATION) != null){
-			String occupationWithoutEscaping = solrDocument.getFirstValue(SolrFields.EAC_CPF_OCCUPATION).toString();
+			String occupationWithoutEscaping = getMultipleValues(solrDocument.getFieldValues(SolrFields.EAC_CPF_OCCUPATION));
 			this.occupation =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, occupationWithoutEscaping);
 			this.occupation = DisplayUtils.encodeHtmlWithHighlighting(occupation);
 		}	
 		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_PLACES) != null){
-			String placesWithoutEscaping = solrDocument.getFirstValue(SolrFields.EAC_CPF_PLACES).toString();
+			String placesWithoutEscaping = getMultipleValues(solrDocument.getFieldValues(SolrFields.EAC_CPF_PLACES));
 			this.places =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, placesWithoutEscaping);
 			this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
 		}	
@@ -83,6 +85,19 @@ public class EacCpfSearchResult extends SearchResult{
 //		}
 //		if (solrDocument.getFieldValue(EadSolrFields.LEVEL) != null)
 //			this.level = solrDocument.getFieldValue(EadSolrFields.LEVEL).toString();
+	}
+	protected String getMultipleValues(Collection<Object> values){
+		String result = "";
+		Iterator<Object> valuesIterator = values.iterator();
+		while (valuesIterator.hasNext()){
+			Object value = valuesIterator.next();
+			if (valuesIterator.hasNext()){
+				result += value + " | ";
+			}else {
+				result += value;
+			}
+		}
+		return result;
 	}
 
 	public String getId() {
