@@ -19,4 +19,11 @@ public class PropertiesKeys {
 	public static final String APE_GOOGLEMAPS_KEY = "ape.google_maps_license";
 	public static final String APE_GOOGLEMAPS_URL = "ape.google.maps.url";
 	public static final String APE_GOOGLEMAPS_JSAPI = "ape.google.maps.jsapi";
+	public static final String APE_GOOGLEMAPS_FOCUS_ON_EUROPE = "ape.google.maps.focus";
+	
+	public static final String APE_GOOGLEMAPS_CENTER_SOUTHWEST_LATITUDE = "ape.google.maps.center.southwest.latitude";
+	public static final String APE_GOOGLEMAPS_CENTER_SOUTHWEST_LONGITUDE = "ape.google.maps.center.southwest.longitude";
+	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LATITUDE = "ape.google.maps.center.northeast.latitude";
+	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LONGITUDE = "ape.google.maps.center.northeast.longitude";
+
 }

@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.directory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,7 +25,6 @@ import com.google.code.geocoder.model.GeocoderResult;
 import com.google.code.geocoder.model.GeocoderStatus;
 import com.google.code.geocoder.model.LatLng;
 import com.google.code.geocoder.model.LatLngBounds;
-import com.liferay.portal.kernel.util.PropsUtil;
 
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
@@ -37,6 +35,8 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 
@@ -52,6 +52,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
 	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
 	private static final String NO_LINK = "\"noLink\": true";
+	private static final String EUROPE = "Europe";
 	
 	@ResourceMapping(value = "directoryTree")
 	public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
@@ -104,7 +105,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(START_ITEM);
 		addTitle(builder, navigationTree.getResourceBundleSource().getString("directory.text.directory"),
 				navigationTree.getResourceBundleSource().getLocale());
-		addGoogleMapsAddress(builder, "Europe");
+		addGoogleMapsAddress(builder, EUROPE);
 		builder.append(COMMA);
 		addExpand(builder);
 		builder.append(COMMA);
@@ -401,12 +402,55 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		} else if (countryCode != null && !countryCode.isEmpty()) {
 			// Call the method to add the bounds for the country.
 			builder.append(this.buildCountryBounds(countryCode));
+		}else{
+			//To know if map must be focused in Europe
+			String focusOnEurope = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_FOCUS_ON_EUROPE);
+				
+			//To get Map bounds to fit the map in Europe
+			String southwestLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_SOUTHWEST_LATITUDE);
+			String southwestLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_SOUTHWEST_LONGITUDE);
+			String northeastLatitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_NORTHEAST_LATITUDE);
+			String northeastLongitude = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_CENTER_NORTHEAST_LONGITUDE);
+			if(southwestLatitude!=null && southwestLongitude!=null && northeastLatitude!=null && northeastLongitude!=null){
+				if(focusOnEurope.compareTo("true")==0){
+					// Call the method to add the bounds for Europe.
+					builder.append(this.centerMapBuilder(southwestLatitude.toString(),southwestLongitude.toString(),northeastLatitude.toString(),northeastLongitude.toString()));
+				}
+			}else{
+				// bounds to the markers
+			}
 		}
 		
 		builder.append(END_ITEM);
 		return builder;
 	}
 	
+	private StringBuilder centerMapBuilder(String southwestLatitude, String southwestLongitude,
+			String northeastLatitude, String northeastLongitude) {
+		StringBuilder builder = new StringBuilder();
+		// Build bounds node.
+		builder.append(COMMA);
+		builder.append("\"bounds\":");
+
+		builder.append(START_ARRAY);
+		// Build southwest node.
+		builder.append(START_ITEM);
+		builder.append("\"latitude\":\"" + southwestLatitude + "\"");
+		builder.append(COMMA);
+		builder.append("\"longitude\":\"" + southwestLongitude + "\"");
+		builder.append(END_ITEM);
+
+		// Build northeast node.
+		builder.append(COMMA);
+		builder.append(START_ITEM);
+		builder.append("\"latitude\":\"" + northeastLatitude + "\"");
+		builder.append(COMMA);
+		builder.append("\"longitude\":\"" + northeastLongitude + "\"");
+		builder.append(END_ITEM);
+		builder.append(END_ARRAY);
+		return builder;
+	}
+
 	private StringBuilder buildNode(Coordinates repo){
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ITEM);
@@ -517,60 +561,50 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		
 		if (countriesList != null && !countriesList.isEmpty()) {
 			String selectedCountryName = countriesList.get(0).getCname();
+			builder.append(this.mapBuilder(selectedCountryName));
+		}
+		return builder;
+	}
+	
+	private StringBuilder mapBuilder(String location){
+		StringBuilder builder = new StringBuilder();
+		// Try to recover the coordinates to bound.
+		Geocoder geocoder = new Geocoder();
 
-			// Try to recover the coordinates to bound.
-			Geocoder geocoder = new Geocoder();
+		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).getGeocoderRequest();
+		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
 
-			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(selectedCountryName).getGeocoderRequest();
-			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+		if (geocoderResponse.getStatus().equals(GeocoderStatus.OK)) {
+			List<GeocoderResult> geocoderResultList = geocoderResponse.getResults();
 
-			if (geocoderResponse.getStatus().equals(GeocoderStatus.OK)) {
-				List<GeocoderResult> geocoderResultList = geocoderResponse.getResults();
+			// Always recover the first result.
+			if (geocoderResultList.size() > 0) {
+				GeocoderResult geocoderResult = geocoderResultList.get(0);
+	
+				// Get Geometry Object.
+				GeocoderGeometry geocoderGeometry = geocoderResult.getGeometry();
+				// Get Bounds Object.
+				LatLngBounds latLngBounds = geocoderGeometry.getBounds();
+	
+				// Get southwest bound.
+				LatLng southwestLatLng = latLngBounds.getSouthwest();
+				// Get southwest latitude.
+				Double southwestLatitude = southwestLatLng.getLat().doubleValue();
+				// Get southwest longitude.
+				Double southwestLongitude = southwestLatLng.getLng().doubleValue();
+	
+				// Get northeast bound.
+				LatLng northeastLatLng = latLngBounds.getNortheast();
+				// Get northeast latitude.
+				Double northeastLatitude = northeastLatLng.getLat().doubleValue();
+				// Get northeast longitude.
+				Double northeastLongitude = northeastLatLng.getLng().doubleValue();
+	
+				builder.append(this.centerMapBuilder(southwestLatitude.toString(),
+						southwestLongitude.toString(),
+						northeastLatitude.toString(),
+						northeastLongitude.toString()));
 
-				// Always recover the first result.
-				if (geocoderResultList.size() > 0) {
-					GeocoderResult geocoderResult = geocoderResultList.get(0);
-
-					// Get Geometry Object.
-					GeocoderGeometry geocoderGeometry = geocoderResult.getGeometry();
-					// Get Bounds Object.
-					LatLngBounds latLngBounds = geocoderGeometry.getBounds();
-
-					// Get southwest bound.
-					LatLng southwestLatLng = latLngBounds.getSouthwest();
-					// Get southwest latitude.
-					Double southwestLatitude = southwestLatLng.getLat().doubleValue();
-					// Get southwest longitude.
-					Double southwestLongitude = southwestLatLng.getLng().doubleValue();
-
-					// Get northeast bound.
-					LatLng northeastLatLng = latLngBounds.getNortheast();
-					// Get northeast latitude.
-					Double northeastLatitude = northeastLatLng.getLat().doubleValue();
-					// Get northeast longitude.
-					Double northeastLongitude = northeastLatLng.getLng().doubleValue();
-
-					// Build bounds node.
-					builder.append(COMMA);
-					builder.append("\"bounds\":");
-
-					builder.append(START_ARRAY);
-					// Build southwest node.
-					builder.append(START_ITEM);
-					builder.append("\"latitude\":\"" + southwestLatitude + "\"");
-					builder.append(COMMA);
-					builder.append("\"longitude\":\"" + southwestLongitude + "\"");
-					builder.append(END_ITEM);
-
-					// Build northeast node.
-					builder.append(COMMA);
-					builder.append(START_ITEM);
-					builder.append("\"latitude\":\"" + northeastLatitude + "\"");
-					builder.append(COMMA);
-					builder.append("\"longitude\":\"" + northeastLongitude + "\"");
-					builder.append(END_ITEM);
-					builder.append(END_ARRAY);
-				}
 			}
 		}
 		return builder;
