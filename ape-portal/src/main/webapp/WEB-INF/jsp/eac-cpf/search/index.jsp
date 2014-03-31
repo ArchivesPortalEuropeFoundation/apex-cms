@@ -164,7 +164,7 @@
 				<div id="tabs">
 					<div id="saveSearch">
 						 <div id="saveSearchButton" class="linkButton">
-							<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+							<a href="javascript:alert('Not implemented yet')"><fmt:message key="advancedsearch.text.savesearch" /></a>
 						</div>
 						<div id="answerMessageSavedSearch"></div>
 					</div>
