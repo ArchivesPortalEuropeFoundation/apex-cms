@@ -67,11 +67,7 @@
 							<table id="advancedsearchCriteria">
 								<tr>
 									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" /></label></td>
-									<td colspan="3"><form:select path="element" id="element" tabindex="6">
-											<form:option value="0">
-												<fmt:message key="advancedsearch.text.noselection" />
-											</form:option>
-										</form:select></td>
+									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eacCpfSearch.elementValues }"/></td>
 								</tr>
 								<tr>
 									<td><label for="typedocument"><fmt:message key="advancedsearch.eaccpf.text.typeofentity" /></label></td>
