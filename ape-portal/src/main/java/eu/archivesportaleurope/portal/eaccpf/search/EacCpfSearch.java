@@ -31,27 +31,30 @@ public class EacCpfSearch extends AbstractSearchForm {
 		return country;
 	}
 
-	// public List<String> getCountryList(){
-	// if (StringUtils.isNotBlank(country)){
-	// return Arrays.asList(country.split(LIST_SEPARATOR));
-	// }else {
-	// return null;
-	// }
-	// }
-	// public List<String> getAiList(){
-	// if (StringUtils.isNotBlank(ai)){
-	// return Arrays.asList(ai.split(LIST_SEPARATOR));
-	// }else {
-	// return null;
-	// }
-	// }
-	// public List<String> getDateTypeList(){
-	// if (StringUtils.isNotBlank(dateType)){
-	// return Arrays.asList(dateType.split(LIST_SEPARATOR));
-	// }else {
-	// return null;
-	// }
-	// }
+	public List<String> getCountryList() {
+		if (StringUtils.isNotBlank(country)) {
+			return Arrays.asList(country.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
+
+	public List<String> getAiList(){
+	 if (StringUtils.isNotBlank(ai)){
+	 return Arrays.asList(ai.split(LIST_SEPARATOR));
+	 }else {
+	 return null;
+	 }
+	 
+	}
+
+	public List<String> getDateTypeList() {
+		if (StringUtils.isNotBlank(dateType)) {
+			return Arrays.asList(dateType.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
 	public List<String> getPlacesFacetList() {
 		if (StringUtils.isNotBlank(placesFacet)) {
 			return Arrays.asList(placesFacet.split(LIST_SEPARATOR));

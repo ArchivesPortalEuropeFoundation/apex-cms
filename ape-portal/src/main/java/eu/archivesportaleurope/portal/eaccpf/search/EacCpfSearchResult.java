@@ -31,6 +31,8 @@ public class EacCpfSearchResult extends SearchResult{
 	private String other;
 	private String places;
 	private String occupation;
+	private String ai;
+	private String aiId;
 	private SolrDocument solrDocument;
 
 	public EacCpfSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
@@ -72,9 +74,9 @@ public class EacCpfSearchResult extends SearchResult{
 //		this.fond = solrDocument.getFieldValue(EadSolrFields.TITLE_OF_FOND).toString();
 //		this.fondId = getIdFromString(this.fond);
 //		this.fond = getDescriptionFromString(this.fond);
-//		this.ai = solrDocument.getFieldValue(EadSolrFields.AI).toString();
-//		this.aiId = getIdFromString(this.ai);
-//		this.ai = getDescriptionFromString(this.ai);
+		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
+		this.aiId = getIdFromString(this.ai);
+		this.ai = getDescriptionFromString(this.ai);
 //		if (solrDocument.getFieldValue(EadSolrFields.UNITID) != null){
 //			this.unitid  = solrDocument.getFieldValue(EadSolrFields.UNITID).toString();
 //		}
@@ -162,21 +164,12 @@ public class EacCpfSearchResult extends SearchResult{
 	public String getOccupation() {
 		return occupation;
 	}
-	public String getCountry(){
-		Object country = solrDocument.getFieldValue(SolrFields.COUNTRY);
-		if (country == null){
-			return null;
-		}else {
-			return country.toString();
-		}
+	public Object getCountry(){
+		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
+		return getDescriptionFromString(country);
 	}
-	public String getAi(){
-		Object ai = solrDocument.getFieldValue(SolrFields.AI);
-		if (ai == null){
-			return null;
-		}else {
-			return ai.toString();
-		}
+	public Object getAi(){
+		return ai;
 	}
 
 

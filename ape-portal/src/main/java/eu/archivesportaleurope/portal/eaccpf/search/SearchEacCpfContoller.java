@@ -196,6 +196,8 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	}
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eacCpfSearch);
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eacCpfSearch.getCountryList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eacCpfSearch.getAiList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationFacetList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_PLACES, eacCpfSearch.getPlacesFacetList());
 		return solrQueryParameters;
