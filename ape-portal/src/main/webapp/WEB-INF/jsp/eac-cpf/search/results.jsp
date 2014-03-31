@@ -9,6 +9,7 @@
 <%@ taglib prefix="searchresults" uri="http://portal.archivesportaleurope.eu/tags/searchresults"%>
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <portlet:defineObjects />
+<portal:friendlyUrl var="friendlyUrl" type="eac-display"/>
 <script type="text/javascript">
 	$(document).ready(function() {
         initListTabHandlers();
@@ -125,6 +126,7 @@
 	
 		<div id="searchresultsList">	
 				<c:forEach var="result" items="${results.items}">
+				<portal:generateSearchWords var="encodedTerm" term="${eacCpfSearch.term}" element="${eacCpfSearch.element}"/>
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
 						<div class="list-searchresult-content list-searchresult-content-eac-cpf">
 						<div class="list-searchresult-header">
@@ -140,9 +142,16 @@
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>
-
+								<c:choose>
+									<c:when test="${empty encodedTerm}">
+										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
+									</c:when>
+									<c:otherwise>
+										<c:set var="url" value="${friendlyUrl}/${result.id}/${eacCpfSearch.element}/${encodedTerm}"/>
+									</c:otherwise>
+								</c:choose>	
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
-									href="${friendlyUrl}">${title}
+									href="${url}">${title}
 								</a>
 								<c:if test="${!empty result.alterdate}">
 									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
