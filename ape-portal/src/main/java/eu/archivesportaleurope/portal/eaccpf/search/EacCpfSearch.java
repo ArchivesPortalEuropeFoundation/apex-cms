@@ -1,7 +1,9 @@
 package eu.archivesportaleurope.portal.eaccpf.search;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -15,8 +17,8 @@ public class EacCpfSearch extends AbstractSearchForm {
 	 */
 	private static final long serialVersionUID = 1707315274413272934L;
 
-
 	private String element;
+	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String entityType;
 	private String nameType;
 	private String placesFacet;
@@ -39,13 +41,13 @@ public class EacCpfSearch extends AbstractSearchForm {
 		}
 	}
 
-	public List<String> getAiList(){
-	 if (StringUtils.isNotBlank(ai)){
-	 return Arrays.asList(ai.split(LIST_SEPARATOR));
-	 }else {
-	 return null;
-	 }
-	 
+	public List<String> getAiList() {
+		if (StringUtils.isNotBlank(ai)) {
+			return Arrays.asList(ai.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+
 	}
 
 	public List<String> getDateTypeList() {
@@ -55,6 +57,7 @@ public class EacCpfSearch extends AbstractSearchForm {
 			return null;
 		}
 	}
+
 	public List<String> getPlacesFacetList() {
 		if (StringUtils.isNotBlank(placesFacet)) {
 			return Arrays.asList(placesFacet.split(LIST_SEPARATOR));
@@ -62,6 +65,7 @@ public class EacCpfSearch extends AbstractSearchForm {
 			return null;
 		}
 	}
+
 	public List<String> getOccupationFacetList() {
 		if (StringUtils.isNotBlank(occupationFacet)) {
 			return Arrays.asList(occupationFacet.split(LIST_SEPARATOR));
@@ -69,6 +73,7 @@ public class EacCpfSearch extends AbstractSearchForm {
 			return null;
 		}
 	}
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -134,6 +139,12 @@ public class EacCpfSearch extends AbstractSearchForm {
 		this.occupationFacet = occupationFacet;
 	}
 
+	public Map<String, String> getElementValues() {
+		return elementValues;
+	}
 
+	public void setElementValues(Map<String, String> elementValues) {
+		this.elementValues = elementValues;
+	}
 
 }

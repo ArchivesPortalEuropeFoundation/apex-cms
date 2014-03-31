@@ -22,7 +22,10 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.apenet.commons.solr.SolrFields;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.contact.Contact;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
@@ -204,9 +207,14 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	}
 	
 	@ModelAttribute("eacCpfSearch")
-	public EacCpfSearch getCommandObject() {
-		return new EacCpfSearch();
-	}
+	public EacCpfSearch getCommandObject(PortletRequest portletRequest) {
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
+				portletRequest.getLocale());
+		EacCpfSearch eacCpfSearch = new EacCpfSearch();
+		eacCpfSearch.getElementValues().put("0", source.getString("advancedsearch.text.noselection"));
+		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_NAMES, source.getString("advancedsearch.eaccpf.element.name"));
+        return eacCpfSearch;
+    }
 	protected void countOtherSearchResults(PortletRequest request, 
 			EacCpfSearch eacCpfSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eacCpfSearch, request);
