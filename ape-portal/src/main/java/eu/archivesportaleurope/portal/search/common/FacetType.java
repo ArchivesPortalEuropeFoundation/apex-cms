@@ -103,8 +103,11 @@ public enum FacetType {
     }
     public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
+    	result.add(new ListFacetSettings(FacetType.COUNTRY));
+    	result.add(new ListFacetSettings(FacetType.AI));    	
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES));	
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION));	
+    	result.add(new ListFacetSettings(FacetType.DATE_TYPE));  
     	result.add(new ListFacetSettings(FacetType.START_DATE));
     	result.add(new ListFacetSettings(FacetType.END_DATE));      	
         return result;
