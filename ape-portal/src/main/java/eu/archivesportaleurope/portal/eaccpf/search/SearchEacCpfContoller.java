@@ -22,6 +22,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
@@ -143,16 +144,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		}
 		return results;
 	}
-	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
-		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eacCpfSearch, portletRequest);
-		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getFromdate(),
-				eacCpfSearch.hasExactDateSearch());
-		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getTodate(),
-				eacCpfSearch.hasExactDateSearch());
 
-		AdvancedSearchUtil.addPublishedDates(eacCpfSearch.getPublishedFromDate(), eacCpfSearch.getPublishedToDate(), solrQueryParameters);	
-		return solrQueryParameters;
-	}
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
 			EacCpfSearch eacCpfSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
@@ -196,6 +188,21 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		}
 		return results;
 	}
+	
+	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
+		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eacCpfSearch, portletRequest);
+		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getFromdate(),
+				eacCpfSearch.hasExactDateSearch());
+		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getTodate(),
+				eacCpfSearch.hasExactDateSearch());
+		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAC_CPF_FACET_ENTITY_TYPE,
+				eacCpfSearch.getEntityType());
+		solrQueryParameters.setSolrField(SolrField.getSolrField(eacCpfSearch.getElement()));
+
+		AdvancedSearchUtil.addPublishedDates(eacCpfSearch.getPublishedFromDate(), eacCpfSearch.getPublishedToDate(), solrQueryParameters);	
+		return solrQueryParameters;
+	}
+	
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eacCpfSearch);
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eacCpfSearch.getCountryList());
