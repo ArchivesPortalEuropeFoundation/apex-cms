@@ -66,20 +66,15 @@
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
 								<tr>
-									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" /></label></td>
-									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eacCpfSearch.elementValues }"/></td>
+									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" />:</label></td>
+									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eacCpfSearch.elementValues}"/></td>
 								</tr>
 								<tr>
-									<td><label for="typedocument"><fmt:message key="advancedsearch.eaccpf.text.typeofentity" /></label></td>
-									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7">
-											<form:option value="">
-												<fmt:message key="advancedsearch.text.noselection" />
-											</form:option>
-									
-										</form:select></td>
+									<td><label for="entityType"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</label></td>
+									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eacCpfSearch.entityTypeValues}"/></td>
 								</tr>
 								<tr>
-									<td><label for="typedocument"><fmt:message key="advancedsearch.eaccpf.text.typeofname" /></label></td>
+									<td><label for="nameType"><fmt:message key="advancedsearch.eaccpf.text.typeofname" />:</label></td>
 									<td colspan="3"><form:select path="nameType" id="nameType" tabindex="8">
 											<form:option value="">
 												<fmt:message key="advancedsearch.text.noselection" />
