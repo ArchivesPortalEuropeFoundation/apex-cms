@@ -31,6 +31,11 @@ public final class SolrQueryParameters {
 	public void setSolrFields(List<SolrField> solrFields) {
 		this.solrFields = solrFields;
 	}
+	public void setSolrField(SolrField solrField) {
+		if (solrField != null){
+			this.solrFields.add(solrField);
+		}
+	}
 	public String getTerm() {
 		return term;
 	}
