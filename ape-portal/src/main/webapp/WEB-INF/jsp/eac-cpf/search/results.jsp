@@ -58,7 +58,10 @@
 		<form:hidden id="updateCurrentSearch_country" path="country"/>	
 		<form:hidden id="updateCurrentSearch_ai" path="ai"/>				
 		<form:hidden id="updateCurrentSearch_placesFacet" path="placesFacet"/>
-		<form:hidden id="updateCurrentSearch_occupationFacet" path="occupationFacet"/>
+		<form:hidden id="updateCurrentSearch_occupationsFacet" path="occupationsFacet"/>
+		<form:hidden id="updateCurrentSearch_functionsFacet" path="functionsFacet"/>
+		<form:hidden id="updateCurrentSearch_mandatesFacet" path="mandatesFacet"/>		
+		<form:hidden id="updateCurrentSearch_entityTypeFacet" path="entityTypeFacet"/>				
 		<form:hidden id="updateCurrentSearch_exactDateSearch" path="exactDateSearch"/>
 		<form:hidden id="updateCurrentSearch_facetSettings" path="facetSettings"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
