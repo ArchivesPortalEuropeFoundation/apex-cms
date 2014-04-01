@@ -16,10 +16,10 @@ public class EacCpfSearch extends AbstractSearchForm {
 	 * 
 	 */
 	private static final long serialVersionUID = 1707315274413272934L;
-
 	private String element;
 	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String entityType;
+	private Map<String,String> entityTypeValues  = new LinkedHashMap<String,String>();
 	private String nameType;
 	private String placesFacet;
 	private String occupationsFacet;
@@ -194,6 +194,14 @@ public class EacCpfSearch extends AbstractSearchForm {
 
 	public void setElementValues(Map<String, String> elementValues) {
 		this.elementValues = elementValues;
+	}
+
+	public Map<String, String> getEntityTypeValues() {
+		return entityTypeValues;
+	}
+
+	public void setEntityTypeValues(Map<String, String> entityTypeValues) {
+		this.entityTypeValues = entityTypeValues;
 	}
 
 }
