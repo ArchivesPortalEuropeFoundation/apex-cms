@@ -92,12 +92,12 @@ function initTabs() {
 	});
 }
 function initSearchOptionsHandlers() {
-	activateAutocompletion("#searchTerms","ead");
+	activateAutocompletion(autocompletionUrl, "#searchTerms","ead");
 	$("#searchTerms").focus();
 	$("#searchTerms").keypress(function(event) {
 		if (event.keyCode == 13) {
 			$(this).data("autocomplete").destroy();
-			activateAutocompletion("#searchTerms", "ead");
+			activateAutocompletion(autocompletionUrl, "#searchTerms", "ead");
 			performNewSearch();
 		}
 	});

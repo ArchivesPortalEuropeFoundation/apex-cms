@@ -59,7 +59,7 @@ function initCommonSearchOptionsHandlers() {
 	
 }
 
-function activateAutocompletion(selector, sourceType) {
+function activateAutocompletion(url, selector, sourceType) {
 	function split(val) {
 		return val.split(/\s+/);
 	}
@@ -76,7 +76,7 @@ function activateAutocompletion(selector, sourceType) {
 	$(selector).autocomplete({
 		minLength : 0,
 		source : function(request, response) {
-			$.getJSON(autocompletionUrl, {
+			$.getJSON(url, {
 				term : extractLast(request.term),
 				sourceType : sourceType
 			}, response);

@@ -10,12 +10,12 @@ function clearSearch(){
 }
 
 function init(){
-	activateAutocompletion("#searchTerms", "eaccpf");
+	activateAutocompletion(autocompletionEacCpfUrl, "#searchTerms", "eaccpf");
 	$("#searchTerms").focus();
 	$("#searchTerms").keypress(function(event) {
 		if (event.keyCode == 13) {
 			$(this).data("autocomplete").destroy();
-			activateAutocompletion("#searchTerms", "eaccpf");
+			activateAutocompletion(autocompletionEacCpfUrl, "#searchTerms", "eaccpf");
 			performNewSearch();
 		}
 	});
