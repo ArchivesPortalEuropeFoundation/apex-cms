@@ -18,7 +18,10 @@ public enum FacetType {
 	START_DATE(SolrFields.START_DATE, true),
 	END_DATE(SolrFields.END_DATE, true),
 	EAC_CPF_PLACES(SolrFields.EAC_CPF_FACET_PLACES,false),
-	EAC_CPF_OCCUPATION(SolrFields.EAC_CPF_FACET_OCCUPATION,false);;
+	EAC_CPF_OCCUPATION(SolrFields.EAC_CPF_FACET_OCCUPATION,false),
+	EAC_CPF_FUNCTION(SolrFields.EAC_CPF_FACET_FUNCTION,false),
+	EAC_CPF_MANDATE(SolrFields.EAC_CPF_FACET_MANDATE,false),	
+	EAC_CPF_ENTITY_TYPE(SolrFields.EAC_CPF_FACET_ENTITY_TYPE,false, true,"advancedsearch.facet.value.eaccpf.entitytype.");
 	private final String name;
 	private final String refinementField;
 	private final boolean multiSelect;
@@ -104,9 +107,12 @@ public enum FacetType {
     public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
-    	result.add(new ListFacetSettings(FacetType.AI));    	
+    	result.add(new ListFacetSettings(FacetType.AI));
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_ENTITY_TYPE));   
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES));	
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_MANDATE));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_FUNCTION));    	
     	result.add(new ListFacetSettings(FacetType.DATE_TYPE));  
     	result.add(new ListFacetSettings(FacetType.START_DATE));
     	result.add(new ListFacetSettings(FacetType.END_DATE));      	

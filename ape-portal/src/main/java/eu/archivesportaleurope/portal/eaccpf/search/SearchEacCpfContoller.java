@@ -23,9 +23,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrFields;
-import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.contact.Contact;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
@@ -201,8 +199,11 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eacCpfSearch);
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eacCpfSearch.getCountryList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eacCpfSearch.getAiList());
-		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationFacetList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.EAC_CPF_ENTITY_TYPE, eacCpfSearch.getEntityTypeFacetList());
+		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationsFacetList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_PLACES, eacCpfSearch.getPlacesFacetList());
+		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_MANDATE, eacCpfSearch.getMandatesFacetList());
+		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_FUNCTION, eacCpfSearch.getFunctionsFacetList());
 		return solrQueryParameters;
 	}
 	

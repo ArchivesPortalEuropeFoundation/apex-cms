@@ -22,8 +22,10 @@ public class EacCpfSearch extends AbstractSearchForm {
 	private String entityType;
 	private String nameType;
 	private String placesFacet;
-	private String occupationFacet;
-
+	private String occupationsFacet;
+	private String functionsFacet;
+	private String mandatesFacet;
+	private String entityTypeFacet;
 	private String country;
 	private String ai;
 
@@ -66,14 +68,34 @@ public class EacCpfSearch extends AbstractSearchForm {
 		}
 	}
 
-	public List<String> getOccupationFacetList() {
-		if (StringUtils.isNotBlank(occupationFacet)) {
-			return Arrays.asList(occupationFacet.split(LIST_SEPARATOR));
+	public List<String> getOccupationsFacetList() {
+		if (StringUtils.isNotBlank(occupationsFacet)) {
+			return Arrays.asList(occupationsFacet.split(LIST_SEPARATOR));
 		} else {
 			return null;
 		}
 	}
-
+	public List<String> getMandatesFacetList() {
+		if (StringUtils.isNotBlank(mandatesFacet)) {
+			return Arrays.asList(mandatesFacet.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
+	public List<String> getFunctionsFacetList() {
+		if (StringUtils.isNotBlank(functionsFacet)) {
+			return Arrays.asList(functionsFacet.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
+	public List<String> getEntityTypeFacetList() {
+		if (StringUtils.isNotBlank(entityTypeFacet)) {
+			return Arrays.asList(entityTypeFacet.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -123,6 +145,7 @@ public class EacCpfSearch extends AbstractSearchForm {
 		return FacetType.getDefaultEacCPfListFacetSettings();
 	}
 
+
 	public String getPlacesFacet() {
 		return placesFacet;
 	}
@@ -131,12 +154,38 @@ public class EacCpfSearch extends AbstractSearchForm {
 		this.placesFacet = placesFacet;
 	}
 
-	public String getOccupationFacet() {
-		return occupationFacet;
+
+
+	public String getOccupationsFacet() {
+		return occupationsFacet;
 	}
 
-	public void setOccupationFacet(String occupationFacet) {
-		this.occupationFacet = occupationFacet;
+	public void setOccupationsFacet(String occupationsFacet) {
+		this.occupationsFacet = occupationsFacet;
+	}
+
+	public String getFunctionsFacet() {
+		return functionsFacet;
+	}
+
+	public void setFunctionsFacet(String functionsFacet) {
+		this.functionsFacet = functionsFacet;
+	}
+
+	public String getMandatesFacet() {
+		return mandatesFacet;
+	}
+
+	public void setMandatesFacet(String mandatesFacet) {
+		this.mandatesFacet = mandatesFacet;
+	}
+
+	public String getEntityTypeFacet() {
+		return entityTypeFacet;
+	}
+
+	public void setEntityTypeFacet(String entityTypeFacet) {
+		this.entityTypeFacet = entityTypeFacet;
 	}
 
 	public Map<String, String> getElementValues() {
