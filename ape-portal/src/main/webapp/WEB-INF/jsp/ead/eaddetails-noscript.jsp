@@ -23,7 +23,7 @@
 <div id="eadDisplayPortlet">
 	<div class="mobile">
 		<h3 id="contextInformation">
-			${localizedCountryName} &gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycodeForUrl}">${archivalInstitution.ainame}</a>
+			${localizedCountryName} &gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 		</h3>
 		<div>
 
@@ -40,7 +40,7 @@
 						<c:choose>
 							<c:when test="${empty term }">
 								<c:set var="pagingUrl"
-									value="${eadDisplayDirectPagingUrl}/{pageNumber}/${archivalInstitution.repositorycodeForUrl}/${xmlTypeName}/${eadid}" />
+									value="${eadDisplayDirectPagingUrl}/{pageNumber}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadid}" />
 							</c:when>
 							<c:otherwise>
 								<c:set var="pagingUrl" value="${eadDisplaySearchPagingUrl}/{pageNumber}/${id}/${element}/${term}" />
@@ -57,7 +57,7 @@
 							</c:otherwise>
 						</c:choose>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
-							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.repositorycodeForUrl}/fa" />
+							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/fa" />
 
 					</c:otherwise>
 				</c:choose>

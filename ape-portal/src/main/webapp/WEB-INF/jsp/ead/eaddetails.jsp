@@ -78,7 +78,7 @@
 	<c:choose>
 		<c:when test="${empty c}">
 			<c:set var="url"
-				value="${eadDisplayDirectUrl}/${archivalInstitution.repositorycodeForUrl}/${xmlTypeName}/${eadContent.eadid}" />
+				value="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadContent.eadid}" />
 		</c:when>
 		<c:when test="${empty advancedSearch.term }">
 			<c:set var="url" value="${eadDisplaySearchUrl}/${id}" />
@@ -103,7 +103,7 @@
 		<c:otherwise>
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"
 				searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.repositorycodeForUrl}/fa" />
+				secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/fa" />
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">

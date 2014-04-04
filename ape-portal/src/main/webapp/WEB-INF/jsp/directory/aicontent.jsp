@@ -11,7 +11,7 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="directoryPortlet">
 	<div class="${mobile}">
-		<h2><a href="${aiCodeUrl}/${archivalInstitution.repositorycodeForUrl}">${archivalInstitution.ainame}</a> &gt; <fmt:message key="advancedsearch.text.${xmlTypeName}"/></h2>
+		<h2><a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a> &gt; <fmt:message key="advancedsearch.text.${xmlTypeName}"/></h2>
 		<div id="children" class="box">
 			<div class="boxtitle">
 				<div class="numberOfPages">
@@ -28,7 +28,7 @@
 			<table>
 				<c:forEach var="ead" items="${eads}">
 					<tr class="child">
-						<td><a href="${eadUrl}/${aiRepoCode}/${xmlTypeName}/${ead.eadid}">${ead.title}</a></td>
+						<td><a href="${eadUrl}/${aiRepoCode}/${xmlTypeName}/${ead.encodedEadid}" target="_blank">${ead.title}</a></td>
 					</tr>
 				</c:forEach>
 			</table>

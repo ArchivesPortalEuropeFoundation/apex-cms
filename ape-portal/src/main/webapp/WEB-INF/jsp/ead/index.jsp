@@ -37,7 +37,7 @@
 <div id="eadDisplayPortlet">
 	<h3 id="contextInformation">
 		${localizedCountryName}
-		&gt; <a href="${aiCodeUrl}/${archivalInstitution.repositorycodeForUrl}">${archivalInstitution.ainame}</a>
+		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 	<div id="eadcontent">
 		<div id="left-pane" class="pane">
