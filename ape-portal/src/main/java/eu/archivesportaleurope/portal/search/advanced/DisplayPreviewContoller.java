@@ -23,7 +23,6 @@ import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 /**
  *
@@ -71,8 +70,8 @@ public class DisplayPreviewContoller {
 						modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 						Ead ead = eadContent.getEad();
 						ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
-						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getRepositorycodeForUrl());
-						modelAndView.getModelMap().addAttribute("eadid", PortalDisplayUtil.restoreSpecialUrlCharactersInEadid(ead.getEadid()));
+						modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getEncodedRepositorycode());
+						modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedEadid());
 						modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 						return modelAndView;
 					}else {

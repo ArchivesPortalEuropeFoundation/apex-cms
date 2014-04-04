@@ -268,8 +268,8 @@ public class SitemapController {
 				writeSitemapStartElement(xmlWriter);
 				if (pageNumber == 1) {
 					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE)
-							+ SEPARATOR + ead.getArchivalInstitution().getRepositorycodeForUrl() + SEPARATOR
-							+ xmlType.getResourceName() + SEPARATOR + PortalDisplayUtil.removeSpecialUrlCharactersFromEadid(ead.getEadid());
+							+ SEPARATOR + ead.getArchivalInstitution().getEncodedRepositorycode() + SEPARATOR
+							+ xmlType.getResourceName() + SEPARATOR + ead.getEncodedEadid();
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.7");
 				}
 				for (CLevel cLevel : clevels) {

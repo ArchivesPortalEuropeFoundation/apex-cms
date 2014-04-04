@@ -92,46 +92,5 @@ public class PortalDisplayUtil {
         return PortalDisplayUtil.replaceQuotesAndReturns(country.getCname() + START_CHARACTER + country.getIsoname() + END_CHARACTER);
     }
 
-    @SuppressWarnings("MalformedRegexp")
-    public static String removeSpecialUrlCharactersFromEadid(String eadid) {
-        String result = eadid.replaceAll("*", "_ASTERISK_");
-        result = result.replaceAll(":", "_COLON_");
-        result = result.replaceAll("/", "_SLASH_");
-        result = result.replaceAll("\\", "_BSLASH_");
-        result = result.replaceAll("[", "_LSQBRKT_");
-        result = result.replaceAll("]", "_RSQBRKT_");
-        result = result.replaceAll("+", "_PLUS_");
-        result = result.replaceAll("%", "_PERCENT_");
-        result = result.replaceAll("@", "_ATCHAR_");
-        result = result.replaceAll("$", "_DOLLAR_");
-        result = result.replaceAll("#", "_HASH_");
-        result = result.replaceAll("^", "_CFLEX_");
-        result = result.replaceAll("&", "_AMP_");
-        result = result.replaceAll("(", "_LRDBRKT_");
-        result = result.replaceAll(")", "_RRDBRKT_");
-        result = result.replaceAll("!", "_EXCLMARK_");
-        result = result.replaceAll("~", "_TILDE_");
-        return result;
-    }
-
-    public static String restoreSpecialUrlCharactersInEadid(String eadidFromUrl) {
-        String result = eadidFromUrl.replaceAll("_ASTERISK_", "*");
-        result = result.replaceAll("_COLON_", ":");
-        result = result.replaceAll("_SLASH_", "/");
-        result = result.replaceAll("_BSLASH_", "\\");
-        result = result.replaceAll("_LSQBRKT_", "[");
-        result = result.replaceAll("_RSQBRKT_", "]");
-        result = result.replaceAll("_PLUS_", "+");
-        result = result.replaceAll("_PERCENT_", "%");
-        result = result.replaceAll("_ATCHAR_", "@");
-        result = result.replaceAll("_DOLLAR_", "$");
-        result = result.replaceAll("_HASH_", "#");
-        result = result.replaceAll("_CFLEX_", "^");
-        result = result.replaceAll("_AMP_", "&");
-        result = result.replaceAll("_LRDBRKT_", "(");
-        result = result.replaceAll("_RRDBRKT_", ")");
-        result = result.replaceAll("_EXCLMARK_", "!");
-        result = result.replaceAll("_TILDE_", "~");
-        return result;
-    }
+ 
 }

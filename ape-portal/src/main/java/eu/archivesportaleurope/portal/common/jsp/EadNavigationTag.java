@@ -14,7 +14,6 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 public class EadNavigationTag extends SimpleTagSupport {
 
@@ -37,9 +36,9 @@ public class EadNavigationTag extends SimpleTagSupport {
 			}
 			eadContent = currentCLevel.getEadContent();
 			Ead ead = eadContent.getEad();
-			String repoCode = ead.getArchivalInstitution().getRepositorycodeForUrl();
+			String repoCode = ead.getArchivalInstitution().getEncodedRepositorycode();
 			XmlType xmlType = XmlType.getEadType(ead);
-			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ PortalDisplayUtil.removeSpecialUrlCharactersFromEadid(ead.getEadid());
+			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ ead.getEncodedEadid();
 			hierarchy.add(new HierarchyInfo(url,eadContent.getUnittitle()));
 		}
 
