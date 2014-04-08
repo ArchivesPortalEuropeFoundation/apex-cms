@@ -124,10 +124,9 @@ public class DisplayEadContoller {
 				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
 			}
 		} else if (eadParams.getRepoCode() != null) {
-			String repoCode = eadParams.getRepoCode().replace('_', '/');
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), repoCode, eadParams.getEadid());
+				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
 			}
 		}
 
@@ -209,7 +208,7 @@ public class DisplayEadContoller {
 				XmlType xmlType = XmlType.getContentType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("eadid", ead.getEadid());
+				modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedEadid());
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + ead.getId());
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),

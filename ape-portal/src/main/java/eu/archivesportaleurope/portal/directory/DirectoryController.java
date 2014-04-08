@@ -16,8 +16,6 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.liferay.portal.kernel.util.PropsUtil;
-
 import eu.apenet.commons.exceptions.APEnetException;
 import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
@@ -37,6 +35,7 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "directoryController")
 @RequestMapping(value = "VIEW")
@@ -97,27 +96,30 @@ public class DirectoryController {
 		String countryCode = renderRequest.getParameter("countryCode");
 		try {
 			List<Country> countries = countryDAO.getCountries(countryCode);
-			Country country = countries.get(0);
-
-			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-					renderRequest.getLocale());
-			NavigationTree navigationTree = new NavigationTree(source);
-			List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
-					.getArchivalInstitutionsByParentAiId("country_" + country.getId());
-			archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
-			Collections.sort(archivalInstitutionList);
-			String localizedName = DisplayUtils.getLocalizedCountryName(source, country);
-			modelAndView.getModelMap().addAttribute("countryCode", countryCode);
-			modelAndView.getModelMap().addAttribute("parent", localizedName);
-			modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
-			modelAndView.setViewName("institutions-noscript");
-			PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getCountryDisplayTitle(country));
+			if (countries.size() > 0){
+				Country country = countries.get(0);
+	
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						renderRequest.getLocale());
+				NavigationTree navigationTree = new NavigationTree(source);
+				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
+						.getArchivalInstitutionsByParentAiId("country_" + country.getId());
+				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
+				Collections.sort(archivalInstitutionList);
+				String localizedName = DisplayUtils.getLocalizedCountryName(source, country);
+				modelAndView.getModelMap().addAttribute("countryCode", countryCode);
+				modelAndView.getModelMap().addAttribute("parent", localizedName);
+				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
+				modelAndView.setViewName("institutions-noscript");
+				PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getCountryDisplayTitle(country));
+				return modelAndView;
+			}
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			modelAndView.setViewName("indexError");
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
-
-		return this.addGoogleInfo(modelAndView);
+		modelAndView = new ModelAndView();
+		modelAndView.setViewName("indexError");
+		return modelAndView;
 	}
 
 	@RenderMapping(params = "myaction=showAiGroup")
@@ -127,24 +129,28 @@ public class DirectoryController {
 		try {
 			if (StringUtils.isNotBlank(aiIdString)) {
 				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(Integer.parseInt(aiIdString));
-				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-						renderRequest.getLocale());
-				NavigationTree navigationTree = new NavigationTree(source);
-				List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
-						.getArchivalInstitutionsByParentAiId("aigroup_" + aiIdString);
-				archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
-				Collections.sort(archivalInstitutionList);
-				modelAndView.getModelMap().addAttribute("aiId", aiIdString);
-				modelAndView.getModelMap().addAttribute("parent", archivalInstitution.getAiname());
-				modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
-				modelAndView.setViewName("institutions-noscript");
-				PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
+				if (archivalInstitution != null){
+					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+							renderRequest.getLocale());
+					NavigationTree navigationTree = new NavigationTree(source);
+					List<ArchivalInstitutionUnit> archivalInstitutionList = navigationTree
+							.getArchivalInstitutionsByParentAiId("aigroup_" + aiIdString);
+					archivalInstitutionList = navigationTree.filterArchivalInstitutionsWithEAG(archivalInstitutionList);
+					Collections.sort(archivalInstitutionList);
+					modelAndView.getModelMap().addAttribute("aiId", aiIdString);
+					modelAndView.getModelMap().addAttribute("parent", archivalInstitution.getAiname());
+					modelAndView.getModelMap().addAttribute("archivalInstitutionUnits", archivalInstitutionList);
+					modelAndView.setViewName("institutions-noscript");
+					PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
+					return modelAndView;
+				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-			modelAndView.setViewName("indexError");
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
-		return this.addGoogleInfo(modelAndView);
+		modelAndView = new ModelAndView();
+		modelAndView.setViewName("indexError");
+		return modelAndView;
 	}
 
 	@RenderMapping(params = "myaction=showAiDetails")
@@ -154,23 +160,27 @@ public class DirectoryController {
 			String repositoryCode = renderRequest.getParameter("repoCode");
 			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
 					.getArchivalInstitutionsByRepositorycode(repositoryCode);
-			ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
-			modelAndView = fillAIDetails(archivalInstitution);
-			if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
-				modelAndView.getModelMap().addAttribute("mobile", "mobile");
-			} else {
-				modelAndView.getModelMap().addAttribute("mobile", "");
+			if (archivalInstitutions.size() > 0){
+				ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
+				modelAndView = fillAIDetails(archivalInstitution);
+				if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+					modelAndView.getModelMap().addAttribute("mobile", "mobile");
+				} else {
+					modelAndView.getModelMap().addAttribute("mobile", "");
+				}
+				String documentTitle = PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution);
+				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+				PortalDisplayUtil.setPageTitle(renderRequest, documentTitle);
+				modelAndView.setViewName("aidetails-direct");
+				return modelAndView;
 			}
-			String documentTitle = PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution);
-			modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
-			PortalDisplayUtil.setPageTitle(renderRequest, documentTitle);
-			modelAndView.setViewName("aidetails-direct");
+				
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(),e);
-			modelAndView = new ModelAndView();
-			modelAndView.setViewName("indexError");
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
-		return this.addGoogleInfo(modelAndView);
+		modelAndView = new ModelAndView();
+		modelAndView.setViewName("indexError");
+		return modelAndView;
 	}
 
 	@RenderMapping
