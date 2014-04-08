@@ -35,7 +35,7 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.repositorycode}/hg"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/hg" target="_blank"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
 						</div>
 					</td>
 				</tr>
@@ -44,7 +44,7 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.repositorycode}/fa"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
 						</div>
 					</td>
 				</tr>
@@ -53,7 +53,7 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.repositorycode}/sg"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/sg" target="_blank"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
 						</div>
 					</td>
 				</tr>
