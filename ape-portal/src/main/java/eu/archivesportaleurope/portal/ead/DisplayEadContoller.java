@@ -208,7 +208,7 @@ public class DisplayEadContoller {
 				XmlType xmlType = XmlType.getContentType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedEadid());
+				modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + ead.getId());
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
