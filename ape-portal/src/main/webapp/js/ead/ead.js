@@ -137,8 +137,12 @@ function initPanes() {
 		stop : function(event, ui) {
 			var newTotalWidth = header.outerWidth(true);
 			var left = $("#splitter").offset().left;
-			if(left>750)
+			if(left>750){
 				left=550;
+			}
+			else if (left<150){
+				left=150;
+			}
 			leftPane.width(left - 1);
 			splitter.css("left", 0);
 			var newRightPaneWidth = newTotalWidth - leftPane.outerWidth(true) - splitter.outerWidth(true) - marge;
