@@ -26,6 +26,7 @@ public class EacCpfSearch extends AbstractSearchForm {
 	private String functionsFacet;
 	private String mandatesFacet;
 	private String entityTypeFacet;
+	private String language;
 	private String country;
 	private String ai;
 
@@ -92,6 +93,13 @@ public class EacCpfSearch extends AbstractSearchForm {
 	public List<String> getEntityTypeFacetList() {
 		if (StringUtils.isNotBlank(entityTypeFacet)) {
 			return Arrays.asList(entityTypeFacet.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
+	public List<String> getLanguageList() {
+		if (StringUtils.isNotBlank(language)) {
+			return Arrays.asList(language.split(LIST_SEPARATOR));
 		} else {
 			return null;
 		}
@@ -202,6 +210,14 @@ public class EacCpfSearch extends AbstractSearchForm {
 
 	public void setEntityTypeValues(Map<String, String> entityTypeValues) {
 		this.entityTypeValues = entityTypeValues;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 }

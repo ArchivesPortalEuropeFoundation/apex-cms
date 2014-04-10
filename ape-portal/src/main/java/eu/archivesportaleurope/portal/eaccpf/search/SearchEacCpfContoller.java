@@ -68,8 +68,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		modelAndView.setViewName("index");
 		modelAndView.getModelMap().addAttribute("eacCpfSearch", eacCpfSearch);
 		if (StringUtils.isNotBlank(eacCpfSearch.getTerm())){
-			SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eacCpfSearch);
-			ListResults results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
+			ListResults results = performNewSearch(request,  eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
 		return modelAndView;
@@ -78,8 +77,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	public ModelAndView search(@ModelAttribute(value = "eacCpfSearch") EacCpfSearch eacCpfSearch,RenderRequest request) throws SolrServerException, ParseException {
 		ModelAndView modelAndView = new ModelAndView();
 		if (StringUtils.isNotBlank(eacCpfSearch.getTerm())){
-			SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eacCpfSearch);
-			ListResults results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
+			ListResults results = performNewSearch(request, eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
 
@@ -104,8 +102,8 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		modelAndView.getModelMap().addAttribute("results", results);
 		return modelAndView;
 	}
-	public Results performNewSearch(PortletRequest request, EacCpfSearch eacCpfSearch) {
-		Results results = null;
+	public ListResults performNewSearch(PortletRequest request, EacCpfSearch eacCpfSearch) {
+		ListResults results = null;
 		try {
 			String error = validate(eacCpfSearch);
 			if (error == null) {
