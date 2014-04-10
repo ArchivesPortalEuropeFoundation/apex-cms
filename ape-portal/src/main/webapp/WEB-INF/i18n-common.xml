@@ -6,7 +6,8 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         ">
 	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
+		class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		
 		<property name="basenames">
 			<list>
 				<value>i18n.menu.menu</value>
@@ -15,5 +16,10 @@
 				<value>i18n.eag2012</value>
 			</list>
 		</property>
+		<property name="parentMessageSource" ref="apeMessageSource"/>
+	</bean>
+	
+	<bean id="apeMessageSource"
+		class="eu.archivesportaleurope.portal.common.ApeResourceBundleMessageSource">
 	</bean>
 </beans>
