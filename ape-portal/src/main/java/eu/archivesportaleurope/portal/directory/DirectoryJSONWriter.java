@@ -432,20 +432,22 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		builder.append(COMMA);
 		builder.append("\"bounds\":");
 
+		//coordinates shouln't be with wrong characters, but as there are manually typed, it may be controlled
+		
 		builder.append(START_ARRAY);
 		// Build southwest node.
 		builder.append(START_ITEM);
-		builder.append("\"latitude\":\"" + southwestLatitude + "\"");
+		builder.append("\"latitude\":\"" + PortalDisplayUtil.replaceQuotesAndReturns(southwestLatitude) + "\"");
 		builder.append(COMMA);
-		builder.append("\"longitude\":\"" + southwestLongitude + "\"");
+		builder.append("\"longitude\":\"" + PortalDisplayUtil.replaceQuotesAndReturns(southwestLongitude) + "\"");
 		builder.append(END_ITEM);
 
 		// Build northeast node.
 		builder.append(COMMA);
 		builder.append(START_ITEM);
-		builder.append("\"latitude\":\"" + northeastLatitude + "\"");
+		builder.append("\"latitude\":\"" + PortalDisplayUtil.replaceQuotesAndReturns(northeastLatitude) + "\"");
 		builder.append(COMMA);
-		builder.append("\"longitude\":\"" + northeastLongitude + "\"");
+		builder.append("\"longitude\":\"" + PortalDisplayUtil.replaceQuotesAndReturns(northeastLongitude) + "\"");
 		builder.append(END_ITEM);
 		builder.append(END_ARRAY);
 		return builder;
@@ -467,11 +469,11 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		}
 		//Parse street, postalCity and country 
 		builder.append(COMMA);
-		builder.append("\"street\":\""+repo.getStreet()+"\"");
+		builder.append("\"street\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getStreet())+"\"");
 		builder.append(COMMA);
-		builder.append("\"postalcity\":\""+repo.getPostalCity()+"\"");
+		builder.append("\"postalcity\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getPostalCity())+"\"");
 		builder.append(COMMA);
-		builder.append("\"country\":\""+repo.getCountry()+"\"");
+		builder.append("\"country\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getCountry())+"\"");
 		builder.append(END_ITEM);
 		return builder;
 	}
