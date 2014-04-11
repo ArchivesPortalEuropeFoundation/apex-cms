@@ -100,6 +100,7 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.TYPE));
     	result.add(new ListFacetSettings(FacetType.DAO));
     	result.add(new ListFacetSettings(FacetType.ROLEDAO));
+    	result.add(new ListFacetSettings(FacetType.LANGUAGE)); 	
     	result.add(new ListFacetSettings(FacetType.DATE_TYPE));    	
     	result.add(new ListFacetSettings(FacetType.START_DATE));
     	result.add(new ListFacetSettings(FacetType.END_DATE));     	
