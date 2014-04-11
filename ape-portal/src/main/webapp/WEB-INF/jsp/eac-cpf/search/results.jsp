@@ -56,7 +56,8 @@
 		<form:hidden id="updateCurrentSearch_fromdate" path="fromdate"/>
 		<form:hidden id="updateCurrentSearch_todate" path="todate"/>
 		<form:hidden id="updateCurrentSearch_country" path="country"/>	
-		<form:hidden id="updateCurrentSearch_ai" path="ai"/>				
+		<form:hidden id="updateCurrentSearch_ai" path="ai"/>	
+		<form:hidden id="updateCurrentSearch_language" path="language"/>					
 		<form:hidden id="updateCurrentSearch_placesFacet" path="placesFacet"/>
 		<form:hidden id="updateCurrentSearch_occupationsFacet" path="occupationsFacet"/>
 		<form:hidden id="updateCurrentSearch_functionsFacet" path="functionsFacet"/>
