@@ -39,6 +39,7 @@ import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "advancedSearchController")
 @RequestMapping(value = "VIEW")
@@ -202,7 +203,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + e.getMessage(), e);
+			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
 		}
 		return results;
 	}
@@ -220,7 +221,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 					results = performUpdateSearchForListView(request, solrQueryParameters, advancedSearch);
 				}
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + e.getMessage(), e);
+			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
 		}
 		return results;
 	}
