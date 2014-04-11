@@ -52,6 +52,7 @@
 		<form:hidden id="updateCurrentSearch_fromdate" path="fromdate"/>
 		<form:hidden id="updateCurrentSearch_todate" path="todate"/>
 		<form:hidden id="updateCurrentSearch_exactDateSearch" path="exactDateSearch"/>
+		<form:hidden id="updateCurrentSearch_language" path="language"/>
 		<input type="hidden" id="updateCurrentSearch_country" name="country" value="${advancedSearch.country}"/>
 		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${advancedSearch.ai}"/>
 		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${advancedSearch.fond}"/>
