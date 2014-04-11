@@ -350,7 +350,7 @@
 		<lifecycle>RESOURCE_PHASE</lifecycle>
 		<lifecycle>RENDER_PHASE</lifecycle>
 		<lifecycle>EVENT_PHASE</lifecycle>
-		<init-param><name>LOG_STACKTRACES</name><value>true</value></init-param>
+		<init-param><name>LOG_STACKTRACES</name><value>false</value></init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>APEFilter</filter-name>
