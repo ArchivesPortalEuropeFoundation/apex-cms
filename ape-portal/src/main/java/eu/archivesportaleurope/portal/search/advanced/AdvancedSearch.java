@@ -32,7 +32,7 @@ public class AdvancedSearch extends AbstractSearchForm{
 	private String country;
 	private String ai;
 	private String fond;
-
+	private String language;
 	private String roledao;
 	private String type;
 	private String level;
@@ -143,7 +143,13 @@ public class AdvancedSearch extends AbstractSearchForm{
 			return null;
 		}
 	}
-
+	public List<String> getLanguageList(){
+		if (StringUtils.isNotBlank(language)){
+			return Arrays.asList(language.split(LIST_SEPARATOR));
+		}else {
+			return null;
+		}
+	}
 	public String getSelectedNodes() {
 		return selectedNodes;
 	}
@@ -215,6 +221,14 @@ public class AdvancedSearch extends AbstractSearchForm{
 	}
 
 
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 
 	public boolean isAdvanced() {
 		return advanced;
