@@ -165,9 +165,9 @@
 							<div class="other">${result.other}</div>
 						<div class="list-searchresult-context">
 								<div class="left">
-									<div class="other"><span class="subtitle">Places:</span>${result.places}</div>
-									<div class="other"><span class="subtitle">Occupation:</span>${result.occupation}</div>								
-									<div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.id}</div>
+									<c:if test="${empty result.places}"><div class="other"><span class="subtitle">Places:</span>${result.places}</div></c:if>
+									<c:if test="${empty result.occupation}"><div class="other"><span class="subtitle">Occupation:</span>${result.occupation}</div></c:if>								
+									<div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.decodedIdentifier}</div>
 									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 								</div>						
 						</div>							
