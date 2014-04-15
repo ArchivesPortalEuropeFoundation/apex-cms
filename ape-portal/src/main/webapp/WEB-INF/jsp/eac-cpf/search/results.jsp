@@ -172,14 +172,15 @@
 									<c:if test="${!empty result.functions}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.functionsfacet" />:</span>${result.functions}</div></c:if>
 									<c:if test="${!empty result.mandates}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.mandatesfacet" />:</span>${result.mandates}</div></c:if>
 									<c:if test="${!empty result.entityId}"><div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.eaccpf.element.id" /></span>${result.entityId}</div></c:if>
+									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 									<c:if test="${result.numberOfArchivalMaterialRelations > 0 or result.numberOfNameRelations > 0 or result.numberOfInstitutions > 0}">
 									<div class="relation"><span class="subtitle"><fmt:message key="advancedsearch.eaccpf.related" />:</span>
 										<c:if test="${result.numberOfArchivalMaterialRelations > 0}"><a href="${eacRelationDisplayUrl}/material/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfArchivalMaterialRelations} <fmt:message key="advancedsearch.eaccpf.related.materials" /></a></c:if>
-										<c:if test="${result.numberOfNameRelations > 0}">-<a href="${eacRelationDisplayUrl}/names/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfNameRelations} <fmt:message key="advancedsearch.eaccpf.related.names" /></a></c:if>
-										<c:if test="${result.numberOfInstitutions > 0}">-<a href="${eacRelationDisplayUrl}/institutions/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfInstitutions} <fmt:message key="advancedsearch.eaccpf.related.institutions" /></a></c:if>
+										<c:if test="${result.numberOfNameRelations > 0}">&mdash;&nbsp;<a href="${eacRelationDisplayUrl}/names/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfNameRelations} <fmt:message key="advancedsearch.eaccpf.related.names" /></a></c:if>
+										<c:if test="${result.numberOfInstitutions > 0}">&mdash;&nbsp;<a href="${eacRelationDisplayUrl}/institutions/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfInstitutions} <fmt:message key="advancedsearch.eaccpf.related.institutions" /></a></c:if>
 									</div>
 									</c:if>
-									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
+
 								</div>						
 						</div>							
 						</div>
