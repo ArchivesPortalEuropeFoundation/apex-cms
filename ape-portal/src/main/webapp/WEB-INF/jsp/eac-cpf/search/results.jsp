@@ -161,13 +161,17 @@
 									<span class="alterdate" title="${result.alterdateWithoutHighlighting}">${result.alterdate}</span>
 								</c:if>																					
 							</div>
-							<div class="scopecontent">${result.description}</div>
-							<div class="other">${result.other}</div>
+							<c:if test="${!empty result.description}"><div class="scopecontent">${result.description}</div></c:if>
+							<c:if test="${!empty result.other}"><div class="other">${result.other}</div></c:if>
 						<div class="list-searchresult-context">
 								<div class="left">
-									<c:if test="${empty result.places}"><div class="other"><span class="subtitle">Places:</span>${result.places}</div></c:if>
-									<c:if test="${empty result.occupation}"><div class="other"><span class="subtitle">Occupation:</span>${result.occupation}</div></c:if>								
-									<div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.message.referencecode" /></span>${result.decodedIdentifier}</div>
+									<div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</span><fmt:message key="advancedsearch.facet.value.eaccpf.entitytype.${fn:toLowerCase(result.entityType)}" /></div>
+									<c:if test="${!empty result.places}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.placesfacet" />:</span>${result.places}</div></c:if>
+									<c:if test="${!empty result.occupations}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.occupationsfacet" />:</span>${result.occupations}</div></c:if>								
+									<c:if test="${!empty result.functions}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.functionsfacet" />:</span>${result.functions}</div></c:if>
+									<c:if test="${!empty result.mandates}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.facet.title.mandatesfacet" />:</span>${result.mandates}</div></c:if>
+									<c:if test="${!empty result.decodedIdentifier}"><div class="unitid"><span class="subtitle"><fmt:message key="advancedsearch.eaccpf.element.id" /></span>${result.decodedIdentifier}</div></c:if>
+								<div class="relation"><span class="subtitle">Is related to:</span><a href="">${result.numberOfArchivalMaterialRelations} archival material</a>, <a href="">${result.numberOfNameRelations} names</a>,  <a href="">${result.numberOfInstitutions} institutions</a></div>
 									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 								</div>						
 						</div>							
