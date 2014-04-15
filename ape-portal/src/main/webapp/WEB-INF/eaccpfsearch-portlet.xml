@@ -13,8 +13,8 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
     <import resource="i18n-common.xml"/>
-  		 <import resource="search-common.xml"/>
-     
+  	<import resource="search-common.xml"/>
+    <import resource="persistence-common.xml"/> 
 	<bean
 		class="eu.archivesportaleurope.portal.eaccpf.search.SearchEacCpfContoller">
 				<property name="messageSource" ref="messageSource"/>
@@ -22,7 +22,9 @@
 			<property name="eadSearcher" ref="eadSearcher"/>
 				
 	</bean>
-		
+	<bean class="eu.archivesportaleurope.portal.eaccpf.search.DisplayPreviewContoller">
+		<property name="eacCpfDAO" ref="eacCpfDAO"/>
+	</bean>			
 		
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

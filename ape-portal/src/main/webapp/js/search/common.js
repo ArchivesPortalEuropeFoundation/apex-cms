@@ -286,7 +286,7 @@ function initListTabHandlers() {
 	});
 	$(".preview-button-holder").mouseenter(
 			function() {
-				var url = $(this).attr("url");
+				var url = $(this).attr("data-url");
 				$.get(url, function(data) {
 					displayPreview("#search-preview",data);
 					

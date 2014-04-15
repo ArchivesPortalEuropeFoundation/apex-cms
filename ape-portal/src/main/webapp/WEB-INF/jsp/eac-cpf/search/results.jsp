@@ -148,10 +148,10 @@
 								</c:choose>
 								<c:choose>
 									<c:when test="${empty encodedTerm}">
-										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
+										<c:set var="url" value="${friendlyUrl}/${result.repositoryCode}/${result.identifier}"/>
 									</c:when>
 									<c:otherwise>
-										<c:set var="url" value="${friendlyUrl}/${result.id}/${eacCpfSearch.element}/${encodedTerm}"/>
+										<c:set var="url" value="${friendlyUrl}/${result.repositoryCode}/${result.identifier}/${eacCpfSearch.element}/${encodedTerm}"/>
 									</c:otherwise>
 								</c:choose>	
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
@@ -162,7 +162,7 @@
 								</c:if>																					
 							</div>
 							<div class="scopecontent">${result.description}</div>
-
+							<div class="other">${result.other}</div>
 						<div class="list-searchresult-context">
 								<div class="left">
 									<div class="other"><span class="subtitle">Places:</span>${result.places}</div>
@@ -172,6 +172,14 @@
 								</div>						
 						</div>							
 						</div>
+						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
+							<portlet:param  name="identifier" value="${result.identifier}"/>
+							<portlet:param  name="repositoryCode" value="${result.repositoryCode}"/>
+							<portlet:param  name="term" value="${encodedTerm}"/>
+							<portlet:param  name="element" value="${eacCpfSearch.element}"/>
+						</portlet:resourceURL>
+						<div class="preview-button-holder"
+						data-url="${displayPreviewUrl}">&nbsp;</div>
 					</div>
 					</c:forEach>
 				</div>
@@ -179,6 +187,9 @@
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
 					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 				</div>
+			</div>
+			<div class="preview-column">
+			<div id="search-preview" class="preview-container search-result-preview-container"></div>
 			</div>
 </div>
 </c:if>

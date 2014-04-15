@@ -194,7 +194,7 @@
 							<portlet:param  name="element" value="${advancedSearch.element}"/>
 						</portlet:resourceURL>
 						<div class="preview-button-holder"
-						url="${displayPreviewUrl}">&nbsp;</div>
+						data-url="${displayPreviewUrl}">&nbsp;</div>
 					</div>
 				</c:forEach>
 
