@@ -12,11 +12,12 @@ import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 
 public class EacCpfSearch extends AbstractSearchForm {
+	public static final String NOSELECTION = "all";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1707315274413272934L;
-	private String element;
+	private String element = NOSELECTION;
 	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String entityType;
 	private Map<String,String> entityTypeValues  = new LinkedHashMap<String,String>();

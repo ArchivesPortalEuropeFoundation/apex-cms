@@ -224,9 +224,9 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
 				portletRequest.getLocale());
 		EacCpfSearch eacCpfSearch = new EacCpfSearch();
-		eacCpfSearch.getElementValues().put("", source.getString("advancedsearch.text.noselection"));
+		eacCpfSearch.getElementValues().put(EacCpfSearch.NOSELECTION, source.getString("advancedsearch.text.noselection"));
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_NAMES, source.getString("advancedsearch.eaccpf.element.name"));
-		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_RECORD_ID, source.getString("advancedsearch.eaccpf.element.id"));	
+		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_ENTITY_ID, source.getString("advancedsearch.eaccpf.element.id"));	
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_PLACES, source.getString("advancedsearch.facet.title.placesfacet"));			
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
