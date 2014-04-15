@@ -7,16 +7,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public final class AdvancedSearchUtil {
-
+	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchUtil.class);
 	private static final String YYYY = "yyyy";
 	private static final String YYYY_MM = "yyyy-MM";
 	private static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -186,8 +188,15 @@ public final class AdvancedSearchUtil {
 	public static String getHighlightedString(Map<String, Map<String, List<String>>> highlightingMap, String id,
 			String fieldName, String defaultValue) {
 		try {
-			return highlightingMap.get(id).get(fieldName).get(0);
+			Map<String, List<String>> higlightedMap = highlightingMap.get(id);
+			Set<String> keys = higlightedMap.keySet();
+			for (String key: keys){
+				LOGGER.info(id + " " + key + " " + fieldName);
+			}
+			List<String>  values = higlightedMap.get(fieldName);
+			return values.get(0);
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			return defaultValue;
 		}
 
