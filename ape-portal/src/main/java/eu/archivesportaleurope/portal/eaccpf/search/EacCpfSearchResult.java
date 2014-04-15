@@ -35,6 +35,7 @@ public class EacCpfSearchResult extends SearchResult{
 	private String functions;
 	private String mandates;
 	private String entityType;
+	private String entityId;
 	private String ai;
 	private String aiId;
 	private String repositoryCode;
@@ -69,7 +70,10 @@ public class EacCpfSearchResult extends SearchResult{
 		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
 		this.places =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null);
 		this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
-		this.entityType = solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE).toString();
+		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE) != null){
+			this.entityType = solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE).toString();
+		}
+		this.entityId =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_ENTITY_ID, null);
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_AGENCY_CODE));
 		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
@@ -182,8 +186,9 @@ public class EacCpfSearchResult extends SearchResult{
 	public String getIdentifier() {
 		return identifier;
 	}
-	public String getDecodedIdentifier() {
-		return ApeUtil.decodeSpecialCharacters(identifier);
+
+	public String getEntityId() {
+		return entityId;
 	}
 	public Integer getNumberOfArchivalMaterialRelations() {
 		return numberOfArchivalMaterialRelations;
