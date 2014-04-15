@@ -1,0 +1,64 @@
+#eacCpfDisplayPortlet {
+	background-image: none;
+	background-color: white;
+	color: #2A4862;
+}
+#eacCpfDisplayPortlet #eaccpfcontent {
+/*	height: 100%;*/
+}
+#eaccpfcontent h2.blockheader{
+	border-bottom: 1px solid #79B7E7;
+   /* color: #2A4862;*/
+    font-family: Arial,sans-serif;
+    font-size: 1.17em;
+    margin-bottom: 0.2em;
+}
+#eacCpfDisplayPortlet .eaccpf {
+	
+}
+.eaccpf table{
+	with:75%;
+}
+.eaccpf table td{
+	/*padding:4px;*/
+	vertical-align:top;
+}
+.eaccpf table tr{
+	padding-bottom:2px
+}
+
+@media screen {
+/*	#eacCpfDisplayPortlet #right-pane {
+		font-size: 8pt;
+	}*/
+	#eacCpfDisplayPortlet #eaccpfcontent em{
+		background-color: #afdefc;
+	}	
+}
+
+#eacCpfDisplayPortlet #eaccpfcontent em{
+	font-size: 110%;
+	padding-left:2px;
+	padding-right:2px;
+}
+
+#eacCpfDisplayPortlet h2 {
+	border-bottom: 1px solid #79B7E7;
+    color: #2A4862;
+    font-size: 130%;
+    font-weight: bold;
+    margin: 0.3em 0;
+    text-align: left;	
+    padding-left: 15px;
+}
+#eacCpfDisplayPortlet .defaultlayout {
+	text-align: center;
+}
+
+
+#eacCpfDisplayPortlet em {
+	font-weight: bold;
+	font-style: normal;
+}
+
+

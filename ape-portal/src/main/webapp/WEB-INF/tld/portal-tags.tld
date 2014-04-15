@@ -29,6 +29,43 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>eac</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.EacTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>type</name>
+			<required>true</required>			
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>eacUrl</name>
+			<required>true</required>			
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+<!-- 		<attribute>
+			<name>databaseId</name>		
+			<rtexprvalue>true</rtexprvalue>
+		</attribute> -->
+		<attribute>
+			<name>repositoryCode</name>
+			<required>true</required>			
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>eaccpfIdentifier</name>
+			<required>true</required>			
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>searchFieldsSelection</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>searchTerms</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>ead</name>
 		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadTag</tag-class>
 		<body-content>empty</body-content>

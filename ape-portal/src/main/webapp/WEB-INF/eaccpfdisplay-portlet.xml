@@ -15,9 +15,9 @@
     <import resource="i18n-common.xml"/>
   	<import resource="persistence-common.xml"/>
   		
-     
 	<bean
 		class="eu.archivesportaleurope.portal.eaccpf.display.DisplayEacCpfContoller">
+				<property name="eacCpfDAO" ref="eacCpfDAO"/> 
 				<property name="messageSource" ref="messageSource"/>
 	</bean>
 		
