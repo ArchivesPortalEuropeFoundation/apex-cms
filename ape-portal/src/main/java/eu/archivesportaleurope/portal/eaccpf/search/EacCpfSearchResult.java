@@ -55,36 +55,16 @@ public class EacCpfSearchResult extends SearchResult{
 			this.alterdateWithoutHighlighting = DisplayUtils.encodeHtml(alterdateWithoutEscaping);
 		}
 		this.description =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_DESCRIPTION, null));
-		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_OCCUPATION) != null){
-			String occupationWithoutEscaping = getMultipleValues(solrDocument.getFieldValues(SolrFields.EAC_CPF_OCCUPATION));
-			this.occupation =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, occupationWithoutEscaping);
-			this.occupation = DisplayUtils.encodeHtmlWithHighlighting(occupation);
-		}	
-		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_PLACES) != null){
-			String placesWithoutEscaping = getMultipleValues(solrDocument.getFieldValues(SolrFields.EAC_CPF_PLACES));
-			this.places =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, placesWithoutEscaping);
-			this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
-		}
+		this.occupation =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, null);
+		this.occupation = DisplayUtils.encodeHtmlWithHighlighting(occupation);
+		this.places =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null);
+		this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_AGENCY_CODE));
 		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
-//		this.places =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null));	
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
-//		this.fond = solrDocument.getFieldValue(EadSolrFields.TITLE_OF_FOND).toString();
-//		this.fondId = getIdFromString(this.fond);
-//		this.fond = getDescriptionFromString(this.fond);
 		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
 		this.aiId = getIdFromString(this.ai);
 		this.ai = getDescriptionFromString(this.ai);
-//		if (solrDocument.getFieldValue(EadSolrFields.UNITID) != null){
-//			this.unitid  = solrDocument.getFieldValue(EadSolrFields.UNITID).toString();
-//		}
-//		this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, EadSolrFields.UNITID, unitid));
-//		this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, EadSolrFields.OTHERUNITID, null));
-//		if (otherUnitid != null){
-//			this.otherUnitid = "(" + this.otherUnitid + ")";
-//		}
-//		if (solrDocument.getFieldValue(EadSolrFields.LEVEL) != null)
-//			this.level = solrDocument.getFieldValue(EadSolrFields.LEVEL).toString();
 	}
 	protected String getMultipleValues(Collection<Object> values){
 		String result = "";
@@ -175,6 +155,8 @@ public class EacCpfSearchResult extends SearchResult{
 	public String getIdentifier() {
 		return identifier;
 	}
-
+	public String getDecodedIdentifier() {
+		return ApeUtil.decodeSpecialCharacters(identifier);
+	}
 
 }
