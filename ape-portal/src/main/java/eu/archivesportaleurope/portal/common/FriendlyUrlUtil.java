@@ -29,6 +29,8 @@ public final class FriendlyUrlUtil {
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SEPARATOR = "/";
 	public static final String EAC_CPF_DISPLAY = "eac-display";
+	public static final String EAC_CPF_RELATION_DISPLAY = "eac-relation-display";
+	
 	private final static Map<String, String> urls = new HashMap<String, String>();
 	static {
 		urls.put(EAD_DISPLAY_SEARCH, "/ead-display/-/ead/s");
@@ -46,6 +48,8 @@ public final class FriendlyUrlUtil {
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/fp");
+		urls.put(EAC_CPF_RELATION_DISPLAY, "/eac-display/-/eac/rel");
+		
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
