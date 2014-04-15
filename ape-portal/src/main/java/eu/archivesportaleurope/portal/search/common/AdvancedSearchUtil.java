@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +17,6 @@ import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
 public final class AdvancedSearchUtil {
-	private final static Logger LOGGER = Logger.getLogger(AdvancedSearchUtil.class);
 	private static final String YYYY = "yyyy";
 	private static final String YYYY_MM = "yyyy-MM";
 	private static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -188,15 +186,15 @@ public final class AdvancedSearchUtil {
 	public static String getHighlightedString(Map<String, Map<String, List<String>>> highlightingMap, String id,
 			String fieldName, String defaultValue) {
 		try {
-			Map<String, List<String>> higlightedMap = highlightingMap.get(id);
-			Set<String> keys = higlightedMap.keySet();
-			for (String key: keys){
-				LOGGER.info(id + " " + key + " " + fieldName);
+			Map<String, List<String>> highlightedMap = highlightingMap.get(id);
+			if (highlightedMap != null){
+				List<String>  values = highlightedMap.get(fieldName);
+				if (values != null){
+					return values.get(0);
+				}
 			}
-			List<String>  values = higlightedMap.get(fieldName);
-			return values.get(0);
+			return defaultValue;
 		} catch (NullPointerException e) {
-			e.printStackTrace();
 			return defaultValue;
 		}
 

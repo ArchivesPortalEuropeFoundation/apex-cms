@@ -31,11 +31,17 @@ public class EacCpfSearchResult extends SearchResult{
 	private String description;
 	private String other;
 	private String places;
-	private String occupation;
+	private String occupations;
+	private String functions;
+	private String mandates;
+	private String entityType;
 	private String ai;
 	private String aiId;
 	private String repositoryCode;
 	private String identifier;
+	private Integer numberOfArchivalMaterialRelations;
+	private Integer numberOfNameRelations;
+	private Integer numberOfInstitutions;
 	private SolrDocument solrDocument;
 
 	public EacCpfSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
@@ -55,16 +61,24 @@ public class EacCpfSearchResult extends SearchResult{
 			this.alterdateWithoutHighlighting = DisplayUtils.encodeHtml(alterdateWithoutEscaping);
 		}
 		this.description =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_DESCRIPTION, null));
-		this.occupation =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, null);
-		this.occupation = DisplayUtils.encodeHtmlWithHighlighting(occupation);
+		this.occupations =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, null);
+		this.occupations = DisplayUtils.encodeHtmlWithHighlighting(occupations);
+		this.mandates =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_MANDATE, null);
+		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
+		this.functions =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_FACET_FUNCTION, null);
+		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
 		this.places =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null);
 		this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
+		this.entityType = solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE).toString();
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_AGENCY_CODE));
 		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
 		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
 		this.aiId = getIdFromString(this.ai);
 		this.ai = getDescriptionFromString(this.ai);
+		this.numberOfArchivalMaterialRelations = (Integer) solrDocument.getFieldValue(SolrFields.EAC_CPF_NUMBER_OF_MATERIAL_RELATIONS);
+		this.numberOfInstitutions = (Integer) solrDocument.getFieldValue(SolrFields.EAC_CPF_NUMBER_OF_INSTITUTIONS_RELATIONS);
+		this.numberOfNameRelations = (Integer) solrDocument.getFieldValue(SolrFields.EAC_CPF_NUMBER_OF_NAME_RELATIONS);
 	}
 	protected String getMultipleValues(Collection<Object> values){
 		String result = "";
@@ -139,8 +153,21 @@ public class EacCpfSearchResult extends SearchResult{
 		return places;
 	}
 
-	public String getOccupation() {
-		return occupation;
+
+	public String getOccupations() {
+		return occupations;
+	}
+	public String getFunctions() {
+		return functions;
+	}
+	public String getMandates() {
+		return mandates;
+	}
+	public String getEntityType() {
+		return entityType;
+	}
+	public String getAiId() {
+		return aiId;
 	}
 	public Object getCountry(){
 		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
@@ -157,6 +184,15 @@ public class EacCpfSearchResult extends SearchResult{
 	}
 	public String getDecodedIdentifier() {
 		return ApeUtil.decodeSpecialCharacters(identifier);
+	}
+	public Integer getNumberOfArchivalMaterialRelations() {
+		return numberOfArchivalMaterialRelations;
+	}
+	public Integer getNumberOfNameRelations() {
+		return numberOfNameRelations;
+	}
+	public Integer getNumberOfInstitutions() {
+		return numberOfInstitutions;
 	}
 
 }
