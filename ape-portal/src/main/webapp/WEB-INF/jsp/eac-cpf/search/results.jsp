@@ -67,6 +67,8 @@
 		<form:hidden id="updateCurrentSearch_exactDateSearch" path="exactDateSearch"/>
 		<form:hidden id="updateCurrentSearch_facetSettings" path="facetSettings"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
+		
+		<form:hidden id="updateCurrentSearch_dateType" path="dateType"/>			
 		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
 		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
@@ -84,6 +86,10 @@
 							<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
 							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}" numberFormat="${numberFormat}" />
 						</div>
+						<div id="resultPerPageContainer">
+							<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
+							<form:select path="resultsperpage"  id="updateCurrentSearch_resultsperpage" items="${eacCpfSearch.resultsperpageValues}"/>
+						</div>						
 						<div id="top-paging" class="paging">
 						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
 								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	

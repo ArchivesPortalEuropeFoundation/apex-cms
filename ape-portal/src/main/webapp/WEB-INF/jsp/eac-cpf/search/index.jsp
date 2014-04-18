@@ -72,16 +72,7 @@
 								<tr>
 									<td><label for="entityType"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</label></td>
 									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eacCpfSearch.entityTypeValues}"/></td>
-								</tr>
-								<tr>
-									<td><label for="nameType"><fmt:message key="advancedsearch.eaccpf.text.typeofname" />:</label></td>
-									<td colspan="3"><form:select path="nameType" id="nameType" tabindex="8">
-											<form:option value="">
-												<fmt:message key="advancedsearch.text.noselection" />
-											</form:option>
-									
-										</form:select></td>
-								</tr>								
+								</tr>							
 								<tr>
 									<td><label for="fromdate"><fmt:message key="advancedsearch.text.datefrom" /></label></td>
 									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="9" maxlength="10" /></td>
