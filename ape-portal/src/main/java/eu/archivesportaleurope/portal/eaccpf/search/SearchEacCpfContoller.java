@@ -25,6 +25,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
@@ -56,8 +57,9 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	
 
 	@RenderMapping
-	public ModelAndView searchEacCpf() {
+	public ModelAndView searchEacCpf(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
 		modelAndView.setViewName("index");
 		return modelAndView;
 	}
@@ -72,6 +74,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			ListResults results = performNewSearch(request,  eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
 		return modelAndView;
 	}
 	@RenderMapping(params = "myaction=eacCpfSearch")
@@ -81,7 +84,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			ListResults results = performNewSearch(request, eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
-
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
 		modelAndView.setViewName("index");
 		
 		return modelAndView;
