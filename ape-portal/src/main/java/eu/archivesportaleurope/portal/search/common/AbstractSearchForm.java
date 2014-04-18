@@ -28,7 +28,7 @@ public abstract class AbstractSearchForm implements Serializable{
 	private String startdate;
 	private String enddate;
 	private String resultsperpage = "10";
-	private List<String> resultsperpageData = new ArrayList<String>();
+	private List<String> resultsperpageValues = new ArrayList<String>();
 	private String exactDateSearch;
 	private String order;
 	private String pageNumber = "1";
@@ -43,11 +43,11 @@ public abstract class AbstractSearchForm implements Serializable{
 	private String publishedToDate;
 	private String mode = MODE_NEW;
 	public AbstractSearchForm(){
-		resultsperpageData.add("10");
-		resultsperpageData.add("20");
-		resultsperpageData.add("30");
-		resultsperpageData.add("50");
-		resultsperpageData.add("100");
+		resultsperpageValues.add("10");
+		resultsperpageValues.add("20");
+		resultsperpageValues.add("30");
+		resultsperpageValues.add("50");
+		resultsperpageValues.add("100");
 	}
 	
 	public String getTerm() {
@@ -116,9 +116,11 @@ public abstract class AbstractSearchForm implements Serializable{
 		this.pageNumber = pageNumber;
 	}
 
-	public List<String> getResultsperpageData() {
-		return resultsperpageData;
+
+	public List<String> getResultsperpageValues() {
+		return resultsperpageValues;
 	}
+
 	protected abstract List<ListFacetSettings> getDefaultListFacetSettings();
 
 	public String getFacetField() {

@@ -211,6 +211,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eacCpfSearch.getAiList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.EAC_CPF_ENTITY_TYPE, eacCpfSearch.getEntityTypeFacetList());
 		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eacCpfSearch.getLanguageList());
+		AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, eacCpfSearch.getDateTypeList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationsFacetList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_PLACES, eacCpfSearch.getPlacesFacetList());
 		AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_MANDATE, eacCpfSearch.getMandatesFacetList());
