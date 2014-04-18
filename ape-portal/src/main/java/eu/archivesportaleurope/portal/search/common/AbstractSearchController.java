@@ -4,8 +4,6 @@ import javax.portlet.PortletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
-
 public class AbstractSearchController {
 
 	private EadSearcher eadSearcher;
@@ -29,7 +27,7 @@ public class AbstractSearchController {
 	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())){
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() != null){
 				solrQueryParameters.setTerm("");
 			}else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());
