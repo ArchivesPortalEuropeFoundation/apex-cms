@@ -197,10 +197,10 @@
 
 #searchingPart #numberOfResults {
 	float: left;
+    width: 243px;	
 }
 
 #searchingPart #resultPerPageContainer {
-	padding-left: 100px;
 	float: left;
 }
 
@@ -386,7 +386,7 @@
 }
 
 #searchingPart #refinements a {
-	max-width: 120px;
+	max-width: 170px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
@@ -395,7 +395,7 @@
 
 #searchingPart  #searchResultsListContainer {
 	float: left;
-	width: 570px;
+	width: 520px;
 }
 
 #searchingPart  #searchresultsList {
@@ -404,7 +404,7 @@
 
 #searchingPart  #refinements {
 	float: left;
-	width: 210px;
+	width: 260px;
 }
 
 #searchingPart .list-searchresult {
@@ -415,7 +415,7 @@
 #searchingPart .list-searchresult-content {
 	float: left;
 	padding: 5px 5px 15px;
-	width: 537px;
+	width: 487px;
 	color: #333333;
 	font-size: 9pt;
 	border-bottom: 1px solid #E6E6E6;
@@ -435,7 +435,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 	vertical-align: top;
-	max-width: 540px;
+	max-width: 490px;
 }
 
 #searchingPart .list-searchresult-context .fond,#searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
@@ -448,11 +448,11 @@
 
 #searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
 	{
-	max-width: 300px;
+	max-width: 250px;
 }
 
 #searchingPart .list-searchresult-context .fond {
-	max-width: 440px;
+	max-width: 390px;
 }
 
 #searchingPart .list-searchresult-context {
@@ -497,7 +497,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 	vertical-align: top;
-	max-width: 440px;
+	max-width: 390px;
 	display: inline-block;
 }
 
@@ -791,9 +791,6 @@
 }
 
 
-#searchingPart #eacCpfSearchPortlet  #advancedSearchOptionsContent {
-    height: 100px;
-}
 #searchingPart #eacCpfSearchPortlet .relation > a{
 	opacity: 0.8;
 }
