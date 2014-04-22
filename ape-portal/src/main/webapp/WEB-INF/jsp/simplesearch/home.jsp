@@ -19,19 +19,13 @@
 			});
 		</script>
 <div id="simpleSearchPortlet">
-	<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
 		<div id="simpleSearch">
-			<div id="simpleSearchOptionsContent" class="searchOptionsContent">
-				<div class="simpleSearchOptions">
-					<table id="simplesearchCriteria">
-						<fmt:message key="advancedsearch.message.typesearchterms2" var="termTitle" />
-						<tr>
-							<td colspan="2"><form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"  autocomplete="off"/> <input
+			<div class="simpleSearchOptions">
+				<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
+					<form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"  autocomplete="off"/> <input
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
-								value="<fmt:message key="advancedsearch.message.search"/>" /></td>
-						</tr>
-					</table>
-				</div>
+								value="<fmt:message key="advancedsearch.message.search"/>" />
+				</form:form>				
 			</div>
 			<p>
 				<fmt:message key="advancedsearch.message.firstmessagepartycsi" />
@@ -43,5 +37,5 @@
 				<fmt:message key="advancedsearch.message.firstmessagepartdu" />
 			</p>
 		</div>
-	</form:form>
+	
 </div>
