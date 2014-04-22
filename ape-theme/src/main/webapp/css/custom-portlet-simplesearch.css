@@ -15,44 +15,10 @@
 	font-size: 8pt;
 }
 
-#simpleSearchPortlet #simpleSearch #simpleSearchOptionsContent {
-    height: 20px;
-    width: 460px;
-}
 
-#simpleSearchPortlet #eadResultsContainer {
-	float: left;
-	width: 300px;
-	    margin-right: 5px;
-}
-
-#simpleSearchPortlet #eacCpfResultsContainer {
-	float: left;
-	width: 300px;
-	    margin-right: 5px;
-}
-
-#simpleSearchPortlet #eagResultsContainer {
-	float: left;
-	width: 300px;
-}
-
-#simpleSearchPortlet .list-searchresult-content {
-	min-height: 0px;
-}
-
-#simpleSearchPortlet .list-searchresult-header a {
-	max-width: 200px;
-}
-
-#simpleSearchPortlet .list-searchresult-content {
-	width: 280px;
-}
-
-#simpleSearchPortlet .alterdate {
-	max-width: 80px;
-}
-#simpleSearchPortlet .searchOptionsContent{
-	    border-radius: 5px;
-    padding: 5px 5px 10px;
+#simpleSearchPortlet  .simpleSearchOptions {
+    background-color: #E8E8E8;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
 }
