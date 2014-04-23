@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public abstract class AbstractSearchForm implements Serializable{
 

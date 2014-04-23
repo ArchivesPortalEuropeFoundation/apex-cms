@@ -25,12 +25,12 @@ import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
-import eu.archivesportaleurope.portal.search.advanced.DateRefinement;
-import eu.archivesportaleurope.portal.search.advanced.Refinement;
 import eu.archivesportaleurope.portal.search.common.DateGap;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.FacetValue;
+import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.DateRefinement;
+import eu.archivesportaleurope.portal.search.ead.Refinement;
 
 public class SavedSearchService {
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchService.class);

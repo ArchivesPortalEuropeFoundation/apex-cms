@@ -8,7 +8,7 @@ import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse;
 
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetContainer;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetContainer;
 
 public class Results implements Serializable {
 

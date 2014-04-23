@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.apenet.commons.solr.SolrFields;
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public enum FacetType {
 	COUNTRY(SolrFields.COUNTRY, SolrFields.COUNTRY_ID,true,true,"country."),

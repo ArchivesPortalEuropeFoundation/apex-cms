@@ -1,4 +1,4 @@
-package eu.archivesportaleurope.portal.search.advanced.altree;
+package eu.archivesportaleurope.portal.search.ead.altree;
 
 import java.util.ArrayList;
 import java.util.List;

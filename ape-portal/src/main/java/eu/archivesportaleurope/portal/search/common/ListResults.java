@@ -10,8 +10,8 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 
 import eu.apenet.commons.ResourceBundleSource;
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetContainer;
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetContainer;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public class ListResults extends Results {
 

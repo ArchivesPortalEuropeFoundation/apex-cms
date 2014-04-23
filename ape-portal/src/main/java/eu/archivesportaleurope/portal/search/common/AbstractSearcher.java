@@ -18,7 +18,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
 
 import eu.apenet.commons.solr.SolrField;
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public abstract class AbstractSearcher {
 	public static final String OR = " OR ";

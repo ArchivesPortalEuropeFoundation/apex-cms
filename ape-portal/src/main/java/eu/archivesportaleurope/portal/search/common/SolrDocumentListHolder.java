@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 
-import eu.archivesportaleurope.portal.eaccpf.search.EacCpfSearchResult;
-import eu.archivesportaleurope.portal.search.advanced.list.EadSearchResult;
+import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearchResult;
+import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 
 public class SolrDocumentListHolder implements Iterable<SearchResult> {
 

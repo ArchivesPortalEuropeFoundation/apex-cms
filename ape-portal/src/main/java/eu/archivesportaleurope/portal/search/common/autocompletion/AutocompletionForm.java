@@ -2,8 +2,8 @@ package eu.archivesportaleurope.portal.search.common.autocompletion;
 
 import java.util.List;
 
-import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
+import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public class AutocompletionForm extends AbstractSearchForm {
 

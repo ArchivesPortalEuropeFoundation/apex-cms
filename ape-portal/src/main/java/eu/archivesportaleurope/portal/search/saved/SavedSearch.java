@@ -3,7 +3,7 @@ package eu.archivesportaleurope.portal.search.saved;
 import java.io.Serializable;
 import java.util.Date;
 
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
 
 public class SavedSearch implements Serializable {
 

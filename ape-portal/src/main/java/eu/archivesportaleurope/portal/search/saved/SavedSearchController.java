@@ -27,7 +27,7 @@ import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
 
 @Controller(value = "savedSearchController")
 @RequestMapping(value = "VIEW")

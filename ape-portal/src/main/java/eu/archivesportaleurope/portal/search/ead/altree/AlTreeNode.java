@@ -1,4 +1,4 @@
-package eu.archivesportaleurope.portal.search.advanced.altree;
+package eu.archivesportaleurope.portal.search.ead.altree;
 
 import org.apache.commons.lang.StringUtils;
 
