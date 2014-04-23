@@ -19,7 +19,7 @@
 				</h1>
 				<h2><fmt:message key="eadcontent.scopecontent"/></h2>	
 				<div class="ead-content">
-				<p><em>Still waiting</em> for the XSLT from <em>Spain</em>...</p>
+				<p><em>Still waiting</em> for the XSLT from <em>Issue 836</em>...</p>
 				</div>				
 		
 	</div>
