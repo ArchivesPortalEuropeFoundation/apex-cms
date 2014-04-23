@@ -50,9 +50,14 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 					abstractSearcher = getEacCpfSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
 					write(builder, results, false);
-				} else {
+				}  else if (AutocompletionForm.EAG.equals(autocompletionForm.getSourceType())) {
+					abstractSearcher = getEagSearcher();
+					add(results,abstractSearcher, autocompletionForm, null);
+					write(builder, results, false);
+				}else {
 					add(results, getEadSearcher(), autocompletionForm, "archives");
 					add(results, getEacCpfSearcher(), autocompletionForm, "names");
+					add(results, getEagSearcher(), autocompletionForm, "institutions");
 					write(builder, results, true);
 				}
 

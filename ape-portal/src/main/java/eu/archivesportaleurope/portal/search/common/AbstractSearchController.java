@@ -4,10 +4,15 @@ import javax.portlet.PortletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
+import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearcher;
+import eu.archivesportaleurope.portal.search.ead.EadSearcher;
+import eu.archivesportaleurope.portal.search.eag.EagSearcher;
+
 public class AbstractSearchController {
 
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
+	private EagSearcher eagSearcher;
 	
 	public EadSearcher getEadSearcher() {
 		return eadSearcher;
@@ -24,10 +29,20 @@ public class AbstractSearchController {
 	public void setEacCpfSearcher(EacCpfSearcher eacCpfSearcher) {
 		this.eacCpfSearcher = eacCpfSearcher;
 	}
+
+	
+	public EagSearcher getEagSearcher() {
+		return eagSearcher;
+	}
+
+	public void setEagSearcher(EagSearcher eagSearcher) {
+		this.eagSearcher = eagSearcher;
+	}
+
 	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() != null){
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) ){
 				solrQueryParameters.setTerm("");
 			}else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());

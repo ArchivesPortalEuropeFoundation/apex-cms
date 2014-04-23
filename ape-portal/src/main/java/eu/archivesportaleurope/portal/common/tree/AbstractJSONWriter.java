@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
-import eu.archivesportaleurope.portal.search.common.EacCpfSearcher;
-import eu.archivesportaleurope.portal.search.common.EadSearcher;
+import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearcher;
+import eu.archivesportaleurope.portal.search.ead.EadSearcher;
+import eu.archivesportaleurope.portal.search.eag.EagSearcher;
 
 public abstract class AbstractJSONWriter {
 
@@ -34,6 +34,7 @@ public abstract class AbstractJSONWriter {
 	protected static final String ADVANCEDSEARCH_TEXT_NOTITLE = "advancedsearch.text.notitle";
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
+	private EagSearcher eagSearcher;
 	private MessageSource messageSource;
 	
 	public EadSearcher getEadSearcher() {
@@ -54,6 +55,14 @@ public abstract class AbstractJSONWriter {
 
 
 	
+	public EagSearcher getEagSearcher() {
+		return eagSearcher;
+	}
+
+	public void setEagSearcher(EagSearcher eagSearcher) {
+		this.eagSearcher = eagSearcher;
+	}
+
 	public MessageSource getMessageSource() {
 		return messageSource;
 	}

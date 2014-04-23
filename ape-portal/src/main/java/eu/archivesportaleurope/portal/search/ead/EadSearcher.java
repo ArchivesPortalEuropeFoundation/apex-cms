@@ -1,7 +1,6 @@
-package eu.archivesportaleurope.portal.search.common;
+package eu.archivesportaleurope.portal.search.ead;
 
 
-import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -11,36 +10,19 @@ import org.apache.solr.common.params.FacetParams;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.APEnetUtilities;
+import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
+import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 public final class EadSearcher extends AbstractSearcher {
 
-	//private static final String FACET_SORT_INDEX = "index";
 	private static final String FACET_SORT_COUNT = "count";
 	private static final String QUERY_TYPE_CONTEXT = "context";
-
-
-	//private static final String WHITESPACE = " ";
-
-	private final static Logger LOGGER = Logger.getLogger(EadSearcher.class);
-
-	
 
 	@Override
 	protected String getSolrSearchUrl() {
 		return APEnetUtilities.getApePortalConfig().getBaseSolrSearchUrl() + "/eads";
 	}
 
-
-
-
-
-
-
-
-
-	
-
-	
 	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 		query.addFacetField(SolrFields.COUNTRY);

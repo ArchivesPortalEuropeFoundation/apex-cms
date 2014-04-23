@@ -328,6 +328,7 @@ public class AdvancedSearchController extends AbstractSearchController{
 		if (solrQueryParameters != null){ 
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEadNumberOfResults(results.getTotalNumberOfResults());
+			results.setEagNumberOfResults(getEagSearcher().getNumberOfResults(solrQueryParameters));
 		}
 	}
 }

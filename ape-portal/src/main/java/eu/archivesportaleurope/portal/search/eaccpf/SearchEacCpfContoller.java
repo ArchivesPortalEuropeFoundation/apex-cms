@@ -247,6 +247,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 		if (solrQueryParameters != null){ 
 			results.setEacCpfNumberOfResults(results.getTotalNumberOfResults());
 			results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
+			results.setEagNumberOfResults(getEagSearcher().getNumberOfResults(solrQueryParameters));
 		}
 	}
 }
