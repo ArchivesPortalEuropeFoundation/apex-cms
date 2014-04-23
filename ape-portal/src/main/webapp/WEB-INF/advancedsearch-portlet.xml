@@ -17,10 +17,10 @@
 	<import resource="persistence-common.xml"/>
 
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.AdvancedSearch">
+		class="eu.archivesportaleurope.portal.search.ead.AdvancedSearch">
 	</bean>
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch">
+		class="eu.archivesportaleurope.portal.search.ead.tree.TreeAdvancedSearch">
 	</bean>	
 	<bean id="savedSearchService"
 		class="eu.archivesportaleurope.portal.search.saved.SavedSearchService">
@@ -31,23 +31,23 @@
 		<property name="eadDAO" ref="eadDAO"/>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.SaveSearchJSONControllor">
+		class="eu.archivesportaleurope.portal.search.ead.SaveSearchJSONControllor">
 		<property name="savedSearchService" ref="savedSearchService"></property>
 		<property name="messageSource" ref="messageSource"></property>
 	</bean>			
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.DisplayPreviewContoller">
+		class="eu.archivesportaleurope.portal.search.ead.DisplayPreviewContoller">
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 		<property name="clevelDAO" ref="cLevelDAO"/>
 		<property name="eadContentDAO" ref="eadContentDAO"/>
 	</bean>		
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.tree.ContextTreeJSONWriter">
+		class="eu.archivesportaleurope.portal.search.ead.tree.ContextTreeJSONWriter">
 		<property name="messageSource" ref="messageSource"></property>
 		<property name="eadSearcher" ref="eadSearcher"></property>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.altree.ArchivalLandscapeTreeJSONWriter">
+		class="eu.archivesportaleurope.portal.search.ead.altree.ArchivalLandscapeTreeJSONWriter">
 		<property name="messageSource" ref="messageSource"/>
 		<property name="countryDAO" ref="countryDAO"/>
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
@@ -55,7 +55,7 @@
 		<property name="cLevelDAO" ref="cLevelDAO"/>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.search.advanced.AdvancedSearchController">
+		class="eu.archivesportaleurope.portal.search.ead.AdvancedSearchController">
 		<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 		<property name="eadSearcher" ref="eadSearcher"/>
 		<property name="messageSource" ref="messageSource"></property>
