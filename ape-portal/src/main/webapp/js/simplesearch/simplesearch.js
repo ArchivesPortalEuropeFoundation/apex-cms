@@ -1,6 +1,9 @@
-function init(autocompletionUrl) {
-	var selector = "#searchTerms";
-	$(selector).focus();
+function initSimpleSearchAutocompletion(autocompletionUrl, embedded) {
+	var selector = "#simpleSearch #searchTerms";
+	console.info("initSimpleSearchAutocompletion");
+	if (!embedded){
+		$(selector).focus();
+	}
 	function split(val) {
 		return val.split(/\s+/);
 	}
@@ -19,6 +22,7 @@ function init(autocompletionUrl) {
 	$(selector).autocomplete({
 		minLength : 0,
 		source : function(request, response) {
+			console.info("autocomplete: " + request.term);
 			$.getJSON(autocompletionUrl, {
 				term : extractLast(request.term)
 			}, response);
@@ -47,6 +51,11 @@ function init(autocompletionUrl) {
 		}, 
 		open: function(){
 	        setTimeout(function () {
+	        	if (embedded){
+	        	 $('.ui-widget').css('font-size', '12px');
+	        	}else {
+	        		
+	        	}
 	            $('.ui-autocomplete').css('z-index', 99999999999999);
 	        }, 0);
 	    }
