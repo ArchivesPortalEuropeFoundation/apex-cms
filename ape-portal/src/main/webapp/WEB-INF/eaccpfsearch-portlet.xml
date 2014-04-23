@@ -16,13 +16,13 @@
   	<import resource="search-common.xml"/>
     <import resource="persistence-common.xml"/> 
 	<bean
-		class="eu.archivesportaleurope.portal.eaccpf.search.SearchEacCpfContoller">
+		class="eu.archivesportaleurope.portal.search.eaccpf.SearchEacCpfContoller">
 				<property name="messageSource" ref="messageSource"/>
 			<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 			<property name="eadSearcher" ref="eadSearcher"/>
 				
 	</bean>
-	<bean class="eu.archivesportaleurope.portal.eaccpf.search.DisplayPreviewContoller">
+	<bean class="eu.archivesportaleurope.portal.search.eaccpf.DisplayPreviewContoller">
 		<property name="eacCpfDAO" ref="eacCpfDAO"/>
 	</bean>			
 		
