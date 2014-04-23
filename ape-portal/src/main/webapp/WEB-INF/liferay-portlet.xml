@@ -5,7 +5,7 @@
 	<portlet>
 		<portlet-name>simplesearch</portlet-name>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
-		<instanceable>false</instanceable>
+		<instanceable>true</instanceable>
 		<header-portlet-javascript>/js/simplesearch/simplesearch.js</header-portlet-javascript>
 	</portlet>
 	<portlet>

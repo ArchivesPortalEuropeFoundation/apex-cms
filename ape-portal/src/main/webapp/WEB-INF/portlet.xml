@@ -26,9 +26,14 @@
         <portlet-preferences>
             <preference>
                 <name>numberOfDaoUnits</name>
-                <value>40290342</value>
+                <value>125000000</value>
                 <read-only>false</read-only>
             </preference>
+            <preference>
+                <name>embedded</name>
+                <value>false</value>
+                <read-only>false</read-only>
+            </preference>            
         </portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
