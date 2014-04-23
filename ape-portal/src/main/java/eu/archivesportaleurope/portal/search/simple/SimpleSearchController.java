@@ -18,6 +18,7 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @Controller(value = "simpleSearchController")
 @RequestMapping(value = "VIEW")
 public class SimpleSearchController {
+	private static final String TRUE = "TRUE";
 	//private final static Logger LOGGER = Logger.getLogger(SimpleSearchController.class);
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
@@ -25,19 +26,25 @@ public class SimpleSearchController {
 	@RenderMapping
 	public ModelAndView showSimpleSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("home");
-
-		modelAndView.getModelMap().addAttribute("institutions", archivalInstitutionDAO.countArchivalInstitutionsWithContentIndexed());
-		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
-		modelAndView.getModelMap().addAttribute("units", numberFormat.format(eadDAO.getTotalCountOfUnits()));
-		String numberOfDaoUnitsString= request.getPreferences().getValue("numberOfDaoUnits", "0");
-		long numberOfDaoUnits = 0;
-		if (StringUtils.isNotBlank(numberOfDaoUnitsString)){
-			numberOfDaoUnits = Long.parseLong(numberOfDaoUnitsString);
-			
+		String embedded= request.getPreferences().getValue("embedded", "false");
+		if (TRUE.equalsIgnoreCase(embedded)){
+			modelAndView.setViewName("embedded");
+		}else {
+			modelAndView.setViewName("home");
+	
+			modelAndView.getModelMap().addAttribute("institutions", archivalInstitutionDAO.countArchivalInstitutionsWithContentIndexed());
+			NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
+			modelAndView.getModelMap().addAttribute("units", numberFormat.format(eadDAO.getTotalCountOfUnits()));
+			String numberOfDaoUnitsString= request.getPreferences().getValue("numberOfDaoUnits", "0");
+			long numberOfDaoUnits = 0;
+			if (StringUtils.isNotBlank(numberOfDaoUnitsString)){
+				numberOfDaoUnits = Long.parseLong(numberOfDaoUnitsString);
+				
+			}
+			modelAndView.getModelMap().addAttribute("numberOfDaoUnits", numberFormat.format(numberOfDaoUnits));
+	
+			PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_HOME);
 		}
-		modelAndView.getModelMap().addAttribute("numberOfDaoUnits", numberFormat.format(numberOfDaoUnits));
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_HOME);
 		return modelAndView;
 	}
 
