@@ -15,7 +15,7 @@
 	font-size: 8pt;
 }
 
-.simpleSearchOptions {
+#simpleSearchPortlet .simpleSearchOptions, #embeddedSimpleSearchPortlet .simpleSearchOptions {
     background-color: #E8E8E8;
     display: inline-block;
     padding: 5px;
@@ -33,15 +33,14 @@
 
 #embeddedSimpleSearchPortlet #simpleSearch {
 	width:400px;
+	float: left;
 }
 
 #embeddedSimpleSearchPortlet .simpleSearchOptions {
-    background-color: #FFFFFF;
-    border-radius: 3px;
-    display: inline-block;
-    opacity: 0.9;
-    padding: 3px;
     position: relative;
-    right: -30px;
-    top: -130px;
+    right: -320px;
+    top: -30px;
+}
+#embeddedSimpleSearchPortlet {
+	display: inline-block;
 }

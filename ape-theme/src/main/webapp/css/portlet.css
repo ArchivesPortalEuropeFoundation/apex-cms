@@ -73,7 +73,7 @@ body.portlet {
 	position: relative;
 }
 
-.controls-visible .portlet-borderless-container {
+.dockbar-ready .portlet-borderless-container {
 	min-height: 2.5em;
 }
 
