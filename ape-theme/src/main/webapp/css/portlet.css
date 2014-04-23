@@ -70,8 +70,11 @@ body.portlet {
 /* ---------- Borderless portlet ---------- */
 
 .portlet-borderless-container {
-	min-height: 2.5em;
 	position: relative;
+}
+
+.controls-visible .portlet-borderless-container {
+	min-height: 2.5em;
 }
 
 .portlet-borderless-bar {
