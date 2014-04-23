@@ -21,13 +21,17 @@ if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
 String numberOfDaoUnits = preferences.getValue("numberOfDaoUnits", "");
-
+String embedded = preferences.getValue("embedded", "");
 %>
 <table class="lfr-table">
 
 <tr>
 	<td>Number of DAO units:</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--numberOfDaoUnits--" value="<%=numberOfDaoUnits %>"/> </td>
+</tr>
+<tr>
+	<td>Embedded:</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--embedded--" value="<%=embedded %>"/> </td>
 </tr>
 </table>  
 <input type="button" value="Save" onClick="submitForm(document.<portlet:namespace />fm);" /> </form>

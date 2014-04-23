@@ -15,29 +15,18 @@
 </liferay-portlet:renderURL>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				initSimpleSearchAutocompletion("${autocompletionUrl}",false);
+				initSimpleSearchAutocompletion("${autocompletionUrl}", true );
 			});
 		</script>
-<div id="simpleSearchPortlet">
+<div id="embeddedSimpleSearchPortlet">
 		<div id="simpleSearch">
 			<div class="simpleSearchOptions">
-				<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
-					<form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"  autocomplete="off"/> <input
+				<form id="simpleSearchForm" method="post" action="${advancedSearchUrl}">
+					<input name="term" id="searchTerms" type="text" title="${termTitle}" tabindex="1" maxlength="100"  autocomplete="off" placeholder="<fmt:message key="simplesearch.message.search.inallcontent"/>"/> <input
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" />
-				</form:form>				
+				</form>				
 			</div>
-			<div id="simpleSearchText">
-			<p>
-				<fmt:message key="advancedsearch.message.firstmessagepartycsi" />
-				<span class="bold">${units}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartinst" />
-				<span class="bold">${numberOfDaoUnits}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartdao" />
-				<span class="bold">${institutions}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartdu" />
-			</p>
-			 </div>
 		</div>
 	
-</div>
+</div>	
