@@ -58,6 +58,7 @@
 		class="eu.archivesportaleurope.portal.search.ead.AdvancedSearchController">
 		<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 		<property name="eadSearcher" ref="eadSearcher"/>
+		<property name="eagSearcher" ref="eagSearcher"/>
 		<property name="messageSource" ref="messageSource"></property>
 		<property name="savedSearchService" ref="savedSearchService"></property>
 	</bean>

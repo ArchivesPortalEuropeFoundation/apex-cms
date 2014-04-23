@@ -17,9 +17,10 @@
     <import resource="persistence-common.xml"/> 
 	<bean
 		class="eu.archivesportaleurope.portal.search.eaccpf.SearchEacCpfContoller">
-				<property name="messageSource" ref="messageSource"/>
+			<property name="messageSource" ref="messageSource"/>
 			<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 			<property name="eadSearcher" ref="eadSearcher"/>
+			<property name="eagSearcher" ref="eagSearcher"/>
 				
 	</bean>
 	<bean class="eu.archivesportaleurope.portal.search.eaccpf.DisplayPreviewContoller">

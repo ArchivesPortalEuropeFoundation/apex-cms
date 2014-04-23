@@ -13,11 +13,14 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
 
-	<bean id="eadSearcher" class="eu.archivesportaleurope.portal.search.common.EadSearcher"/>
-	<bean id="eacCpfSearcher" class="eu.archivesportaleurope.portal.search.common.EacCpfSearcher"/>
+	<bean id="eadSearcher" class="eu.archivesportaleurope.portal.search.ead.EadSearcher"/>
+	<bean id="eacCpfSearcher" class="eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearcher"/>
+	<bean id="eagSearcher" class="eu.archivesportaleurope.portal.search.eag.EagSearcher"/>	
+
 	<bean
 		class="eu.archivesportaleurope.portal.search.common.autocompletion.AutocompletionJSONController">
-		<property name="eadSearcher" ref="eadSearcher"></property>
-		<property name="eacCpfSearcher" ref="eacCpfSearcher"></property>
+		<property name="eadSearcher" ref="eadSearcher"/>
+		<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
+		<property name="eagSearcher" ref="eagSearcher"/>		
 	</bean>
 </beans>
