@@ -55,7 +55,6 @@ public class PageTag extends SimpleTagSupport {
 		long groupId = themeDisplay.getLayout().getGroupId();
 		Layout otherPage;
 		try {
-			LOGGER.info(friendlyUrl + " " + portletName);
 			otherPage = LayoutLocalServiceUtil.getFriendlyURLLayout(groupId, false, friendlyUrl);
 			String result = otherPage.getPlid() + SEPARATOR;
 			String newPortletId = portletName + _WAR;
