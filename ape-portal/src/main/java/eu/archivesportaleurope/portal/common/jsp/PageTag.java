@@ -42,7 +42,7 @@ public class PageTag extends SimpleTagSupport {
 			getJspContext().setAttribute(varPortletId, splitted[1]);
 			
 		} catch (Exception e) {
-			LOGGER.error("Unable to retrieve portletId and plId: " +ApeUtil.generateThrowableLog(e));
+			LOGGER.error("Unable to retrieve portletId and plId:  ("+ friendlyUrl + " " + portletName+")" +ApeUtil.generateThrowableLog(e));
 		}
 
 		super.doTag();
@@ -55,6 +55,7 @@ public class PageTag extends SimpleTagSupport {
 		long groupId = themeDisplay.getLayout().getGroupId();
 		Layout otherPage;
 		try {
+			LOGGER.info(friendlyUrl + " " + portletName);
 			otherPage = LayoutLocalServiceUtil.getFriendlyURLLayout(groupId, false, friendlyUrl);
 			String result = otherPage.getPlid() + SEPARATOR;
 			String newPortletId = portletName + _WAR;
@@ -71,7 +72,7 @@ public class PageTag extends SimpleTagSupport {
 			}
 			return result;
 		} catch (Exception e) {
-			LOGGER.error("Unable to retrieve portletId and plId: " +ApeUtil.generateThrowableLog(e));
+			LOGGER.error("Unable to retrieve portletId and plId: ("+ friendlyUrl + " " + portletName+")" +ApeUtil.generateThrowableLog(e));
 		}
 		return null;
 	}
