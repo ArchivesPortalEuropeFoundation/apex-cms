@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
-import eu.archivesportaleurope.portal.search.advanced.AdvancedSearch;
-import eu.archivesportaleurope.portal.search.advanced.tree.TreeAdvancedSearch;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
+import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.tree.TreeAdvancedSearch;
 
 public final class AnalyzeLogger {
 	private static final String OPTIONAL = "optional";
