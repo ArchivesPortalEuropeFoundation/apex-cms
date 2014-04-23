@@ -42,7 +42,7 @@ public class AbstractSearchController {
 	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) ){
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() != null){
 				solrQueryParameters.setTerm("");
 			}else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());
