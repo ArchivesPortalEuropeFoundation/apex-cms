@@ -17,10 +17,10 @@
 	<import resource="persistence-common.xml"/>
 
 	<bean
-		class="eu.archivesportaleurope.portal.search.ead.AdvancedSearch">
+		class="eu.archivesportaleurope.portal.search.ead.EadSearch">
 	</bean>
 	<bean
-		class="eu.archivesportaleurope.portal.search.ead.tree.TreeAdvancedSearch">
+		class="eu.archivesportaleurope.portal.search.ead.tree.TreeEadSearch">
 	</bean>	
 	<bean id="savedSearchService"
 		class="eu.archivesportaleurope.portal.search.saved.SavedSearchService">
@@ -55,7 +55,7 @@
 		<property name="cLevelDAO" ref="cLevelDAO"/>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.search.ead.AdvancedSearchController">
+		class="eu.archivesportaleurope.portal.search.ead.EadSearchController">
 		<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 		<property name="eadSearcher" ref="eadSearcher"/>
 		<property name="eagSearcher" ref="eagSearcher"/>
