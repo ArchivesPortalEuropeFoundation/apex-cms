@@ -16,7 +16,7 @@
   	<import resource="search-common.xml"/>
     <import resource="persistence-common.xml"/> 
 	<bean
-		class="eu.archivesportaleurope.portal.search.eaccpf.SearchEacCpfContoller">
+		class="eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearchContoller">
 			<property name="messageSource" ref="messageSource"/>
 			<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
 			<property name="eadSearcher" ref="eadSearcher"/>
