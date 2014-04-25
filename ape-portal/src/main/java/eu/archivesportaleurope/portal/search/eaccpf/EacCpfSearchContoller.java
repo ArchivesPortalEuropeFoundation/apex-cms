@@ -47,8 +47,8 @@ import eu.archivesportaleurope.util.ApeUtil;
  */
 @Controller(value = "searchEacCpfContoller")
 @RequestMapping(value = "VIEW")
-public class SearchEacCpfContoller extends AbstractSearchController{
-	private final static Logger LOGGER = Logger.getLogger(SearchEacCpfContoller.class);
+public class EacCpfSearchContoller extends AbstractSearchController{
+	private final static Logger LOGGER = Logger.getLogger(EacCpfSearchContoller.class);
 	private MessageSource messageSource;
 	
 	public void setMessageSource(MessageSource messageSource) {
