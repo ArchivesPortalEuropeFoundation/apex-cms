@@ -59,7 +59,7 @@
 					<div id="tabHeaderContent"></div>
 				</div>
 			</div>
-
+			<div id="searchOptions">
 		
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
 				action="${advancedSearchUrl}">
@@ -178,7 +178,8 @@
 		
 				</div>
 			</form:form>
-			<c:if test="${eadSearch.mode == 'new'}">
+			</div>
+			<c:if test="${empty results or eadSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
 			<div id="searchResultsContainer" class="${showResults }">
@@ -214,12 +215,12 @@
 						<div id="answerMessageSavedSearch"></div>
 					</div>
 					<div id="tabs-context">
-						<c:if test="${eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
+						<c:if test="${!empty results and eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />
 						</c:if> 
 					</div>
 					<div id="tabs-list">
-						<c:if test="${eadSearch.mode != 'new' and eadSearch.view != 'hierarchy'}">
+						<c:if test="${!empty results and eadSearch.mode != 'new' and eadSearch.view != 'hierarchy'}">
 						<jsp:include page="results.jsp" />
 					</c:if>
 					</div>

@@ -57,7 +57,7 @@
 <portlet:renderURL var="eagSearchUrl">
 	<portlet:param name="myaction" value="eagSearch" />
 </portlet:renderURL>
-
+<div id="searchOptions">
 <form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eagSearch" method="post"
 				action="${eagSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -112,7 +112,8 @@
 					</div>
 				</div>				
 </form:form>
-			<c:if test="${eagSearch.mode == 'new'}">
+</div>
+			<c:if test="${empty results or eagSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
 			<div id="searchResultsContainer" class="${showResults }">
@@ -138,7 +139,7 @@
 		
 				<div id="tabs">
 					<div id="tabs-list">
-						<c:if test="${eagSearch.mode != 'new'}">
+						<c:if test="${!empty results and eagSearch.mode != 'new'}">
 						<jsp:include page="results.jsp" />
 					</c:if>
 					</div>

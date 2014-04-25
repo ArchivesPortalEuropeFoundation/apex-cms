@@ -58,7 +58,7 @@
 	<portlet:param name="myaction" value="eacCpfSearch" />
 </portlet:renderURL>
 <portal:friendlyUrl var="friendlyUrl" type="eac-cpf-display"/>
-
+<div id="searchOptions">
 <form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
 				action="${eacCpfSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -123,7 +123,8 @@
 					</div>
 				</div>				
 </form:form>
-			<c:if test="${eacCpfSearch.mode == 'new'}">
+</div>
+			<c:if test="${empty results or eacCpfSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
 			<div id="searchResultsContainer" class="${showResults }">
@@ -149,7 +150,7 @@
 		
 				<div id="tabs">
 					<div id="tabs-list">
-						<c:if test="${eacCpfSearch.mode != 'new'}">
+						<c:if test="${!empty results and eacCpfSearch.mode != 'new'}">
 						<jsp:include page="results.jsp" />
 					</c:if>
 					</div>
