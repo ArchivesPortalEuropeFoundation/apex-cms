@@ -9,7 +9,7 @@
 		<header-portlet-javascript>/js/simplesearch/simplesearch.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
-		<portlet-name>advancedsearch</portlet-name>
+		<portlet-name>ead-search</portlet-name>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
 		<friendly-url-mapping>s</friendly-url-mapping>
 		<friendly-url-routes>search-url-routes.xml</friendly-url-routes>

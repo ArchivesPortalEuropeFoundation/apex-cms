@@ -7,9 +7,9 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<portal:page  varPlId="advancedSearchPlId"  varPortletId="advancedSearchPortletId" portletName="advancedsearch" friendlyUrl="/search"/>		
+<portal:page  varPlId="eadSearchPlId"  varPortletId="eadSearchPortletId" portletName="eadsearch" friendlyUrl="/search"/>		
 <portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
-<liferay-portlet:renderURL var="advancedSearchUrl"  plid="${advancedSearchPlId}" portletName="${advancedSearchPortletId}">
+<liferay-portlet:renderURL var="eadSearchUrl"  plid="${eadSearchPlId}" portletName="${eadSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 	<liferay-portlet:param  name="advanced" value="false"/>
 </liferay-portlet:renderURL>
@@ -21,7 +21,7 @@
 <div id="simpleSearchPortlet">
 		<div id="simpleSearch">
 			<div class="simpleSearchOptions">
-				<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${advancedSearchUrl}">
+				<form:form id="simpleSearchForm" name="simpleSearchForm" commandName="simpleSearch" method="post" action="${eadSearchUrl}">
 					<form:input path="term" id="searchTerms" title="${termTitle}" tabindex="1" maxlength="100"  autocomplete="off"/> <input
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" />

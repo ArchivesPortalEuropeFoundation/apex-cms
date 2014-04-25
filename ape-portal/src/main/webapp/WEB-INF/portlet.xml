@@ -49,8 +49,8 @@
 		</security-role-ref>
 	</portlet>
 	<portlet>
-		<portlet-name>advancedsearch</portlet-name>
-		<display-name>Advanced Search</display-name>
+		<portlet-name>ead-search</portlet-name>
+		<display-name>EAD Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -59,9 +59,9 @@
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Advanced Search</title>
-			<short-title>Advanced Search</short-title>
-			<keywords>advanced-search</keywords>
+			<title>EAD Search</title>
+			<short-title>EAD Search</short-title>
+			<keywords>ead-search</keywords>
 		</portlet-info>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -80,10 +80,6 @@
 		<portlet-name>savedsearch</portlet-name>
 		<display-name>Saved Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-        <init-param>
-            <name>config-jsp</name>
-            <value>/WEB-INF/jsp/simplesearch/configuration.jsp</value>
-        </init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
