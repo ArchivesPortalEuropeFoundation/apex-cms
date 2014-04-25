@@ -9,8 +9,8 @@ import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
-import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
-import eu.archivesportaleurope.portal.search.ead.tree.TreeAdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
+import eu.archivesportaleurope.portal.search.ead.tree.TreeEadSearch;
 
 public final class AnalyzeLogger {
 	private static final String OPTIONAL = "optional";
@@ -43,41 +43,41 @@ public final class AnalyzeLogger {
     		AL_ANALYZE_LOGGER.debug(logLine);
     	}
     }
-    public static void logAdvancedSearch(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logAdvancedSearch(EadSearch eadSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_ANALYZE_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
-    		if (HIERARCHY.equals(advancedSearch.getView())) {
+    		if (HIERARCHY.equals(eadSearch.getView())) {
     			logLine +="c;";
     		}else {
     			logLine +=";";
     		}
-    		if (TRUE.equals(advancedSearch.getDao())) {
+    		if (TRUE.equals(eadSearch.getDao())) {
     			logLine +="d;";
     		}else {
     			logLine +=";";
     		}   
-    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(eadSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
     		} 
-    		if ("0".equals(advancedSearch.getElement())){
+    		if ("0".equals(eadSearch.getElement())){
     			logLine +=";";
     		}else {
-    			logLine += advancedSearch.getElement() +";";
+    			logLine += eadSearch.getElement() +";";
     		}
-    		logLine += advancedSearch.getTypedocument() +";";
-    		if (StringUtils.isBlank(advancedSearch.getFromdate())) {
+    		logLine += eadSearch.getTypedocument() +";";
+    		if (StringUtils.isBlank(eadSearch.getFromdate())) {
     			logLine +=";";
     		}else {
     			logLine +="fd;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getTodate())) {
+    		if (StringUtils.isBlank(eadSearch.getTodate())) {
     			logLine +=";";
     		}else {
     			logLine +="td;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getExactDateSearch())) {
+    		if (StringUtils.isBlank(eadSearch.getExactDateSearch())) {
     			logLine +=";";
     		}else {
     			logLine +="ed;";
@@ -85,45 +85,45 @@ public final class AnalyzeLogger {
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.COUNTRY_ID)) + ";";
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.AI_ID)) + ";";
     		logLine +=countList(solrQueryParameters.getOrParameters().get( SolrFields.FOND_ID)) + ";";
-    		logLine +="\""+ advancedSearch.getTerm() + "\"";
+    		logLine +="\""+ eadSearch.getTerm() + "\"";
     		ADVANCED_SEARCH_ANALYZE_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logUpdateAdvancedSearchContext(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logUpdateAdvancedSearchContext(TreeEadSearch eadSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_CONTEXT_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
-    		if (HIERARCHY.equals(advancedSearch.getView())) {
+    		if (HIERARCHY.equals(eadSearch.getView())) {
     			logLine +="c;";
     		}else {
     			logLine +=";";
     		}
-    		if (TRUE.equals(advancedSearch.getDao())) {
+    		if (TRUE.equals(eadSearch.getDao())) {
     			logLine +="d;";
     		}else {
     			logLine +=";";
     		}   
-    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(eadSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
     		} 
-    		if ("0".equals(advancedSearch.getElement())){
+    		if ("0".equals(eadSearch.getElement())){
     			logLine +=";";
     		}else {
-    			logLine += advancedSearch.getElement() +";";
+    			logLine += eadSearch.getElement() +";";
     		}
-    		logLine += advancedSearch.getTypedocument() +";";
-    		if (StringUtils.isBlank(advancedSearch.getFromdate())) {
+    		logLine += eadSearch.getTypedocument() +";";
+    		if (StringUtils.isBlank(eadSearch.getFromdate())) {
     			logLine +=";";
     		}else {
     			logLine +="fd;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getTodate())) {
+    		if (StringUtils.isBlank(eadSearch.getTodate())) {
     			logLine +=";";
     		}else {
     			logLine +="td;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getExactDateSearch())) {
+    		if (StringUtils.isBlank(eadSearch.getExactDateSearch())) {
     			logLine +=";";
     		}else {
     			logLine +="xd;";
@@ -131,56 +131,56 @@ public final class AnalyzeLogger {
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.COUNTRY_ID)) + ";";
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.AI_ID)) + ";";
     		logLine +=countList(solrQueryParameters.getOrParameters().get( SolrFields.FOND_ID)) + ";";
-    		if (StringUtils.isBlank(advancedSearch.getStart())) {
+    		if (StringUtils.isBlank(eadSearch.getStart())) {
     			logLine +=";";
     		}else {
-    			logLine +=advancedSearch.getStart() + ";";
+    			logLine +=eadSearch.getStart() + ";";
     		}
-    		if (StringUtils.isBlank(advancedSearch.getLevel())) {
+    		if (StringUtils.isBlank(eadSearch.getLevel())) {
     			logLine +=";";
     		}else {
-    			logLine +=advancedSearch.getLevel() + ";";
+    			logLine +=eadSearch.getLevel() + ";";
     		}
-    		logLine += advancedSearch.getSearchType() + ";";
-    		logLine +="\""+ advancedSearch.getTerm() + "\"";
+    		logLine += eadSearch.getSearchType() + ";";
+    		logLine +="\""+ eadSearch.getTerm() + "\"";
     		ADVANCED_SEARCH_CONTEXT_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logUpdateAdvancedSearchList(AdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters){
+    public static void logUpdateAdvancedSearchList(EadSearch eadSearch, SolrQueryParameters solrQueryParameters){
     	if (ADVANCED_SEARCH_LIST_LOGGER.isDebugEnabled() && solrQueryParameters != null){
     		String logLine = "";
-    		if (HIERARCHY.equals(advancedSearch.getView())) {
+    		if (HIERARCHY.equals(eadSearch.getView())) {
     			logLine +="c;";
     		}else {
     			logLine +=";";
     		}
-    		if (TRUE.equals(advancedSearch.getDao())) {
+    		if (TRUE.equals(eadSearch.getDao())) {
     			logLine +="d;";
     		}else {
     			logLine +=";";
     		}   
-    		if (OPTIONAL.equals(advancedSearch.getMethod())) {
+    		if (OPTIONAL.equals(eadSearch.getMethod())) {
     			logLine +="or;";
     		}else {
     			logLine +=";";
     		} 
-    		if ("0".equals(advancedSearch.getElement())){
+    		if ("0".equals(eadSearch.getElement())){
     			logLine +=";";
     		}else {
-    			logLine += advancedSearch.getElement() +";";
+    			logLine += eadSearch.getElement() +";";
     		}
-    		logLine += advancedSearch.getTypedocument() +";";
-    		if (StringUtils.isBlank(advancedSearch.getFromdate())) {
+    		logLine += eadSearch.getTypedocument() +";";
+    		if (StringUtils.isBlank(eadSearch.getFromdate())) {
     			logLine +=";";
     		}else {
     			logLine +="fd;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getTodate())) {
+    		if (StringUtils.isBlank(eadSearch.getTodate())) {
     			logLine +=";";
     		}else {
     			logLine +="td;";
     		} 
-    		if (StringUtils.isBlank(advancedSearch.getExactDateSearch())) {
+    		if (StringUtils.isBlank(eadSearch.getExactDateSearch())) {
     			logLine +=";";
     		}else {
     			logLine +="xd;";
@@ -188,44 +188,44 @@ public final class AnalyzeLogger {
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.COUNTRY_ID)) + ";";
     		logLine += countList(solrQueryParameters.getOrParameters().get( SolrFields.AI_ID)) + ";";
     		logLine +=countList(solrQueryParameters.getOrParameters().get( SolrFields.FOND_ID)) + ";";
-    		logLine += countList(advancedSearch.getCountryList()) + ";";
-    		logLine += countList(advancedSearch.getAiList()) + ";";
-    		logLine += countList( advancedSearch.getFondList()) + ";";
-    		logLine += countList(advancedSearch.getTypeList()) + ";";
-    		logLine += countList( advancedSearch.getDateTypeList()) + ";";
-    		logLine += countList(advancedSearch.getRoledaoList()) + ";";
-    		logLine += countList( advancedSearch.getDaoList()) + ";";
-    		if (StringUtils.isBlank(advancedSearch.getEnddate())) {
+    		logLine += countList(eadSearch.getCountryList()) + ";";
+    		logLine += countList(eadSearch.getAiList()) + ";";
+    		logLine += countList( eadSearch.getFondList()) + ";";
+    		logLine += countList(eadSearch.getTypeList()) + ";";
+    		logLine += countList( eadSearch.getDateTypeList()) + ";";
+    		logLine += countList(eadSearch.getRoledaoList()) + ";";
+    		logLine += countList( eadSearch.getDaoList()) + ";";
+    		if (StringUtils.isBlank(eadSearch.getEnddate())) {
     			logLine +=";";
     		}else {
     			logLine +="ed;";
     		}
-    		if (StringUtils.isBlank(advancedSearch.getStartdate())) {
+    		if (StringUtils.isBlank(eadSearch.getStartdate())) {
     			logLine +=";";
     		}else {
     			logLine +="sd;";
     		} 
-    		logLine += advancedSearch.getResultsperpage() + ";";
-    		logLine += advancedSearch.getPageNumber() + ";";
-    		logLine +="\""+ advancedSearch.getTerm() + "\"";
+    		logLine += eadSearch.getResultsperpage() + ";";
+    		logLine += eadSearch.getPageNumber() + ";";
+    		logLine +="\""+ eadSearch.getTerm() + "\"";
     		ADVANCED_SEARCH_LIST_LOGGER.debug(logLine);
     	}    	
     }
-    public static void logSimpleSearch(AdvancedSearch advancedSearch){
+    public static void logSimpleSearch(EadSearch eadSearch){
     	if (SIMPLE_SEARCH_ANALYZE_LOGGER.isDebugEnabled()){
     		String logLine = "";
-    		if (HIERARCHY.equals(advancedSearch.getView())) {
+    		if (HIERARCHY.equals(eadSearch.getView())) {
     			logLine +="c;";
     		}else {
     			logLine +=";";
     		}
-    		if (TRUE.equals(advancedSearch.getDao())) {
+    		if (TRUE.equals(eadSearch.getDao())) {
     			logLine +="d;";
     		}else {
     			logLine +=";";
     		}   
 
-    		logLine +="\""+ advancedSearch.getTerm() + "\"";
+    		logLine +="\""+ eadSearch.getTerm() + "\"";
     		SIMPLE_SEARCH_ANALYZE_LOGGER.debug(logLine);
     	}
     }

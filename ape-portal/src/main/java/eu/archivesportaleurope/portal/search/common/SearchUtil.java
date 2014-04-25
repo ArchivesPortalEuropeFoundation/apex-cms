@@ -16,7 +16,7 @@ import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 
-public final class AdvancedSearchUtil {
+public final class SearchUtil {
 	private static final String YYYY = "yyyy";
 	private static final String YYYY_MM = "yyyy-MM";
 	private static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -216,7 +216,7 @@ public final class AdvancedSearchUtil {
 					if (TreeType.GROUP.equals(treeType)){
 						int depth = AlType.getDepth(item);
 						String name = SolrFields.AI_DYNAMIC_ID + depth + SolrFields.DYNAMIC_STRING_SUFFIX;
-						AdvancedSearchUtil.addParameter(solrQueryParameters.getOrParameters(), name, SolrFields.AI_DYNAMIC + id.toString());
+						SearchUtil.addParameter(solrQueryParameters.getOrParameters(), name, SolrFields.AI_DYNAMIC + id.toString());
 					}else {
 						archivalInstitutionsIdsSelected.add(id.toString());
 					}
@@ -230,15 +230,15 @@ public final class AdvancedSearchUtil {
 			}
 
 			if (countriesSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
+				SearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.COUNTRY_ID,
 						countriesSelected);
 			}
 			if (archivalInstitutionsIdsSelected.size() > 0) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,
+				SearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.AI_ID,
 						archivalInstitutionsIdsSelected);
 			}
 
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
+			SearchUtil.setParameter(solrQueryParameters.getOrParameters(), SolrFields.FOND_ID, faHgIdsSelected);
 		}
 	}
 

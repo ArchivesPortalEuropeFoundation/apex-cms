@@ -63,12 +63,12 @@ public class AbstractSearchController {
 	}
 	public String validate(AbstractSearchForm abstractSearchForm) {
 		if (StringUtils.isNotBlank(abstractSearchForm.getFromdate())
-				&& !AdvancedSearchUtil.isValidDate(abstractSearchForm.getFromdate())) {
+				&& !SearchUtil.isValidDate(abstractSearchForm.getFromdate())) {
 			return "search.message.IncorrectDateTyped";
 
 		}
 		if (StringUtils.isNotBlank(abstractSearchForm.getTodate())
-				&& !AdvancedSearchUtil.isValidDate(abstractSearchForm.getTodate())) {
+				&& !SearchUtil.isValidDate(abstractSearchForm.getTodate())) {
 			return "search.message.IncorrectDateTyped";
 		}
 		return null;

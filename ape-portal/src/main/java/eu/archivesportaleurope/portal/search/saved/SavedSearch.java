@@ -3,7 +3,7 @@ package eu.archivesportaleurope.portal.search.saved;
 import java.io.Serializable;
 import java.util.Date;
 
-import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
 
 public class SavedSearch implements Serializable {
 
@@ -61,7 +61,7 @@ public class SavedSearch implements Serializable {
 		this.containsAlSearchOptions = containsAlSearchOptions;
 	}
 	public boolean isSearchAllSearch(){
-		return AdvancedSearch.SEARCH_ALL_STRING.equals(searchTerm);
+		return EadSearch.SEARCH_ALL_STRING.equals(searchTerm);
 	}
 	
 	public boolean isPublicSearch() {

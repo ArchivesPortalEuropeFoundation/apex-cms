@@ -30,7 +30,7 @@ import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
-import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 /**
@@ -51,48 +51,44 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	private static final int MAX_NUMBER_OF_ITEMS = 10;
 
 	@ResourceMapping(value = "contextTree")
-	public ModelAndView getJSON(@ModelAttribute(value = "advancedSearch") TreeAdvancedSearch advancedSearch,
+	public ModelAndView getJSON(@ModelAttribute(value = "eadSearch") TreeEadSearch eadSearch,
 			ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		Locale locale = resourceRequest.getLocale();
 
 		long startTime = System.currentTimeMillis();
 
 		try {
-			SolrQueryParameters solrQueryParameters = AbstractSearchController.getSolrQueryParametersByForm(advancedSearch, resourceRequest);
+			SolrQueryParameters solrQueryParameters = AbstractSearchController.getSolrQueryParametersByForm(eadSearch, resourceRequest);
 
-			AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
+			SearchUtil.addSelectedNodesToQuery(eadSearch.getSelectedNodesList(), solrQueryParameters);
 
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
-					advancedSearch.getTypedocument());
-			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
-					advancedSearch.hasExactDateSearch());
-			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
-					advancedSearch.hasExactDateSearch());
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
+					eadSearch.getTypedocument());
+			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eadSearch.getFromdate(),
+					eadSearch.hasExactDateSearch());
+			SearchUtil.setToDate(solrQueryParameters.getAndParameters(), eadSearch.getTodate(),
+					eadSearch.hasExactDateSearch());
 			
 
 			// Only refine on dao if selected
-			if ("true".equals(advancedSearch.getDao())) {
-				AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
-						advancedSearch.getDao());
+			if ("true".equals(eadSearch.getDao())) {
+				SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
+						eadSearch.getDao());
 			}
-			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-			if (advancedSearch.getSearchType() == null) {
+			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(eadSearch.getElement()));
+			if (eadSearch.getSearchType() == null) {
 				log.error("No search type found");
-				// if (advancedSearch.getCountry() != null) {
-				// advancedSearch.setSearchType(SEARCH_TYPE_AI);
-				// }
 			}
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
-					advancedSearch.getCountry());
-			AnalyzeLogger.logUpdateAdvancedSearchContext(advancedSearch, solrQueryParameters);
-			if (SEARCH_TYPE_AI.equals(advancedSearch.getSearchType())) {
-				writeToResponseAndClose(generateAiJSON(advancedSearch, solrQueryParameters, locale), resourceResponse);
-			} else if (SEARCH_TYPE_FOND.equals(advancedSearch.getSearchType())) {
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
+					eadSearch.getCountry());
+			if (SEARCH_TYPE_AI.equals(eadSearch.getSearchType())) {
+				writeToResponseAndClose(generateAiJSON(eadSearch, solrQueryParameters, locale), resourceResponse);
+			} else if (SEARCH_TYPE_FOND.equals(eadSearch.getSearchType())) {
 				writeToResponseAndClose(
-						generateFindingAidsOrHoldingGuidesJSON(advancedSearch, solrQueryParameters, locale),
+						generateFindingAidsOrHoldingGuidesJSON(eadSearch, solrQueryParameters, locale),
 						resourceResponse);
 			} else {
-				writeToResponseAndClose(generateCLevelJSON(advancedSearch, solrQueryParameters, locale),
+				writeToResponseAndClose(generateCLevelJSON(eadSearch, solrQueryParameters, locale),
 						resourceResponse);
 			}
 
@@ -104,14 +100,14 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		return null;
 	}
 
-	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeAdvancedSearch advancedSearch,
+	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeEadSearch eadSearch,
 			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID,
-				advancedSearch.getParentId());
+		SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID,
+				eadSearch.getParentId());
 		Integer startInt = 0;
 		List<Count> counts = new ArrayList<Count>();
-		if (advancedSearch.getStart() != null) {
-			startInt = new Integer(advancedSearch.getStart());
+		if (eadSearch.getStart() != null) {
+			startInt = new Integer(eadSearch.getStart());
 		} else {
 
 			FacetField holdingGuides = getEadSearcher().getFonds(solrQueryParameters, SolrFields.HG_DYNAMIC_NAME,
@@ -149,7 +145,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				addStart(buffer, startInt + MAX_NUMBER_OF_ITEMS);
 				buffer.append(COMMA);
-				addParentId(buffer, advancedSearch.getParentId());
+				addParentId(buffer, eadSearch.getParentId());
 				buffer.append(COMMA);
 				addSearchType(buffer, SEARCH_TYPE_FOND);
 
@@ -183,11 +179,11 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		return buffer;
 	}
 
-	private StringBuilder generateAiJSON(TreeAdvancedSearch advancedSearch, SolrQueryParameters solrQueryParameters,
+	private StringBuilder generateAiJSON(TreeEadSearch eadSearch, SolrQueryParameters solrQueryParameters,
 			Locale locale) throws SolrServerException {
-		int startInt = advancedSearch.getStartInt();
-		int levelInt = advancedSearch.getLevelInt();
-		FacetField aiFacetField = getEadSearcher().getAis(solrQueryParameters, advancedSearch.getParentId(), levelInt,
+		int startInt = eadSearch.getStartInt();
+		int levelInt = eadSearch.getLevelInt();
+		FacetField aiFacetField = getEadSearcher().getAis(solrQueryParameters, eadSearch.getParentId(), levelInt,
 				startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> archivalInstitutions = aiFacetField.getValues();
 		boolean moreResultsAvailable = (archivalInstitutions != null && archivalInstitutions.size() > MAX_NUMBER_OF_ITEMS);
@@ -229,7 +225,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 					buffer.append(COMMA);
 					buffer.append(FOLDER_LAZY);
 					buffer.append(COMMA);
-					addParentId(buffer, advancedSearch.getParentId());
+					addParentId(buffer, eadSearch.getParentId());
 					buffer.append(COMMA);
 					addSearchType(buffer, SEARCH_TYPE_AI);
 					buffer.append(COMMA);
@@ -244,15 +240,15 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 		return buffer;
 	}
 
-	private StringBuilder generateCLevelJSON(TreeAdvancedSearch advancedSearch,
+	private StringBuilder generateCLevelJSON(TreeEadSearch eadSearch,
 			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
-		int startInt = advancedSearch.getStartInt();
-		int levelInt = advancedSearch.getLevelInt();
-		FacetField fonds = getEadSearcher().getLevels(solrQueryParameters, advancedSearch.getSearchType(),
-				advancedSearch.getParentId(), levelInt, startInt, MAX_NUMBER_OF_ITEMS + 1);
+		int startInt = eadSearch.getStartInt();
+		int levelInt = eadSearch.getLevelInt();
+		FacetField fonds = getEadSearcher().getLevels(solrQueryParameters, eadSearch.getSearchType(),
+				eadSearch.getParentId(), levelInt, startInt, MAX_NUMBER_OF_ITEMS + 1);
 		List<Count> mapCounts = fonds.getValues();
 		QueryResponse searchResultResponse = getEadSearcher().getResultsInLevels(solrQueryParameters,
-				advancedSearch.getParentId(), startInt, MAX_NUMBER_OF_ITEMS);
+				eadSearch.getParentId(), startInt, MAX_NUMBER_OF_ITEMS);
 		SolrDocumentList results = searchResultResponse.getResults();
 		Map<String, Map<String, List<String>>> highlightingMap = searchResultResponse.getHighlighting();
 		boolean moreResultsAvailable = (mapCounts != null && mapCounts.size() > MAX_NUMBER_OF_ITEMS)
@@ -291,7 +287,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			if (facetValue != null) {
 				addLevel(buffer, levelInt + 1);
 				buffer.append(COMMA);
-				addSearchType(buffer, advancedSearch.getSearchType());
+				addSearchType(buffer, eadSearch.getSearchType());
 				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 				buffer.append(COMMA);
@@ -304,7 +300,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				} else if (searchResult != null) {
 					String id = (String) searchResult.getFieldValue(SolrFields.ID);
 					String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
-					String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id,
+					String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id,
 							SolrFields.TITLE, title);
 					addTitleWithLinkAndCount(buffer, highlightedTitle, facetValue.getCount(), locale);
 					buffer.append(COMMA);
@@ -313,7 +309,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			} else if (facetValue == null && searchResult != null) {
 				String id = (String) searchResult.getFieldValue(SolrFields.ID);
 				String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
-				String highlightedTitle = AdvancedSearchUtil.getHighlightedString(highlightingMap, id,
+				String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id,
 						SolrFields.TITLE, title);
 				addTitleWithLink(buffer, highlightedTitle, locale);
 				buffer.append(COMMA);
@@ -335,11 +331,11 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				buffer.append(COMMA);
 				buffer.append(FOLDER_LAZY);
 				buffer.append(COMMA);
-				addParentId(buffer, advancedSearch.getParentId());
+				addParentId(buffer, eadSearch.getParentId());
 				buffer.append(COMMA);
 				// addFondId(buffer, fondId);
 				// buffer.append(COMMA);
-				addSearchType(buffer, advancedSearch.getSearchType());
+				addSearchType(buffer, eadSearch.getSearchType());
 				buffer.append(COMMA);
 				addMore(buffer, locale);
 				buffer.append(COMMA);

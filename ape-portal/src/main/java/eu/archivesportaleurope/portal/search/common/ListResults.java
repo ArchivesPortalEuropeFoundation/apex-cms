@@ -51,7 +51,7 @@ public class ListResults extends Results {
 	public void init (QueryResponse solrResponse, List<ListFacetSettings> facetSettingsList, Object form,ResourceBundleSource resourceBundleSource){
 		super.init(solrResponse);
 		if (facetSettingsList != null){
-			BeanWrapper advancedSearchBeanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(form);
+			BeanWrapper searchBeanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(form);
 			for (ListFacetSettings facetSettings: facetSettingsList){
 				FacetType facetType = facetSettings.getFacetType();
 				String name = facetType.getName();
@@ -66,10 +66,10 @@ public class ListResults extends Results {
 					
 					if (facetSettings.getFacetType().isMultiSelect()){
 						@SuppressWarnings("unchecked")
-						List<String> selectedItems = (List<String>) advancedSearchBeanWrapper.getPropertyValue(name + "List");
+						List<String> selectedItems = (List<String>) searchBeanWrapper.getPropertyValue(name + "List");
 						facetContainer = new ListFacetContainer(facetField, facetSettings, selectedItems,resourceBundleSource);
 					}else {
-						String selectedItem = (String) advancedSearchBeanWrapper.getPropertyValue(name);
+						String selectedItem = (String) searchBeanWrapper.getPropertyValue(name);
 						List<String> selectedItems = new ArrayList<String>();
 						selectedItems.add(selectedItem);
 						facetContainer = new ListFacetContainer(facetField, facetSettings,selectedItems, resourceBundleSource );

@@ -29,7 +29,7 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
-import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
@@ -194,15 +194,15 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eacCpfSearch, portletRequest);
 		if (solrQueryParameters != null){
-			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getFromdate(),
+			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getFromdate(),
 					eacCpfSearch.hasExactDateSearch());
-			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getTodate(),
+			SearchUtil.setToDate(solrQueryParameters.getAndParameters(), eacCpfSearch.getTodate(),
 					eacCpfSearch.hasExactDateSearch());
-			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAC_CPF_FACET_ENTITY_TYPE,
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAC_CPF_FACET_ENTITY_TYPE,
 					eacCpfSearch.getEntityType());
 			solrQueryParameters.setSolrField(SolrField.getSolrField(eacCpfSearch.getElement()));
 	
-			AdvancedSearchUtil.addPublishedDates(eacCpfSearch.getPublishedFromDate(), eacCpfSearch.getPublishedToDate(), solrQueryParameters);	
+			SearchUtil.addPublishedDates(eacCpfSearch.getPublishedFromDate(), eacCpfSearch.getPublishedToDate(), solrQueryParameters);	
 		}
 		return solrQueryParameters;
 	}
@@ -210,15 +210,15 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EacCpfSearch eacCpfSearch) {
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eacCpfSearch);
 		if (solrQueryParameters != null){
-			AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eacCpfSearch.getCountryList());
-			AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eacCpfSearch.getAiList());
-			AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.EAC_CPF_ENTITY_TYPE, eacCpfSearch.getEntityTypeFacetList());
-			AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eacCpfSearch.getLanguageList());
-			AdvancedSearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, eacCpfSearch.getDateTypeList());
-			AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationsFacetList());
-			AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_PLACES, eacCpfSearch.getPlacesFacetList());
-			AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_MANDATE, eacCpfSearch.getMandatesFacetList());
-			AdvancedSearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_FUNCTION, eacCpfSearch.getFunctionsFacetList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eacCpfSearch.getCountryList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eacCpfSearch.getAiList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAC_CPF_ENTITY_TYPE, eacCpfSearch.getEntityTypeFacetList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eacCpfSearch.getLanguageList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, eacCpfSearch.getDateTypeList());
+			SearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_OCCUPATION, eacCpfSearch.getOccupationsFacetList());
+			SearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_PLACES, eacCpfSearch.getPlacesFacetList());
+			SearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_MANDATE, eacCpfSearch.getMandatesFacetList());
+			SearchUtil.addTextRefinement(solrQueryParameters, FacetType.EAC_CPF_FUNCTION, eacCpfSearch.getFunctionsFacetList());
 		}
 		return solrQueryParameters;
 	}

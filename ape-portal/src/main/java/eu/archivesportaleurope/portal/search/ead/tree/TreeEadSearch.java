@@ -1,8 +1,8 @@
 package eu.archivesportaleurope.portal.search.ead.tree;
 
-import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
 
-public class TreeAdvancedSearch extends AdvancedSearch {
+public class TreeEadSearch extends EadSearch {
 
 	/**
 	 * 

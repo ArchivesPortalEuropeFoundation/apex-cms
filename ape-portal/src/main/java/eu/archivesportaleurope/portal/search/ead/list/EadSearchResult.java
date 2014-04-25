@@ -7,7 +7,7 @@ import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.DisplayUtils;
-import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
 
 /**
@@ -44,21 +44,21 @@ public class EadSearchResult extends SearchResult{
 		String titleWithoutEscaping = null;
 		if (solrDocument.getFieldValue(SolrFields.ALTERDATE) != null){
 			String alterdateWithoutEscaping  = solrDocument.getFieldValue(SolrFields.ALTERDATE).toString();
-			String highlightedAlterdate =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.ALTERDATE, alterdateWithoutEscaping);
+			String highlightedAlterdate =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.ALTERDATE, alterdateWithoutEscaping);
 			this.alterdate = DisplayUtils.encodeHtmlWithHighlighting(highlightedAlterdate);			
 			this.alterdateWithoutHighlighting = DisplayUtils.encodeHtml(alterdateWithoutEscaping);
 		}
 		if (solrDocument.getFieldValue(SolrFields.TITLE) != null){
 			titleWithoutEscaping = solrDocument.getFieldValue(SolrFields.TITLE).toString();
-			String highlightedTitle =  AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.TITLE, titleWithoutEscaping);
+			String highlightedTitle =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.TITLE, titleWithoutEscaping);
 			this.title = DisplayUtils.encodeHtmlWithHighlighting(highlightedTitle);
 			this.titleWithoutHighlighting = DisplayUtils.encodeHtml(titleWithoutEscaping);
 		}		
 
 
 		
-		this.scopecontent =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.SCOPECONTENT, null));	
-		this.other =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
+		this.scopecontent =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.SCOPECONTENT, null));	
+		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
 		this.fond = solrDocument.getFieldValue(SolrFields.TITLE_OF_FOND).toString();
 		this.fondId = getIdFromString(this.fond);
 		this.fond = getDescriptionFromString(this.fond);
@@ -68,8 +68,8 @@ public class EadSearchResult extends SearchResult{
 		if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
 			this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
 		}
-		this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
-		this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
+		this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
+		this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
 		if (otherUnitid != null){
 			this.otherUnitid = "(" + this.otherUnitid + ")";
 		}

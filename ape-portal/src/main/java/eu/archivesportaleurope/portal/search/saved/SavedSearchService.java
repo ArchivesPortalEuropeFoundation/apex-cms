@@ -28,7 +28,7 @@ import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.search.common.DateGap;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.FacetValue;
-import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
 import eu.archivesportaleurope.portal.search.ead.DateRefinement;
 import eu.archivesportaleurope.portal.search.ead.Refinement;
 
@@ -61,53 +61,53 @@ public class SavedSearchService {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
 	}
 
-	public void saveSearch(Long liferayUserId, AdvancedSearch advancedSearch) {
+	public void saveSearch(Long liferayUserId, EadSearch eadSearch) {
 		EadSavedSearch eadSavedSearch = new EadSavedSearch();
 		eadSavedSearch.setLiferayUserId(liferayUserId);
 		eadSavedSearch.setModifiedDate(new Date());
 		/*
 		 * simple search options
 		 */
-		eadSavedSearch.setSearchTerm(removeEmptyString(advancedSearch.getTerm()));
-		eadSavedSearch.setHierarchy(AdvancedSearch.VIEW_HIERARCHY.equals(advancedSearch.getView()));
-		eadSavedSearch.setMethodOptional(AdvancedSearch.METHOD_OPTIONAL.equals(advancedSearch.getMethod()));
-		eadSavedSearch.setOnlyWithDaos(TRUE.equals(advancedSearch.getSimpleSearchDao()));
+		eadSavedSearch.setSearchTerm(removeEmptyString(eadSearch.getTerm()));
+		eadSavedSearch.setHierarchy(EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView()));
+		eadSavedSearch.setMethodOptional(EadSearch.METHOD_OPTIONAL.equals(eadSearch.getMethod()));
+		eadSavedSearch.setOnlyWithDaos(TRUE.equals(eadSearch.getSimpleSearchDao()));
 		/*
 		 * advanced search options
 		 */
-		if (!"0".equals(advancedSearch.getElement())) {
-			eadSavedSearch.setElement(removeEmptyString(advancedSearch.getElement()));
+		if (!"0".equals(eadSearch.getElement())) {
+			eadSavedSearch.setElement(removeEmptyString(eadSearch.getElement()));
 		}
-		eadSavedSearch.setTypedocument(removeEmptyString(advancedSearch.getTypedocument()));
-		eadSavedSearch.setFromdate(removeEmptyString(advancedSearch.getFromdate()));
-		eadSavedSearch.setTodate(removeEmptyString(advancedSearch.getTodate()));
-		eadSavedSearch.setExactDateSearch(TRUE.equals(advancedSearch.getExactDateSearch()));
+		eadSavedSearch.setTypedocument(removeEmptyString(eadSearch.getTypedocument()));
+		eadSavedSearch.setFromdate(removeEmptyString(eadSearch.getFromdate()));
+		eadSavedSearch.setTodate(removeEmptyString(eadSearch.getTodate()));
+		eadSavedSearch.setExactDateSearch(TRUE.equals(eadSearch.getExactDateSearch()));
 
-		eadSavedSearch.setPageNumber(Integer.parseInt(advancedSearch.getPageNumber()));
-		eadSavedSearch.setSorting(removeEmptyString(advancedSearch.getOrder()));
-		eadSavedSearch.setResultPerPage(Integer.parseInt(advancedSearch.getResultsperpage()));
+		eadSavedSearch.setPageNumber(Integer.parseInt(eadSearch.getPageNumber()));
+		eadSavedSearch.setSorting(removeEmptyString(eadSearch.getOrder()));
+		eadSavedSearch.setResultPerPage(Integer.parseInt(eadSearch.getResultsperpage()));
 
 		/*
 		 * al search options
 		 */
-		eadSavedSearch.setAlTreeSelectedNodes(removeDepthFromSelectedNodes(advancedSearch.getSelectedNodes()));
+		eadSavedSearch.setAlTreeSelectedNodes(removeDepthFromSelectedNodes(eadSearch.getSelectedNodes()));
 		/*
 		 * refinements
 		 */
-		if (StringUtils.isBlank(advancedSearch.getFond())) {
-			eadSavedSearch.setRefinementCountry(removeEmptyString(advancedSearch.getCountry()));
-			eadSavedSearch.setRefinementAi(removeEmptyString(advancedSearch.getAi()));
+		if (StringUtils.isBlank(eadSearch.getFond())) {
+			eadSavedSearch.setRefinementCountry(removeEmptyString(eadSearch.getCountry()));
+			eadSavedSearch.setRefinementAi(removeEmptyString(eadSearch.getAi()));
 		} else {
-			eadSavedSearch.setRefinementFond(removeEmptyString(advancedSearch.getFond()));
+			eadSavedSearch.setRefinementFond(removeEmptyString(eadSearch.getFond()));
 		}
-		eadSavedSearch.setRefinementType(removeEmptyString(advancedSearch.getType()));
-		eadSavedSearch.setRefinementLevel(removeEmptyString(advancedSearch.getLevel()));
-		eadSavedSearch.setRefinementDao(removeEmptyString(advancedSearch.getDao()));
-		eadSavedSearch.setRefinementRoledao(removeEmptyString(advancedSearch.getRoledao()));
-		eadSavedSearch.setRefinementDateType(removeEmptyString(advancedSearch.getDateType()));
-		eadSavedSearch.setRefinementStartdate(removeEmptyString(advancedSearch.getStartdate()));
-		eadSavedSearch.setRefinementEnddate(removeEmptyString(advancedSearch.getEnddate()));
-		eadSavedSearch.setRefinementFacetSettings(removeEmptyString(advancedSearch.getFacetSettings()));
+		eadSavedSearch.setRefinementType(removeEmptyString(eadSearch.getType()));
+		eadSavedSearch.setRefinementLevel(removeEmptyString(eadSearch.getLevel()));
+		eadSavedSearch.setRefinementDao(removeEmptyString(eadSearch.getDao()));
+		eadSavedSearch.setRefinementRoledao(removeEmptyString(eadSearch.getRoledao()));
+		eadSavedSearch.setRefinementDateType(removeEmptyString(eadSearch.getDateType()));
+		eadSavedSearch.setRefinementStartdate(removeEmptyString(eadSearch.getStartdate()));
+		eadSavedSearch.setRefinementEnddate(removeEmptyString(eadSearch.getEnddate()));
+		eadSavedSearch.setRefinementFacetSettings(removeEmptyString(eadSearch.getFacetSettings()));
 		eadSavedSearchDAO.store(eadSavedSearch);
 	}
 
@@ -116,73 +116,73 @@ public class SavedSearchService {
 
 	}
 
-	public AdvancedSearch convert(EadSavedSearch eadSavedSearch) {
+	public EadSearch convert(EadSavedSearch eadSavedSearch) {
 		if (eadSavedSearch != null) {
-			AdvancedSearch advancedSearch = new AdvancedSearch();
+			EadSearch eadSearch = new EadSearch();
 			/*
 			 * simple search options
 			 */
-			advancedSearch.setTerm(eadSavedSearch.getSearchTerm());
+			eadSearch.setTerm(eadSavedSearch.getSearchTerm());
 			if (eadSavedSearch.isHierarchy()) {
-				advancedSearch.setView(AdvancedSearch.VIEW_HIERARCHY);
+				eadSearch.setView(EadSearch.VIEW_HIERARCHY);
 			}
 			if (eadSavedSearch.isMethodOptional()) {
-				advancedSearch.setMethod(AdvancedSearch.METHOD_OPTIONAL);
+				eadSearch.setMethod(EadSearch.METHOD_OPTIONAL);
 			}
 			if (eadSavedSearch.isOnlyWithDaos()) {
-				advancedSearch.setSimpleSearchDao(TRUE);
+				eadSearch.setSimpleSearchDao(TRUE);
 			}
 			/*
 			 * advanced search options
 			 */
-			advancedSearch.setElement(eadSavedSearch.getElement());
+			eadSearch.setElement(eadSavedSearch.getElement());
 			if (!"0".equals(eadSavedSearch.getElement())) {
-				advancedSearch.setElement(removeEmptyString(eadSavedSearch.getElement()));
+				eadSearch.setElement(removeEmptyString(eadSavedSearch.getElement()));
 			}
-			advancedSearch.setTypedocument(eadSavedSearch.getTypedocument());
-			advancedSearch.setFromdate(eadSavedSearch.getFromdate());
-			advancedSearch.setTodate(eadSavedSearch.getTodate());
+			eadSearch.setTypedocument(eadSavedSearch.getTypedocument());
+			eadSearch.setFromdate(eadSavedSearch.getFromdate());
+			eadSearch.setTodate(eadSavedSearch.getTodate());
 			if (eadSavedSearch.isExactDateSearch()) {
-				advancedSearch.setExactDateSearch(TRUE);
+				eadSearch.setExactDateSearch(TRUE);
 			}
-			advancedSearch.setSelectedNodes(addDepthToSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes()));
+			eadSearch.setSelectedNodes(addDepthToSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes()));
 			if (!eadSavedSearch.isTemplate()) {
 				if (eadSavedSearch.getPageNumber() != null) {
-					advancedSearch.setPageNumber(eadSavedSearch.getPageNumber() + "");
+					eadSearch.setPageNumber(eadSavedSearch.getPageNumber() + "");
 				}
-				advancedSearch.setOrder(eadSavedSearch.getSorting());
+				eadSearch.setOrder(eadSavedSearch.getSorting());
 				if (eadSavedSearch.getResultPerPage() != null) {
-					advancedSearch.setResultsperpage(eadSavedSearch.getResultPerPage() + "");
+					eadSearch.setResultsperpage(eadSavedSearch.getResultPerPage() + "");
 				}
-				eadSavedSearch.setResultPerPage(Integer.parseInt(advancedSearch.getResultsperpage()));
+				eadSavedSearch.setResultPerPage(Integer.parseInt(eadSearch.getResultsperpage()));
 				/*
 				 * refinements
 				 */
-				advancedSearch.setCountry(eadSavedSearch.getRefinementCountry());
-				advancedSearch.setAi(eadSavedSearch.getRefinementAi());
-				advancedSearch.setFond(eadSavedSearch.getRefinementFond());
-				advancedSearch.setType(eadSavedSearch.getRefinementType());
-				advancedSearch.setLevel(eadSavedSearch.getRefinementLevel());
-				advancedSearch.setDateType(removeEmptyString(eadSavedSearch.getRefinementDateType()));
-				advancedSearch.setDao(eadSavedSearch.getRefinementDao());
-				advancedSearch.setRoledao(eadSavedSearch.getRefinementRoledao());
-				advancedSearch.setStartdate(eadSavedSearch.getRefinementStartdate());
-				advancedSearch.setEnddate(eadSavedSearch.getRefinementEnddate());
-				advancedSearch.setFacetSettings(eadSavedSearch.getRefinementFacetSettings());
+				eadSearch.setCountry(eadSavedSearch.getRefinementCountry());
+				eadSearch.setAi(eadSavedSearch.getRefinementAi());
+				eadSearch.setFond(eadSavedSearch.getRefinementFond());
+				eadSearch.setType(eadSavedSearch.getRefinementType());
+				eadSearch.setLevel(eadSavedSearch.getRefinementLevel());
+				eadSearch.setDateType(removeEmptyString(eadSavedSearch.getRefinementDateType()));
+				eadSearch.setDao(eadSavedSearch.getRefinementDao());
+				eadSearch.setRoledao(eadSavedSearch.getRefinementRoledao());
+				eadSearch.setStartdate(eadSavedSearch.getRefinementStartdate());
+				eadSearch.setEnddate(eadSavedSearch.getRefinementEnddate());
+				eadSearch.setFacetSettings(eadSavedSearch.getRefinementFacetSettings());
 			}
-			advancedSearch.setAdvanced(eadSavedSearch.isContainsAlSearchOptions());
-			return advancedSearch;
+			eadSearch.setAdvanced(eadSavedSearch.isContainsAlSearchOptions());
+			return eadSearch;
 		} else {
 			return null;
 		}
 	}
 
-	public List<Refinement> convertToRefinements(PortletRequest request, AdvancedSearch advancedSearch,
+	public List<Refinement> convertToRefinements(PortletRequest request, EadSearch eadSearch,
 			EadSavedSearch eadSavedSearch) {
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		List<Refinement> refinements = new ArrayList<Refinement>();
 		try {
-			List<Integer> countryIds = convertToIntegers(advancedSearch.getCountryList());
+			List<Integer> countryIds = convertToIntegers(eadSearch.getCountryList());
 			List<Country> countries = countryDAO.getCountries(countryIds);
 			for (Country country : countries) {
 				String localizedName = DisplayUtils.getLocalizedCountryName(source, country);
@@ -193,7 +193,7 @@ public class SavedSearchService {
 				String countryName = source.getString("advancedsearch.text.savesearch.removedcountry");
 				refinements.add(new Refinement(FacetType.COUNTRY.getName(), countryId, countryName, true));
 			}
-			List<Integer> aiIds = convertToIntegers(advancedSearch.getAiList());
+			List<Integer> aiIds = convertToIntegers(eadSearch.getAiList());
 			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO.getArchivalInstitutions(aiIds);
 			for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
 				refinements.add(new Refinement(FacetType.AI.getName(), archivalInstitution.getAiId(),
@@ -204,9 +204,9 @@ public class SavedSearchService {
 				String aiName = source.getString("advancedsearch.text.savesearch.removedai");
 				refinements.add(new Refinement(FacetType.AI.getName(), aiId, aiName, true));
 			}
-			if (StringUtils.isNotBlank(advancedSearch.getFond()) && advancedSearch.getFond().length() > 1) {
-				XmlType xmlType = XmlType.getTypeBySolrPrefix(advancedSearch.getFond().substring(0, 1));
-				String identifier = advancedSearch.getFond().substring(1);
+			if (StringUtils.isNotBlank(eadSearch.getFond()) && eadSearch.getFond().length() > 1) {
+				XmlType xmlType = XmlType.getTypeBySolrPrefix(eadSearch.getFond().substring(0, 1));
+				String identifier = eadSearch.getFond().substring(1);
 				Integer id = Integer.parseInt(identifier);
 				ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 				eadSearchOptions.setContentClass(xmlType.getClazz());
@@ -214,63 +214,63 @@ public class SavedSearchService {
 				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
 				if (eads.size() > 0) {
 					Ead ead = eads.get(0);
-					refinements.add(new Refinement(FacetType.FOND.getName(), advancedSearch.getFond(), ead.getTitle()));
+					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), ead.getTitle()));
 				} else {
 					String fondName = source.getString("advancedsearch.text.savesearch.removedfond");
-					refinements.add(new Refinement(FacetType.FOND.getName(), advancedSearch.getFond(), fondName, true));
+					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), fondName, true));
 				}
 
 			}
-			List<String> types = advancedSearch.getTypeList();
+			List<String> types = eadSearch.getTypeList();
 			if (types != null) {
 				for (String type : types) {
 					refinements.add(new Refinement(FacetType.TYPE.getName(), type, source.getString(FacetType.TYPE
 							.getPrefix() + type)));
 				}
 			}
-			List<String> levels = advancedSearch.getLevelList();
+			List<String> levels = eadSearch.getLevelList();
 			if (levels != null) {
 				for (String level : levels) {
 					refinements.add(new Refinement(FacetType.LEVEL.getName(), level, source.getString(FacetType.LEVEL
 							.getPrefix() + level)));
 				}
 			}
-			List<String> daos = advancedSearch.getDaoList();
+			List<String> daos = eadSearch.getDaoList();
 			if (daos != null) {
 				for (String dao : daos) {
 					refinements.add(new Refinement(FacetType.DAO.getName(), dao, source.getString(FacetType.DAO
 							.getPrefix() + dao)));
 				}
 			}
-			List<String> roledaos = advancedSearch.getRoledaoList();
+			List<String> roledaos = eadSearch.getRoledaoList();
 			if (roledaos != null) {
 				for (String roledao : roledaos) {
 					refinements.add(new Refinement(FacetType.ROLEDAO.getName(), roledao, source
 							.getString(FacetType.ROLEDAO.getPrefix() + roledao.toLowerCase())));
 				}
 			}
-			List<String> dateTypes = advancedSearch.getDateTypeList();
+			List<String> dateTypes = eadSearch.getDateTypeList();
 			if (dateTypes != null) {
 				for (String dateType : dateTypes) {
 					refinements.add(new Refinement(FacetType.DATE_TYPE.getName(), dateType, source
 							.getString(FacetType.DATE_TYPE.getPrefix() + dateType)));
 				}
 			}
-			if (StringUtils.isNotBlank(advancedSearch.getStartdate())) {
-				String dateSpan = getDateSpan(advancedSearch.getStartdate());
+			if (StringUtils.isNotBlank(eadSearch.getStartdate())) {
+				String dateSpan = getDateSpan(eadSearch.getStartdate());
 				String description = source.getString("advancedsearch.facet.title."
 						+ FacetType.START_DATE.getName().toLowerCase())
 						+ " " + dateSpan;
-				refinements.add(new DateRefinement(FacetType.START_DATE.getName(), advancedSearch.getStartdate(),
+				refinements.add(new DateRefinement(FacetType.START_DATE.getName(), eadSearch.getStartdate(),
 						description));
 
 			}
-			if (StringUtils.isNotBlank(advancedSearch.getEnddate())) {
-				String dateSpan = getDateSpan(advancedSearch.getEnddate());
+			if (StringUtils.isNotBlank(eadSearch.getEnddate())) {
+				String dateSpan = getDateSpan(eadSearch.getEnddate());
 				String description = source.getString("advancedsearch.facet.title."
 						+ FacetType.END_DATE.getName().toLowerCase())
 						+ " " + dateSpan;
-				refinements.add(new DateRefinement(FacetType.END_DATE.getName(), advancedSearch.getStartdate(),
+				refinements.add(new DateRefinement(FacetType.END_DATE.getName(), eadSearch.getStartdate(),
 						description));
 			}
 		} catch (Exception e) {

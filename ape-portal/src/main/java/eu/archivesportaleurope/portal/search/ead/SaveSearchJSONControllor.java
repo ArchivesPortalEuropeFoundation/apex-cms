@@ -29,7 +29,7 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 	}
 
 	@ResourceMapping(value = "saveSearch")
-	public void saveSearch(@ModelAttribute(value = "advancedSearch") AdvancedSearch advancedSearch,ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+	public void saveSearch(@ModelAttribute(value = "eadSearch") EadSearch eadSearch,ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 				resourceRequest.getLocale());
 		String answerMessage = "";
@@ -39,7 +39,7 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 		}else {
 			boolean faHgSgFound = false;
 			int numberOfArchivalInstitions = 0;
-			List<String> selectedNodesList = advancedSearch.getSelectedNodesList();
+			List<String> selectedNodesList = eadSearch.getSelectedNodesList();
 			if (selectedNodesList != null){
 				for (int i = 0; i < selectedNodesList.size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
 					String selectedNode = selectedNodesList.get(i);
@@ -51,7 +51,7 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 					}
 				}
 			}
-			List<String> aiList = advancedSearch.getAiList();
+			List<String> aiList = eadSearch.getAiList();
 			int refinementAiSize = 0;
 			if (aiList != null){
 				refinementAiSize = aiList.size();
@@ -63,7 +63,7 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 			}else {
 				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 				try {
-					savedSearchService.saveSearch(liferayUserId, advancedSearch);
+					savedSearchService.saveSearch(liferayUserId, eadSearch);
 					answerMessage = source.getString("advancedsearch.text.savesearch.success");
 					saved = true;
 				}catch (Exception e) {

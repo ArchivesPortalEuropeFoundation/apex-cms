@@ -27,7 +27,7 @@ import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.search.ead.AdvancedSearch;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
 
 @Controller(value = "savedSearchController")
 @RequestMapping(value = "VIEW")
@@ -96,7 +96,7 @@ public class SavedSearchController {
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(savedSearch.getId()), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
 				eadSavedSearch.setDescription(savedSearch.getDescription());
-				if (! AdvancedSearch.SEARCH_ALL_STRING.equals(eadSavedSearch.getSearchTerm())){
+				if (! EadSearch.SEARCH_ALL_STRING.equals(eadSavedSearch.getSearchTerm())){
 					eadSavedSearch.setPublicSearch(savedSearch.isPublicSearch());
 				}
 				eadSavedSearch.setTemplate(savedSearch.isTemplate());

@@ -9,7 +9,7 @@ import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
-public class AdvancedSearch extends AbstractSearchForm{
+public class EadSearch extends AbstractSearchForm{
 
 	public static final String VIEW_HIERARCHY = "hierarchy";
 	public static final String METHOD_OPTIONAL = "optional";
