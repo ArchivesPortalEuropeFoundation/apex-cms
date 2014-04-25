@@ -144,12 +144,6 @@
 				</h2>
 		
 				<div id="tabs">
-					<div id="saveSearch">
-						 <div id="saveSearchButton" class="linkButton">
-							<a href="javascript:alert('Not implemented yet')"><fmt:message key="advancedsearch.text.savesearch" /></a>
-						</div>
-						<div id="answerMessageSavedSearch"></div>
-					</div>
 					<div id="tabs-list">
 						<c:if test="${eacCpfSearch.mode != 'new'}">
 						<jsp:include page="results.jsp" />
