@@ -272,14 +272,16 @@ public class AdvancedSearchController extends AbstractSearchController{
 	protected ContextResults performNewSearchForContextView(PortletRequest request,
 			SolrQueryParameters solrQueryParameters, AdvancedSearch advancedSearch) throws SolrServerException {
 		ContextResults results = new ContextResults();
-		QueryResponse solrResponse = getEadSearcher().performNewSearchForContextView(solrQueryParameters);
-		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
-		results.init(solrResponse, numberFormat);
-		List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
-		if (countries != null) {
-			for (Count country : countries) {
-				results.getCountries().add(
-						new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY, request.getLocale()));
+		if (solrQueryParameters != null){
+			QueryResponse solrResponse = getEadSearcher().performNewSearchForContextView(solrQueryParameters);
+			NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
+			results.init(solrResponse, numberFormat);
+			List<Count> countries = solrResponse.getFacetField(FacetType.COUNTRY.getName()).getValues();
+			if (countries != null) {
+				for (Count country : countries) {
+					results.getCountries().add(
+							new TreeFacetValue(country, TreeFacetValue.Type.COUNTRY, request.getLocale()));
+				}
 			}
 		}
 		return results;
@@ -288,17 +290,19 @@ public class AdvancedSearchController extends AbstractSearchController{
 
 	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, AdvancedSearch advancedSearch) {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(advancedSearch, portletRequest);
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
-				advancedSearch.getTypedocument());
-		AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
-				advancedSearch.hasExactDateSearch());
-		AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
-				advancedSearch.hasExactDateSearch());
-
-		AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
-		AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
-		solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
-		AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), advancedSearch.getSimpleSearchDao());
+		if (solrQueryParameters != null){
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
+					advancedSearch.getTypedocument());
+			AdvancedSearchUtil.setFromDate(solrQueryParameters.getAndParameters(), advancedSearch.getFromdate(),
+					advancedSearch.hasExactDateSearch());
+			AdvancedSearchUtil.setToDate(solrQueryParameters.getAndParameters(), advancedSearch.getTodate(),
+					advancedSearch.hasExactDateSearch());
+	
+			AdvancedSearchUtil.addSelectedNodesToQuery(advancedSearch.getSelectedNodesList(), solrQueryParameters);
+			AdvancedSearchUtil.addPublishedDates(advancedSearch.getPublishedFromDate(), advancedSearch.getPublishedToDate(), solrQueryParameters);
+			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(advancedSearch.getElement()));
+			AdvancedSearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), advancedSearch.getSimpleSearchDao());
+		}
 		return solrQueryParameters;
 	}
 
