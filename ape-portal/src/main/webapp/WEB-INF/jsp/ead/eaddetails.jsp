@@ -77,7 +77,7 @@
 			<c:set var="url"
 				value="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadContent.eadid}" />
 		</c:when>
-		<c:when test="${empty advancedSearch.term }">
+		<c:when test="${empty term }">
 			<c:set var="url" value="${eadDisplaySearchUrl}/${id}" />
 		</c:when>
 		<c:otherwise>

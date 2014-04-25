@@ -18,7 +18,7 @@
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-<portal:generateSearchWords var="encodedTerm" term="${advancedSearch.term}" element="${advancedSearch.element}"/>		
+<portal:generateSearchWords var="encodedTerm" term="${term}" element="${element}"/>		
 	<c:choose>
 		<c:when test="${empty encodedTerm }">
 			<c:set var="url" value="${eadDisplaySearchUrl}/C${c.clId}"/>

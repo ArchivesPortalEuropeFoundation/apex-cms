@@ -28,14 +28,14 @@
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
-						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}" numberFormat="${numberFormat}" />
+						<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eadSearch.pageNumber}" numberFormat="${numberFormat}" />
 					</div>
 					<div id="resultPerPageContainer">
 						<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
-						<form:select path="resultsperpage"  id="updateCurrentSearch_resultsperpage" items="${advancedSearch.resultsperpageValues}"/>	
+						<form:select path="resultsperpage"  id="updateCurrentSearch_resultsperpage" items="${eadSearch.resultsperpageValues}"/>	
 					</div>
 					<div id="top-paging" class="paging">
-					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
+					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eadSearch.pageNumber}"
 							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 					</div>			
 				</c:when>
@@ -45,7 +45,7 @@
 			</c:choose>
 			</div>
 		</div>
-		<c:if test="${empty results.errorMessage and (results.totalNumberOfResults > 0  or advancedSearch.mode == 'update-search')}">
+		<c:if test="${empty results.errorMessage and (results.totalNumberOfResults > 0  or eadSearch.mode == 'update-search')}">
 			<div id="selectedRefinements">
 				<div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.choosed" /></div>
 				<ul>
@@ -75,18 +75,18 @@
 			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${advancedSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+					<searchresults:order currentValue="${eadSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
 					|
-					<searchresults:order currentValue="${advancedSearch.order}" value="startdate" key="advancedsearch.text.date" />
+					<searchresults:order currentValue="${eadSearch.order}" value="startdate" key="advancedsearch.text.date" />
 					|
-					<searchresults:order currentValue="${advancedSearch.order}" value="titlesort" key="advancedsearch.text.title2" />
+					<searchresults:order currentValue="${eadSearch.order}" value="titlesort" key="advancedsearch.text.title2" />
 					|
-					<searchresults:order currentValue="${advancedSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
+					<searchresults:order currentValue="${eadSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
 					|
-					<searchresults:order currentValue="${advancedSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
+					<searchresults:order currentValue="${eadSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
 				</div>
 			<c:if test="${results.totalNumberOfResults > 0}">	
-			<portal:generateSearchWords var="encodedTerm" term="${advancedSearch.term}" element="${advancedSearch.element}"/>				
+			<portal:generateSearchWords var="encodedTerm" term="${eadSearch.term}" element="${eadSearch.element}"/>				
 			<div id="searchresultsList">
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
@@ -109,7 +109,7 @@
 										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
 									</c:when>
 									<c:otherwise>
-										<c:set var="url" value="${friendlyUrl}/${result.id}/${advancedSearch.element}/${encodedTerm}"/>
+										<c:set var="url" value="${friendlyUrl}/${result.id}/${eadSearch.element}/${encodedTerm}"/>
 									</c:otherwise>
 								</c:choose>		
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
@@ -185,7 +185,7 @@
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 							<portlet:param  name="id" value="${result.id}"/>
 							<portlet:param  name="term" value="${encodedTerm}"/>
-							<portlet:param  name="element" value="${advancedSearch.element}"/>
+							<portlet:param  name="element" value="${eadSearch.element}"/>
 						</portlet:resourceURL>
 						<div class="preview-button-holder"
 						data-url="${displayPreviewUrl}">&nbsp;</div>
@@ -194,7 +194,7 @@
 
 			</div>
 			<div id="bottom-paging" class="paging">
-				<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${advancedSearch.pageNumber}"
+				<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eadSearch.pageNumber}"
 					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
 			</div>
 			</c:if>

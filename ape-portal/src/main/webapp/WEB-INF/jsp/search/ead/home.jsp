@@ -35,7 +35,7 @@
 			});
 		</script>
 <div id="searchingPart">
-		<div id="advancedSearchPortlet" >
+		<div id="eadSearchPortlet" >
 			<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 				<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 				<c:choose>
@@ -57,7 +57,7 @@
 			</div>
 
 		
-			<form:form id="newSearchForm" name="advancedSearchForm" commandName="advancedSearch" method="post"
+			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
 				<form:hidden id="advanced" path="advanced" />
@@ -174,7 +174,7 @@
 		
 				</div>
 			</form:form>
-			<c:if test="${advancedSearch.mode == 'new'}">
+			<c:if test="${eadSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
 			<div id="searchResultsContainer" class="${showResults }">
@@ -210,12 +210,12 @@
 						<div id="answerMessageSavedSearch"></div>
 					</div>
 					<div id="tabs-context">
-						<c:if test="${advancedSearch.mode != 'new' and advancedSearch.view == 'hierarchy'}">
+						<c:if test="${eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />
 						</c:if> 
 					</div>
 					<div id="tabs-list">
-						<c:if test="${advancedSearch.mode != 'new' and advancedSearch.view != 'hierarchy'}">
+						<c:if test="${eadSearch.mode != 'new' and eadSearch.view != 'hierarchy'}">
 						<jsp:include page="results.jsp" />
 					</c:if>
 					</div>

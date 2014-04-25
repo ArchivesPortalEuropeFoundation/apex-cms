@@ -40,7 +40,7 @@
 				<div id="tabHeaderContent"></div>
 			</div>
 </div>
-<form:form id="updateCurrentSearch" name="advancedSearchForm" commandName="advancedSearch" method="post">
+<form:form id="updateCurrentSearch" name="eadSearchForm" commandName="eadSearch" method="post">
 		<form:hidden id="updateCurrentSearch_term" path="term"/>
 		<form:hidden id="updateCurrentSearch_method" path="method"/>
 		<form:hidden id="updateCurrentSearch_mode" path="mode" value="update-search"/>
@@ -53,15 +53,15 @@
 		<form:hidden id="updateCurrentSearch_todate" path="todate"/>
 		<form:hidden id="updateCurrentSearch_exactDateSearch" path="exactDateSearch"/>
 		<form:hidden id="updateCurrentSearch_language" path="language"/>
-		<input type="hidden" id="updateCurrentSearch_country" name="country" value="${advancedSearch.country}"/>
-		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${advancedSearch.ai}"/>
-		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${advancedSearch.fond}"/>
-		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${advancedSearch.type}"/>
-		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${advancedSearch.dao}"/>
-		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${advancedSearch.roledao}"/>
-		<input type="hidden" id="updateCurrentSearch_level" name="level" value="${advancedSearch.level}"/>
-		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${advancedSearch.dateType}"/>
-		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${advancedSearch.facetSettings}"/>
+		<input type="hidden" id="updateCurrentSearch_country" name="country" value="${eadSearch.country}"/>
+		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${eadSearch.ai}"/>
+		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${eadSearch.fond}"/>
+		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${eadSearch.type}"/>
+		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${eadSearch.dao}"/>
+		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${eadSearch.roledao}"/>
+		<input type="hidden" id="updateCurrentSearch_level" name="level" value="${eadSearch.level}"/>
+		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${eadSearch.dateType}"/>
+		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${eadSearch.facetSettings}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
 		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
@@ -70,7 +70,7 @@
 		<form:hidden id="updateCurrentSearch_publishedFromDate" path="publishedFromDate"/>
 		<form:hidden id="updateCurrentSearch_publishedToDate" path="publishedToDate"/>
 	<c:choose>
-		<c:when test="${advancedSearch.view == 'hierarchy'}">
+		<c:when test="${eadSearch.view == 'hierarchy'}">
 			<jsp:include page="results-contexttab.jsp"/>
 		</c:when>
 		<c:otherwise>
