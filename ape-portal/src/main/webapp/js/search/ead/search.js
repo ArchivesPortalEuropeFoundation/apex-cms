@@ -153,7 +153,7 @@ function performNewSearch() {
 		
 		hideTabsIfNoResults();
 		$("#searchResultsContainer").removeClass("hidden");
-		document.getElementById("searchResultsContainer").scrollIntoView(true);
+		//document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
 	logAction(documentTitle, newSearchUrl);
 }

@@ -37,7 +37,7 @@ function performNewSearch() {
 		updateSourceTabs();
 		
 		$("#searchResultsContainer").removeClass("hidden");
-		document.getElementById("searchResultsContainer").scrollIntoView(true);
+		//document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
 	logAction(documentTitle, newSearchUrl);
 }
