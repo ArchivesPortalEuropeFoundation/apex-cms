@@ -79,7 +79,7 @@ function getSearchTreeData(dtnode) {
 }
 
 function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) {
-	$("#advancedSearchPortlet #archivalLandscapeTree").dynatree({
+	$("#eadSearchPortlet #archivalLandscapeTree").dynatree({
 		// Navigated Search Tree for Countries, Archival
 		// Institution Groups,Archival Institutions, Holdings
 		// Guide and Finding Aid configuration
@@ -100,7 +100,7 @@ function initArchivalLandscapeTree(archivalLandscapeUrl, previewUrl, namespace) 
 		initAjax : {
 			url : archivalLandscapeUrl,
 			data : {
-				selectedNodes : $("#advancedSearchPortlet #selectedNodes").val()
+				selectedNodes : $("#eadSearchPortlet #selectedNodes").val()
 			}
 		},
 
@@ -275,7 +275,7 @@ function selectSiblings(node) {
 
 function fillInputFromNavTree() {
 	if (!$('#archivalLandscapeTree').is(':empty')){
-		var archivalLandscapeTree = $("#advancedSearchPortlet #archivalLandscapeTree").dynatree("getTree");
+		var archivalLandscapeTree = $("#eadSearchPortlet #archivalLandscapeTree").dynatree("getTree");
 		var selRootNodes = archivalLandscapeTree.getSelectedNodes(true);
 	    var text = "";
 		for ( var i = 0; i < selRootNodes.length; i++) {
@@ -290,6 +290,6 @@ function fillInputFromNavTree() {
 			}
 			
 		}
-		$("#advancedSearchPortlet #selectedNodes").val(text);
+		$("#eadSearchPortlet #selectedNodes").val(text);
 	}
 }
