@@ -9,25 +9,26 @@ import org.apache.solr.common.SolrDocumentList;
 
 import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearchResult;
 import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
+import eu.archivesportaleurope.portal.search.eag.EagSearchResult;
 
 public class SolrDocumentListHolder implements Iterable<SearchResult> {
 
 	private SolrDocumentList list;
 	private Map<String, Map<String, List<String>>> highlightingMap;
-	private boolean isEad;
+	private Class<? extends SearchResult> searchResultClass;
 	
 	public SolrDocumentListHolder(){
 		this.list = null;
 		this.highlightingMap = null;
 	}
-	public SolrDocumentListHolder(QueryResponse response, boolean isEad){
+	public SolrDocumentListHolder(QueryResponse response, Class<? extends SearchResult> searchResultClass){
 		this.list = response.getResults();
 		this.highlightingMap = response.getHighlighting();
-		this.isEad = isEad;
+		this.searchResultClass = searchResultClass;
 	}
 	@Override
 	public Iterator<SearchResult> iterator() {
-		return new SolrDocumentListIterator(list, highlightingMap, isEad);
+		return new SolrDocumentListIterator(list, highlightingMap, searchResultClass);
 	}
 
 	public static class SolrDocumentListIterator implements Iterator<SearchResult>{
@@ -35,11 +36,11 @@ public class SolrDocumentListHolder implements Iterable<SearchResult> {
 		private SolrDocumentList list;
 		private int currentPosition = 0;
 		private Map<String, Map<String, List<String>>> highlightingMap;
-		private boolean isEad;
-		public SolrDocumentListIterator(SolrDocumentList list, Map<String, Map<String, List<String>>> highlightingMap, boolean isEad){
+		private Class<? extends SearchResult> searchResultClass;
+		public SolrDocumentListIterator(SolrDocumentList list, Map<String, Map<String, List<String>>> highlightingMap, Class<? extends SearchResult> searchResultClass){
 			this.list = list;
 			this.highlightingMap = highlightingMap;
-			this.isEad = isEad;
+			this.searchResultClass = searchResultClass;
 		}		
 		@Override
 		public boolean hasNext() {
@@ -55,10 +56,12 @@ public class SolrDocumentListHolder implements Iterable<SearchResult> {
 				return null;
 			}
 			SearchResult item = null;
-			if (isEad){
+			if (EadSearchResult.class.equals(searchResultClass)){
 				item =  new EadSearchResult(list.get(currentPosition), highlightingMap);
-			}else {
+			}else if (EacCpfSearchResult.class.equals(searchResultClass)){
 				item =  new EacCpfSearchResult(list.get(currentPosition), highlightingMap);
+			}else if (EagSearchResult.class.equals(searchResultClass)){
+				item =  new EagSearchResult(list.get(currentPosition), highlightingMap);
 			}
 			currentPosition++;
 			return item;

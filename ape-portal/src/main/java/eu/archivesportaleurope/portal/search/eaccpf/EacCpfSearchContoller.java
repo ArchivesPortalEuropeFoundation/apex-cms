@@ -160,7 +160,7 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination( results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, false));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -183,7 +183,7 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, false));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}

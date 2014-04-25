@@ -35,6 +35,8 @@ import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
+import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearchResult;
+import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 import eu.archivesportaleurope.portal.search.ead.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.ead.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
@@ -135,11 +137,15 @@ public class EadSearchController extends AbstractSearchController{
 	public ModelAndView search(@ModelAttribute(value = "eadSearch") EadSearch eadSearch,
 			RenderRequest request) {
 		eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
-		Results results = performNewSearch(request, eadSearch);
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
-		modelAndView.getModelMap().addAttribute("results", results);
+		if (StringUtils.isNotBlank(eadSearch.getTerm())){
+			Results results = performNewSearch(request, eadSearch);
+			modelAndView.getModelMap().addAttribute("results", results);
+		}
+		
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
 		return modelAndView;
 	}
@@ -236,7 +242,7 @@ public class EadSearchController extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, true));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -256,7 +262,7 @@ public class EadSearchController extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, true));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
