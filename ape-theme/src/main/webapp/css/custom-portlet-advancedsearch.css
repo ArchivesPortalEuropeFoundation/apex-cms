@@ -1,5 +1,7 @@
 #searchingPart {
 	font-size: 8pt;
+	display: inline-block;
+	width: 100%;
 }
 
 #searchingPart #tabs {
@@ -98,7 +100,12 @@
 
 #searchingPart #simpleAndAdvancedSearch {
 	width: 100%;
-	display: block;
+	display: inline-block;
+	
+}
+#searchingPart #searchOptions {
+    display: inline-block;
+    width: 100%;
 }
 
 #searchingPart #advancedSearchOptionsContent {
@@ -180,9 +187,7 @@
 	display: block;
 	clear: both;
 	font-weight: bold;
-	margin-top: 15px;
 	padding-left: 7px;
-	padding-top: 20px;
 	padding-bottom: 10px;
 	border-bottom: none;
 }
@@ -533,7 +538,6 @@
 
 #searchingPart #searchResultsContainer {
 	clear: both;
-	display: block;
 }
 
 #searchingPart .suggestionSearch {
@@ -542,6 +546,7 @@
 	padding-left: 7px;
 	height: auto;
 	font-size: 14px;
+	padding-left: 20px;
 }
 
 #searchingPart .suggestionNumberOfHits {
@@ -779,6 +784,7 @@
 
 #searchingPart #sourceTabs{
     border: 0 none;
+    padding: 0px;
 }
 
 #searchingPart #sourceTabs .numberOfResults {
@@ -793,4 +799,8 @@
 
 #searchingPart #eacCpfSearchPortlet .relation > a{
 	opacity: 0.8;
+}
+
+#searchingPart #eacCpfSearchPortlet .tab_header, #searchingPart #eagSearchPortlet .tab_header{
+	border-top-left-radius: 5px;
 }
