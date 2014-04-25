@@ -24,7 +24,7 @@ public final class FriendlyUrlUtil {
 	public static final String DIRECTORY_INSTITUTION_CODE = "directory-institution-code";
 	public static final String DIRECTORY_CONTENT = "directory-content";
 	public static final String DIRECTORY_SITEMAP = "directory-sitemap";
-	public static final String SEARCH = "advancedsearch";
+	public static final String SEARCH = "ead-search";
 	public static final String SAVED_SEARCH = "saved-search";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SEPARATOR = "/";

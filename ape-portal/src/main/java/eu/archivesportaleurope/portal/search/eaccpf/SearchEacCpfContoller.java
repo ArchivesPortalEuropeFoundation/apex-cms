@@ -59,7 +59,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 	@RenderMapping
 	public ModelAndView searchEacCpf(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAC_CPF_SEARCH);
 		modelAndView.setViewName("index");
 		return modelAndView;
 	}
@@ -74,7 +74,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			ListResults results = performNewSearch(request,  eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAC_CPF_SEARCH);
 		return modelAndView;
 	}
 	@RenderMapping(params = "myaction=eacCpfSearch")
@@ -84,7 +84,7 @@ public class SearchEacCpfContoller extends AbstractSearchController{
 			ListResults results = performNewSearch(request, eacCpfSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_NAME_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAC_CPF_SEARCH);
 		modelAndView.setViewName("index");
 		
 		return modelAndView;

@@ -104,6 +104,8 @@ public class AdminController {
         	String defaultLocaleMenuName = "";
         	try{
         		defaultLocaleMenuName = messageSource.getMessage(resourcePropertyName, null, defaultLocale);
+        		LOGGER.info ("Page " + url + " add default " + defaultLocale + " " + defaultLocaleMenuName);
+        		layout.setName(defaultLocaleMenuName, defaultLocale); 
 			}catch (NoSuchMessageException e){
 				LOGGER.error("No translation "+ defaultLocale + ": " +resourcePropertyName);
 			}
@@ -112,7 +114,7 @@ public class AdminController {
         		try {
 					String localizedMenuName = messageSource.getMessage(resourcePropertyName, null, locale);
 	        		if (StringUtils.isNotBlank(localizedMenuName) && !localizedMenuName.equals(defaultLocaleMenuName)){
-	        			LOGGER.info ("Page " + url + " add translation " + locale);
+	        			LOGGER.info ("Page " + url + " add translation " + locale + " " + localizedMenuName);
 	        			layout.setName(localizedMenuName, locale);       			
 	        		}
         		}catch (NoSuchMessageException e){

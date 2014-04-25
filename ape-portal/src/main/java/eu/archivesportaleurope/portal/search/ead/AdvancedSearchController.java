@@ -63,14 +63,14 @@ public class AdvancedSearchController extends AbstractSearchController{
 	// --maps the incoming portlet request to this method
 	@RenderMapping
 	public String showAdvancedSearch(RenderRequest request) {
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH);
 		return "home";
 	}
 
 	@RenderMapping(params = "myaction=showSavedSearch")
 	public ModelAndView showSavedSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_SAVED);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_SAVED);
 		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
@@ -84,9 +84,9 @@ public class AdvancedSearchController extends AbstractSearchController{
 			}
 			EadSavedSearch eadSavedSearch = savedSearchService.getEadSavedSearch(liferayUserId, savedSearchId);
 			if (eadSavedSearch.isPublicSearch()){
-				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_PUBLIC_SAVED);
+				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_PUBLIC_SAVED);
 			}else {
-				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_ADVANCED_SEARCH_MY_SAVED);
+				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_MY_SAVED);
 			}
 			if (eadSavedSearch != null) {
 				AdvancedSearch advancedSearch = savedSearchService.convert(eadSavedSearch);

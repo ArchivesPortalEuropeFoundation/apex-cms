@@ -21,14 +21,14 @@ public class PortalDisplayUtil {
 	private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
-    public static final String TITLE_ADVANCED_SEARCH = "ADVANCED SEARCH";
-    public static final String TITLE_ADVANCED_SEARCH_SAVED = "ADVANCED SEARCH (SAVED SEARCH)";
-    public static final String TITLE_ADVANCED_SEARCH_PUBLIC_SAVED = "ADVANCED SEARCH (PUBLIC SAVED SEARCH)";
-    public static final String TITLE_ADVANCED_SEARCH_MY_SAVED = "ADVANCED SEARCH (MY SAVED SEARCH)";
-    public static final String TITLE_SIMPLE_SEARCH = "ADVANCED SEARCH";
+    public static final String TITLE_EAD_SEARCH = "ARCHIVES SEARCH";
+    public static final String TITLE_EAD_SEARCH_SAVED = "ARCHIVES SEARCH (SAVED SEARCH)";
+    public static final String TITLE_EAD_SEARCH_PUBLIC_SAVED = "ARCHIVES SEARCH (PUBLIC SAVED SEARCH)";
+    public static final String TITLE_EAD_SEARCH_MY_SAVED = "ARCHIVES SEARCH (MY SAVED SEARCH)";
+    public static final String TITLE_SIMPLE_SEARCH = "ARCHIVES SEARCH";
     public static final String TITLE_FEATURED_DOCUMENT = "FEATURED DOCUMENTS";
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
-    public static final String TITLE_NAME_SEARCH = "NAME SEARCH";
+    public static final String TITLE_EAC_CPF_SEARCH = "NAME SEARCH";
 
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
