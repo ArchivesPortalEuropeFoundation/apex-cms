@@ -44,6 +44,12 @@
 		
 	</portlet>
 	<portlet>
+		<portlet-name>eag-search</portlet-name>
+		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/search/common.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/search/eag/search.js</header-portlet-javascript>
+	</portlet>	
+	<portlet>
 		<portlet-name>eac-cpf-search</portlet-name>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/search/common.js</header-portlet-javascript>

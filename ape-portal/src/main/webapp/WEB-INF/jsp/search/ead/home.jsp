@@ -21,14 +21,18 @@
 <portlet:resourceURL var="archivalLandscapeTreeUrl" id="archivalLandscapeTree" />
 <portlet:resourceURL var="saveSearchUrl" id="saveSearch" />
 
-<portal:page  varPlId="nameSearchPlId"  varPortletId="nameSearchPortletId" portletName="eaccpfsearch" friendlyUrl="/name-search"/>		
-<liferay-portlet:renderURL var="nameSearchUrl"  plid="${nameSearchPlId}" portletName="${nameSearchPortletId}">
+<portal:page  varPlId="eacCpfSearchPlId"  varPortletId="eacCpfSearchPortletId" portletName="eaccpfsearch" friendlyUrl="/name-search"/>		
+<liferay-portlet:renderURL var="eacCpfSearchUrl"  plid="${eacCpfSearchPlId}" portletName="${eacCpfSearchPortletId}">
+	<portlet:param name="myaction" value="simpleSearch" />
+</liferay-portlet:renderURL>
+<portal:page  varPlId="eagSearchPlId"  varPortletId="eagSearchPortletId" portletName="eagsearch" friendlyUrl="/institution-search"/>		
+<liferay-portlet:renderURL var="eagSearchUrl"  plid="${eagSearchPlId}" portletName="${eagSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 </liferay-portlet:renderURL>
 
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setCommonUrls("${nameSearchUrl}","");
+				setCommonUrls("${eacCpfSearchUrl}","","${eagSearchUrl}");
 				initCommon();
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();

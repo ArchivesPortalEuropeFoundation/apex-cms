@@ -102,6 +102,34 @@
 		</security-role-ref>
 	</portlet>
 	<portlet>
+		<portlet-name>eag-search</portlet-name>
+		<display-name>EAG Search</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>EAG Search</title>
+			<short-title>EAG Search</short-title>
+			<keywords>eag-search</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>	
+	<portlet>
 		<portlet-name>directory</portlet-name>
 		<display-name>Directory</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>

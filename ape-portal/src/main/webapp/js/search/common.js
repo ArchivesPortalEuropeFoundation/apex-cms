@@ -1,7 +1,8 @@
-var commonNameSearchUrl, commonEadSearchUrl;
-function setCommonUrls(nSUrl,eadSUrl) {
+var commonNameSearchUrl, commonEadSearchUrl, commonEagSearchUrl;;
+function setCommonUrls(nSUrl,eadSUrl,eagSUrl ) {
 	commonNameSearchUrl = nSUrl;
 	commonEadSearchUrl = eadSUrl;
+	commonEagSearchUrl = eagSUrl;
 }
 
 function initCommon() {
@@ -25,6 +26,10 @@ function changeSearch(type){
 		newForm.submit();
 	}else if (type == "ead-search"){
 		newForm.attr("action", commonEadSearchUrl);
+		newForm.appendTo("body");
+		newForm.submit();
+	}else if (type == "institution-search"){
+		newForm.attr("action", commonEagSearchUrl);
 		newForm.appendTo("body");
 		newForm.submit();
 	}else {

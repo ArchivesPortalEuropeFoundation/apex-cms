@@ -18,8 +18,8 @@
 	<portlet:param name="myaction" value="simpleSearch" />
 	<liferay-portlet:param  name="advanced" value="false"/>
 </liferay-portlet:renderURL>
-<portal:page  varPlId="eagSearchPlId"  varPortletId="eagSearchPortletId" portletName="eagsearch" friendlyUrl="/institution-search"/>		
-<liferay-portlet:renderURL var="eagSearchUrl"  plid="${eagSearchPlId}" portletName="${eagSearchPortletId}">
+<portal:page  varPlId="eacCpfSearchPlId"  varPortletId="eacCpfSearchPortletId" portletName="eaccpfsearch" friendlyUrl="/name-search"/>		
+<liferay-portlet:renderURL var="eacCpfSearchUrl"  plid="${eacCpfSearchPlId}" portletName="${eacCpfSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 </liferay-portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
@@ -27,25 +27,25 @@
 <portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setCommonUrls("","${eadSearchUrl}", "${eagSearchUrl}");
+				setCommonUrls("${eacCpfSearchUrl}","${eadSearchUrl}");
 				setUrls("${ajaxEacCpfSearchUrl}","${autocompletionUrl}");
 				init();
 			});
 		</script>
 <div id="searchingPart">
-	<div id="eacCpfSearchPortlet" class="searchPortlet">
+	<div id="eagSearchPortlet" class="searchPortlet">
 		<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 			<c:choose>
 				<c:when test="${empty results}">
 					<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /></a></li>
-					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /></a></li>
-					<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institution-search" /></a></li>		
+					<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /></a></li>
+					<li class="ui-state-default ui-corner-top  ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.institution-search" /></a></li>		
 				</c:when>
 				<c:otherwise>
 					<li class="ui-state-default ui-corner-top ${results.eadNumberOfResultsClass}"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
-					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-					<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institution-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
+					<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.institution-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
 				</c:otherwise>
 			</c:choose>
 			</ul>
@@ -54,13 +54,12 @@
 			</div>
 		</div>
 
-<portlet:renderURL var="eacCpfSearchUrl">
-	<portlet:param name="myaction" value="eacCpfSearch" />
+<portlet:renderURL var="eagSearchUrl">
+	<portlet:param name="myaction" value="eagSearch" />
 </portlet:renderURL>
-<portal:friendlyUrl var="friendlyUrl" type="eac-cpf-display"/>
 
-<form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eacCpfSearch" method="post"
-				action="${eacCpfSearchUrl}">
+<form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eagSearch" method="post"
+				action="${eagSearchUrl}">
 				<form:hidden id="mode" path="mode" />
 				<div id="simpleAndAdvancedSearch">
 					<div id="advancedSearch">
@@ -71,22 +70,12 @@
 							<table id="advancedsearchCriteria">
 								<tr>
 									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" />:</label></td>
-									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eacCpfSearch.elementValues}"/></td>
+									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eagSearch.elementValues}"/></td>
 								</tr>
 								<tr>
 									<td><label for="entityType"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</label></td>
-									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eacCpfSearch.entityTypeValues}"/></td>
+									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eagSearch.entityTypeValues}"/></td>
 								</tr>							
-								<tr>
-									<td><label for="fromdate"><fmt:message key="advancedsearch.text.datefrom" /></label></td>
-									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="9" maxlength="10" /></td>
-									<td id="datetoHeader"><label id="todateLabel" for="todate"><fmt:message key="advancedsearch.text.dateto" /></label></td>
-									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="10"  maxlength="10"/></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td colspan="3"><form:checkbox id="exactDateSearch" path="exactDateSearch" value="true" tabindex="11"/><label for="exactDateSearch"><fmt:message key="advancedsearch.message.exactdatesearch" /></label></td>
-								</tr>
 		
 							</table>
 						</div>
@@ -123,7 +112,7 @@
 					</div>
 				</div>				
 </form:form>
-			<c:if test="${eacCpfSearch.mode == 'new'}">
+			<c:if test="${eagSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
 			<div id="searchResultsContainer" class="${showResults }">
@@ -149,7 +138,7 @@
 		
 				<div id="tabs">
 					<div id="tabs-list">
-						<c:if test="${eacCpfSearch.mode != 'new'}">
+						<c:if test="${eagSearch.mode != 'new'}">
 						<jsp:include page="results.jsp" />
 					</c:if>
 					</div>

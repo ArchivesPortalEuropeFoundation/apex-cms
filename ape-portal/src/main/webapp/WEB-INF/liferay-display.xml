@@ -14,5 +14,6 @@
 		<portlet id="featured-exhibition-frontpage"/>
 		<portlet id="eac-cpf-display" />
 		<portlet id="eac-cpf-search" />		
+		<portlet id="eag-search" />			
 	</category>
 </display>
