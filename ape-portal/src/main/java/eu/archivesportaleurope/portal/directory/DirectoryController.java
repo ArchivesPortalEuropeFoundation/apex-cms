@@ -158,10 +158,8 @@ public class DirectoryController {
 		ModelAndView modelAndView;
 		try {
 			String repositoryCode = renderRequest.getParameter("repoCode");
-			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
-					.getArchivalInstitutionsByRepositorycode(repositoryCode);
-			if (archivalInstitutions.size() > 0){
-				ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repositoryCode);
+			if (archivalInstitution != null){
 				modelAndView = fillAIDetails(archivalInstitution);
 				if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 					modelAndView.getModelMap().addAttribute("mobile", "mobile");

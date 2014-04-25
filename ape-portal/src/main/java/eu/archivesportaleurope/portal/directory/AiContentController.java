@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.directory;
 
-import java.util.List;
-
 import javax.portlet.RenderRequest;
 
 import org.apache.log4j.Logger;
@@ -14,8 +12,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import eu.apenet.commons.exceptions.APEnetException;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
-import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
+import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
@@ -48,9 +46,7 @@ public class AiContentController {
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
 			}
-			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
-					.getArchivalInstitutionsByRepositorycode(aiContentParams.getRepoCode());
-			ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(aiContentParams.getRepoCode());
 			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			eadSearchOptions.setContentClass(XmlType.getTypeByResourceName(aiContentParams.getXmlTypeName()).getClazz());
