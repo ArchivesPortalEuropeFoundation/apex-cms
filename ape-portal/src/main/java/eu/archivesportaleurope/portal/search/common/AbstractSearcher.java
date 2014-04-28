@@ -54,36 +54,41 @@ public abstract class AbstractSearcher {
 	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
 	}
 	public long getNumberOfResults(SolrQueryParameters solrQueryParameters) throws SolrServerException, ParseException{
-		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0,null, null, null, null, false);
+		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0,null, null, null, null, false, false);
 		return queryResponse.getResults().getNumFound();
 	}
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows, List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException{
-		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true);
+		return getListViewResults(solrQueryParameters, 0, rows,facetSettings, null, null, null, true, true);
 	}
 	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate) throws SolrServerException, ParseException{
-		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate, false);
+		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate, false, true);
 	}
-	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate, boolean needSuggestions) throws SolrServerException, ParseException {
+	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows, List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate, boolean needSuggestions, boolean highlight) throws SolrServerException, ParseException {
+		boolean withStartdateAndEnddate = false;
 		SolrQuery query = new SolrQuery();
-		query.setHighlight(true);
+		query.setHighlight(highlight);
 		if (facetSettingsList != null){
 			query.setFacetMinCount(1);
 			for (ListFacetSettings facetSettings: facetSettingsList){
 				FacetType facetType = facetSettings.getFacetType();
-				if (!facetType.isDate()){
+				if (facetType.isDate()){
+					withStartdateAndEnddate = true;
+				}else {
 					query.addFacetField(facetType.getNameWithLabel());
-					query.setParam("f."+ facetType.getName() +".facet.limit", facetSettings.getLimit() +"");
+					query.setParam("f."+ facetType.getName() +".facet.limit", facetSettings.getLimit() +"");				
 				}
 				
 			}
-			buildDateRefinement(query,startDate, endDate, true);
+			if (withStartdateAndEnddate){
+				buildDateRefinement(query,startDate, endDate, true);
+			}
 		}
 		query.setStart(start);
 		query.setRows(rows);
 		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
 			query.addSort(orderByField, ORDER.asc);
-			if(orderByField.equals("startdate")){
+			if(withStartdateAndEnddate && orderByField.equals("startdate")){
 				query.addSort("enddate", ORDER.asc);
 			}
 		}
