@@ -131,7 +131,7 @@ public class EagSearchContoller extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the eac cpf search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error("There was an error during the execution of the eag search: Error: " + ApeUtil.generateThrowableLog(e));
 		}
 		return results;
 	}
@@ -152,7 +152,7 @@ public class EagSearchContoller extends AbstractSearchController{
 		if (solrQueryParameters != null){
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
 			List<ListFacetSettings> list = eagSearch.getFacetSettingsList();
-			QueryResponse solrResponse = getEacCpfSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
+			QueryResponse solrResponse = getEagSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
 					list);
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 			results.init(solrResponse, list, eagSearch,
@@ -174,7 +174,7 @@ public class EagSearchContoller extends AbstractSearchController{
 		if (solrQueryParameters != null){
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
 			Integer pageNumber = Integer.parseInt(eagSearch.getPageNumber());
-			QueryResponse solrResponse = getEacCpfSearcher().updateListView(solrQueryParameters, results.getPageSize()
+			QueryResponse solrResponse = getEagSearcher().updateListView(solrQueryParameters, results.getPageSize()
 					* (pageNumber - 1), results.getPageSize(), eagSearch.getFacetSettingsList(),
 					eagSearch.getOrder(), eagSearch.getStartdate(), eagSearch.getEnddate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
@@ -227,10 +227,6 @@ public class EagSearchContoller extends AbstractSearchController{
 		eagSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
 		eagSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
 		eagSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));		
-		eagSearch.getEntityTypeValues().put("", source.getString("advancedsearch.text.noselection"));		
-		eagSearch.getEntityTypeValues().put(SolrValues.EAC_CPF_FACET_ENTITY_TYPE_PERSON, source.getString("advancedsearch.facet.value.eaccpf.entitytype.person"));
-		eagSearch.getEntityTypeValues().put(SolrValues.EAC_CPF_FACET_ENTITY_TYPE_FAMILY, source.getString("advancedsearch.facet.value.eaccpf.entitytype.family"));		
-		eagSearch.getEntityTypeValues().put(SolrValues.EAC_CPF_FACET_ENTITY_TYPE_CORPORATE_BODY, source.getString("advancedsearch.facet.value.eaccpf.entitytype.corporatebody"));			
         return eagSearch;
     }
 	protected void countOtherSearchResults(PortletRequest request, 
