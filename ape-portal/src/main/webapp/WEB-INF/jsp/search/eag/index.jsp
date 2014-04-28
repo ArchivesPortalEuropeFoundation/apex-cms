@@ -23,12 +23,12 @@
 	<portlet:param name="myaction" value="simpleSearch" />
 </liferay-portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
-<portal:removeParameters  var="ajaxaEagSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="eagSearch" /></portal:removeParameters>
+<portal:removeParameters  var="ajaxEagSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="eagSearch" /></portal:removeParameters>
 <portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setCommonUrls("${eacCpfSearchUrl}","${eadSearchUrl}","");
-				setUrls("${ajaxaEagSearchUrl}","${autocompletionUrl}");
+				setUrls("${ajaxEagSearchUrl}","${autocompletionUrl}");
 				init();
 			});
 		</script>
@@ -68,14 +68,8 @@
 						</h2>
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
-								<tr>
-									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" />:</label></td>
-									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eagSearch.elementValues}"/></td>
-								</tr>
-								<tr>
-									<td><label for="entityType"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</label></td>
-									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eagSearch.entityTypeValues}"/></td>
-								</tr>							
+
+						
 		
 							</table>
 						</div>
