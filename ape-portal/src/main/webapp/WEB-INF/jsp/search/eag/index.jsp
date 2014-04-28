@@ -23,12 +23,12 @@
 	<portlet:param name="myaction" value="simpleSearch" />
 </liferay-portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
-<portal:removeParameters  var="ajaxEacCpfSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="eacCpfSearch" /></portal:removeParameters>
+<portal:removeParameters  var="ajaxaEagSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage"><portlet:resourceURL id="eagSearch" /></portal:removeParameters>
 <portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				setCommonUrls("${eacCpfSearchUrl}","${eadSearchUrl}");
-				setUrls("${ajaxEacCpfSearchUrl}","${autocompletionUrl}");
+				setCommonUrls("${eacCpfSearchUrl}","${eadSearchUrl}","");
+				setUrls("${ajaxaEagSearchUrl}","${autocompletionUrl}");
 				init();
 			});
 		</script>
