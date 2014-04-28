@@ -383,8 +383,16 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>APEFilter</filter-name>
-		<portlet-name>advancedsearch</portlet-name>
+		<portlet-name>ead-search</portlet-name>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>APEFilter</filter-name>
+		<portlet-name>eag-search</portlet-name>
+	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>APEFilter</filter-name>
+		<portlet-name>eac-cpf-search</portlet-name>
+	</filter-mapping>		
     <filter-mapping>
         <filter-name>APEFilter</filter-name>
         <portlet-name>directory</portlet-name>
@@ -404,6 +412,10 @@
      <filter-mapping>
         <filter-name>APEFilter</filter-name>
         <portlet-name>savedsearch</portlet-name>
-    </filter-mapping>   
+    </filter-mapping>  
+     <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>eac-cpf-display</portlet-name>
+    </filter-mapping>       
     
 </portlet-app>
