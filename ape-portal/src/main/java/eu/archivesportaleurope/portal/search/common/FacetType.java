@@ -106,6 +106,11 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.END_DATE));     	
         return result;
     }
+    public static List<ListFacetSettings> getDefaultEagListFacetSettings(){
+    	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
+    	result.add(new ListFacetSettings(FacetType.COUNTRY));  	
+        return result;
+    }
     public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
