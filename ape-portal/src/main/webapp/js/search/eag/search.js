@@ -31,7 +31,7 @@ function performNewSearch() {
 	var documentTitle = document.title;
 //	blockSearch();
 	$("#mode").val("new-search");
-	$.post(newEacCpfSearchUrl, $("#newSearchForm").serialize(), function(data) {
+	$.post(newEagSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$("#tabs-list").html(data);
 //		updateSuggestions();
 		updateSourceTabs();
@@ -45,7 +45,7 @@ function performNewSearch() {
 function updateCurrentSearchResults(addRemoveRefinement) {
 	$("#searchResultsContainer").removeClass("hidden");
 //	blockSearch();
-	$.post(newEacCpfSearchUrl, $("#updateCurrentSearch").serialize(), function(data) {
+	$.post(newEagSearchUrl, $("#updateCurrentSearch").serialize(), function(data) {
 		var refinementsHtml = $("#selectedRefinements > ul").html();
 		// keep the selected refinements
 		$("#tabs-list").html(data);
