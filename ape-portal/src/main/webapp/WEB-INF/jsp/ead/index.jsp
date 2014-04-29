@@ -9,12 +9,6 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
 <portlet:defineObjects />
-<c:set var="element">
-	<c:out value="${param['element']}" />
-</c:set>
-<c:set var="term">
-	<c:out value="${param['term']}" />
-</c:set>
 <portlet:resourceURL var="eadTreeUrl" id="eadTree">
 	<portlet:param name="solrId" value="${solrId}" />
 	<portlet:param name="ecId" value="${ead.eadContent.ecId}" />

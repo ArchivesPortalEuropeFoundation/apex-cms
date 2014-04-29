@@ -111,7 +111,8 @@
 									<c:otherwise>
 										<c:set var="url" value="${friendlyUrl}/${result.id}/${eadSearch.element}/${encodedTerm}"/>
 									</c:otherwise>
-								</c:choose>		
+								</c:choose>	
+								<portal:eadPersistentLink var="url" xmlTypeName="${result.type}" eadid="${result.eadid}" repoCode="${result.repositoryCode}" unitid="${result.unitid}" searchId="${result.id}" searchFieldsSelectionId="${eadSearch.element}" searchTerms="${eadSearch.term}"/>	
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
 									href="${url}">${title}
 								</a>													

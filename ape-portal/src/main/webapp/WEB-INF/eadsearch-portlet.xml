@@ -61,6 +61,7 @@
 		<property name="eagSearcher" ref="eagSearcher"/>
 		<property name="messageSource" ref="messageSource"></property>
 		<property name="savedSearchService" ref="savedSearchService"></property>
+		<property name="databaseCacher" ref="databaseCacher"/>
 	</bean>
 
 		
