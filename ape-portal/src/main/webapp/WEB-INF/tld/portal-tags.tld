@@ -201,5 +201,50 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+	</tag>	
+	<tag>
+		<name>eadPersistentLink</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadPersistentUrlTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>			
+		<attribute>
+			<name>repoCode</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+		<attribute>
+			<name>eadid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+		<attribute>
+			<name>xmlTypeName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<name>unitid</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<name>searchId</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>					
+		<attribute>
+			<name>searchTerms</name>	
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>searchFieldsSelectionId</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pageNumber</name>		
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>			
 	</tag>		
 </taglib>
