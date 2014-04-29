@@ -117,8 +117,8 @@ public class DisplayPreviewContoller {
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		String repoCode = archivalInstitution.getRepositorycode().replace('/', '_');
-		modelAndView.getModelMap().addAttribute("aiRepoCode", repoCode);
+		modelAndView.getModelMap().addAttribute("aiRepoCode", archivalInstitution.getEncodedRepositorycode());
+		modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
 		return modelAndView;
 	}
 

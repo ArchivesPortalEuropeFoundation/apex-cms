@@ -85,8 +85,7 @@
 					|
 					<searchresults:order currentValue="${eadSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
 				</div>
-			<c:if test="${results.totalNumberOfResults > 0}">	
-			<portal:generateSearchWords var="encodedTerm" term="${eadSearch.term}" element="${eadSearch.element}"/>				
+			<c:if test="${results.totalNumberOfResults > 0}">		
 			<div id="searchresultsList">
 				<c:forEach var="result" items="${results.items}">
 					<div class="list-searchresult" id="list-searchresult-${result.id}">
@@ -104,14 +103,6 @@
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>
-								<c:choose>
-									<c:when test="${empty encodedTerm}">
-										<c:set var="url" value="${friendlyUrl}/${result.id}"/>
-									</c:when>
-									<c:otherwise>
-										<c:set var="url" value="${friendlyUrl}/${result.id}/${eadSearch.element}/${encodedTerm}"/>
-									</c:otherwise>
-								</c:choose>	
 								<portal:eadPersistentLink var="url" xmlTypeName="${result.type}" eadid="${result.eadid}" repoCode="${result.repositoryCode}" unitid="${result.unitid}" searchId="${result.id}" searchFieldsSelectionId="${eadSearch.element}" searchTerms="${eadSearch.term}"/>	
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
 									href="${url}">${title}
@@ -185,7 +176,7 @@
 						</div>
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 							<portlet:param  name="id" value="${result.id}"/>
-							<portlet:param  name="term" value="${encodedTerm}"/>
+							<portlet:param  name="term" value="${eadSearch.encodedTerm}"/>
 							<portlet:param  name="element" value="${eadSearch.element}"/>
 						</portlet:resourceURL>
 						<div class="preview-button-holder"

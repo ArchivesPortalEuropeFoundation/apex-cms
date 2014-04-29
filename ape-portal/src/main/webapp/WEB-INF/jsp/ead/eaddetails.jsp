@@ -23,7 +23,6 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
-<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search" />
 <portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage" />
 
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
