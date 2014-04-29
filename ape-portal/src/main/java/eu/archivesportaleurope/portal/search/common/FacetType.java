@@ -98,6 +98,7 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.AI));
     	result.add(new ListFacetSettings(FacetType.TYPE));
+    	result.add(new ListFacetSettings(FacetType.LEVEL));
     	result.add(new ListFacetSettings(FacetType.DAO));
     	result.add(new ListFacetSettings(FacetType.ROLEDAO));
     	result.add(new ListFacetSettings(FacetType.LANGUAGE)); 	
