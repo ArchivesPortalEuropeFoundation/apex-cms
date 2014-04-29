@@ -29,13 +29,13 @@ import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
+import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
-import eu.archivesportaleurope.portal.search.eaccpf.EacCpfSearchResult;
 import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 import eu.archivesportaleurope.portal.search.ead.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.ead.tree.TreeFacetValue;
@@ -52,6 +52,7 @@ public class EadSearchController extends AbstractSearchController{
 
 	private ResourceBundleMessageSource messageSource;
 	private SavedSearchService savedSearchService;
+	private DatabaseCacher databaseCacher;
 
 	public void setSavedSearchService(SavedSearchService savedSearchService) {
 		this.savedSearchService = savedSearchService;
@@ -59,6 +60,10 @@ public class EadSearchController extends AbstractSearchController{
 
 	public void setMessageSource(ResourceBundleMessageSource messageSource) {
 		this.messageSource = messageSource;
+	}
+
+	public void setDatabaseCacher(DatabaseCacher databaseCacher) {
+		this.databaseCacher = databaseCacher;
 	}
 
 	// --maps the incoming portlet request to this method
@@ -242,7 +247,7 @@ public class EadSearchController extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class, this.databaseCacher));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -262,7 +267,7 @@ public class EadSearchController extends AbstractSearchController{
 					new SpringResourceBundleSource(messageSource, request.getLocale()));
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class, this.databaseCacher));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}

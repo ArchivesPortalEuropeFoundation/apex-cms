@@ -8,6 +8,9 @@ public class EadParams {
 	private String repoCode;
 	private String xmlTypeName;
 	private Integer pageNumber;
+	private String unitid;
+	private String element;
+	private String term;
 
 
 	public String getEadDisplayId() {
@@ -51,6 +54,24 @@ public class EadParams {
 	}
 	public void setPageNumber(Integer pageNumber) {
 		this.pageNumber = pageNumber;
+	}
+	public String getUnitid() {
+		return unitid;
+	}
+	public String getElement() {
+		return element;
+	}
+	public String getTerm() {
+		return term;
+	}
+	public void setUnitid(String unitid) {
+		this.unitid = unitid;
+	}
+	public void setElement(String element) {
+		this.element = element;
+	}
+	public void setTerm(String term) {
+		this.term = term;
 	}
 
 }

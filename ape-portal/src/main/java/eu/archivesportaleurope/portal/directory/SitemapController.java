@@ -267,13 +267,13 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeSitemapStartElement(xmlWriter);
 				if (pageNumber == 1) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE)
+					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_FRONTPAGE)
 							+ SEPARATOR + ead.getArchivalInstitution().getEncodedRepositorycode() + SEPARATOR
 							+ xmlType.getResourceName() + SEPARATOR + ead.getEncodedIdentifier();
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.7");
 				}
 				for (CLevel cLevel : clevels) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C"
+					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_SEARCH) + "/C"
 							+ cLevel.getClId();
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);
 				}

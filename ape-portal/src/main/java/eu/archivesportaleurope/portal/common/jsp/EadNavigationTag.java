@@ -30,7 +30,7 @@ public class EadNavigationTag extends SimpleTagSupport {
 			CLevel parent = currentCLevel.getParent();
 			
 			while (parent != null ){
-				String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
+				String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
 				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
 				parent = parent.getParent();
 			}
@@ -38,7 +38,7 @@ public class EadNavigationTag extends SimpleTagSupport {
 			Ead ead = eadContent.getEad();
 			String repoCode = ead.getArchivalInstitution().getEncodedRepositorycode();
 			XmlType xmlType = XmlType.getContentType(ead);
-			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+  ead.getEncodedIdentifier();
+			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+  ead.getEncodedIdentifier();
 			hierarchy.add(new HierarchyInfo(url,eadContent.getUnittitle()));
 		}
 		
