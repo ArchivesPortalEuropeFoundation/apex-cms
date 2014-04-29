@@ -2,22 +2,17 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
 
-import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -123,10 +118,14 @@ public class DisplayEadDetailsContoller {
 		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
-		documentTitle = PortalDisplayUtil.getEadDisplayTitle(currentCLevel.getEadContent().getEad(), documentTitle);
+		EadContent eadContent = currentCLevel.getEadContent();
+		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+		XmlType xmlType = XmlType.getContentType(eadContent.getEad());
+		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 		modelAndView.setViewName("eaddetails");
 		modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;

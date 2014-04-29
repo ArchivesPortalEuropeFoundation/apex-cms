@@ -71,17 +71,13 @@
 		<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span
 			class="icon_print">&nbsp;</span></a>
 	</div>
-
+	
 	<c:choose>
 		<c:when test="${empty c}">
-			<c:set var="url"
-				value="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadContent.eadid}" />
-		</c:when>
-		<c:when test="${empty term }">
-			<c:set var="url" value="${eadDisplaySearchUrl}/${id}" />
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:when>
 		<c:otherwise>
-			<c:set var="url" value="${eadDisplaySearchUrl}/${id}/${element}/${term}" />
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" searchId="${id}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:otherwise>
 	</c:choose>
 	<div id="shareButton" class="linkButton">
