@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
+import eu.archivesportaleurope.util.ApeUtil;
 
 public abstract class AbstractSearchForm implements Serializable{
 
@@ -59,6 +60,9 @@ public abstract class AbstractSearchForm implements Serializable{
 	}
 	public String getTermWords() {
 		return term;
+	}
+	public String getEncodedTerm() {
+		return ApeUtil.encodeSpecialCharacters(term);
 	}
 	public String getMethod() {
 		return method;
