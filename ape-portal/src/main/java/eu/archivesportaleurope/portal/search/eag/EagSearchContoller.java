@@ -23,7 +23,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrFields;
-import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
@@ -233,9 +232,9 @@ public class EagSearchContoller extends AbstractSearchController{
 			EagSearch eagSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, request);
 		if (solrQueryParameters != null){ 
-			results.setEacCpfNumberOfResults(results.getTotalNumberOfResults());
+			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
-			results.setEagNumberOfResults(getEagSearcher().getNumberOfResults(solrQueryParameters));
+			results.setEagNumberOfResults(results.getTotalNumberOfResults());
 		}
 	}
 }
