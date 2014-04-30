@@ -15,6 +15,7 @@ import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public class EadPersistentUrlTag extends SimpleTagSupport {
+	private static final String NPID = "npid";
 	private static final String SEARCH = "search";
 	private static final String UNITID = "unitid";
 	private static final String EADID = "eadid";
@@ -46,7 +47,7 @@ public class EadPersistentUrlTag extends SimpleTagSupport {
 			if (StringUtils.isNotBlank(searchId)) {
 				String solrPrefix = searchId.substring(0, 1);
 				if (SolrValues.C_LEVEL_PREFIX.equals(solrPrefix)) {
-					url+=  FriendlyUrlUtil.SEPARATOR + searchId;
+					url+= FriendlyUrlUtil.SEPARATOR + NPID +FriendlyUrlUtil.SEPARATOR + searchId;
 				}
 			}
 		}else {
