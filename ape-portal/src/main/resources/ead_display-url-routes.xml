@@ -76,7 +76,6 @@
 	<route>
 		<pattern>/s/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
-		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>
 	</route>
 	<route>
 		<pattern>/fp-p/{pageNumber:\d+}/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
