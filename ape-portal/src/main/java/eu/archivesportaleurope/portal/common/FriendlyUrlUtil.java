@@ -11,6 +11,9 @@ import org.apache.log4j.Logger;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 
+import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
+import eu.archivesportaleurope.portal.common.urls.SitemapUrl;
+
 public final class FriendlyUrlUtil {
 	private final static Logger LOGGER = Logger.getLogger(FriendlyUrlUtil.class);
 	public static final String OLD_EAD_DISPLAY_SEARCH = "eaddisplay-search";
@@ -32,6 +35,8 @@ public final class FriendlyUrlUtil {
 	public static final String SEPARATOR = "/";
 	public static final String EAC_CPF_DISPLAY = "eac-display";
 	public static final String EAC_CPF_RELATION_DISPLAY = "eac-relation-display";
+	
+
 	
 	private final static Map<String, String> urls = new HashMap<String, String>();
 	static {
@@ -83,4 +88,17 @@ public final class FriendlyUrlUtil {
 			return urls.get(type);
 
 	}
+	public static String getEadPersistentUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl, boolean noHttps){
+		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, noHttps) ;
+		return baseUrl + eadPerstistentUrl.toString() ;	
+	}
+	public static String getSitemapUrl(PortletRequest portletRequest, SitemapUrl sitemapUrl, boolean noHttps){
+		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, noHttps) ;
+		return baseUrl + sitemapUrl.toString() ;	
+	}
+	public static String getSitemapUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl, boolean noHttps){
+		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, noHttps) ;
+		return baseUrl + eadPerstistentUrl.toString() ;	
+	}
+	
 }
