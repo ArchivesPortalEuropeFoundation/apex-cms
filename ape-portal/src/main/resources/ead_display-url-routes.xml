@@ -4,7 +4,7 @@
 <routes>
 	<!-- persistent archdesc with search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
@@ -14,7 +14,7 @@
 	</route>
 	<!-- persistent archdesc without search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
@@ -22,7 +22,7 @@
 	</route>
 	<!-- persistent descriptive unit without search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}/unitid/{unitid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
@@ -33,7 +33,7 @@
 	</route>	
 	<!-- persistent descriptive unit without search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}/unitid/{unitid:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
@@ -42,7 +42,7 @@
 	</route>
 	<!-- no persistent descriptive unit with search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}/npid/{eadDisplayId:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/npid/{eadDisplayId:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
@@ -53,7 +53,7 @@
 	</route>	
 	<!-- no persistent descriptive unit without search term -->
 	<route>
-		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/eadid/{eadid:[^/]+}/npid/{eadDisplayId:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/npid/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
 		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
@@ -72,9 +72,11 @@
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>
 	</route>
+	<!--  old url -->
 	<route>
 		<pattern>/s/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>
 	</route>
 	<route>
 		<pattern>/fp-p/{pageNumber:\d+}/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
