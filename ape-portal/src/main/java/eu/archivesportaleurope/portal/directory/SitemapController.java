@@ -21,8 +21,8 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
-import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
+import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
@@ -31,16 +31,14 @@ import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
+import eu.archivesportaleurope.portal.common.urls.SitemapUrl;
 
 @Controller(value = "SitemapController")
 @RequestMapping(value = "VIEW")
 public class SitemapController {
-	private static final String EADID = "/eadid/";
 	private static final String HTTP_NOT_FOUND = "404";
-	private static final String EAD = "/ead/type/";
-	private static final String SEPARATOR = "/";
-	private static final String PAGE = "/page/";
-	private static final String AICODE = "/aicode/";
+	private static final String EAD = "/ead";
 	private static final String PRIORITY = "priority";
 	private static final String URL = "url";
 	private static final String LASTMOD = "lastmod";
@@ -84,8 +82,8 @@ public class SitemapController {
 			for (ArchivalInstitution archivalInstitution : archivalInstitutions) {
 				xmlWriter.writeStartElement(SITEMAP);
 				xmlWriter.writeStartElement(LOC);
-				xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
-						+ AICODE + archivalInstitution.getEncodedRepositorycode());
+				SitemapUrl siteMapUrl = new SitemapUrl(archivalInstitution.getRepositorycode());
+				xmlWriter.writeCharacters(FriendlyUrlUtil.getSitemapUrl(resourceRequest, siteMapUrl, true));
 				xmlWriter.writeEndElement();
 				if (archivalInstitution.getContentLastModifiedDate() != null) {
 					xmlWriter.writeStartElement(LASTMOD);
@@ -126,8 +124,9 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()
-							+ PAGE + pageNumber;
+					SitemapUrl siteMapUrl = new SitemapUrl(archivalInstitution.getRepositorycode());
+					siteMapUrl.setPageNumberAsInt(pageNumber);
+					String url = FriendlyUrlUtil.getSitemapUrl(resourceRequest, siteMapUrl, true);
 					writeIndexElement(xmlWriter, url, archivalInstitution.getContentLastModifiedDate());
 				}
 				xmlWriter.writeEndElement();
@@ -182,8 +181,8 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (Ead ead : eads) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()					
-					+ EAD + XmlType.getContentType(ead).getResourceName() + EADID + ead.getEncodedIdentifier();
+					EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(archivalInstitution.getRepositorycode(), XmlType.getContentType(ead).getResourceName(), ead.getIdentifier());
+					String url = FriendlyUrlUtil.getSitemapUrl(resourceRequest, eadPersistentUrl, true);
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
 				xmlWriter.writeEndElement();
@@ -202,8 +201,9 @@ public class SitemapController {
 	@ResourceMapping(value = "generateEadSitemapIndex")
 	public void generateEadSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		try {
-			String eadid = resourceRequest.getParameter("eadid");
+			String eadid = resourceRequest.getParameter("id");
 			String repoCode = resourceRequest.getParameter("repoCode");
+			LOGGER.info (repoCode + " " + eadid);
 			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
 			long numberOfItems = 0;
@@ -223,8 +223,9 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()					
-					+ EAD + XmlType.getContentType(ead).getResourceName() + EADID + ead.getEncodedIdentifier() + PAGE + pageNumber;					
+					EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(archivalInstitution.getRepositorycode(), XmlType.getContentType(ead).getResourceName(), ead.getIdentifier());
+					eadPersistentUrl.setPageNumberAsInt(pageNumber);
+					String url = FriendlyUrlUtil.getSitemapUrl(resourceRequest, eadPersistentUrl, true);
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
 				xmlWriter.writeEndElement();
@@ -243,7 +244,7 @@ public class SitemapController {
 	@ResourceMapping(value = "generateEadSitemap")
 	public void generateEadSitemap(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		try {
-			String eadid = resourceRequest.getParameter("eadid");
+			String eadid = resourceRequest.getParameter("id");
 			String repoCode = resourceRequest.getParameter("repoCode");
 			Integer pageNumber = Integer.parseInt(resourceRequest.getParameter("pageNumber"));
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
@@ -268,6 +269,7 @@ public class SitemapController {
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-content:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " pn:" + pageNumber);
 			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getEadClazz(), ead.getId(), pageNumber, (int) PAGESIZE);
+			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(archivalInstitution.getRepositorycode(), XmlType.getContentType(ead).getResourceName(), ead.getIdentifier());
 			if (clevels.size() >= 0) {
 				resourceResponse.setCharacterEncoding(UTF8);
 				resourceResponse.setContentType(APPLICATION_XML);
@@ -275,14 +277,14 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeSitemapStartElement(xmlWriter);
 				if (pageNumber == 1) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_FRONTPAGE)
-							+ SEPARATOR + ead.getArchivalInstitution().getEncodedRepositorycode() + SEPARATOR
-							+ xmlType.getResourceName() + SEPARATOR + ead.getEncodedIdentifier();
+					String url = FriendlyUrlUtil.getEadPersistentUrl(resourceRequest, eadPersistentUrl, true);
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.7");
 				}
 				for (CLevel cLevel : clevels) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.OLD_EAD_DISPLAY_SEARCH) + "/C"
-							+ cLevel.getClId();
+					eadPersistentUrl.setSearchIdAsLong(cLevel.getClId());
+					eadPersistentUrl.setUnitid(cLevel.getUnitid());
+					LOGGER.info("cLevel: " + eadPersistentUrl.toString());
+					String url = FriendlyUrlUtil.getEadPersistentUrl(resourceRequest, eadPersistentUrl, true);
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);
 				}
 				xmlWriter.writeEndElement();
