@@ -327,33 +327,34 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 			String countryCode = resourceRequest.getParameter("countryCode");
 			String institutionID = resourceRequest.getParameter("institutionID");
 			String repositoryName = resourceRequest.getParameter("repositoryName");
-			
+			String onlyBounds = resourceRequest.getParameter("onlyBounds");
 			//parse bad params (if jquery parse a null to "null", it has to be reconverted
 			countryCode = (countryCode!=null && countryCode.equalsIgnoreCase("null"))?null:countryCode;
 			institutionID = (institutionID!=null && institutionID.equalsIgnoreCase("null"))?null:institutionID;
 			repositoryName = (repositoryName!=null && repositoryName.equalsIgnoreCase("null"))?null:repositoryName;
-
-			// Always recovers all the coordinates.
-			List<Coordinates> reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
-
-			// Remove coordinates with values (0, 0).
-			if (reposList != null && !reposList.isEmpty()) {
-				// New list without (0, 0) values.
-				List<Coordinates> cleanReposList = new ArrayList<Coordinates>();
-				Iterator<Coordinates> reposIt = reposList.iterator();
-				while (reposIt.hasNext()) {
-					Coordinates coordinates = reposIt.next();
-					if (coordinates.getLat() != 0 || coordinates.getLon() != 0) {
-						//control elements outside the printable earth coordinates (-77 to 82) and (-177 to 178)
-						if ((coordinates.getLat() >=-77 && coordinates.getLat() <= 82) && (coordinates.getLon() >=-177 && coordinates.getLon() <= 178)) {
-							cleanReposList.add(coordinates);
+			List<Coordinates> reposList = new ArrayList<Coordinates>();
+			if (!"true".equalsIgnoreCase(onlyBounds)){
+				// Always recovers all the coordinates.
+				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
+	
+				// Remove coordinates with values (0, 0).
+				if (reposList != null && !reposList.isEmpty()) {
+					// New list without (0, 0) values.
+					List<Coordinates> cleanReposList = new ArrayList<Coordinates>();
+					Iterator<Coordinates> reposIt = reposList.iterator();
+					while (reposIt.hasNext()) {
+						Coordinates coordinates = reposIt.next();
+						if (coordinates.getLat() != 0 || coordinates.getLon() != 0) {
+							//control elements outside the printable earth coordinates (-77 to 82) and (-177 to 178)
+							if ((coordinates.getLat() >=-77 && coordinates.getLat() <= 82) && (coordinates.getLon() >=-177 && coordinates.getLon() <= 178)) {
+								cleanReposList.add(coordinates);
+							}
 						}
 					}
+					// Pass the clean array to the existing one.
+					reposList = cleanReposList;
 				}
-				// Pass the clean array to the existing one.
-				reposList = cleanReposList;
 			}
-
 			// Check the part to center.
 			if (repositoryName != null && !repositoryName.isEmpty()
 					&& institutionID != null && !institutionID.isEmpty()) {
@@ -461,7 +462,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
 		//this escapes " in field
-		builder.append("\"name\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution())+"\"");
+		builder.append("\"name\":\""+repo.getNameInstitution()+"\"");
 		ArchivalInstitution ai = repo.getArchivalInstitution();
 		if(ai!=null){
 			builder.append(COMMA);
