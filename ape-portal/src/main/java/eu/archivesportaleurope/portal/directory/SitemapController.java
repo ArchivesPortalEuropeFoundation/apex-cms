@@ -35,10 +35,12 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @Controller(value = "SitemapController")
 @RequestMapping(value = "VIEW")
 public class SitemapController {
+	private static final String EADID = "/eadid/";
 	private static final String HTTP_NOT_FOUND = "404";
-	private static final String EAD = "/ead/";
+	private static final String EAD = "/ead/type/";
 	private static final String SEPARATOR = "/";
-	private static final String AI = "/ai/";
+	private static final String PAGE = "/page/";
+	private static final String AICODE = "/aicode/";
 	private static final String PRIORITY = "priority";
 	private static final String URL = "url";
 	private static final String LASTMOD = "lastmod";
@@ -83,7 +85,7 @@ public class SitemapController {
 				xmlWriter.writeStartElement(SITEMAP);
 				xmlWriter.writeStartElement(LOC);
 				xmlWriter.writeCharacters(FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP)
-						+ AI + archivalInstitution.getAiId());
+						+ AICODE + archivalInstitution.getEncodedRepositorycode());
 				xmlWriter.writeEndElement();
 				if (archivalInstitution.getContentLastModifiedDate() != null) {
 					xmlWriter.writeStartElement(LASTMOD);
@@ -107,13 +109,13 @@ public class SitemapController {
 	public void generateAiSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws Exception {
 		try {
-			Integer aiId = Integer.parseInt(resourceRequest.getParameter("aiId"));
+			String repoCode = resourceRequest.getParameter("repoCode");
 			long numberOfItems = 0;
-			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
 			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setContentClass(FindingAid.class);
-			eadSearchOptions.setArchivalInstitionId(aiId);
+			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			numberOfItems = eadDAO.countEads(eadSearchOptions);
 			if (numberOfItems > PAGESIZE) {
 				int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
@@ -124,8 +126,8 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AI + aiId
-							+ SEPARATOR + pageNumber;
+					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()
+							+ PAGE + pageNumber;
 					writeIndexElement(xmlWriter, url, archivalInstitution.getContentLastModifiedDate());
 				}
 				xmlWriter.writeEndElement();
@@ -133,7 +135,7 @@ public class SitemapController {
 				xmlWriter.flush();
 				xmlWriter.close();
 			} else {
-				generateAiContent(resourceRequest, resourceResponse, aiId, 1);
+				generateAiContent(resourceRequest, resourceResponse, archivalInstitution, 1);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ai index: " + e.getMessage());
@@ -144,9 +146,10 @@ public class SitemapController {
 	@ResourceMapping(value = "generateAiSitemap")
 	public void generateAiSitemap(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		try {
-			Integer aiId = Integer.parseInt(resourceRequest.getParameter("aiId"));
+			String repoCode = resourceRequest.getParameter("repoCode");
 			Integer pageNumber = Integer.parseInt(resourceRequest.getParameter("pageNumber"));
-			generateAiContent(resourceRequest, resourceResponse, aiId, pageNumber);
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
+			generateAiContent(resourceRequest, resourceResponse, archivalInstitution, pageNumber);
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ai sitemap: " + e.getMessage());
 			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
@@ -154,15 +157,14 @@ public class SitemapController {
 
 	}
 
-	public void generateAiContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, int aiId,
+	public void generateAiContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, ArchivalInstitution archivalInstitution,
 			int pageNumber) {
 		try {
-			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": AI-content:" + archivalInstitution.getRepositorycode() + " pn:" + pageNumber);
 			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setContentClass(FindingAid.class);
-			eadSearchOptions.setArchivalInstitionId(aiId);
+			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			eadSearchOptions.setPageNumber(pageNumber);
 			eadSearchOptions.setPageSize((int) PAGESIZE);
 			List<Ead> eads = eadDAO.getEads(eadSearchOptions);
@@ -180,8 +182,8 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (Ead ead : eads) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + EAD
-							+ XmlType.getContentType(ead).getResourceName() + SEPARATOR + ead.getId();
+					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()					
+					+ EAD + XmlType.getContentType(ead).getResourceName() + EADID + ead.getEncodedIdentifier();
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
 				xmlWriter.writeEndElement();
@@ -200,15 +202,18 @@ public class SitemapController {
 	@ResourceMapping(value = "generateEadSitemapIndex")
 	public void generateEadSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		try {
-			Integer eadId = Integer.parseInt(resourceRequest.getParameter("id"));
+			String eadid = resourceRequest.getParameter("eadid");
+			String repoCode = resourceRequest.getParameter("repoCode");
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
 			long numberOfItems = 0;
 			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setContentClass(xmlType.getClazz());
-			eadSearchOptions.setId(eadId);
+			eadSearchOptions.setEadid(eadid);
+			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
-			numberOfItems = cLevelDAO.countCLevels(xmlType.getEadClazz(), eadId);
+			numberOfItems = cLevelDAO.countCLevels(xmlType.getEadClazz(), ead.getId());
 			if (numberOfItems > PAGESIZE) {
 				int numberOfPages = (int) Math.ceil((double) numberOfItems / PAGESIZE);
 				LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-index:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " #p:" + numberOfPages);
@@ -218,9 +223,8 @@ public class SitemapController {
 						resourceResponse.getPortletOutputStream(), UTF8);
 				writeIndexStartElement(xmlWriter);
 				for (int pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + EAD
-							+ XmlType.getContentType(ead).getResourceName() + SEPARATOR + ead.getId() + SEPARATOR
-							+ pageNumber;
+					String url = FriendlyUrlUtil.getUrl(resourceRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP) + AICODE + archivalInstitution.getEncodedRepositorycode()					
+					+ EAD + XmlType.getContentType(ead).getResourceName() + EADID + ead.getEncodedIdentifier() + PAGE + pageNumber;					
 					writeIndexElement(xmlWriter, url, ead.getPublishDate());
 				}
 				xmlWriter.writeEndElement();
@@ -228,7 +232,7 @@ public class SitemapController {
 				xmlWriter.flush();
 				xmlWriter.close();
 			} else {
-				generateEadContent(resourceRequest, resourceResponse, xmlType, eadId, 1);
+				generateEadContent(resourceRequest, resourceResponse, xmlType, archivalInstitution, eadid, 1);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ead index: " + e.getMessage());
@@ -239,10 +243,12 @@ public class SitemapController {
 	@ResourceMapping(value = "generateEadSitemap")
 	public void generateEadSitemap(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		try {
-			Integer id = Integer.parseInt(resourceRequest.getParameter("id"));
+			String eadid = resourceRequest.getParameter("eadid");
+			String repoCode = resourceRequest.getParameter("repoCode");
 			Integer pageNumber = Integer.parseInt(resourceRequest.getParameter("pageNumber"));
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
-			generateEadContent(resourceRequest, resourceResponse, xmlType, id, pageNumber);
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
+			generateEadContent(resourceRequest, resourceResponse, xmlType, archivalInstitution, eadid, pageNumber);
 		} catch (Exception e) {
 			LOGGER.error("Unable to generate ead sitemap: " + e.getMessage());
 			resourceResponse.setProperty(ResourceResponse.HTTP_STATUS_CODE, HTTP_NOT_FOUND);
@@ -251,15 +257,17 @@ public class SitemapController {
 	}
 
 	public void generateEadContent(ResourceRequest resourceRequest, ResourceResponse resourceResponse, XmlType xmlType,
-			int eadId, int pageNumber) {
+			ArchivalInstitution archivalInstitution, String eadid, int pageNumber) {
 		try {
+			
 			ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
 			eadSearchOptions.setPublished(true);
 			eadSearchOptions.setContentClass(xmlType.getClazz());
-			eadSearchOptions.setId(eadId);
+			eadSearchOptions.setEadid(eadid);
+			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			Ead ead = eadDAO.getEads(eadSearchOptions).get(0);
 			LOGGER.debug(getUserAgent(resourceRequest) + ": EAD-content:" + ead.getArchivalInstitution().getRepositorycode() + " -" + ead.getEadid() + " pn:" + pageNumber);
-			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getEadClazz(), eadId, pageNumber, (int) PAGESIZE);
+			List<CLevel> clevels = cLevelDAO.getCLevels(xmlType.getEadClazz(), ead.getId(), pageNumber, (int) PAGESIZE);
 			if (clevels.size() >= 0) {
 				resourceResponse.setCharacterEncoding(UTF8);
 				resourceResponse.setContentType(APPLICATION_XML);
