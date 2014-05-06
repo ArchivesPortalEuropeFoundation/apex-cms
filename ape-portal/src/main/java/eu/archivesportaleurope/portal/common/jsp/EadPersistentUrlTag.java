@@ -7,6 +7,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+import org.apache.commons.lang.StringUtils;
+
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 
@@ -32,7 +34,11 @@ public class EadPersistentUrlTag extends SimpleTagSupport {
 		eadPersistentUrl.setUnitid(unitid);
 		eadPersistentUrl.setSearchFieldsSelectionId(searchFieldsSelectionId);
 		eadPersistentUrl.setSearchTerms(searchTerms);
-		eadPersistentUrl.setSearchId(searchId);
+		if (StringUtils.isNumeric(searchId)){
+			eadPersistentUrl.setSearchIdAsLong(Long.parseLong(searchId));
+		}else {
+			eadPersistentUrl.setSearchId(searchId);
+		}
 		eadPersistentUrl.setPageNumber(pageNumber);
 		String url = FriendlyUrlUtil.getEadPersistentUrl(portletRequest, eadPersistentUrl, noHttpsBoolean);
 		getJspContext().setAttribute(var, url);
