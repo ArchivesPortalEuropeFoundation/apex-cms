@@ -84,9 +84,30 @@ public final class FriendlyUrlUtil {
 		return null;
 
 	}
+	public static String getRelativeUrl(PortletRequest portletRequest, String type) {
+		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		try {
+			String urlHome = "/";
+			if (themeDisplay.isI18n() && StringUtils.isNotBlank(themeDisplay.getI18nPath())) {
+				// only desktop users have extra multilanguage urls. This is to prevent search engines to have everything multiplied
+				if (!PortalDisplayUtil.isNotDesktopBrowser(portletRequest)){
+					urlHome += themeDisplay.getI18nPath();
+				}
+			}
+			return urlHome + urls.get(type);
+		} catch (Exception e) {
+			LOGGER.error("Unable to generate url: " + e.getMessage());
+		}
+		return null;
+
+	}
 	public static String getRelativeUrl(String type) {
 			return urls.get(type);
 
+	}
+	public static String getRelativeEadPersistentUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl){
+		String baseUrl = FriendlyUrlUtil.getRelativeUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT) ;
+		return baseUrl + eadPerstistentUrl.toString() ;	
 	}
 	public static String getEadPersistentUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl, boolean noHttps){
 		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, noHttps) ;

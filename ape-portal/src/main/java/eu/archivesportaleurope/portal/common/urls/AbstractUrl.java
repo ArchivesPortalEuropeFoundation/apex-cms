@@ -21,8 +21,10 @@ public class AbstractUrl {
 	public void setPageNumber(String pageNumber) {
 		this.pageNumber = pageNumber;
 	}
-	public void setPageNumberAsInt(int pageNumber) {
-		this.pageNumber = pageNumber + "";
+	public void setPageNumberAsInt(Integer pageNumber) {
+		if (pageNumber != null){
+			this.pageNumber = pageNumber.toString();
+		}
 	}
 	
 

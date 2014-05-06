@@ -2,6 +2,8 @@ package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.solr.SolrValues;
@@ -23,12 +26,13 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
-import eu.archivesportaleurope.portal.common.AnalyzeLogger;
+import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 
 /**
@@ -63,18 +67,20 @@ public class DisplayEadContoller {
 		this.messageSource = messageSource;
 	}
 
-	@RenderMapping(params = "myaction=persistentEadDisplay")
+	@RenderMapping
 	public ModelAndView displayPersistentEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = null;
 		try {
 			modelAndView = displayPersistenEadOrCLevelInternal(renderRequest, eadParams);
-			modelAndView.getModelMap().addAttribute("element", eadParams.getElement());
-			modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eadParams.getTerm()));
-			modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+			if (modelAndView != null){
+				modelAndView.getModelMap().addAttribute("element", eadParams.getElement());
+				modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eadParams.getTerm()));
+				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+			}
 		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
-			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
+			LOGGER.error("Error in ead display process:" +ApeUtil.generateThrowableLog(e));
 
 		}
 		if (modelAndView == null){
@@ -145,43 +151,35 @@ public class DisplayEadContoller {
 
 	}	
 
-	@RenderMapping
-	public ModelAndView displayEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
-		ModelAndView modelAndView = null;
+	@ActionMapping(params ="myaction=redirectAction")
+	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse, @ModelAttribute(value = "eadParams") EadParams eadParams) {
+		LOGGER.info("redirect" );
 		try {
-			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
-			modelAndView.getModelMap().addAttribute("element", eadParams.getElement());
-			modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eadParams.getTerm()));			
-			modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+			EadPersistentUrl eadPersistentUrl = generateRedirectUrl(actionRequest, eadParams);
+			if (eadPersistentUrl != null){
+				String redirectUrl =  FriendlyUrlUtil.getRelativeEadPersistentUrl(actionRequest, eadPersistentUrl);
+				actionResponse.sendRedirect(redirectUrl);
+			}
 		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
-			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
+			LOGGER.error("Error in ead display process:" + ApeUtil.generateThrowableLog(e));
 
 		}
-		if (modelAndView == null){
-			modelAndView = new ModelAndView();
-			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
-			modelAndView.setViewName("indexError");
-		}
-		return modelAndView;
+
 	}
+	
 
-	public ModelAndView displayEadOrCLevelInternal(RenderRequest renderRequest, EadParams eadParams) throws NotExistInDatabaseException {
-		ModelAndView modelAndView = new ModelAndView();
+	public EadPersistentUrl generateRedirectUrl(ActionRequest request, EadParams eadParams) throws NotExistInDatabaseException {
 		Ead ead = null;
+		CLevel clevel = null;
 		if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
-			AnalyzeLogger.logSecondDisplay(eadParams.getEadDisplayId());
 			if (eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
 				String subSolrId = eadParams.getEadDisplayId().substring(1);
 				if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
-					CLevel clevel = clevelDAO.findById(Long.parseLong(subSolrId));
-					modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
+					clevel = clevelDAO.findById(Long.parseLong(subSolrId));
 					if (clevel != null) {
 						ead = clevel.getEadContent().getEad();
-						if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
-							return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
-						}
 					}
 				}
 			} else {
@@ -195,9 +193,6 @@ public class DisplayEadContoller {
 					if (StringUtils.isNotBlank(eadParams.getEadid())) {
 						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
 					}
-
-				}
-				if (ead == null){
 
 				}
 			}
@@ -216,14 +211,18 @@ public class DisplayEadContoller {
 
 		if (ead != null) {
 			EadContent eadContent = ead.getEadContent();
-			PortalDisplayUtil.setPageTitle(renderRequest,
+			PortalDisplayUtil.setPageTitle(request,
 					PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
-			if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
-				return displayEadDetails(renderRequest, eadParams, modelAndView, ead);
-
-			} else {
-				return displayEadIndex(renderRequest, eadParams, modelAndView, ead);
+			XmlType xmlType = XmlType.getContentType(ead);
+			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(), xmlType.getResourceName(), ead.getEadid());
+			if (clevel != null){
+				eadPersistentUrl.setUnitid(clevel.getUnitid());
+				eadPersistentUrl.setSearchIdAsLong(clevel.getClId());
 			}
+			eadPersistentUrl.setPageNumberAsInt(eadParams.getPageNumber());
+			eadPersistentUrl.setSearchFieldsSelectionId(eadParams.getElement());
+			eadPersistentUrl.setSearchTerms(eadParams.getTerm());
+			return eadPersistentUrl;
 		}else {
 			return null;
 		}
