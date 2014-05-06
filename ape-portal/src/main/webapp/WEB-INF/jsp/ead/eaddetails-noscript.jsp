@@ -37,25 +37,10 @@
 				<c:choose>
 					<c:when test="${empty c}">
 						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
-						<c:choose>
-							<c:when test="${empty term }">
-								<c:set var="pagingUrl"
-									value="${eadDisplayDirectPagingUrl}/{pageNumber}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadid}" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="pagingUrl" value="${eadDisplaySearchPagingUrl}/{pageNumber}/${id}/${element}/${term}" />
-							</c:otherwise>
-						</c:choose>
+						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${empty term }">
-								<c:set var="pagingUrl" value="${eadDisplaySearchPagingUrl}/{pageNumber}/C${c.clId}" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="pagingUrl" value="${eadDisplaySearchPagingUrl}/{pageNumber}/C${c.clId}/${element}/${term}" />
-							</c:otherwise>
-						</c:choose>
+						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" unitid="${c.unitid}" searchId="${c.clId}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
 							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/fa" />
 
@@ -75,9 +60,10 @@
 						</div>
 						<table class="fullwidth">
 							<c:forEach var="child" items="${children}">
+							<portal:eadPersistentLink var="childLink" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}" unitid="${child.unitid}" searchId="${child.clId}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 								<tr class="child childHeader">
 									<td>${child.unitid }</td>
-									<td><a href="${eadDisplaySearchUrl}/C${child.clId}">${child.unittitle}</a></td>
+									<td><a href="${childLink}">${child.unittitle}</a></td>
 								</tr>
 							</c:forEach>
 						</table>
