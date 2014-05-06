@@ -50,7 +50,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 			url+= PARAMETER_UNITID+ ApeUtil.encodeSpecialCharacters(unitid);
 		}
 
-
+		url += this.getPageNumberSuffix();
 		url += this.getSearchSuffix();
 
 		return url;
