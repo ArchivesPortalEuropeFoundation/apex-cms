@@ -84,6 +84,20 @@ public final class FriendlyUrlUtil {
 		return null;
 
 	}
+	public static String getUrlWithoutLocalization(PortletRequest portletRequest, String type, boolean noHttps) {
+		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		try {
+			String urlHome = themeDisplay.getPortalURL();
+			if (noHttps){
+				urlHome = urlHome.replaceFirst("https://", "http://");
+			}
+			return urlHome + urls.get(type);
+		} catch (Exception e) {
+			LOGGER.error("Unable to generate url: " + e.getMessage());
+		}
+		return null;
+
+	}
 	public static String getRelativeUrl(PortletRequest portletRequest, String type) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
@@ -113,12 +127,16 @@ public final class FriendlyUrlUtil {
 		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, noHttps) ;
 		return baseUrl + eadPerstistentUrl.toString() ;	
 	}
-	public static String getSitemapUrl(PortletRequest portletRequest, SitemapUrl sitemapUrl, boolean noHttps){
-		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, noHttps) ;
+	public static String getEadPersistentUrlForSitemap(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl){
+		String baseUrl = FriendlyUrlUtil.getUrlWithoutLocalization(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, true) ;
+		return baseUrl + eadPerstistentUrl.toString() ;	
+	}
+	public static String getSitemapUrl(PortletRequest portletRequest, SitemapUrl sitemapUrl){
+		String baseUrl = FriendlyUrlUtil.getUrlWithoutLocalization(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, true) ;
 		return baseUrl + sitemapUrl.toString() ;	
 	}
-	public static String getSitemapUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl, boolean noHttps){
-		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, noHttps) ;
+	public static String getSitemapUrl(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl){
+		String baseUrl = FriendlyUrlUtil.getUrlWithoutLocalization(portletRequest, FriendlyUrlUtil.DIRECTORY_SITEMAP, true) ;
 		return baseUrl + eadPerstistentUrl.toString() ;	
 	}
 	
