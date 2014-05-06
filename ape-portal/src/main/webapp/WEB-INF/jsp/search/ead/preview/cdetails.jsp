@@ -8,16 +8,17 @@
 <portlet:defineObjects />
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
-<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
+<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${aiRepoCode}" xmlTypeName="fa" eadid=""/>		
+
 <div id="content">
 	<div id="realcontent">
 <portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" aiId="${aiId}"
-			secondDisplayUrl="${eadDisplayDirectUrl}/${aiRepoCode}/fa" />
+			secondDisplayUrl="${secondDisplayUrl}" />
 </div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" searchId="C${c.clId}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" searchId="${c.clId}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>

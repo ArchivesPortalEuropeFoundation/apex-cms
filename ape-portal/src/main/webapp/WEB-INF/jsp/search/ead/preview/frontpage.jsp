@@ -10,8 +10,6 @@
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="id"><c:out value="${param['id']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
-<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search"/>
-<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage"/>
 
 <div id="content">	
 <portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" />

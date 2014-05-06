@@ -17,7 +17,6 @@
         initListTabHandlers();
     });
 </script>
-<portal:friendlyUrl var="friendlyUrl" type="eaddisplay-search"/>
 <div class="results">
 		<div class="tab_header">
 			<div id="tabHeaderContent">
