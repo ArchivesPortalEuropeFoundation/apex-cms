@@ -51,7 +51,7 @@
 	<portlet>
 		<portlet-name>ead-search</portlet-name>
 		<display-name>EAD Search</display-name>
-		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>	
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -75,6 +75,7 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		
 	</portlet>
 	<portlet>
 		<portlet-name>savedsearch</portlet-name>
@@ -162,6 +163,10 @@
 		<portlet-name>eaddisplay</portlet-name>
 		<display-name>EAD Display</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>			
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
