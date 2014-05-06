@@ -246,5 +246,37 @@
 			<name>pageNumber</name>		
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>			
+	</tag>	
+	<tag>
+		<name>eacCpfPersistentLink</name>
+		<tag-class>eu.archivesportaleurope.portal.common.jsp.EacCpfPersistentUrlTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>			
+		<attribute>
+			<name>repoCode</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>	
+		<attribute>
+			<name>relation</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>				
+		<attribute>
+			<name>searchTerms</name>	
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>searchFieldsSelectionId</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>			
 	</tag>		
 </taglib>
