@@ -13,6 +13,7 @@ import com.liferay.portal.util.PortalUtil;
 
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Country;
+import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.Ead;
 
 public class PortalDisplayUtil {
@@ -68,6 +69,9 @@ public class PortalDisplayUtil {
 		}else {
 			return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + TITLE_FEATURED_DOCUMENT + END_CHARACTER);
 		}
+	}
+	public static String getEacCpfDisplayTitle(EacCpf eacCpf){
+		return PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER);
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
 		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
