@@ -96,43 +96,44 @@ public class DisplayEadContoller {
 		if (StringUtils.isNotBlank(eadParams.getRepoCode()) && StringUtils.isNotBlank(eadParams.getEadid()) && StringUtils.isNotBlank(eadParams.getXmlTypeName())){
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (xmlType != null){
-				if (StringUtils.isBlank(eadParams.getUnitid()) && StringUtils.isBlank(eadParams.getEadDisplayId())){
-					/*
-					 * link to archdesc
-					 */
-					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+				if (StringUtils.isNotBlank(eadParams.getUnitid())){
+					List<CLevel> clevels = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getUnitid());
+					int size = clevels.size();
+					
+					if (size > 0) {
+						if (size > 1){
+							modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.unitid.notunique");
+						}
+						CLevel clevel = clevels.get(0);
+						modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
+						ead = clevel.getEadContent().getEad();
+						if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+							return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
+						}
+					}else {
+						modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.notfound");
 					}
-				}else{
-					if (StringUtils.isNotBlank(eadParams.getUnitid())){
-						List<CLevel> clevels = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getUnitid());
-						int size = clevels.size();
-						
-						if (size > 0) {
-							if (size > 1){
-								modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.ead.notunique");
-							}
-							CLevel clevel = clevels.get(0);
-							modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
+				}else if (StringUtils.isNotBlank(eadParams.getEadDisplayId()) && eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+					String subSolrId = eadParams.getEadDisplayId().substring(1);
+					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
+						CLevel clevel = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), Long.parseLong(subSolrId));
+						modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
+						if (clevel != null) {
 							ead = clevel.getEadContent().getEad();
 							if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 								return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
 							}
-						}						
-					}else if (StringUtils.isNotBlank(eadParams.getEadDisplayId()) && eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
-						String subSolrId = eadParams.getEadDisplayId().substring(1);
-						if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
-							CLevel clevel = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), Long.parseLong(subSolrId));
-							modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
-							if (clevel != null) {
-								ead = clevel.getEadContent().getEad();
-								if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
-									return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
-								}
-							}
-						}						
-					}
+						}else {
+							modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.notfound");
+						}
+					}						
 				}
+				/*
+					 * link to archdesc
+					 */
+					if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
+						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+					}
 			}
 		}
 		if (ead != null) {
