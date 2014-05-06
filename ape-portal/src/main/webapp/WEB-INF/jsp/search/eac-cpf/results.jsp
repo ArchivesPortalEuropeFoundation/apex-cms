@@ -174,9 +174,15 @@
 									<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />&nbsp;-&nbsp;<c:out value="${result.ai}" /></div>
 									<c:if test="${result.numberOfArchivalMaterialRelations > 0 or result.numberOfNameRelations > 0 or result.numberOfInstitutions > 0}">
 									<div class="relation"><span class="subtitle"><fmt:message key="advancedsearch.eaccpf.related" />:</span>
-										<c:if test="${result.numberOfArchivalMaterialRelations > 0}"><a href="${eacRelationDisplayUrl}/material/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfArchivalMaterialRelations} <fmt:message key="advancedsearch.eaccpf.related.materials" /></a></c:if>
-										<c:if test="${result.numberOfNameRelations > 0}">&mdash;&nbsp;<a href="${eacRelationDisplayUrl}/names/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfNameRelations} <fmt:message key="advancedsearch.eaccpf.related.names" /></a></c:if>
-										<c:if test="${result.numberOfInstitutions > 0}">&mdash;&nbsp;<a href="${eacRelationDisplayUrl}/institutions/${result.repositoryCode}/${result.identifier}"  target="_blank">${result.numberOfInstitutions} <fmt:message key="advancedsearch.eaccpf.related.institutions" /></a></c:if>
+										<c:if test="${result.numberOfArchivalMaterialRelations > 0}">
+											<portal:eacCpfPersistentLink var="relationUrl" repoCode="${result.repositoryCode}" id="${result.identifier}" relation="material"/>
+											<a href="${relationUrl}"  target="_blank">${result.numberOfArchivalMaterialRelations} <fmt:message key="advancedsearch.eaccpf.related.materials" /></a></c:if>
+										<c:if test="${result.numberOfNameRelations > 0}">&mdash;&nbsp;
+											<portal:eacCpfPersistentLink var="relationUrl" repoCode="${result.repositoryCode}" id="${result.identifier}" relation="names"/>
+											<a href="${relationUrl}"  target="_blank">${result.numberOfNameRelations} <fmt:message key="advancedsearch.eaccpf.related.names" /></a></c:if>
+										<c:if test="${result.numberOfInstitutions > 0}">&mdash;&nbsp;
+											<portal:eacCpfPersistentLink var="relationUrl" repoCode="${result.repositoryCode}" id="${result.identifier}" relation="institutions"/>
+											<a href="${relationUrl}"  target="_blank">${result.numberOfInstitutions} <fmt:message key="advancedsearch.eaccpf.related.institutions" /></a></c:if>
 									</div>
 									</c:if>
 
