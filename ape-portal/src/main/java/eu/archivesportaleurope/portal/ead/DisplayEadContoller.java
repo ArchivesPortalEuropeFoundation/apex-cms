@@ -332,6 +332,9 @@ public class DisplayEadContoller {
 		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getClId(), orderId, PAGE_SIZE);
 		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getClId());
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
+		XmlType xmlType = XmlType.getContentType(ead);
+		modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
+		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
