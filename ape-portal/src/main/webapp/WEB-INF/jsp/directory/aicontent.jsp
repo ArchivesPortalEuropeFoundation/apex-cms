@@ -7,7 +7,6 @@
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <portlet:defineObjects />
 <portal:friendlyUrl var="contentUrl" type="directory-content" />
-<portal:friendlyUrl var="eadUrl" type="eaddisplay-frontpage" />
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="directoryPortlet">
 	<div class="${mobile}">
