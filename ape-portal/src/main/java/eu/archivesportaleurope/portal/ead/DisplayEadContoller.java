@@ -153,7 +153,6 @@ public class DisplayEadContoller {
 
 	@ActionMapping(params ="myaction=redirectAction")
 	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse, @ModelAttribute(value = "eadParams") EadParams eadParams) {
-		LOGGER.info("redirect" );
 		try {
 			EadPersistentUrl eadPersistentUrl = generateRedirectUrl(actionRequest, eadParams);
 			if (eadPersistentUrl != null){
