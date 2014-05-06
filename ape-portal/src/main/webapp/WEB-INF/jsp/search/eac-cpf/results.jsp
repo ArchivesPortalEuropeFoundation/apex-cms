@@ -153,14 +153,7 @@
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>
-								<c:choose>
-									<c:when test="${empty encodedTerm}">
-										<c:set var="url" value="${eacDisplayUrl}/${result.repositoryCode}/${result.identifier}"/>
-									</c:when>
-									<c:otherwise>
-										<c:set var="url" value="${eacDisplayUrl}/${result.repositoryCode}/${result.identifier}/${eacCpfSearch.element}/${encodedTerm}"/>
-									</c:otherwise>
-								</c:choose>	
+								<portal:eacCpfPersistentLink var="url" repoCode="${result.repositoryCode}" id="${result.identifier}" searchFieldsSelectionId="${eacCpfSearch.element}"  searchTerms="${eacCpfSearch.term}"/>
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
 									href="${url}">${title}
 								</a>
