@@ -16,6 +16,7 @@ import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 /**
  * 
@@ -84,6 +85,8 @@ public class DisplayEacCpfContoller {
 		}
 		
 		if (eaccpf != null) {
+			PortalDisplayUtil.setPageTitle(renderRequest,
+					PortalDisplayUtil.getEacCpfDisplayTitle(eaccpf));
 				return displayEacDetails(renderRequest, eacParams, modelAndView, eaccpf);
 
 		}else {
