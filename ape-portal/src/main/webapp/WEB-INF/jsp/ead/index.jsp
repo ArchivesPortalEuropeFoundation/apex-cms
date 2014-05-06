@@ -33,6 +33,11 @@
 </script>
 ${newDisplayEadUrl}
 <div id="eadDisplayPortlet">
+	<c:if test="${!empty errorMessage}">
+	<div class="error">
+		<fmt:message key="${errorMessage}" />
+	</div>
+	</c:if>
 	<h3 id="contextInformation">
 		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
