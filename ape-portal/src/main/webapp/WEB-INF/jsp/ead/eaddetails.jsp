@@ -23,7 +23,7 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
-<portal:friendlyUrl var="eadDisplayDirectUrl" type="eaddisplay-frontpage" />
+
 
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
 	<portlet:param name="id" value="${id}" />
@@ -84,14 +84,16 @@
 			st_url="${url}"></span>
 	</div>
 </div>
+
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
 			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
 		</c:when>
 		<c:otherwise>
+			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/fa" />
+				secondDisplayUrl="${secondDisplayUrl}" />
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
