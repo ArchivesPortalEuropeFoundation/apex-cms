@@ -101,7 +101,7 @@ public final class FriendlyUrlUtil {
 	public static String getRelativeUrl(PortletRequest portletRequest, String type) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			String urlHome = "/";
+			String urlHome = "";
 			if (themeDisplay.isI18n() && StringUtils.isNotBlank(themeDisplay.getI18nPath())) {
 				// only desktop users have extra multilanguage urls. This is to prevent search engines to have everything multiplied
 				if (!PortalDisplayUtil.isNotDesktopBrowser(portletRequest)){
