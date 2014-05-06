@@ -2,29 +2,33 @@
 <!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
 "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
 <routes>
-<!-- 	<route>
-		<pattern>/fp/{databaseId:[^/]+}/{element:\d+}/{term:.+}</pattern>
-		<generated-parameter name="databaseId">{databaseId}</generated-parameter>
-		<generated-parameter name="element">{element}</generated-parameter>	
-		<generated-parameter name="term">{term}</generated-parameter>
-    </route>
-    
-	<route>
-		<pattern>/fp/{databaseId:[^/]+}</pattern>
-		<generated-parameter name="databaseId">{databaseId}</generated-parameter>
-    </route> -->
 
     <!-- repositoryCode, eaccpfIdentifier, searchField, searchTerm -->
 	<route>
-		<pattern>/fp/{repositoryCode:[^/]+}/{eaccpfIdentifier:[^/]+}/{searchFieldsSelection:.+}/{searchTerms:.+}</pattern>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/search/{searchFieldsSelection:[^/]+}/{searchTerms:[^/]+}</pattern>
 		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
  		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
 		<generated-parameter name="searchFieldsSelection">{searchFieldsSelection}</generated-parameter>
 		<generated-parameter name="searchTerms">{searchTerms}</generated-parameter>
 	</route>
 	<route>
-		<pattern>/fp/{repositoryCode:[^/]+}/{eaccpfIdentifier:[^/]+}</pattern>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}</pattern>
 		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
  		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+	</route>
+	
+		<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/relation/{relationType:[^/]+}/search/{searchFieldsSelection:[^/]+}/{searchTerms:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+		<generated-parameter name="searchFieldsSelection">{searchFieldsSelection}</generated-parameter>
+		<generated-parameter name="searchTerms">{searchTerms}</generated-parameter>
+		<generated-parameter name="relationType">{relationType}</generated-parameter>
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/relation/{relationType:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+ 		<generated-parameter name="relationType">{relationType}</generated-parameter>		
 	</route>
 </routes>
