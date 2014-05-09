@@ -1,7 +1,7 @@
 
 function init(){
 	eraseNameTitle();
-	$(".displayLinkShowLess").addClass("hidden");
+	$(" .displayLinkShowLess").addClass("hidden");
 	$(".moreDisplay").each(function(index){
 		if ($(this).find('p').length > 2){
 			$(this).find('.displayLinkShowMore').removeClass("hidden");
@@ -37,6 +37,10 @@ function printEacDetails(url) {
 function recoverRelatedInstitution(relatedAIId) {
 	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
 }
+
+/**
+ * Function to expand or collapsed the relations
+ */
 function makeRelationsCollapsible() {
 	$('#relations .boxtitle').each(function(index) {
 		$(this).click(function() {
@@ -65,7 +69,6 @@ function makeRelationsCollapsible() {
 				}
 			}
 		});
-	//	$('.box .displayLinkShowLess').addClass('hidden');
 		if ($(this).parent().find('li').length > 2){
 			$(this).parent().find('.whitespace').removeClass("hidden");
 			$(this).parent().find('.displayLinkShowMore').removeClass("hidden");
@@ -81,7 +84,13 @@ function makeRelationsCollapsible() {
 	
 	});
 }
-function showLessRelation(clazz, id){
+
+/**
+ * Function to show more eac-cpf details
+ * @param clazz
+ * @param id
+ */
+function showLess(clazz, id){
 	var prefix = "#" + clazz + " ";
 	$(prefix + ".displayLinkShowLess").click(function(){
 		$(this).addClass("hidden");
@@ -92,8 +101,15 @@ function showLessRelation(clazz, id){
 			}
 		});
 	});
+	$(prefix + ".displayLinkShowLess").trigger("click");
 }
-function showMoreRelation(clazz, id){
+
+/**
+ * Function to show less eac-cpf details
+ * @param clazz
+ * @param id
+ */
+function showMore(clazz, id){
 	var prefix = "#" + clazz + " ";
     $(prefix + ".displayLinkShowMore").click(function(){
     	$(this).addClass("hidden");
@@ -104,4 +120,5 @@ function showMoreRelation(clazz, id){
     		}
     	});
     });
+    $(prefix + ".displayLinkShowMore").trigger("click");
 }
