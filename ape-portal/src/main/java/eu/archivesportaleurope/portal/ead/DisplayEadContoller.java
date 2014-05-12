@@ -29,6 +29,7 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  *
@@ -67,12 +68,13 @@ public class DisplayEadContoller {
 		ModelAndView modelAndView = null;
 		try {
 			modelAndView = displayEadOrCLevelInternal(renderRequest, eadParams);
-
-			modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+			if (modelAndView != null){
+				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+			}
 		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
 		}catch (Exception e) {
-			LOGGER.error("Error in ead display process:" + e.getMessage(),e);
+			LOGGER.error("Error in ead display process:" + ApeUtil.generateThrowableLog(e));
 
 		}
 		if (modelAndView == null){
