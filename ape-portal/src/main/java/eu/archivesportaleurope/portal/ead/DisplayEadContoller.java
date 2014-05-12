@@ -100,6 +100,8 @@ public class DisplayEadContoller {
 						if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 							return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
 						}
+					}else {
+						LOGGER.info(eadParams.getEadDisplayId() + " not exist");
 					}
 				}
 			} else {
