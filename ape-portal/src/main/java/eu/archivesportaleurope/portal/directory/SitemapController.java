@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.xml.namespace.QName;
@@ -13,9 +15,11 @@ import javax.xml.stream.XMLStreamWriter;
 
 import net.sf.uadetector.ReadableUserAgent;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.types.XmlType;
@@ -33,6 +37,7 @@ import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.portal.common.urls.SitemapUrl;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "SitemapController")
 @RequestMapping(value = "VIEW")
@@ -66,7 +71,52 @@ public class SitemapController {
 	public void setCLevelDAO(CLevelDAO cLevelDAO) {
 		this.cLevelDAO = cLevelDAO;
 	}
+	@ActionMapping(params ="myaction=redirectAction")
+	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse) {
+		LOGGER.info("redirect");
+		try {
+			String aiId = actionRequest.getParameter("aiId");
+			String pageNumber = actionRequest.getParameter("pageNumber");
+			String id = actionRequest.getParameter("id");
+			String xmlTypeName = actionRequest.getParameter("xmlTypeName");			
 
+			if (StringUtils.isNotBlank(aiId)){
+				Integer aiIdInteger = Integer.parseInt(aiId);
+				ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiIdInteger);
+				SitemapUrl siteMapUrl = new SitemapUrl(archivalInstitution.getRepositorycode());
+				siteMapUrl.setPageNumber(pageNumber);
+				if (siteMapUrl != null){
+					String redirectUrl =  FriendlyUrlUtil.getSitemapUrl(actionRequest, siteMapUrl);
+					actionResponse.sendRedirect(redirectUrl);
+				}
+			}else if (StringUtils.isNotBlank(id) && StringUtils.isNotBlank(xmlTypeName)){
+				Integer eadId = Integer.parseInt(id);
+				XmlType xmlType = XmlType.getTypeByResourceName(xmlTypeName);
+				ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
+				eadSearchOptions.setPublished(true);
+				eadSearchOptions.setContentClass(xmlType.getClazz());
+				eadSearchOptions.setId(eadId);
+				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
+				if (eads.size() >= 1){
+					Ead ead = eads.get(0);
+					EadPersistentUrl eadPersistentUrl = new  EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(), xmlTypeName, ead.getIdentifier());
+					eadPersistentUrl.setPageNumber(pageNumber);
+					String redirectUrl =  FriendlyUrlUtil.getSitemapUrl(actionRequest, eadPersistentUrl);
+					actionResponse.sendRedirect(redirectUrl);
+				}
+			}
+//			EadPersistentUrl eadPersistentUrl = generateRedirectUrl(actionRequest, eadParams);
+//			if (eadPersistentUrl != null){
+//				String redirectUrl =  FriendlyUrlUtil.getRelativeEadPersistentUrl(actionRequest, eadPersistentUrl);
+//				actionResponse.sendRedirect(redirectUrl);
+//			}
+		}catch (Exception e) {
+			LOGGER.error("Error in redirect display process:" + ApeUtil.generateThrowableLog(e));
+
+		}
+
+	}
+	
 	@ResourceMapping(value = "generateGlobalSitemapIndex")
 	public void generateGlobalSitemapIndex(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		LOGGER.debug(getUserAgent(resourceRequest) + ": GLOBAL");
@@ -277,14 +327,17 @@ public class SitemapController {
 				writeSitemapStartElement(xmlWriter);
 				if (pageNumber == 1) {
 					String url = FriendlyUrlUtil.getEadPersistentUrlForSitemap(resourceRequest, eadPersistentUrl);
-					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.7");
+					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.8");
 				}
 				for (CLevel cLevel : clevels) {
 					eadPersistentUrl.setSearchIdAsLong(cLevel.getClId());
 					eadPersistentUrl.setUnitid(cLevel.getUnitid());
-					LOGGER.info("cLevel: " + eadPersistentUrl.toString());
 					String url = FriendlyUrlUtil.getEadPersistentUrlForSitemap(resourceRequest, eadPersistentUrl);
-					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);
+					if (eadPersistentUrl.isPersistent()){
+						writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);
+					}else {
+						writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "0.3");
+					}
 				}
 				xmlWriter.writeEndElement();
 				xmlWriter.writeEndDocument();
