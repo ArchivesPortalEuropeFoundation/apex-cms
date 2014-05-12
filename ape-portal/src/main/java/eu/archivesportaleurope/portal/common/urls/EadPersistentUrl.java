@@ -9,7 +9,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 
 
 	public static final String PARAMETER_UNITID = "/unitid/";
-	public static final String PARAMETER_NPID = "/npid/";
+	public static final String PARAMETER_NPID = "/dbid/";
 
 	private String unitid;
 	private String searchId;
@@ -56,5 +56,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 		return url;
 	}
 
-	
+	public boolean isPersistent(){
+		return !(StringUtils.isBlank(unitid) && StringUtils.isNotBlank(searchId));
+	}
 }

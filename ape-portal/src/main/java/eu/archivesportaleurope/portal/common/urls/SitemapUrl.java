@@ -6,4 +6,9 @@ public class SitemapUrl extends AbstractUrl{
 		super(repoCode);
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() +  getPageNumberSuffix();
+	}
+
 }
