@@ -67,4 +67,41 @@
 		<implicit-parameter name="p_p_resource_id">generateEadSitemap</implicit-parameter>
 	</route>	
 
+	<!-- old urls -->
+	<route>
+		<pattern>/sitemap/ai/{aiId:[\d]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
+	<route>
+		<pattern>/sitemap/ai/{aiId:[\d]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>	
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
 </routes>
