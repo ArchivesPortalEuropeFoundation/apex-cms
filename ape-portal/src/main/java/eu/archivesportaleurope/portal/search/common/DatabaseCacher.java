@@ -13,8 +13,10 @@ public class DatabaseCacher {
 		String repositoryCode = repositoryCodeCache.get(aiId);
 		if (repositoryCode == null){
 			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(aiId);
-			repositoryCode = archivalInstitution.getRepositorycode();
-			repositoryCodeCache.put(aiId, repositoryCode);
+			if (archivalInstitution != null){
+				repositoryCode = archivalInstitution.getRepositorycode();
+				repositoryCodeCache.put(aiId, repositoryCode);
+			}
 		}
 		return repositoryCode;
 	}
