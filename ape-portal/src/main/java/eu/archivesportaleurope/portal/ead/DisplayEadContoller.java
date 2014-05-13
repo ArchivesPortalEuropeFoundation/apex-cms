@@ -117,8 +117,8 @@ public class DisplayEadContoller {
 					String subSolrId = eadParams.getEadDisplayId().substring(1);
 					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
 						CLevel clevel = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), Long.parseLong(subSolrId));
-						modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
 						if (clevel != null) {
+							modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
 							ead = clevel.getEadContent().getEad();
 							if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
 								return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
