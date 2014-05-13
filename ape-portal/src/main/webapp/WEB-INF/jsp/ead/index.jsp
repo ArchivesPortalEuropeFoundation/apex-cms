@@ -34,7 +34,7 @@
 ${newDisplayEadUrl}
 <div id="eadDisplayPortlet">
 	<c:if test="${!empty errorMessage}">
-	<div class="error">
+	<div class="error errorHeader">
 		<fmt:message key="${errorMessage}" />
 	</div>
 	</c:if>
