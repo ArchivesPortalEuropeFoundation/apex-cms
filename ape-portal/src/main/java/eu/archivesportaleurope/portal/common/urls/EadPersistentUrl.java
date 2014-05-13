@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.common.urls;
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public class EadPersistentUrl extends AbstractContentUrl{
@@ -53,7 +54,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 		url += this.getPageNumberSuffix();
 		url += this.getSearchSuffix();
 
-		return url;
+		return DisplayUtils.encodeHtml(url);
 	}
 
 	public boolean isPersistent(){

@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.common.urls;
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public class EacCpfPersistentUrl extends AbstractContentUrl{
@@ -34,7 +35,7 @@ public class EacCpfPersistentUrl extends AbstractContentUrl{
 		}
 		url += this.getSearchSuffix();
 
-		return url;
+		return DisplayUtils.encodeHtml(url);
 	}
 
 	
