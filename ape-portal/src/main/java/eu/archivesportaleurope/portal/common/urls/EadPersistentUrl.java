@@ -1,5 +1,9 @@
 package eu.archivesportaleurope.portal.common.urls;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.solr.SolrValues;
@@ -38,7 +42,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 
 
 	@Override
-	public String toString() {
+	public String toString(){
 		String url= super.toString();
 		if (StringUtils.isBlank(unitid)) {
 			if (StringUtils.isNotBlank(searchId)) {
@@ -53,8 +57,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 
 		url += this.getPageNumberSuffix();
 		url += this.getSearchSuffix();
-
-		return DisplayUtils.encodeHtml(url);
+		return url;
 	}
 
 	public boolean isPersistent(){
