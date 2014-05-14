@@ -132,7 +132,7 @@ public class DisplayEadContoller {
 					 * link to archdesc
 					 */
 					if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+						ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
 					}
 			}
 		}
@@ -205,7 +205,7 @@ public class DisplayEadContoller {
 		} else if (eadParams.getRepoCode() != null) {
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+				ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
 			}
 		}
 
