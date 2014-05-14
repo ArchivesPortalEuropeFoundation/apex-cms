@@ -3,7 +3,6 @@ package eu.archivesportaleurope.portal.common.urls;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import eu.apenet.commons.solr.HighlightType;
 import eu.apenet.commons.solr.HighlightUtil;
@@ -14,7 +13,6 @@ import eu.archivesportaleurope.util.ApeUtil;
 
 public class AbstractContentUrl extends AbstractUrl {
 
-	private final static Logger LOGGER = Logger.getLogger(AbstractContentUrl.class);
 	public static final String PARAMETER_TYPE = "/type/";
 	public static final String PARAMETER_ID = "/id/";
 
@@ -42,8 +40,6 @@ public class AbstractContentUrl extends AbstractUrl {
 
 	@Override
 	public String toString() {
-		LOGGER.info(identifier);
-		LOGGER.info(ApeUtil.encodeSpecialCharacters(identifier));
 		return super.toString() + PARAMETER_TYPE + xmlTypeName + PARAMETER_ID
 				+ ApeUtil.encodeSpecialCharacters(identifier);
 	}
