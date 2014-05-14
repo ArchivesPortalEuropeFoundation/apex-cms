@@ -48,7 +48,7 @@
 			</div> 	 	  
 		#end
 	#elseif ($browserSniffer.isSafari($request))
-	  #if($browserSniffer.getMajorVersion($request) < 533)
+	  #if($browserSniffer.getMajorVersion($request) < 5)
 			<div id="browser">
 				#language("header.browser")
 			</div> 		  
