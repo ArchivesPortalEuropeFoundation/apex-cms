@@ -1,5 +1,6 @@
 
 function init(){
+	eraseComma();
 	eraseNameTitle();
 	$(" .displayLinkShowLess").addClass("hidden");
 	$(".moreDisplay").each(function(index){
@@ -15,7 +16,19 @@ function init(){
 		}
 	});
 }
-
+/**
+ * Function to delete the first comma in the dates when there is not characters before it 
+ */
+function eraseComma(){
+	$("div#eaccpfcontent span.nameEtryDates").each(function(){
+		var stringDates = $(this).text();
+		var firstCharacter=stringDates.charAt(0);
+		if (firstCharacter == ','){
+			stringDates=stringDates.substring(1).trim();
+		}
+		$(this).text(stringDates);
+	});
+}
 /**
  * Function to delete the name show in title form the alternatives names.
  */
