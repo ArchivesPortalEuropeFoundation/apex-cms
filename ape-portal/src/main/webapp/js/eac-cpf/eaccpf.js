@@ -47,9 +47,6 @@ function printEacDetails(url) {
 	preview.focus();
 
 }
-function recoverRelatedInstitution(relatedAIId) {
-	$("#dynatree-id-aieag_" + relatedAIId).trigger('click');
-}
 
 /**
  * Function to expand or collapsed the relations

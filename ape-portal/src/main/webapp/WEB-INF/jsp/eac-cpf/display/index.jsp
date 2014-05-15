@@ -36,6 +36,8 @@
 </portlet:resourceURL>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+<portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
+<portal:friendlyUrl var="eadUrl" type="eaddisplay-persistent-archdesc"/>
 
 <script type="text/javascript">var switchTo5x=true;</script>
 <script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
@@ -49,6 +51,6 @@
 </script>
 <div id="eacCpfDisplayPortlet">
  	<div id="eaccpfcontent">
-	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" />
+	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" />
 	</div> 
 </div>
