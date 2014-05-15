@@ -2,9 +2,10 @@
 function init(){
 	eraseComma();
 	eraseNameTitle();
-	$(" .displayLinkShowLess").addClass("hidden");
+	$(".displayLinkShowLess").addClass("hidden");
+	$('.displayLinkShowMore').addClass("hidden");
 	$(".moreDisplay").each(function(index){
-		if ($(this).find('p').length > 2){
+		if ($(this).find('p').length > 3){
 			$(this).find('.displayLinkShowMore').removeClass("hidden");
 			$(this).find('p').each(function(index){
 				if(index > 2){
@@ -15,6 +16,7 @@ function init(){
 			$(this).find('.displayLinkShowMore').addClass("hidden");
 		}
 	});
+	
 }
 /**
  * Function to delete the first comma in the dates when there is not characters before it 
@@ -65,7 +67,7 @@ function makeRelationsCollapsible() {
 				$(this).find(".collapsibleIcon").removeClass("collapsed").addClass("expanded");
 				$(this).parent().find('ul').removeClass("hidden");
 				
-				if ($(this).parent().find('li').length > 2){
+				if ($(this).parent().find('li').length > 3){
 					$(this).parent().find('.whitespace').removeClass("hidden");
 					$(this).parent().find('.displayLinkShowMore').removeClass("hidden");
 					$(this).parent().find('li').each(function(index){
@@ -79,7 +81,7 @@ function makeRelationsCollapsible() {
 				}
 			}
 		});
-		if ($(this).parent().find('li').length > 2){
+		if ($(this).parent().find('li').length > 3){
 			$(this).parent().find('.whitespace').removeClass("hidden");
 			$(this).parent().find('.displayLinkShowMore').removeClass("hidden");
 			$(this).parent().find('li').each(function(index){
