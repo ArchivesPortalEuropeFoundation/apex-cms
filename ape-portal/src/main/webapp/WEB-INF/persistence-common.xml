@@ -19,4 +19,5 @@
 	<bean id="eadDAO" class="eu.apenet.persistence.hibernate.EadHibernateDAO"/>
 	<bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
 	<bean id="eadSavedSearchDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EadSavedSearchJpaDAO"/>
+	<bean id="userDAO" class="eu.apenet.persistence.hibernate.UserHibernateDAO"/>
 </beans>

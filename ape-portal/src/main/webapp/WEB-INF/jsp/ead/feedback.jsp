@@ -12,6 +12,7 @@
 <h1><fmt:message key="label.feedback" /></h1>
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
+	<form:hidden path="aiId"/>
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
