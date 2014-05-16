@@ -23,6 +23,7 @@ public class Contact implements Serializable {
 	private String email;
     private String type;
     private String title;
+    private String aiId;
     private String url;
     private String feedback;
     private String captcha;
@@ -115,6 +116,14 @@ public class Contact implements Serializable {
 
 	public void setTypeList(Map<String, String> typeList) {
 		this.typeList = typeList;
+	}
+
+	public String getAiId() {
+		return aiId;
+	}
+
+	public void setAiId(String aiId) {
+		this.aiId = aiId;
 	}
 
 
