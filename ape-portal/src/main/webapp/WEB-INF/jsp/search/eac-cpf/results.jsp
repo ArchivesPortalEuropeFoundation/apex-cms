@@ -9,8 +9,6 @@
 <%@ taglib prefix="searchresults" uri="http://portal.archivesportaleurope.eu/tags/searchresults"%>
 <%@ taglib prefix="facets" tagdir="/WEB-INF/tags/facets"%>
 <portlet:defineObjects />
-<portal:friendlyUrl var="eacDisplayUrl" type="eac-display"/>
-<portal:friendlyUrl var="eacRelationDisplayUrl" type="eac-relation-display"/>
 <script type="text/javascript">
 	$(document).ready(function() {
         initListTabHandlers();

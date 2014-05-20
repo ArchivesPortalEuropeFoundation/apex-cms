@@ -10,7 +10,6 @@
 <c:set var="repositoryCode"><c:out value="${param['repositoryCode']}" /></c:set>
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
-<portal:friendlyUrl var="eacDisplayUrl" type="eac-display"/>
 <div id="content">
 	<div id="realcontent">
 			<div class="eadid"><c:out value="${eacCpf.identifier}"/></div>
@@ -26,15 +25,7 @@
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-<portal:generateSearchWords var="encodedTerm" term="${term}" element="${element}"/>		
-	<c:choose>
-		<c:when test="${empty encodedTerm }">
-			<c:set var="url" value="${eacDisplayUrl}/${repositoryCode}/${identifier}"/>
-		</c:when>
-		<c:otherwise>
-			<c:set var="url" value="${eacDisplayUrl}/${repositoryCode}/${identifier}/${element}/${encodedTerm}"/>
-		</c:otherwise>
-	</c:choose>	
+	<portal:eacCpfPersistentLink var="url" repoCode="${repositoryCode}" id="${identifier}" searchFieldsSelectionId="${element}"  searchTerms="${term}"/>
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.eaccpf" /><span class="icon_new_window">&nbsp;</span></a>
 </div>
 
