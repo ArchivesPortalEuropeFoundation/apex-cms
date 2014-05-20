@@ -67,17 +67,28 @@ public class DisplayEacCpfContoller {
 		return modelAndView;
 	}
 	
+	@RenderMapping(params = "myaction=printEacDetails")
+	public ModelAndView printDetails(@ModelAttribute(value = "eacParams") EacCpfParams eacParams, RenderRequest renderRequest){
+		ModelAndView modelAndView = null;
+		try {
+			modelAndView = displayDetails(renderRequest, eacParams);
+			modelAndView.setViewName("printEacdetails");
+		}catch (NotExistInDatabaseException e) {
+		}catch (Exception e) {
+			LOGGER.error("Error in EAC-CPF display process:" + e.getMessage(),e);
+		}
+		if (modelAndView == null){
+			modelAndView = new ModelAndView();
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.setViewName("indexError");
+		}
+		return modelAndView;
+	}
 
 	public ModelAndView displayDetails(RenderRequest renderRequest, EacCpfParams eacParams) throws NotExistInDatabaseException{
 		ModelAndView modelAndView = new ModelAndView();
 		EacCpf eaccpf = null;
 		
-		
-//		if (eacParams.getDatabaseId() != null){
-//		    eaccpf = eacCpfDAO.findById(Integer.parseInt(eacParams.getDatabaseId()));  
-//			//XmlType xmlType = XmlType.getType(eacParams.getXmlTypeId());
-//		}
-
 		// Recover the current apeEAC-CPF from identifier and repositoryCode.
 		if (eacParams.getEaccpfIdentifier() != null
 				&& eacParams.getRepositoryCode() != null){

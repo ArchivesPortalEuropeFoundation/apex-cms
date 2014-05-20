@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -34,6 +35,15 @@
 	<portlet:param name="element" value="${element}" />
  	<portlet:param name="term" value="${term}" /> 
 </portlet:resourceURL>
+ 
+<portlet:renderURL var="printEacDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+	<portlet:param name="myaction" value="printEacDetails" />
+	<portlet:param name="repositoryCode" value="${repositoryCode}" />
+	<portlet:param name="eaccpfIdentifier" value="${eaccpfIdentifier}" /> 
+	<portlet:param name="element" value="${element}" />
+	<portlet:param name="term" value="${term}" />
+	<portlet:param name="type" value="${type}" />
+</portlet:renderURL>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
@@ -50,6 +60,10 @@
 	});		
 </script>
 <div id="eacCpfDisplayPortlet">
+    <div id="printEacDetails" class="linkButton">
+			<a href="javascript:printEacDetails('${printEacDetailsUrl}')"><fmt:message key="label.print" /><span
+		   class="icon_print">&nbsp;</span></a>
+	</div>
  	<div id="eaccpfcontent">
 	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" />
 	</div> 

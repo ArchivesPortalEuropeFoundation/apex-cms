@@ -42,12 +42,33 @@ function eraseNameTitle() {
 		}
 	});
 }
-
+function initPrint(){
+	try{
+		$("body").css("cursor", "progress");
+		$(".displayLinkShowMore").each(function(){
+			$(this).remove();
+		});
+		$(".displayLinkShowLess").each(function(){
+			$(this).remove();
+		});
+		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'70%'});
+		self.print();
+	}
+	catch (e) {
+		$("body").css("cursor", "default");
+	}
+	$("body").css("cursor", "default");
+	
+}
 function printEacDetails(url) {
-	var preview = window.open(url, 'printpreview',
-			'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
-	preview.focus();
-
+	try{
+		$("body").css("cursor", "progress");
+		var preview = window.open(url, 'printeaccpf', 'width=1100,height=600,left=10,top=10,menubar=0,toolbar=0,status=0,location=0,scrollbars=1,resizable=1');
+		preview.focus();
+	}catch (e) {
+		$("body").css("cursor", "default");
+	}
+	$("body").css("cursor", "default");
 }
 
 /**

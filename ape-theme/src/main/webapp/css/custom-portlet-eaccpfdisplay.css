@@ -3,8 +3,8 @@
 	background-color: white;
 	color: #2A4862;
 }
-#eacCpfDisplayPortlet #eaccpfcontent {
-/*	height: 100%;*/
+#eacCpfDisplayPortlet #printEacDetails{
+	margin-left:400px;
 	
 }
 #eacCpfDisplayPortlet #details{
@@ -19,7 +19,6 @@
     margin: 0.3em 0;
     text-align: left;
     width:70%;	
-  /*  padding-left: 15px;*/
 }
 #eacCpfDisplayPortlet h1 span#entityType{
 	color:#83736A;
@@ -29,7 +28,6 @@
 	color:#83736A;
 	border-bottom:1px solid #83736A;
 	padding-top:20px;
-	
 }
 #eacCpfDisplayPortlet h2.title{
 	border-bottom: none;
@@ -39,7 +37,6 @@
 }
 #eacCpfDisplayPortlet .subrow{
 	margin-left:40px;
-	 
 }
 #eaccpfcontent .leftcolumn h2{
 	border-bottom: none;
@@ -50,11 +47,9 @@
 	color:#83736A;
 }
 #eacCpfDisplayPortlet .row {
-	/*float:left;*/
 	display:block;
 	font-size:8pt;
 	overflow:auto;
-/*	width:50%;*/
 }
 
 #eacCpfDisplayPortlet .leftcolumn {
@@ -63,11 +58,9 @@
 	/*width:30%*/
 }
 #eacCpfDisplayPortlet .rightcolumn {
-/*	float:right;*/
 	text-align:auto;
 	margin-left:180px;
 	margin-top:9px;
-/*	width:70%;*/
 }
 #eacCpfDisplayPortlet .leftSide {
  clear:both;
@@ -99,12 +92,12 @@
 
 .linkShow:link{
 	color: #C65400;
-/*	float:right;*/
 	text-decoration:underline;
 }
 .linkMore{
 	float:right;
 }
+
 @media screen {
 /*	#eacCpfDisplayPortlet #right-pane {
 		font-size: 8pt;
