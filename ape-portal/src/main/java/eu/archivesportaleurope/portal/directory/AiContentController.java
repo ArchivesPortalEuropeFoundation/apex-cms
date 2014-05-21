@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.directory;
 
-import java.util.List;
-
 import javax.portlet.RenderRequest;
 
 import org.apache.log4j.Logger;
@@ -48,9 +46,8 @@ public class AiContentController {
 			} else {
 				modelAndView.getModelMap().addAttribute("mobile", "");
 			}
-			List<ArchivalInstitution> archivalInstitutions = archivalInstitutionDAO
-					.getArchivalInstitutionsByRepositorycode(aiContentParams.getRepoCode());
-			ArchivalInstitution archivalInstitution = archivalInstitutions.get(0);
+
+			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(aiContentParams.getRepoCode());
 			EadSearchOptions eadSearchOptions = new EadSearchOptions();
 			eadSearchOptions.setArchivalInstitionId(archivalInstitution.getAiId());
 			eadSearchOptions.setEadClass(XmlType.getTypeByResourceName(aiContentParams.getXmlTypeName()).getClazz());
