@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.search.advanced;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -35,6 +34,7 @@ import eu.archivesportaleurope.portal.search.advanced.list.SolrDocumentListHolde
 import eu.archivesportaleurope.portal.search.advanced.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.advanced.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.Searcher;
@@ -53,6 +53,7 @@ public class AdvancedSearchController {
 	private Searcher searcher;
 	private ResourceBundleMessageSource messageSource;
 	private SavedSearchService savedSearchService;
+	private DatabaseCacher databaseCacher;
 
 	public void setSavedSearchService(SavedSearchService savedSearchService) {
 		this.savedSearchService = savedSearchService;
@@ -68,6 +69,11 @@ public class AdvancedSearchController {
 
 	public void setMessageSource(ResourceBundleMessageSource messageSource) {
 		this.messageSource = messageSource;
+	}
+	
+
+	public void setDatabaseCacher(DatabaseCacher databaseCacher) {
+		this.databaseCacher = databaseCacher;
 	}
 
 	// --maps the incoming portlet request to this method
@@ -260,7 +266,7 @@ public class AdvancedSearchController {
 				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse));
+			results.setItems(new SolrDocumentListHolder(solrResponse, databaseCacher));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}
@@ -278,7 +284,7 @@ public class AdvancedSearchController {
 				new SpringResourceBundleSource(messageSource, request.getLocale()));
 		updatePagination(advancedSearch, results);
 		if (results.getTotalNumberOfResults() > 0) {
-			results.setItems(new SolrDocumentListHolder(solrResponse));
+			results.setItems(new SolrDocumentListHolder(solrResponse, databaseCacher));
 		} else {
 			results.setItems(new SolrDocumentListHolder());
 		}

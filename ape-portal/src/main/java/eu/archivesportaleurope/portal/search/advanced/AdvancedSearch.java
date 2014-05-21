@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import eu.archivesportaleurope.portal.search.advanced.list.ListFacetSettings;
 import eu.archivesportaleurope.portal.search.common.FacetType;
+import eu.archivesportaleurope.util.ApeUtil;
 
 public class AdvancedSearch implements Serializable {
 	public static final String LIST_SEPARATOR = ",";
@@ -71,6 +72,10 @@ public class AdvancedSearch implements Serializable {
 		return term;
 	}
 
+	public String getEncodedTerm(){
+		return ApeUtil.encodeSpecialCharacters(term);
+	}
+	
 	public void setTerm(String term) {
 		this.term = term;
 	}
