@@ -118,10 +118,14 @@ public class DisplayEadDetailsContoller {
 		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
-		documentTitle = PortalDisplayUtil.getEadDisplayTitle(currentCLevel.getEadContent().getEad(), documentTitle);
+		EadContent eadContent = currentCLevel.getEadContent();
+		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+		XmlType xmlType = XmlType.getEadType(eadContent.getEad());
+		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 		modelAndView.setViewName("eaddetails");
 		modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;
@@ -144,6 +148,7 @@ public class DisplayEadDetailsContoller {
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				XmlType xmlType = XmlType.getEadType(eadContent.getEad());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+				modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 				modelAndView.setViewName("eaddetails");
