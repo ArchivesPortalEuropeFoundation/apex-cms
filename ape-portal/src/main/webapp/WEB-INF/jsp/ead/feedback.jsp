@@ -13,6 +13,7 @@
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
 	<form:hidden path="aiId"/>
+	<form:hidden id="aiRepoCode" path="repoCode"/>
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
@@ -25,17 +26,20 @@
         <tr>
         	<td> <label for="receiveCopy" class="label"><fmt:message key="label.email.contact.receivecopy" />:</label></td>
         	<td><form:checkbox path="receiveCopy" id="receiveCopy"/> </td>
+        </tr>    
+           
+        <tr>
+            <td><fmt:message key="advancedsearch.facet.title.ai" /></td>
+            <td id="aiName"><c:out value="${contact.institution}"/></td>
         </tr>        
         <tr>
-            <td class="tdLabel">
-               <fmt:message key="label.email.subject" />
-            </td>
+            <td><fmt:message key="label.email.subject" />:</td>
             <td>
             	<c:out value="${contact.title}"/><form:hidden path="title"/>
             </td>
         </tr>
         <tr>
-        	<td><fmt:message key="feedback.url" /></td>
+        	<td><fmt:message key="feedback.url" />:</td>
         	<td><c:out value="${contact.url}"/><form:hidden path="url"/></td>
         </tr>
         <tr>

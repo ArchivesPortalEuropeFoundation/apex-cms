@@ -165,7 +165,6 @@ function printEadDetails(url) {
 }
 
 function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) {
-
 	if ($('#feedbackContent').is(':empty')){
 		$.post(feedbackUrl, {aiId: aiId, title: documentTitle, url: documentUrl}, function(data) {
 			$("#feedbackContent").html(data);
@@ -193,5 +192,7 @@ function sendFeedback(){
 	$.post(url, $("#contactForm").serialize(), function(data) {
 		$("#feedbackContent").html(data);
 	});
-	logAction("SEND FEEDBACK FORM", feedbackUrl);
+	var aiName = $("#contactForm #aiName").html();	
+	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
+	logAction("SEND FEEDBACK FORM TO: " + aiName + " (" + aiRepoCode + ")", url);
 }
