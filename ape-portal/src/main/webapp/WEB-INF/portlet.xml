@@ -104,6 +104,10 @@
 		<portlet-name>directory</portlet-name>
 		<display-name>Directory</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>			
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -132,6 +136,10 @@
 		<portlet-name>eaddisplay</portlet-name>
 		<display-name>EAD Display</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>			
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>

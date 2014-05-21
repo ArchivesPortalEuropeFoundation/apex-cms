@@ -20,4 +20,7 @@
 	<bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
 	<bean id="eadSavedSearchDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EadSavedSearchJpaDAO"/>
 	<bean id="userDAO" class="eu.apenet.persistence.hibernate.UserHibernateDAO"/>
+	<bean id="databaseCacher" class="eu.archivesportaleurope.portal.search.common.DatabaseCacher">
+		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+	</bean>	
 </beans>
