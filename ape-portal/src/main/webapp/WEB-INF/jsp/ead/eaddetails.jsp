@@ -6,10 +6,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://commons.archivesportaleurope.eu/tags"
-	prefix="ape"%>
-<%@ taglib uri="http://portal.archivesportaleurope.eu/tags"
-	prefix="portal"%>
+<%@ taglib uri="http://commons.archivesportaleurope.eu/tags" prefix="ape"%>
+<%@ taglib uri="http://portal.archivesportaleurope.eu/tags" prefix="portal"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 
 <portlet:defineObjects />
@@ -25,9 +23,7 @@
 <c:set var="ecId">
 	<c:out value="${param['ecId']}" />
 </c:set>
-<portal:friendlyUrl var="eadDisplaySearchUrl" type="eaddisplay-search" />
-<portal:friendlyUrl var="eadDisplayDirectUrl"
-	type="eaddisplay-frontpage" />
+
 
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
 	<portlet:param name="id" value="${id}" />
@@ -35,8 +31,7 @@
 	<portlet:param name="term" value="${term}" />
 </portlet:resourceURL>
 
-<portlet:renderURL var="printEadDetailsUrl"
-	windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+<portlet:renderURL var="printEadDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEadDetails" />
 	<portlet:param name="id" value="${id}" />
 	<portlet:param name="ecId" value="${ecId}" />
@@ -45,10 +40,9 @@
 	<portlet:param name="type" value="${type}" />
 	<portlet:param name="pageNumber" value="${pageNumber}" />
 </portlet:renderURL>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
-<portlet:actionURL var="contactUrl">
-	<portlet:param name="myaction" value="contact" />
-</portlet:actionURL>
 
 <script type="text/javascript">
 	 var RecaptchaOptions = {
@@ -66,56 +60,48 @@
 			tracking : 'google'
 		});
 		stButtons.locateElements();
+
 	});
 </script>
 
 <div id="buttonsHeader">
 	<div id="printEadDetails" class="linkButton">
-		<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message
-				key="label.print" /><span class="icon_print">&nbsp;</span></a>
+		<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span
+			class="icon_print">&nbsp;</span></a>
 	</div>
-
+	
 	<c:choose>
 		<c:when test="${empty c}">
-			<c:set var="url"
-				value="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/${xmlTypeName}/${eadContent.eadid}" />
-		</c:when>
-		<c:when test="${empty advancedSearch.term }">
-			<c:set var="url" value="${eadDisplaySearchUrl}/${id}" />
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:when>
 		<c:otherwise>
-			<c:set var="url"
-				value="${eadDisplaySearchUrl}/${id}/${element}/${term}" />
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" searchId="${id}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:otherwise>
 	</c:choose>
 	<div id="shareButton" class="linkButton">
-		<span class="st_sharethis_button"
-			displayText='<fmt:message key="label.share" />'
-			st_title="${documentTitle}" st_url="${url}"></span>
+		<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
+			st_url="${url}"></span>
 	</div>
 </div>
+
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
-			<portal:ead type="frontpage" xml="${eadContent.xml}"
-				searchTerms="${term}" searchFieldsSelectionId="${element}" />
+			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
 		</c:when>
 		<c:otherwise>
-			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"
-				searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${eadDisplayDirectUrl}/${archivalInstitution.encodedRepositorycode}/fa" />
+			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
+			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
+				secondDisplayUrl="${secondDisplayUrl}" />
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
 						<div class="numberOfPages">
-							<ape:pageDescription numberOfItems="${totalNumberOfChildren}"
-								pageSize="${pageSize}" pageNumber="${pageNumber}" />
+							<ape:pageDescription numberOfItems="${totalNumberOfChildren}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
 						</div>
 						<div id="child-paging" class="paging">
-							<ape:paging numberOfItems="${totalNumberOfChildren}"
-								pageSize="${pageSize}" pageNumber="${pageNumber}"
-								refreshUrl="javascript:updatePageNumber('${displayChildrenUrl}')"
-								pageNumberId="pageNumber" />
+							<ape:paging numberOfItems="${totalNumberOfChildren}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+								refreshUrl="javascript:updatePageNumber('${displayChildrenUrl}')" pageNumberId="pageNumber" />
 
 						</div>
 					</div>
@@ -125,9 +111,10 @@
 		</c:otherwise>
 	</c:choose>
 </div>
+<!-- there is the user's feedback feature for WEB 2.0 -->
 
 <div id="feedbackArea">
-<portlet:resourceURL var="feedbackUrl" id="feedback"/>
+
 	<div class="sendFeedback"  class="linkButton">
 		<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
 				key="label.feedback" /></a>
