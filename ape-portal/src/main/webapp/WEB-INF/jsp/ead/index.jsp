@@ -9,24 +9,21 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
 <portlet:defineObjects />
-<c:set var="element">
-	<c:out value="${param['element']}" />
-</c:set>
-<c:set var="term">
-	<c:out value="${param['term']}" />
-</c:set>
-<portlet:resourceURL var="eadTreeUrl" id="eadTree">
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,element,term"><portlet:resourceURL id="eadTree">
 	<portlet:param name="solrId" value="${solrId}" />
 	<portlet:param name="ecId" value="${ead.eadContent.ecId}" />
-	<portlet:param name="element" value="${element}" />
-	<portlet:param name="term" value="${term}" />
-</portlet:resourceURL>
-<portlet:resourceURL var="displayEadUrl" id="displayEadDetails">
+</portlet:resourceURL></portal:removeParameters>
+<portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode"><portlet:resourceURL  id="displayEadDetails">
 	<portlet:param name="ecId" value="${ead.eadContent.ecId}" />
-	<portlet:param name="element" value="${element}" />
-	<portlet:param name="term" value="${term}" />
-</portlet:resourceURL>
+</portlet:resourceURL></portal:removeParameters>
+
+
+
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
 <script type='text/javascript'>
 	$(document).ready(function() {
 		initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
@@ -34,7 +31,13 @@
 		initPanes();
 	});		
 </script>
+${newDisplayEadUrl}
 <div id="eadDisplayPortlet">
+	<c:if test="${!empty errorMessage}">
+	<div class="error errorHeader">
+		<fmt:message key="${errorMessage}" />
+	</div>
+	</c:if>
 	<h3 id="contextInformation">
 		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
