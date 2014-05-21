@@ -106,6 +106,7 @@ public class DisplayEadContoller {
 					if (size > 0) {
 						if (size > 1){
 							modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.unitid.notunique");
+							LOGGER.info(eadParams.getRepoCode() + " " + xmlType.getResourceName() + " " + eadParams.getEadid() + " "+ eadParams.getUnitid() + " has duplicate");
 						}
 						CLevel clevel = clevels.get(0);
 						modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
