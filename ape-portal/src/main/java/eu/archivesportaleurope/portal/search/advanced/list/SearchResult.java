@@ -8,6 +8,7 @@ import org.apache.solr.common.SolrDocument;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.search.common.AdvancedSearchUtil;
+import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
 
 /**
  * @author bverhoef
@@ -35,9 +36,10 @@ public class SearchResult {
 	private String alterdate;
 	private String alterdateWithoutHighlighting;
 	private String level;
+	private String repositoryCode; 
 	private SolrDocument solrDocument;
 
-	public SearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
+	public SearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap, DatabaseCacher databaseCacher){
 		this.solrDocument = solrDocument;
 		id = solrDocument.getFieldValue( SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
@@ -74,6 +76,11 @@ public class SearchResult {
 		}
 		if (solrDocument.getFieldValue(SolrFields.LEVEL) != null)
 			this.level = solrDocument.getFieldValue(SolrFields.LEVEL).toString();
+		if (solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE) == null){
+			this.repositoryCode = databaseCacher.getRepositoryCode(Integer.parseInt(aiId));
+		}else {
+			this.repositoryCode = solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE).toString();
+		}
 	}
 
 	public String getId() {
@@ -115,6 +122,9 @@ public class SearchResult {
 	public String getType(){
 		return solrDocument.getFieldValue(SolrFields.TYPE).toString();
 	}
+	public String getEadid(){
+		return solrDocument.getFieldValue(SolrFields.EADID).toString();
+	}
 	public Object getDao(){
 		return solrDocument.getFieldValue(SolrFields.DAO);
 	}
@@ -123,6 +133,9 @@ public class SearchResult {
 	}
 	public Object getUnitIdOfFond(){
 		return solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
+	}
+	public Object getRepositoryCode(){
+		return repositoryCode;
 	}
 	private String getDescriptionFromString(String string){
 		int index = string.indexOf(COLON);
