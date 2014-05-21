@@ -14,6 +14,7 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
+import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 
 public class EadNavigationTag extends SimpleTagSupport {
 
@@ -28,20 +29,23 @@ public class EadNavigationTag extends SimpleTagSupport {
 		if (clevel != null){
 			CLevel currentCLevel = (CLevel) clevel;
 			CLevel parent = currentCLevel.getParent();
-
-			while (parent != null ){
-				String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_SEARCH) + "/C" + parent.getClId();
-				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
-				parent = parent.getParent();
-			}
 			eadContent = currentCLevel.getEadContent();
 			Ead ead = eadContent.getEad();
 			String repoCode = ead.getArchivalInstitution().getEncodedRepositorycode();
-			XmlType xmlType = XmlType.getEadType(ead);
-			String url = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_FRONTPAGE) + "/" + repoCode + "/" + xmlType.getResourceName()+ "/"+ ead.getEncodedEadid();
+			String xmlTypeName = XmlType.getEadType(ead).getResourceName();			
+			while (parent != null ){
+				EadPersistentUrl persistentUrl = new EadPersistentUrl(repoCode, xmlTypeName, ead.getEadid());
+				persistentUrl.setSearchIdAsLong(parent.getClId());
+				persistentUrl.setUnitid(parent.getUnitid());
+				String url = FriendlyUrlUtil.getEadPersistentUrl(portletRequest, persistentUrl, false);
+				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
+				parent = parent.getParent();
+			}
+			EadPersistentUrl persistentUrl = new EadPersistentUrl(repoCode, xmlTypeName, ead.getEadid());
+			String url = FriendlyUrlUtil.getEadPersistentUrl(portletRequest, persistentUrl, false);
 			hierarchy.add(new HierarchyInfo(url,eadContent.getUnittitle()));
 		}
-
+	
 		if (eadContent != null){
 			result.append("<ul class=\"context\">");
 			int numberOfWhitespaces = 0;
