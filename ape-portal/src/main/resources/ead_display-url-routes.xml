@@ -2,21 +2,139 @@
 <!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
 "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
 <routes>
+	<!-- persistent archdesc with search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>						
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/page/{pageNumber:\d+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>						
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>				
+	</route>	
+	<!-- persistent archdesc without search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>						
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/page/{pageNumber:\d+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>								
+	</route>	
+	<!-- persistent descriptive unit without search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="unitid">{unitid}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>									
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}/page/{pageNumber:\d+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="unitid">{unitid}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>												
+	</route>		
+	<!-- persistent descriptive unit without search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="unitid">{unitid}</generated-parameter>							
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/unitid/{unitid:[^/]+}/page/{pageNumber:\d+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="unitid">{unitid}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>							
+	</route>	
+	<!-- no persistent descriptive unit with search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/dbid/{eadDisplayId:[^/]+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>												
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/dbid/{eadDisplayId:[^/]+}/page/{pageNumber:\d+}/search/{element:\d+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>	
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>														
+	</route>		
+	<!-- no persistent descriptive unit without search term -->
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/dbid/{eadDisplayId:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>							
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/dbid/{eadDisplayId:[^/]+}/page/{pageNumber:\d+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>	
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>								
+	</route>	
+	<!--  old urls -->		
 	<route>
 		<pattern>/fp/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
 		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
  		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>	
 	</route>
+
 	<route>
 		<pattern>/s/{eadDisplayId:[^/]+}/{element:\d+}/{term:.+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>			
 	</route>
 	<route>
 		<pattern>/s/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>	
 	</route>
 	<route>
 		<pattern>/fp-p/{pageNumber:\d+}/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
@@ -24,6 +142,10 @@
  		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
 		<generated-parameter name="eadid">{eadid}</generated-parameter>
 		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>	
 	</route>
 	<route>
 		<pattern>/s-p/{pageNumber:\d+}/{eadDisplayId:[^/]+}/{element:\d+}/{term:.+}</pattern>
@@ -31,10 +153,18 @@
 		<generated-parameter name="element">{element}</generated-parameter>
 		<generated-parameter name="term">{term}</generated-parameter>
 		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>			
 	</route>
 	<route>
 		<pattern>/s-p/{pageNumber:\d+}/{eadDisplayId:[^/]+}</pattern>
 		<generated-parameter name="eadDisplayId">{eadDisplayId}</generated-parameter>
 		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>			
 	</route>
 </routes>
