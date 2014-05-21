@@ -327,8 +327,7 @@ public class SitemapController {
 					writeSitemapElement(xmlWriter, url, ead.getPublishDate(), "1.0");
 				}
 				for (CLevel cLevel : clevels) {
-					eadPersistentUrl.setSearchIdAsLong(cLevel.getClId());
-					eadPersistentUrl.setUnitid(cLevel.getUnitid());
+					eadPersistentUrl.setClevel(cLevel);
 					String url = FriendlyUrlUtil.getEadPersistentUrlForSitemap(resourceRequest, eadPersistentUrl);
 					if (eadPersistentUrl.isPersistent()){
 						writeSitemapElement(xmlWriter, url, ead.getPublishDate(), null);

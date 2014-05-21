@@ -32,6 +32,7 @@ public class SearchResult {
 	private String ai;
 	private String aiId;
 	private String unitid;
+	private String unitidForLink;
 	private String otherUnitid;
 	private String alterdate;
 	private String alterdateWithoutHighlighting;
@@ -69,6 +70,12 @@ public class SearchResult {
 		if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
 			this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
 		}
+		Object duplicateUnitid =solrDocument.getFieldValue(SolrFields.DUPLICATE_UNITID);
+		if (duplicateUnitid != null && "true".equalsIgnoreCase(duplicateUnitid.toString())){
+			unitidForLink = null;
+		}else {
+			unitidForLink = this.unitid;
+		}
 		this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
 		this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(AdvancedSearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
 		if (otherUnitid != null){
@@ -81,6 +88,7 @@ public class SearchResult {
 		}else {
 			this.repositoryCode = solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE).toString();
 		}
+
 	}
 
 	public String getId() {
@@ -102,6 +110,9 @@ public class SearchResult {
 
 	public String getUnitid() {
 		return unitid;
+	}
+	public String getUnitidForLink(){
+		return unitidForLink;	
 	}
 
 	public String getAlterdate() {

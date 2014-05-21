@@ -98,6 +98,9 @@ public class DisplayEadContoller {
 			if (xmlType != null){
 				if (StringUtils.isNotBlank(eadParams.getUnitid())){
 					List<CLevel> clevels = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getClazz(), eadParams.getEadid(), eadParams.getUnitid());
+					for (CLevel clevel: clevels){
+						LOGGER.info(clevel.getClId());
+					}
 					int size = clevels.size();
 					
 					if (size > 0) {
@@ -217,10 +220,7 @@ public class DisplayEadContoller {
 					PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
 			XmlType xmlType = XmlType.getEadType(ead);
 			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(), xmlType.getResourceName(), ead.getEadid());
-			if (clevel != null){
-				eadPersistentUrl.setUnitid(clevel.getUnitid());
-				eadPersistentUrl.setSearchIdAsLong(clevel.getClId());
-			}
+			eadPersistentUrl.setClevel(clevel);
 			eadPersistentUrl.setPageNumberAsInt(eadParams.getPageNumber());
 			eadPersistentUrl.setSearchFieldsSelectionId(eadParams.getElement());
 			eadPersistentUrl.setSearchTerms(eadParams.getTerm());

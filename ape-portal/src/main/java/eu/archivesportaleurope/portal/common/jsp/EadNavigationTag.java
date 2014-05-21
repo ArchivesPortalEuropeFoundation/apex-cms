@@ -35,8 +35,7 @@ public class EadNavigationTag extends SimpleTagSupport {
 			String xmlTypeName = XmlType.getEadType(ead).getResourceName();			
 			while (parent != null ){
 				EadPersistentUrl persistentUrl = new EadPersistentUrl(repoCode, xmlTypeName, ead.getEadid());
-				persistentUrl.setSearchIdAsLong(parent.getClId());
-				persistentUrl.setUnitid(parent.getUnitid());
+				persistentUrl.setClevel(parent);
 				String url = FriendlyUrlUtil.getEadPersistentUrl(portletRequest, persistentUrl, false);
 				hierarchy.add(new HierarchyInfo(url, parent.getUnittitle()));
 				parent = parent.getParent();
