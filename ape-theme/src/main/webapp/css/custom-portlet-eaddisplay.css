@@ -215,3 +215,8 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     padding-right: 15px;
 }
 
+#eadDisplayPortlet .errorHeader{
+	width:100%;
+	text-align:center;
+	font-size:120%
+}
