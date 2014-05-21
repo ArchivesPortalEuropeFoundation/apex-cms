@@ -6,7 +6,8 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
-<portlet:resourceURL var="feedbackUrl" id="feedbackAction"/>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedbackAction"/></portal:removeParameters>
 
 <div id="contactPortlet">
 <h1><fmt:message key="label.feedback" /></h1>
