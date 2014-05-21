@@ -18,7 +18,7 @@
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
-	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" searchId="${c.clId}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
 </div>

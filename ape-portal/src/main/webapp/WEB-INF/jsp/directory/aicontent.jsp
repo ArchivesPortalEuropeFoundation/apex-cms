@@ -7,7 +7,6 @@
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <portlet:defineObjects />
 <portal:friendlyUrl var="contentUrl" type="directory-content" />
-<portal:friendlyUrl var="eadUrl" type="eaddisplay-frontpage" />
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <div id="directoryPortlet">
 	<div class="${mobile}">
@@ -28,7 +27,8 @@
 			<table>
 				<c:forEach var="ead" items="${eads}">
 					<tr class="child">
-						<td><a href="${eadUrl}/${aiRepoCode}/${xmlTypeName}/${ead.encodedEadid}">${ead.title}</a></td>
+						<portal:eadPersistentLink repoCode="${aiRepoCode}" xmlTypeName="${xmlTypeName}" eadid="${ead.eadid}" var="link"/>
+						<td><a href="${link}">${ead.title}</a></td>
 					</tr>
 				</c:forEach>
 			</table>
