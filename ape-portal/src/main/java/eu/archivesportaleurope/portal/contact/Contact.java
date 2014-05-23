@@ -40,6 +40,14 @@ public class Contact implements Serializable {
     	return reCaptchaUrl_script + recaptchaPubKey;
     }
 
+	public String getRecaptchaPubKey() {
+		return recaptchaPubKey;
+	}
+
+	public void setRecaptchaPubKey(String recaptchaPubKey) {
+		this.recaptchaPubKey = recaptchaPubKey;
+	}
+
 	public String getEmail() {
         return email;
     }
