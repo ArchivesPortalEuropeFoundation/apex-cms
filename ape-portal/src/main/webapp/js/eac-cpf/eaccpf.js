@@ -51,7 +51,12 @@ function initPrint(){
 		$(".displayLinkShowLess").each(function(){
 			$(this).remove();
 		});
-		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'70%'});
+		$('#eacCpfDisplayPortlet h1').css({'width':'100%'});
+		$("#eacCpfDisplayPortlet #details").css({'width':'100%'});
+		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'100%'});
+		$('#eacCpfDisplayPortlet a').each(function(){
+			$(this).css({'pointer-events':'none', 'cursor':'default'});
+		});
 		self.print();
 	}
 	catch (e) {

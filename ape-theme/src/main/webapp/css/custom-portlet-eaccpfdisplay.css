@@ -55,21 +55,19 @@
 #eacCpfDisplayPortlet .leftcolumn {
 	float:left;
 	overflow-y: auto;
-	/*width:30%*/
 }
 #eacCpfDisplayPortlet .rightcolumn {
 	text-align:auto;
 	margin-left:180px;
 	margin-top:9px;
 }
-#eacCpfDisplayPortlet .leftSide {
- clear:both;
- margin-left:0px;
-}
 #eacCpfDisplayPortlet #relations{
 	float:right;
 	width:260px;
 	font-size:8pt;
+}
+#eacCpfDisplayPortlet .box .boxtitle{
+	cursor:pointer;
 }
 #relations .collapsibleIcon {
     display: inline-block;
