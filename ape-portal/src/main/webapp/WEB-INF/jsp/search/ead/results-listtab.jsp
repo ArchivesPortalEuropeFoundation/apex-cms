@@ -102,7 +102,7 @@
 										<c:set var="titleClass" value=""/>								
 									</c:otherwise>
 								</c:choose>
-								<portal:eadPersistentLink var="url" xmlTypeName="${result.type}" eadid="${result.eadid}" repoCode="${result.repositoryCode}" unitid="${result.unitid}" searchId="${result.id}" searchFieldsSelectionId="${eadSearch.element}" searchTerms="${eadSearch.term}"/>	
+								<portal:eadPersistentLink var="url" xmlTypeName="${result.type}" eadid="${result.eadid}" repoCode="${result.repositoryCode}" unitid="${result.unitidForLink}" searchId="${result.id}" searchFieldsSelectionId="${eadSearch.element}" searchTerms="${eadSearch.term}"/>	
 								<a class="unittitle ${titleClass}" target="_blank" title="${titleWithoutHighlighting}"
 									href="${url}">${title}
 								</a>													
