@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -34,6 +36,7 @@ public final class Searcher {
 	private static final String COLON = ":";
 	//private static final String WHITESPACE = " ";
 	private final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static final Pattern NORMAL_TERM_PATTERN = Pattern.compile("[\\p{L}\\p{Digit}\\s]+");
 	private final static Logger LOGGER = Logger.getLogger(Searcher.class);
 	private HttpSolrServer solrServer;
 	private HttpSolrServer getSolrServer(){
@@ -79,6 +82,9 @@ public final class Searcher {
 		}
 		buildDateRefinement(query,startDate, endDate, true);
 		query.setStart(start);
+		if (rows > 100){
+			rows= 10;
+		}
 		query.setRows(rows);
 		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
@@ -237,6 +243,9 @@ public final class Searcher {
 		if (queryType != null){
 			query.setRequestHandler(queryType);
 		}
+		if (needSuggestions){
+			needSuggestions = isSimpleSearchTerms(solrQueryParameters.getTerm());
+		}
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
@@ -323,6 +332,10 @@ public final class Searcher {
 		return executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 	}
 
+		private static boolean isSimpleSearchTerms(String term){
+			Matcher matcher = NORMAL_TERM_PATTERN.matcher(term);
+			return matcher.matches();
+		}
 
 
 
