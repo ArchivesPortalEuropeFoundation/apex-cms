@@ -8,7 +8,6 @@ import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 
 
-
 /**
  * User: Yoann Moranville
  * Date: 09/01/2013
@@ -27,7 +26,6 @@ public class Contact implements Serializable {
     private String aiId;
     private String url;
     private String feedback;
-
     private String captcha;
     private String institution;
     private String repoCode;
@@ -41,6 +39,14 @@ public class Contact implements Serializable {
     public String getReCaptchaUrl(){
     	return reCaptchaUrl_script + recaptchaPubKey;
     }
+
+	public String getRecaptchaPubKey() {
+		return recaptchaPubKey;
+	}
+
+	public void setRecaptchaPubKey(String recaptchaPubKey) {
+		this.recaptchaPubKey = recaptchaPubKey;
+	}
 
 	public String getEmail() {
         return email;
@@ -65,10 +71,6 @@ public class Contact implements Serializable {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
-
-
-
-
     
     public String getRecaptcha_challenge_field() {
 		return recaptcha_challenge_field;
@@ -125,7 +127,6 @@ public class Contact implements Serializable {
 	public void setTypeList(Map<String, String> typeList) {
 		this.typeList = typeList;
 	}
-
 
 	public String getAiId() {
 		return aiId;
