@@ -38,7 +38,7 @@
 					</c:when>
 					<c:otherwise>
 						<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
-						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" unitid="${c.unitid}" searchId="${c.clId}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
 							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" />
 
@@ -58,10 +58,10 @@
 						</div>
 						<table class="fullwidth">
 							<c:forEach var="child" items="${children}">
-							<portal:eadPersistentLink var="childLink" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}" unitid="${child.unitid}" searchId="${child.clId}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+							<portal:eadPersistentLink var="childLink" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}" clevel="${child}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 								<tr class="child childHeader">
-									<td>${child.unitid }</td>
-									<td><a href="${childLink}">${child.unittitle}</a></td>
+									<td><c:out value="${child.unitid}"/></td>
+									<td><a href="${childLink}"><c:out value="${child.unittitle}"/></a></td>
 								</tr>
 							</c:forEach>
 						</table>

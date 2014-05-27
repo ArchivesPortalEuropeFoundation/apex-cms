@@ -237,7 +237,12 @@
 			<name>xmlTypeName</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>		
+		</attribute>
+		<attribute>
+			<name>clevel</name>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>				
 		<attribute>
 			<name>unitid</name>
 			<rtexprvalue>true</rtexprvalue>

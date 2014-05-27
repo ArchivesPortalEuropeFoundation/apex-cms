@@ -6,12 +6,15 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
-<portlet:resourceURL var="feedbackUrl" id="feedbackAction"/>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedbackAction"/></portal:removeParameters>
 
 <div id="contactPortlet">
 <h1><fmt:message key="label.feedback" /></h1>
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
+	<form:hidden id="aiRepoCode" path="repoCode"/>
+	<form:hidden id="recaptchaPubKey" path="recaptchaPubKey"/>
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
@@ -24,17 +27,20 @@
         <tr>
         	<td> <label for="receiveCopy" class="label"><fmt:message key="label.email.contact.receivecopy" />:</label></td>
         	<td><form:checkbox path="receiveCopy" id="receiveCopy"/> </td>
+        </tr>    
+           
+        <tr>
+            <td><fmt:message key="advancedsearch.facet.title.ai" /></td>
+            <td id="aiName"><c:out value="${contact.institution}"/></td>
         </tr>        
         <tr>
-            <td class="tdLabel">
-               <fmt:message key="label.email.subject" />
-            </td>
+            <td><fmt:message key="label.email.subject" />:</td>
             <td>
             	<c:out value="${contact.title}"/><form:hidden path="title"/>
             </td>
         </tr>
         <tr>
-        	<td><fmt:message key="feedback.url" /></td>
+        	<td><fmt:message key="feedback.url" />:</td>
         	<td><c:out value="${contact.url}"/><form:hidden path="url"/></td>
         </tr>
         <tr>

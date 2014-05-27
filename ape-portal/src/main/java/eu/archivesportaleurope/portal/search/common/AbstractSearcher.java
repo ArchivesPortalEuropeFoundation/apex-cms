@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,7 +25,8 @@ import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 public abstract class AbstractSearcher {
 	public static final String OR = " OR ";
 	protected static final String WHITESPACE = " ";
-	private static final String ESCAPING_CHARACTER= "\\\\";
+	//private static final String ESCAPING_CHARACTER= "\\\\";
+	private static final Pattern NORMAL_TERM_PATTERN = Pattern.compile("[\\p{L}\\p{Digit}\\s]+");
 	private static final String QUERY_TYPE_LIST = "list";
 	protected static final String COLON = ":";
 	protected final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -84,6 +87,9 @@ public abstract class AbstractSearcher {
 			}
 		}
 		query.setStart(start);
+		if (rows > 100){
+			rows= 10;
+		}
 		query.setRows(rows);
 		//query.setFacetLimit(ListFacetSettings.DEFAULT_FACET_VALUE_LIMIT);
 		if (orderByField != null && orderByField.length() > 0 && !"relevancy".equals(orderByField)) {
@@ -272,6 +278,9 @@ public abstract class AbstractSearcher {
 		if (queryType != null){
 			query.setRequestHandler(queryType);
 		}
+		if (needSuggestions){
+			needSuggestions = isSimpleSearchTerms(solrQueryParameters.getTerm());
+		}
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)|| solrQueryParameters.getSolrFields().contains(SolrField.EAC_CPF_ENTITY_ID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
@@ -282,5 +291,9 @@ public abstract class AbstractSearcher {
 			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
 		return result;
+	}
+	private static boolean isSimpleSearchTerms(String term){
+		Matcher matcher = NORMAL_TERM_PATTERN.matcher(term);
+		return matcher.matches();
 	}
 }

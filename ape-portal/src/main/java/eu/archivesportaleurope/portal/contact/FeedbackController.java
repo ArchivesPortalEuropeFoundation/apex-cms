@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.contact;
 
 import javax.portlet.ResourceRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,9 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
 
+import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.email.EmailSender;
 
 @Controller(value = "feedbackController")
@@ -22,6 +26,14 @@ import eu.archivesportaleurope.portal.common.email.EmailSender;
 public class FeedbackController {
 
     private static final Logger LOGGER = Logger.getLogger(FeedbackController.class);
+    private ArchivalInstitutionDAO archivalInstitutionDAO;
+    
+
+	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
+		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+
+
 
 	@ResourceMapping(value="feedback")
     public ModelAndView showInitialPage(@ModelAttribute("contact") Contact contact,ResourceRequest request) throws PortalException, SystemException {
@@ -29,6 +41,11 @@ public class FeedbackController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("feedback");
         modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
+        if (StringUtils.isNotBlank(contact.getAiId()) && StringUtils.isNumeric(contact.getAiId())){
+    		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(Integer.parseInt(contact.getAiId()));
+    		contact.setInstitution(PortalDisplayUtil.replaceQuotesAndReturns(archivalInstitution.getAiname()));
+    		contact.setRepoCode(archivalInstitution.getRepositorycode());
+        }
     	if (loggedIn){
     		User currentUser = PortalUtil.getUser(request);
     		contact.setEmail(currentUser.getEmailAddress());

@@ -24,10 +24,13 @@ public class Contact implements Serializable {
 	private String email;
     private String type;
     private String title;
+    private String aiId;
     private String url;
     private String feedback;
 
     private String captcha;
+    private String institution;
+    private String repoCode;
     private String recaptcha_challenge_field;
     private String recaptcha_response_field;
     private String recaptchaPubKey = PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY);
@@ -122,4 +125,32 @@ public class Contact implements Serializable {
 	public void setTypeList(Map<String, String> typeList) {
 		this.typeList = typeList;
 	}
+
+
+	public String getAiId() {
+		return aiId;
+	}
+
+	public void setAiId(String aiId) {
+		this.aiId = aiId;
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getRepoCode() {
+		return repoCode;
+	}
+
+	public void setRepoCode(String repoCode) {
+		this.repoCode = repoCode;
+	}
+
+
+
 }

@@ -1,13 +1,9 @@
 package eu.archivesportaleurope.portal.common.urls;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.solr.SolrValues;
-import eu.apenet.commons.utils.DisplayUtils;
+import eu.apenet.persistence.vo.CLevel;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public class EadPersistentUrl extends AbstractContentUrl{
@@ -24,7 +20,16 @@ public class EadPersistentUrl extends AbstractContentUrl{
 	public EadPersistentUrl(String repoCode, String xmlTypeName, String identifier){
 		super(repoCode, xmlTypeName, identifier);
 	}
-
+	public void setClevel(CLevel cLevel) {
+		if (cLevel != null){
+			setSearchIdAsLong(cLevel.getClId());
+			if (cLevel.isDuplicateUnitid()){
+				setUnitid(null);
+			}else {
+				setUnitid(cLevel.getUnitid());
+			}
+		}
+	}
 
 	public void setUnitid(String unitid) {
 		this.unitid = unitid;

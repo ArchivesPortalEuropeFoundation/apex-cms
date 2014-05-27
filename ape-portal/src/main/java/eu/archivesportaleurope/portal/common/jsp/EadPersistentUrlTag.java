@@ -9,6 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.commons.lang.StringUtils;
 
+import eu.apenet.persistence.vo.CLevel;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 
@@ -21,7 +22,7 @@ public class EadPersistentUrlTag extends SimpleTagSupport {
 	private String searchTerms;
 	private String searchId;
 	private String pageNumber;
-
+	private Object clevel;
 	private String var;
 	private String noHttps;
 
@@ -31,14 +32,19 @@ public class EadPersistentUrlTag extends SimpleTagSupport {
 				"javax.portlet.request");
 		boolean noHttpsBoolean = "true".equalsIgnoreCase(noHttps);
 		EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(repoCode, xmlTypeName, eadid);
-		eadPersistentUrl.setUnitid(unitid);
+		if (clevel != null){
+			eadPersistentUrl.setClevel((CLevel) clevel);
+		}else {
+			eadPersistentUrl.setUnitid(unitid);
+			if (StringUtils.isNumeric(searchId)){
+				eadPersistentUrl.setSearchIdAsLong(Long.parseLong(searchId));
+			}else {
+				eadPersistentUrl.setSearchId(searchId);
+			}
+		}
 		eadPersistentUrl.setSearchFieldsSelectionId(searchFieldsSelectionId);
 		eadPersistentUrl.setSearchTerms(searchTerms);
-		if (StringUtils.isNumeric(searchId)){
-			eadPersistentUrl.setSearchIdAsLong(Long.parseLong(searchId));
-		}else {
-			eadPersistentUrl.setSearchId(searchId);
-		}
+
 		eadPersistentUrl.setPageNumber(pageNumber);
 		String url = FriendlyUrlUtil.getEadPersistentUrl(portletRequest, eadPersistentUrl, noHttpsBoolean);
 		getJspContext().setAttribute(var, url);
@@ -86,6 +92,10 @@ public class EadPersistentUrlTag extends SimpleTagSupport {
 
 	public void setPageNumber(String pageNumber) {
 		this.pageNumber = pageNumber;
+	}
+
+	public void setClevel(Object clevel) {
+		this.clevel = clevel;
 	}
 
 
