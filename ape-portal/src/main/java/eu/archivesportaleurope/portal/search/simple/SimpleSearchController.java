@@ -4,7 +4,6 @@ import java.text.NumberFormat;
 
 import javax.portlet.RenderRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,19 +12,24 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.utils.Cache;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.ContentSearchOptions;
+import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.dao.EadDAO;
+import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 @Controller(value = "simpleSearchController")
 @RequestMapping(value = "VIEW")
 public class SimpleSearchController {
-	private static final String INSTITUTIONS = "institutions";
-	private static final String UNITS = "units";
+	private static final String INSTITUTIONS = "numberOfInstitutions";
+	private static final String EAD_UNITS = "numberOfEadDescriptiveUnits";
+	private static final String EAC_CPF_UNITS = "numberOfEacCpfs";
+
 	private static final String TRUE = "TRUE";
 	//private final static Logger LOGGER = Logger.getLogger(SimpleSearchController.class);
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
-
+	private EacCpfDAO eacCpfDAO;
 	private final static Cache<String, Long> CACHE = new Cache<String, Long>();
 	
 	
@@ -38,25 +42,28 @@ public class SimpleSearchController {
 		}else {
 			modelAndView.setViewName("home");
 			Long institutions = CACHE.get(INSTITUTIONS);
-			Long units = CACHE.get(UNITS);
+			Long eadUnits = CACHE.get(EAD_UNITS);
+			Long eacCpfUnits = CACHE.get(EAC_CPF_UNITS);			
 			if (institutions == null) {
 				institutions = archivalInstitutionDAO.countArchivalInstitutionsWithContentIndexed();
 				CACHE.put(INSTITUTIONS, institutions);
 			}	
-			if (units == null) {
-				units = eadDAO.getTotalCountOfUnits();
-				CACHE.put(UNITS, units);
+			if (eadUnits == null) {
+				eadUnits = eadDAO.getTotalCountOfUnits();
+				CACHE.put(EAD_UNITS, eadUnits);
 			}	
+			if (eacCpfUnits == null) {
+				ContentSearchOptions contentSearchOptions = new ContentSearchOptions();
+				contentSearchOptions.setContentClass(EacCpf.class);
+				contentSearchOptions.setPublished(true);
+				eacCpfUnits = eacCpfDAO.countEacCpfs(contentSearchOptions);
+				CACHE.put(EAC_CPF_UNITS, eacCpfUnits);
+			}
 			modelAndView.getModelMap().addAttribute(INSTITUTIONS, institutions);
 			NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
-			modelAndView.getModelMap().addAttribute(UNITS, numberFormat.format(units));
-			String numberOfDaoUnitsString= request.getPreferences().getValue("numberOfDaoUnits", "0");
-			long numberOfDaoUnits = 0;
-			if (StringUtils.isNotBlank(numberOfDaoUnitsString)){
-				numberOfDaoUnits = Long.parseLong(numberOfDaoUnitsString);
-				
-			}
-			modelAndView.getModelMap().addAttribute("numberOfDaoUnits", numberFormat.format(numberOfDaoUnits));
+			modelAndView.getModelMap().addAttribute(EAD_UNITS, numberFormat.format(eadUnits));
+			modelAndView.getModelMap().addAttribute(EAC_CPF_UNITS, numberFormat.format(eacCpfUnits));
+
 	
 			PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_HOME);
 		}
@@ -72,6 +79,10 @@ public class SimpleSearchController {
 	}
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
+	}
+
+	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
+		this.eacCpfDAO = eacCpfDAO;
 	}
 	
 }
