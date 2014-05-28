@@ -22,7 +22,6 @@ function initSimpleSearchAutocompletion(autocompletionUrl, embedded) {
 	$(selector).autocomplete({
 		minLength : 0,
 		source : function(request, response) {
-			console.info("autocomplete: " + request.term);
 			$.getJSON(autocompletionUrl, {
 				term : extractLast(request.term)
 			}, response);
