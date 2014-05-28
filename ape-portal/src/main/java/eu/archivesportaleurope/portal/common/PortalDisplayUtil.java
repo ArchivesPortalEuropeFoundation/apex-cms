@@ -41,6 +41,9 @@ public class PortalDisplayUtil {
 		}
 		return result;
 	}
+	public static String replaceLessThan(String string){
+		return string.replaceAll("<", "&lt;");
+	}
 	public static ReadableUserAgent getUserAgent(PortletRequest portletRequest){
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
