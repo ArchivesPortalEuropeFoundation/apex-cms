@@ -28,15 +28,12 @@
 				</form:form>				
 			</div>
 			<div id="simpleSearchText">
-			<p>
-				<fmt:message key="advancedsearch.message.firstmessagepartycsi" />
-				<span class="bold">${units}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartinst" />
-				<span class="bold">${numberOfDaoUnits}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartdao" />
-				<span class="bold">${institutions}</span>
-				<fmt:message key="advancedsearch.message.firstmessagepartdu" />
-			</p>
+				<fmt:message key="homepage.search" />:
+				<ul>
+					<li><span class="bold">${numberOfEadDescriptiveUnits}</span> <fmt:message key="homepage.search.number.ead.descriptive.units" /></li>
+					<li><span class="bold">${numberOfEacCpfs}</span> <fmt:message key="homepage.search.number.eaccpf.descriptive.units" /></li>
+					<li><span class="bold">${numberOfInstitutions}</span> <fmt:message key="homepage.search.number.institutions" /></li>
+				</ul>
 			 </div>
 		</div>
 	
