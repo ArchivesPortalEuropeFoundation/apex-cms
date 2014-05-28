@@ -11,8 +11,11 @@
 	float: left;
 }
 
-#simpleSearchPortlet #simpleSearch p {
+#simpleSearchPortlet #simpleSearchText {
 	font-size: 8pt;
+}
+#simpleSearchPortlet #simpleSearchText > ul {
+    margin: 0;
 }
 
 #simpleSearchPortlet .simpleSearchOptions, #embeddedSimpleSearchPortlet .simpleSearchOptions {
