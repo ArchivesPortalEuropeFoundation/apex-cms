@@ -2,6 +2,7 @@
 function init(){
 	eraseComma();
 	eraseNameTitle();
+	eraseLocationPlace();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
 	$(".moreDisplay").each(function(index){
@@ -38,6 +39,17 @@ function eraseNameTitle() {
 	var titleName = $("div#eaccpfcontent span#nameTitle").text();
 	$("div#alternativeName").children().each(function() {
 		if ($(this).text().trim() == titleName.trim()) {
+			$(this).remove();
+		}
+	});
+}
+/**
+ * Function to delete the location if there is'nt nothing to show.
+ */
+function eraseLocationPlace(){
+	$("div#eaccpfcontent .locationPlace").each(function(){
+		var textRightColumn = $(this).find(".rightcolumn p").text().trim();
+		if (textRightColumn == ''){
 			$(this).remove();
 		}
 	});
