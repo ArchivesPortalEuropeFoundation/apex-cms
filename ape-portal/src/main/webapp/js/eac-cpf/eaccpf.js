@@ -63,9 +63,9 @@ function initPrint(){
 		$(".displayLinkShowLess").each(function(){
 			$(this).remove();
 		});
-		$('#eacCpfDisplayPortlet h1').css({'width':'100%'});
-		$("#eacCpfDisplayPortlet #details").css({'width':'100%'});
-		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'90%'});
+		$('#eacCpfDisplayPortlet h1').css({'width':'98%'});
+		$("#eacCpfDisplayPortlet #details").css({'width':'98%'});
+		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'98%'});
 		$('#eacCpfDisplayPortlet a').each(function(){
 			$(this).css({'pointer-events':'none', 'cursor':'default'});
 		});
