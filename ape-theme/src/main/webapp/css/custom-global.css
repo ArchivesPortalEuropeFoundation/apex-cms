@@ -44,9 +44,11 @@ a:link {
 	text-decoration: none;
 }
 a:visited {
-	color: #c65400;
+	color: #632A00;
 }
-
+a:hover {
+	text-decoration: underline;
+}
 #banner {
 	background: none repeat scroll 0 0 transparent;
 	height: auto;
