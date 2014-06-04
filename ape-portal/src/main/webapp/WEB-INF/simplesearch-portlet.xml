@@ -19,6 +19,8 @@
 		class="eu.archivesportaleurope.portal.search.simple.SimpleSearchController">
 		<property name="eadDAO" ref="eadDAO"/> 
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+		<property name="eacCpfDAO" ref="eacCpfDAO"/>
+		
 	</bean>	
 		
 	<bean id="viewResolver"
