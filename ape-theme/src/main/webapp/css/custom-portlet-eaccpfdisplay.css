@@ -35,6 +35,10 @@
 	font-weight:bold;
 	text-transform: uppercase;
 }
+pre.outline{
+	font-size:8pt;
+	font-family: Arial,sans-serif;
+}
 #eacCpfDisplayPortlet .subrow{
 	margin-left:40px;
 }
@@ -97,9 +101,6 @@
 }
 
 @media screen {
-/*	#eacCpfDisplayPortlet #right-pane {
-		font-size: 8pt;
-	}*/
 	#eacCpfDisplayPortlet #eaccpfcontent em{
 		background-color: #afdefc;
 	}	
