@@ -98,9 +98,6 @@ public class DisplayEadContoller {
 			if (xmlType != null){
 				if (StringUtils.isNotBlank(eadParams.getUnitid())){
 					List<CLevel> clevels = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getClazz(), eadParams.getEadid(), eadParams.getUnitid());
-					for (CLevel clevel: clevels){
-						LOGGER.info(clevel.getClId());
-					}
 					int size = clevels.size();
 					
 					if (size > 0) {
@@ -133,11 +130,14 @@ public class DisplayEadContoller {
 					}						
 				}
 				/*
-					 * link to archdesc
-					 */
-					if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getPublishedEadByEadid(xmlType.getClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+				 * link to archdesc
+				 */
+				if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
+					ead = eadDAO.getPublishedEadByEadid(xmlType.getClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+					if (ead != null && StringUtils.isNotBlank(eadParams.getUnitid())){
+						LOGGER.info("repoCode: " + eadParams.getRepoCode() + " eadid: " + eadParams.getEadid() + " does not have: " + eadParams.getUnitid());
 					}
+				}
 			}
 		}
 		if (ead != null) {
@@ -184,6 +184,7 @@ public class DisplayEadContoller {
 					clevel = clevelDAO.findById(Long.parseLong(subSolrId));
 					if (clevel != null) {
 						ead = clevel.getEadContent().getEad();
+						LOGGER.info(eadParams.getEadDisplayId() + " redirected");
 					}else {
 						LOGGER.info(eadParams.getEadDisplayId() + " not exist");
 					}
