@@ -32,7 +32,7 @@
            
         <tr>
             <td><fmt:message key="advancedsearch.facet.title.ai" /></td>
-            <td id="aiName"><c:out value="${contact.institution}"/></td>
+            <td><c:out value="${contact.institution}"/><form:hidden id="aiName" path="institution"/></td>
         </tr>        
         <tr>
             <td><fmt:message key="label.email.subject" />:</td>
