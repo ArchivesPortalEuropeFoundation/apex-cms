@@ -176,10 +176,15 @@ function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) 
 	    		event.preventDefault();
 	    		sendFeedback();
 	    	});
-	
+	    	var aiName = $("#contactForm #aiName").attr("value");
+	    	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
+	    	logAction("SHOW FEEDBACK FORM: " + aiName + " (" + aiRepoCode + ")", feedbackUrl);
 		});
+	}else {
+    	var aiName = $("#contactForm #aiName").attr("value");
+    	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
+    	logAction("SHOW FEEDBACK FORM: " + aiName + " (" + aiRepoCode + ")", feedbackUrl);
 	}
-	logAction("SHOW FEEDBACK FORM", feedbackUrl);
 	if ($("#feedbackContent").hasClass("hidden")) {
 		$("#feedbackContent").removeClass("hidden");
 	} else {
@@ -190,8 +195,15 @@ function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) 
 function sendFeedback(){
 	var url = $("#contactForm").attr("action");
 	var publicKey = $("#contactForm #recaptchaPubKey").attr("value");
+	var aiName = $("#contactForm #aiName").attr("value");
+	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
 	$.post(url, $("#contactForm").serialize(), function(data) {
 		$("#feedbackContent").html(data);
+		if($("#contactForm").length == 0) {
+			logAction("SEND FEEDBACK FORM TO: " + aiName + " (" + aiRepoCode + ")", url);
+		}else {
+			logAction("SHOW FEEDBACK FORM: " + aiName + " (" + aiRepoCode + ")", url);
+		}
         Recaptcha.create(publicKey, "recaptchaDiv", {
             theme: "white",
             callback: Recaptcha.focus_response_field});
@@ -201,7 +213,5 @@ function sendFeedback(){
     		sendFeedback();
     	});		
 	});
-	var aiName = $("#contactForm #aiName").html();	
-	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
-	logAction("SEND FEEDBACK FORM TO: " + aiName + " (" + aiRepoCode + ")", url);
+	
 }
