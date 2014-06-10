@@ -2,6 +2,8 @@
 	background-image: none;
 	background-color: white;
 	color: #2A4862;
+	margin-right:5px;
+	margin-left:5px;
 }
 #eacCpfDisplayPortlet #printEacDetails{
 	margin-left:400px;
