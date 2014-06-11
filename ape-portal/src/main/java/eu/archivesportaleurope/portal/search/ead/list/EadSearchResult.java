@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
@@ -69,22 +70,26 @@ public class EadSearchResult extends SearchResult{
 		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
 		this.aiId = getIdFromString(this.ai);
 		this.ai = getDescriptionFromString(this.ai);
-		if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
-			this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
-		}
-		Object duplicateUnitid =solrDocument.getFieldValue(SolrFields.DUPLICATE_UNITID);
-		if (duplicateUnitid != null && "true".equalsIgnoreCase(duplicateUnitid.toString())){
-			unitidForLink = null;
-		}else {
-			unitidForLink = this.unitid;
-		}
-		this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
-		this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
-		if (otherUnitid != null){
-			this.otherUnitid = "(" + this.otherUnitid + ")";
-		}
 		if (solrDocument.getFieldValue(SolrFields.LEVEL) != null)
 			this.level = solrDocument.getFieldValue(SolrFields.LEVEL).toString();
+		
+		if (SolrValues.LEVEL_CLEVEL.equals(this.level)){
+			if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
+				this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
+			}
+			Object duplicateUnitid =solrDocument.getFieldValue(SolrFields.DUPLICATE_UNITID);
+			if (duplicateUnitid != null && "true".equalsIgnoreCase(duplicateUnitid.toString())){
+				unitidForLink = null;
+			}else {
+				unitidForLink = this.unitid;
+			}
+			this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
+			this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
+			
+			if (otherUnitid != null){
+				this.otherUnitid = "(" + this.otherUnitid + ")";
+			}
+		}
 		if (solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE) == null){
 			this.repositoryCode = databaseCacher.getRepositoryCode(Integer.parseInt(aiId));
 		}else {
