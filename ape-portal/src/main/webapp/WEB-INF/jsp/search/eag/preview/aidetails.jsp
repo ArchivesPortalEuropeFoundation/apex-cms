@@ -10,7 +10,7 @@
 <div id="viewFullFond" class="linkButton">
 <a href="https://maps.google.com/maps?daddr=${coordinates.lat},${coordinates.lon}" target="_blank"><fmt:message key="advancedsearch.eag.preview.directions"/><span class="icon_new_window">&nbsp;</span></a>
 </div>
-<portal:eag eagUrl="${eagUrl}"/>
+<portal:eag eagUrl="${eagUrl}" preview="true"/>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
