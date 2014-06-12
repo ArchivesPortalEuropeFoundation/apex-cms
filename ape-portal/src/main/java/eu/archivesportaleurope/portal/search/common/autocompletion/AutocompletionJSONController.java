@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
 import java.util.List;
-
 import java.util.Map;
 
 import javax.portlet.ResourceRequest;
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import eu.archivesportaleurope.util.ApeUtil;
 
 
 /**
@@ -31,14 +30,14 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 	@ResourceMapping(value = "autocompletion")
 	public void writeJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		long startTime = System.currentTimeMillis();
-		String term = resourceRequest.getParameter("term").trim();
+		String term = resourceRequest.getParameter("term");
 		
 		try {
 			
 			StringBuilder builder = new StringBuilder();
 			builder.append(START_ARRAY);
 			if (StringUtils.isNotBlank(term)) {
-				TermsResponse termsResponse = getSearcher().getTerms(term);
+				TermsResponse termsResponse = getSearcher().getTerms(term.trim());
 				boolean isAdded = false;
 				for (Map.Entry<String, List<Term>> entry : termsResponse.getTermMap().entrySet()) {
 					for (Term termItem : entry.getValue()) {
@@ -57,7 +56,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 			writeToResponseAndClose(builder, resourceResponse);
 
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ApeUtil.generateThrowableLog(e));
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
