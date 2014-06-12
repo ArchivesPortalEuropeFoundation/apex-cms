@@ -820,3 +820,19 @@
 #searchingPart  #eagSearchPortlet .list-searchresult-content {
 	width: 387px;
 }
+
+#searchingPart #eagSearchPortlet .preview-container table.aiSection {
+    width: 100%;
+}
+
+#searchingPart #eagSearchPortlet .preview-container table.aiSection  th {
+    border-bottom: none;
+    color: #2A4862;
+    font-size: 8pt;
+    font-weight: normal;
+    margin: 0;
+}
+#searchingPart #eagSearchPortlet .repositoryInfo {
+	margin-left: 10px;
+}
+	
