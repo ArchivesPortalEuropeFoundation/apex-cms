@@ -73,10 +73,10 @@
 	
 	<c:choose>
 		<c:when test="${empty c}">
-			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:when>
 		<c:otherwise>
-			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:otherwise>
 	</c:choose>
 	<div id="shareButton" class="linkButton">
