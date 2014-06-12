@@ -127,7 +127,12 @@
 			<name>eagUrl</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>			
+		</attribute>
+		<attribute>
+			<name>preview</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>						
 	</tag>	
 	<tag>
 		<name>removeParameters</name>
