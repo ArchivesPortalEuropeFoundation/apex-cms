@@ -462,7 +462,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		builder.append("\"longitude\":\""+repo.getLon()+"\"");
 		builder.append(COMMA);
 		//this escapes " in field
-		builder.append("\"name\":\""+repo.getNameInstitution()+"\"");
+		builder.append("\"name\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getNameInstitution())+"\"");
 		ArchivalInstitution ai = repo.getArchivalInstitution();
 		if(ai!=null){
 			builder.append(COMMA);
