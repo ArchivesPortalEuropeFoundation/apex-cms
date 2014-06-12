@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.search.eag;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.portlet.ResourceRequest;
 
@@ -13,7 +14,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CoordinatesDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Coordinates;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 
 /**
@@ -33,6 +36,7 @@ public class DisplayPreviewContoller {
 	private final static Logger LOGGER = Logger.getLogger(DisplayPreviewContoller.class);
 
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
+	private CoordinatesDAO coordinatesDAO;
 
 	@ResourceMapping(value = "displayPreview")
 	public ModelAndView displayPreview(ResourceRequest resourceRequest) {
@@ -63,14 +67,22 @@ public class DisplayPreviewContoller {
 		if (archivalInstitution == null) {
 			throw new NotExistInDatabaseException();
 		}
-		String eacCpfPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
+		List<Coordinates> coordinates = coordinatesDAO.findCoordinatesByArchivalInstitution(archivalInstitution);
+		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
 		modelAndView.getModelMap().addAttribute("ai", archivalInstitution);
-		modelAndView.getModelMap().addAttribute("eacCpfUrl", eacCpfPath);
+		if (coordinates.size() > 0){
+			modelAndView.getModelMap().addAttribute("coordinates", coordinates.get(0));
+		}
+		modelAndView.getModelMap().addAttribute("eagUrl", eagPath);
 		return modelAndView;
 	}
 
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+
+	public void setCoordinatesDAO(CoordinatesDAO coordinatesDAO) {
+		this.coordinatesDAO = coordinatesDAO;
 	}
 
 
