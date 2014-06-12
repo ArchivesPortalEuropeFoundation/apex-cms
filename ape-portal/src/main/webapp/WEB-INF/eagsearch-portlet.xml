@@ -25,6 +25,7 @@
 	</bean>
 	<bean class="eu.archivesportaleurope.portal.search.eag.DisplayPreviewContoller">
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+		<property name="coordinatesDAO" ref="coordinatesDAO"/>	
 	</bean>			
 		
 	<bean id="viewResolver"
