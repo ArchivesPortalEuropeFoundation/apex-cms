@@ -30,7 +30,9 @@ import eu.apenet.commons.infraestructure.ArchivalInstitutionUnit;
 import eu.apenet.commons.infraestructure.CountryUnit;
 import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.utils.APEnetUtilities;
-import eu.apenet.persistence.factory.DAOFactory;
+import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CoordinatesDAO;
+import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
@@ -53,6 +55,9 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
 	private static final String NO_LINK = "\"noLink\": true";
 	private static final String EUROPE = "Europe";
+	private CoordinatesDAO coordinatesDAO;
+	private ArchivalInstitutionDAO archivalInstitutionDAO;
+	private CountryDAO countryDAO;
 	
 	@ResourceMapping(value = "directoryTree")
 	public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
@@ -256,7 +261,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			StringBuilder builder = new StringBuilder();
 			builder.append(START_ARRAY);
 			try{
-				ArchivalInstitution ai = DAOFactory.instance().getArchivalInstitutionDAO().getArchivalInstitution(new Integer(aiId));
+				ArchivalInstitution ai = archivalInstitutionDAO.getArchivalInstitution(new Integer(aiId));
 				Integer countryId = ai.getCountryId();
 				builder.append(START_ITEM);
 				Number key = ai.getAiId();
@@ -335,7 +340,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 			List<Coordinates> reposList = new ArrayList<Coordinates>();
 			if (!"true".equalsIgnoreCase(onlyBounds)){
 				// Always recovers all the coordinates.
-				reposList = DAOFactory.instance().getCoordinatesDAO().getCoordinates();
+				reposList = coordinatesDAO.getCoordinates();
 	
 				// Remove coordinates with values (0, 0).
 				if (reposList != null && !reposList.isEmpty()) {
@@ -488,8 +493,8 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 	private StringBuilder buildInstitutionBounds(String institutionID, String repositoryName) {
 		StringBuilder builder = new StringBuilder();
 		// Recover the list of coordinates for the current institution.
-		ArchivalInstitution archivalInstitution = DAOFactory.instance().getArchivalInstitutionDAO().findById(Integer.parseInt(institutionID));
-		List<Coordinates> repoCoordinatesList = DAOFactory.instance().getCoordinatesDAO().findCoordinatesByArchivalInstitution(archivalInstitution);
+		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(Integer.parseInt(institutionID));
+		List<Coordinates> repoCoordinatesList = coordinatesDAO.findCoordinatesByArchivalInstitution(archivalInstitution);
 
 		// If the list contains more than one elemet, find the proper element.
 		if (repoCoordinatesList != null && !repoCoordinatesList.isEmpty()) {
@@ -560,7 +565,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 	private StringBuilder buildCountryBounds(String countryCode) {
 		StringBuilder builder = new StringBuilder();
 		// Recover the name of the current country by country code.
-		List<Country> countriesList = DAOFactory.instance().getCountryDAO().getCountries(countryCode);
+		List<Country> countriesList = countryDAO.getCountries(countryCode);
 		
 		if (countriesList != null && !countriesList.isEmpty()) {
 			String selectedCountryName = countriesList.get(0).getCname();
@@ -612,4 +617,17 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		}
 		return builder;
 	}
+
+	public void setCoordinatesDAO(CoordinatesDAO coordinatesDAO) {
+		this.coordinatesDAO = coordinatesDAO;
+	}
+
+	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
+		this.archivalInstitutionDAO = archivalInstitutionDAO;
+	}
+
+	public void setCountryDAO(CountryDAO countryDAO) {
+		this.countryDAO = countryDAO;
+	}
+	
 }
