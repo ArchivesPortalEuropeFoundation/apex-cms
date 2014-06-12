@@ -8,7 +8,7 @@ public class SitemapUrl extends AbstractUrl{
 
 	@Override
 	public String toString() {
-		return super.toString() +  getPageNumberSuffix();
+		return encodeUrl(super.toString() +  getPageNumberSuffix());
 	}
 
 }

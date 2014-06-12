@@ -62,7 +62,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 
 		url += this.getPageNumberSuffix();
 		url += this.getSearchSuffix();
-		return url;
+		return encodeUrl(url);
 	}
 
 	public boolean isPersistent(){
