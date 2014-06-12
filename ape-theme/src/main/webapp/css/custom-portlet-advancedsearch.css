@@ -804,3 +804,19 @@
 #searchingPart #eacCpfSearchPortlet .tab_header, #searchingPart #eagSearchPortlet .tab_header{
 	border-top-left-radius: 5px;
 }
+
+#searchingPart #eagSearchPortlet #searchResultsListContainer{
+	width: 420px;
+}
+#searchingPart #eagSearchPortlet .preview-column {
+	width: 413px
+}
+#searchingPart #eagSearchPortlet #search-preview {
+	width: 405px;
+}
+#searchingPart #eagSearchPortlet #refinements {
+	width: 160px;
+}
+#searchingPart  #eagSearchPortlet .list-searchresult-content {
+	width: 387px;
+}
