@@ -1,6 +1,5 @@
 package eu.archivesportaleurope.portal.search.advanced.tree;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -47,9 +46,10 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	private static final String SEARCH_TYPE_AI = "ai";
 	private static final String SEARCH_TYPE_FOND = "hgfa";
 
-	private static final int NO_LIMIT = -1;
+
 
 	private static final int MAX_NUMBER_OF_ITEMS = 10;
+	private static final int NO_LIMIT = MAX_NUMBER_OF_ITEMS;
 
 	@ResourceMapping(value = "contextTree")
 	public ModelAndView getJSON(@ModelAttribute(value = "advancedSearch") TreeAdvancedSearch advancedSearch,
