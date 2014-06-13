@@ -46,7 +46,7 @@ public class EagSearchResult extends SearchResult{
 			this.title = DisplayUtils.encodeHtmlWithHighlighting(highlightedTitle);
 			this.titleWithoutHighlighting = DisplayUtils.encodeHtml(titleWithoutEscaping);
 		}		
-//		this.description =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_DESCRIPTION, null));
+		this.description =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_DESCRIPTION, null));
 //		this.occupations =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, null);
 //		this.occupations = DisplayUtils.encodeHtmlWithHighlighting(occupations);
 //		this.mandates =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_MANDATE, null);
@@ -61,7 +61,7 @@ public class EagSearchResult extends SearchResult{
 //		this.entityId =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_ENTITY_ID, null);
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE));
 //		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
-//		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
+		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
 //		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
 //		this.aiId = getIdFromString(this.ai);
 //		this.ai = getDescriptionFromString(this.ai);
