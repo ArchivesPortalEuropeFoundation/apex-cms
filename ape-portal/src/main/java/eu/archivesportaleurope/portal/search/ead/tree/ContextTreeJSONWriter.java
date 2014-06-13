@@ -26,7 +26,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
-import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
@@ -45,10 +44,10 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	private static final String SEARCH_TYPE_AI = "ai";
 	private static final String SEARCH_TYPE_FOND = "hgfa";
-
-	private static final int NO_LIMIT = -1;
-
 	private static final int MAX_NUMBER_OF_ITEMS = 10;
+	private static final int NO_LIMIT = MAX_NUMBER_OF_ITEMS;
+
+
 
 	@ResourceMapping(value = "contextTree")
 	public ModelAndView getJSON(@ModelAttribute(value = "eadSearch") TreeEadSearch eadSearch,
