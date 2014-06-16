@@ -22,7 +22,9 @@ public enum FacetType {
 	EAC_CPF_FUNCTION(SolrFields.EAC_CPF_FACET_FUNCTION,false),
 	EAC_CPF_MANDATE(SolrFields.EAC_CPF_FACET_MANDATE,false),	
 	EAC_CPF_ENTITY_TYPE(SolrFields.EAC_CPF_FACET_ENTITY_TYPE,false, true,"advancedsearch.facet.value.eaccpf.entitytype."),
-	LANGUAGE(SolrFields.LANGUAGE,false, true, "language.");
+	LANGUAGE(SolrFields.LANGUAGE,false, true, "language."),
+	EAG_AI_GROUPS(SolrFields.EAG_AI_GROUPS_FACET,SolrFields.EAG_AI_GROUP_ID,true),
+	EAG_REPOSITORY_TYPE(SolrFields.EAG_REPOSITORY_TYPE,false);
 	private final String name;
 	private final String refinementField;
 	private final boolean multiSelect;
@@ -109,7 +111,10 @@ public enum FacetType {
     }
     public static List<ListFacetSettings> getDefaultEagListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
-    	result.add(new ListFacetSettings(FacetType.COUNTRY));  	
+    	result.add(new ListFacetSettings(FacetType.COUNTRY));
+    	result.add(new ListFacetSettings(FacetType.EAG_AI_GROUPS));
+    	result.add(new ListFacetSettings(FacetType.EAG_REPOSITORY_TYPE));
+    	result.add(new ListFacetSettings(FacetType.LANGUAGE));
         return result;
     }
     public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
