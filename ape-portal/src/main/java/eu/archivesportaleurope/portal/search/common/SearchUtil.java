@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.archivesportaleurope.portal.common.al.AlType;
@@ -197,6 +196,27 @@ public final class SearchUtil {
 		} catch (NullPointerException e) {
 			return defaultValue;
 		}
+
+	}
+	public static List<String> getHighlightedStrings(Map<String, Map<String, List<String>>> highlightingMap, String id,
+			String fieldName, List<String> defaultValue) {
+		try {
+			Map<String, List<String>> highlightedMap = highlightingMap.get(id);
+			if (highlightedMap != null){
+				List<String>  values = highlightedMap.get(fieldName);
+				if (values != null){
+					return values;
+				}
+			}
+			return defaultValue;
+		} catch (NullPointerException e) {
+			return defaultValue;
+		}
+
+	}
+	public static List<String> getHighlightedStrings(Map<String, Map<String, List<String>>> highlightingMap, String id,
+			String fieldName) {
+		return getHighlightedStrings(highlightingMap, id, fieldName, new ArrayList<String>());
 
 	}
 
