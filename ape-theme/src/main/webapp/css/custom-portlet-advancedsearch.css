@@ -730,7 +730,7 @@
 
 #searchingPart em {
 	font-weight: bold;
-	font-style: normal;
+	font-style: italic;
 }
 #searchingPart  ul.daolist{
     list-style: none outside none;
@@ -809,13 +809,13 @@
 	width: 420px;
 }
 #searchingPart #eagSearchPortlet .preview-column {
-	width: 413px
+	width: 373px
 }
 #searchingPart #eagSearchPortlet #search-preview {
-	width: 405px;
+	width: 365px;
 }
 #searchingPart #eagSearchPortlet #refinements {
-	width: 160px;
+	width: 200px;
 }
 #searchingPart  #eagSearchPortlet .list-searchresult-content {
 	width: 387px;
@@ -834,4 +834,16 @@
 #searchingPart #eagSearchPortlet .repositoryInfo {
 	margin-left: 10px;
 }
-	
+#searchingPart #eagSearchPortlet #refinements a {
+	max-width: 140px;
+}
+
+
+#searchingPart #eagSearchPortlet .list-searchresult-content .subGroup {
+    font-size: 90%;
+    margin-left: 10px;
+}
+#searchingPart #eagSearchPortlet .otherName {
+    font-size: 10pt;
+
+}
