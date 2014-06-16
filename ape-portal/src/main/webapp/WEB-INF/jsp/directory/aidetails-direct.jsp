@@ -19,6 +19,13 @@
 	<div class="portlet-layout">
 		<div id="directory-column-right">
 			<div id="directory-column-right-content">
+<c:if test="${!empty coordinates}">
+	<img id="directoryAiStaticMap" src="http://maps.googleapis.com/maps/api/staticmap?zoom=10&size=640x500&maptype=roadmap
+	&markers=color:red%7C${coordinates.lat},${coordinates.lon}" width="640" height="500"/>
+	<div id="viewFullFond" class="linkButton">
+	<a href="https://maps.google.com/maps?daddr=${coordinates.lat},${coordinates.lon}" target="_blank"><fmt:message key="advancedsearch.eag.preview.directions"/><span class="icon_new_window">&nbsp;</span></a>
+	</div>
+</c:if>			
 				<div id="buttonsHeaderEag">
 					<div class="linkButton right" id="printEagDetails">
 						<a href="javascript:printEagByURL('${printEagDetailsUrl}')"><fmt:message key="label.print" /><span
