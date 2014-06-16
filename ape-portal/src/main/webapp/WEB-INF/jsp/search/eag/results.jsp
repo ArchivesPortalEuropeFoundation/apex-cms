@@ -55,7 +55,10 @@
 		<form:hidden id="updateCurrentSearch_mode" path="mode" value="update-search"/>
 		<form:hidden id="updateCurrentSearch_country" path="country"/>	
 
-		<form:hidden id="updateCurrentSearch_language" path="language"/>					
+		<form:hidden id="updateCurrentSearch_language" path="language"/>		
+		<form:hidden id="updateCurrentSearch_aiGroupsFacet" path="aiGroupsFacet"/>
+		<form:hidden id="updateCurrentSearch_repositoryTypeFacet" path="repositoryTypeFacet"/>		
+			
 		<form:hidden id="updateCurrentSearch_facetSettings" path="facetSettings"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		
@@ -73,7 +76,7 @@
 				<c:when test="${results.totalNumberOfResults > 0}">				
 						<div id="numberOfResults">
 							<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
-							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}" numberFormat="${numberFormat}" />
+							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}" numberFormat="${numberFormat}" />
 						</div>
 						<div id="resultPerPageContainer">
 							<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
@@ -155,9 +158,16 @@
 								</a>
 																		
 							</div>
-							<c:if test="${!empty result.description}"><div class="scopecontent">${result.description}</div></c:if>
-							<c:if test="${!empty result.other}"><div class="other">${result.other}</div></c:if>
 						
+							<c:if test="${!empty result.otherNames}"><div class="otherName">${result.otherNames}</div></c:if>
+							<c:if test="${!empty result.repositories}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.eag.repositories" />:</span><div class="subGroup">${result.repositories}</div></div></c:if>
+							
+							<c:if test="${!empty result.other}"><div class="other">${result.other}"</div></c:if>
+							<div class="list-searchresult-context">
+							<c:if test="${!empty result.address}"><div class="other"><span class="subtitle"><fmt:message key="eag2012.portal.visitorsaddress" />:</span>${result.address}</div></c:if>
+							<c:if test="${!empty result.repositoryTypes}"><div class="other"><span class="subtitle"><fmt:message key="eag2012.portal.typeofarchive" />:</span>${result.repositoryTypes}</div></c:if>
+							<div class="countryAndInstitution"><fmt:message key="country.${fn:toLowerCase(result.country)}" />${result.context}</div>
+							</div>
 						</div>
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 							<portlet:param  name="repositoryCode" value="${result.repositoryCode}"/>
