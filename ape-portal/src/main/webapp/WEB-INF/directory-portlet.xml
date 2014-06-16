@@ -32,6 +32,7 @@
 			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 			<property name="countryDAO" ref="countryDAO"/>
 			<property name="eadDAO" ref="eadDAO"/>
+			<property name="coordinatesDAO" ref="coordinatesDAO"/>	
 	</bean>	        
  	<bean
 		class="eu.archivesportaleurope.portal.directory.SitemapController">
