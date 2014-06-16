@@ -23,10 +23,12 @@ import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.CoordinatesDAO;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HoldingsGuide;
@@ -43,6 +45,7 @@ public class DirectoryController {
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private CountryDAO countryDAO;
 	private MessageSource messageSource;
+	private CoordinatesDAO coordinatesDAO;
 	private EadDAO eadDAO;
 	private final static Logger LOGGER = Logger.getLogger(DirectoryController.class);
 	
@@ -165,6 +168,10 @@ public class DirectoryController {
 					modelAndView.getModelMap().addAttribute("mobile", "mobile");
 				} else {
 					modelAndView.getModelMap().addAttribute("mobile", "");
+				}
+				List<Coordinates> coordinates = coordinatesDAO.findCoordinatesByArchivalInstitution(archivalInstitution);
+				if (coordinates.size() > 0){
+					modelAndView.getModelMap().addAttribute("coordinates", coordinates.get(0));
 				}
 				String documentTitle = PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution);
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
@@ -289,4 +296,9 @@ public class DirectoryController {
 		modelAndView.getModelMap().addAttribute("google_maps_url", this.getGoogle_maps_url());
 		return model;
 	}
+
+	public void setCoordinatesDAO(CoordinatesDAO coordinatesDAO) {
+		this.coordinatesDAO = coordinatesDAO;
+	}
+	
 }
