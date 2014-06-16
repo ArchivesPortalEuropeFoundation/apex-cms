@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eag;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -10,8 +11,8 @@ import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.DisplayUtils;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
 /**
@@ -26,7 +27,8 @@ public class EagSearchResult extends SearchResult{
 	private String id;
 	private String title;
 	private String titleWithoutHighlighting;
-
+	private String otherNames;
+	private String repositories;
 	private String description;
 	private String other;
 	private String places;
@@ -40,32 +42,46 @@ public class EagSearchResult extends SearchResult{
 		this.solrDocument = solrDocument;
 		id = solrDocument.getFieldValue( SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
+		boolean hitInName = false;
 		if (solrDocument.getFieldValue(SolrFields.EAG_NAME) != null){
 			titleWithoutEscaping = solrDocument.getFirstValue(SolrFields.EAG_NAME).toString();
 			String highlightedTitle =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_NAME, titleWithoutEscaping);
+			hitInName = highlightedTitle.contains(DisplayUtils.EM_START);
 			this.title = DisplayUtils.encodeHtmlWithHighlighting(highlightedTitle);
 			this.titleWithoutHighlighting = DisplayUtils.encodeHtml(titleWithoutEscaping);
 		}		
 		this.description =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_DESCRIPTION, null));
-//		this.occupations =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_OCCUPATION, null);
-//		this.occupations = DisplayUtils.encodeHtmlWithHighlighting(occupations);
-//		this.mandates =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_MANDATE, null);
-//		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
-//		this.functions =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_FACET_FUNCTION, null);
-//		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
-//		this.places =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null);
-//		this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
-//		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE) != null){
-//			this.entityType = solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE).toString();
-//		}
-//		this.entityId =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_ENTITY_ID, null);
+		if (!hitInName){
+			this.otherNames =  getMultipleValued(highlightingMap,SolrFields.EAG_OTHER_NAMES);
+			this.repositories = getMultipleValued(highlightingMap, SolrFields.EAG_REPOSITORIES);
+		}
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE));
-//		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
-		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
-//		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
-//		this.aiId = getIdFromString(this.ai);
-//		this.ai = getDescriptionFromString(this.ai);
 
+		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
+
+	}
+	private String getMultipleValued(Map<String, Map<String, List<String>>> highlightingMap, String solrField){
+		List<String> temp= SearchUtil.getHighlightedStrings(highlightingMap, id, solrField);
+		List<String> results = new ArrayList<String>();
+		for (String tempItem: temp){
+			if (tempItem.contains(DisplayUtils.EM_START))
+				results.add(DisplayUtils.encodeHtmlWithHighlighting(tempItem));
+		}
+		return getMultipleValues(results,"<br/>");
+		
+	}
+	protected String getMultipleValues(Collection<String> values, String separator){
+		String result = "";
+		Iterator<String> valuesIterator = values.iterator();
+		while (valuesIterator.hasNext()){
+			Object value = valuesIterator.next();
+			if (valuesIterator.hasNext()){
+				result += value + separator;
+			}else {
+				result += value;
+			}
+		}
+		return result;
 	}
 	protected String getMultipleValues(Collection<Object> values){
 		String result = "";
@@ -138,13 +154,55 @@ public class EagSearchResult extends SearchResult{
 		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
 		return getDescriptionFromString(country);
 	}
+	public String getRepositoryTypes(){
+		Collection<Object> types= solrDocument.getFieldValues(SolrFields.EAG_REPOSITORY_TYPE);
+		if (types == null){
+			return null;
+		}else {
+			return getMultipleValues(types);
+		}
+	}
+	
+	public String getAddress(){
+		Collection<Object> address= solrDocument.getFieldValues(SolrFields.EAG_ADDRESS);
+		if (address == null){
+			return null;
+		}else {
+			return getMultipleValues(address);
+		}
+	}
 	public String getRepositoryCode() {
 		return repositoryCode;
 	}
 	public String getIdentifier() {
 		return identifier;
 	}
-
+	public String getOtherNames() {
+		return otherNames;
+	}
+	public String getRepositories() {
+		return repositories;
+	}
+	public String getContext(){
+		StringBuilder result = new StringBuilder();
+		int numberOfWhitespaces = 1;
+		Collection<Object> aiGroups= solrDocument.getFieldValues(SolrFields.EAG_AI_GROUPS);
+		if (aiGroups != null){
+			Iterator<Object> valuesIterator = aiGroups.iterator();
+			while (valuesIterator.hasNext()){
+				//result.append("<span class=\"contextHierarchyItem\">");
+//				for (int j = 0; j < numberOfWhitespaces;j++){
+//					result.append("&nbsp;&nbsp;&nbsp;");
+//				}
+				result.append(" - ");
+				result.append(valuesIterator.next());
+				//result.append("</span>");
+				//result.append("<br/>");
+				numberOfWhitespaces++;
+			}
+		}
+		return result.toString();
+	}
 
 
 }

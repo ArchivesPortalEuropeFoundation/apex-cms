@@ -20,9 +20,11 @@ public class EagSearch extends AbstractSearchForm {
 	private String element = NOSELECTION;
 	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String nameType;
-	private String placesFacet;
 	private String language;
 	private String country;
+	private String aiGroupsFacet;
+	private String repositoryTypeFacet;
+	
 
 
 	public String getCountry() {
@@ -39,17 +41,23 @@ public class EagSearch extends AbstractSearchForm {
 
 
 
-	public List<String> getPlacesFacetList() {
-		if (StringUtils.isNotBlank(placesFacet)) {
-			return Arrays.asList(placesFacet.split(LIST_SEPARATOR));
+	public List<String> getLanguageList() {
+		if (StringUtils.isNotBlank(language)) {
+			return Arrays.asList(language.split(LIST_SEPARATOR));
 		} else {
 			return null;
 		}
 	}
-
-	public List<String> getLanguageList() {
-		if (StringUtils.isNotBlank(language)) {
-			return Arrays.asList(language.split(LIST_SEPARATOR));
+	public List<String> getAiGroupsFacetList() {
+		if (StringUtils.isNotBlank(aiGroupsFacet)) {
+			return Arrays.asList(aiGroupsFacet.split(LIST_SEPARATOR));
+		} else {
+			return null;
+		}
+	}
+	public List<String> getRepositoryTypeFacetList() {
+		if (StringUtils.isNotBlank(repositoryTypeFacet)) {
+			return Arrays.asList(repositoryTypeFacet.split(LIST_SEPARATOR));
 		} else {
 			return null;
 		}
@@ -81,18 +89,6 @@ public class EagSearch extends AbstractSearchForm {
 		return FacetType.getDefaultEagListFacetSettings();
 	}
 
-
-	public String getPlacesFacet() {
-		return placesFacet;
-	}
-
-	public void setPlacesFacet(String placesFacet) {
-		this.placesFacet = placesFacet;
-	}
-
-
-
-
 	public Map<String, String> getElementValues() {
 		return elementValues;
 	}
@@ -109,6 +105,22 @@ public class EagSearch extends AbstractSearchForm {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getAiGroupsFacet() {
+		return aiGroupsFacet;
+	}
+
+	public String getRepositoryTypeFacet() {
+		return repositoryTypeFacet;
+	}
+
+	public void setAiGroupsFacet(String aiGroupsFacet) {
+		this.aiGroupsFacet = aiGroupsFacet;
+	}
+
+	public void setRepositoryTypeFacet(String repositoryTypeFacet) {
+		this.repositoryTypeFacet = repositoryTypeFacet;
 	}
 
 }

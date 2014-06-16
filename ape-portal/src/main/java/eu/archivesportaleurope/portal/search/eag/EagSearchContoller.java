@@ -210,22 +210,24 @@ public class EagSearchContoller extends AbstractSearchController{
 		if (solrQueryParameters != null){
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eagSearch.getCountryList());
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eagSearch.getLanguageList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_AI_GROUPS, eagSearch.getAiGroupsFacetList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_REPOSITORY_TYPE, eagSearch.getRepositoryTypeFacetList());
 		}
 		return solrQueryParameters;
 	}
 	
-	@ModelAttribute("eacCpfSearch")
+	@ModelAttribute("eagSearch")
 	public EagSearch getCommandObject(PortletRequest portletRequest) {
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
 				portletRequest.getLocale());
 		EagSearch eagSearch = new EagSearch();
-		eagSearch.getElementValues().put(EagSearch.NOSELECTION, source.getString("advancedsearch.text.noselection"));
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_NAMES, source.getString("advancedsearch.eaccpf.element.name"));
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_ENTITY_ID, source.getString("advancedsearch.eaccpf.element.id"));	
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_PLACES, source.getString("advancedsearch.facet.title.placesfacet"));			
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
-		eagSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));		
+//		eagSearch.getElementValues().put(EagSearch.NOSELECTION, source.getString("advancedsearch.text.noselection"));
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_NAMES, source.getString("advancedsearch.eaccpf.element.name"));
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_ENTITY_ID, source.getString("advancedsearch.eaccpf.element.id"));	
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_PLACES, source.getString("advancedsearch.facet.title.placesfacet"));			
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
+//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));		
         return eagSearch;
     }
 	protected void countOtherSearchResults(PortletRequest request, 
