@@ -32,4 +32,7 @@
 	<bean
 		class="eu.archivesportaleurope.portlet.ApeAnnotationMethodHandlerAdapter">
 	</bean>
+	    <bean class="eu.archivesportaleurope.portal.contact.FeedbackController" >
+		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/> 
+    </bean>	
 </beans>

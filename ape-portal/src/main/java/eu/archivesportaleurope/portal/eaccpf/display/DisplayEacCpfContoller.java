@@ -17,6 +17,8 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 /**
  * 
@@ -136,6 +138,11 @@ public class DisplayEacCpfContoller {
 			//	String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 			//	modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 				modelAndView.setViewName("index");
+				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+				modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+				String documentTitle = eac.getTitle();
+				documentTitle = PortalDisplayUtil.getEacCpfDisplayTitle(eac);
+				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				return modelAndView;
 			}
 
