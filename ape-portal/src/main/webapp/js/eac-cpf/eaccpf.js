@@ -34,7 +34,7 @@ function eraseComma(){
 		var stringDates = $(this).text();
 		var firstCharacter=stringDates.charAt(0);
 		if (firstCharacter == ','){
-			stringDates=stringDates.substring(1).trim();
+			stringDates=$.trim(stringDates.substring(1));
 		}
 		$(this).text(stringDates);
 	});
@@ -43,9 +43,9 @@ function eraseComma(){
  * Function to delete the name show in title form the alternatives names.
  */
 function eraseNameTitle() {
-	var titleName = $("div#eaccpfcontent span#nameTitle").text();
+	var titleName = $.trim($("div#eaccpfcontent span#nameTitle").text());
 	$("div#alternativeName").children().each(function() {
-		if ($(this).text().trim() == titleName.trim()) {
+		if ($.trim($(this).text()) == titleName){
 			$(this).remove();
 		}
 	});
@@ -55,7 +55,7 @@ function eraseNameTitle() {
  */
 function eraseLocationPlace(){
 	$("div#eaccpfcontent .locationPlace").each(function(){
-		var textRightColumn = $(this).find(".rightcolumn p").text().trim();
+		var textRightColumn = $.trim($(this).find(".rightcolumn p").text());
 		if (textRightColumn == ''){
 			$(this).remove();
 		}
@@ -111,7 +111,6 @@ function makeRelationsCollapsible() {
 			} else {
 				$(this).find(".collapsibleIcon").removeClass("collapsed").addClass("expanded");
 				$(this).parent().find('ul').removeClass("hidden");
-				
 				if ($(this).parent().find('li').length > 3){
 					$(this).parent().find('.whitespace').removeClass("hidden");
 					$(this).parent().find('.displayLinkShowMore').removeClass("hidden");
@@ -138,7 +137,6 @@ function makeRelationsCollapsible() {
 			$(this).parent().find('.whitespace').addClass("hidden");
 			$(this).parent().find('.displayLinkShowMore').addClass("hidden");
 		}
-	
 	});
 }
 
