@@ -33,6 +33,7 @@ import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CoordinatesDAO;
 import eu.apenet.persistence.dao.CountryDAO;
+import eu.apenet.persistence.factory.DAOFactory;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
@@ -565,6 +566,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 	private StringBuilder buildCountryBounds(String countryCode) {
 		StringBuilder builder = new StringBuilder();
 		// Recover the name of the current country by country code.
+		countryDAO = DAOFactory.instance().getCountryDAO();
 		List<Country> countriesList = countryDAO.getCountries(countryCode);
 		
 		if (countriesList != null && !countriesList.isEmpty()) {
