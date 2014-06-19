@@ -21,6 +21,11 @@ import eu.archivesportaleurope.util.ApeUtil;
  */
 
 public class EagSearchResult extends SearchResult{
+	private static final String MDASH_SEPARATOR = "&nbsp;&mdash;&nbsp;";
+	private static final String VIRTUAL_BAR_SEPARATOR = " | ";
+	private static final String EMPTY = "";
+	private static final String END_DIV = "</div>";
+	private static final String START_DIV = "<div>";
 	private final static Logger LOGGER = Logger.getLogger(EagSearchResult.class);
 	private static final char COLON = ':';
 
@@ -35,6 +40,7 @@ public class EagSearchResult extends SearchResult{
 
 	private String repositoryCode;
 	private String identifier;
+	private String context;
 
 	private SolrDocument solrDocument;
 
@@ -52,50 +58,43 @@ public class EagSearchResult extends SearchResult{
 		}		
 		this.description =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_DESCRIPTION, null));
 		if (!hitInName){
-			this.otherNames =  getMultipleValued(highlightingMap,SolrFields.EAG_OTHER_NAMES);
-			this.repositories = getMultipleValued(highlightingMap, SolrFields.EAG_REPOSITORIES);
+			this.otherNames =  getMultipleValued(highlightingMap,SolrFields.EAG_OTHER_NAMES,START_DIV,END_DIV, true, false);
+			this.repositories = getMultipleValued(highlightingMap, SolrFields.EAG_REPOSITORIES,START_DIV,END_DIV, true, false);
 		}
 		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE));
 
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
+		this.context = getMultipleValued(highlightingMap, SolrFields.EAG_AI_GROUPS,MDASH_SEPARATOR, EMPTY, true, true);
 
 	}
-	private String getMultipleValued(Map<String, Map<String, List<String>>> highlightingMap, String solrField){
+	private String getMultipleValued(Map<String, Map<String, List<String>>> highlightingMap, String solrField, String startSeparator, String endSeparator, boolean showAlwaysSeparators, boolean showAlways){
 		List<String> temp= SearchUtil.getHighlightedStrings(highlightingMap, id, solrField);
 		List<String> results = new ArrayList<String>();
 		for (String tempItem: temp){
-			if (tempItem.contains(DisplayUtils.EM_START))
+			if (showAlways || tempItem.contains(DisplayUtils.EM_START))
 				results.add(DisplayUtils.encodeHtmlWithHighlighting(tempItem));
 		}
-		return getMultipleValues(results,"<br/>");
+		return getMultipleValues(results,startSeparator, endSeparator, showAlwaysSeparators);
 		
 	}
-	protected String getMultipleValues(Collection<String> values, String separator){
-		String result = "";
-		Iterator<String> valuesIterator = values.iterator();
+	protected String getMultipleValues(Collection<?> values, String startSeparator, String endSeparator, boolean showAlwaysSeparators){
+		String result = EMPTY;
+		Iterator<?> valuesIterator = values.iterator();
 		while (valuesIterator.hasNext()){
 			Object value = valuesIterator.next();
 			if (valuesIterator.hasNext()){
-				result += value + separator;
+				result += startSeparator + value + endSeparator;
 			}else {
-				result += value;
+				if (showAlwaysSeparators){
+					result += startSeparator + value + endSeparator;
+				}else {
+					result += value;
+				}
 			}
 		}
 		return result;
 	}
-	protected String getMultipleValues(Collection<Object> values){
-		String result = "";
-		Iterator<Object> valuesIterator = values.iterator();
-		while (valuesIterator.hasNext()){
-			Object value = valuesIterator.next();
-			if (valuesIterator.hasNext()){
-				result += value + " | ";
-			}else {
-				result += value;
-			}
-		}
-		return result;
-	}
+
 
 	public String getId() {
 		return id;
@@ -112,10 +111,6 @@ public class EagSearchResult extends SearchResult{
 	private String getDescriptionFromString(String string){
 		int index = string.indexOf(COLON);
 		return string.substring(0,index);
-	}
-	private String getIdFromString(String string){
-		int index = string.lastIndexOf(COLON);
-		return string.substring(index+1);
 	}
 
 
@@ -159,7 +154,7 @@ public class EagSearchResult extends SearchResult{
 		if (types == null){
 			return null;
 		}else {
-			return getMultipleValues(types);
+			return getMultipleValues(types, EMPTY, VIRTUAL_BAR_SEPARATOR, false);
 		}
 	}
 	
@@ -168,7 +163,7 @@ public class EagSearchResult extends SearchResult{
 		if (address == null){
 			return null;
 		}else {
-			return getMultipleValues(address);
+			return getMultipleValues(address, EMPTY, VIRTUAL_BAR_SEPARATOR, false);
 		}
 	}
 	public String getRepositoryCode() {
@@ -183,25 +178,8 @@ public class EagSearchResult extends SearchResult{
 	public String getRepositories() {
 		return repositories;
 	}
-	public String getContext(){
-		StringBuilder result = new StringBuilder();
-		int numberOfWhitespaces = 1;
-		Collection<Object> aiGroups= solrDocument.getFieldValues(SolrFields.EAG_AI_GROUPS);
-		if (aiGroups != null){
-			Iterator<Object> valuesIterator = aiGroups.iterator();
-			while (valuesIterator.hasNext()){
-				//result.append("<span class=\"contextHierarchyItem\">");
-//				for (int j = 0; j < numberOfWhitespaces;j++){
-//					result.append("&nbsp;&nbsp;&nbsp;");
-//				}
-				result.append(" - ");
-				result.append(valuesIterator.next());
-				//result.append("</span>");
-				//result.append("<br/>");
-				numberOfWhitespaces++;
-			}
-		}
-		return result.toString();
+	public String getContext() {
+		return context;
 	}
 
 
