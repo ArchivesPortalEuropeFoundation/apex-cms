@@ -24,7 +24,8 @@ public class EagSearch extends AbstractSearchForm {
 	private String country;
 	private String aiGroupsFacet;
 	private String repositoryTypeFacet;
-	
+	private String repositoryType;
+	private Map<String,String> repositoryTypeValues  = new LinkedHashMap<String,String>();
 
 
 	public String getCountry() {
@@ -121,6 +122,22 @@ public class EagSearch extends AbstractSearchForm {
 
 	public void setRepositoryTypeFacet(String repositoryTypeFacet) {
 		this.repositoryTypeFacet = repositoryTypeFacet;
+	}
+
+	public String getRepositoryType() {
+		return repositoryType;
+	}
+
+	public Map<String, String> getRepositoryTypeValues() {
+		return repositoryTypeValues;
+	}
+
+	public void setRepositoryType(String repositoryType) {
+		this.repositoryType = repositoryType;
+	}
+
+	public void setRepositoryTypeValues(Map<String, String> repositoryTypeValues) {
+		this.repositoryTypeValues = repositoryTypeValues;
 	}
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
@@ -192,6 +193,8 @@ public class EagSearchContoller extends AbstractSearchController{
 	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EagSearch eagSearch) {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, portletRequest);
 		if (solrQueryParameters != null){
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAG_REPOSITORY_TYPE,
+					eagSearch.getRepositoryType());
 //			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eagSearch.getFromdate(),
 //					eagSearch.hasExactDateSearch());
 //			SearchUtil.setToDate(solrQueryParameters.getAndParameters(), eagSearch.getTodate(),
@@ -221,13 +224,10 @@ public class EagSearchContoller extends AbstractSearchController{
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
 				portletRequest.getLocale());
 		EagSearch eagSearch = new EagSearch();
-//		eagSearch.getElementValues().put(EagSearch.NOSELECTION, source.getString("advancedsearch.text.noselection"));
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_NAMES, source.getString("advancedsearch.eaccpf.element.name"));
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_ENTITY_ID, source.getString("advancedsearch.eaccpf.element.id"));	
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_PLACES, source.getString("advancedsearch.facet.title.placesfacet"));			
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
-//		eagSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));		
+		eagSearch.getRepositoryTypeValues().put("", source.getString("advancedsearch.text.noselection"));
+		for (String type: SolrValues.EAG_REPOSITORY_TYPES){
+			eagSearch.getRepositoryTypeValues().put(type, source.getString("eag2012.options.institutionType." + type));
+		}
         return eagSearch;
     }
 	protected void countOtherSearchResults(PortletRequest request, 
