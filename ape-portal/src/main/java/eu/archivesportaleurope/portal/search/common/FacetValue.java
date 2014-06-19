@@ -48,12 +48,12 @@ public class FacetValue {
 		if (facetType.isValueIsKey()) {
 			if (facetType.getPrefix() == null) {
 
-				description = resourceBundleSource.getString(description.toLowerCase());
+				description = resourceBundleSource.getString(description);
 			} else {
 				if (FacetType.COUNTRY.equals(facetType)){
 					description = DisplayUtils.getLocalizedCountryName(resourceBundleSource, description);
 				}else {
-					description = resourceBundleSource.getString(facetType.getPrefix() + description.toLowerCase());
+					description = resourceBundleSource.getString(facetType.getPrefix() + description);
 				}
 			}
 
