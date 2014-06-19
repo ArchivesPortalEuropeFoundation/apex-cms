@@ -68,7 +68,10 @@
 						</h2>
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
-
+								<tr>
+									<td><label for="repositoryType"><fmt:message key="eag2012.portal.typeofarchive" />:</label></td>
+									<td colspan="3"><form:select path="repositoryType" id="repositoryType" tabindex="6" items="${eagSearch.repositoryTypeValues}"/></td>
+								</tr>
 						
 		
 							</table>
