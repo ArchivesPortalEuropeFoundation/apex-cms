@@ -39,7 +39,7 @@ function performNewSearch() {
 		$("#searchResultsContainer").removeClass("hidden");
 		//document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
-	logAction(documentTitle, newSearchUrl);
+	logAction(documentTitle, newEacCpfSearchUrl);
 }
 
 function updateCurrentSearchResults(addRemoveRefinement) {
@@ -55,5 +55,5 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 		}
 		document.getElementById("searchResultsContainer").scrollIntoView(true);
 	});
-	logAction(document.title + " (update-current-list-search)", newSearchUrl);
+	logAction(document.title + " (update-current-list-search)", newEacCpfSearchUrl);
 }
