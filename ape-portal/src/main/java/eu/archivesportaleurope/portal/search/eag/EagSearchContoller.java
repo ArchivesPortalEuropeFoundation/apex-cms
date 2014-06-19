@@ -63,7 +63,7 @@ public class EagSearchContoller extends AbstractSearchController{
 		return modelAndView;
 	}
 	@RenderMapping(params = "myaction=simpleSearch")
-	public ModelAndView searchSimple(@ModelAttribute(value = "eacCpfSearch")  EagSearch eagSearch,
+	public ModelAndView searchSimple(@ModelAttribute(value = "eagSearch")  EagSearch eagSearch,
 			RenderRequest request) throws SolrServerException, ParseException {
 		ModelAndView modelAndView = new ModelAndView();
 		eagSearch.setMode(EagSearch.MODE_NEW_SEARCH);
