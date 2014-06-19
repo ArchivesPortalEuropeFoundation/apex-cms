@@ -62,6 +62,9 @@ function eraseLocationPlace(){
 	});
 }
 function initPrint(){
+	eraseComma();
+	eraseNameTitle();
+	eraseLocationPlace();
 	try{
 		$("body").css("cursor", "progress");
 		$(".displayLinkShowMore").each(function(){
