@@ -58,7 +58,7 @@
 	<portlet:param name="myaction" value="eagSearch" />
 </portlet:renderURL>
 <div id="searchOptions">
-<form:form id="newSearchForm" name="eacCpfSearchForm" commandName="eagSearch" method="post"
+<form:form id="newSearchForm" name="eagSearchForm" commandName="eagSearch" method="post"
 				action="${eagSearchUrl}">
 				<form:hidden id="mode" path="mode" />
 				<div id="simpleAndAdvancedSearch">
@@ -70,9 +70,13 @@
 							<table id="advancedsearchCriteria">
 								<tr>
 									<td><label for="repositoryType"><fmt:message key="eag2012.portal.typeofarchive" />:</label></td>
-									<td colspan="3"><form:select path="repositoryType" id="repositoryType" tabindex="6" items="${eagSearch.repositoryTypeValues}"/></td>
+									<td><form:select path="repositoryType" id="repositoryType" tabindex="6" items="${eagSearch.repositoryTypeValues}"/></td>
 								</tr>
-						
+								<tr>
+									<td colspan="2" id="searchOnlyIn"><span><form:checkbox path="onlyTitle" id="onlyTitle" tabindex="7" value="title"/>
+												<label for="onlyTitle"><fmt:message key="advancedsearch.message.eag.onlyTitle" /></label></span><span><form:checkbox path="onlyPlace" id="onlyPlace" tabindex="8" value="place"/>
+												<label for="onlyPlace"><fmt:message key="advancedsearch.message.eag.onlyPlace" /></label></span></td>
+								</tr>
 		
 							</table>
 						</div>
