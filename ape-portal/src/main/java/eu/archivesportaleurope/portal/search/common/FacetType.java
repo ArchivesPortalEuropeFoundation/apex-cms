@@ -24,7 +24,7 @@ public enum FacetType {
 	EAC_CPF_ENTITY_TYPE(SolrFields.EAC_CPF_FACET_ENTITY_TYPE,false, true,"advancedsearch.facet.value.eaccpf.entitytype."),
 	LANGUAGE(SolrFields.LANGUAGE,false, true, "language."),
 	EAG_AI_GROUPS(SolrFields.EAG_AI_GROUPS_FACET,SolrFields.EAG_AI_GROUP_ID,true),
-	EAG_REPOSITORY_TYPE(SolrFields.EAG_REPOSITORY_TYPE,false);
+	EAG_REPOSITORY_TYPE(SolrFields.EAG_REPOSITORY_TYPE,false,true, "eag2012.options.institutionType.");
 	private final String name;
 	private final String refinementField;
 	private final boolean multiSelect;
