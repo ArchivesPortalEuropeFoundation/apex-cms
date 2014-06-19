@@ -13,8 +13,10 @@ public class EacCpfParams {
 	private String repositoryCode;
 	private String xmlTypeName;
 	private String eaccpfIdentifier;
-	private String searchFieldsSelection;
-	private String searchTerms;
+//	private String searchFieldsSelectionId;
+//	private String searchTerms;
+	private String element;
+	private String term;
 	public String getType() {
 		return type;
 	}
@@ -91,25 +93,37 @@ public class EacCpfParams {
 	/**
 	 * @return the searchFieldsSelection
 	 */
-	public String getSearchFieldsSelection() {
-		return this.searchFieldsSelection;
-	}
+//	public String getSearchFieldsSelectionId() {
+//		return this.searchFieldsSelectionId;
+//	}
 	/**
 	 * @param searchFieldsSelection the searchFieldsSelection to set
 	 */
-	public void setSearchFieldsSelection(String searchFieldsSelection) {
-		this.searchFieldsSelection = searchFieldsSelection;
-	}
+//	public void setSearchFieldsSelectionId(String searchFieldsSelectionId) {
+//		this.searchFieldsSelectionId = searchFieldsSelectionId;
+//	}
 	/**
 	 * @return the searchTerms
 	 */
-	public String getSearchTerms() {
-		return this.searchTerms;
-	}
+//	public String getSearchTerms() {
+//		return this.searchTerms;
+//	}
 	/**
 	 * @param searchTerms the searchTerms to set
 	 */
-	public void setSearchTerms(String searchTerms) {
-		this.searchTerms = searchTerms;
+//	public void setSearchTerms(String searchTerms) {
+//		this.searchTerms = searchTerms;
+//	}
+	public String getElement() {
+		return element;
+	}
+	public void setElement(String element) {
+		this.element = element;
+	}
+	public String getTerm() {
+		return term;
+	}
+	public void setTerm(String term) {
+		this.term = term;
 	}
 }

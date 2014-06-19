@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -10,17 +11,15 @@
 <c:set var="repositoryCode"><c:out value="${param['repositoryCode']}" /></c:set>
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
+<portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+<portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
+<portal:friendlyUrl var="eadUrl" type="eaddisplay-persistent-archdesc"/>
+
 <div id="content">
 	<div id="realcontent">
-			<div class="eadid"><c:out value="${eacCpf.identifier}"/></div>
-				<h1 class="titleproper">
-					<c:out value="${eacCpf.title}"/>
-				</h1>
-				<h2><fmt:message key="eadcontent.scopecontent"/></h2>	
-				<div class="ead-content">
-				<p><em>Still waiting</em> for the XSLT from <em>Issue 836</em>...</p>
-				</div>				
-		
+		<div class="ead-content">
+		  <portal:eac type="eaccpfdetailspreview" eacUrl="${eacCpf.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${identifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}"  searchTerms="${term}"/>
+		</div>
 	</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>

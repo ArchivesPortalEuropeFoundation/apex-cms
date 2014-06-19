@@ -42,10 +42,6 @@
 			<required>true</required>			
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-<!-- 		<attribute>
-			<name>databaseId</name>		
-			<rtexprvalue>true</rtexprvalue>
-		</attribute> -->
 		<attribute>
 			<name>repositoryCode</name>
 			<required>true</required>			
@@ -57,7 +53,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>searchFieldsSelection</name>
+			<name>searchFieldsSelectionId</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>

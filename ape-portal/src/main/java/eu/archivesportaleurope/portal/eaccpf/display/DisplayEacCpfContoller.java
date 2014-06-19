@@ -19,7 +19,8 @@ import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.urls.EacCpfPersistentUrl;
+import eu.archivesportaleurope.util.ApeUtil;
 /**
  * 
  * This is display eac cpf controller
@@ -125,18 +126,17 @@ public class DisplayEacCpfContoller {
 					modelAndView.setViewName("indexError");
 					return modelAndView;
 				}
-				XmlType xmlType = XmlType.getContentType(eac);
 				modelAndView.getModelMap().addAttribute("type", AbstractEacTag.EACCPFDETAILS_XSLT);
 				modelAndView.getModelMap().addAttribute("repositoryCode", eacParam.getRepositoryCode());
 				modelAndView.getModelMap().addAttribute("eaccpfIdentifier", eacParam.getEaccpfIdentifier());
-			//	modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + eac.getId());
 				modelAndView.getModelMap().addAttribute("eac", eac);
 				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(eac).getIdentifier());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-						renderRequest.getLocale());
-			//	String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-			//	modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
+				modelAndView.getModelMap().addAttribute("element", eacParam.getElement());
+				modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eacParam.getTerm()));
+				EacCpfPersistentUrl eaccpfPersistentUrl = new EacCpfPersistentUrl(eac.getArchivalInstitution().getRepositorycode(), eac.getIdentifier());
+				eaccpfPersistentUrl.setSearchFieldsSelectionId(eacParam.getElement());
+				eaccpfPersistentUrl.setSearchTerms(eacParam.getTerm());
 				modelAndView.setViewName("index");
 				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
 				modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));

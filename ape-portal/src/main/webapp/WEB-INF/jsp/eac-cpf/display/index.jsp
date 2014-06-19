@@ -22,13 +22,6 @@
 <c:set var="databaseId">
 	<c:out value="${param['databaseId']}" />
 </c:set>
-<%-- <c:set var="repositoryCode">
-	<c:out value="${param['repositoryCode']}" />
-</c:set>
-<c:set var="eaccpfIdentifier">
-	<c:out value="${param['eaccpfIdentifier']}" />
-</c:set> --%>
-
 <portlet:resourceURL var="displayEacUrl" id="displayEacDetails">
   <!--   <portlet:param name="solrId" value="${solrId}" /> -->
 	<portlet:param name="databaseId" value="${databaseId}" />
@@ -79,8 +72,6 @@
 	});		
 </script>
 
-
-
 <div id="eacCpfDisplayPortlet">
 
 	<c:choose>
@@ -108,7 +99,7 @@
 	</div>
 
  	<div id="eaccpfcontent">
-	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" />
+	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 	</div>
 </div>
 
