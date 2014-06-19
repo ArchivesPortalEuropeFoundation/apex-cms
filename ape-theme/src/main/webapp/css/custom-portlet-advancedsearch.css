@@ -860,3 +860,6 @@
 #searchingPart #eagSearchPortlet  #simpleSearchOptionsContent {
 	height: 35px;
 }
+#searchingPart #advancedSearch repositoryType {
+	max-width:250px;
+}
