@@ -41,7 +41,8 @@ public class EagSearchResult extends SearchResult{
 	private String repositoryCode;
 	private String identifier;
 	private String context;
-
+	private String address;
+	
 	private SolrDocument solrDocument;
 
 	public EagSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
@@ -65,6 +66,7 @@ public class EagSearchResult extends SearchResult{
 
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
 		this.context = getMultipleValued(highlightingMap, SolrFields.EAG_AI_GROUPS,MDASH_SEPARATOR, EMPTY, true, true);
+		this.address =  getMultipleValued(highlightingMap,SolrFields.EAG_ADDRESS, EMPTY, VIRTUAL_BAR_SEPARATOR, false, true);
 
 	}
 	private String getMultipleValued(Map<String, Map<String, List<String>>> highlightingMap, String solrField, String startSeparator, String endSeparator, boolean showAlwaysSeparators, boolean showAlways){
@@ -159,12 +161,7 @@ public class EagSearchResult extends SearchResult{
 	}
 	
 	public String getAddress(){
-		Collection<Object> address= solrDocument.getFieldValues(SolrFields.EAG_ADDRESS);
-		if (address == null){
-			return null;
-		}else {
-			return getMultipleValues(address, EMPTY, VIRTUAL_BAR_SEPARATOR, false);
-		}
+		return address;
 	}
 	public String getRepositoryCode() {
 		return repositoryCode;
