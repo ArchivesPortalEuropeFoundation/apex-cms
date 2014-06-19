@@ -860,6 +860,9 @@
 #searchingPart #eagSearchPortlet  #simpleSearchOptionsContent {
 	height: 35px;
 }
-#searchingPart #advancedSearch .repositoryType {
+#searchingPart #eagSearchPortlet #advancedSearch #repositoryType {
 	max-width:250px;
+}
+#searchingPart #eagSearchPortlet #advancedSearch #searchOnlyIn span {
+	margin-right:5px;
 }
