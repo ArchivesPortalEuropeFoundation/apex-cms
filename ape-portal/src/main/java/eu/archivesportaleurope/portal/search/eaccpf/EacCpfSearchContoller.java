@@ -156,11 +156,11 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 			QueryResponse solrResponse = getEacCpfSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
 					list);
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, list, eacCpfSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, list, eacCpfSearch,springResourceBundleSource);
 			updatePagination( results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class,springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -179,11 +179,11 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 					* (pageNumber - 1), results.getPageSize(), eacCpfSearch.getFacetSettingsList(),
 					eacCpfSearch.getOrder(), eacCpfSearch.getStartdate(), eacCpfSearch.getEnddate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, eacCpfSearch.getFacetSettingsList(), eacCpfSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, eacCpfSearch.getFacetSettingsList(), eacCpfSearch,springResourceBundleSource);
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EacCpfSearchResult.class,springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
