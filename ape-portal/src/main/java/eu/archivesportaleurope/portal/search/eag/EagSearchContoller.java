@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.search.eag;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
@@ -195,15 +197,18 @@ public class EagSearchContoller extends AbstractSearchController{
 		if (solrQueryParameters != null){
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAG_REPOSITORY_TYPE,
 					eagSearch.getRepositoryType());
-//			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eagSearch.getFromdate(),
-//					eagSearch.hasExactDateSearch());
-//			SearchUtil.setToDate(solrQueryParameters.getAndParameters(), eagSearch.getTodate(),
-//					eagSearch.hasExactDateSearch());
-//			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAC_CPF_FACET_ENTITY_TYPE,
-//					eagSearch.getEntityType());
-//			solrQueryParameters.setSolrField(SolrField.getSolrField(eagSearch.getElement()));
-//	
-//			SearchUtil.addPublishedDates(eagSearch.getPublishedFromDate(), eagSearch.getPublishedToDate(), solrQueryParameters);	
+			if (StringUtils.isNotBlank(eagSearch.getOnlyPlace()) || StringUtils.isNotBlank(eagSearch.getOnlyTitle())){
+				List<SolrField> solrFields = new ArrayList<SolrField>();
+				if (StringUtils.isNotBlank(eagSearch.getOnlyTitle())){
+					solrFields.add(SolrField.EAG_NAME);
+					solrFields.add(SolrField.EAG_OTHER_NAMES);
+				}
+				if (StringUtils.isNotBlank(eagSearch.getOnlyPlace())){
+					solrFields.add(SolrField.EAG_ADDRESS);
+				}
+				solrQueryParameters.setSolrFields(solrFields);
+			}
+			
 		}
 		return solrQueryParameters;
 	}
