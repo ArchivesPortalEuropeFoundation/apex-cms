@@ -11,6 +11,8 @@ import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.DisplayUtils;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
 import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.util.ApeUtil;
@@ -44,9 +46,11 @@ public class EagSearchResult extends SearchResult{
 	private String address;
 	
 	private SolrDocument solrDocument;
+	private SpringResourceBundleSource resourceBundleSource;
 
-	public EagSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
+	public EagSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap, SpringResourceBundleSource resourceBundleSource){
 		this.solrDocument = solrDocument;
+		this.resourceBundleSource = resourceBundleSource;
 		id = solrDocument.getFieldValue( SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
 		boolean hitInName = false;
@@ -76,14 +80,21 @@ public class EagSearchResult extends SearchResult{
 			if (showAlways || tempItem.contains(DisplayUtils.EM_START))
 				results.add(DisplayUtils.encodeHtmlWithHighlighting(tempItem));
 		}
-		return getMultipleValues(results,startSeparator, endSeparator, showAlwaysSeparators);
+		return getMultipleValues(results,startSeparator, endSeparator, showAlwaysSeparators, false, null);
 		
 	}
-	protected String getMultipleValues(Collection<?> values, String startSeparator, String endSeparator, boolean showAlwaysSeparators){
+	protected String getMultipleValues(Collection<?> values, String startSeparator, String endSeparator, boolean showAlwaysSeparators, boolean valueIsKey, String prefix){
 		String result = EMPTY;
 		Iterator<?> valuesIterator = values.iterator();
 		while (valuesIterator.hasNext()){
 			Object value = valuesIterator.next();
+			if (valueIsKey){
+				if (prefix == null){
+					value = resourceBundleSource.getString((String) value);
+				}else {
+					value = resourceBundleSource.getString(prefix +  value);
+				}
+			}
 			if (valuesIterator.hasNext()){
 				result += startSeparator + value + endSeparator;
 			}else {
@@ -156,7 +167,7 @@ public class EagSearchResult extends SearchResult{
 		if (types == null){
 			return null;
 		}else {
-			return getMultipleValues(types, EMPTY, VIRTUAL_BAR_SEPARATOR, false);
+			return getMultipleValues(types, EMPTY, VIRTUAL_BAR_SEPARATOR, false, true, FacetType.EAG_REPOSITORY_TYPE.getPrefix());
 		}
 	}
 	

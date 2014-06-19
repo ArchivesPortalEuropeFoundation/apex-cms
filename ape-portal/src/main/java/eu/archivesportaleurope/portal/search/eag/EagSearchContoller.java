@@ -155,11 +155,11 @@ public class EagSearchContoller extends AbstractSearchController{
 			QueryResponse solrResponse = getEagSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
 					list);
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, list, eagSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, list, eagSearch,springResourceBundleSource);
 			updatePagination( results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class, springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -178,11 +178,11 @@ public class EagSearchContoller extends AbstractSearchController{
 					* (pageNumber - 1), results.getPageSize(), eagSearch.getFacetSettingsList(),
 					eagSearch.getOrder(), eagSearch.getStartdate(), eagSearch.getEnddate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, eagSearch.getFacetSettingsList(), eagSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, eagSearch.getFacetSettingsList(), eagSearch,springResourceBundleSource);
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class, springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}

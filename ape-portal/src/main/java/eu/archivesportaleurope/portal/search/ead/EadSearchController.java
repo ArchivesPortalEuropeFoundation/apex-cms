@@ -243,11 +243,11 @@ public class EadSearchController extends AbstractSearchController{
 					* (pageNumber - 1), results.getPageSize(), eadSearch.getFacetSettingsList(),
 					eadSearch.getOrder(), eadSearch.getStartdate(), eadSearch.getEnddate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, eadSearch.getFacetSettingsList(), eadSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, eadSearch.getFacetSettingsList(), eadSearch,springResourceBundleSource);
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class, this.databaseCacher));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class,springResourceBundleSource, this.databaseCacher));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -263,11 +263,11 @@ public class EadSearchController extends AbstractSearchController{
 			QueryResponse solrResponse = getEadSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
 					eadSearch.getFacetSettingsList());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			results.init(solrResponse, eadSearch.getFacetSettingsList(), eadSearch,
-					new SpringResourceBundleSource(messageSource, request.getLocale()));
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
+			results.init(solrResponse, eadSearch.getFacetSettingsList(), eadSearch,springResourceBundleSource);
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class, this.databaseCacher));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EadSearchResult.class,springResourceBundleSource, this.databaseCacher));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
