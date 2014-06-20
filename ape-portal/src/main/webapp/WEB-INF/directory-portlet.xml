@@ -18,7 +18,8 @@
 		class="eu.archivesportaleurope.portal.directory.DirectoryJSONWriter">
 		<property name="messageSource" ref="messageSource"></property>	
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>	
-		<property name="coordinatesDAO" ref="coordinatesDAO"/>	
+		<property name="coordinatesDAO" ref="coordinatesDAO"/>
+		<property name="countryDAO" ref="countryDAO"/>
 	</bean>        
 	<bean
 		class="eu.archivesportaleurope.portal.directory.AiContentController">
