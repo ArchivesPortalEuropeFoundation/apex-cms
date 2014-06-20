@@ -9,7 +9,6 @@ import eu.archivesportaleurope.portal.search.ead.EadSearcher;
 import eu.archivesportaleurope.portal.search.eag.EagSearcher;
 
 public class AbstractSearchController {
-
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
 	private EagSearcher eagSearcher;
@@ -42,7 +41,10 @@ public class AbstractSearchController {
 	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() != null){
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())){
+				if (portletRequest.getUserPrincipal() == null){
+					return null;
+				}
 				solrQueryParameters.setTerm("");
 			}else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());
