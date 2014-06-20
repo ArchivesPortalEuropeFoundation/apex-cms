@@ -1,8 +1,6 @@
 
 function init(){
-	eraseComma();
-	eraseNameTitle();
-	eraseLocationPlace();
+	eraseData();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
 	$(".moreDisplay").each(function(index){
@@ -27,6 +25,14 @@ function init(){
 	
 }
 /**
+ * Function to delete the data not necessary 
+ */
+function eraseData(){
+	eraseComma();
+	eraseNameTitle();
+	eraseLocationPlace();
+}
+/**
  * Function to delete the first comma in the dates when there is not characters before it 
  */
 function eraseComma(){
@@ -44,11 +50,16 @@ function eraseComma(){
  */
 function eraseNameTitle() {
 	var titleName = $.trim($("div#eaccpfcontent span#nameTitle").text());
+	
 	$("div#alternativeName").children().each(function() {
 		if ($.trim($(this).text()) == titleName){
 			$(this).remove();
 		}
 	});
+	var textRightColumn = $.trim($("div#alternativeName").find("p").text());
+	if (textRightColumn == ''){
+		$("div#titleAlternativeName").remove();
+	}
 }
 /**
  * Function to delete the location if there is'nt nothing to show.
@@ -62,9 +73,7 @@ function eraseLocationPlace(){
 	});
 }
 function initPrint(){
-	eraseComma();
-	eraseNameTitle();
-	eraseLocationPlace();
+	eraseData();
 	try{
 		$("body").css("cursor", "progress");
 		$(".displayLinkShowMore").each(function(){
