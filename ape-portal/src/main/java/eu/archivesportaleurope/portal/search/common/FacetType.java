@@ -13,7 +13,7 @@ public enum FacetType {
 	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
 	LEVEL(SolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
 	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
-	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao."),
+	ROLEDAO(SolrFields.ROLEDAO,false, true,"advancedsearch.facet.value.roledao.", true),
 	DATE_TYPE(SolrFields.DATE_TYPE,false, true,"advancedsearch.facet.value.datetype."),
 	START_DATE(SolrFields.START_DATE, true),
 	END_DATE(SolrFields.END_DATE, true),
@@ -32,6 +32,7 @@ public enum FacetType {
 	private final boolean valueIsKey;
 	private final String prefix;
 	private final boolean date;
+	private boolean needToBeLowercase = false;
 	
 	private FacetType(String name, boolean isDateType){
 		this.name = name;
@@ -56,8 +57,14 @@ public enum FacetType {
 		this.date = false;
 		this.multiSelect = true;
 	}
+	
+
 	private FacetType(String name, boolean hasId, boolean valueIsKey, String prefix){
 		this(name,name,hasId, valueIsKey, prefix);
+	}
+	private FacetType(String name, boolean hasId, boolean valueIsKey, String prefix, boolean needToBeLowercase){
+		this(name, hasId, valueIsKey, prefix);
+		this.needToBeLowercase = needToBeLowercase;
 	}
 	private FacetType(String name, String refinementField, boolean hasId){
 		this(name,refinementField,hasId, false, null);
@@ -146,5 +153,9 @@ public enum FacetType {
 	public boolean isDate() {
 		return date;
 	}
-    
+
+	public boolean isNeedToBeLowercase() {
+		return needToBeLowercase;
+	}
+
 }

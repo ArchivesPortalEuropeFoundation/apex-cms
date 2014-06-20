@@ -46,8 +46,10 @@ public class FacetValue {
 			description = value;
 		}
 		if (facetType.isValueIsKey()) {
+			if (facetType.isNeedToBeLowercase()){
+				description = description.toLowerCase();
+			}
 			if (facetType.getPrefix() == null) {
-
 				description = resourceBundleSource.getString(description);
 			} else {
 				if (FacetType.COUNTRY.equals(facetType)){
