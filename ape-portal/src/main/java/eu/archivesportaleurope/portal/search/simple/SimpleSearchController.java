@@ -45,7 +45,7 @@ public class SimpleSearchController {
 			Long eadUnits = CACHE.get(EAD_UNITS);
 			Long eacCpfUnits = CACHE.get(EAC_CPF_UNITS);			
 			if (institutions == null) {
-				institutions = archivalInstitutionDAO.countArchivalInstitutionsWithContentIndexed();
+				institutions = archivalInstitutionDAO.countArchivalInstitutionsWithEag();
 				CACHE.put(INSTITUTIONS, institutions);
 			}	
 			if (eadUnits == null) {
