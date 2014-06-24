@@ -194,12 +194,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     padding: 0;
 }
 
-#eadDisplayPortlet  ul.daolist li{
-	float: left;
-	min-height: 27px;
-    margin: 1px;
-    min-width: 36px;
-}
+
 #eadDisplayPortlet  .context_space {
     display: inline-block;
     width: 10px;
@@ -220,27 +215,41 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	text-align:center;
 	font-size:120%
 }
+#eadDisplayPortlet  ul.daolist, #eadDisplayPortlet  ul.daolist-orig {
+	width:100%;
+}
 
-#eadDisplayPortlet .daolist a {
+#eadDisplayPortlet .daolist li ul li, #eadDisplayPortlet .daolist-orig li{
     border: 1px solid #79b7e7;
     border-radius: 3px;
     display: inline-block;
-    max-width: 210px;
+    width: 210px;
     padding: 5px;
+    float: left;
+	min-height: 27px;
+    margin: 1px;
 }
-#eadDisplayPortlet .daolist span {
+#eadDisplayPortlet .daolist span, #eadDisplayPortlet .daolist-orig span {
     display: block;
     margin-top: 3px;
 }
-#eadDisplayPortlet #children .daolist a {
-	max-width: 150px;
+#eadDisplayPortlet #children .daolist li ul li, #eadDisplayPortlet #children .daolist-orig  li {
+	width: 100px;
 }
-#eadDisplayPortlet #children .daolist ul {
+#eadDisplayPortlet .daolist ul, #eadDisplayPortlet ul.daolist-orig {
 	padding:0px;
-	list-style: outside none;
+	list-style: none outside none;
 }
-#eadDisplayPortlet #children .daolist img {
-		display: block;
+#eadDisplayPortlet  .daolist ul.row {
+	display: inline-block;
+	margin: 0;
+}
+#eadDisplayPortlet #children .daolist-orig img {
+	display: block;
     margin-left: auto;
     margin-right: auto;
+}
+#eadDisplayPortlet #eaddetailsContent > .ead-content > .daolist-orig {
+	display:none;
+	visibility:  hidden;
 }
