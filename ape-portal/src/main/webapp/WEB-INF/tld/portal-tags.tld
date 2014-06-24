@@ -102,7 +102,11 @@
 		<attribute>
 			<name>aiId</name>		
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>			
+		</attribute>	
+		<attribute>
+			<name>preview</name>		
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>					
 	</tag>
 	<tag>
 		<name>eadNavigation</name>
