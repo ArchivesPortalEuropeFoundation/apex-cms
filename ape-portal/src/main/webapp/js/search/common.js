@@ -14,12 +14,11 @@ function updateSourceTabs(){
 	$("#NEWsourceTabs").remove();
 }
 function changeSearch(type){
-	var term = $("#searchTerms").val();
+	var term = $("#updateCurrentSearch_term").val();
+	var method = $("#updateCurrentSearch_method").val();
 	var newForm = $("<form action='' method='POST'/>");
 	newForm.append("<input type='hidden' name='term' value='" + term +"'/>");
-	if ($("#method").is(':checked')) {
-		newForm.append("<input type='hidden' name='method' value='optional'/>");
-	}
+	newForm.append("<input type='hidden' name='method' value='" + method+"'/>");
 	if (type == "name-search"){
 		newForm.attr("action", commonNameSearchUrl);
 		newForm.appendTo("body");
