@@ -13,7 +13,7 @@
 <div id="content">
 	<div id="realcontent">
 <portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}" aiId="${aiId}"
-			secondDisplayUrl="${secondDisplayUrl}" />
+			secondDisplayUrl="${secondDisplayUrl}" preview="true" />
 </div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
