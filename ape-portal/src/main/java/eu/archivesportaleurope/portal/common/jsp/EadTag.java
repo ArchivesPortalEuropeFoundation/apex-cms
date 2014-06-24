@@ -28,7 +28,7 @@ public class EadTag extends AbstractEadTag {
 		return APEnetUtilities.getApePortalConfig().getSolrStopwordsUrl();
 	}
 	@Override
-	protected boolean isPreview() {
+	protected boolean isDashboard() {
 		return false;
 	}
 
