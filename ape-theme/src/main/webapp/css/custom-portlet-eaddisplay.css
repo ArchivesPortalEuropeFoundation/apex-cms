@@ -244,7 +244,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	display: inline-block;
 	margin: 0;
 }
-#eadDisplayPortlet #children .daolist-orig img {
+#eadDisplayPortlet #children .daolist-orig img,#eadDisplayPortlet .daolist img{
 	display: block;
     margin-left: auto;
     margin-right: auto;
