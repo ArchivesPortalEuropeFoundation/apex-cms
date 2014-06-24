@@ -61,8 +61,9 @@
 			tracking : 'google'
 		});
 		stButtons.locateElements();
-
+		initDAOs();
 	});
+
 </script>
 
 <div id="buttonsHeader">

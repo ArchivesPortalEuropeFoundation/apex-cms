@@ -9,7 +9,12 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code" />
+<script type='text/javascript'>
+$(document).ready(function() {
+	initDAOs();
+});
 
+</script>
 
 <c:set var="element">
 	<c:out value="${param['element']}" />
