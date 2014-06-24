@@ -213,3 +213,41 @@ function sendFeedback(){
 	var aiRepoCode = $("#contactForm #aiRepoCode").attr("value");
 	logAction("SEND FEEDBACK FORM TO: " + aiName + " (" + aiRepoCode + ")", url);
 }
+function initDAOs(){
+	addDAOS();
+	$('#moreDaosButton').click(function(event) {
+		addDAOS();
+		document.getElementById("moreDaosButton").scrollIntoView(true);
+	});	
+}
+function addDAOS(){
+	var innerWidth =  $("#eaddetailsContent").innerWidth();
+	var spendWidth = 0;
+	var li = $( "<li/>" );
+	var row = $( "<ul class='row'/>" );
+	var more = false;
+	$( "#eaddetailsContent > .ead-content > .daolist-orig > li" ).each(function(index) {
+		found = true;
+		var width = 240;
+		if (width+spendWidth < innerWidth){
+			var innerLi = $( "<li/>" );
+			spendWidth = spendWidth+ width;
+			var imgObject = $(this).find( "img" );
+			imgObject.attr("src", imgObject.attr("data-src"));
+			imgObject.removeAttr("data-src");
+			innerLi.append($(this).html());
+			row.append(innerLi);
+			$(this).remove();
+		}else {
+			more = true;
+			return false;
+		}	
+	});
+	if (found){
+		li.append(row);
+		$(".daolist").append(li);
+	}
+	if (!more){
+		$("#moreDaosButton").remove();	
+	}
+}
