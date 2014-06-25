@@ -133,9 +133,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	width: 150px;
 	text-align: right;
 }
-#eadDisplayPortlet  #children img {
-	width:100px;
-}
+
 #child-paging {
 	float:right;
 	margin-right: 10px;	
@@ -189,7 +187,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 }
 
 
-#eadDisplayPortlet  ul.daolist, #eadDisplayPortlet  ul.context{
+#eadDisplayPortlet  ul.context{
     list-style: none outside none;
     padding: 0;
 }
@@ -215,44 +213,52 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	text-align:center;
 	font-size:120%
 }
-#eadDisplayPortlet  ul.daolist, #eadDisplayPortlet  ul.daolist-orig {
-	width:100%;
-}
 
-#eadDisplayPortlet .daolist li ul li, #eadDisplayPortlet .daolist-orig li{
+#eadDisplayPortlet .daolist-orig {
+	display: none;
+	visibility:  hidden;
+}
+#eadDisplayPortlet #children .daolist-orig {
+	display: inline;
+	visibility:  visible;
+}
+#eadDisplayPortlet #moreDaosButton span {
+	margin-left:0px;
+}
+#eadDisplayPortlet .daolistContainer {
+	line-height: normal;
+}
+#eadDisplayPortlet .daolistContainer div.dao{
     border: 1px solid #79b7e7;
     border-radius: 3px;
     display: inline-block;
-    width: 210px;
-    padding: 5px;
+    padding: 2px;
+    width: 200px;
     float: left;
-	min-height: 27px;
+    height: 238px;
     margin: 1px;
+    overflow:hidden;
+}
+#eadDisplayPortlet  .daolistContainer img{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width:200px;
+    max-height:200px;
+}
+#eadDisplayPortlet #children .daolistContainer img{
+    max-width:100px;
+    max-height:100px;
+}
+#eadDisplayPortlet #children .daolistContainer div.dao{
+    width: 100px;
+    height: 138px;
 }
 #eadDisplayPortlet .daolist span, #eadDisplayPortlet .daolist-orig span {
     display: block;
     margin-top: 3px;
 }
-#eadDisplayPortlet #children .daolist li ul li, #eadDisplayPortlet #children .daolist-orig  li {
-	width: 100px;
-}
-#eadDisplayPortlet .daolist ul, #eadDisplayPortlet ul.daolist-orig {
-	padding:0px;
-	list-style: none outside none;
-}
-#eadDisplayPortlet  .daolist ul.row {
+#eadDisplayPortlet #moreDaosButton {
 	display: inline-block;
-	margin: 0;
-}
-#eadDisplayPortlet #children .daolist-orig img,#eadDisplayPortlet .daolist img{
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-#eadDisplayPortlet #eaddetailsContent > .ead-content > .daolist-orig {
-	display:none;
-	visibility:  hidden;
-}
-#eadDisplayPortlet #moreDaosButton span {
-	margin-left:0px;
+	width:100%;
 }
