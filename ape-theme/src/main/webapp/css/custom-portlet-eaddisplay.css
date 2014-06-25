@@ -253,3 +253,6 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	display:none;
 	visibility:  hidden;
 }
+#eadDisplayPortlet #moreDaosButton span {
+	margin-left:0px;
+}
