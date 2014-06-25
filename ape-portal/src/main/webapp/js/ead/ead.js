@@ -70,6 +70,7 @@ function displayEadDetails(displayEadUrl, id, type, namespace) {
 	params[namespace + "id"] = id;
 	$.get(displayEadUrl, params, function(data) {
 		$("#right-pane").html(data);
+		initDAOs();
 
 	});
 	logAction(document.title, displayEadUrl);
