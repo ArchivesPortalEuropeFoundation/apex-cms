@@ -250,5 +250,8 @@ function addDAOS(){
 	}
 	if (!more){
 		$("#moreDaosButton").remove();	
+	}else{
+		var size = $( "#eaddetailsContent > .ead-content > .daolist-orig > li" ).length;
+		 $( "#moreDaosButton span" ).html(size +"");
 	}
 }
