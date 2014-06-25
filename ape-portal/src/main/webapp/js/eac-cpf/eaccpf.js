@@ -50,10 +50,11 @@ function eraseComma(){
  */
 function eraseNameTitle() {
 	var titleName = $.trim($("div#eaccpfcontent span#nameTitle").text());
-	
+	var found = false;
 	$("div#alternativeName").children().each(function() {
-		if ($.trim($(this).text()) == titleName){
+		if ($.trim($(this).text()) == titleName && !found){
 			$(this).remove();
+			found = true;
 		}
 	});
 	var textRightColumn = $.trim($("div#alternativeName").find("p").text());
