@@ -61,7 +61,6 @@
 			tracking : 'google'
 		});
 		stButtons.locateElements();
-		initDAOs();
 	});
 
 </script>
