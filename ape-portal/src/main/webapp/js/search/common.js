@@ -302,6 +302,16 @@ function initListTabHandlers() {
 				//logAction("advanced-search-list-preview", url);
 				
 			});
+	if ($(".list-searchresult").length > 0){
+		var firstSearchResult = $(".list-searchresult").first();
+		firstSearchResult.find(".list-searchresult-actions").removeClass("hidden");
+		firstSearchResult.find(".preview-button-holder").addClass("preview-button-holder-show");
+		var url =firstSearchResult.find(".preview-button-holder").attr("data-url");
+		$.get(url, function(data) {
+			displayPreview("#search-preview",data);
+			
+		});
+	}
 	makeRefinementsCollapsible();
 }
 function displayPreview (preview, data){
@@ -320,7 +330,6 @@ function displayPreview (preview, data){
 	if(alwaysVisibleContainer.length > 0) {
 		var daos = $(preview + " .daolistContainer .dao a");
 		if(daos.length > 0) {
-			console.log(daos.length + " daos");
 			var alwaysVisible = $( "<div  id='alwaysVisible'/>" );
 			var innerDiv = $( "<div class='dao'/>" );
 			var firstDao = daos.first();
@@ -334,6 +343,14 @@ function displayPreview (preview, data){
 			var daoParent = $(".daolistContainer").parent();	
 			daoParent.prev().remove();
 			daoParent.remove();
+		}
+		var otherfindingaids = $(preview + " .otherfindingaids");
+		if (otherfindingaids.length > 0){
+			var firstOtherfindingaids = otherfindingaids.first();
+			alwaysVisibleContainer.append(firstOtherfindingaids.html());
+			var parent = firstOtherfindingaids.parent();	
+			parent.prev().remove();
+			parent.remove();
 		}
 	}
 	
