@@ -906,3 +906,7 @@
     left: 85px;
     top: -17px;
 }
+
+#eadSearchPortlet #alwaysVisibleContainer {
+    background-color: white;
+}
