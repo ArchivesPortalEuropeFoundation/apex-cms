@@ -14,11 +14,6 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
 <portal:friendlyUrl var="eadUrl" type="eaddisplay-persistent-archdesc"/>
-<script type='text/javascript'>
-	$(document).ready(function() {
-	    eraseData();
-	});	
-</script>
 <div id="content">
 	<div id="realcontent">
 		<div class="ead-content" id="eaccpfcontent">
