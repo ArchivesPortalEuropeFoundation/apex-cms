@@ -12,7 +12,9 @@
 <c:set var="term"><c:out value="${param['term']}" /></c:set>
 
 <div id="content">	
-<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"  preview="true"/>
+	<div id="realcontent">
+	<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"  preview="true"/>
+</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
