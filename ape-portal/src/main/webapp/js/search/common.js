@@ -17,8 +17,12 @@ function changeSearch(type){
 	var term = $("#updateCurrentSearch_term").val();
 	var method = $("#updateCurrentSearch_method").val();
 	var newForm = $("<form action='' method='POST'/>");
-	newForm.append("<input type='hidden' name='term' value='" + term +"'/>");
-	newForm.append("<input type='hidden' name='method' value='" + method+"'/>");
+	if (term != undefined){
+		newForm.append("<input type='hidden' name='term' value='" + term +"'/>");
+	}
+	if (method != undefined){
+		newForm.append("<input type='hidden' name='method' value='" + method+"'/>");
+	}
 	if (type == "name-search"){
 		newForm.attr("action", commonNameSearchUrl);
 		newForm.appendTo("body");
