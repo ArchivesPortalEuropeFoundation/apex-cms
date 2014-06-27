@@ -316,6 +316,26 @@ function displayPreview (preview, data){
 	}else {
 		$previewDiv.css("margin-top","0px");
 	}
+	var alwaysVisibleContainer = $(preview + " #alwaysVisibleContainer");
+	if(alwaysVisibleContainer.length > 0) {
+		var daos = $(preview + " .daolistContainer .dao a");
+		if(daos.length > 0) {
+			console.log(daos.length + " daos");
+			var alwaysVisible = $( "<div  id='alwaysVisible'/>" );
+			var innerDiv = $( "<div class='dao'/>" );
+			var firstDao = daos.first();
+			firstDao.find("span").remove();
+			innerDiv.html(firstDao.html());
+			innerDiv.append("<img id='more-daos' src='/Portal-theme/images/ape/icons/plus.gif'/>");
+			alwaysVisible.append(innerDiv);
+			alwaysVisibleContainer.append(alwaysVisible);
+			var daoParent = $(".daolistContainer").parent();	
+			daoParent.prev().remove();
+			daoParent.remove();
+		}
+	}
+	
+	
 	if ($(preview + " #realcontent").height() > $(preview + " #content").height()){
 		$(preview + " #more-line").removeClass("hide-more-line").addClass("show-more-line");
 	}
