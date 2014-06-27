@@ -14,7 +14,7 @@
 <div id="content">	
 	<div id="realcontent">
 	<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"  preview="true"/>
-</div>
+	</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
