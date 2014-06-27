@@ -17,6 +17,8 @@
 	</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
+<div id="alwaysVisibleContainer">
+</div>
 <div id="viewFullFond" class="linkButton">
 	<portal:eadPersistentLink var="url" repoCode="${aiRepoCode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>	
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /><span class="icon_new_window">&nbsp;</span></a>
