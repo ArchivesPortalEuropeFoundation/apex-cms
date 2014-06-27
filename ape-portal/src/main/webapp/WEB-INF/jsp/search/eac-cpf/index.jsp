@@ -74,11 +74,11 @@
 									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eacCpfSearch.elementValues}"/></td>
 								</tr>
 								<tr>
-									<td><label for="entityType"><fmt:message key="advancedsearch.facet.title.entitytypefacet" />:</label></td>
+									<td><label for="entityType"><fmt:message key="advancedsearch.text.eaccpf.entitytype" />:</label></td>
 									<td colspan="3"><form:select path="entityType" id="entityType" tabindex="7"  items="${eacCpfSearch.entityTypeValues}"/></td>
 								</tr>							
 								<tr>
-									<td><label for="fromdate"><fmt:message key="advancedsearch.text.datefrom" /></label></td>
+									<td><label for="fromdate"><fmt:message key="advancedsearch.text.eaccpf.datefrom" /></label></td>
 									<td><form:input path="fromdate" id="fromdate" cssClass="datefield" tabindex="9" maxlength="10" /></td>
 									<td id="datetoHeader"><label id="todateLabel" for="todate"><fmt:message key="advancedsearch.text.dateto" /></label></td>
 									<td><form:input path="todate" id="todate" cssClass="datefield" tabindex="10"  maxlength="10"/></td>
