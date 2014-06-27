@@ -54,6 +54,7 @@
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/search/common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/search/eaccpf/search.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/eac-cpf/eaccpf_common.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>eac-cpf-display</portlet-name>
@@ -61,6 +62,7 @@
 		<friendly-url-mapping>eac</friendly-url-mapping>
 		<friendly-url-routes>eac_display-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/eac-cpf/eaccpf_common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/eac-cpf/eaccpf.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
