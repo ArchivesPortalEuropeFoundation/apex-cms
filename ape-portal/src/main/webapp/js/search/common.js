@@ -327,7 +327,7 @@ function displayPreview (preview, data){
 			firstDao.find("span").remove();
 			innerDiv.html(firstDao.html());
 			if(daos.length > 1) {
-				innerDiv.append("<img id='more-daos' src='http://" +location.hostname + ":" + location.port + "/Portal-theme/images/ape/icons/plus.gif'/>");
+				innerDiv.append("<img id='more-daos' src='/Portal-theme/images/ape/icons/plus.gif'/>");
 			}
 			alwaysVisible.append(innerDiv);
 			alwaysVisibleContainer.append(alwaysVisible);
