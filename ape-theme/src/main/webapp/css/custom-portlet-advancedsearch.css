@@ -605,6 +605,9 @@
 	background-image: url("../images/ape/search/preview-more.gif");
 	height: 7px;
 }
+#searchingPart #eagSearchPortlet .preview-container .show-more-line {
+		background-image: url("../images/ape/search/preview-more-large.gif");
+}
 
 #searchingPart .preview-container .hide-more-line {
 	height: 0px;
@@ -865,4 +868,41 @@
 }
 #searchingPart #eagSearchPortlet #advancedSearch #searchOnlyIn span {
 	margin-right:5px;
+}
+#eadSearchPortlet #search-preview  #alwaysVisible {
+	width:100%;
+	padding-top:1px;
+	padding-bottom:1px;
+	background-color: white;
+	display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#eadSearchPortlet #search-preview #alwaysVisible div.dao {
+    border: 1px solid #79b7e7;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 2px;
+    height: 100px;
+    width: 100px;
+    margin: 1px;
+    overflow:hidden;
+}
+ #eadSearchPortlet #search-preview #alwaysVisible img{
+    max-width:100px;
+    max-height:100px;
+}
+
+ #eadSearchPortlet #search-preview #more-daos{
+	border-left: 1px solid #79b7e7;
+	border-top: 1px solid #79b7e7;
+    border-radius: 1px;
+	background-color: white;
+	width:16px;
+	height:16px;
+    display: block;
+    position: relative;
+    left: 85px;
+    top: -15px;
 }
