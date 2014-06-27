@@ -5,6 +5,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <portal:friendlyUrl var="directoryDisplayUrl" type="directory-institution-code"/>
 <div id="content">
+<div id="realcontent">
 <c:if test="${!empty coordinates}">
 	<img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x150&maptype=roadmap
 	&markers=color:red%7C${coordinates.lat},${coordinates.lon}" height="150" width="400"/>
@@ -13,6 +14,7 @@
 	</div>
 </c:if>
 <portal:eag eagUrl="${eagUrl}" preview="true"/>
+</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
 <div id="viewFullFond" class="linkButton">
