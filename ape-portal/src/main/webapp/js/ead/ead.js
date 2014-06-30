@@ -88,7 +88,6 @@ function initExpandableParts(){
 		}
 	});	
 	$( "em" ).each(function() {
-		console.log( + $(this).text() );
 		var contentWithHighlightedItems = $(this).closest('.ead-content');
 		contentWithHighlightedItems.show();
 		if (contentWithHighlightedItems.prev().hasClass("collapsed")) {

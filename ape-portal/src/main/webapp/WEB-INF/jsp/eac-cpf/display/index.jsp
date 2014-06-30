@@ -61,15 +61,10 @@
 <script type='text/javascript'>
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
-	});
-</script>
-
-<script type='text/javascript'>
-	$(document).ready(function() {
 		init();	
 		makeRelationsCollapsible();
 		enableFeedback();
-	});		
+	});
 </script>
 
 <div id="eacCpfDisplayPortlet">

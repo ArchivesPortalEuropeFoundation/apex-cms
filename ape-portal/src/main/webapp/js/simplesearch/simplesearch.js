@@ -1,6 +1,5 @@
 function initSimpleSearchAutocompletion(autocompletionUrl, embedded) {
 	var selector = "#simpleSearch #searchTerms";
-	console.info("initSimpleSearchAutocompletion");
 	if (!embedded){
 		$(selector).focus();
 	}
