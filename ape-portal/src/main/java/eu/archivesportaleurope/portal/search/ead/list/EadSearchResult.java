@@ -150,7 +150,16 @@ public class EadSearchResult extends SearchResult{
 		return solrDocument.getFieldValue(SolrFields.ROLEDAO);
 	}
 	public Object getUnitIdOfFond(){
-		return solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
+		// Check if the content has char '<' or '>' in order to avoid
+		// js ingestion (see issue 1248).
+		Object object = solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
+		if (object instanceof String) {
+			String unitIdFond = (String) object;
+			unitIdFond = unitIdFond.replaceAll(">", "&#62;").replaceAll("<","&#60;");
+			return unitIdFond;
+		} else {
+			return solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
+		}
 	}
 	
 	public Object getRepositoryCode(){
