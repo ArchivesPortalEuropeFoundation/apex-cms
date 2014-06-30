@@ -40,6 +40,7 @@
 		<friendly-url-mapping>ead</friendly-url-mapping>
 		<friendly-url-routes>ead_display-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/display/display-common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/ead/ead.js</header-portlet-javascript>
 		
 	</portlet>
@@ -62,6 +63,7 @@
 		<friendly-url-mapping>eac</friendly-url-mapping>
 		<friendly-url-routes>eac_display-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/display/display-common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/eac-cpf/eaccpf_common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/eac-cpf/eaccpf.js</header-portlet-javascript>
 	</portlet>

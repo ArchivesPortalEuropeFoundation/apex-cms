@@ -127,7 +127,8 @@ public class DisplayEadDetailsContoller {
 		XmlType xmlType = XmlType.getContentType(eadContent.getEad());
 		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 		modelAndView.setViewName("eaddetails");
-		modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+		modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+		modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;
 	}
 
@@ -150,6 +151,8 @@ public class DisplayEadDetailsContoller {
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.setViewName("eaddetails");
+				modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+				modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());
 				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");

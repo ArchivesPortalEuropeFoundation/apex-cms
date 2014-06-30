@@ -75,7 +75,8 @@ public class DisplayEadContoller {
 			if (modelAndView != null){
 				modelAndView.getModelMap().addAttribute("element", eadParams.getElement());
 				modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eadParams.getTerm()));
-				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+				modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+				modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 			}
 		}catch (NotExistInDatabaseException e) {
 			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
