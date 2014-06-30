@@ -41,7 +41,7 @@ ${articleDetails}
 	});
 	</script>
 <div id="likeBar">
-<span class='st_facebook_large' st_image="http://development.archivesportaleurope.net/documents/10179/23708/adalen1_350.jpg" displayText='Facebook'></span>
+<span class='st_facebook_large' displayText='Facebook'></span>
 <span class='st_googleplus_large' displayText='Google +'></span>
 <span class='st_twitter_large' displayText='Tweet'></span>
 <span class='st_linkedin_large' displayText='LinkedIn'></span>
