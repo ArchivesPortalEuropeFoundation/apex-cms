@@ -1,6 +1,8 @@
 package eu.archivesportaleurope.portal.servlets;
 
+import eu.apenet.dpt.utils.util.Xsd_enum;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServlet;
@@ -26,7 +28,7 @@ public class RetrieveSchemaServlet extends HttpServlet {
         try {
             String requestURI = request.getRequestURI();
             String schema = requestURI.substring(requestURI.lastIndexOf("/"));
-            if(schema != null) {
+            if(StringUtils.isNotEmpty(schema) && !StringUtils.equals(schema, "/") && Xsd_enum.doesXsdExist(schema, "/")) {
                 InputStream inputStream = RetrieveSchemaServlet.class.getResourceAsStream(schema);
                 if(inputStream == null) {
                     response.sendError(404);
@@ -37,6 +39,8 @@ public class RetrieveSchemaServlet extends HttpServlet {
                     reader.close();
                     writer.close();
                 }
+            } else {
+                response.sendError(404);
             }
         } catch (Exception e) {
             if(writer != null)
