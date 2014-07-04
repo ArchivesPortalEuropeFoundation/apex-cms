@@ -894,7 +894,7 @@
     max-height:200px;
 }
 
- #eadSearchPortlet #search-preview #more-daos{
+ #eadSearchPortlet #search-preview img#more-daos{
 	border-left: 1px solid #79b7e7;
 	border-top: 1px solid #79b7e7;
     border-radius: 1px;
