@@ -21,6 +21,9 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @Controller(value = "simpleSearchController")
 @RequestMapping(value = "VIEW")
 public class SimpleSearchController {
+	private static final String EAD_RESULTS = "ead";
+	private static final String EAG_RESULTS = "eag";
+	private static final String EAC_CPF_RESULTS = "eac-cpf";
 	private static final String INSTITUTIONS = "numberOfInstitutions";
 	private static final String EAD_UNITS = "numberOfEadDescriptiveUnits";
 	private static final String EAC_CPF_UNITS = "numberOfEacCpfs";
@@ -38,6 +41,8 @@ public class SimpleSearchController {
 		ModelAndView modelAndView = new ModelAndView();
 		String embedded= request.getPreferences().getValue("embedded", "false");
 		if (TRUE.equalsIgnoreCase(embedded)){
+			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
+			modelAndView.getModel().put("resultsType", results);
 			modelAndView.setViewName("embedded");
 		}else {
 			modelAndView.setViewName("home");
