@@ -884,14 +884,14 @@
     border-radius: 3px;
     display: inline-block;
     padding: 2px;
-    height: 100px;
-    width: 100px;
+    height: 200px;
+    width: 200px;
     margin: 1px;
     overflow:hidden;
 }
  #eadSearchPortlet #search-preview #alwaysVisible img{
-    max-width:100px;
-    max-height:100px;
+    max-width:200px;
+    max-height:200px;
 }
 
  #eadSearchPortlet #search-preview #more-daos{
@@ -903,7 +903,7 @@
 	height:16px;
     display: block;
     position: relative;
-    left: 85px;
+    left: 185px;
     top: -17px;
 }
 
