@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
 
@@ -45,20 +46,22 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 				if (AutocompletionForm.EAD.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEadSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false);
+					write(builder, results, false, null);
 				} else if (AutocompletionForm.EAC_CPF.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEacCpfSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false);
+					write(builder, results, false, null);
 				}  else if (AutocompletionForm.EAG.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEagSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false);
+					write(builder, results, false, null);
 				}else {
+					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+							resourceRequest.getLocale());
 					add(results, getEadSearcher(), autocompletionForm, "archives");
 					add(results, getEacCpfSearcher(), autocompletionForm, "names");
 					add(results, getEagSearcher(), autocompletionForm, "institutions");
-					write(builder, results, true);
+					write(builder, results, true, source);
 				}
 
 			}
@@ -71,7 +74,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
 
-	private static void write(StringBuilder builder, List<AutocompletionResult> results, boolean advanced) {
+	private static void write(StringBuilder builder, List<AutocompletionResult> results, boolean advanced, SpringResourceBundleSource source) {
 		boolean isAdded = false;
 		if (advanced) {
 			Collections.sort(results);
@@ -87,8 +90,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 				builder.append("\"" + result.getTerm() + "\"");
 				builder.append(COMMA);
 				builder.append("\"label\":");
-				builder.append("\"" + result.getTerm() + " (" + result.getFrequency() + " results found in "
-						+ result.getType() + ")\"");
+				builder.append("\"" + result.getTerm() + " (" + result.getFrequency() + " " + source.getString("search.autocompletion.type." + result.getType()) + ")\"");
 				builder.append(END_ITEM);
 			}
 		} else {
