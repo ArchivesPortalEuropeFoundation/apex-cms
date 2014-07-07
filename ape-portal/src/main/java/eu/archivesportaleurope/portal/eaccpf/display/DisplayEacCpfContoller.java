@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.eaccpf.display;
 
+import java.io.File;
+
 import javax.portlet.RenderRequest;
 
 import org.apache.log4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.commons.xslt.tags.AbstractEacTag;
 import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
@@ -112,38 +115,43 @@ public class DisplayEacCpfContoller {
 			EacCpf eac) {
 		ArchivalInstitution archivalInstitution = null;
 		try {
-
 			if (eac == null) {
 				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				if (eac.isPublished()) {
-					archivalInstitution = eac.getArchivalInstitution();
-				} else {
-					// LOGGER.info("Found not indexed EAD in second display");
-					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
-					modelAndView.setViewName("indexError");
+				File file= new File(APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eac.getPath());
+				if (file.exists()){
+					if (eac.isPublished()) {
+						archivalInstitution = eac.getArchivalInstitution();
+					} else {
+						// LOGGER.info("Found not indexed EAD in second display");
+						modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
+						modelAndView.setViewName("indexError");
+						return modelAndView;
+					}
+					modelAndView.getModelMap().addAttribute("type", AbstractEacTag.EACCPFDETAILS_XSLT);
+					modelAndView.getModelMap().addAttribute("repositoryCode", eacParam.getRepositoryCode());
+					modelAndView.getModelMap().addAttribute("eaccpfIdentifier", eacParam.getEaccpfIdentifier());
+					modelAndView.getModelMap().addAttribute("eac", eac);
+					modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(eac).getIdentifier());
+					modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+					modelAndView.getModelMap().addAttribute("element", eacParam.getElement());
+					modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eacParam.getTerm()));
+					EacCpfPersistentUrl eaccpfPersistentUrl = new EacCpfPersistentUrl(eac.getArchivalInstitution().getRepositorycode(), eac.getIdentifier());
+					eaccpfPersistentUrl.setSearchFieldsSelectionId(eacParam.getElement());
+					eaccpfPersistentUrl.setSearchTerms(eacParam.getTerm());
+					modelAndView.setViewName("index");
+					modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+					modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+					String documentTitle = eac.getTitle();
+					documentTitle = PortalDisplayUtil.getEacCpfDisplayTitle(eac);
+					modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 					return modelAndView;
 				}
-				modelAndView.getModelMap().addAttribute("type", AbstractEacTag.EACCPFDETAILS_XSLT);
-				modelAndView.getModelMap().addAttribute("repositoryCode", eacParam.getRepositoryCode());
-				modelAndView.getModelMap().addAttribute("eaccpfIdentifier", eacParam.getEaccpfIdentifier());
-				modelAndView.getModelMap().addAttribute("eac", eac);
-				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(eac).getIdentifier());
-				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("element", eacParam.getElement());
-				modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eacParam.getTerm()));
-				EacCpfPersistentUrl eaccpfPersistentUrl = new EacCpfPersistentUrl(eac.getArchivalInstitution().getRepositorycode(), eac.getIdentifier());
-				eaccpfPersistentUrl.setSearchFieldsSelectionId(eacParam.getElement());
-				eaccpfPersistentUrl.setSearchTerms(eacParam.getTerm());
-				modelAndView.setViewName("index");
-				modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
-				modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
-				String documentTitle = eac.getTitle();
-				documentTitle = PortalDisplayUtil.getEacCpfDisplayTitle(eac);
-				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
-				return modelAndView;
+				else{
+					return null;
+				}
 			}
 
 		} catch (Exception e) {
