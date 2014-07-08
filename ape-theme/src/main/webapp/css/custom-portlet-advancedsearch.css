@@ -257,16 +257,20 @@
 }
 
 #searchingPart .list-searchresult-actions {
+	margin-top:3px;
+	display: inline-block;
 	font-size: 11px;
 	float: right;
 }
 
 #searchingPart .list-searchresult-actions ul {
 	list-style-type: none;
+	margin: 0px;
 }
 
 #searchingPart .list-searchresult-actions ul li {
 	float: right;
+	margin: 0px;
 }
 
 #searchingPart .list-searchresult-actions ul li a {
@@ -453,8 +457,9 @@
 
 #searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
 	{
-	max-width: 250px;
+	max-width: 390px;
 }
+
 
 #searchingPart .list-searchresult-context .fond {
 	max-width: 390px;
