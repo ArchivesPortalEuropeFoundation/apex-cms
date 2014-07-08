@@ -132,6 +132,10 @@
 												<fmt:message var="daoTitle" key="advancedsearch.dao.sound" />
 												<span class="icon_dao_type_small_sound" title="${daoTitle}">${daoTitle}</span>
 											</c:if>
+											<c:if test="${fn:contains(daoType, '3D')}">
+												<fmt:message var="daoTitle" key="advancedsearch.dao.3d" />
+												<span class="icon_dao_type_small_3d" title="${daoTitle}">${daoTitle}</span>
+											</c:if>												
 											<c:if test="${fn:contains(daoType, 'UNSPECIFIED')}">
 												<fmt:message var="daoTitle" key="advancedsearch.dao.unspecified" />
 												<span class="icon_dao_type_small_unspecified" title="${daoTitle}">${daoTitle}</span>
