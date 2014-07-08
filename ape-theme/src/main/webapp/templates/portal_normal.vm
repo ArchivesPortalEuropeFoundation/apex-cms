@@ -12,6 +12,7 @@
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
 	#js("$javascript_folder/jquery.nivo.slider.pack.js")
+	#js("$javascript_folder/clippy.min.js")
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
@@ -24,6 +25,16 @@
 	var _gaq = _gaq || [];
 	_gaq.push([ '_setAccount', gId ]);
 	_gaq.push([ '_trackPageview' ]);
+    clippy.load('Clippy', function(agent) {
+        // Do anything with the loaded agent
+        agent.show();
+        agent.speak('I hope you enjoy our portal. If you have any question, please let me know. I hope I could answer all your question. My name is Clippy.');
+    	$("#searchButton").click(function(event) {
+			event.preventDefault();
+			agent.speak('Thanks for searching. Please look at the tabs for search results in other domains.');
+		});
+    });	
+
 	</script>
  
 	$theme.include($top_head_include)
