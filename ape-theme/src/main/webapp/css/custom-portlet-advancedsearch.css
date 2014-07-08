@@ -257,15 +257,21 @@
 }
 
 #searchingPart .list-searchresult-actions {
+	margin-top:3px;
+	display: inline-block;
+	height: 10px;
 	font-size: 11px;
-	float: right;
+	width:100%;
 }
 
 #searchingPart .list-searchresult-actions ul {
 	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
 }
 
 #searchingPart .list-searchresult-actions ul li {
+	margin: 0px;
 	float: right;
 }
 
@@ -419,7 +425,7 @@
 
 #searchingPart .list-searchresult-content {
 	float: left;
-	padding: 5px 5px 15px;
+	padding: 5px 5px 5px;
 	width: 487px;
 	color: #333333;
 	font-size: 9pt;
@@ -453,8 +459,9 @@
 
 #searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
 	{
-	max-width: 250px;
+	max-width: 390px;
 }
+
 
 #searchingPart .list-searchresult-context .fond {
 	max-width: 390px;
@@ -681,7 +688,7 @@
 }
 
 #searchingPart .special_info {
-	background-color: #E8EDFF;
+	background-color: #e9f3fa;
 	border-radius: 5px;
 	padding-top: 4px;
 	padding-bottom: 4px;
@@ -884,17 +891,17 @@
     border-radius: 3px;
     display: inline-block;
     padding: 2px;
-    height: 100px;
-    width: 100px;
+    height: 200px;
+    width: 200px;
     margin: 1px;
     overflow:hidden;
 }
  #eadSearchPortlet #search-preview #alwaysVisible img{
-    max-width:100px;
-    max-height:100px;
+    max-width:200px;
+    max-height:200px;
 }
 
- #eadSearchPortlet #search-preview #more-daos{
+ #eadSearchPortlet #search-preview img#more-daos{
 	border-left: 1px solid #79b7e7;
 	border-top: 1px solid #79b7e7;
     border-radius: 1px;
@@ -903,7 +910,7 @@
 	height:16px;
     display: block;
     position: relative;
-    left: 85px;
+    left: 185px;
     top: -17px;
 }
 
