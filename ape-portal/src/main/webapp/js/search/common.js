@@ -358,6 +358,19 @@ function displayPreview (preview, data){
 	if ($(preview + " #realcontent").height() > $(preview + " #content").height()){
 		$(preview + " #more-line").removeClass("hide-more-line").addClass("show-more-line");
 	}
+	var image = $(preview + " #alwaysVisible img");
+	if(image.length > 0) {
+		image.load(function() {
+
+			image.outerHeight()
+			var daoDiv = image.parent();
+			daoDiv.height(image.outerHeight());
+			var alwaysVisible = daoDiv.parent();
+			alwaysVisible.height(daoDiv.outerHeight());
+			var aContainer = alwaysVisible.parent();
+			aContainer.height(alwaysVisible.outerHeight());
+		});
+	}
 	$previewDiv.removeClass("preview-content").addClass("preview-content");
 }
 

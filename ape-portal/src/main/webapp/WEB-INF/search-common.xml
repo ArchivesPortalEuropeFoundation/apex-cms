@@ -21,6 +21,7 @@
 		class="eu.archivesportaleurope.portal.search.common.autocompletion.AutocompletionJSONController">
 		<property name="eadSearcher" ref="eadSearcher"/>
 		<property name="eacCpfSearcher" ref="eacCpfSearcher"/>
-		<property name="eagSearcher" ref="eagSearcher"/>		
+		<property name="eagSearcher" ref="eagSearcher"/>	
+				<property name="messageSource" ref="messageSource"/>	
 	</bean>
 </beans>
