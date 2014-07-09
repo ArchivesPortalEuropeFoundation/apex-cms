@@ -204,7 +204,7 @@ a:hover {
     padding-top:5px;
     padding-bottom:5px;
 
-    border-radius: 15px;
+    border-radius: 5px;
     display: inline-block;
 
     letter-spacing:0.8px
@@ -219,7 +219,7 @@ a:hover {
 .linkButton a:hover {
     color: #00384D;
 	background-color: #BAE0FC;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 .linkButton a {
 	color: #006CB0;
