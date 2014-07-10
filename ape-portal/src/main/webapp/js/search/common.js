@@ -175,7 +175,7 @@ function addRefinement(fieldName, fieldValue, longDescription) {
     var pattern = /[^\w]/g;
     var newFieldValue = fieldValue.replace(pattern,"_");
 	if (oldFieldValue.length > 0) {
-		oldFieldValue = oldFieldValue + "," + newFieldValue;
+		oldFieldValue = oldFieldValue + "," + fieldValue;
 		$(fieldId).attr("value", oldFieldValue);
 	} else {
 		$(fieldId).attr("value", fieldValue);
