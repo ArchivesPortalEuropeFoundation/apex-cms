@@ -68,7 +68,7 @@
 						</div>						
 						<div id="top-paging" class="paging">
 						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}"
-								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 						</div>
 				</c:when>
 				<c:otherwise>
@@ -106,9 +106,16 @@
 			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${eagSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
-					|
-					<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.text.title2" />	
+					<c:choose>
+						<c:when test="${results.totalNumberOfResults > results.maxTotalNumberOfResults}">
+							<div id="toManyResults"><fmt:message key="advancedsearch.text.sorting.toomanyresults" /></div>
+						</c:when>
+						<c:otherwise>					
+							<searchresults:order currentValue="${eagSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+							|
+							<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.text.title2" />	
+						</c:otherwise>
+					</c:choose>
 				</div>
 	
 		<div id="searchresultsList">	
@@ -165,7 +172,7 @@
 				</div>
 				<div id="bottom-paging" class="paging">
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}"
-					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 				</div>
 			</div>
 			<div class="preview-column">

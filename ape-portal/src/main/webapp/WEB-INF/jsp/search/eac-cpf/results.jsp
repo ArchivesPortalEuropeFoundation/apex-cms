@@ -72,7 +72,7 @@
 						</div>						
 						<div id="top-paging" class="paging">
 						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
-								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 						</div>
 				</c:when>
 				<c:otherwise>
@@ -110,9 +110,16 @@
 			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${eacCpfSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
-					|
-					<searchresults:order currentValue="${eacCpfSearch.order}" value="startdate" key="advancedsearch.text.date" />	
+					<c:choose>
+						<c:when test="${results.totalNumberOfResults > results.maxTotalNumberOfResults}">
+							<div id="toManyResults"><fmt:message key="advancedsearch.text.sorting.toomanyresults" /></div>
+						</c:when>
+						<c:otherwise>					
+							<searchresults:order currentValue="${eacCpfSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+							|
+							<searchresults:order currentValue="${eacCpfSearch.order}" value="startdate" key="advancedsearch.text.date" />	
+						</c:otherwise>
+					</c:choose>
 				</div>
 	
 		<div id="searchresultsList">	
@@ -176,7 +183,7 @@
 				</div>
 				<div id="bottom-paging" class="paging">
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eacCpfSearch.pageNumber}"
-					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 				</div>
 			</div>
 			<div class="preview-column">
