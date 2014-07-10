@@ -46,11 +46,25 @@
 	color: black;
 }
 
-#searchingPart #sourceTabs ul#tabscontainer li.disabled a:hover,#searchingPart #sourceTabs ul#tabscontainer li.disabled a{
-	color:#808080;
-	background:none;
-	cursor: default;
+
+#searchingPart #sourceTabs .numberOfResults {	
+    background-color: #ffc939;
+    border-radius: 5px;
+    color: black;
+    display: inline-block;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 1px 5px;
+    text-align: center;
+    margin-left: 5px;
+    font-weight:bold;
+    box-shadow: 1px 1px 3px #888888;
+    top: -1px;
+    position: relative;
 }
+
+
+
 #searchingPart #sourceTabs ul#tabscontainer li a {
 	font-weight: normal;
 }
@@ -248,7 +262,7 @@
 	float: left;
 	display: block;
 	border: 1px solid #afdefc;
-	border-radius: 10px;
+	border-radius: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
 	margin-left: 2px;
@@ -277,7 +291,7 @@
 
 #searchingPart .list-searchresult-actions ul li a {
 	border: 1px solid #afdefc;
-	border-radius: 10px;
+	border-radius: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
 	margin-left: 2px;
@@ -288,7 +302,7 @@
 #searchingPart .list-searchresult-actions ul li a:hover {
 	color: #00384D;
 	border: 1px solid #afdefc;
-	border-radius: 10px;
+	border-radius: 5px;
 	background-color: rgba(0, 160, 223, 0.2);
 }
 
@@ -351,12 +365,6 @@
 	list-style-type: none;
 	padding: 0px 0px 0px 5px;
 	margin: 0;
-}
-
-#searchingPart #refinements .collapsibleIcon {
-	display: inline-block;
-	height: 10px;
-	width: 10px;
 }
 
 #searchingPart #refinements .boxtitle {
@@ -767,10 +775,15 @@
 	float:left;
 }
 #searchingPart #saveSearchButton a {
-    border-radius: 15px;
+    border-radius: 5px;
+    border: 1px solid #ffa300;
+    background-color: #ffedb9;
     margin: 0;
     padding: 2px 10px;
-    color:#00384D;
+    color:#2a4862;
+}
+#searchingPart #saveSearchButton a:hover {
+	background-color: #fff9e8;
 }
 #searchingPart #saveSearch {
     float: left;
@@ -797,10 +810,7 @@
     padding: 0px;
 }
 
-#searchingPart #sourceTabs .numberOfResults {
-    margin-left: 5px;
-    font-weight:bold;
-}
+
 
 #searchingPart #sourceTabs .tab_header {
 	margin-bottom:2px;
