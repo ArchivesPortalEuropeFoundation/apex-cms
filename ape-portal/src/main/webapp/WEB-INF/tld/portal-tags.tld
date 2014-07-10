@@ -300,5 +300,25 @@
 			<name>searchFieldsSelectionId</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>			
-	</tag>		
+	</tag>
+	<tag>
+		<name>sourceTabs</name>
+		<tag-class>eu.archivesportaleurope.portal.search.common.jsp.SourceTabsTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>results</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>			
+		<attribute>
+			<name>ajax</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+	</tag>			
 </taglib>
