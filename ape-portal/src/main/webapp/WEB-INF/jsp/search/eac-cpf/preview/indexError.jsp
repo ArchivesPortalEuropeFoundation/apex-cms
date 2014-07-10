@@ -11,6 +11,6 @@
 <portlet:defineObjects />
 <div id="content">
 	<div id="realcontent">
-		<fmt:message key="${errorMessage}" />
+		<b><fmt:message key="${errorMessage}" /></b>
 	</div>
 </div>
