@@ -30,25 +30,7 @@
 			numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 	</div>
 </c:if>
-<div class="hidden" id="NEWsourceTabs">
-			<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-			<c:choose>
-					<c:when test="${empty results}">
-						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /></a></li>
-						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /></a></li>
-						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active "><a href=""><fmt:message key="menu.institution-search" /></a></li>		
-					</c:when>
-					<c:otherwise>
-						<li class="ui-state-default ui-corner-top ${results.eadNumberOfResultsClass}"><a href="javascript:changeSearch('ead-search')"><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.institution-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
-					</c:otherwise>
-			</c:choose>
-			</ul>
-			<div class="tab_header">
-				<div id="tabHeaderContent"></div>
-			</div>
-</div>
+<portal:sourceTabs results="${results}" ajax="true" type="eag"/>
 <form:form id="updateCurrentSearch" name="eagSearchForm" commandName="eagSearch" method="post">
 		<form:hidden id="updateCurrentSearch_term" path="term"/>
 		<form:hidden id="updateCurrentSearch_method" path="method"/>
@@ -86,7 +68,7 @@
 						</div>						
 						<div id="top-paging" class="paging">
 						<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}"
-								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+								refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 						</div>
 				</c:when>
 				<c:otherwise>
@@ -124,9 +106,16 @@
 			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${eagSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
-					|
-					<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.text.title2" />	
+					<c:choose>
+						<c:when test="${results.totalNumberOfResults > results.maxTotalNumberOfResults}">
+							<div id="toManyResults"><fmt:message key="advancedsearch.text.sorting.toomanyresults" /></div>
+						</c:when>
+						<c:otherwise>					
+							<searchresults:order currentValue="${eagSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+							|
+							<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.text.title2" />	
+						</c:otherwise>
+					</c:choose>
 				</div>
 	
 		<div id="searchresultsList">	
@@ -183,7 +172,7 @@
 				</div>
 				<div id="bottom-paging" class="paging">
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}"
-					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 				</div>
 			</div>
 			<div class="preview-column">

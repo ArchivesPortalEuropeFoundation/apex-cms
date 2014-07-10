@@ -40,25 +40,7 @@
 		</script>
 <div id="searchingPart">
 		<div id="eadSearchPortlet" >
-			<div id="sourceTabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-				<ul id="tabscontainer" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-				<c:choose>
-					<c:when test="${empty results}">
-						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /></a></li>
-						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /></a></li>
-						<li class="ui-state-default ui-corner-top"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institution-search" /></a></li>		
-					</c:when>
-					<c:otherwise>
-						<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href=""><fmt:message key="menu.archives-search" /><span class="numberOfResults">(${results.eadNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ${results.eacCpfNumberOfResultsClass}"><a href="javascript:changeSearch('name-search')"><fmt:message key="menu.name-search" /><span class="numberOfResults">(${results.eacCpfNumberOfResults})</span></a></li>
-						<li class="ui-state-default ui-corner-top ${results.eagNumberOfResultsClass}"><a href="javascript:changeSearch('institution-search')"><fmt:message key="menu.institution-search" /><span class="numberOfResults">(${results.eagNumberOfResults})</span></a></li>
-					</c:otherwise>
-				</c:choose>
-				</ul>
-				<div class="tab_header">
-					<div id="tabHeaderContent"></div>
-				</div>
-			</div>
+			<portal:sourceTabs results="${results}" type="ead"/>
 			<div id="searchOptions">
 		
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"

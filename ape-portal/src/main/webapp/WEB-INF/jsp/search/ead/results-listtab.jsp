@@ -35,7 +35,7 @@
 					</div>
 					<div id="top-paging" class="paging">
 					<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eadSearch.pageNumber}"
-							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+							refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber" maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 					</div>			
 				</c:when>
 				<c:otherwise>
@@ -74,15 +74,23 @@
 			<div  id="searchResultsListContainer">	
 				<div id="searchOrder">
 					<div id="searchOrderTitle"><fmt:message key="advancedsearch.text.sortsearch" /></div>
-					<searchresults:order currentValue="${eadSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
-					|
-					<searchresults:order currentValue="${eadSearch.order}" value="startdate" key="advancedsearch.text.date" />
-					|
-					<searchresults:order currentValue="${eadSearch.order}" value="titlesort" key="advancedsearch.text.title2" />
-					|
-					<searchresults:order currentValue="${eadSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
-					|
-					<searchresults:order currentValue="${eadSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />				
+					<c:choose>
+						<c:when test="${results.totalNumberOfResults > results.maxTotalNumberOfResults}">
+							<div id="toManyResults"><fmt:message key="advancedsearch.text.sorting.toomanyresults" /></div>
+						</c:when>
+						<c:otherwise>
+							<searchresults:order currentValue="${eadSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
+							|
+							<searchresults:order currentValue="${eadSearch.order}" value="startdate" key="advancedsearch.text.date" />
+							|
+							<searchresults:order currentValue="${eadSearch.order}" value="titlesort" key="advancedsearch.text.title2" />
+							|
+							<searchresults:order currentValue="${eadSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
+							|
+							<searchresults:order currentValue="${eadSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />							
+						</c:otherwise>
+					</c:choose>
+			
 				</div>
 			<c:if test="${results.totalNumberOfResults > 0}">		
 			<div id="searchresultsList">
@@ -190,7 +198,7 @@
 			</div>
 			<div id="bottom-paging" class="paging">
 				<ape:paging numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eadSearch.pageNumber}"
-					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"/>	
+					refreshUrl="javascript:updatePageNumber('');" pageNumberId="pageNumber"  maxNumberOfItems="${results.maxTotalNumberOfResults}"/>	
 			</div>
 			</c:if>
 			</div>
