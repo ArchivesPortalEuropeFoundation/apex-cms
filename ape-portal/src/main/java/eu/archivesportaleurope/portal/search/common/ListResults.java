@@ -21,6 +21,7 @@ public class ListResults extends Results {
 	private static final long serialVersionUID = 8610205871799887309L;
 	private SolrDocumentListHolder items;
 	private long totalNumberOfPages;
+	private final static long MAX_TOTAL_NUMBER_OF_RESULTS = 100000;
 	private Integer pageSize;
 	private List<ListFacetContainer> facetContainers = new ArrayList<ListFacetContainer>();
 
@@ -86,6 +87,10 @@ public class ListResults extends Results {
 
 	public List<ListFacetContainer> getFacetContainers() {
 		return facetContainers;
+	}
+
+	public long getMaxTotalNumberOfResults() {
+		return MAX_TOTAL_NUMBER_OF_RESULTS;
 	}
 
 

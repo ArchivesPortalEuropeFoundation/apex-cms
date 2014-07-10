@@ -87,7 +87,7 @@ public abstract class AbstractSearcher {
 			}
 		}
 		query.setStart(start);
-		if (rows > 100){
+		if (rows > 50){
 			rows= 10;
 		}
 		query.setRows(rows);

@@ -48,7 +48,6 @@ public abstract class AbstractSearchForm implements Serializable{
 		resultsperpageValues.add("20");
 		resultsperpageValues.add("30");
 		resultsperpageValues.add("50");
-		resultsperpageValues.add("100");
 	}
 	
 	public String getTerm() {
