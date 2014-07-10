@@ -1,14 +1,9 @@
 package eu.archivesportaleurope.portal.search.common;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse;
-
-import eu.archivesportaleurope.portal.search.ead.list.ListFacetContainer;
 
 public class Results implements Serializable {
 
