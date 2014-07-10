@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 		long startTime = System.currentTimeMillis();
 
 		try {
-
+			NumberFormat numberFormat = NumberFormat.getInstance(resourceRequest.getLocale());
 			StringBuilder builder = new StringBuilder();
 			builder.append(START_ARRAY);
 			if (StringUtils.isNotBlank(autocompletionForm.getTerm())) {
@@ -46,22 +47,22 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 				if (AutocompletionForm.EAD.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEadSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false, null);
+					write(builder, results, false, null,numberFormat);
 				} else if (AutocompletionForm.EAC_CPF.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEacCpfSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false, null);
+					write(builder, results, false, null,numberFormat);
 				}  else if (AutocompletionForm.EAG.equals(autocompletionForm.getSourceType())) {
 					abstractSearcher = getEagSearcher();
 					add(results,abstractSearcher, autocompletionForm, null);
-					write(builder, results, false, null);
+					write(builder, results, false, null,numberFormat);
 				}else {
 					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 							resourceRequest.getLocale());
 					add(results, getEadSearcher(), autocompletionForm, "archives");
 					add(results, getEacCpfSearcher(), autocompletionForm, "names");
 					add(results, getEagSearcher(), autocompletionForm, "institutions");
-					write(builder, results, true, source);
+					write(builder, results, true, source,numberFormat);
 				}
 
 			}
@@ -74,7 +75,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
 
-	private static void write(StringBuilder builder, List<AutocompletionResult> results, boolean advanced, SpringResourceBundleSource source) {
+	private static void write(StringBuilder builder, List<AutocompletionResult> results, boolean advanced, SpringResourceBundleSource source, NumberFormat numberFormat) {
 		boolean isAdded = false;
 		if (advanced) {
 			Collections.sort(results);
@@ -90,7 +91,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 				builder.append("\"" + result.getTerm() + "\"");
 				builder.append(COMMA);
 				builder.append("\"label\":");
-				builder.append("\"" + result.getTerm() + " (" + result.getFrequency() + " " + source.getString("search.autocompletion.type." + result.getType()) + ")\"");
+				builder.append("\"" + result.getTerm() + " (" + numberFormat.format(result.getFrequency()) + " " + source.getString("search.autocompletion.type." + result.getType()) + ")\"");
 				builder.append(END_ITEM);
 			}
 		} else {
