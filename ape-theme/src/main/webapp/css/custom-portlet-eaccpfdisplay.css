@@ -5,8 +5,18 @@
 	margin-right:5px;
 	margin-left:5px;
 }
+#eacCpfDisplayPortlet h3#contextInformation {
+	padding-top:0px;
+	margin-top:0px;
+}
+#eacCpfDisplayPortlet  #eaccpfcontent {
+    position: relative;
+    top: -15px;
+}
+
 #eacCpfDisplayPortlet #printEacDetails{
-	margin-left:400px;
+	float:right;
+	width:70%;
 	
 }
 #eacCpfDisplayPortlet #details{
@@ -14,12 +24,13 @@
 	float:left;
 }
 #eacCpfDisplayPortlet h1 {
-	border-bottom: 1px solid #79B7E7;
     color: #2A4862;
     font-size: 130%;
     font-weight: bold;
-    margin: 0.3em 0;
-    text-align: left;
+	margin-top:15px;
+	margin-bottom:15px;
+	display: inline-block;
+    text-align: center;
     width:70%;	
 }
 #eacCpfDisplayPortlet h1 span#entityType{
