@@ -34,6 +34,10 @@
 			<div class="left-header"></div>
 			<div class="right-header"></div>
 		</div>
+	<h3 id="contextInformation">
+		${localizedCountryName}
+		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
+	</h3>		
 		<div id="eaccpfcontent">
 	   		<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 	   </div> 
