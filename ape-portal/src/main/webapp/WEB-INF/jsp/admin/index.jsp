@@ -18,10 +18,14 @@
     <portlet:param name="myaction" value="cleanServer" />
 </portlet:actionURL>
 <div id="languagePortlet">
-<h2>Admin portlet</h2>
+<h1>Admin portlet</h1>
+<h2>Translations</h2>
 <ul>
 <li><a href="${cleanTranslationsUrl}">Remove all menu translations</a></li>
 <li><a href="${updateTranslationsUrl}">Update all menu translations</a></li>
+</ul> 
+<h2>Other</h2>
+<ul>
 <li><a href="${cleanServerUrl}">Clean server</a></li>
 </ul> 
 </div>
