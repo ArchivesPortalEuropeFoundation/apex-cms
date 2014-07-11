@@ -39,11 +39,10 @@
 	float: left;
 }
 
-#embeddedSimpleSearchPortlet .simpleSearchOptions {
+#embeddedSimpleSearchPortlet {
     position: relative;
     right: -320px;
-    top: -30px;
-}
-#embeddedSimpleSearchPortlet {
-	display: inline-block;
+    top: -50px;
+    height: 0px;
+    display: inline-block;
 }
