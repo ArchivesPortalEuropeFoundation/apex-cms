@@ -9,14 +9,10 @@
 	padding-top:0px;
 	margin-top:0px;
 }
-#eacCpfDisplayPortlet  #eaccpfcontent {
-    position: relative;
-    top: -15px;
-}
+
 
 #eacCpfDisplayPortlet #printEacDetails{
 	float:right;
-	width:70%;
 	
 }
 #eacCpfDisplayPortlet #details{
