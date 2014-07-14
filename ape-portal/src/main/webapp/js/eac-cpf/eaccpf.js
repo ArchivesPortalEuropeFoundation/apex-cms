@@ -34,13 +34,7 @@ function initPrint(){
 		$(".displayLinkShowLess").each(function(){
 			$(this).remove();
 		});
-		$('#eacCpfDisplayPortlet').css({'margin-right':'0px', 'margin-left':'0px'});
-		$('#eacCpfDisplayPortlet h1').css({'width':'98%'});
-		$("#eacCpfDisplayPortlet #details").css({'width':'98%'});
-		$("#eacCpfDisplayPortlet #relations").css({'float':'none', 'clear':'both', 'padding-top':'20px', 'width':'98%'});
-		$('#eacCpfDisplayPortlet a').each(function(){
-			$(this).css({'pointer-events':'none', 'cursor':'default'});
-		});
+
 		self.print();
 	}
 	catch (e) {

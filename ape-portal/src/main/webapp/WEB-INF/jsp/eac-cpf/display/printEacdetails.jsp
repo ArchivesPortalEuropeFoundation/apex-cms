@@ -28,7 +28,7 @@
 	});
 </script>
 
-<div id="eacCpfDisplayPortlet">
+<div id="eacCpfPintPreviewPortlet">
 		<div id="header">
 			<div id="logo"></div>	
 			<div class="left-header"></div>
