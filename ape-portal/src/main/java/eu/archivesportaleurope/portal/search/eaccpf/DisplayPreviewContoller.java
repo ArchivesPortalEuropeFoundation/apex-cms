@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eaccpf;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.portlet.ResourceRequest;
@@ -65,8 +66,17 @@ public class DisplayPreviewContoller {
 			throw new NotExistInDatabaseException();
 		}
 		String eacCpfPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + eacCpf.getPath();
-		modelAndView.getModelMap().addAttribute("eacCpf", eacCpf);
-		modelAndView.getModelMap().addAttribute("eacCpfUrl", eacCpfPath);
+		
+		File file= new File(eacCpfPath);
+		if (file.exists()){
+			modelAndView.getModelMap().addAttribute("eacCpf", eacCpf);
+			modelAndView.getModelMap().addAttribute("eacCpfUrl", eacCpfPath);
+		}
+		else{
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.setViewName("preview/indexError");
+		}
+
 		return modelAndView;
 	}
 
