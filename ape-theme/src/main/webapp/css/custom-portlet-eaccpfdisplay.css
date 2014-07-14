@@ -5,20 +5,36 @@
 	margin-right:5px;
 	margin-left:5px;
 }
-#eacCpfDisplayPortlet h3#contextInformation {
+
+#eacCpfPintPreviewPortlet {
+	background-image: none;
+	background-color: white;
+	color: #2A4862;
+	margin-right:0px;
+	margin-left:0px;
+}
+
+#eacCpfDisplayPortlet h3 #contextInformation,
+#eacCpfPintPreviewPortlet h3 #contextInformation {
 	padding-top:0px;
 	margin-top:0px;
 }
 
-
-#eacCpfDisplayPortlet #printEacDetails{
+#eacCpfDisplayPortlet #printEacDetails {
 	float:right;
 	
 }
-#eacCpfDisplayPortlet #details{
+
+#eacCpfDisplayPortlet #details {
 	width:70%;
 	float:left;
 }
+
+#eacCpfPintPreviewPortlet #details {
+	width:98%;
+	float:left;
+}
+
 #eacCpfDisplayPortlet h1 {
     color: #2A4862;
     font-size: 130%;
@@ -29,57 +45,101 @@
     text-align: center;
     width:70%;	
 }
-#eacCpfDisplayPortlet h1 span#entityType{
+
+#eacCpfPintPreviewPortlet h1 {
+    color: #2A4862;
+    font-size: 130%;
+    font-weight: bold;
+	margin-top:15px;
+	margin-bottom:15px;
+	display: inline-block;
+    text-align: center;
+    width:98%;	
+}
+
+#eacCpfDisplayPortlet h1 span #entityType,
+#eacCpfPintPreviewPortlet h1 span #entityType {
 	color:#83736A;
 	font-weight:normal;
 }
-#eacCpfDisplayPortlet h2.otherInformation{
+
+#eacCpfDisplayPortlet h2.otherInformation,
+#eacCpfPintPreviewPortlet h2.otherInformation {
 	color:#83736A;
 	border-bottom:1px solid #83736A;
 	padding-top:20px;
 }
-#eacCpfDisplayPortlet h2.title{
+
+#eacCpfDisplayPortlet h2.title,
+#eacCpfPintPreviewPortlet h2.title {
 	border-bottom: none;
 	font-size:9pt;
 	font-weight:bold;
 	text-transform: uppercase;
 }
+
+#eacCpfPintPreviewPortlet a {
+	pointer-events:none;
+	cursor:default;
+}
+
 pre.outline{
 	font-size:8pt;
 	font-family: Arial,sans-serif;
 }
-#eacCpfDisplayPortlet .subrow{
+
+#eacCpfDisplayPortlet .subrow,
+#eacCpfPintPreviewPortlet .subrow {
 	margin-left:40px;
 }
+
 #eaccpfcontent .leftcolumn h2{
 	border-bottom: none;
 	font-size:8pt;
 	font-weight:bold;
 }
-#eacCpfDisplayPortlet .grey {
+
+#eacCpfDisplayPortlet .grey,
+#eacCpfPintPreviewPortlet .grey {
 	color:#83736A;
 }
-#eacCpfDisplayPortlet .row {
+
+#eacCpfDisplayPortlet .row,
+#eacCpfPintPreviewPortlet .row {
 	display:block;
 	font-size:8pt;
 	overflow:auto;
 }
 
-#eacCpfDisplayPortlet .leftcolumn {
+#eacCpfDisplayPortlet .leftcolumn,
+#eacCpfPintPreviewPortlet .leftcolumn {
 	float:left;
 	overflow-y: auto;
 }
-#eacCpfDisplayPortlet .rightcolumn {
+
+#eacCpfDisplayPortlet .rightcolumn,
+#eacCpfPintPreviewPortlet .rightcolumn {
 	text-align:auto;
 	margin-left:180px;
 	margin-top:9px;
 }
-#eacCpfDisplayPortlet #relations{
+
+#eacCpfDisplayPortlet #relations {
 	float:right;
 	width:260px;
 	font-size:8pt;
 }
-#eacCpfDisplayPortlet .box .boxtitle{
+
+#eacCpfPintPreviewPortlet #relations {
+	float:none;
+	clear:both;
+	padding-top:20px;
+	width:98%;
+	font-size:8pt;
+}
+
+#eacCpfDisplayPortlet .box .boxtitle,
+#eacCpfPintPreviewPortlet .box .boxtitle {
 	cursor:pointer;
 }
 
@@ -88,6 +148,7 @@ pre.outline{
     margin: 0;
     padding: 0 0 0 5px;
 }
+
 .displayLinkShowMore:link, .displayLinkShowLess:link{
  color:#2A4862;	
 }
@@ -96,29 +157,32 @@ pre.outline{
 	color: #C65400;
 	text-decoration:underline;
 }
+
 .linkMore{
 	float:right;
 }
 
 @media screen {
-	#eacCpfDisplayPortlet #eaccpfcontent em{
+	#eacCpfDisplayPortlet #eaccpfcontent em,
+	#eacCpfPintPreviewPortlet #eaccpfcontent em {
 		background-color: #afdefc;
 	}	
 }
 
-#eacCpfDisplayPortlet #eaccpfcontent em{
+#eacCpfDisplayPortlet #eaccpfcontent em,
+#eacCpfPintPreviewPortlet #eaccpfcontent em {
 	font-size: 110%;
 	padding-left:2px;
 	padding-right:2px;
 }
 
-#eacCpfDisplayPortlet .defaultlayout {
+#eacCpfDisplayPortlet .defaultlayout,
+#eacCpfPintPreviewPortlet .defaultlayout {
 	text-align: center;
 }
 
-#eacCpfDisplayPortlet em {
+#eacCpfDisplayPortlet em,
+#eacCpfPintPreviewPortlet em {
 	font-weight: bold;
 	font-style: normal;
 }
-
-
