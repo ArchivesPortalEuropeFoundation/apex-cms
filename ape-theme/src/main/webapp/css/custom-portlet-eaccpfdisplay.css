@@ -29,6 +29,10 @@
     text-align: center;
     width:70%;	
 }
+#eacCpfDisplayPortlet #printPreview h1 {
+	width: 98%;
+}
+
 #eacCpfDisplayPortlet h1 span#entityType{
 	color:#83736A;
 	font-weight:normal;
