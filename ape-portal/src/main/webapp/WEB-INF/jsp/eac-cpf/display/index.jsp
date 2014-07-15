@@ -68,7 +68,14 @@
 </script>
 
 <div id="eacCpfDisplayPortlet">
-
+	<h3 id="contextInformation">
+		${localizedCountryName}
+		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
+	</h3>
+	 	    <div id="printEacDetails" class="linkButton">
+			<a href="javascript:printEacDetails('${printEacDetailsUrl}')"><fmt:message key="label.print" /><span
+		   class="icon_print">&nbsp;</span></a>
+		</div>
 	<c:choose>
 		<c:when test="${empty c}">
 			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
@@ -86,11 +93,6 @@
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 		<div>&nbsp;</div>
-	</div>
-	
-    <div id="printEacDetails" class="linkButton">
-			<a href="javascript:printEacDetails('${printEacDetailsUrl}')"><fmt:message key="label.print" /><span
-		   class="icon_print">&nbsp;</span></a>
 	</div>
 
  	<div id="eaccpfcontent">

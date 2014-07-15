@@ -6,23 +6,18 @@
 	margin-left:5px;
 }
 
-#eacCpfPintPreviewPortlet {
-	background-image: none;
-	background-color: white;
-	color: #2A4862;
+#eacCpfDisplayPortlet #printPreview {
 	margin-right:0px;
 	margin-left:0px;
 }
 
-#eacCpfDisplayPortlet h3 #contextInformation,
-#eacCpfPintPreviewPortlet h3 #contextInformation {
+#eacCpfDisplayPortlet h3#contextInformation {
 	padding-top:0px;
 	margin-top:0px;
 }
 
 #eacCpfDisplayPortlet #printEacDetails {
-	margin-left:400px;
-	
+	float:right;
 }
 
 #eacCpfDisplayPortlet #details {
@@ -30,9 +25,8 @@
 	float:left;
 }
 
-#eacCpfPintPreviewPortlet #details {
+#eacCpfDisplayPortlet #printPreview #details {
 	width:98%;
-	float:left;
 }
 
 #eacCpfDisplayPortlet h1 {
@@ -46,79 +40,64 @@
     width:70%;	
 }
 
-#eacCpfPintPreviewPortlet h1 {
-    color: #2A4862;
-    font-size: 130%;
-    font-weight: bold;
-	margin-top:15px;
-	margin-bottom:15px;
-	display: inline-block;
-    text-align: center;
-    width:98%;	
+#eacCpfDisplayPortlet #printPreview h1 {
+	width: 98%;
 }
 
-#eacCpfDisplayPortlet h1 span #entityType,
-#eacCpfPintPreviewPortlet h1 span #entityType {
+#eacCpfDisplayPortlet h1 span#entityType {
 	color:#83736A;
 	font-weight:normal;
 }
 
-#eacCpfDisplayPortlet h2.otherInformation,
-#eacCpfPintPreviewPortlet h2.otherInformation {
+#eacCpfDisplayPortlet h2.otherInformation {
 	color:#83736A;
 	border-bottom:1px solid #83736A;
 	padding-top:20px;
 }
 
-#eacCpfDisplayPortlet h2.title,
-#eacCpfPintPreviewPortlet h2.title {
+#eacCpfDisplayPortlet h2.title {
 	border-bottom: none;
 	font-size:9pt;
 	font-weight:bold;
 	text-transform: uppercase;
 }
 
-#eacCpfPintPreviewPortlet a {
+#eacCpfDisplayPortlet #printPreview a {
 	pointer-events:none;
 	cursor:default;
 }
 
-pre.outline{
+pre.outline {
 	font-size:8pt;
 	font-family: Arial,sans-serif;
 }
 
-#eacCpfDisplayPortlet .subrow,
-#eacCpfPintPreviewPortlet .subrow {
+#eacCpfDisplayPortlet .subrow {
 	margin-left:40px;
 }
 
-#eaccpfcontent .leftcolumn h2{
+#eaccpfcontent .leftcolumn h2 {
 	border-bottom: none;
 	font-size:8pt;
 	font-weight:bold;
 }
 
-#eacCpfDisplayPortlet .grey,
-#eacCpfPintPreviewPortlet .grey {
+#eacCpfDisplayPortlet .grey {
 	color:#83736A;
 }
 
-#eacCpfDisplayPortlet .row,
-#eacCpfPintPreviewPortlet .row {
+#eacCpfDisplayPortlet .row {
 	display:block;
 	font-size:8pt;
 	overflow:auto;
 }
 
-#eacCpfDisplayPortlet .leftcolumn,
-#eacCpfPintPreviewPortlet .leftcolumn {
+#eacCpfDisplayPortlet .leftcolumn {
 	float:left;
 	overflow-y: auto;
 }
 
-#eacCpfDisplayPortlet .rightcolumn,
-#eacCpfPintPreviewPortlet .rightcolumn {
+#eacCpfDisplayPortlet .rightcolumn {
 	text-align:auto;
 	margin-left:180px;
 	margin-top:9px;
@@ -130,16 +109,14 @@ pre.outline{
 	font-size:8pt;
 }
 
-#eacCpfPintPreviewPortlet #relations {
+#eacCpfDisplayPortlet #printPreview #relations {
 	float:none;
 	clear:both;
 	padding-top:20px;
 	width:98%;
-	font-size:8pt;
 }
 
-#eacCpfDisplayPortlet .box .boxtitle,
-#eacCpfPintPreviewPortlet .box .boxtitle {
+#eacCpfDisplayPortlet .box .boxtitle {
 	cursor:pointer;
 }
 
@@ -149,11 +126,11 @@ pre.outline{
     padding: 0 0 0 5px;
 }
 
-.displayLinkShowMore:link, .displayLinkShowLess:link{
+.displayLinkShowMore:link, .displayLinkShowLess:link {
  color:#2A4862;	
 }
 
-.linkShow:link{
+.linkShow:link {
 	color: #C65400;
 	text-decoration:underline;
 }
@@ -163,26 +140,22 @@ pre.outline{
 }
 
 @media screen {
-	#eacCpfDisplayPortlet #eaccpfcontent em,
-	#eacCpfPintPreviewPortlet #eaccpfcontent em {
+	#eacCpfDisplayPortlet #eaccpfcontent em {
 		background-color: #afdefc;
 	}	
 }
 
-#eacCpfDisplayPortlet #eaccpfcontent em,
-#eacCpfPintPreviewPortlet #eaccpfcontent em {
+#eacCpfDisplayPortlet #eaccpfcontent em {
 	font-size: 110%;
 	padding-left:2px;
 	padding-right:2px;
 }
 
-#eacCpfDisplayPortlet .defaultlayout,
-#eacCpfPintPreviewPortlet .defaultlayout {
+#eacCpfDisplayPortlet .defaultlayout {
 	text-align: center;
 }
 
-#eacCpfDisplayPortlet em,
-#eacCpfPintPreviewPortlet em {
+#eacCpfDisplayPortlet em {
 	font-weight: bold;
 	font-style: normal;
 }
