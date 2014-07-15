@@ -28,7 +28,8 @@
 	});
 </script>
 
-<div id="eacCpfPintPreviewPortlet">
+<div id="eacCpfDisplayPortlet">
+<div id="printPreview">
 		<div id="header">
 			<div id="logo"></div>	
 			<div class="left-header"></div>
@@ -41,5 +42,5 @@
 		<div id="eaccpfcontent">
 	   		<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 	   </div> 
-
+</div>
 </div>
