@@ -14,6 +14,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.APEnetUtilities;
+import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.commons.xslt.tags.AbstractEacTag;
 import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
@@ -22,6 +23,7 @@ import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EacCpfPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 /**
@@ -136,6 +138,10 @@ public class DisplayEacCpfContoller {
 					modelAndView.getModelMap().addAttribute("eac", eac);
 					modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(eac).getIdentifier());
 					modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+							renderRequest.getLocale());
+					String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
+					modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 					modelAndView.getModelMap().addAttribute("element", eacParam.getElement());
 					modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eacParam.getTerm()));
 					EacCpfPersistentUrl eaccpfPersistentUrl = new EacCpfPersistentUrl(eac.getArchivalInstitution().getRepositorycode(), eac.getIdentifier());
