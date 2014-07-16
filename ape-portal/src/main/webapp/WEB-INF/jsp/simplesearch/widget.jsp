@@ -7,13 +7,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<portlet:resourceURL var="autocompletionUrl" id="autocompletion" />
 <portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				initSimpleSearchAutocompletion("${autocompletionUrl}", true );
-			});
-		</script>
 <div id="widgetSimpleSearchPortlet">
 		<div id="simpleSearch">
 			<div class="simpleSearchOptions">
@@ -23,8 +17,9 @@
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" />
 				</form>				
+				<div id="poweredBy"><fmt:message key="simplesearch.message.poweredby"/> <a href="http://www.archivesportaleurope.net"><fmt:message key="simplesearch.message.poweredby.ape"/></a></div>
 			</div>
-			<div id="poweredBy"><fmt:message key="simplesearch.message.poweredby"/> <a href="http://www.archivesportaleurope.net"><fmt:message key="simplesearch.message.poweredby.ape"/></a></div>
+			
 		</div>
 	
 </div>	
