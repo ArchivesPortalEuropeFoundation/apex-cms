@@ -16,6 +16,7 @@ function init() {
 	$("#searchTerms").focus();
 	activateAutocompletion("#searchTerms", "ead");
 	hideTabsIfNoResults();
+	countInitialSelectItems();
 }
 
 function initContextTabHandlers(contextTreeUrl, previewUrl, namespace) {
