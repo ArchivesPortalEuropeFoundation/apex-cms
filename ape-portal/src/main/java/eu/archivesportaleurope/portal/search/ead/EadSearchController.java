@@ -119,10 +119,12 @@ public class EadSearchController extends AbstractSearchController{
 					}
 					if (StringUtils.isBlank(term) && eadSavedSearch.isTemplate()){
 						eadSearch.setMode(EadSearch.MODE_NEW);
+					}else if (StringUtils.isNotBlank(term) && eadSavedSearch.isTemplate()){
+						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
+						eadSearch.setTerm(term);
+						Results results = performNewSearch(request, eadSearch);
+						modelAndView.getModelMap().addAttribute("results", results);
 					}else{
-						if (StringUtils.isNotBlank(term)){
-							eadSearch.setTerm(term);
-						}
 						Results results = updateCurrentSearch(request, eadSearch);
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch, eadSavedSearch));
