@@ -25,15 +25,19 @@
 		</portlet-info>
         <portlet-preferences>
             <preference>
-                <name>embedded</name>
-                <value>false</value>
+                <name>portletType</name>
+                <value>normal</value>
                 <read-only>false</read-only>
             </preference>  
             <preference>
                 <name>resultsType</name>
                 <value>ead</value>
                 <read-only>false</read-only>
-            </preference>                         
+            </preference>
+            <preference>
+                <name>savedSearchId</name>
+                <read-only>false</read-only>
+            </preference>                                     
         </portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
