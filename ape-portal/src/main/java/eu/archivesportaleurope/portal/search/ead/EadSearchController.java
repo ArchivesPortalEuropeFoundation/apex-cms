@@ -78,7 +78,6 @@ public class EadSearchController extends AbstractSearchController{
 		return showSavedSearch(request, eadSearch);
 	}
 	public ModelAndView showSavedSearch(RenderRequest request, EadSearch eadSearch) {
-		LOGGER.info("Saved search: " + eadSearch.getTerm());
 		String term = eadSearch.getTerm();
 		ModelAndView modelAndView = new ModelAndView();
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_SAVED);
