@@ -47,7 +47,7 @@ abbr, acronym {
 }
 
 html {
-	overflow-y: scroll;
+	overflow: hidden;
 }
 
 html.aui-dialog-iframe-root-node {
