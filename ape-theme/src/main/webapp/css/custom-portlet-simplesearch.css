@@ -25,9 +25,6 @@
     padding: 5px;
     border-radius: 5px;
 }
-#widgetSimpleSearchPortlet .simpleSearchOptions{
-	float:left;
-}
 #embeddedSimpleSearchPortlet #simpleSearch #searchTerms,
 #widgetSimpleSearchPortlet #simpleSearch #searchTerms {
 	font-size: 12px;
@@ -40,11 +37,6 @@
 	width: 90px;
 }
 
-#embeddedSimpleSearchPortlet #simpleSearch,
-#widgetSimpleSearchPortlet #simpleSearch {
-	width:400px;
-	float: left;
-}
 
 #embeddedSimpleSearchPortlet {
     position: relative;
@@ -55,12 +47,17 @@
 }
 
 #widgetSimpleSearchPortlet {
-	width:400px;
+
 	height: 50px;
 	display:inline-block;
 }
 
 #widgetSimpleSearchPortlet #poweredBy {
 	font-size: 10px;
-	float:right;
+}
+#widgetSimpleSearchPortlet #simpleSearch #searchButton {
+	float:left;
+}
+#widgetSimpleSearchPortlet #simpleSearchForm {
+	display:inline-block;
 }
