@@ -17,7 +17,7 @@
 								type="submit" id="searchButton" title="<fmt:message key="advancedsearch.message.start"/>" tabindex="10"
 								value="<fmt:message key="advancedsearch.message.search"/>" />
 				</form>				
-				<div id="poweredBy"><fmt:message key="simplesearch.message.poweredby"/> <a href="http://www.archivesportaleurope.net"><fmt:message key="simplesearch.message.poweredby.ape"/></a></div>
+				<div id="poweredBy"><fmt:message key="simplesearch.message.poweredby"/> <a href="http://www.archivesportaleurope.net" target="_blank"><fmt:message key="simplesearch.message.poweredby.ape"/></a></div>
 			</div>
 			
 		</div>
