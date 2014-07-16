@@ -22,14 +22,13 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @RequestMapping(value = "VIEW")
 public class SimpleSearchController {
 	private static final String EAD_RESULTS = "ead";
-	private static final String EAG_RESULTS = "eag";
-	private static final String EAC_CPF_RESULTS = "eac-cpf";
 	private static final String INSTITUTIONS = "numberOfInstitutions";
 	private static final String EAD_UNITS = "numberOfEadDescriptiveUnits";
 	private static final String EAC_CPF_UNITS = "numberOfEacCpfs";
 
-	private static final String TRUE = "TRUE";
-	//private final static Logger LOGGER = Logger.getLogger(SimpleSearchController.class);
+	private static final String PORTLET_TYPE_EMBEDDED = "embedded";
+	private static final String PORTLET_TYPE_WIDGET = "widget";
+	
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
 	private EacCpfDAO eacCpfDAO;
@@ -39,11 +38,17 @@ public class SimpleSearchController {
 	@RenderMapping
 	public ModelAndView showSimpleSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		String embedded= request.getPreferences().getValue("embedded", "false");
-		if (TRUE.equalsIgnoreCase(embedded)){
+		String portletType= request.getPreferences().getValue("portletType", "normal");
+		if (PORTLET_TYPE_EMBEDDED.equalsIgnoreCase(portletType)){
 			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
 			modelAndView.getModel().put("resultsType", results);
 			modelAndView.setViewName("embedded");
+		}else if (PORTLET_TYPE_WIDGET.equalsIgnoreCase(portletType)){
+			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
+			String savedSearchId = request.getPreferences().getValue("savedSearchId", "");
+			modelAndView.getModel().put("savedSearchId", savedSearchId);
+			modelAndView.getModel().put("resultsType", results);
+			modelAndView.setViewName("widget");
 		}else {
 			modelAndView.setViewName("home");
 			Long institutions = CACHE.get(INSTITUTIONS);

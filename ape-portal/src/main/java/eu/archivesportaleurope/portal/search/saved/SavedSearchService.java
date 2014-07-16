@@ -116,9 +116,9 @@ public class SavedSearchService {
 
 	}
 
-	public EadSearch convert(EadSavedSearch eadSavedSearch) {
+	public EadSearch convert(EadSavedSearch eadSavedSearch, EadSearch eadSearch) {
 		if (eadSavedSearch != null) {
-			EadSearch eadSearch = new EadSearch();
+			//EadSearch eadSearch = new EadSearch();
 			/*
 			 * simple search options
 			 */
