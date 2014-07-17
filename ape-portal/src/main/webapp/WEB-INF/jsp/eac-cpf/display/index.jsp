@@ -72,10 +72,7 @@
 		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
-	 	    <div id="printEacDetails" class="linkButton">
-			<a href="javascript:printEacDetails('${printEacDetailsUrl}')"><fmt:message key="label.print" /><span
-		   class="icon_print">&nbsp;</span></a>
-		</div>
+
 	<c:choose>
 		<c:when test="${empty c}">
 			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
@@ -84,20 +81,24 @@
 			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:otherwise>
 	</c:choose>
-	
+
 	<div id="feedbackArea">
 		<div>&nbsp;</div>
 		<portlet:resourceURL var="feedbackUrl" id="feedback"/>
-		<div class="sendFeedback"  class="linkButton">
+		<div id="feedbackEacCpf" class="sendFeedback linkButton">
  			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 		<div>&nbsp;</div>
 	</div>
-	
-
-
+ 
  	<div id="eaccpfcontent">
+		<div id="printEacDetails" class="linkButton">
+			<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
+				<fmt:message key="label.print" />
+				<span class="icon_print">&nbsp;</span>
+			</a>
+		</div>
 
 	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 	</div>

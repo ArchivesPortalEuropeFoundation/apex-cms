@@ -2,11 +2,12 @@
 	background-image: none;
 	background-color: white;
 	color: #2A4862;
-	margin-right:5px;
-	margin-left:5px;
+/*	margin-right:5px;
+	margin-left:5px;*/
 }
 
 #eacCpfDisplayPortlet #printPreview {
+	float:none;
 	margin-right:0px;
 	margin-left:0px;
 }
@@ -21,23 +22,27 @@
 }
 
 #eacCpfDisplayPortlet #details {
-	width:70%;
+/*	width:70%;*/
+    width:690px;
+    margin-right:18px;
 	float:left;
 }
 
 #eacCpfDisplayPortlet #printPreview #details {
+	float:none;
 	width:98%;
+    margin-right:0px;
 }
 
 #eacCpfDisplayPortlet h1 {
     color: #2A4862;
     font-size: 130%;
     font-weight: bold;
-	margin-top:15px;
+	/*margin-top:15px;*/
 	margin-bottom:15px;
 	display: inline-block;
     text-align: center;
-    width:70%;	
+    width:690px;
 }
 
 #eacCpfDisplayPortlet #printPreview h1 {
@@ -48,7 +53,12 @@
 	color:#83736A;
 	font-weight:normal;
 }
-
+#eacCpfDisplayPortlet #footer{
+	float:left;
+}
+#eacCpfDisplayPortlet #printPreview  #footer{
+	width:98%;	
+}
 #eacCpfDisplayPortlet h2.otherInformation {
 	color:#83736A;
 	border-bottom:1px solid #83736A;
@@ -61,7 +71,12 @@
 	font-weight:bold;
 	text-transform: uppercase;
 }
-
+#eacCpfDisplayPortlet .blockPlural, #eacCpfDisplayPortlet .blockSingular{
+	padding-bottom:8px;
+}
+#eacCpfDisplayPortlet .relationsBlock{
+	padding-bottom:2px;
+}
 #eacCpfDisplayPortlet #printPreview a {
 	pointer-events:none;
 	cursor:default;
@@ -72,8 +87,9 @@ pre.outline {
 	font-family: Arial,sans-serif;
 }
 
-#eacCpfDisplayPortlet .subrow {
+#eacCpfDisplayPortlet h2.subrow {
 	margin-left:40px;
+	word-wrap: break-word;
 }
 
 #eaccpfcontent .leftcolumn h2 {
@@ -90,22 +106,39 @@ pre.outline {
 	display:block;
 	font-size:8pt;
 	overflow:auto;
+	/*issue 1325*/
+	width:690px;
+	float:left;
+}
+
+#eacCpfDisplayPortlet #printPreview .row {
+	width:98%;
 }
 
 #eacCpfDisplayPortlet .leftcolumn {
 	float:left;
-	overflow-y: auto;
+/*	overflow-y: auto;*/
+    width:160px;
+    text-align:left;
+}
+
+#eacCpfDisplayPortlet #printPreview .leftcolumn {
+    width:23%;
 }
 
 #eacCpfDisplayPortlet .rightcolumn {
-	text-align:auto;
-	margin-left:180px;
+    float:right;
+    width:530px;
 	margin-top:9px;
+}
+
+#eacCpfDisplayPortlet #printPreview .rightcolumn {
+    width:75%;
 }
 
 #eacCpfDisplayPortlet #relations {
 	float:right;
-	width:260px;
+	width:292px;
 	font-size:8pt;
 }
 
@@ -125,11 +158,9 @@ pre.outline {
     margin: 0;
     padding: 0 0 0 5px;
 }
-
-.displayLinkShowMore:link, .displayLinkShowLess:link {
- color:#2A4862;	
+#relations li {
+	padding-bottom:2px;
 }
-
 .linkShow:link {
 	color: #C65400;
 	text-decoration:underline;
@@ -137,6 +168,10 @@ pre.outline {
 
 .linkMore{
 	float:right;
+}
+#feedbackEacCpf {
+	text-align:left;
+	padding-bottom:25px;
 }
 
 @media screen {
