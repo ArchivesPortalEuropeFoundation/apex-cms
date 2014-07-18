@@ -25,9 +25,6 @@
 <portlet:resourceURL var="displayEacUrl" id="displayEacDetails">
   <!--   <portlet:param name="solrId" value="${solrId}" /> -->
 	<portlet:param name="databaseId" value="${databaseId}" />
-<%-- 	<portlet:param name="repositoryCode" value="${repositoryCode}" />
-	<portlet:param name="eaccpfIdentifier" value="${eaccpfIdentifier}" /> --%>
-<!-- 	<portlet:param name="id" value="${id}" /> -->
 	<portlet:param name="element" value="${element}" />
  	<portlet:param name="term" value="${term}" /> 
 </portlet:resourceURL>
