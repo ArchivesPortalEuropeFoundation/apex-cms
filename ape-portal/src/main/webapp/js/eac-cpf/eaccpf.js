@@ -1,5 +1,6 @@
 
 function init(){
+	changeButtomPrint();
 	eraseData();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
@@ -139,4 +140,8 @@ function showMore(clazz, id){
 function enableFeedback(){
     $(".container").after($("#feedbackArea"));
     $("#content").after($("#feedbackArea"));
+}
+function changeButtomPrint(){
+	$("#eacCpfDisplayPortlet #printEacDetails").after($("#eacCpfDisplayPortlet #details"));
+	$("#eacCpfDisplayPortlet #printEacDetails").before($("#eacCpfDisplayPortlet h1.blockHeader"));
 }
