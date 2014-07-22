@@ -6,6 +6,7 @@ function eraseData(){
 	eraseComma();
 	eraseNameTitle();
 	eraseLocationPlace();
+	eraseList();
 }
 /**
  * Function to delete the first comma in the dates when there is not characters before it 
@@ -43,6 +44,17 @@ function eraseNameTitle() {
 function eraseLocationPlace(){
 	$("div#eaccpfcontent .locationPlace").each(function(){
 		var textRightColumn = $.trim($(this).find(".rightcolumn p").text());
+		if (textRightColumn == ''){
+			$(this).remove();
+		}
+	});
+}
+/**
+ * Function to delete the <ul class="level"> that has not <li class="item">
+ */
+function eraseList(){
+	$("div#eaccpfcontent ul.level").each(function(){
+		var textRightColumn = $.trim($(this).find("li.item").text());
 		if (textRightColumn == ''){
 			$(this).remove();
 		}
