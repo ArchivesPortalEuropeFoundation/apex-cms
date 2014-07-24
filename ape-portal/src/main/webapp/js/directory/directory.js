@@ -267,7 +267,14 @@ function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
 	$('h3.repositoryName').click(function() {
 		if ($(this).hasClass("expanded")) {
 			$(this).removeClass("expanded").addClass("collapsed");
-			$(this).next().hide();
+			var target =$(this).next();
+			target.hide();
+			$(".repositoryInfo").find(".displayLinkSeeMore").each(function(){
+				$(this).removeClass("hidden");
+			});
+			$(".repositoryInfo").find(".displayLinkSeeLess").each(function(){
+				$(this).addClass("hidden");
+			});
 		} else {
 			closeAllRepositories();
 			showRepository("#" + $(this).parent().attr("id"), selectedCountryCode, node, directoryTreeMapsUrl);
@@ -300,6 +307,12 @@ function showRepositoryOnMap(prefix,selectedCountryCode,node, directoryTreeMapsU
 function closeAllRepositories(){
 	if ($(".repositoryName").length > 0){
 		$(".repositoryName").removeClass("expanded").addClass("collapsed");
+		$(".repositoryInfo").find(".displayLinkSeeMore").each(function(){
+			$(this).removeClass("hidden");
+		});
+		$(".repositoryInfo").find(".displayLinkSeeLess").each(function(){
+			$(this).addClass("hidden");
+		});
 		$(".repositoryInfo").hide();
 		$(".repositoryInfo .longDisplay").hide();
 	}
