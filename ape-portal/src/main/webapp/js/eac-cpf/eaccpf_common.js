@@ -7,6 +7,30 @@ function eraseData(){
 	eraseNameTitle();
 	eraseLocationPlace();
 	eraseList();
+	eraseEmptyLi();
+}
+
+function eraseEmptyLi(){
+	eraseEmptyLiByName("material");
+	eraseEmptyLiByName("persons");
+	eraseEmptyLiByName("archives");
+	eraseEmptyLiByName("alternative");
+}
+
+function eraseEmptyLiByName(name){
+	var counter = 0;
+	$("#"+name).find("li:empty").each(function(){
+		$(this).remove();
+		counter++;
+	});
+	if(counter>0){
+		var target = $("#"+name).find(".boxtitle").find(".text");
+		var text = target.html();
+		var figure = parseInt(text.substring(text.indexOf("(")+1,text.indexOf(")")));
+		figure-=counter;
+		text = text.substring(0,text.indexOf("("))+"("+figure+")";
+		target.html(text);
+	}
 }
 /**
  * Function to delete the first comma in the dates when there is not characters before it 
