@@ -927,3 +927,12 @@
 #eadSearchPortlet #alwaysVisibleContainer {
     background-color: white;
 }
+
+#searchingPart #eaccpfcontent ul.level{
+	 padding: 0 0 0 10px;
+}
+#searchingPart #eaccpfcontent li.item{
+	list-style:disc outside none;
+	line-height: 1.8em;
+	margin-bottom: 0.5em;
+}
