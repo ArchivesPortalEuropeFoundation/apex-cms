@@ -146,7 +146,7 @@ public abstract class AbstractJSONWriter {
 	}
 	protected void addTitle(String styleClass, StringBuilder buffer, String title, Locale locale) {
 		addNoIcon(buffer);
-		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturnsForTree(title);
 		convertedTitle = PortalDisplayUtil.replaceLessThan(convertedTitle);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
@@ -174,7 +174,7 @@ public abstract class AbstractJSONWriter {
 	protected static void addNoIcon(TreeNode dynaTreeNode) {
 	}
 	protected void addTitle(TreeNode dynaTreeNode, String styleClass, String title, Locale locale) {
-		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturnsForTree(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
 			if (styleClass == null){
