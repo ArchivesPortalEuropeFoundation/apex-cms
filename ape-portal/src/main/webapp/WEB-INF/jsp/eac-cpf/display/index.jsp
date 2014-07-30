@@ -13,6 +13,7 @@
 <script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
 
 <portlet:defineObjects />
+
 <c:set var="element">
 	<c:out value="${param['element']}" />
 </c:set>
@@ -22,6 +23,7 @@
 <c:set var="databaseId">
 	<c:out value="${param['databaseId']}" />
 </c:set>
+
 <portlet:resourceURL var="displayEacUrl" id="displayEacDetails">
   <!--   <portlet:param name="solrId" value="${solrId}" /> -->
 	<portlet:param name="databaseId" value="${databaseId}" />
@@ -31,6 +33,7 @@
  
 <portlet:renderURL var="printEacDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEacDetails" />
+	<portlet:param name="id" value="${id}" />
 	<portlet:param name="repositoryCode" value="${repositoryCode}" />
 	<portlet:param name="eaccpfIdentifier" value="${eaccpfIdentifier}" /> 
 	<portlet:param name="element" value="${element}" />
@@ -70,14 +73,12 @@
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 
-	<c:choose>
-		<c:when test="${empty c}">
-			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
-		</c:when>
-		<c:otherwise>
-			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
-		</c:otherwise>
-	</c:choose>
+			<portal:eacCpfPersistentLink 
+			var="url" 
+			repoCode="${archivalInstitution.repositorycode}" 
+			id="${eaccpfIdentifier}" 
+			searchFieldsSelectionId="${element}" 
+			searchTerms="${term}" />
 
 	<div id="feedbackArea">
 		<div>&nbsp;</div>
