@@ -17,6 +17,8 @@ public class EacCpfParams {
 //	private String searchTerms;
 	private String element;
 	private String term;
+	private String langNavigator;
+	
 	public String getType() {
 		return type;
 	}
@@ -125,5 +127,11 @@ public class EacCpfParams {
 	}
 	public void setTerm(String term) {
 		this.term = term;
+	}
+	public String getLangNavigator() {
+		return this.langNavigator;
+	}
+	public void setLangNavigator(String langNavigator) {
+		this.langNavigator = langNavigator;
 	}
 }

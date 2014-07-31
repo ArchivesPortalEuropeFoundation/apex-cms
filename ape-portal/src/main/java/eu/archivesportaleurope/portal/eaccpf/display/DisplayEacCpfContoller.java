@@ -2,7 +2,9 @@ package eu.archivesportaleurope.portal.eaccpf.display;
 
 import java.io.File;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+
+import com.liferay.portal.util.PortalUtil;
 
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.APEnetUtilities;
@@ -140,6 +144,12 @@ public class DisplayEacCpfContoller {
 					modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 							renderRequest.getLocale());
+				    
+					//navigator's lang
+					HttpServletRequest request = PortalUtil.getHttpServletRequest(renderRequest);
+					String lang = request.getHeader("Accept-Language").substring(0, 2);	
+					modelAndView.getModelMap().addAttribute("langNavigator", lang);
+					
 					String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 					modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 					modelAndView.getModelMap().addAttribute("element", eacParam.getElement());

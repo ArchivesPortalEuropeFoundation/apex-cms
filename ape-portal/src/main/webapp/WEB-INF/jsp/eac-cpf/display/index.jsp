@@ -29,6 +29,7 @@
 	<portlet:param name="databaseId" value="${databaseId}" />
 	<portlet:param name="element" value="${element}" />
  	<portlet:param name="term" value="${term}" /> 
+   	<portlet:param name="langNavigator" value="${langNavigator}"/>   
 </portlet:resourceURL>
  
 <portlet:renderURL var="printEacDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -39,6 +40,7 @@
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
 	<portlet:param name="type" value="${type}" />
+	<portlet:param name="langNavigator" value="${langNavigator}"/>  
 </portlet:renderURL>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
@@ -97,8 +99,7 @@
 				<span class="icon_print">&nbsp;</span>
 			</a>
 		</div>
-		
-	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
+	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}"/>
 	</div>
 </div>
 

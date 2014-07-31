@@ -17,6 +17,9 @@
 <c:set var="eaccpfIdentifier">
 	<c:out value="${param['eaccpfIdentifier']}" />
 </c:set>	
+<c:set var="langNavigator">
+	<c:out value="${param['langNavigator']}" />
+</c:set>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
@@ -42,7 +45,7 @@
 		</h3>
 
 		<div id="eaccpfcontent">
-			<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
+			<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}"/>
 		</div>
 	</div>
 </div>

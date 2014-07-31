@@ -22,7 +22,7 @@
 <div id="content">
 	<div id="realcontent">
 		<div class="ead-content" id="eaccpfcontent">
-		  <portal:eac type="eaccpfdetailspreview" eacUrl="${eacCpf.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${identifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}"  searchTerms="${term}"/>
+		  <portal:eac type="eaccpfdetailspreview" eacUrl="${eacCpf.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${identifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}"  searchTerms="${term}" langNavigator="${langNavigator}"/>
 		</div>
 	</div>
 </div>
