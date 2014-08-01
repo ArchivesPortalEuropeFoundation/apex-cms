@@ -31,16 +31,43 @@ public class PortalDisplayUtil {
     public static final String TITLE_SAVED_SEARCH = "SAVED SEARCHES";
     public static final String TITLE_EAC_CPF_SEARCH = "NAME SEARCH";
     public static final String TITLE_EAG_SEARCH = "INSTITUTION SEARCH";
-   
+
+    /**
+     * Method to replace whitespaces, carriage returns and all the problematic
+     * characters.
+     *
+     * @param string String to be cleaned.
+     * @return Cleaned string.
+     */
 	public static String replaceQuotesAndReturns(String string) {
 		String result = string;
 		if (result != null) {
+			result = result.replaceAll("[/]", "");
+			result = replaceQuotesAndReturnsForTree(result);
+		}
+		return result;
+	}
+
+	/** 
+     * Method to replace whitespaces, carriage returns and all the problematic
+     * characters except the slash "/".
+     *
+     * This method should only be directly called from the tree constructors
+     * classes.
+     *
+     * @param string String to be cleaned.
+     * @return Cleaned string.
+	 */
+	public static String replaceQuotesAndReturnsForTree(String string) {
+		String result = string;
+		if (result != null) {
 			result = result.replaceAll("\"", "'");
-			result = result.replaceAll("[\n\t\r\\\\/%;]", "");
+			result = result.replaceAll("[\n\t\r\\\\%;]", "");
 			result = result.trim();
 		}
 		return result;
 	}
+
 	public static String replaceLessThan(String string){
 		return string.replaceAll("<", "&lt;");
 	}

@@ -353,7 +353,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	private void addTitle(String styleClass, StringBuilder buffer, String title, String count, Locale locale) {
 		addNoIcon(buffer);
-		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
+		String convertedTitle = PortalDisplayUtil.replaceQuotesAndReturnsForTree(title);
 		boolean hasTitle = convertedTitle != null && convertedTitle.length() > 0;
 		if (!hasTitle) {
 			if (styleClass == null) {
