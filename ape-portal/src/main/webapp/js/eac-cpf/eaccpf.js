@@ -1,6 +1,6 @@
 
 function init(){
-	changeButtomPrint();
+	changeButtomDiv();
 	eraseData();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
@@ -141,7 +141,62 @@ function enableFeedback(){
     $(".container").after($("#feedbackArea"));
     $("#content").after($("#feedbackArea"));
 }
-function changeButtomPrint(){
-	$("#eacCpfDisplayPortlet #printEacDetails").after($("#eacCpfDisplayPortlet #details"));
-	$("#eacCpfDisplayPortlet #printEacDetails").before($("#eacCpfDisplayPortlet h1.blockHeader"));
+
+/**
+ * Function to set correctly the position for the "Translations" and for the
+ * "Print" button.
+ */
+function changeButtomDiv(){
+	$("#eacCpfDisplayPortlet #buttonsDiv").before($("#eacCpfDisplayPortlet h1.blockHeader"));
+}
+
+/**
+ * Function to call the actions for translate the content of the page to the
+ * selected language contained in the file.
+ * 
+ * @param url URL for the translate action.
+ * @param selector Select object in which determine the language selected to display.
+ */
+function translateContent(url, selector) {
+	try{
+		$("body").css("cursor", "progress");
+		// Call the function that fix the language parameter in the URL.
+		url = fixUrlLang(url, $("#" + selector.attr("id") + " option:selected").val());
+
+		// Refresh the page with the new information.
+		var transPage = window.open(url, '_self');
+		transPage.focus();
+	}catch (e) {
+		$("body").css("cursor", "default");
+	}
+	$("body").css("cursor", "default");
+}
+
+/**
+ * Function that fix the value of the translation selected by the user in the
+ * URL used to reload the page.
+ *
+ * @param url URL used to reload the page.
+ * @param lang Translation language selected by the user.
+ *
+ * @returns Fixed URL.
+ */
+function fixUrlLang(url, lang) {
+	var fixedUrl = url;
+	var param = "translationLanguage";
+	if (fixedUrl.indexOf(param) > -1) {
+		var urlInit = fixedUrl.substring(0, (fixedUrl.indexOf(param) + param.length + 1));
+		var transValue = fixedUrl.substring(fixedUrl.indexOf(param) + param.length + 1);
+		var urlFinal = "";
+
+		if (transValue.indexOf("&") > -1) {
+			urlFinal = transValue.substring(0, fixedUrl.indexOf("&"));
+		}
+
+		fixedUrl = urlInit + lang + urlFinal;
+	} else {
+		fixedUrl = fixedUrl + "&_eaccpfdisplay_WAR_Portal_translationLanguage=" + lang;
+	}
+
+	return fixedUrl;
 }

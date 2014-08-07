@@ -1,5 +1,8 @@
 package eu.archivesportaleurope.portal.eaccpf.display;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class EacCpfParams {
 
 	private String type;
@@ -18,7 +21,11 @@ public class EacCpfParams {
 	private String element;
 	private String term;
 	private String langNavigator;
-	
+	private String translationLanguage;
+
+	// Map for the languages in the file.
+    private Map<String,String> languagesMap = new LinkedHashMap<String,String>();
+
 	public String getType() {
 		return type;
 	}
@@ -133,5 +140,32 @@ public class EacCpfParams {
 	}
 	public void setLangNavigator(String langNavigator) {
 		this.langNavigator = langNavigator;
+	}
+
+	/**
+	 * @return the translationLanguage
+	 */
+	public String getTranslationLanguage() {
+		return this.translationLanguage;
+	}
+	/**
+	 * @param translationLanguage the translationLanguage to set
+	 */
+	public void setTranslationLanguage(String translationLanguage) {
+		this.translationLanguage = translationLanguage;
+	}
+
+	/**
+	 * @return the languagesMap
+	 */
+	public Map<String, String> getLanguagesMap() {
+		return this.languagesMap;
+	}
+
+	/**
+	 * @param languagesMap the languagesMap to set
+	 */
+	public void setLanguagesMap(Map<String, String> languagesMap) {
+		this.languagesMap = languagesMap;
 	}
 }

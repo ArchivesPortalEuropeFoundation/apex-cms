@@ -76,6 +76,10 @@
 			<name>langNavigator</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute> 
+		<attribute>
+			<name>translationLanguage</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 	<tag>
 		<name>ead</name>

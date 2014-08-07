@@ -28,19 +28,31 @@
   <!--   <portlet:param name="solrId" value="${solrId}" /> -->
 	<portlet:param name="databaseId" value="${databaseId}" />
 	<portlet:param name="element" value="${element}" />
- 	<portlet:param name="term" value="${term}" /> 
-   	<portlet:param name="langNavigator" value="${langNavigator}"/>   
+ 	<portlet:param name="term" value="${term}" />
+   	<portlet:param name="langNavigator" value="${langNavigator}"/>
+	<portlet:param name="translationLanguage" value="${translationLanguage}" />
 </portlet:resourceURL>
  
 <portlet:renderURL var="printEacDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEacDetails" />
-	<portlet:param name="id" value="${id}" />
 	<portlet:param name="repositoryCode" value="${repositoryCode}" />
 	<portlet:param name="eaccpfIdentifier" value="${eaccpfIdentifier}" /> 
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
 	<portlet:param name="type" value="${type}" />
-	<portlet:param name="langNavigator" value="${langNavigator}"/>  
+   	<portlet:param name="langNavigator" value="${langNavigator}"/>
+	<portlet:param name="translationLanguage" value="${translationLanguage}" />
+</portlet:renderURL>
+
+<portlet:renderURL var="translateEacDetailsUrl">
+	<portlet:param name="myaction" value="translateEacDetails" />
+	<portlet:param name="repositoryCode" value="${repositoryCode}" />
+	<portlet:param name="eaccpfIdentifier" value="${eaccpfIdentifier}" /> 
+	<portlet:param name="element" value="${element}" />
+	<portlet:param name="term" value="${term}" />
+	<portlet:param name="type" value="${type}" />
+   	<portlet:param name="langNavigator" value="${langNavigator}"/>
+	<portlet:param name="translationLanguage" value="${translationLanguage}" />
 </portlet:renderURL>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
@@ -70,37 +82,62 @@
 </script>
 
 <div id="eacCpfDisplayPortlet">
+	<!-- Path for the apeEAC-CPF. -->
 	<h3 id="contextInformation">
 		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
 
-			<portal:eacCpfPersistentLink 
-			var="url" 
-			repoCode="${archivalInstitution.repositorycode}" 
-			id="${eaccpfIdentifier}" 
-			searchFieldsSelectionId="${element}" 
-			searchTerms="${term}" />
+	<!-- Persistent link. -->
+	<portal:eacCpfPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" id="${eaccpfIdentifier}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 
+	<!-- User's feedback section. -->
 	<div id="feedbackArea">
 		<div>&nbsp;</div>
 		<portlet:resourceURL var="feedbackUrl" id="feedback"/>
 		<div id="feedbackEacCpf" class="sendFeedback linkButton">
- 			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
+			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')">
+				<fmt:message key="label.feedback" />
+			</a>	
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 		<div>&nbsp;</div>
 	</div>
 
- 	<div id="eaccpfcontent">
-		<div id="printEacDetails" class="linkButton">
-			<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
-				<fmt:message key="label.print" />
-				<span class="icon_print">&nbsp;</span>
-			</a>
+	<!-- Display of the apeEAC-CPF content. -->
+	<div id="eaccpfcontent">
+		<!-- Div for the buttons. -->
+		<div id="buttonsDiv">
+			<!-- Print button. -->
+			<div id="printEacDetails" class="linkButton">
+				<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
+					<fmt:message key="label.print" />
+					<span class="icon_print">&nbsp;</span>
+				</a>
+			</div>
+
+			<!-- Translations selector. -->
+			<div id="translationsSelectorDiv">
+				<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
+					<c:forEach var="langOptions" items="${languagesMap}">
+						<c:choose>
+							<c:when test="${translationLanguage == langOptions.key}">
+								<form:option selected="true" value="${langOptions.key}">
+									${langOptions.value}
+								</form:option>
+							</c:when>
+							<c:otherwise>
+								<form:option value="${langOptions.key}">
+									${langOptions.value}
+								</form:option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select>
+			</div>
 		</div>
-	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}"/>
+
+		<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}" translationLanguage="${translationLanguage}" />
 	</div>
 </div>
-
 	

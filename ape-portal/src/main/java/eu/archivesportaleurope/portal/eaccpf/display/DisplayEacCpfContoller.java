@@ -1,10 +1,22 @@
 package eu.archivesportaleurope.portal.eaccpf.display;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -13,6 +25,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.liferay.portal.util.PortalUtil;
 
@@ -97,6 +113,34 @@ public class DisplayEacCpfContoller {
 		return modelAndView;
 	}
 
+	/**
+	 * Method to call the page that loads the content of the apeEAC-CPF in the selected language by the user.
+	 *
+	 * @param eacParams
+	 * @param renderRequest
+	 *
+	 * @return
+	 */
+	@RenderMapping(params = "myaction=translateEacDetails")
+	public ModelAndView translatedEacDetails(@ModelAttribute(value = "eacParams") EacCpfParams eacParams, RenderRequest renderRequest) {
+		ModelAndView modelAndView = null;
+
+		try {
+			modelAndView = displayDetails(renderRequest, eacParams);
+		}catch (NotExistInDatabaseException e) {
+			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
+		}catch (Exception e) {
+			LOGGER.error("Error in EAC-CPF display process:" + e.getMessage(),e);
+
+		}
+		if (modelAndView == null){
+			modelAndView = new ModelAndView();
+			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.setViewName("indexError");
+		}
+		return modelAndView;
+	}
+
 	public ModelAndView displayDetails(RenderRequest renderRequest, EacCpfParams eacParams) throws NotExistInDatabaseException{
 		ModelAndView modelAndView = new ModelAndView();
 		EacCpf eaccpf = null;
@@ -126,7 +170,8 @@ public class DisplayEacCpfContoller {
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				File file= new File(APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eac.getPath());
+				String path = APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eac.getPath();
+				File file= new File(path);
 				if (file.exists()){
 					if (eac.isPublished()) {
 						archivalInstitution = eac.getArchivalInstitution();
@@ -163,6 +208,28 @@ public class DisplayEacCpfContoller {
 					String documentTitle = eac.getTitle();
 					documentTitle = PortalDisplayUtil.getEacCpfDisplayTitle(eac);
 					modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+
+					// Fill languages map.
+					// First element, default value.
+					eacParam.getLanguagesMap().put("default", source.getString("label.translations"));
+
+					// Add languages from the file.
+					Map<String, String> langsMap = recoverLanguagesInXML(path);
+					eacParam.getLanguagesMap().putAll(langsMap);
+
+					// Last element, all values.
+					eacParam.getLanguagesMap().put("showAll", source.getString("label.show.all.translations"));
+
+					// Add map as a parameter.
+					modelAndView.getModelMap().addAttribute("languagesMap", eacParam.getLanguagesMap());
+
+					// Add the selected translation language.
+					String translationLanguage = "default";
+					if (eacParam.getTranslationLanguage() != null) {
+						translationLanguage = eacParam.getTranslationLanguage();
+					}
+					modelAndView.getModelMap().addAttribute("translationLanguage", translationLanguage);
+
 					return modelAndView;
 				}
 				else{
@@ -175,6 +242,91 @@ public class DisplayEacCpfContoller {
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
 			return modelAndView;
+		}
+	}
+
+	/**
+	 * Method to read the XML file and recover all the languages included in
+	 * the XML file on section "<cpfDescription>".
+	 *
+	 * @param path Path in which is stored the file to parse.
+	 * @return
+	 */
+	private Map<String, String> recoverLanguagesInXML(String path) {
+		Map<String, String> resultMap = new LinkedHashMap<String, String>();
+		Set<String> languagesSet = new LinkedHashSet<String>();
+
+		try {
+			// Create SAX parser factory.
+			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+			// Create SAX parser.
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			// Call method to recover the values.
+			SaxHandler saxHandler = new SaxHandler(languagesSet);
+			// Parse the file.
+			saxParser.parse(path, saxHandler);
+		} catch (ParserConfigurationException e) {
+			LOGGER.error("Error in XML SAX parser: " + e.getMessage());
+		} catch (SAXException e) {
+			LOGGER.error("SAX error: " + e.getMessage());
+		} catch (IOException e) {
+			LOGGER.error("Error accesing file (" + path + "): " + e.getMessage());
+		}
+
+		// Fill the map with the values from the set.
+		if (languagesSet != null && !languagesSet.isEmpty()) {
+			Map<String, String> unorderedMap = new LinkedHashMap<String, String>();
+			Iterator<String> languagesIt = languagesSet.iterator();
+			while (languagesIt.hasNext()) {
+				String currentLang = languagesIt.next();
+
+				// Checks the language.
+				Map<String, Locale> localeMap = APEnetUtilities.getIso3ToIso2LanguageCodesMap();
+
+				Locale language = localeMap.get(currentLang);
+				if (language == null) {
+					language = Locale.ENGLISH;
+				}
+
+				String localizedLang = language.getDisplayLanguage(language).toLowerCase();
+				localizedLang = localizedLang.substring(0, 1).toUpperCase() + localizedLang.substring(1);
+
+				unorderedMap.put(localizedLang, currentLang);
+			}
+
+			// Sort the values in the map.
+			List<String> keysList = new LinkedList<String>(unorderedMap.keySet());
+			Collections.sort(keysList);
+
+			// Add the elements ordered to the map.
+			for (int i = 0; i < keysList.size(); i++) {
+				resultMap.put(unorderedMap.get(keysList.get(i)), keysList.get(i));
+			}
+		}
+
+		return resultMap;
+	}
+
+	/**
+	 * Class that handle the XML passed and recovers all the value of all the
+	 * attributes "@xml:lang".
+	 */
+	private static class SaxHandler extends DefaultHandler {
+		private Set<String> languagesSet;
+		
+		public SaxHandler(Set<String> languagesSet) {
+			this.languagesSet = languagesSet;
+		}
+
+		public void startElement(String uri, String localName, String qName, Attributes attrs) throws SAXParseException, SAXException {
+			// For each attribute, get the name and value.
+			for (int i = 0; i < attrs.getLength(); i++) {
+				String attrName = attrs.getQName(i);
+				if (attrName.equalsIgnoreCase("xml:lang")) {
+					String attrValue = attrs.getValue(i);
+					this.languagesSet.add(attrValue);
+				}
+			}
 		}
 	}
 }
