@@ -361,8 +361,6 @@ function displayPreview (preview, data){
 	var image = $(preview + " #alwaysVisible img");
 	if(image.length > 0) {
 		image.load(function() {
-
-			image.outerHeight()
 			var daoDiv = image.parent();
 			daoDiv.height(image.outerHeight());
 			var alwaysVisible = daoDiv.parent();
@@ -370,6 +368,15 @@ function displayPreview (preview, data){
 			var aContainer = alwaysVisible.parent();
 			aContainer.height(alwaysVisible.outerHeight());
 		});
+		image.error(function () {
+		    $(this).unbind("error").attr("src", "/Portal-theme/images/ape/icons/dao_types/normal/not-found.png");
+			var daoDiv = image.parent();
+			daoDiv.height(image.outerHeight());
+			var alwaysVisible = daoDiv.parent();
+			alwaysVisible.height(daoDiv.outerHeight());
+			var aContainer = alwaysVisible.parent();
+			aContainer.height(alwaysVisible.outerHeight());
+		}); 
 	}
 	$previewDiv.removeClass("preview-content").addClass("preview-content");
 }

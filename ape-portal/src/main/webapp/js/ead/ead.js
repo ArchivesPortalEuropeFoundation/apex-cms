@@ -178,6 +178,9 @@ function initDAOs(){
 		addDAOS();
 		document.getElementById("moreDaosButton").scrollIntoView(true);
 	});	
+	$(".dao img").error(function () {
+	    $(this).unbind("error").attr("src", "/Portal-theme/images/ape/icons/dao_types/normal/not-found.png");
+	}); 
 }
 function addDAOS(){
 	var innerWidth =  $("#eaddetailsContent").innerWidth();
