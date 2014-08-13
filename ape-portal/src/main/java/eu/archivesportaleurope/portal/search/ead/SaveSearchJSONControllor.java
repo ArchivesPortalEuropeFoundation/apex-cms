@@ -5,6 +5,7 @@ import java.util.List;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -63,7 +64,12 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 			}else {
 				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 				try {
-					savedSearchService.saveSearch(liferayUserId, eadSearch);
+					String ownSavedSearchId = resourceRequest.getParameter("ownSavedSearchId");
+					if (StringUtils.isBlank(ownSavedSearchId)){
+						savedSearchService.saveSearch(null, liferayUserId, eadSearch);
+					}else {
+						savedSearchService.saveSearch(Long.parseLong(ownSavedSearchId), liferayUserId, eadSearch);	
+					}
 					answerMessage = source.getString("advancedsearch.text.savesearch.success");
 					saved = true;
 				}catch (Exception e) {

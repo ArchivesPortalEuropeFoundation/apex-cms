@@ -130,8 +130,10 @@ public class EadSearchController extends AbstractSearchController{
 						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch, eadSavedSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
-					//modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
-					
+					// owner of saved search
+					if (liferayUserId != null && eadSavedSearch.getLiferayUserId() == liferayUserId){
+						modelAndView.getModelMap().addAttribute("ownSavedSearchId", eadSavedSearch.getId());
+					}
 					modelAndView.setViewName("home");
 					return modelAndView;
 				}
