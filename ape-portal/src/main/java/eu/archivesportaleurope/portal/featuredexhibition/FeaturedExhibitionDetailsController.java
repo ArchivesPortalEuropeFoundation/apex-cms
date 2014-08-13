@@ -40,7 +40,7 @@ public class FeaturedExhibitionDetailsController {
 		String articleContent = null;
 		String documentTitle = null;
 		try {
-			if (StringUtils.isNumeric(classPK)){
+			if (StringUtils.isNotBlank(classPK) && StringUtils.isNumeric(classPK)){
 				long classPkLong = Long.parseLong(classPK);
 				JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(classPkLong);
 				JournalArticleDisplay articleDisplay = JournalArticleLocalServiceUtil.getArticleDisplay(
