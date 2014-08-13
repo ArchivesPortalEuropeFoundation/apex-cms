@@ -192,7 +192,14 @@
 					</ul>
 					<div id="saveSearch">
 						 <div id="saveSearchButton" class="linkButton">
-							<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+						 	<c:choose>
+						 		<c:when test="${empty ownSavedSearchId}">
+									<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+								</c:when>
+								<c:otherwise>
+									<a href="javascript:saveSearch('${ownSavedSearchId}')"><fmt:message key="advancedsearch.text.savesearch.modified" /></a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="answerMessageSavedSearch"></div>
 					</div>

@@ -192,9 +192,12 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 }
 
 
-function saveSearch() {
-	
-	$.post(savedSearchUrl, $("#updateCurrentSearch").serialize(), function(dataResponse) {
+function saveSearch(savedId) {
+	var form = $("#updateCurrentSearch").serialize();
+	if (savedId != undefined){
+		form = form + "&ownSavedSearchId=" + savedId;
+	}
+	$.post(savedSearchUrl, form, function(dataResponse) {
 		if (dataResponse.answerCode != "") {
 			$('#answerMessageSavedSearch').removeClass("success").removeClass("failure");
 			$('#answerMessageSavedSearch').html(dataResponse.answerMessage);		
