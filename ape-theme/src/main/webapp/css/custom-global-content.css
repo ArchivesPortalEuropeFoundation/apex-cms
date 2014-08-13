@@ -40,3 +40,7 @@ h1.content-page-title {
 #survey .buttons {
 	
 }
+
+.journal-content-article a {
+	font-weight: bold;
+}
