@@ -115,7 +115,7 @@
 
 <div id="feedbackArea">
 <portlet:resourceURL var="feedbackUrl" id="feedback"/>
-	<div class="sendFeedback"  class="linkButton">
+	<div class="sendFeedback linkButton">
 		<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
 				key="label.feedback" /></a>
 	</div>
