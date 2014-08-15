@@ -380,3 +380,7 @@ table.defaultlayout td.actions{
 table.defaultlayout form{
 	display:inline;
 }
+
+.tooltipContent a {
+	font-weight: bold;
+}

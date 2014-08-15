@@ -21,6 +21,7 @@
 @import url(jquery/jquery-ui-1.8.14.custom.css);
 
 @import url(dynatree/ui.dynatree.css);
+@import url(jquery/poshytip.css);
 
 input[type="submit"],input[type="reset"],input[type="button"],button[type="submit"],button[type="reset"],button[type="button"]
 	{
