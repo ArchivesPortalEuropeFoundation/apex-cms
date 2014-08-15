@@ -63,7 +63,6 @@
 		document.title = "${documentTitle}";
 		init();	
 		makeRelationsCollapsible();
-		enableFeedback();
 	});
 </script>
 
@@ -80,15 +79,7 @@
 			searchFieldsSelectionId="${element}" 
 			searchTerms="${term}" />
 
-	<div id="feedbackArea">
-		<div>&nbsp;</div>
-		<portlet:resourceURL var="feedbackUrl" id="feedback"/>
-		<div id="feedbackEacCpf" class="sendFeedback linkButton">
- 			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
-		</div>
-		<div id="feedbackContent" class="hidden"></div>
-		<div>&nbsp;</div>
-	</div>
+
  
  	<div id="eaccpfcontent">
 		<div id="printEacDetails" class="linkButton">
@@ -100,6 +91,14 @@
 
 	   <portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 	</div>
+	
+	<div id="feedbackArea">
+		<portlet:resourceURL var="feedbackUrl" id="feedback"/>
+		<div id="sendFeedbackButton" class="linkButton">
+ 			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
+		</div>
+		<div id="feedbackContent" class="hidden"></div>
+	</div>	
 </div>
 
 	
