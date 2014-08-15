@@ -12,28 +12,28 @@
 			#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
 			 #if ($navigationPosition.size() > 0 && $navigationPosition.get(0) =="top")
 				#if ($nav_item.isSelected())
-					<li class="selected">
+					<li class="selected" title="$nav_item.getTitle()">
 				#else
-					<li>
+					<li title="$nav_item.getTitle()">
 				#end
-					<a href="$nav_item.getURL()" $nav_item.getTarget()><span>$nav_item.icon() $nav_item.getName()</span></a>
+					<a href="$nav_item.getURL()" $nav_item.getTarget() ><span>$nav_item.icon() $nav_item.getName()</span></a>
 	
 					#if ($nav_item.hasChildren())
 						<ul class="child-menu">
 							#foreach ($nav_child in $nav_item.getChildren())
 								#if ($nav_child.isSelected())
-									<li class="selected">
+									<li class="selected" title="$nav_child.getTitle()">
 								#else
-									<li>
+									<li title="$nav_child.getTitle()">
 								#end
 									<a href="$nav_child.getURL()" $nav_child.getTarget()>$nav_child.getName()</a>
 									#if ($nav_child.hasChildren())
 										<ul class="child-menu">
 											#foreach ($nav_subchild in $nav_child.getChildren())
 												#if ($nav_subchild.isSelected())
-													<li class="selected">
+													<li class="selected" title="$nav_subchild.getTitle()">
 												#else
-													<li>
+													<li title="$nav_subchild.getTitle()">
 												#end
 													<a href="$nav_subchild.getURL()" $nav_subchild.getTarget()>$nav_subchild.getName()</a>
 												</li>
