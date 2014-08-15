@@ -137,10 +137,6 @@ function showMore(clazz, id){
     $(prefix + ".displayLinkShowMore").trigger("click");
 }
 
-function enableFeedback(){
-    $(".container").after($("#feedbackArea"));
-    $("#content").after($("#feedbackArea"));
-}
 function changeButtomPrint(){
 	$("#eacCpfDisplayPortlet #printEacDetails").after($("#eacCpfDisplayPortlet #details"));
 	$("#eacCpfDisplayPortlet #printEacDetails").before($("#eacCpfDisplayPortlet h1.blockHeader"));
