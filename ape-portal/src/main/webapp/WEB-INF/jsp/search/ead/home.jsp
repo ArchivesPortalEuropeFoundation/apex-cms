@@ -36,13 +36,198 @@
 				initCommon();
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
+				$('#sourceTabs .icon_help').poshytip({
+					className: 'tooltip',
+					showOn: 'hover',
+					alignTo: 'target',
+					alignX: 'left',
+					alignY: 'center',
+					offsetX: 5,
+					showTimeout: 100,
+					content: function() {
+						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
+						return $("#sourceTabsSearchHelpDialog").html();
+					}
+				});
+				$('#navigatedSearch .icon_help').poshytip({
+					className: 'tooltip',
+					showOn: 'hover',
+					alignTo: 'target',
+					alignX: 'left',
+					alignY: 'center',
+					offsetX: 5,
+					showTimeout: 100,
+					content: function() {
+						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
+						return $("#navigatedSearchHelpDialog").html();
+					}
+				});		
+				$('#advancedSearch .icon_help').poshytip({
+					className: 'tooltip',
+					showOn: 'hover',
+					alignTo: 'target',
+					alignX: 'right',
+					alignY: 'center',
+					offsetX: 5,
+					showTimeout: 100,
+					content: function() {
+						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
+						return $("#advancedSearchHelpDialog").html();
+					}
+				});	
+				$('#simpleSearch .icon_help').poshytip({
+					className: 'tooltip',
+					showOn: 'hover',
+					alignTo: 'target',
+					alignX: 'left',
+					alignY: 'center',
+					offsetX: 5,
+					showTimeout: 100,
+					content: function() {
+						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
+						return $("#simpleSearchHelpDialog").html();
+					}
+				});	
+				$('#searchResultsContainer #tabs .icon_help').poshytip({
+					className: 'tooltip',
+					showOn: 'hover',
+					alignTo: 'target',
+					alignX: 'left',
+					alignY: 'center',
+					offsetX: 5,
+					showTimeout: 100,
+					content: function() {
+						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
+						return $("#searchResultsHelpDialog").html();
+					}
+				});					
+				
 			});
+			
 		</script>
 <div id="searchingPart">
 		<div id="eadSearchPortlet" >
 			<portal:sourceTabs results="${results}" type="ead"/>
 			<div id="searchOptions">
-		
+			
+			<div id="sourceTabsSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">
+					<h3>Explanation of the different searches:</h3>
+					<ul>
+						<li><b>Search in archives</b> when looking for archival materials such as administrative records, manuscripts, maps etc.</li>
+						<li><b>Search in names</b> when looking for persons, families and corporate bodies, linking to archival materials.</li>
+						<li><b>Search in institutions</b> when looking for archival institutions in Europe.</li>
+					</ul>
+				</div>
+			</div>			
+			<div id="navigatedSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">
+					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.navigatedsearch" />':</h3>
+					<div class="dialog-subheader"><fmt:message key="navigatedsearch.dialog.help.4" /></div>
+					<div class="dialog-subcontent">
+						<span class="dynatree-checkbox" style="background-position: -64px -32px;"></span> <fmt:message key="navigatedsearch.dialog.help.5" /><br/>
+						<span class="dynatree-checkbox dynatree-selected" style="background-position: -32px -32px;"></span> <fmt:message key="navigatedsearch.dialog.help.6" /><br/>
+					</div>
+					<fmt:message key="nagivatedsearch.dialog.help.7" />&nbsp;<a href="searchAdvancedText.action" ><fmt:message key="nagivatedsearch.dialog.help.8" /></a>&nbsp;<fmt:message key="nagivatedsearch.dialog.help.9" />	
+				</div>
+			</div>
+			<div id="advancedSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
+					<div class="dialog-subheader"><fmt:message key="advancedsearch.dialog.help.1" /></div>
+					<div class="dialog-subcontent">
+						<ul>
+							<li><fmt:message key="advancedsearch.dialog.help.2" /></li>
+							<li class="ul-with-children">	
+								<ul>
+									<li><fmt:message key="advancedsearch.dialog.help.3" /></li>
+									<li><fmt:message key="advancedsearch.dialog.help.4" /></li>
+									<li><fmt:message key="advancedsearch.dialog.help.5" /></li>
+									<li><fmt:message key="advancedsearch.dialog.help.6" /></li>
+								</ul>
+							</li>
+							<li><fmt:message key="advancedsearch.dialog.help.7" /></li>
+							<li class="ul-with-children">	
+								<ul>
+							<li><fmt:message key="advancedsearch.dialog.help.8" /></li>
+							<li><fmt:message key="advancedsearch.dialog.help.9" /></li>
+							<li><fmt:message key="advancedsearch.dialog.help.10" /></li>
+								</ul>
+							</li>
+							<li><fmt:message key="advancedsearch.dialog.help.11" /></li>
+							<li class="ul-with-children">	
+								<ul>							
+							<li><fmt:message key="advancedsearch.dialog.help.12" /></li>
+							<li><fmt:message key="advancedsearch.dialog.help.13" /></li>
+							<li><fmt:message key="advancedsearch.dialog.help.14" /></li>	
+								</ul>
+							</li>										
+						</ul>
+					</div>
+					<fmt:message key="nagivatedsearch.dialog.help.7" />&nbsp;<a href="searchAdvancedText.action" ><fmt:message key="nagivatedsearch.dialog.help.8" /></a>&nbsp;<fmt:message key="nagivatedsearch.dialog.help.9" />	
+				</div>
+			</div>	
+			<div id="simpleSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+				<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
+					<div class="dialog-subheader"><fmt:message key="simplesearch.dialog.help.1" /></div>
+					<div class="dialog-subcontent">
+					<fmt:message key="simplesearch.dialog.help.2" />
+						<ul>
+							<li><fmt:message key="simplesearch.dialog.help.4" /></li>						
+							<li><fmt:message key="simplesearch.dialog.help.3" /></li>
+
+							<li><fmt:message key="simplesearch.dialog.help.5" /></li>
+
+					
+						</ul>		</div>
+					<fmt:message key="simplesearch.dialog.help.7" />&nbsp;<a href="searchSimpleText.action" ><fmt:message key="simplesearch.dialog.help.8" /></a>&nbsp;<fmt:message key="simplesearch.dialog.help.9" />	
+				</div>
+			</div>
+			<div id="searchResultsHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
+					<div class="dialog-subcontent">
+					<ul>
+						<li><fmt:message key="searchresults.dialog.help.1" /></li>
+						<li><fmt:message key="searchresults.dialog.help.2" /></li>
+						<li class="ul-with-children">	
+							<ul>
+								<li><fmt:message key="searchresults.dialog.help.3" /></li>
+								<li><fmt:message key="searchresults.dialog.help.4" /></li>
+								<li><fmt:message key="searchresults.dialog.help.5" /></li>
+								<li><fmt:message key="searchresults.dialog.help.6" /></li>
+							</ul>		
+						</li>
+						<li><fmt:message key="searchresults.dialog.help.7" /></li>
+						<li><fmt:message key="searchresults.dialog.help.8" /></li>
+						<li class="ul-with-children">	
+							<ul>
+								<li><fmt:message key="searchresults.dialog.help.9" /></li>
+								<li><fmt:message key="searchresults.dialog.help.10" /></li>
+								<li><fmt:message key="searchresults.dialog.help.11" /></li>
+								<li><fmt:message key="searchresults.dialog.help.12" /></li>
+								<li><fmt:message key="searchresults.dialog.help.13" /></li>
+							</ul>
+						</li>
+						<li><fmt:message key="searchresults.dialog.help.14" /></li>
+						<li class="ul-with-children">	
+							<ul>
+								<li><fmt:message key="searchresults.dialog.help.15" /></li>
+								<li><fmt:message key="searchresults.dialog.help.16" /></li>
+								<li><fmt:message key="searchresults.dialog.help.17" /></li>
+								<li><fmt:message key="searchresults.dialog.help.18" /></li>
+								<li><fmt:message key="searchresults.dialog.help.19" /></li>
+								<li><fmt:message key="searchresults.dialog.help.20" /></li>
+								<li><fmt:message key="searchresults.dialog.help.21" /></li>		
+							</ul>
+						</li>			
+					</ul>
+			
+					</div>				
+					<fmt:message key="searchresults.dialog.help.22" />&nbsp;<a href="SearchMethodsResults.action" ><fmt:message key="searchresults.dialog.help.23" /></a>&nbsp;<fmt:message key="searchresults.dialog.help.24" />	
+				</div>
+			</div>							
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -50,7 +235,7 @@
 				<form:hidden id="selectedNodes" path="selectedNodes"/>	
 				<div id="navigatedSearch">
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
-						<fmt:message key="advancedsearch.title.navigatedsearch" /> <span id="aiNumber"> </span>
+						<fmt:message key="advancedsearch.title.navigatedsearch" /> <span id="aiNumber"> </span><span class="icon_help"></span>
 					</h2>
 					<div id="navigatedSearchOptionsContent" class="searchOptionsContent hidden">
 						<div id="navigatedSearchOptionsSubHeader">
@@ -65,7 +250,7 @@
 				<div id="simpleAndAdvancedSearch">
 					<div id="advancedSearch">
 						<h2 id="advancedSearchOptionsHeader" class="blockHeader">
-							<fmt:message key="advancedsearch.title.advancedsearch" />
+							<fmt:message key="advancedsearch.title.advancedsearch" /><span class="icon_help"></span>
 						</h2>
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
@@ -119,7 +304,7 @@
 					</div>
 					<div id="simpleSearch">
 						<h2 id="simpleSearchOptionsHeader" class="blockHeader">
-							<fmt:message key="advancedsearch.title.simplesearch" />
+							<fmt:message key="advancedsearch.title.simplesearch" /><span class="icon_help"></span>
 						</h2>
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
@@ -202,7 +387,9 @@
 							</c:choose>
 						</div>
 						<div id="answerMessageSavedSearch"></div>
+						
 					</div>
+					<div class="icon_help"></div>
 					<div id="tabs-context">
 						<c:if test="${!empty results and eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />
