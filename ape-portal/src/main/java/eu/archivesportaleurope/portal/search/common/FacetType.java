@@ -121,7 +121,6 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.EAG_AI_GROUPS));
     	result.add(new ListFacetSettings(FacetType.EAG_REPOSITORY_TYPE));
-    	result.add(new ListFacetSettings(FacetType.LANGUAGE));
         return result;
     }
     public static List<ListFacetSettings> getDefaultEacCPfListFacetSettings(){
