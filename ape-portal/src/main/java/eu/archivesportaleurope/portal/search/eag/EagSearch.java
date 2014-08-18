@@ -20,7 +20,6 @@ public class EagSearch extends AbstractSearchForm {
 	private String element = NOSELECTION;
 	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String nameType;
-	private String language;
 	private String country;
 	private String aiGroupsFacet;
 	private String repositoryTypeFacet;
@@ -44,13 +43,6 @@ public class EagSearch extends AbstractSearchForm {
 
 
 
-	public List<String> getLanguageList() {
-		if (StringUtils.isNotBlank(language)) {
-			return Arrays.asList(language.split(LIST_SEPARATOR));
-		} else {
-			return null;
-		}
-	}
 	public List<String> getAiGroupsFacetList() {
 		if (StringUtils.isNotBlank(aiGroupsFacet)) {
 			return Arrays.asList(aiGroupsFacet.split(LIST_SEPARATOR));
@@ -98,16 +90,6 @@ public class EagSearch extends AbstractSearchForm {
 
 	public void setElementValues(Map<String, String> elementValues) {
 		this.elementValues = elementValues;
-	}
-
-
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
 	}
 
 	public String getAiGroupsFacet() {
