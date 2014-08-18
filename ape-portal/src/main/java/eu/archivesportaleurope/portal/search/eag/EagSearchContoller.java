@@ -204,7 +204,7 @@ public class EagSearchContoller extends AbstractSearchController{
 					solrFields.add(SolrField.EAG_OTHER_NAMES);
 				}
 				if (StringUtils.isNotBlank(eagSearch.getOnlyPlace())){
-					solrFields.add(SolrField.EAG_ADDRESS);
+					solrFields.add(SolrField.EAG_PLACES);
 				}
 				solrQueryParameters.setSolrFields(solrFields);
 			}
@@ -217,7 +217,6 @@ public class EagSearchContoller extends AbstractSearchController{
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eagSearch);
 		if (solrQueryParameters != null){
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eagSearch.getCountryList());
-			SearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eagSearch.getLanguageList());
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_AI_GROUPS, eagSearch.getAiGroupsFacetList());
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_REPOSITORY_TYPE, eagSearch.getRepositoryTypeFacetList());
 		}
