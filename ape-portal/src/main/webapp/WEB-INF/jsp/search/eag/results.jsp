@@ -35,9 +35,7 @@
 		<form:hidden id="updateCurrentSearch_term" path="term"/>
 		<form:hidden id="updateCurrentSearch_method" path="method"/>
 		<form:hidden id="updateCurrentSearch_mode" path="mode" value="update-search"/>
-		<form:hidden id="updateCurrentSearch_country" path="country"/>	
-
-		<form:hidden id="updateCurrentSearch_language" path="language"/>		
+		<form:hidden id="updateCurrentSearch_country" path="country"/>		
 		<form:hidden id="updateCurrentSearch_aiGroupsFacet" path="aiGroupsFacet"/>
 		<form:hidden id="updateCurrentSearch_repositoryTypeFacet" path="repositoryTypeFacet"/>		
 		<form:hidden id="updateCurrentSearch_repositoryType" path="repositoryType"/>	
