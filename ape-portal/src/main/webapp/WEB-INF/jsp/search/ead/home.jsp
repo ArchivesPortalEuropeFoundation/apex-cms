@@ -112,120 +112,70 @@
 			
 			<div id="sourceTabsSearchHelpDialog" class="hidden">
 				<div class="tooltipContent">
-					<h3>Explanation of the different searches:</h3>
+					<h3><fmt:message key="search.sourcetabs.help.title"/>:</h3>
 					<ul>
-						<li><b>Search in archives</b> when looking for archival materials such as administrative records, manuscripts, maps etc.</li>
-						<li><b>Search in names</b> when looking for persons, families and corporate bodies, linking to archival materials.</li>
-						<li><b>Search in institutions</b> when looking for archival institutions in Europe.</li>
+						<li><b><fmt:message key="menu.archives-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.ead.description"/></li>
+						<li><b><fmt:message key="menu.name-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
 					</ul>
 				</div>
 			</div>			
 			<div id="navigatedSearchHelpDialog" class="hidden">
 				<div class="tooltipContent">
-					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.navigatedsearch" />':</h3>
-					<div class="dialog-subheader"><fmt:message key="navigatedsearch.dialog.help.4" /></div>
-					<div class="dialog-subcontent">
-						<span class="dynatree-checkbox" style="background-position: -64px -32px;"></span> <fmt:message key="navigatedsearch.dialog.help.5" /><br/>
-						<span class="dynatree-checkbox dynatree-selected" style="background-position: -32px -32px;"></span> <fmt:message key="navigatedsearch.dialog.help.6" /><br/>
-					</div>
-					<fmt:message key="nagivatedsearch.dialog.help.7" />&nbsp;<a href="searchAdvancedText.action" ><fmt:message key="nagivatedsearch.dialog.help.8" /></a>&nbsp;<fmt:message key="nagivatedsearch.dialog.help.9" />	
+					<div class="tooltipSubContent"><fmt:message key="search.ead.navigatedsearch.help" /></div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>
 			<div id="advancedSearchHelpDialog" class="hidden">
 				<div class="tooltipContent">			
-					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
-					<div class="dialog-subheader"><fmt:message key="advancedsearch.dialog.help.1" /></div>
-					<div class="dialog-subcontent">
+					<h3><fmt:message key="help.tooltip.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
+					<div class="tooltipSubContent">
 						<ul>
-							<li><fmt:message key="advancedsearch.dialog.help.2" /></li>
+							<li><fmt:message key="search.ead.element.help" /></li>
 							<li class="ul-with-children">	
 								<ul>
-									<li><fmt:message key="advancedsearch.dialog.help.3" /></li>
-									<li><fmt:message key="advancedsearch.dialog.help.4" /></li>
-									<li><fmt:message key="advancedsearch.dialog.help.5" /></li>
-									<li><fmt:message key="advancedsearch.dialog.help.6" /></li>
+									<li><fmt:message key="search.ead.element.referencecode.help" /></li>
 								</ul>
 							</li>
-							<li><fmt:message key="advancedsearch.dialog.help.7" /></li>
+							<li><fmt:message key="search.ead.typedocument.help" /></li>
 							<li class="ul-with-children">	
 								<ul>
-							<li><fmt:message key="advancedsearch.dialog.help.8" /></li>
-							<li><fmt:message key="advancedsearch.dialog.help.9" /></li>
-							<li><fmt:message key="advancedsearch.dialog.help.10" /></li>
+									<li><fmt:message key="search.ead.typedocument.fa.help" /></li>
+									<li><fmt:message key="search.ead.typedocument.hg.help" /></li>
+									<li><fmt:message key="search.ead.typedocument.sg.help" /></li>
 								</ul>
-							</li>
-							<li><fmt:message key="advancedsearch.dialog.help.11" /></li>
-							<li class="ul-with-children">	
-								<ul>							
-							<li><fmt:message key="advancedsearch.dialog.help.12" /></li>
-							<li><fmt:message key="advancedsearch.dialog.help.13" /></li>
-							<li><fmt:message key="advancedsearch.dialog.help.14" /></li>	
-								</ul>
-							</li>										
+							</li>								
 						</ul>
 					</div>
-					<fmt:message key="nagivatedsearch.dialog.help.7" />&nbsp;<a href="searchAdvancedText.action" ><fmt:message key="nagivatedsearch.dialog.help.8" /></a>&nbsp;<fmt:message key="nagivatedsearch.dialog.help.9" />	
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>	
 			<div id="simpleSearchHelpDialog" class="hidden">
 				<div class="tooltipContent">			
-				<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
-					<div class="dialog-subheader"><fmt:message key="simplesearch.dialog.help.1" /></div>
-					<div class="dialog-subcontent">
-					<fmt:message key="simplesearch.dialog.help.2" />
+					<div class="tooltipSubContent">
 						<ul>
-							<li><fmt:message key="simplesearch.dialog.help.4" /></li>						
-							<li><fmt:message key="simplesearch.dialog.help.3" /></li>
-
-							<li><fmt:message key="simplesearch.dialog.help.5" /></li>
+							<li><fmt:message key="search.ead.hierarchy.help" /></li>
+							<li><fmt:message key="search.method.help" /></li>
 
 					
-						</ul>		</div>
-					<fmt:message key="simplesearch.dialog.help.7" />&nbsp;<a href="searchSimpleText.action" ><fmt:message key="simplesearch.dialog.help.8" /></a>&nbsp;<fmt:message key="simplesearch.dialog.help.9" />	
+						</ul>		
+					</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>
 			<div id="searchResultsHelpDialog" class="hidden">
-				<div class="tooltipContent">			
-					<h3><fmt:message key="dialog.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
-					<div class="dialog-subcontent">
+				<div class="tooltipContent">	
+				<h3><fmt:message key="help.tooltip.prefix" /> '<fmt:message key="advancedsearch.text.results" />':</h3>	
+					<div class="tooltipSubContent">
 					<ul>
-						<li><fmt:message key="searchresults.dialog.help.1" /></li>
-						<li><fmt:message key="searchresults.dialog.help.2" /></li>
-						<li class="ul-with-children">	
-							<ul>
-								<li><fmt:message key="searchresults.dialog.help.3" /></li>
-								<li><fmt:message key="searchresults.dialog.help.4" /></li>
-								<li><fmt:message key="searchresults.dialog.help.5" /></li>
-								<li><fmt:message key="searchresults.dialog.help.6" /></li>
-							</ul>		
-						</li>
-						<li><fmt:message key="searchresults.dialog.help.7" /></li>
-						<li><fmt:message key="searchresults.dialog.help.8" /></li>
-						<li class="ul-with-children">	
-							<ul>
-								<li><fmt:message key="searchresults.dialog.help.9" /></li>
-								<li><fmt:message key="searchresults.dialog.help.10" /></li>
-								<li><fmt:message key="searchresults.dialog.help.11" /></li>
-								<li><fmt:message key="searchresults.dialog.help.12" /></li>
-								<li><fmt:message key="searchresults.dialog.help.13" /></li>
-							</ul>
-						</li>
-						<li><fmt:message key="searchresults.dialog.help.14" /></li>
-						<li class="ul-with-children">	
-							<ul>
-								<li><fmt:message key="searchresults.dialog.help.15" /></li>
-								<li><fmt:message key="searchresults.dialog.help.16" /></li>
-								<li><fmt:message key="searchresults.dialog.help.17" /></li>
-								<li><fmt:message key="searchresults.dialog.help.18" /></li>
-								<li><fmt:message key="searchresults.dialog.help.19" /></li>
-								<li><fmt:message key="searchresults.dialog.help.20" /></li>
-								<li><fmt:message key="searchresults.dialog.help.21" /></li>		
-							</ul>
-						</li>			
+						<li><fmt:message key="search.results.ead.hierarchy.list.help" /></li>
+						<li><fmt:message key="search.results.ead.hierarchy.context.help" /></li>
+						<li><fmt:message key="search.results.refine.help" /></li>
+						<li><fmt:message key="search.results.sort.help" /></li>	
+						<li><fmt:message key="search.results.savesearch.help" /></li>	
 					</ul>
-			
 					</div>				
-					<fmt:message key="searchresults.dialog.help.22" />&nbsp;<a href="SearchMethodsResults.action" ><fmt:message key="searchresults.dialog.help.23" /></a>&nbsp;<fmt:message key="searchresults.dialog.help.24" />	
+					<div class="linkToMoreHelp"><fmt:message key="search.results.help.more" />&nbsp;<a href="help/search-results" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>							
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
