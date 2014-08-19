@@ -786,7 +786,7 @@
 	background-color: #fff9e8;
 }
 #searchingPart #saveSearch {
-    float: left;
+    float: right;
     padding-left: 15px;
     padding-top: 3px;
 	padding-bottom: 3px;
@@ -939,19 +939,18 @@
 #searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
 	margin-top:5px;
 }
-.dialog-subheader {
-	font-weight:bold;
-	padding-bottom: 5px;
-}
 
-.dialog-subcontent {
+.tooltipSubContent {
 	padding-bottom:10px;	
 }
 
 .ul-with-children {
 		list-style-type: none;
 }
-
+.linkToMoreHelp {
+	font-style: italic;
+	font-size:95%;
+}
 #searchingPart .icon_help {
 	margin-left:20px;
 }
