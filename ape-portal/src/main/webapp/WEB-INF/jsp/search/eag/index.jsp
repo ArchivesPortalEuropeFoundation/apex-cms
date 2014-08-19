@@ -30,6 +30,9 @@
 				setCommonUrls("${eacCpfSearchUrl}","${eadSearchUrl}","");
 				setUrls("${ajaxEagSearchUrl}","${autocompletionUrl}");
 				init();
+				initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
+				initTooltip('#simpleSearch .icon_help', "#simpleSearchHelpDialog", "left", "center");
+				initTooltip('#searchResultsContainer #tabs .icon_help', "#searchResultsHelpDialog", "right", "center");						
 			});
 		</script>
 <div id="searchingPart">
@@ -39,6 +42,39 @@
 	<portlet:param name="myaction" value="eagSearch" />
 </portlet:renderURL>
 <div id="searchOptions">
+			<div id="sourceTabsSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">
+					<h3><fmt:message key="search.sourcetabs.help.title"/>:</h3>
+					<ul>
+						<li><b><fmt:message key="menu.archives-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.ead.description"/></li>
+						<li><b><fmt:message key="menu.name-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+					</ul>
+				</div>
+			</div>
+			<div id="simpleSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+					<div class="tooltipSubContent">
+						<ul>
+							<li><fmt:message key="search.method.help" /></li>
+						</ul>		
+					</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>
+			<div id="searchResultsHelpDialog" class="hidden">
+				<div class="tooltipContent">	
+				<h3><fmt:message key="help.tooltip.prefix" /> '<fmt:message key="advancedsearch.text.results" />':</h3>	
+					<div class="tooltipSubContent">
+					<ul>
+						<li><fmt:message key="search.results.refine.help" /></li>
+						<li><fmt:message key="search.results.sort.help" /></li>	
+						<li><fmt:message key="search.results.savesearch.help" /></li>	
+					</ul>
+					</div>				
+					<div class="linkToMoreHelp"><fmt:message key="search.results.help.more" />&nbsp;<a href="help/search-results" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>						
 <form:form id="newSearchForm" name="eagSearchForm" commandName="eagSearch" method="post"
 				action="${eagSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -64,7 +100,7 @@
 					</div>				
 					<div id="simpleSearch">
 						<h2 id="simpleSearchOptionsHeader" class="blockHeader">
-							<fmt:message key="advancedsearch.title.simplesearch" />
+							<fmt:message key="advancedsearch.title.simplesearch" /><span class="icon_help"></span>
 						</h2>					
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
