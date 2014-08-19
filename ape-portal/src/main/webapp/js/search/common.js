@@ -12,6 +12,22 @@ function updateSourceTabs(){
 	$("#sourceTabs").empty();
 	$("#sourceTabs").html($("#NEWsourceTabs").html());
 	$("#NEWsourceTabs").remove();
+	initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
+}
+
+function initTooltip(iconIdentifier, helpTextIdentifer, alignXValue, alignYValue){
+	$(iconIdentifier).poshytip({
+		className: 'tooltip',
+		showOn: 'hover',
+		alignTo: 'target',
+		alignX: alignXValue,
+		alignY: alignYValue,
+		offsetX: 5,
+		showTimeout: 100,
+		content: function() {
+			return $(helpTextIdentifer).html();
+		}
+	});
 }
 function changeSearch(type){
 	var term = $("#updateCurrentSearch_term").val();
