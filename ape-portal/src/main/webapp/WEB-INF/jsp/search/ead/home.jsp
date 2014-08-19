@@ -37,8 +37,8 @@
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
 				initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
-				initTooltip('#navigatedSearch .icon_help', "#navigatedSearchHelpDialog", "left", "center");
-				initTooltip('#advancedSearch .icon_help', "#advancedSearchHelpDialog", "left", "center");
+				initTooltip('#navigatedSearch .icon_help', "#navigatedSearchHelpDialog", "right", "center");
+				initTooltip('#advancedSearch .icon_help', "#advancedSearchHelpDialog", "right", "center");
 				initTooltip('#simpleSearch .icon_help', "#simpleSearchHelpDialog", "left", "center");
 				initTooltip('#searchResultsContainer #tabs .icon_help', "#searchResultsHelpDialog", "right", "center");				
 			});
