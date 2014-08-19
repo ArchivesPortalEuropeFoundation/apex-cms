@@ -10,35 +10,6 @@
 	<portlet:param name="id" value="${aiId}" />
 </portlet:renderURL>
 <portal:friendlyUrl var="contentUrl" type="directory-content" />
-<script type='text/javascript'>
-	$(document).ready(function() {
-		document.title = "${documentTitle}";
-		$('div#holdings').poshytip({
-			className: 'tooltip',
-			showOn: 'hover',
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 5,
-			showTimeout: 100,
-			content: function() {
-				return $("#holdings").html();
-			}
-		});	
-		$('div#findings').poshytip({
-			className: 'tooltip',
-			showOn: 'hover',
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 5,
-			showTimeout: 100,
-			content: function() {
-				return $("#findings").html();
-			}
-		});	
-	});
-</script>
 <div id="buttonsHeaderEag">
 	<div class="linkButton right" id="printEagDetails">
 		<a href="javascript:printEagByURL('${printEagDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
@@ -68,8 +39,8 @@
 				<c:if test="${hasHoldingsGuides}">
 				<tr>
 					<td colspan="2">
-						<div id ="holdings">
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/hg" target="_blank"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
+						<div>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/hg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.hg.title'/>"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
 						</div>
 					</td>
 				</tr>
@@ -77,8 +48,8 @@
 				<c:if test="${hasFindingAids}">
 				<tr>
 					<td colspan="2">
-						<div id="findings">
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+						<div>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>">><fmt:message key="directory.archivalmaterial.list.fa"/></a>
 						</div>						
 					</td>
 				</tr>
@@ -87,7 +58,7 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/sg" target="_blank"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/sg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.sg.title'/>"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
 						</div>
 					</td>
 				</tr>
