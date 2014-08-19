@@ -6,7 +6,7 @@
 	            </li>
 				<li><a href="$my_account_url" id="my-account" rel="nofollow" class="user-fullname use-dialog" title="$my_account_text" data-controlpanelcategory="my">$user_name</a></li>
 	        #else
-	        	<li><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></li>
+	        	<li><a href="$sign_in_url" id="sign-in" rel="nofollow" title="#language('sign-in.title')">$sign_in_text</a></li>
 	        #end
  		#foreach ($nav_item in $nav_items) 
 			#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
