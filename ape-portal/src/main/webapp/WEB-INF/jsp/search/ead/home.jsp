@@ -36,72 +36,11 @@
 				initCommon();
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
-				$('#sourceTabs .icon_help').poshytip({
-					className: 'tooltip',
-					showOn: 'hover',
-					alignTo: 'target',
-					alignX: 'left',
-					alignY: 'center',
-					offsetX: 5,
-					showTimeout: 100,
-					content: function() {
-						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
-						return $("#sourceTabsSearchHelpDialog").html();
-					}
-				});
-				$('#navigatedSearch .icon_help').poshytip({
-					className: 'tooltip',
-					showOn: 'hover',
-					alignTo: 'target',
-					alignX: 'left',
-					alignY: 'center',
-					offsetX: 5,
-					showTimeout: 100,
-					content: function() {
-						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
-						return $("#navigatedSearchHelpDialog").html();
-					}
-				});		
-				$('#advancedSearch .icon_help').poshytip({
-					className: 'tooltip',
-					showOn: 'hover',
-					alignTo: 'target',
-					alignX: 'right',
-					alignY: 'center',
-					offsetX: 5,
-					showTimeout: 100,
-					content: function() {
-						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
-						return $("#advancedSearchHelpDialog").html();
-					}
-				});	
-				$('#simpleSearch .icon_help').poshytip({
-					className: 'tooltip',
-					showOn: 'hover',
-					alignTo: 'target',
-					alignX: 'left',
-					alignY: 'center',
-					offsetX: 5,
-					showTimeout: 100,
-					content: function() {
-						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
-						return $("#simpleSearchHelpDialog").html();
-					}
-				});	
-				$('#searchResultsContainer #tabs .icon_help').poshytip({
-					className: 'tooltip',
-					showOn: 'hover',
-					alignTo: 'target',
-					alignX: 'left',
-					alignY: 'center',
-					offsetX: 5,
-					showTimeout: 100,
-					content: function() {
-						// you can't use $(this).attr('title') since poshytip replaces that to supress the native tooltip
-						return $("#searchResultsHelpDialog").html();
-					}
-				});					
-				
+				initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
+				initTooltip('#navigatedSearch .icon_help', "#navigatedSearchHelpDialog", "left", "center");
+				initTooltip('#advancedSearch .icon_help', "#advancedSearchHelpDialog", "left", "center");
+				initTooltip('#simpleSearch .icon_help', "#simpleSearchHelpDialog", "left", "center");
+				initTooltip('#searchResultsContainer #tabs .icon_help', "#searchResultsHelpDialog", "right", "center");				
 			});
 			
 		</script>
