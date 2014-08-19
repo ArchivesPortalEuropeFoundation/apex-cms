@@ -772,7 +772,7 @@
     font-size: 13px;
 }
 #searchingPart #saveSearchButton {
-	float:left;
+	float:right;
 }
 #searchingPart #saveSearchButton a {
     border-radius: 5px;
