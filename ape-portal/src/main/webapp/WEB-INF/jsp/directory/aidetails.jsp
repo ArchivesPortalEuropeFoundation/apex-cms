@@ -40,7 +40,9 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/hg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.hg.title'/>"><fmt:message key="directory.archivalmaterial.list.hg"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/hg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.hg.title'/>">
+								<fmt:message key="directory.archivalmaterial.list.hg"/>
+							</a>
 						</div>
 					</td>
 				</tr>
@@ -49,7 +51,9 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>">
+								<fmt:message key="directory.archivalmaterial.list.fa"/>
+							</a>
 						</div>						
 					</td>
 				</tr>
@@ -58,7 +62,9 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/sg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.sg.title'/>"><fmt:message key="directory.archivalmaterial.list.sg"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/sg" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.sg.title'/>">
+								<fmt:message key="directory.archivalmaterial.list.sg"/>
+							</a>
 						</div>
 					</td>
 				</tr>
