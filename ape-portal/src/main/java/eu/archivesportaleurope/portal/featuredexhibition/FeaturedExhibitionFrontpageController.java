@@ -81,6 +81,8 @@ public class FeaturedExhibitionFrontpageController {
 
 							if (assetRenderer.hasViewPermission(themeDisplay.getPermissionChecker())) {
 								featuredExhibition.setDetailsClassPk(assetLinkEntry.getClassPK());
+							}else {
+								LOGGER.error("No permission to view " + assetLinkEntry.getClassPK());
 							}
 						}
 					} catch (Exception e) {
