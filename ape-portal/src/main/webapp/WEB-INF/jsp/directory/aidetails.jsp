@@ -49,7 +49,7 @@
 				<tr>
 					<td colspan="2">
 						<div>
-							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>">><fmt:message key="directory.archivalmaterial.list.fa"/></a>
+							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>"><fmt:message key="directory.archivalmaterial.list.fa"/></a>
 						</div>						
 					</td>
 				</tr>
