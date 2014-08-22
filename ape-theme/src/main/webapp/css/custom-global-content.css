@@ -9,13 +9,19 @@ h1.content-page-title {
     padding: 2px;
     width: 70%;
 }
-.content-page-text figure {
+
+.content-page-images img {
+	border: 1px solid #999;
+    padding: 2px;
+    width: 100%;
+}
+.content-page-text figure, .content-page-images figure {
 	 text-align: center;
 	 margin-top:10px;
 	 margin-bottom:10px;
 }
 
-.content-page-text figcaption {
+.content-page-text figcaption, .content-page-images figcaption  {
 	font-style: italic;
 	font-size: 90%;
 }
