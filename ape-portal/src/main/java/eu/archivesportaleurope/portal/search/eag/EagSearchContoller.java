@@ -205,6 +205,7 @@ public class EagSearchContoller extends AbstractSearchController{
 				}
 				if (StringUtils.isNotBlank(eagSearch.getOnlyPlace())){
 					solrFields.add(SolrField.EAG_PLACES);
+					solrFields.add(SolrField.EAG_ADDRESS);
 				}
 				solrQueryParameters.setSolrFields(solrFields);
 			}
