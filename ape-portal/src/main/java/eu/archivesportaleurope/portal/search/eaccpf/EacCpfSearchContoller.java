@@ -233,8 +233,8 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_ENTITY_ID, source.getString("advancedsearch.eaccpf.element.id"));	
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_PLACES, source.getString("advancedsearch.facet.title.placesfacet"));			
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_OCCUPATION, source.getString("advancedsearch.facet.title.occupationsfacet"));	
+		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));
 		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_FUNCTION, source.getString("advancedsearch.facet.title.functionsfacet"));			
-		eacCpfSearch.getElementValues().put(SolrFields.EAC_CPF_MANDATE, source.getString("advancedsearch.facet.title.mandatesfacet"));		
 		eacCpfSearch.getEntityTypeValues().put("", source.getString("advancedsearch.text.noselection"));		
 		eacCpfSearch.getEntityTypeValues().put(SolrValues.EAC_CPF_FACET_ENTITY_TYPE_PERSON, source.getString("advancedsearch.facet.value.eaccpf.entitytype.person"));
 		eacCpfSearch.getEntityTypeValues().put(SolrValues.EAC_CPF_FACET_ENTITY_TYPE_FAMILY, source.getString("advancedsearch.facet.value.eaccpf.entitytype.family"));		
