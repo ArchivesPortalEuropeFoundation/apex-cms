@@ -936,9 +936,7 @@
 	line-height: 1.8em;
 	margin-bottom: 0.5em;
 }
-#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
-	margin-top:5px;
-}
+
 
 .tooltipSubContent {
 	padding-bottom:10px;	
@@ -951,8 +949,14 @@
 	font-style: italic;
 	font-size:95%;
 }
-#searchingPart .icon_help {
+#searchingPart .icon_help,#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
 	margin-left:12px;
     position: relative;
-    top: 2px;	
+    top: 3px;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */    	
+}
+
+#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
+	margin-top:5px;
 }
