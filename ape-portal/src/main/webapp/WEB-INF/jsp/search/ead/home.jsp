@@ -124,7 +124,7 @@
 				<form:hidden id="selectedNodes" path="selectedNodes"/>	
 				<div id="navigatedSearch">
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
-						<fmt:message key="advancedsearch.title.navigatedsearch" /> <span id="aiNumber"> </span><span class="icon_help"></span>
+						<fmt:message key="advancedsearch.title.navigatedsearch" /><span id="aiNumber" class="hidden"></span><span class="icon_help"></span>
 					</h2>
 					<div id="navigatedSearchOptionsContent" class="searchOptionsContent hidden">
 						<div id="navigatedSearchOptionsSubHeader">
