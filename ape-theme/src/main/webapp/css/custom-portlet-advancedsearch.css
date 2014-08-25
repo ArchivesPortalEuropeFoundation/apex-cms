@@ -953,4 +953,6 @@
 }
 #searchingPart .icon_help {
 	margin-left:20px;
+    position: relative;
+    top: 2px;	
 }
