@@ -278,7 +278,8 @@ function countInitialSelectItems() {
 	if (selectedItems.length > 0){
 		var number = selectedItems.split(",").length;
 		if (number > 0){
-			$("#eadSearchPortlet #aiNumber").html("(" + number + ")");
+			$("#eadSearchPortlet #aiNumber").html(" (" + number + ")");
+			$("#eadSearchPortlet #aiNumber").removeClass("expanded");
 		}
 	}
 }
