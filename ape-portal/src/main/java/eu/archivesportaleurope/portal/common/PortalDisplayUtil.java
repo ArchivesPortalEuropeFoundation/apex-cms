@@ -69,7 +69,11 @@ public class PortalDisplayUtil {
 	}
 
 	public static String replaceLessThan(String string){
-		return string.replaceAll("<", "&lt;");
+		if (string != null){
+			return string.replaceAll("<", "&lt;");
+		}else {
+			return null;
+		}
 	}
 	public static ReadableUserAgent getUserAgent(PortletRequest portletRequest){
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
