@@ -245,9 +245,9 @@ public class EagSearchContoller extends AbstractSearchController {
 		}
 		eagSearch.getElementValues().put("", source.getString("advancedsearch.text.noselection"));
 		eagSearch.getElementValues().put(SolrField.EAG_NAME.toString(),
-				source.getString("advancedsearch.message.eag.onlyTitle"));
+				source.getString("advancedsearch.message.eag.name"));
 		eagSearch.getElementValues().put(SolrField.EAG_PLACES.toString(),
-				source.getString("advancedsearch.message.eag.onlyPlace"));
+				source.getString("advancedsearch.message.eag.place"));
 		return eagSearch;
 	}
 
