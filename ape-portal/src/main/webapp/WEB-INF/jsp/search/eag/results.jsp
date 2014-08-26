@@ -39,8 +39,7 @@
 		<form:hidden id="updateCurrentSearch_aiGroupsFacet" path="aiGroupsFacet"/>
 		<form:hidden id="updateCurrentSearch_repositoryTypeFacet" path="repositoryTypeFacet"/>		
 		<form:hidden id="updateCurrentSearch_repositoryType" path="repositoryType"/>	
-		<form:hidden id="updateCurrentSearch_onlyTitle" path="onlyTitle"/>	
-		<form:hidden id="updateCurrentSearch_onlyPlace" path="onlyPlace"/>					
+		<form:hidden id="updateCurrentSearch_element" path="element"/>					
 		<form:hidden id="updateCurrentSearch_facetSettings" path="facetSettings"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		

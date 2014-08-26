@@ -86,15 +86,14 @@
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
 								<tr>
+									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" />:</label></td>
+									<td colspan="3"><form:select path="element" id="element" tabindex="6" items="${eagSearch.elementValues}"/></td>
+								</tr>							
+								<tr>
 									<td><label for="repositoryType"><fmt:message key="eag2012.portal.typeofarchive" />:</label></td>
 									<td><form:select path="repositoryType" id="repositoryType" tabindex="6" items="${eagSearch.repositoryTypeValues}"/></td>
 								</tr>
-								<tr>
-									<td colspan="2" id="searchOnlyIn"><span><form:checkbox path="onlyTitle" id="onlyTitle" tabindex="7" value="title"/>
-												<label for="onlyTitle"><fmt:message key="advancedsearch.message.eag.onlyTitle" /></label></span><span><form:checkbox path="onlyPlace" id="onlyPlace" tabindex="8" value="place"/>
-												<label for="onlyPlace"><fmt:message key="advancedsearch.message.eag.onlyPlace" /></label></span></td>
-								</tr>
-		
+	
 							</table>
 						</div>
 					</div>				
