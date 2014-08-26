@@ -42,23 +42,7 @@ function clearSearch(){
 
 	
 }
-function searchOnSuggestion(value) {
-	$("#searchTerms").val(value);
-	performNewSearch();
-}
 
-function updateSuggestions() {
-	$("#suggestionSearch").empty();
-	$("#suggestionSearch").html($("#NEWsuggestionSearch").html());
-	$("#NEWsuggestionSearch").remove();
-	addSuggestionHandlers();
-}
-function addSuggestionHandlers() {
-	$('.suggestionLink').each(function(index) {
-		$(this).attr("href", "javascript:searchOnSuggestion('" + $(this).text() + "');");
-	});
-
-}
 function initTabs() {
 	if ($("#checkboxHierarchy").is(':checked')) {
 		selectedTab = 1;
