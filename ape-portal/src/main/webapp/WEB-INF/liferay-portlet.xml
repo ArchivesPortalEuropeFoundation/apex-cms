@@ -26,6 +26,13 @@
 		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>
+		<portlet-name>savedbookmark</portlet-name>
+		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>sv</friendly-url-mapping>
+		<friendly-url-routes>savedbookmark-url-routes.xml</friendly-url-routes>		
+		<instanceable>false</instanceable>
+	</portlet>
+	<portlet>
 		<portlet-name>directory</portlet-name>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
 		<friendly-url-mapping>dir</friendly-url-mapping>

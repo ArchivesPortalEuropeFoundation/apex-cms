@@ -6,6 +6,7 @@
 		<portlet id="simplesearch"/>
 		<portlet id="ead-search" />
 		<portlet id="savedsearch" />
+		<portlet id="savedbookmarks" />
 		<portlet id="directory" />
 		<portlet id="eaddisplay" />						
 		<portlet id="contact" />

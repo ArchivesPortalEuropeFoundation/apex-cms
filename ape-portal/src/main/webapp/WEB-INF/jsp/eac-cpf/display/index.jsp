@@ -115,7 +115,25 @@
 					<span class="icon_print">&nbsp;</span>
 				</a>
 			</div>
-
+			
+			<div id="bookmarksArea">
+				<div>&nbsp;</div>
+				<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
+				<div id="bookmarkEacCpf" class="doBookmark linkButton">
+		 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}')">Bookmark this</a>
+				</div>
+				<div id="bookmarkContent" class="hidden"></div>
+				<div>&nbsp;</div>
+			</div>
+			
+			<div id="bookmarksArea">
+				<div>&nbsp;</div>
+				<div id="bookmarkEacCpf" class="doBookmark linkButton">
+		 			<a href="javascript:saveBookmark('${documentTitle}','${url}')">Bookmark this</a> <%-- <fmt:message key="label.feedback" /> --%>	
+				</div>
+				<div id="answerMessageSavedBookmark"></div>
+				<div>&nbsp;</div>
+			</div>
 			<!-- Translations selector. -->
 			<div id="translationsSelectorDiv">
 				<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >

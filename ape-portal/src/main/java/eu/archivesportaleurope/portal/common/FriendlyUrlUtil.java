@@ -35,6 +35,7 @@ public final class FriendlyUrlUtil {
 
 	
 	private final static Map<String, String> urls = new HashMap<String, String>();
+	public static final String SAVED_BOOKMARKS_OVERVIEW = null;
 	static {
 		urls.put(EAD_DISPLAY_PERSISTENT, "/ead-display/-/ead/pl");
 		urls.put(FEATURED_EXHIBITION, "/featured-document/-/fed/pk");

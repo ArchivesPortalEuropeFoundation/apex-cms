@@ -45,6 +45,8 @@
 	<portlet:param name="myaction" value="contact" />
 </portlet:actionURL>
 
+<portlet:resourceURL var="bookmarkUrl" id="saveBookmark"/>>
+
 <script type="text/javascript">
 	 var RecaptchaOptions = {
 	    theme : 'white'
@@ -54,6 +56,7 @@
 <script type='text/javascript'>
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
+		initURLs("${bookmarkUrl}");
 		initExpandableParts();
 		stLight.options({
 			publisher : 'e059943f-766d-434b-84ea-1e0d4a91b7d4',
@@ -113,11 +116,20 @@
 </div>
 <!-- there is the user's feedback feature for WEB 2.0 -->
 
-<div id="feedbackArea">
-<portlet:resourceURL var="feedbackUrl" id="feedback"/>
-	<div class="sendFeedback"  class="linkButton">
-		<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
-				key="label.feedback" /></a>
+	<div id="bookmarksArea">
+		<div>&nbsp;</div>
+		<div id="bookmarkEacCpf" class="doBookmark linkButton">
+ 			<a href="javascript:saveBookmark('${documentTitle}','${url}')">Bookmark this</a> <%-- <fmt:message key="label.feedback" /> --%>	
+		</div>
+		<div id="answerMessageSavedBookmark"></div>
+		<div>&nbsp;</div>
 	</div>
-	<div id="feedbackContent" class="hidden"></div>
-</div>
+
+	<div id="feedbackArea">
+	<portlet:resourceURL var="feedbackUrl" id="feedback"/>
+		<div class="sendFeedback"  class="linkButton">
+			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
+					key="label.feedback" /></a>
+		</div>
+		<div id="feedbackContent" class="hidden"></div>
+	</div>
