@@ -2,9 +2,9 @@
  * Common functions to display the user's feedback.
  */
 
-function showFeedback(feedbackUrl, documentTitle, documentUrl, publicKey) {
+function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) {
 	if ($('#feedbackContent').is(':empty')){
-		$.post(feedbackUrl, {title: documentTitle, url: documentUrl}, function(data) {
+		$.post(feedbackUrl, {aiId: aiId, title: documentTitle, url: documentUrl}, function(data) {
 			$("#feedbackContent").html(data);
 	        Recaptcha.create(publicKey, "recaptchaDiv", {
 	            theme: "white",
