@@ -67,3 +67,6 @@ h1.content-page-title {
 .journal-content-article a {
 	font-weight: bold;
 }
+
+.content-page-text > p {
+    margin-bottom: 1.5em;
