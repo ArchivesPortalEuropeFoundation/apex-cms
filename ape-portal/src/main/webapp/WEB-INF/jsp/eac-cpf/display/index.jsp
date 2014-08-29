@@ -49,9 +49,10 @@
 <script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
 <script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
 
-<portlet:actionURL var="contactUrl">
-	<portlet:param name="myaction" value="contact" />
-</portlet:actionURL>
+
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eaccpfIdentifier,repositoryCode,element,term,type"><portlet:resourceURL id="feedback"/></portal:removeParameters>
+
 
 <script type="text/javascript">
 	 var RecaptchaOptions = {
@@ -93,9 +94,8 @@
 	</div>
 	
 	<div id="feedbackArea">
-		<portlet:resourceURL var="feedbackUrl" id="feedback"/>
 		<div id="sendFeedbackButton" class="linkButton">
- 			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
+ 			<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 	</div>	
