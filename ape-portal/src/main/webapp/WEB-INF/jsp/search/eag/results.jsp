@@ -113,7 +113,7 @@
 						<c:otherwise>					
 							<searchresults:order currentValue="${eagSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
 							|
-							<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.text.title2" />	
+							<searchresults:order currentValue="${eagSearch.order}" value="namesort" key="advancedsearch.eag.name" />	
 						</c:otherwise>
 					</c:choose>
 				</div>
