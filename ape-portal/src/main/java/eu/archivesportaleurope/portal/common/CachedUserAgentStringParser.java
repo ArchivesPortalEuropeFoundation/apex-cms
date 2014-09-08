@@ -4,11 +4,12 @@ import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
 
 public final class CachedUserAgentStringParser implements UserAgentStringParser {
 
 	private final UserAgentStringParser parser = UADetectorServiceFactory.getCachingAndUpdatingParser();
-	private final Cache<String, ReadableUserAgent> cache = new Cache<String, ReadableUserAgent>();
+	private final Cache<String, ReadableUserAgent> cache = CacheManager.getInstance().<String, ReadableUserAgent>initCache("UserAgentCache");
 
 	private static CachedUserAgentStringParser instance;
 	private CachedUserAgentStringParser(){
