@@ -11,6 +11,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.EacCpfDAO;
@@ -32,7 +33,7 @@ public class SimpleSearchController {
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
 	private EacCpfDAO eacCpfDAO;
-	private final static Cache<String, Long> CACHE = new Cache<String, Long>();
+	private final static Cache<String, Long> CACHE = CacheManager.getInstance().<String, Long>initCache("SimpleSearchCache");
 	
 	
 	@RenderMapping
