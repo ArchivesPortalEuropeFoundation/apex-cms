@@ -37,12 +37,20 @@ function eraseEmptyLiByName(name){
  */
 function eraseComma(){
 	$("div#eaccpfcontent span.nameEtryDates").each(function(){
-		var stringDates = $(this).text();
+		var stringDates = $(this).html();
+		var startStringDates = "";
+		var endStringDates = "";
+		//strip span tags
+		if(stringDates.length > 0 && stringDates.indexOf(">")!==undefined && stringDates.lastIndexOf("<")){
+			startStringDates = stringDates.substring(0,stringDates.indexOf(">")+1);
+			endStringDates = stringDates.substring(stringDates.lastIndexOf("<"),stringDates.length);
+			stringDates = stringDates.substring(stringDates.indexOf(">")+1,stringDates.lastIndexOf("<"));
+		}
 		var firstCharacter=stringDates.charAt(0);
 		if (firstCharacter == ','){
 			stringDates=$.trim(stringDates.substring(1));
 		}
-		$(this).text(stringDates);
+		$(this).html(startStringDates+stringDates+endStringDates);
 	});
 }
 /**
