@@ -28,7 +28,7 @@ function initSimpleSearchAutocompletion(autocompletionUrl, embedded) {
 		search : function() {
 			// custom minLength
 			var term = extractLast(this.value);
-			if (term.length < 1) {
+			if (term.length < 3) {
 				return false;
 			}
 		},
