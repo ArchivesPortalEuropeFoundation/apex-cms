@@ -4,6 +4,7 @@
 <display>
 	<category name="Archives Portal Europe">
 		<portlet id="simplesearch"/>
+		<portlet id="widgetsearch"/>		
 		<portlet id="ead-search" />
 		<portlet id="savedsearch" />
 		<portlet id="directory" />
