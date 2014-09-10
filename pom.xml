@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.archivesportaleurope.frontend</groupId>
 	<artifactId>frontend-project</artifactId>
-	<version>1.6.0.4-SNAPSHOT</version>
+	<version>1.6.0.4</version>
 	<packaging>pom</packaging>
 
 	<name>frontend-project</name>
 	<url>http://www.archivesportaleurope.net</url>
 	<scm>
-		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.6</connection>
-		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-1.6</developerConnection>
+		<connection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/frontend-project-1.6.0.4</connection>
+		<developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/tags/frontend-project-1.6.0.4</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
