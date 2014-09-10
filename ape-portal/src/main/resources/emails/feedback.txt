@@ -1,4 +1,4 @@
-Dear Feedback Taskforce of the Archives Portal Europe,
+Dear ${name} of ${archivalInstitution},
 
 The user:
 Username: ${username}
@@ -15,4 +15,3 @@ Url: ${url}
 ${body}
 
 ---------------------------------------------------------------------------
-
