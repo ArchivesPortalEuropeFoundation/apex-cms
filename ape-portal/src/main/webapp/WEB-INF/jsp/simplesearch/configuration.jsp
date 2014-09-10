@@ -31,7 +31,7 @@ String savedSearchId = preferences.getValue("savedSearchId", "");
 	<td><input  type="text" name="<portlet:namespace />preferences--resultsType--" value="<%=resultsType %>"/> </td>
 </tr>
 <tr>
-	<td>Portlet type(normal, embedded, widget):</td>
+	<td>Portlet type(normal, embedded):</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--portletType--" value="<%=portletType %>"/> </td>
 </tr>
 <tr>
