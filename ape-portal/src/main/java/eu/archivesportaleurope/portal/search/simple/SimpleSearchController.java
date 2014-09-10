@@ -28,7 +28,6 @@ public class SimpleSearchController {
 	private static final String EAC_CPF_UNITS = "numberOfEacCpfs";
 
 	private static final String PORTLET_TYPE_EMBEDDED = "embedded";
-	private static final String PORTLET_TYPE_WIDGET = "widget";
 	
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
@@ -44,12 +43,6 @@ public class SimpleSearchController {
 			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
 			modelAndView.getModel().put("resultsType", results);
 			modelAndView.setViewName("embedded");
-		}else if (PORTLET_TYPE_WIDGET.equalsIgnoreCase(portletType)){
-			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
-			String savedSearchId = request.getPreferences().getValue("savedSearchId", "");
-			modelAndView.getModel().put("savedSearchId", savedSearchId);
-			modelAndView.getModel().put("resultsType", results);
-			modelAndView.setViewName("widget");
 		}else {
 			modelAndView.setViewName("home");
 			Long institutions = CACHE.get(INSTITUTIONS);
