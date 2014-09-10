@@ -279,7 +279,7 @@ function countInitialSelectItems() {
 		var number = selectedItems.split(",").length;
 		if (number > 0){
 			$("#eadSearchPortlet #aiNumber").html(" (" + number + ")");
-			$("#eadSearchPortlet #aiNumber").removeClass("expanded");
+			$("#eadSearchPortlet #aiNumber").removeClass("hidden");
 		}
 	}
 }
