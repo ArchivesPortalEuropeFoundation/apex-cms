@@ -13,6 +13,7 @@
 <h1><fmt:message key="label.feedback" /></h1>
 
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
+	<form:hidden path="aiId"/>
 	<form:hidden id="aiRepoCode" path="repoCode"/>
 	<form:hidden id="recaptchaPubKey" path="recaptchaPubKey"/>
     <table class="contactForm">
