@@ -31,4 +31,9 @@
 		<implicit-parameter name="showOnlyNew">true</implicit-parameter>
 		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
 	</route>	
+	<route>
+		<pattern>/n</pattern>
+		<implicit-parameter name="advanced">false</implicit-parameter>
+		<implicit-parameter name="myaction">simpleSearch</implicit-parameter>
+	</route>	
 </routes>
