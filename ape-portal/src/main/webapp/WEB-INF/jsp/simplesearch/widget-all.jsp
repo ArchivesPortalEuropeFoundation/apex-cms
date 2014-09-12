@@ -8,12 +8,6 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
 <portal:friendlyUrl var="searchUrl" type="remote-ead-search" noHttps="true"/>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("html").css("overflow-y","hidden") ;
-			$("html").css("overflow-x","hidden") ;
-		});	
-		</script>
 <div id="widgetSimpleSearchPortlet">
 		<div id="simpleSearch">
 			<div class="simpleSearchOptions">
