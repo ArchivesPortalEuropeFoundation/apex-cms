@@ -10,6 +10,7 @@
 	</portlet>
 	<portlet>
 		<portlet-name>widgetsearch</portlet-name>
+		<layout-cacheable>true</layout-cacheable>		
 	</portlet>	
 	<portlet>
 		<portlet-name>ead-search</portlet-name>
