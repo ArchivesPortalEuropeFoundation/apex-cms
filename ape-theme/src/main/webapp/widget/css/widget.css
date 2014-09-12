@@ -1,0 +1,65 @@
+#widgetSimpleSearchPortlet .simpleSearchOptions {
+    background-color: #e8e8e8;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 5px;
+}
+
+#widgetSimpleSearchPortlet {
+    display: inline-block;
+    height: 50px;
+}
+body {
+    color: #333;
+    font-family: Arial,sans-serif;
+    font-size: 10pt;
+}
+#widgetSimpleSearchPortlet #poweredBy {
+    font-size: 10px;
+}
+#embeddedSimpleSearchPortlet #simpleSearch #searchTerms, #widgetSimpleSearchPortlet #simpleSearch #searchTerms {
+    font-size: 12px;
+    width: 250px;
+}
+#simpleSearch #searchTerms {
+    background-color: white;
+    background-image: none;
+    float: left;
+    font-weight: bold;
+    padding: 3px;
+    border: 1px solid #999999;
+    border-radius: 3px;
+}
+
+#searchButton {
+	float: left;
+    font-size: 12px;
+    width: 90px;
+    background: url("../../images/ape/mainbutton.jpg") repeat-x scroll right top white;
+    border: 1px solid #999999;
+    color: #00384d;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 3px;
+    overflow: visible;
+    cursor: pointer;
+    border: 1px solid #00a0df;
+    border-radius: 3px;   
+	padding-bottom:2px;
+}
+
+
+button, input {
+	margin: 0;
+    line-height: normal;
+    vertical-align: baseline;
+}
+
+
+#simpleSearchForm {
+    display: inline-block;
+}
+html {
+	overflow-y:hidden;
+	overflow-x: hidden; 
+}
