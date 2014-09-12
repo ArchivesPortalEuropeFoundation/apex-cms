@@ -15,6 +15,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portlet.journal.NoSuchArticleException;
 import com.liferay.portlet.journal.model.JournalArticle;
 import com.liferay.portlet.journal.model.JournalArticleDisplay;
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
@@ -57,7 +58,10 @@ public class FeaturedExhibitionDetailsController {
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (NoSuchArticleException e){
+			LOGGER.warn(e.getMessage());
+			articleContent = "Article does not exists";			
+		}catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
 			articleContent = "Article does not exists";
 		}
