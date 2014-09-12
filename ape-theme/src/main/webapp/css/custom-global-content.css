@@ -2,6 +2,29 @@ h1.content-page-title {
     margin-top: 0px;
     padding-top:0px;
 }
+
+.content-page-text img {
+	
+	border: 1px solid #999;
+    padding: 2px;
+    width: 70%;
+}
+
+.content-page-images img {
+	border: 1px solid #999;
+    padding: 2px;
+    width: 100%;
+}
+.content-page-text figure, .content-page-images figure {
+	 text-align: center;
+	 margin-top:10px;
+	 margin-bottom:10px;
+}
+
+.content-page-text figcaption, .content-page-images figcaption  {
+	font-style: italic;
+	font-size: 90%;
+}
 .content-frontpage-imagewrapper {
 	float:left;
 	background-color: white;
@@ -39,4 +62,12 @@ h1.content-page-title {
 
 #survey .buttons {
 	
+}
+
+.journal-content-article a {
+	font-weight: bold;
+}
+
+.content-page-text > p {
+    margin-bottom: 1.7em;
 }

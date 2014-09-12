@@ -41,9 +41,8 @@
 	<portlet:param name="pageNumber" value="${pageNumber}" />
 </portlet:renderURL>
 
-<portlet:actionURL var="contactUrl">
-	<portlet:param name="myaction" value="contact" />
-</portlet:actionURL>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
 <portlet:resourceURL var="bookmarkUrl" id="saveBookmark"/>>
 
@@ -126,9 +125,8 @@
 	</div>
 
 	<div id="feedbackArea">
-	<portlet:resourceURL var="feedbackUrl" id="feedback"/>
-		<div class="sendFeedback"  class="linkButton">
-			<a href="javascript:showFeedback('${feedbackUrl}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
+		<div id="sendFeedbackButton" class="linkButton">
+			<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
 					key="label.feedback" /></a>
 		</div>
 		<div id="feedbackContent" class="hidden"></div>

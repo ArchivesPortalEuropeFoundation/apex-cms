@@ -61,8 +61,14 @@ public class SavedSearchService {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
 	}
 
-	public void saveSearch(Long liferayUserId, EadSearch eadSearch) {
-		EadSavedSearch eadSavedSearch = new EadSavedSearch();
+	public void saveSearch(Long eadSavedSearchId, Long liferayUserId, EadSearch eadSearch) {
+		EadSavedSearch eadSavedSearch = null;
+		if (eadSavedSearchId != null){
+			eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(eadSavedSearchId, liferayUserId);
+		}
+		if (eadSavedSearch == null){
+			eadSavedSearch = new EadSavedSearch();
+		}
 		eadSavedSearch.setLiferayUserId(liferayUserId);
 		eadSavedSearch.setModifiedDate(new Date());
 		/*
@@ -116,9 +122,9 @@ public class SavedSearchService {
 
 	}
 
-	public EadSearch convert(EadSavedSearch eadSavedSearch) {
+	public EadSearch convert(EadSavedSearch eadSavedSearch, EadSearch eadSearch) {
 		if (eadSavedSearch != null) {
-			EadSearch eadSearch = new EadSearch();
+			//EadSearch eadSearch = new EadSearch();
 			/*
 			 * simple search options
 			 */

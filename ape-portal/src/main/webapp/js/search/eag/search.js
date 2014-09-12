@@ -29,11 +29,11 @@ function init(){
 
 function performNewSearch() {
 	var documentTitle = document.title;
-//	blockSearch();
+	blockSearch();
 	$("#mode").val("new-search");
 	$.post(newEagSearchUrl, $("#newSearchForm").serialize(), function(data) {
 		$("#tabs-list").html(data);
-//		updateSuggestions();
+		updateSuggestions();
 		updateSourceTabs();
 		
 		$("#searchResultsContainer").removeClass("hidden");
@@ -44,7 +44,7 @@ function performNewSearch() {
 
 function updateCurrentSearchResults(addRemoveRefinement) {
 	$("#searchResultsContainer").removeClass("hidden");
-//	blockSearch();
+	blockSearch();
 	$.post(newEagSearchUrl, $("#updateCurrentSearch").serialize(), function(data) {
 		var refinementsHtml = $("#selectedRefinements > ul").html();
 		// keep the selected refinements

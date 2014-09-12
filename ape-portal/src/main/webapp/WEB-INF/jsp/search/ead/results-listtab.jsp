@@ -178,7 +178,7 @@
 								</div>
 								<div class="list-searchresult-actions hidden">
 									<ul>
-										<li><a href="javascript:addOnlyThisRefinement('fond','${result.fondId }','${result.escapedFond}','${result.escapedFond}')"><fmt:message key="advancedsearch.facet.document.only" /></a></li>
+										<li><a href="javascript:addOnlyThisRefinement('fond','${result.fondId }','${result.escapedFond}','${result.escapedFond}')" title="<fmt:message key="advancedsearch.facet.document.only.help" />"><fmt:message key="advancedsearch.facet.document.only" /></a></li>
 									</ul>
 								</div>
 								</div>

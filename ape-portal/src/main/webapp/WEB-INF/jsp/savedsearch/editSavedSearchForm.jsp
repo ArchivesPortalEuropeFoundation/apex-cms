@@ -3,7 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html" isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
+<portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
 <portlet:actionURL var="saveEadSavedSearchActionUrl">
 	<portlet:param name="myaction" value="saveEditSavedSearch" />
 </portlet:actionURL>
@@ -27,6 +28,7 @@
 			<c:choose><c:when test="${savedSearch.searchAllSearch}"><c:out value="${savedSearch.publicSearch}"/></c:when><c:otherwise><form:checkbox path="publicSearch" value="true"/></c:otherwise>
 																			</c:choose></td></tr>
 		<tr><th><fmt:message key="savedsearch.template"/>:</th><td><form:checkbox path="template" value="true"/></td></tr>
+		<tr><td  colspan="2"><a href="${savedSearchUrl}/${savedSearch.id}"><fmt:message key="savedsearches.overview.edit.parameters"/></a></td></tr>
 		<tr><td colspan="2"><input type="submit" class="mainButton" value="<fmt:message key="savedsearch.save"/>"></td>
 		</tr>
 

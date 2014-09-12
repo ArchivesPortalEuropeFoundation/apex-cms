@@ -16,6 +16,7 @@ import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "aiContentController")
 @RequestMapping(value = "VIEW")
@@ -62,8 +63,10 @@ public class AiContentController {
 			modelAndView.getModelMap().addAttribute("pageSize", eadSearchOptions.getPageSize());
 			modelAndView.getModelMap().addAttribute("eads", eadDAO.getEads(eadSearchOptions));
 			PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
+		} catch (NullPointerException e) {
+			modelAndView.setViewName("indexError");
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 			modelAndView.setViewName("indexError");
 		}
 		return modelAndView;

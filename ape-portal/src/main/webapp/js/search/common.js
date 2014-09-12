@@ -12,6 +12,22 @@ function updateSourceTabs(){
 	$("#sourceTabs").empty();
 	$("#sourceTabs").html($("#NEWsourceTabs").html());
 	$("#NEWsourceTabs").remove();
+	initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
+}
+
+function initTooltip(iconIdentifier, helpTextIdentifer, alignXValue, alignYValue){
+	$(iconIdentifier).poshytip({
+		className: 'tooltip',
+		showOn: 'hover',
+		alignTo: 'target',
+		alignX: alignXValue,
+		alignY: alignYValue,
+		offsetX: 5,
+		showTimeout: 100,
+		content: function() {
+			return $(helpTextIdentifer).html();
+		}
+	});
 }
 function changeSearch(type){
 	var term = $("#updateCurrentSearch_term").val();
@@ -39,6 +55,23 @@ function changeSearch(type){
 		alert("Not implemented yet");
 	}
 	
+}
+function searchOnSuggestion(value) {
+	$("#searchTerms").val(value);
+	performNewSearch();
+}
+
+function updateSuggestions() {
+	$("#suggestionSearch").empty();
+	$("#suggestionSearch").html($("#NEWsuggestionSearch").html());
+	$("#NEWsuggestionSearch").remove();
+	addSuggestionHandlers();
+}
+function addSuggestionHandlers() {
+	$('.suggestionLink').each(function(index) {
+		$(this).attr("href", "javascript:searchOnSuggestion('" + $(this).text() + "');");
+	});
+
 }
 function updatePageNumber(url) {
 	var pageNumber = url.split("=")[1];
@@ -92,7 +125,7 @@ function activateAutocompletion(url, selector, sourceType) {
 		search : function() {
 			// custom minLength
 			var term = extractLast(this.value);
-			if (term.length < 1) {
+			if (term.length < 3) {
 				return false;
 			}
 		},
@@ -361,8 +394,6 @@ function displayPreview (preview, data){
 	var image = $(preview + " #alwaysVisible img");
 	if(image.length > 0) {
 		image.load(function() {
-
-			image.outerHeight()
 			var daoDiv = image.parent();
 			daoDiv.height(image.outerHeight());
 			var alwaysVisible = daoDiv.parent();
@@ -370,6 +401,15 @@ function displayPreview (preview, data){
 			var aContainer = alwaysVisible.parent();
 			aContainer.height(alwaysVisible.outerHeight());
 		});
+		image.error(function () {
+		    $(this).unbind("error").attr("src", "/Portal-theme/images/ape/icons/dao_types/normal/not-found.png");
+			var daoDiv = image.parent();
+			daoDiv.height(image.outerHeight());
+			var alwaysVisible = daoDiv.parent();
+			alwaysVisible.height(daoDiv.outerHeight());
+			var aContainer = alwaysVisible.parent();
+			aContainer.height(alwaysVisible.outerHeight());
+		}); 
 	}
 	$previewDiv.removeClass("preview-content").addClass("preview-content");
 }

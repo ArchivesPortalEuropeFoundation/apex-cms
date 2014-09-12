@@ -3,21 +3,20 @@
 
 <layout-templates>
 	<custom>
-		<layout-template id="ape-pagelayout-frontpage" name="ape-pagelayout-frontpage">
+		<layout-template id="ape-pagelayout-frontpage" name="Home (2-1-2)">
 			<template-path>/ape-home.tpl</template-path>
 			<wap-template-path>/ape-home.tpl</wap-template-path>
+			<thumbnail-path>/ape-home.png</thumbnail-path>			
 		</layout-template>
-		<layout-template id="ape-pagelayout-directory" name="ape-pagelayout-directory">
-			<template-path>/ape-directory.tpl</template-path>
-			<wap-template-path>/ape-directory.tpl</wap-template-path>
-		</layout-template>
-		<layout-template id="ape-frontpage-without-fe" name="ape-frontpage-without-fe">
-			<template-path>/ape-home-without-fe.tpl</template-path>
-			<wap-template-path>/ape-home-without-fe.tpl</wap-template-path>
-		</layout-template>
-		<layout-template id="ape-pagelayout-mypages" name="ape-pagelayout-mypages">
+		<layout-template id="ape-pagelayout-mypages" name="My pages (20/80)">
 			<template-path>/ape-mypages.tpl</template-path>
 			<wap-template-path>/ape-mypages.tpl</wap-template-path>
+			<thumbnail-path>/ape-mypages.png</thumbnail-path>
 		</layout-template>		
+		<layout-template id="ape-pagelayout-helppages" name="Help pages (25/75)">
+			<template-path>/ape-helppages.tpl</template-path>
+			<wap-template-path>/ape-helppages.tpl</wap-template-path>
+			<thumbnail-path>/ape-mypages.png</thumbnail-path>
+		</layout-template>			
 	</custom>
 </layout-templates>

@@ -27,6 +27,7 @@ public final class FriendlyUrlUtil {
 	public static final String DIRECTORY_CONTENT = "directory-content";
 	public static final String DIRECTORY_SITEMAP = "directory-sitemap";
 	public static final String SEARCH = "ead-search";
+	public static final String REMOVE_EAD_SEARCH = "remote-ead-search";
 	public static final String SAVED_SEARCH = "saved-search";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SEPARATOR = "/";
@@ -46,6 +47,7 @@ public final class FriendlyUrlUtil {
 		urls.put(DIRECTORY_CONTENT, "/directory/-/dir/content");
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
+		urls.put(REMOVE_EAD_SEARCH, "/search/-/s/n");
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");

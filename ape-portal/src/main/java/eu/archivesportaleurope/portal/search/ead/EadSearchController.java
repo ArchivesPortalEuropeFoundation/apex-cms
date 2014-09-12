@@ -74,7 +74,11 @@ public class EadSearchController extends AbstractSearchController{
 	}
 
 	@RenderMapping(params = "myaction=showSavedSearch")
-	public ModelAndView showSavedSearch(RenderRequest request) {
+	public ModelAndView showSavedSearch(@ModelAttribute(value = "eadSearch") EadSearch eadSearch, RenderRequest request) {
+		return showSavedSearch(request, eadSearch);
+	}
+	public ModelAndView showSavedSearch(RenderRequest request, EadSearch eadSearch) {
+		String term = eadSearch.getTerm();
 		ModelAndView modelAndView = new ModelAndView();
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_SAVED);
 		String errorMessage = null;
@@ -95,7 +99,7 @@ public class EadSearchController extends AbstractSearchController{
 				PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAD_SEARCH_MY_SAVED);
 			}
 			if (eadSavedSearch != null) {
-				EadSearch eadSearch = savedSearchService.convert(eadSavedSearch);
+				savedSearchService.convert(eadSavedSearch,eadSearch);
 				if (StringUtils.isNotEmpty(publishedFromDate)
 						&& !SearchUtil.isValidPublishedDate(publishedFromDate)) {
 					errorMessage= "savedsearch.publisheddates.wrong";					
@@ -113,16 +117,23 @@ public class EadSearchController extends AbstractSearchController{
 						eadSearch.setPublishedFromDate(publishedFromDate);
 						eadSearch.setPublishedToDate(publishedToDate);
 					}
-					if (eadSavedSearch.isTemplate()){
+					if (StringUtils.isBlank(term) && eadSavedSearch.isTemplate()){
 						eadSearch.setMode(EadSearch.MODE_NEW);
+					}else if (StringUtils.isNotBlank(term) && eadSavedSearch.isTemplate()){
+						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
+						eadSearch.setTerm(term);
+						Results results = performNewSearch(request, eadSearch);
+						modelAndView.getModelMap().addAttribute("results", results);
 					}else{
 						Results results = updateCurrentSearch(request, eadSearch);
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch, eadSavedSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
-					modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
-					
+					// owner of saved search
+					if (liferayUserId != null && eadSavedSearch.getLiferayUserId() == liferayUserId){
+						modelAndView.getModelMap().addAttribute("ownSavedSearchId", eadSavedSearch.getId());
+					}
 					modelAndView.setViewName("home");
 					return modelAndView;
 				}
@@ -137,22 +148,25 @@ public class EadSearchController extends AbstractSearchController{
 		modelAndView.setViewName("savedsearch-error");
 		return modelAndView;
 	}
-
 	@RenderMapping(params = "myaction=simpleSearch")
 	public ModelAndView search(@ModelAttribute(value = "eadSearch") EadSearch eadSearch,
 			RenderRequest request) {
 		eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("home");
-		modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
-		if (StringUtils.isNotBlank(eadSearch.getTerm())){
-			Results results = performNewSearch(request, eadSearch);
-			modelAndView.getModelMap().addAttribute("results", results);
+		String savedSearchId = request.getParameter("savedSearchId");
+		if (StringUtils.isBlank(savedSearchId)){
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("home");
+			modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
+			if (StringUtils.isNotBlank(eadSearch.getTerm())){
+				Results results = performNewSearch(request, eadSearch);
+				modelAndView.getModelMap().addAttribute("results", results);
+			}
+			
+			PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
+			return modelAndView;
+		}else {
+			return showSavedSearch(request, eadSearch);
 		}
-		
-		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SIMPLE_SEARCH);
-		return modelAndView;
 	}
 
 	@ResourceMapping(value = "advancedSearch")

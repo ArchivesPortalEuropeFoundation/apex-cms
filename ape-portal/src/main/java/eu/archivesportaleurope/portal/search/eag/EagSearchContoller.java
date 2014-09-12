@@ -48,14 +48,13 @@ import eu.archivesportaleurope.util.ApeUtil;
  */
 @Controller(value = "searchEagContoller")
 @RequestMapping(value = "VIEW")
-public class EagSearchContoller extends AbstractSearchController{
+public class EagSearchContoller extends AbstractSearchController {
 	private final static Logger LOGGER = Logger.getLogger(EagSearchContoller.class);
 	private MessageSource messageSource;
-	
+
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
-	
 
 	@RenderMapping
 	public ModelAndView searchEag(RenderRequest request) {
@@ -64,30 +63,33 @@ public class EagSearchContoller extends AbstractSearchController{
 		modelAndView.setViewName("index");
 		return modelAndView;
 	}
+
 	@RenderMapping(params = "myaction=simpleSearch")
-	public ModelAndView searchSimple(@ModelAttribute(value = "eagSearch")  EagSearch eagSearch,
-			RenderRequest request) throws SolrServerException, ParseException {
+	public ModelAndView searchSimple(@ModelAttribute(value = "eagSearch") EagSearch eagSearch, RenderRequest request)
+			throws SolrServerException, ParseException {
 		ModelAndView modelAndView = new ModelAndView();
 		eagSearch.setMode(EagSearch.MODE_NEW_SEARCH);
 		modelAndView.setViewName("index");
 		modelAndView.getModelMap().addAttribute("eagSearch", eagSearch);
-		if (StringUtils.isNotBlank(eagSearch.getTerm())){
-			ListResults results = performNewSearch(request,  eagSearch);
+		if (StringUtils.isNotBlank(eagSearch.getTerm())) {
+			ListResults results = performNewSearch(request, eagSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAG_SEARCH);
 		return modelAndView;
 	}
+
 	@RenderMapping(params = "myaction=eagSearch")
-	public ModelAndView search(@ModelAttribute(value = "eagSearch") EagSearch eagSearch,RenderRequest request) throws SolrServerException, ParseException {
+	public ModelAndView search(@ModelAttribute(value = "eagSearch") EagSearch eagSearch, RenderRequest request)
+			throws SolrServerException, ParseException {
 		ModelAndView modelAndView = new ModelAndView();
-		if (StringUtils.isNotBlank(eagSearch.getTerm())){
+		if (StringUtils.isNotBlank(eagSearch.getTerm())) {
 			ListResults results = performNewSearch(request, eagSearch);
 			modelAndView.getModelMap().addAttribute("results", results);
 		}
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_EAG_SEARCH);
 		modelAndView.setViewName("index");
-		
+
 		return modelAndView;
 	}
 
@@ -107,6 +109,7 @@ public class EagSearchContoller extends AbstractSearchController{
 		modelAndView.getModelMap().addAttribute("results", results);
 		return modelAndView;
 	}
+
 	public ListResults performNewSearch(PortletRequest request, EagSearch eagSearch) {
 		ListResults results = null;
 		try {
@@ -133,17 +136,20 @@ public class EagSearchContoller extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the eag search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error("There was an error during the execution of the eag search: Error: "
+					+ ApeUtil.generateThrowableLog(e));
 		}
 		return results;
 	}
+
 	public Results updateCurrentSearch(PortletRequest request, EagSearch eagSearch) {
 		Results results = null;
 		try {
 			SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, eagSearch);
 			results = performUpdateSearchForListView(request, solrQueryParameters, eagSearch);
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error("There was an error during the execution of the advanced search: Error: "
+					+ ApeUtil.generateThrowableLog(e));
 		}
 		return results;
 	}
@@ -151,17 +157,19 @@ public class EagSearchContoller extends AbstractSearchController{
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
 			EagSearch eagSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
-		if (solrQueryParameters != null){
+		if (solrQueryParameters != null) {
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
 			List<ListFacetSettings> list = eagSearch.getFacetSettingsList();
-			QueryResponse solrResponse = getEagSearcher().performNewSearchForListView(solrQueryParameters, results.getPageSize(),
-					list);
+			QueryResponse solrResponse = getEagSearcher().performNewSearchForListView(solrQueryParameters,
+					results.getPageSize(), list);
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
-			results.init(solrResponse, list, eagSearch,springResourceBundleSource);
-			updatePagination( results);
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource,
+					request.getLocale());
+			results.init(solrResponse, list, eagSearch, springResourceBundleSource);
+			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class, springResourceBundleSource));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class,
+						springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
@@ -169,76 +177,84 @@ public class EagSearchContoller extends AbstractSearchController{
 		}
 		return results;
 	}
+
 	protected ListResults performUpdateSearchForListView(PortletRequest request,
-			SolrQueryParameters solrQueryParameters, EagSearch eagSearch) throws SolrServerException,
-			ParseException {
+			SolrQueryParameters solrQueryParameters, EagSearch eagSearch) throws SolrServerException, ParseException {
 		ListResults results = new ListResults();
-		if (solrQueryParameters != null){
+		if (solrQueryParameters != null) {
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
 			Integer pageNumber = Integer.parseInt(eagSearch.getPageNumber());
-			QueryResponse solrResponse = getEagSearcher().updateListView(solrQueryParameters, results.getPageSize()
-					* (pageNumber - 1), results.getPageSize(), eagSearch.getFacetSettingsList(),
+			QueryResponse solrResponse = getEagSearcher().updateListView(solrQueryParameters,
+					results.getPageSize() * (pageNumber - 1), results.getPageSize(), eagSearch.getFacetSettingsList(),
 					eagSearch.getOrder(), eagSearch.getStartdate(), eagSearch.getEnddate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
-			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
-			results.init(solrResponse, eagSearch.getFacetSettingsList(), eagSearch,springResourceBundleSource);
+			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource,
+					request.getLocale());
+			results.init(solrResponse, eagSearch.getFacetSettingsList(), eagSearch, springResourceBundleSource);
 			updatePagination(results);
 			if (results.getTotalNumberOfResults() > 0) {
-				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class, springResourceBundleSource));
+				results.setItems(new SolrDocumentListHolder(solrResponse, EagSearchResult.class,
+						springResourceBundleSource));
 			} else {
 				results.setItems(new SolrDocumentListHolder());
 			}
 		}
 		return results;
 	}
-	
+
 	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EagSearch eagSearch) {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, portletRequest);
-		if (solrQueryParameters != null){
+		if (solrQueryParameters != null) {
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.EAG_REPOSITORY_TYPE,
 					eagSearch.getRepositoryType());
-			if (StringUtils.isNotBlank(eagSearch.getOnlyPlace()) || StringUtils.isNotBlank(eagSearch.getOnlyTitle())){
+			if (SolrField.EAG_NAME.toString().equals(eagSearch.getElement())
+					|| SolrField.EAG_PLACES.toString().equals(eagSearch.getElement())) {
 				List<SolrField> solrFields = new ArrayList<SolrField>();
-				if (StringUtils.isNotBlank(eagSearch.getOnlyTitle())){
+				if (SolrField.EAG_NAME.toString().equals(eagSearch.getElement())) {
 					solrFields.add(SolrField.EAG_NAME);
 					solrFields.add(SolrField.EAG_OTHER_NAMES);
-				}
-				if (StringUtils.isNotBlank(eagSearch.getOnlyPlace())){
+				} else if (SolrField.EAG_PLACES.toString().equals(eagSearch.getElement())) {
+					solrFields.add(SolrField.EAG_PLACES);
 					solrFields.add(SolrField.EAG_ADDRESS);
 				}
 				solrQueryParameters.setSolrFields(solrFields);
 			}
-			
+
 		}
 		return solrQueryParameters;
 	}
-	
+
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EagSearch eagSearch) {
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eagSearch);
-		if (solrQueryParameters != null){
+		if (solrQueryParameters != null) {
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eagSearch.getCountryList());
-			SearchUtil.addRefinement(solrQueryParameters, FacetType.LANGUAGE, eagSearch.getLanguageList());
 			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_AI_GROUPS, eagSearch.getAiGroupsFacetList());
-			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_REPOSITORY_TYPE, eagSearch.getRepositoryTypeFacetList());
+			SearchUtil.addRefinement(solrQueryParameters, FacetType.EAG_REPOSITORY_TYPE,
+					eagSearch.getRepositoryTypeFacetList());
 		}
 		return solrQueryParameters;
 	}
-	
+
 	@ModelAttribute("eagSearch")
 	public EagSearch getCommandObject(PortletRequest portletRequest) {
-		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
-				portletRequest.getLocale());
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, portletRequest.getLocale());
 		EagSearch eagSearch = new EagSearch();
 		eagSearch.getRepositoryTypeValues().put("", source.getString("advancedsearch.text.noselection"));
-		for (String type: SolrValues.EAG_REPOSITORY_TYPES){
+		for (String type : SolrValues.EAG_REPOSITORY_TYPES) {
 			eagSearch.getRepositoryTypeValues().put(type, source.getString("eag2012.options.institutionType." + type));
 		}
-        return eagSearch;
-    }
-	protected void countOtherSearchResults(PortletRequest request, 
-			EagSearch eagSearch, Results results) throws SolrServerException, ParseException{
+		eagSearch.getElementValues().put("", source.getString("advancedsearch.text.noselection"));
+		eagSearch.getElementValues().put(SolrField.EAG_NAME.toString(),
+				source.getString("advancedsearch.eag.name"));
+		eagSearch.getElementValues().put(SolrField.EAG_PLACES.toString(),
+				source.getString("advancedsearch.eag.place"));
+		return eagSearch;
+	}
+
+	protected void countOtherSearchResults(PortletRequest request, EagSearch eagSearch, Results results)
+			throws SolrServerException, ParseException {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, request);
-		if (solrQueryParameters != null){ 
+		if (solrQueryParameters != null) {
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEagNumberOfResults(results.getTotalNumberOfResults());

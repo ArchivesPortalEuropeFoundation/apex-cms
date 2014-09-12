@@ -20,13 +20,10 @@ public class EagSearch extends AbstractSearchForm {
 	private String element = NOSELECTION;
 	private Map<String,String> elementValues  = new LinkedHashMap<String,String>();
 	private String nameType;
-	private String language;
 	private String country;
 	private String aiGroupsFacet;
 	private String repositoryTypeFacet;
 	private String repositoryType;
-	private String onlyTitle;
-	private String onlyPlace;
 	private Map<String,String> repositoryTypeValues  = new LinkedHashMap<String,String>();
 
 
@@ -44,13 +41,6 @@ public class EagSearch extends AbstractSearchForm {
 
 
 
-	public List<String> getLanguageList() {
-		if (StringUtils.isNotBlank(language)) {
-			return Arrays.asList(language.split(LIST_SEPARATOR));
-		} else {
-			return null;
-		}
-	}
 	public List<String> getAiGroupsFacetList() {
 		if (StringUtils.isNotBlank(aiGroupsFacet)) {
 			return Arrays.asList(aiGroupsFacet.split(LIST_SEPARATOR));
@@ -100,16 +90,6 @@ public class EagSearch extends AbstractSearchForm {
 		this.elementValues = elementValues;
 	}
 
-
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
 	public String getAiGroupsFacet() {
 		return aiGroupsFacet;
 	}
@@ -142,20 +122,6 @@ public class EagSearch extends AbstractSearchForm {
 		this.repositoryTypeValues = repositoryTypeValues;
 	}
 
-	public String getOnlyTitle() {
-		return onlyTitle;
-	}
 
-	public String getOnlyPlace() {
-		return onlyPlace;
-	}
-
-	public void setOnlyTitle(String onlyTitle) {
-		this.onlyTitle = onlyTitle;
-	}
-
-	public void setOnlyPlace(String onlyPlace) {
-		this.onlyPlace = onlyPlace;
-	}
 
 }

@@ -272,6 +272,17 @@ function selectSiblings(node) {
 
 	}
 }
+function countInitialSelectItems() {
+	$("#eadSearchPortlet #aiNumber").html("");
+	var selectedItems = $("#eadSearchPortlet #selectedNodes").val();
+	if (selectedItems.length > 0){
+		var number = selectedItems.split(",").length;
+		if (number > 0){
+			$("#eadSearchPortlet #aiNumber").html(" (" + number + ")");
+			$("#eadSearchPortlet #aiNumber").removeClass("hidden");
+		}
+	}
+}
 
 function fillInputFromNavTree() {
 	if (!$('#archivalLandscapeTree').is(':empty')){

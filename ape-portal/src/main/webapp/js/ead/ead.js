@@ -178,6 +178,9 @@ function initDAOs(){
 		addDAOS();
 		document.getElementById("moreDaosButton").scrollIntoView(true);
 	});	
+	$(".dao img").error(function () {
+	    $(this).unbind("error").attr("src", "/Portal-theme/images/ape/icons/dao_types/normal/not-found.png");
+	}); 
 }
 function addDAOS(){
 	var innerWidth =  $("#eaddetailsContent").innerWidth();
@@ -191,8 +194,10 @@ function addDAOS(){
 			var innerDiv = $( "<div  class='dao'/>" );
 			spendWidth = spendWidth+ width;
 			var imgObject = $(this).find( "img" );
-			imgObject.attr("src", imgObject.attr("data-src"));
-			imgObject.removeAttr("data-src");
+			if (imgObject.attr("data-src") !== undefined){
+				imgObject.attr("src", imgObject.attr("data-src"));
+				imgObject.removeAttr("data-src");				
+			}
 			innerDiv.append($(this).html());
 			daolist.append(innerDiv);
 			$(this).remove();

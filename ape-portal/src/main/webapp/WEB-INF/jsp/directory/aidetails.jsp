@@ -10,35 +10,6 @@
 	<portlet:param name="id" value="${aiId}" />
 </portlet:renderURL>
 <portal:friendlyUrl var="contentUrl" type="directory-content" />
-<script type='text/javascript'>
-	$(document).ready(function() {
-		document.title = "${documentTitle}";
-		$('div#holdings').poshytip({
-			className: 'tooltip',
-			showOn: 'hover',
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 5,
-			showTimeout: 100,
-			content: function() {
-				return $("#holdings").html();
-			}
-		});	
-		$('div#findings').poshytip({
-			className: 'tooltip',
-			showOn: 'hover',
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 5,
-			showTimeout: 100,
-			content: function() {
-				return $("#findings").html();
-			}
-		});	
-	});
-</script>
 <div id="buttonsHeaderEag">
 	<div class="linkButton right" id="printEagDetails">
 		<a href="javascript:printEagByURL('${printEagDetailsUrl}')"><fmt:message key="label.print" /><span class="icon_print">&nbsp;</span></a>
@@ -83,7 +54,7 @@
 							<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/fa" target="_blank" title="<fmt:message key='directory.archivalmaterial.list.fa.title'/>">
 								<fmt:message key="directory.archivalmaterial.list.fa"/>
 							</a>
-						</div>
+						</div>						
 					</td>
 				</tr>
 				</c:if>

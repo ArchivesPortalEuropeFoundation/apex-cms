@@ -187,6 +187,7 @@ public class DisplayEacCpfContoller {
 					modelAndView.getModelMap().addAttribute("eac", eac);
 					modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(eac).getIdentifier());
 					modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+					modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 					SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 							renderRequest.getLocale());
 				    

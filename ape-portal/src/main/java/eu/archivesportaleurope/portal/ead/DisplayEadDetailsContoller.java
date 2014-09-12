@@ -148,6 +148,7 @@ public class DisplayEadDetailsContoller {
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 				XmlType xmlType = XmlType.getContentType(eadContent.getEad());
+				modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 				modelAndView.setViewName("eaddetails");

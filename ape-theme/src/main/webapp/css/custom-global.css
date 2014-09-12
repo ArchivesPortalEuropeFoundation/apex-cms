@@ -46,6 +46,7 @@ a:link {
 a:visited {
 	color: #632A00;
 }
+
 a:hover {
 	text-decoration: underline;
 }
@@ -378,4 +379,8 @@ table.defaultlayout td.actions{
 }
 table.defaultlayout form{
 	display:inline;
+}
+
+.tooltipContent a {
+	font-weight: bold;
 }

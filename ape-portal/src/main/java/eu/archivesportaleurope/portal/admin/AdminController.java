@@ -79,6 +79,7 @@ public class AdminController {
         		if (!locale.equals(defaultLocale)){
         			LOGGER.info ("Page " + url + " remove translation " + locale);
         			layout.setName(null, locale);
+        			layout.setTitle(null, locale);
 
         		}
         	}
@@ -99,23 +100,41 @@ public class AdminController {
         LOGGER.info("Default locale: " + defaultLocale);
         for (Layout layout: layouts){
         	String url = layout.getFriendlyURL().substring(1);
-    		String resourcePropertyName = "menu." + url;
+    		String resourcePropertyMenuName = "menu." + url;
+    		String resourcePropertyMenuTitle = resourcePropertyMenuName + ".title";
         	Locale[] locales = LanguageUtil.getAvailableLocales();
         	String defaultLocaleMenuName = "";
+        	
         	try{
-        		defaultLocaleMenuName = messageSource.getMessage(resourcePropertyName, null, defaultLocale);
+        		defaultLocaleMenuName = messageSource.getMessage(resourcePropertyMenuName, null, defaultLocale);
         		LOGGER.info ("Page " + url + " add default " + defaultLocale + " " + defaultLocaleMenuName);
-        		layout.setName(defaultLocaleMenuName, defaultLocale); 
+        		layout.setName(defaultLocaleMenuName, defaultLocale);
 			}catch (NoSuchMessageException e){
-				LOGGER.error("No translation "+ defaultLocale + ": " +resourcePropertyName);
+				LOGGER.error("No translation "+ defaultLocale + ": " +resourcePropertyMenuName);
+			}
+        	String defaultLocaleMenuTitle = "";
+        	try{
+        		defaultLocaleMenuTitle = messageSource.getMessage(resourcePropertyMenuTitle, null, defaultLocale);
+        		LOGGER.info ("Page " + url + " add default " + defaultLocale + " " + defaultLocaleMenuTitle);
+        		layout.setTitle(defaultLocaleMenuTitle, defaultLocale);
+			}catch (NoSuchMessageException e){
+				LOGGER.error("No translation "+ defaultLocale + ": " +resourcePropertyMenuTitle);
 			}
         	for (Locale locale: locales){
-
         		try {
-					String localizedMenuName = messageSource.getMessage(resourcePropertyName, null, locale);
+					String localizedMenuName = messageSource.getMessage(resourcePropertyMenuName, null, locale);
 	        		if (StringUtils.isNotBlank(localizedMenuName) && !localizedMenuName.equals(defaultLocaleMenuName)){
 	        			LOGGER.info ("Page " + url + " add translation " + locale + " " + localizedMenuName);
 	        			layout.setName(localizedMenuName, locale);       			
+	        		}
+        		}catch (NoSuchMessageException e){
+        		}
+        		
+        		try {
+					String localizedMenuTitle = messageSource.getMessage(resourcePropertyMenuTitle, null, locale);
+	        		if (StringUtils.isNotBlank(localizedMenuTitle) && !localizedMenuTitle.equals(defaultLocaleMenuName)){
+	        			LOGGER.info ("Page " + url + " add translation " + locale + " " + localizedMenuTitle);
+	        			layout.setTitle(localizedMenuTitle, locale);       			
 	        		}
         		}catch (NoSuchMessageException e){
         		}

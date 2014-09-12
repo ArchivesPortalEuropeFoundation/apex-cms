@@ -11,6 +11,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.EacCpfDAO;
@@ -22,25 +23,23 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 @RequestMapping(value = "VIEW")
 public class SimpleSearchController {
 	private static final String EAD_RESULTS = "ead";
-	private static final String EAG_RESULTS = "eag";
-	private static final String EAC_CPF_RESULTS = "eac-cpf";
 	private static final String INSTITUTIONS = "numberOfInstitutions";
 	private static final String EAD_UNITS = "numberOfEadDescriptiveUnits";
 	private static final String EAC_CPF_UNITS = "numberOfEacCpfs";
 
-	private static final String TRUE = "TRUE";
-	//private final static Logger LOGGER = Logger.getLogger(SimpleSearchController.class);
+	private static final String PORTLET_TYPE_EMBEDDED = "embedded";
+	
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
 	private EacCpfDAO eacCpfDAO;
-	private final static Cache<String, Long> CACHE = new Cache<String, Long>();
+	private final static Cache<String, Long> CACHE = CacheManager.getInstance().<String, Long>initCache("SimpleSearchCache");
 	
 	
 	@RenderMapping
 	public ModelAndView showSimpleSearch(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		String embedded= request.getPreferences().getValue("embedded", "false");
-		if (TRUE.equalsIgnoreCase(embedded)){
+		String portletType= request.getPreferences().getValue("portletType", "normal");
+		if (PORTLET_TYPE_EMBEDDED.equalsIgnoreCase(portletType)){
 			String results = request.getPreferences().getValue("resultsType", EAD_RESULTS);
 			modelAndView.getModel().put("resultsType", results);
 			modelAndView.setViewName("embedded");

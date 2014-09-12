@@ -31,7 +31,6 @@
 		initPanes();
 	});		
 </script>
-${newDisplayEadUrl}
 <div id="eadDisplayPortlet">
 	<c:if test="${!empty errorMessage}">
 	<div class="error errorHeader">

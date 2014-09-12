@@ -51,9 +51,12 @@ ${articleDetails}
 </c:if>
 <div id="featuredExhibitionDetailsList">
 <h2><fmt:message key="featuredexhibition.all" /></h2>
+<table id ="feTable" class="defaultlayout">
+	<tr><th><fmt:message key="featuredexhibition.title" /></th><th><fmt:message key="featuredexhibition.publicationdate" /></th></tr>
 <c:forEach var="featuredExhibitionSummary" items="${featuredExhibitionSummaries}">
-	<a href="${friendlyUrl}/${featuredExhibitionSummary.classPk}">${featuredExhibitionSummary.title} - ${featuredExhibitionSummary.date}</a><br/>
+	<tr><td class="feTitle"><a href="${friendlyUrl}/${featuredExhibitionSummary.classPk}">${featuredExhibitionSummary.title}</a></td><td class="feDate">${featuredExhibitionSummary.date}</td></tr>
 </c:forEach>
+</table>
 </div>
 
 </div>

@@ -137,11 +137,6 @@ function showMore(clazz, id){
     $(prefix + ".displayLinkShowMore").trigger("click");
 }
 
-function enableFeedback(){
-    $(".container").after($("#feedbackArea"));
-    $("#content").after($("#feedbackArea"));
-}
-
 /**
  * Function to set correctly the position for the "Translations" and for the
  * "Print" button.

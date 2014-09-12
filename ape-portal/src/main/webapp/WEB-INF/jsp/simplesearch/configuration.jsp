@@ -21,17 +21,22 @@ if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
 String resultsType = preferences.getValue("resultsType", "");
-String embedded = preferences.getValue("embedded", "");
+String portletType = preferences.getValue("portletType", "");
+String savedSearchId = preferences.getValue("savedSearchId", "");
 %>
 <table class="lfr-table">
 
 <tr>
-	<td>Type of results:</td>
+	<td>Type of results(ead,eag,eac-cpf):</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--resultsType--" value="<%=resultsType %>"/> </td>
 </tr>
 <tr>
-	<td>Embedded:</td>
-	<td><input  type="text" name="<portlet:namespace />preferences--embedded--" value="<%=embedded %>"/> </td>
+	<td>Portlet type(normal, embedded):</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--portletType--" value="<%=portletType %>"/> </td>
+</tr>
+<tr>
+	<td>Saved search id:</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--savedSearchId--" value="<%=savedSearchId %>"/> </td>
 </tr>
 </table>  
 <input type="button" value="Save" onClick="submitForm(document.<portlet:namespace />fm);" /> </form>

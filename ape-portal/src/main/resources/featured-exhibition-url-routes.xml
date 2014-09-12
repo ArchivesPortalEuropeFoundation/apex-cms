@@ -5,11 +5,11 @@
 	<route>
 		<pattern>/a/{articleId:[^/]+}</pattern>
 		<generated-parameter name="articleId">{articleId}</generated-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_state">maximized</implicit-parameter>
 	</route>
 	<route>
 		<pattern>/pk/{classPK:[^/]+}</pattern>
 		<generated-parameter name="classPK">{classPK}</generated-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_state">maximized</implicit-parameter>
 	</route>
 </routes>

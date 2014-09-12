@@ -36,13 +36,87 @@
 				initCommon();
 				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");
 				init();
+				initTooltip('#sourceTabs .icon_help', "#sourceTabsSearchHelpDialog", "left", "center");
+				initTooltip('#navigatedSearch .icon_help', "#navigatedSearchHelpDialog", "right", "center");
+				initTooltip('#advancedSearch .icon_help', "#advancedSearchHelpDialog", "right", "center");
+				initTooltip('#simpleSearch .icon_help', "#simpleSearchHelpDialog", "left", "center");
+				initTooltip('#searchResultsContainer #tabs .icon_help', "#searchResultsHelpDialog", "right", "center");				
 			});
+			
 		</script>
 <div id="searchingPart">
 		<div id="eadSearchPortlet" >
 			<portal:sourceTabs results="${results}" type="ead"/>
 			<div id="searchOptions">
-		
+			
+			<div id="sourceTabsSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">
+					<h3><fmt:message key="search.sourcetabs.help.title"/>:</h3>
+					<ul>
+						<li><b><fmt:message key="menu.archives-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.ead.description"/></li>
+						<li><b><fmt:message key="menu.name-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+					</ul>
+				</div>
+			</div>			
+			<div id="navigatedSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">
+					<div class="tooltipSubContent"><fmt:message key="search.ead.navigatedsearch.help" /></div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>
+			<div id="advancedSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+					<h3><fmt:message key="help.tooltip.prefix" /> '<fmt:message key="advancedsearch.title.advancedsearch" />':</h3>
+					<div class="tooltipSubContent">
+						<ul>
+							<li><fmt:message key="search.ead.element.help" /></li>
+							<li class="ul-with-children">	
+								<ul>
+									<li><fmt:message key="search.ead.element.referencecode.help" /></li>
+								</ul>
+							</li>
+							<li><fmt:message key="search.ead.typedocument.help" /></li>
+							<li class="ul-with-children">	
+								<ul>
+									<li><fmt:message key="search.ead.typedocument.fa.help" /></li>
+									<li><fmt:message key="search.ead.typedocument.hg.help" /></li>
+									<li><fmt:message key="search.ead.typedocument.sg.help" /></li>
+								</ul>
+							</li>								
+						</ul>
+					</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>	
+			<div id="simpleSearchHelpDialog" class="hidden">
+				<div class="tooltipContent">			
+					<div class="tooltipSubContent">
+						<ul>
+							<li><fmt:message key="search.ead.hierarchy.help" /></li>
+							<li><fmt:message key="search.method.help" /></li>
+
+					
+						</ul>		
+					</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>
+			<div id="searchResultsHelpDialog" class="hidden">
+				<div class="tooltipContent">	
+				<h3><fmt:message key="help.tooltip.prefix" /> '<fmt:message key="advancedsearch.text.results" />':</h3>	
+					<div class="tooltipSubContent">
+					<ul>
+						<li><fmt:message key="search.results.ead.hierarchy.list.help" /></li>
+						<li><fmt:message key="search.results.ead.hierarchy.context.help" /></li>
+						<li><fmt:message key="search.results.refine.help" /></li>
+						<li><fmt:message key="search.results.sort.help" /></li>	
+						<li><fmt:message key="search.results.savesearch.help" /></li>	
+					</ul>
+					</div>				
+					<div class="linkToMoreHelp"><fmt:message key="search.results.help.more" />&nbsp;<a href="help/search-results" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+				</div>
+			</div>							
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
 				action="${advancedSearchUrl}">
 				<form:hidden id="mode" path="mode" />
@@ -50,7 +124,7 @@
 				<form:hidden id="selectedNodes" path="selectedNodes"/>	
 				<div id="navigatedSearch">
 					<h2 id="navigatedSearchOptionsHeader" class="blockHeader collapsed">
-						<fmt:message key="advancedsearch.title.navigatedsearch" />
+						<fmt:message key="advancedsearch.title.navigatedsearch" /><span id="aiNumber" class="hidden"></span><span class="icon_help"></span>
 					</h2>
 					<div id="navigatedSearchOptionsContent" class="searchOptionsContent hidden">
 						<div id="navigatedSearchOptionsSubHeader">
@@ -65,7 +139,7 @@
 				<div id="simpleAndAdvancedSearch">
 					<div id="advancedSearch">
 						<h2 id="advancedSearchOptionsHeader" class="blockHeader">
-							<fmt:message key="advancedsearch.title.advancedsearch" />
+							<fmt:message key="advancedsearch.title.advancedsearch" /><span class="icon_help"></span>
 						</h2>
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
@@ -119,7 +193,7 @@
 					</div>
 					<div id="simpleSearch">
 						<h2 id="simpleSearchOptionsHeader" class="blockHeader">
-							<fmt:message key="advancedsearch.title.simplesearch" />
+							<fmt:message key="advancedsearch.title.simplesearch" /><span class="icon_help"></span>
 						</h2>
 						<div id="simpleSearchOptionsContent" class="searchOptionsContent">
 							<div class="simpleSearchOptions">
@@ -192,10 +266,19 @@
 					</ul>
 					<div id="saveSearch">
 						 <div id="saveSearchButton" class="linkButton">
-							<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+						 	<c:choose>
+						 		<c:when test="${empty ownSavedSearchId}">
+									<a href="javascript:saveSearch()"><fmt:message key="advancedsearch.text.savesearch" /></a>
+								</c:when>
+								<c:otherwise>
+									<a href="javascript:saveSearch('${ownSavedSearchId}')"><fmt:message key="advancedsearch.text.savesearch.modified" /></a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div id="answerMessageSavedSearch"></div>
+						
 					</div>
+					<div class="icon_help"></div>
 					<div id="tabs-context">
 						<c:if test="${!empty results and eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />

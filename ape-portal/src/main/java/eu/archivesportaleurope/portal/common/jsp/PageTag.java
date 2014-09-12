@@ -17,6 +17,7 @@ import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 
 import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public class PageTag extends SimpleTagSupport {
@@ -27,7 +28,7 @@ public class PageTag extends SimpleTagSupport {
 	private String friendlyUrl;
 	private String varPlId;
 	private String varPortletId; 
-	private final static Cache<String, String> CACHE = new Cache<String, String>();
+	private final static Cache<String, String> CACHE = CacheManager.getInstance().<String, String>initCache("PortletNameCache");
 	@Override
 	public void doTag() throws JspException, IOException {
 		try {

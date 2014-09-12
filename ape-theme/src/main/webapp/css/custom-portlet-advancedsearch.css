@@ -772,7 +772,7 @@
     font-size: 13px;
 }
 #searchingPart #saveSearchButton {
-	float:left;
+	float:right;
 }
 #searchingPart #saveSearchButton a {
     border-radius: 5px;
@@ -786,7 +786,7 @@
 	background-color: #fff9e8;
 }
 #searchingPart #saveSearch {
-    float: left;
+    float: right;
     padding-left: 15px;
     padding-top: 3px;
 	padding-bottom: 3px;
@@ -928,11 +928,35 @@
     background-color: white;
 }
 
-#searchingPart #eaccpfcontent ul.level{
+#eacCpfSearchPortlet #eaccpfcontent ul.level{
 	 padding: 0 0 0 10px;
 }
-#searchingPart #eaccpfcontent li.item{
+#eacCpfSearchPortlet #eaccpfcontent li.item{
 	list-style:disc outside none;
 	line-height: 1.8em;
 	margin-bottom: 0.5em;
+}
+
+
+.tooltipSubContent {
+	padding-bottom:10px;	
+}
+
+.ul-with-children {
+		list-style-type: none;
+}
+.linkToMoreHelp {
+	font-style: italic;
+	font-size:95%;
+}
+#searchingPart .icon_help,#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
+	margin-left:12px;
+    position: relative;
+    top: 3px;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */    	
+}
+
+#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
+	margin-top:5px;
 }

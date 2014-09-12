@@ -25,15 +25,19 @@
 		</portlet-info>
         <portlet-preferences>
             <preference>
-                <name>embedded</name>
-                <value>false</value>
+                <name>portletType</name>
+                <value>normal</value>
                 <read-only>false</read-only>
             </preference>  
             <preference>
                 <name>resultsType</name>
                 <value>ead</value>
                 <read-only>false</read-only>
-            </preference>                         
+            </preference>
+            <preference>
+                <name>savedSearchId</name>
+                <read-only>false</read-only>
+            </preference>                                     
         </portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -48,6 +52,35 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
+	<portlet>
+		<portlet-name>widgetsearch</portlet-name>
+		<display-name>Widget Search</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>-1</expiration-cache>
+		<cache-scope>public</cache-scope>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Widget Search</title>
+			<short-title>Widget Search</short-title>
+			<keywords>widget-search</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>	
 	<portlet>
 		<portlet-name>ead-search</portlet-name>
 		<display-name>EAD Search</display-name>

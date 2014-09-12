@@ -4,14 +4,15 @@
 
 <html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
 
-<head>	
+<head>
 	<title>$the_title - $company_name</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	#js("$javascript_folder/jquery-1.7.2.min.js")
 	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
 	#js("$javascript_folder/jquery.dynatree.js")
 	#js("$javascript_folder/jquery.blockUI.js")
 	#js("$javascript_folder/jquery.nivo.slider.pack.js")
+	#js("$javascript_folder/jquery.poshytip.min.js")	
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
@@ -25,7 +26,7 @@
 	_gaq.push([ '_setAccount', gId ]);
 	_gaq.push([ '_trackPageview' ]);
 	</script>
- 
+
 	$theme.include($top_head_include)
 
 </head>
@@ -33,28 +34,28 @@
 <body class="$css_class">
 
 	#if ($browserSniffer.isIe($request))
-	  #if($browserSniffer.getMajorVersion($request) < 8)
+	  #if($browserSniffer.getMajorVersion($request) < 7)
 			<div id="browser">
 				#language("header.browser")
-			</div> 	  
+			</div>
 		#end
 	#elseif ($browserSniffer.isChrome($request))
-	  #if($browserSniffer.getMajorVersion($request) < 23)
+	  #if($browserSniffer.getMajorVersion($request) < 35)
 			<div id="browser">
 				#language("header.browser")
-			</div> 		  
+			</div>
 		#end
 	#elseif ($browserSniffer.isFirefox($request))
 	  #if($browserSniffer.getMajorVersion($request) < 17)
 			<div id="browser">
 				#language("header.browser")
-			</div> 	 	  
+			</div>
 		#end
 	#elseif ($browserSniffer.isSafari($request))
 	  #if($browserSniffer.getMajorVersion($request) < 5)
 			<div id="browser">
 				#language("header.browser")
-			</div> 		  
+			</div>
 		#end
 	#end
 
@@ -63,10 +64,10 @@ $theme.include($body_top_include)
 
 <div id="wrapper">
 
-#if ( $is_signed_in )    
+#if ( $is_signed_in )
 	#set ($rService = $serviceLocator.findService("com.liferay.portal.service.RoleLocalService"))
 	#set ($usrRoles = $rService.getUserRoles( $user_id ))
-    
+
 	#set ($adminRole = false)
 	#set ($contentEditorRole = false)
 
@@ -75,12 +76,12 @@ $theme.include($body_top_include)
 	           #set ($adminRole = true)
 	        #end
 	        #if ( $usrRole.getName() == "Editor Role")
-	           #set ($contentEditorRole = true)	        
+	           #set ($contentEditorRole = true)
 	        #end
      #end
 #end
-	
-#if ( $adminRole )   
+
+#if ( $adminRole )
   #dockbar()
 #end
 <div id="headerMenu">
@@ -88,12 +89,12 @@ $theme.include($body_top_include)
 </div>
 	<header id="banner" role="banner">
 		<div id="header">
-			<a href="$company_url"><div id="logo"></div></a>		
+			<a href="$company_url"><div id="logo"></div></a>
 			<div class="left-header"></div>
 			<div class="right-header">$theme.runtime("82")</div>
 		#if ($has_navigation || $is_signed_in)
 			#parse ("$full_templates_path/navigation.vm")
-		#end	
+		#end
 		</div>
 
 

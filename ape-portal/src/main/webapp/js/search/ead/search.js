@@ -16,6 +16,7 @@ function init() {
 	$("#searchTerms").focus();
 	activateAutocompletion("#searchTerms", "ead");
 	hideTabsIfNoResults();
+	countInitialSelectItems();
 }
 
 function initContextTabHandlers(contextTreeUrl, previewUrl, namespace) {
@@ -41,23 +42,7 @@ function clearSearch(){
 
 	
 }
-function searchOnSuggestion(value) {
-	$("#searchTerms").val(value);
-	performNewSearch();
-}
 
-function updateSuggestions() {
-	$("#suggestionSearch").empty();
-	$("#suggestionSearch").html($("#NEWsuggestionSearch").html());
-	$("#NEWsuggestionSearch").remove();
-	addSuggestionHandlers();
-}
-function addSuggestionHandlers() {
-	$('.suggestionLink').each(function(index) {
-		$(this).attr("href", "javascript:searchOnSuggestion('" + $(this).text() + "');");
-	});
-
-}
 function initTabs() {
 	if ($("#checkboxHierarchy").is(':checked')) {
 		selectedTab = 1;
@@ -191,9 +176,12 @@ function updateCurrentSearchResults(addRemoveRefinement) {
 }
 
 
-function saveSearch() {
-	
-	$.post(savedSearchUrl, $("#updateCurrentSearch").serialize(), function(dataResponse) {
+function saveSearch(savedId) {
+	var form = $("#updateCurrentSearch").serialize();
+	if (savedId != undefined){
+		form = form + "&ownSavedSearchId=" + savedId;
+	}
+	$.post(savedSearchUrl, form, function(dataResponse) {
 		if (dataResponse.answerCode != "") {
 			$('#answerMessageSavedSearch').removeClass("success").removeClass("failure");
 			$('#answerMessageSavedSearch').html(dataResponse.answerMessage);		
