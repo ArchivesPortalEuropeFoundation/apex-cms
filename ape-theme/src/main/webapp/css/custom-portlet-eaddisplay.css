@@ -170,7 +170,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
     padding-right:150px;
 }
 
-#eadDisplayPortlet #printEadDetails, #eadDisplayPortlet #shareButton{
+#eadDisplayPortlet #printEadDetails, #eadDisplayPortlet #shareButton, #eadDisplayPortlet #bookmarksArea{
 	float:right;
 
 }
@@ -261,4 +261,16 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 #eadDisplayPortlet #moreDaosButton {
 	display: inline-block;
 	width:100%;
+}
+
+#eadDisplayPortlet #bookmarkAnswer .success {
+	color: green;
+	font-weight: bold;
+	text-align: center;
+}
+
+#eadDisplayPortlet #bookmarkAnswer .failure {
+	color: red;
+	font-weight: bold;
+	text-align: center;
 }

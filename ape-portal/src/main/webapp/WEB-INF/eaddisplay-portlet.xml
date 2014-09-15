@@ -35,9 +35,13 @@
 				<property name="messageSource" ref="messageSource"/>
 	</bean>
     <bean class="eu.archivesportaleurope.portal.contact.FeedbackController">
-    	<property name="userDAO" ref="userDAO"/>  
-    	<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>  
-    </bean>		
+    	<property name="userDAO" ref="userDAO"/>
+    	<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+    </bean>
+    <bean class="eu.archivesportaleurope.portal.bookmark.BookmarkController">
+		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
+		<property name="messageSource" ref="messageSource"/>
+    </bean>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

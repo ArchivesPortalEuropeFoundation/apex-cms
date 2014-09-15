@@ -30,13 +30,14 @@ public final class FriendlyUrlUtil {
 	public static final String REMOVE_EAD_SEARCH = "remote-ead-search";
 	public static final String SAVED_SEARCH = "saved-search";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
+	public static final String SAVED_BOOKMARKS = "saved-bookmarks";
+	public static final String SAVED_BOOKMARKS_OVERVIEW = "saved-bookmarks-overview";
 	public static final String SEPARATOR = "/";
 	public static final String EAC_CPF_DISPLAY = "eac-display";
 	
 
 	
 	private final static Map<String, String> urls = new HashMap<String, String>();
-	public static final String SAVED_BOOKMARKS_OVERVIEW = null;
 	static {
 		urls.put(EAD_DISPLAY_PERSISTENT, "/ead-display/-/ead/pl");
 		urls.put(FEATURED_EXHIBITION, "/featured-document/-/fed/pk");
@@ -50,6 +51,8 @@ public final class FriendlyUrlUtil {
 		urls.put(REMOVE_EAD_SEARCH, "/search/-/s/n");
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
+		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
+		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/savedbookmarks/-/sb");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");
 		
 	}

@@ -1,6 +1,6 @@
 
 function init(){
-	changeButtomDiv();
+	changeButtonsDiv();
 	eraseData();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
@@ -141,7 +141,8 @@ function showMore(clazz, id){
  * Function to set correctly the position for the "Translations" and for the
  * "Print" button.
  */
-function changeButtomDiv(){
+function changeButtonsDiv(){
+//	$("#eacCpfDisplayPortlet #bookmarkAnswer").after($("#eacCpfDisplayPortlet h1.blockHeader"));
 	$("#eacCpfDisplayPortlet #buttonsDiv").before($("#eacCpfDisplayPortlet h1.blockHeader"));
 }
 

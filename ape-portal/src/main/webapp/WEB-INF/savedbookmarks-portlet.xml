@@ -15,17 +15,12 @@
     <import resource="i18n-common.xml"/>
 	<import resource="persistence-common.xml"/>
 
-	<bean id="savedBookmarksService"
-		class ="eu.archivesportaleurope.portal.bookmark.SavedBookmarksService">
+	<bean
+		class="eu.archivesportaleurope.portal.bookmark.BookmarkController">
 		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
-		<property name="messageSource" ref="messageSource"></property>
+ 		<property name="messageSource" ref="messageSource"></property>
 	</bean>
-	
- 	<bean
-		class ="eu.archivesportaleurope.portal.bookmark.SaveBookmarkJsSONController">
-		<property name="savedBookmarksService" ref="savedBookmarksService"></property>
-		<property name="messageSource" ref="messageSource"></property>
-	</bean>
+
 	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -37,14 +32,5 @@
 	</bean>
 	<bean
 		class="eu.archivesportaleurope.portlet.ApeAnnotationMethodHandlerAdapter">
-	</bean>	
-	<bean class ="eu.archivesportaleurope.portal.bookmark.SavedBookmarksController" >
 	</bean>
-	<bean class ="eu.archivesportaleurope.portal.bookmark.SavedBookmarksObject" >
-	</bean>
-	<bean class ="eu.apenet.persistence.dao.SavedBookmarksDAO" >
-	</bean>
-	<bean class ="eu.apenet.persistence.vo.SavedBookmarks" >
-	</bean>
-	
 </beans>

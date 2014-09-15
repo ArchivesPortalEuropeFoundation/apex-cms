@@ -30,10 +30,10 @@
 		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>
-		<portlet-name>savedbookmark</portlet-name>
+		<portlet-name>savedbookmarks</portlet-name>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>sv</friendly-url-mapping>
-		<friendly-url-routes>savedbookmark-url-routes.xml</friendly-url-routes>		
+		<friendly-url-mapping>sb</friendly-url-mapping>
+		<friendly-url-routes>savedbookmarks-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
 	</portlet>
 	<portlet>

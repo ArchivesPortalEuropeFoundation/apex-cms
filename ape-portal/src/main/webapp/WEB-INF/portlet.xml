@@ -37,7 +37,7 @@
             <preference>
                 <name>savedSearchId</name>
                 <read-only>false</read-only>
-            </preference>                                     
+            </preference>
         </portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -124,6 +124,31 @@
 			<title>Saved Search</title>
 			<short-title>Saved Search</short-title>
 			<keywords>saved-search</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>savedbookmarks</portlet-name>
+		<display-name>Saved Bookmarks</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Saved Bookmarks</title>
+			<short-title>Saved Bookmarks</short-title>
+			<keywords>saved-bookmarks</keywords>
 		</portlet-info>
 		<security-role-ref>
 			<role-name>administrator</role-name>
@@ -451,11 +476,15 @@
         <filter-name>APEFilter</filter-name>
         <portlet-name>contact</portlet-name>
     </filter-mapping>
-     <filter-mapping>
+    <filter-mapping>
         <filter-name>APEFilter</filter-name>
         <portlet-name>savedsearch</portlet-name>
-    </filter-mapping>  
-     <filter-mapping>
+    </filter-mapping>
+    <filter-mapping>
+    	<filter-name>APEFilter</filter-name>
+        <portlet-name>savedbookmarks</portlet-name>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>APEFilter</filter-name>
         <portlet-name>eac-cpf-display</portlet-name>
     </filter-mapping>       

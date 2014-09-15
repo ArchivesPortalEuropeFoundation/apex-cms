@@ -72,8 +72,7 @@
 	 var RecaptchaOptions = {
 	    theme : 'white'
 	 };
-</script>
-<script type='text/javascript'>
+
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
 		init();	
@@ -91,10 +90,15 @@
 	<!-- Persistent link. -->
 	<portal:eacCpfPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" id="${eaccpfIdentifier}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 
+	<div id="bookmarkAnswer">
+		<div id="bookmarkContent" class="hidden"></div>
+	</div>
+
 	<!-- Display of the apeEAC-CPF content. -->
 	<div id="eaccpfcontent">
 		<!-- Div for the buttons. -->
 		<div id="buttonsDiv">
+
 			<!-- Print button. -->
 			<div id="printEacDetails" class="linkButton">
 				<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
@@ -102,25 +106,16 @@
 					<span class="icon_print">&nbsp;</span>
 				</a>
 			</div>
-			
-			<div id="bookmarksArea">
-				<div>&nbsp;</div>
+
+			<!-- Save bookmarks section. -->
+			<div id="bookmarksArea" class="linkButton">
 				<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
-				<div id="bookmarkEacCpf" class="doBookmark linkButton">
-		 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}')">Bookmark this</a>
+				<div id="bookmarkEacCpf">
+		 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
 				</div>
-				<div id="bookmarkContent" class="hidden"></div>
-				<div>&nbsp;</div>
+				<!-- <div id="bookmarkContent" class="hidden"></div> -->
 			</div>
-			
-			<div id="bookmarksArea">
-				<div>&nbsp;</div>
-				<div id="bookmarkEacCpf" class="doBookmark linkButton">
-		 			<a href="javascript:saveBookmark('${documentTitle}','${url}')">Bookmark this</a> <%-- <fmt:message key="label.feedback" /> --%>	
-				</div>
-				<div id="answerMessageSavedBookmark"></div>
-				<div>&nbsp;</div>
-			</div>
+
 			<!-- Translations selector. -->
 			<div id="translationsSelectorDiv">
 				<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
@@ -153,4 +148,3 @@
 		<div id="feedbackContent" class="hidden"></div>
 	</div>
 </div>
-	

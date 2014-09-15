@@ -44,18 +44,13 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
-<portlet:resourceURL var="bookmarkUrl" id="saveBookmark"/>>
-
 <script type="text/javascript">
 	 var RecaptchaOptions = {
 	    theme : 'white'
 	 };
-</script>
 
-<script type='text/javascript'>
 	$(document).ready(function() {
 		document.title = "${documentTitle}";
-		initURLs("${bookmarkUrl}");
 		initExpandableParts();
 		stLight.options({
 			publisher : 'e059943f-766d-434b-84ea-1e0d4a91b7d4',
@@ -68,11 +63,14 @@
 </script>
 
 <div id="buttonsHeader">
+
+	<!-- Print section. -->
 	<div id="printEadDetails" class="linkButton">
 		<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span
 			class="icon_print">&nbsp;</span></a>
 	</div>
 	
+	<!-- Persistent link. -->
 	<c:choose>
 		<c:when test="${empty c}">
 			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
@@ -81,10 +79,26 @@
 			<portal:eadPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 		</c:otherwise>
 	</c:choose>
+	
+	<!-- Save bookmarks section. -->
+	<div id="bookmarksArea">
+		<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
+		<div id="bookmarkEad" class="linkButton">
+ 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'ead')"><fmt:message key="bookmark.this" /></a>
+		</div>
+<!-- 		<div id="bookmarkContent" class="hidden"></div> -->
+	</div>
+		
+	<!-- share section. -->
 	<div id="shareButton" class="linkButton">
 		<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
 			st_url="${url}"></span>
 	</div>
+	
+</div>
+
+<div id="bookmarkAnswer">
+	<div id="bookmarkContent" class="hidden"></div>
 </div>
 
 <div id="eaddetailsContent">
@@ -113,21 +127,12 @@
 		</c:otherwise>
 	</c:choose>
 </div>
+
 <!-- there is the user's feedback feature for WEB 2.0 -->
-
-	<div id="bookmarksArea">
-		<div>&nbsp;</div>
-		<div id="bookmarkEacCpf" class="doBookmark linkButton">
- 			<a href="javascript:saveBookmark('${documentTitle}','${url}')">Bookmark this</a> <%-- <fmt:message key="label.feedback" /> --%>	
-		</div>
-		<div id="answerMessageSavedBookmark"></div>
-		<div>&nbsp;</div>
+<div id="feedbackArea">
+	<div id="sendFeedbackButton" class="linkButton">
+		<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
+				key="label.feedback" /></a>
 	</div>
-
-	<div id="feedbackArea">
-		<div id="sendFeedbackButton" class="linkButton">
-			<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message
-					key="label.feedback" /></a>
-		</div>
-		<div id="feedbackContent" class="hidden"></div>
-	</div>
+	<div id="feedbackContent" class="hidden"></div>
+</div>

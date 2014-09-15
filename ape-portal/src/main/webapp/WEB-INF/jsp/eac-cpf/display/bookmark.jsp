@@ -9,41 +9,42 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="bookmarkUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="bookmarkAction"/></portal:removeParameters>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	loadBookmarking("${loggedIn}");
-});
-</script>
+<div id="bookmarkPortlet">
 
 <form:form id="bookmarkForm" name="bookmarkForm" commandName="bookmark" method="post" action="${bookmarkUrl}">
+    
     <table class="bookmarkForm" id="bookmarkFormTr">
 		<tr id="bookmarkFormTr">
 		</tr>
         <c:if test="${!loggedIn}">
 	        <tr>
-	        	<td></td>
 	            <td>
 	            	<div id="answerMessageSavedSearch">
-						<script type="text/javascript">showError();</script>
+						<script type="text/javascript">showError("${message}");</script>
 					</div>
 				</td>
 	        </tr> 
         </c:if>
 		<c:if test="${loggedIn}">
-			<tr>
-				<td class="tdLabel"><label for="bookmarkText" class="label">Bookmark description:</label></td>
-				<td><form:textarea path="bookmark" name="bookmarkText" cols="" rows="" id="bookmarkText" /> <form:errors path="bookmark" cssClass="errorBlock" /></td>
-				<td><a href="javascript:click()"></a></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<table>
-						<tr>
-							<td class="leftBtn"><input type="submit" id="bookmark_send" value="Bookmark" class="mainButton" /></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+			<c:if test="${!saved}">
+		        <tr>
+		            <td>
+		            	<div id="answerMessageSavedSearch">
+							<script type="text/javascript">hasSaved(false, "${message}");</script>
+						</div>
+					</td>
+		        </tr> 
+	        </c:if>
+     		<c:if test="${saved}">
+		        <tr>
+		            <td>
+		            	<div id="answerMessageSavedSearch">
+							<script type="text/javascript">hasSaved(true, "${message}");</script>
+						</div>
+					</td>
+		        </tr> 
+	        </c:if>
 		</c:if>
 		</table>
 </form:form>
+</div>

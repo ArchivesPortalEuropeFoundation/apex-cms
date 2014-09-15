@@ -201,7 +201,8 @@
     float: right;
 }
 
-#eacCpfDisplayPortlet #buttonsDiv #translationsSelectorDiv {
+#eacCpfDisplayPortlet #buttonsDiv #translationsSelectorDiv,
+#eacCpfDisplayPortlet #buttonsDiv #bookmarksArea {
     float: right;
 }
 
@@ -215,4 +216,16 @@
     margin-right: 10px;
     margin-top: 12px;
     vertical-align: middle;
+}
+
+#eacCpfDisplayPortlet #bookmarkAnswer .success {
+	color: green;
+	font-weight: bold;
+	text-align: center;
+}
+
+#eacCpfDisplayPortlet #bookmarkAnswer .failure {
+	color: red;
+	font-weight: bold;
+	text-align: center;
 }

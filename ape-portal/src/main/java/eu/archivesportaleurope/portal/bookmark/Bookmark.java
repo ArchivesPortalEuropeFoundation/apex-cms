@@ -3,18 +3,20 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SavedBookmarksObject<bookmarkName> implements Serializable {
-
+public class Bookmark implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1125380681178677726L;
+	private static final long serialVersionUID = 574790214370347998L;
+
 	private String id;
+	private String overviewPageNumber;
 	private Date modifiedDate;
 	private String bookmarkName;
 	private String description;
 	private String persistentLink;
 	private String typedocument;
+	private String liferay_user_id;
 	
 	public String getId() {
 		return id;
@@ -24,6 +26,20 @@ public class SavedBookmarksObject<bookmarkName> implements Serializable {
 		this.id = id;
 	}
 	
+	/**
+	 * @return the overviewPageNumber
+	 */
+	public String getOverviewPageNumber() {
+		return overviewPageNumber;
+	}
+
+	/**
+	 * @param overviewPageNumber the overviewPageNumber to set
+	 */
+	public void setOverviewPageNumber(String overviewPageNumber) {
+		this.overviewPageNumber = overviewPageNumber;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -81,4 +97,19 @@ public class SavedBookmarksObject<bookmarkName> implements Serializable {
 	public void setTypedocument(String typedocument) {
 		this.typedocument = typedocument;
 	}
+
+	/**
+	 * @return the liferay_user_id
+	 */
+	public String getLiferay_user_id() {
+		return liferay_user_id;
+	}
+
+	/**
+	 * @param liferay_user_id the liferay_user_id to set
+	 */
+	public void setLiferay_user_id(String liferay_user_id) {
+		this.liferay_user_id = liferay_user_id;
+	}
+
 }
