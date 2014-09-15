@@ -50,6 +50,7 @@ input#searchTerms:focus {
 #poweredBy {
 	font-size: 10px;
 	padding-top: 5px;	
+    width: 343px;	
 }
 
 button::-moz-focus-inner,
