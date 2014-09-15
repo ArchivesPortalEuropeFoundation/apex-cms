@@ -35,7 +35,7 @@ body {
 	float: left;
     font-size: 12px;
     width: 90px;
-    background: url("../../images/ape/mainbutton.jpg") repeat-x scroll right top white;
+	background-color: #cbeafc;
     border: 1px solid #999999;
     color: #00384d;
     font-weight: bold;
