@@ -1,0 +1,140 @@
+@CHARSET "UTF-8";
+
+.boxtitle {
+    background: url("../images/ape/search/tabbg.jpg") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    height: 18px;
+}
+.numberOfPages {
+    float: left;
+    font-weight: normal;
+}
+.collectionField{
+	float:left;
+	width: 100%;
+	border: 1px solid #D9EEF7;
+	background-color: #F0F7FC;
+}
+.collectionFieldDiv{
+	float:left;
+	width: 100%;
+}
+.collectionFieldHeader{
+	float:left;
+	width: 100%;
+	background-color:#D9EEF7;
+	border: 1px solid #F0F7FC;
+}
+.collectionHeader{
+	font-size: 8pt;
+	font-weight: bold;
+    margin-left: 2px;
+}
+.collectionContent, .collectionSearches{
+	font-size: 8pt;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+.collectionFieldTitle{
+	float:left;
+	width: 34%;
+	min-width: 34%;
+}
+.collectionFieldDescription{
+	float:left;
+	width: 34%;
+}
+.collectionFieldPublic{
+	float:left;
+	width: 14%;
+	min-width: 14%;
+}
+.collectionFieldActions{
+	float:left;
+	width: 14%;
+	min-width: 14%;
+}
+.collectionFieldSubmit{
+	float:left;
+	width:100%;
+	margin-top: 1%;
+}
+.collectionFieldPublic2{
+	float:left;
+	width:19%;
+	min-width: 19%;
+}
+.collectionSearchField, .collectionSearchFieldContent{
+	float:left;
+	width: 100%;
+}
+
+.collectionDescriptionTextarea{
+	float:left;
+	width: 85%;
+	height: 15px;
+}
+.collectionSearches{
+	float:left;
+	width: 100%;
+	background-color:#D9EEF7;
+	color: #333333;
+}
+.collectionSearchesHeader, .collectionSearchFieldHeader{
+	float:left;
+	width: 100%;
+	background-color:#F0F7FC;
+	border: 1px solid #D9EEF7;
+}
+.collectionSearches:hover{
+	background-color:#F0F7FC;
+}
+.collectionSearchCheckbox{
+	float:left;
+	width: 5%;
+}
+.collectionSearchId{
+	float:left;
+	width: 5%;
+}
+.collectionSearchTerms{
+	float:left;
+	width: 50%;
+}
+.collectionSearchTerms2{
+    float: left;
+    width: 35%;
+}
+.collectionSearchDate{
+	float:left;
+	width: 40%;
+}
+.collectionSearchDate2{
+	float:left;
+	width: 20%;
+}
+.collectionSearchAction{
+	float:left;
+	width: 40%;
+}
+.collectionBigAction{
+	float:left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.collectionBigAction a{
+    background-color: #FFEDB9;
+    border: 1px solid #FFA300;
+    border-radius: 5px 5px 5px 5px;
+    color: #2A4862;
+    margin: 0;
+    padding: 2px 10px;
+    font-weight:bold;
+}
+.collectionBigAction a:hover{
+	background-color: #FFF9E8;
+}
+.collectionPaginator{
+	float: left;
+	width: 100%;
+}

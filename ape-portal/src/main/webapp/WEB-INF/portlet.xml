@@ -111,6 +111,31 @@
 		
 	</portlet>
 	<portlet>
+	    <portlet-name>collections</portlet-name>
+	    <display-name>My Collections</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>My Collections</title>
+			<short-title>Collections</short-title>
+			<keywords>my-collection</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
 		<portlet-name>savedsearch</portlet-name>
 		<display-name>Saved Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
@@ -483,6 +508,10 @@
     <filter-mapping>
     	<filter-name>APEFilter</filter-name>
         <portlet-name>savedbookmarks</portlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>APEFilter</filter-name>
+        <portlet-name>collections</portlet-name>
     </filter-mapping>
     <filter-mapping>
         <filter-name>APEFilter</filter-name>

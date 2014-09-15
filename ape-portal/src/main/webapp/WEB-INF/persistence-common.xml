@@ -19,6 +19,8 @@
 	<bean id="eadDAO" class="eu.apenet.persistence.hibernate.EadHibernateDAO"/>
 	<bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
 	<bean id="eadSavedSearchDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EadSavedSearchJpaDAO"/>
+	<bean id="collectionDAO" class="eu.apenet.persistence.hibernate.CollectionHibernateDAO"/>
+	<bean id="collectionContentDAO" class="eu.apenet.persistence.hibernate.CollectionContentHibernateDAO"/>
 	<bean id="savedBookmarksDAO" class="eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO"/>
 	<bean id="eacCpfDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EacCpfJpaDAO"/>
 	<bean id="coordinatesDAO" class="eu.apenet.persistence.hibernate.CoordinatesHibernateDAO"/>

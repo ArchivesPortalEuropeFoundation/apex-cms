@@ -32,6 +32,7 @@ public final class FriendlyUrlUtil {
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SAVED_BOOKMARKS = "saved-bookmarks";
 	public static final String SAVED_BOOKMARKS_OVERVIEW = "saved-bookmarks-overview";
+	public static final String SAVED_COLLECTION_OVERVIEW = "saved-collection-overview";
 	public static final String SEPARATOR = "/";
 	public static final String EAC_CPF_DISPLAY = "eac-display";
 	
@@ -54,7 +55,7 @@ public final class FriendlyUrlUtil {
 		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
 		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/savedbookmarks/-/sb");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");
-		
+		urls.put(SAVED_COLLECTION_OVERVIEW, "/saved-collections/-/cs");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {

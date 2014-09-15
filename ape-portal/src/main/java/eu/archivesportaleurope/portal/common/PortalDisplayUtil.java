@@ -32,6 +32,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_EAC_CPF_SEARCH = "NAME SEARCH";
     public static final String TITLE_EAG_SEARCH = "INSTITUTION SEARCH";
 	public static final String TITLE_SAVED_BOOKMARK = "SAVE BOOKMARK";
+	public static final String TITLE_SAVED_COLLECTIONS = "SAVED COLLECTIONS";
 
     /**
      * Method to replace whitespaces, carriage returns and all the problematic
