@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>eu.archivesportaleurope.frontend</groupId>
 		<artifactId>frontend-project</artifactId>
-		<version>1.6.0.7</version>
+		<version>1.6.0.8-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>ape-hook</artifactId>
