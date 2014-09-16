@@ -17,24 +17,27 @@
 	<div class="collectionFieldDiv" id="collectionFieldDiv">
 		<c:choose>
 			<c:when test="${collection!=null}">
-		<form name="frm" method="post" action="${updateCollection}">
-			<input type="hidden" name="id" id="id" value="${collection.id}" />
+				<form name="frm" method="post" action="${updateCollection}">
+				<input type="hidden" name="id" id="id" value="${collection.id}" />
 			</c:when>
 			<c:otherwise>
-		<form name="frm" method="post" action="${createNewCollection}">
+				<form name="frm" method="post" action="${createNewCollection}">
 			</c:otherwise>
 		</c:choose>
 			<div class="collectionSearchFieldHeader">
-				<div class="collectionFieldTitle">Title</div>
-				<div class="collectionFieldDescription">Description</div>
+				<div class="collectionFieldTitle"><fmt:message key="advancedsearch.text.title2"/></div> 
+				<div class="collectionFieldDescription"><fmt:message key="savedsearch.description"/></div> 
 				<c:if test="${edit}">
-				<div class="collectionFieldPublic2">Public</div>
-				<div class="collectionFieldEdit2">Edit</div>
+				<div class="collectionFieldPublic2"><fmt:message key="savedsearch.publicaccessible"/></div>
+				<div class="collectionFieldEdit2"><fmt:message key="savedsearches.overview.edit"/></div>
 				</c:if>
 			</div>
 			<div class="collectionSearchFieldContent">
 				<div class="collectionFieldTitle">
-					<input type="text" id="collectionTitle" name="collectionTitle" <c:if test="${!edit}">disabled="disabled"</c:if><c:if test="${collection!=null && collection.title!=null}">value="${collection.title}"</c:if> />
+					<input type="text" id="collectionTitle" name="collectionTitle" 
+						<c:if test="${!edit}">disabled="disabled"</c:if>
+						<c:if test="${collection!=null && collection.title!=null}">value="${collection.title}"</c:if> 
+					/>
 				</div>
 				<div class="collectionFieldDescription">
 					<textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea>
@@ -53,11 +56,11 @@
 				<div>Saved searches:</div>
 				<div class="collectionSearchesHeader" id="collectionSearchesHeader">
 					<c:if test="${edit}">
-						<div class="collectionSearchCheckbox">X</div>
+						<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
 					</c:if>
-					<div class="collectionSearchId">ID</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>">Terms</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>">Date</div>
+					<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="collections.terms"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></div>
 				</div>
 				<div id="collectionSearches" >
 				<c:forEach var="collectionSearch" items="${collectionSearches}">
@@ -97,14 +100,14 @@
 			</div>
 			<c:if test="${newSearches!=null && newSearches.size()>0}">
 			<div id="newCollectionSearches">
-				<div>Saved searches out of collection:</div>
+				<div><fmt:message key="collections.searches.out"/></div>
 				<div class="collectionSearchesHeader" id="collectionSearchesHeader">
 					<c:if test="${edit}">
-						<div class="collectionSearchCheckbox">X</div>
+						<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
 					</c:if>
-					<div class="collectionSearchId">ID</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>">Terms</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>">Date</div>
+					<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="collections.terms"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></div>
 				</div>
 				<c:forEach var="newSearch" items="${newSearches}">
 					<div class="collectionSearches" id="newCollectionSearch_<c:out value="${newSearch.id}" />">
@@ -141,12 +144,12 @@
 			</div>
 			</c:if>
 			<c:if test="${bookmarks!=null && bookmarks.size()>0}">
-				<div>Saved bookmarks:</div>
+				<div><fmt:message key="collections.bookmarks.saved"/></div>
 				<div class="collectionSearchesHeader" id="collectionBookmarksHeader">
 					<c:if test="${edit}">
-						<div class="collectionSearchCheckbox">X</div>
+						<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
 					</c:if>
-					<div class="collectionSearchId">ID</div>
+					<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
 					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>">Name</div>
 					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>">Description</div>
 				</div>
@@ -160,21 +163,21 @@
 						<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.description}" /></div>
 						<c:if test="${!edit}">
 						<div class="collectionSearchAction">
-							<a href="#">See bookmark</a>
+							<a href="#"><fmt:message key="collections.bookmarks.see"/></a>
 						</div>
 						</c:if>
 					</div>
 				</c:forEach>
 			</c:if>
 			<c:if test="${newBookmarks!=null && newBookmarks.size()>0}">
-				<div>Saved bookmarks out of collection:</div>
+				<div><fmt:message key="collections.bookmarks.out"/></div>
 				<div class="collectionSearchesHeader" id="collectionBookmarksHeader">
 					<c:if test="${edit}">
-						<div class="collectionSearchCheckbox">X</div>
+						<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
 					</c:if>
-					<div class="collectionSearchId">ID</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>">Name</div>
-					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>">Description</div>
+					<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.eaccpf.element.name"/></div>
+					<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="savedsearch.description"/></div>
 				</div>
 				<c:forEach var="collectionBookmark" items="${newBookmarks}">
 					<div class="collectionSearches" id="newCollectionBookmarks_<c:out value="${collectionBookmark.id}" />">
@@ -186,7 +189,7 @@
 						<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.description}" /></div>
 						<c:if test="${!edit}">
 						<div class="collectionSearchAction">
-							<a href="${collectionBookmark.link}">See bookmark</a>
+							<a href="${collectionBookmark.link}"><fmt:message key="collections.bookmarks.see"/></a>
 						</div>
 						</c:if>
 					</div>

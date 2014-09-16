@@ -18,7 +18,7 @@
 <portlet:renderURL var="myCollections" />
 <div id="mycollectionPortletDiv">
 	<div id="mycollectionCreateAction" class="collectionBigAction">
-		<a href="${createMyCollectionUrl}" >Create</a>
+		<a href="${createMyCollectionUrl}" ><fmt:message key="collections.create"/></a>
 	</div>
 	<c:choose>
 		<c:when test="${not empty collections}">
@@ -34,10 +34,10 @@
 				</div>
 			</div>
 			<div class="collectionFieldHeader">
-				<div class="collectionFieldTitle collectionHeader">Title</div>
-				<div class="collectionFieldDescription collectionHeader">Description</div>
-				<div class="collectionFieldPublic collectionHeader">Features</div>
-				<div class="collectionFieldActions collectionHeader">Actions</div>
+				<div class="collectionFieldTitle collectionHeader"><fmt:message key="advancedsearch.text.title2"/></div>
+				<div class="collectionFieldDescription collectionHeader"><fmt:message key="savedsearch.description"/></div>
+				<div class="collectionFieldPublic collectionHeader"><fmt:message key="collections.features"/></div>
+				<div class="collectionFieldActions collectionHeader"><fmt:message key="savedsearches.overview.actions"/></div>
 			</div>
 			
 			<c:forEach var="collection" items="${collections}" varStatus="counter">
@@ -46,26 +46,27 @@
 					<div class="collectionFieldDescription collectionContent">&nbsp;${collection.description}</div>
 					<div class="collectionFieldPublic collectionContent">
 					<c:choose>
-						<c:when test="${collection.public_}">Public</c:when><c:otherwise>Private</c:otherwise>
+						<c:when test="${collection.public_}"><fmt:message key="savedsearch.publicaccessible"/></c:when>
+						<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
 					</c:choose>
 						<%-- <input type="checkbox" id="collectionField_${counter}_public" <c:if test="${collection.public_}">checked="checked"</c:if> disabled="disabled" /> --%>
 					</div>
 					<div class="collectionFieldActions collectionContent">
 						<div>
-							<a href="${myCollectionUrl}&id=${collection.id}">View</a>
+							<a href="${myCollectionUrl}&id=${collection.id}"><fmt:message key="collections.view"/></a>
 						</div>
 						<div>
-							<a href="${createMyCollectionUrl}&id=${collection.id}" >Edit</a>
+							<a href="${createMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.edit"/></a>
 						</div>
 						<div>
-							<a href="${deleteMyCollectionUrl}&id=${collection.id}" >Delete</a>
+							<a href="${deleteMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.delete"/></a>
 						</div>
 					</div>
 				</div>
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-			<h2>There aren't collections</h2>
+			<h2><fmt:message key="collections.no"/></h2>
 		</c:otherwise>
 	</c:choose>
 </div>
