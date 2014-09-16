@@ -17,4 +17,13 @@
 			<css-class>fullwidth</css-class>
 		</color-scheme>
 	</theme>
+	<theme id="ape-widget" name="Archives Portal Europe - Widget">
+		<templates-path>${root-path}/widget/templates</templates-path>
+		<css-path>${root-path}/widget/css</css-path>
+		<javascript-path>${root-path}/widget/js</javascript-path>		
+		<settings>
+			<setting key="portlet-setup-show-borders-default" value="false" />
+		</settings>
+		
+	</theme>
 </look-and-feel>
