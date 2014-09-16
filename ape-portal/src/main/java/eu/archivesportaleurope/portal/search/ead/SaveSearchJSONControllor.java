@@ -42,7 +42,7 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 			int numberOfArchivalInstitions = 0;
 			List<String> selectedNodesList = eadSearch.getSelectedNodesList();
 			if (selectedNodesList != null){
-				for (int i = 0; i < selectedNodesList.size() && !faHgSgFound && numberOfArchivalInstitions < MAX_NUMBER_OF_AI; i++){
+				for (int i = 0; i < selectedNodesList.size() && !faHgSgFound && numberOfArchivalInstitions <= MAX_NUMBER_OF_AI; i++){
 					String selectedNode = selectedNodesList.get(i);
 					AlType alType = AlType.getAlType(selectedNode);
 					if (AlType.ARCHIVAL_INSTITUTION.equals(alType)){
