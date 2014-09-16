@@ -79,23 +79,9 @@ function updatePageNumber(url) {
 	updateCurrentSearchResults();
 }
 function initCommonSearchOptionsHandlers() {
-	//activateAutocompletion("#searchTerms");
 	$("#searchTerms").focus();
-	//$("#searchTerms").keypress(function(event) {
-	//	if (event.keyCode == 13) {
-	//		$(this).data("autocomplete").destroy();
-	//		activateAutocompletion("#searchTerms");
-	//		performNewSearch();
-	//	}
-	//});
-	//addSuggestionHandlers();
-	//$("#searchButton").click(function(event) {
-	//	event.preventDefault();
-	//	performNewSearch();
-	//});
-	$("#sourceTabs .ui-tabs-selected").click(function(event) {
+	$("#sourceTabs .ui-tabs-selected a").click(function(event) {
 		event.preventDefault();
-
 	});	
 	
 }
@@ -377,14 +363,7 @@ function displayPreview (preview, data){
 			daoParent.prev().remove();
 			daoParent.remove();
 		}
-		var otherfindingaids = $(preview + " .otherfindingaids");
-		if (otherfindingaids.length > 0){
-			var firstOtherfindingaids = otherfindingaids.first();
-			alwaysVisibleContainer.append(firstOtherfindingaids.html());
-			var parent = firstOtherfindingaids.parent();	
-			parent.prev().remove();
-			parent.remove();
-		}
+
 	}
 	
 	
