@@ -80,19 +80,19 @@ public class PortalDisplayUtil {
 	public static ReadableUserAgent getUserAgent(PortletRequest portletRequest){
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
 		String header = request.getHeader("User-Agent");
-		return CachedUserAgentStringParser.getInstance().parse(header);
+		if (StringUtils.isBlank(header)){
+			return null;
+		}else {
+			return CachedUserAgentStringParser.getInstance().parse(header);
+		}
 	}
 	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
-		String header = request.getHeader("User-Agent");
-		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
-		return !UserAgentType.BROWSER.equals(agent.getType());
+		ReadableUserAgent agent = getUserAgent(portletRequest);
+		return agent == null || !UserAgentType.BROWSER.equals(agent.getType());
 	}
 	public static boolean isNotNormalBrowser(PortletRequest portletRequest){
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(portletRequest);
-		String header = request.getHeader("User-Agent");
-		ReadableUserAgent agent = CachedUserAgentStringParser.getInstance().parse(header);
-		return !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
+		ReadableUserAgent agent = getUserAgent(portletRequest);
+		return agent == null || !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
 	}
 	public static void setPageTitle(PortletRequest portletRequest, String title){
 		String documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
