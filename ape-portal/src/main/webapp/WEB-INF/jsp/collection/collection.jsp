@@ -163,7 +163,7 @@
 						<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.description}" /></div>
 						<c:if test="${!edit}">
 						<div class="collectionSearchAction">
-							<a href="#"><fmt:message key="collections.bookmarks.see"/></a>
+							<a href="${collectionBookmark.savedBookmarks.link}"><fmt:message key="collections.bookmarks.see"/></a>
 						</div>
 						</c:if>
 					</div>
@@ -197,7 +197,7 @@
 			</c:if>
 			<c:if test="${edit}">
 				<div class="collectionFieldSubmit">
-					<input type="submit" value="Save" />
+					<input type="submit" value="<fmt:message key="savedsearch.save"/>" />
 				</div>
 			</c:if>
 		</form>

@@ -227,17 +227,20 @@ public class CollectionController {
 						}
 					}
 				}
-				CollectionContentDAO collectionContentDAO = null;
-				SavedBookmarksDAO savedBookmarksDAO = null;
-				//delete
-				if(parametersIn.size()>0){
-					List<CollectionContent> collectionContentToBeDeleted = collectionContentDAO.getAllCollectionContentWithoutIds(parametersIn,ddbbCollection.getId());
-					if(collectionContentToBeDeleted!=null && collectionContentToBeDeleted.size()>0){
-						collectionContentDAO.delete(collectionContentToBeDeleted);
+
+				try {
+					//delete
+					if(parametersIn.size()>0){
+						List<CollectionContent> collectionContentToBeDeleted = collectionContentDAO.getAllCollectionContentWithoutIds(parametersIn,ddbbCollection.getId());
+						if(collectionContentToBeDeleted!=null && collectionContentToBeDeleted.size()>0){
+							collectionContentDAO.delete(collectionContentToBeDeleted);
+						}
 					}
+					//create
+					createCollectionContentParametersBookmarks(parametersOut,bookmarksOut,ddbbCollection,liferayUserId);
+				} catch (Exception e) {
+					LOGGER.error(e.getMessage(), e);
 				}
-				//create
-				createCollectionContentParametersBookmarks(parametersOut,bookmarksOut,ddbbCollection,liferayUserId);
 			}
 		}
 		return showSavedCollections(request);
