@@ -149,7 +149,7 @@ public class BookmarkController {
 	 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 	 			modelAndView.getModelMap().addAttribute("savedBookmarks",savedBookmarks);
 			} catch (Exception e) {
-				System.console().writer().print(e.toString());
+				LOGGER.error(e.getMessage(), e);
 			}
  		}
  		return modelAndView;
@@ -185,7 +185,7 @@ public class BookmarkController {
 					savedBookmarksDAO.store(savedBookmark);
 					response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.SAVED_BOOKMARKS_OVERVIEW) + FriendlyUrlUtil.SEPARATOR + bookmark.getOverviewPageNumber());
 				} catch (Exception e) {
-					System.console().writer().print(e.toString());
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}	
@@ -202,7 +202,7 @@ public class BookmarkController {
 				try {
 					savedBookmarksDAO.delete(savedBookmark);
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOGGER.error(e.getMessage(), e);
 				}
 			}
 		}
