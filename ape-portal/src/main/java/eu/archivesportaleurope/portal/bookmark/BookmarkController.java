@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.bookmark;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -63,14 +64,13 @@ public class BookmarkController {
     		User currentUser = (User) PortalUtil.getUser(request);
     		String description = bookmark.getDescription() + " " + currentUser.getEmailAddress();
     		bookmark.setDescription(description);
-				if (saveBookmark(bookmark, request)){
-					modelAndView.getModelMap().addAttribute("saved",true);
-					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
-				}
-				else{
-					modelAndView.getModelMap().addAttribute("saved",false);
-					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
-				}
+			if (saveBookmark(bookmark, request, modelAndView)){
+				modelAndView.getModelMap().addAttribute("saved",true);
+			}
+			else{
+				modelAndView.getModelMap().addAttribute("saved",false);
+				modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
+			}
     	}
     	else{
 			modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
@@ -78,21 +78,48 @@ public class BookmarkController {
         return modelAndView;
     }
 
-	public boolean saveBookmark(@ModelAttribute(value = "eaddisplay") Bookmark bookmark,ResourceRequest resourceRequest) {
+	public boolean saveBookmark(@ModelAttribute(value = "eaddisplay") Bookmark bookmark,ResourceRequest resourceRequest, ModelAndView modelAndView) {
 		boolean saved = false;
 		if (resourceRequest.getUserPrincipal() == null){
 		}else {
 			long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 			try {
-				BookmarkService bookmarkService = new BookmarkService(this.savedBookmarksDAO);
-				bookmarkService.saveBookmark(liferayUserId, bookmark);
-				saved = true;
+		        SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
+
+				if (checkIfExist(bookmark, resourceRequest)){
+			        modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.already"));
+					saved = true;
+				}
+				else{
+					BookmarkService bookmarkService = new BookmarkService(this.savedBookmarksDAO);
+					bookmarkService.saveBookmark(liferayUserId, bookmark);
+					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
+					saved = true;
+				}
 			}catch (Exception e) {
 				LOGGER.error(e.getMessage());
 				saved = false;
 			}
 		}
 		return saved;
+	}
+	
+	private boolean checkIfExist(Bookmark bookmark, ResourceRequest resourceRequest){
+		boolean exist = false;
+		long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
+		try {
+			List<SavedBookmarks> savedBookmarks = savedBookmarksDAO.getSavedBookmarks(liferayUserId, 1, PAGESIZE);
+			Iterator<SavedBookmarks> itBookmarks = savedBookmarks.iterator();
+			while(itBookmarks.hasNext()){
+				SavedBookmarks sb = itBookmarks.next();
+				if(sb.getLink().compareTo(bookmark.getPersistentLink())==0){
+			        exist = true;
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return exist;
 	}
 	
     @ModelAttribute("bookmark")

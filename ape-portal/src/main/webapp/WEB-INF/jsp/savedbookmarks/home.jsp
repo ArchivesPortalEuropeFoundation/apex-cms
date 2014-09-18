@@ -46,7 +46,7 @@
 					</th>
 				</tr>
 				<c:forEach var="savedBookmark" items="${savedBookmarks}">
-<%-- 				
+<%--
 					<c:choose>
 						<c:when test="${savedBookmark.publicBookmark}"><c:set var="trClass" value="public"/></c:when>
 						<c:otherwise><c:set var="trClass" value=""/></c:otherwise>
@@ -62,7 +62,7 @@
 						<td><c:out value="${savedBookmark.typedocument}"/></td>
 						<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${savedBookmark.modifiedDate}" timeZone="${timeZone}"/></td>
 						<td>
-<%--					
+<%--
 							<c:choose>
 								<c:when test="${SavedBookmark.publicBookmark}">
 								<a href="${savedBookmarkPublicUrl}/${SavedBookmark.id}" 
@@ -70,7 +70,7 @@
 								<a href="${savedBookmarkPublicUrl}/${SavedBookmark.id}/new" onclick="return confirm('<fmt:message key="savedBookmarks.overview.public.areyousure"/>')"><fmt:message key="savedBookmarks.overview.viewresults.new"/></a></c:when>
 								<c:otherwise><a href="${savedBookmarkUrl}/${SavedBookmark.id}"><fmt:message key="savedBookmarks.overview.viewresults"/></a><a href="${savedBookmarkUrl}/${SavedBookmark.id}/new"><fmt:message key="savedBookmarks.overview.viewresults.new"/></a></c:otherwise>
 							</c:choose>
---%>						
+--%>
 							<portlet:renderURL var="editUrl">
 								<portlet:param name="myaction" value="editSavedBookmarksForm" />
 								<portlet:param name="id" value="${savedBookmark.id}" />
@@ -79,9 +79,10 @@
 							<a href="${editUrl}"><fmt:message key="savedsearches.overview.edit"/></a>
 						
 							<a href="<portlet:actionURL>
-									<portlet:param name="myaction" value="deleteSavedBookmark" />
-									<portlet:param name="id" value="${savedBookmark.id}" />
-									</portlet:actionURL>" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/></a>
+								<portlet:param name="myaction" value="deleteSavedBookmark" />
+								<portlet:param name="id" value="${savedBookmark.id}" />
+								</portlet:actionURL>" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/>
+							</a>
 						</td>
 					</tr>
 				</c:forEach>
