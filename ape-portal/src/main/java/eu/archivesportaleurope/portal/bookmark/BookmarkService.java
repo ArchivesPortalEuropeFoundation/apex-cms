@@ -1,16 +1,13 @@
 package eu.archivesportaleurope.portal.bookmark;
 
 import java.sql.Date;
-import java.util.List;
-
-import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import eu.apenet.persistence.dao.SavedBookmarksDAO;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
+import eu.archivesportaleurope.util.ApeUtil;
 
 public class BookmarkService {
 
@@ -40,8 +37,7 @@ public class BookmarkService {
 			savedbookmark.setTypedocument(bookmarkObject.getTypedocument());
 			savedBookmarksDAO.store(savedbookmark);
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			e.printStackTrace();
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
 
@@ -58,13 +54,12 @@ public class BookmarkService {
 			savedbookmark.setLiferayUserId(liferayUserId);
 			savedBookmarksDAO.store(savedbookmark);
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
 
 	public SavedBookmarks getSavedBookmark(Long liferayUserId, int savedBookmarkId) {
 		return null;
-//		return SavedBookmarksJpaDAO.getSavedBookmark(liferayUserId, savedBookmarkId, 0);
 	}
 	
 
