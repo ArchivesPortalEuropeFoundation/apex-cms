@@ -29,13 +29,12 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
 
-import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.search.saved.SavedSearch;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "bookmarkController")
 @RequestMapping(value = "VIEW")
@@ -97,7 +96,7 @@ public class BookmarkController {
 					saved = true;
 				}
 			}catch (Exception e) {
-				LOGGER.error(e.getMessage());
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
 				saved = false;
 			}
 		}
@@ -117,7 +116,7 @@ public class BookmarkController {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 		return exist;
 	}
@@ -176,7 +175,7 @@ public class BookmarkController {
 	 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 	 			modelAndView.getModelMap().addAttribute("savedBookmarks",savedBookmarks);
 			} catch (Exception e) {
-				LOGGER.error(e.getMessage(), e);
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
  		}
  		return modelAndView;
@@ -212,7 +211,7 @@ public class BookmarkController {
 					savedBookmarksDAO.store(savedBookmark);
 					response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.SAVED_BOOKMARKS_OVERVIEW) + FriendlyUrlUtil.SEPARATOR + bookmark.getOverviewPageNumber());
 				} catch (Exception e) {
-					LOGGER.error(e.getMessage(), e);
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
 				}
 			}
 		}	
@@ -229,7 +228,7 @@ public class BookmarkController {
 				try {
 					savedBookmarksDAO.delete(savedBookmark);
 				} catch (Exception e) {
-					LOGGER.error(e.getMessage(), e);
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
 				}
 			}
 		}
