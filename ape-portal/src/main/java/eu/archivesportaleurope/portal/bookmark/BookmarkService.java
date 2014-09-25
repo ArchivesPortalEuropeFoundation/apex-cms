@@ -3,30 +3,39 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.sql.Date;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.util.ApeUtil;
 
+@Controller(value = "bookmarkService")
+@RequestMapping(value = "VIEW")
 public class BookmarkService {
 
-	public BookmarkService(SavedBookmarksJpaDAO savedBookmarksDAO) {
-		if (this.savedBookmarksDAO == null) {
-			this.savedBookmarksDAO = savedBookmarksDAO;
-		}
-	}
-	
 	private final static Logger LOGGER = Logger.getLogger(BookmarkService.class);
 	private SavedBookmarksJpaDAO savedBookmarksDAO;
-
-	public void setEadSavedBookmarkDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
+	
+	public void setSavedBookmarksDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
 		this.savedBookmarksDAO = savedBookmarksDAO;
 	}
-
-	public void setMessageSource(ResourceBundleMessageSource messageSource) {
+	
+	/**
+	 * @return the savedBookmarksDAO
+	 */
+	public SavedBookmarksJpaDAO getSavedBookmarksDAO() {
+		return savedBookmarksDAO;
 	}
 
+	@RequestMapping
+	public void showDefault(){
+		
+	}
+
+	@ResourceMapping(value="saveBookmark")
 	public void saveBookmark(Long liferayUserId, Bookmark bookmarkObject) {
 		try {
 			SavedBookmarks savedbookmark = new SavedBookmarks();
@@ -40,7 +49,7 @@ public class BookmarkService {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
-
+	@ResourceMapping(value="editBookmark")
 	public void editBookmark(Long liferayUserId, String description, Long id, String name, String link, String typedocument) {
 		try {
 			SavedBookmarks savedbookmark = new SavedBookmarks();
@@ -57,11 +66,4 @@ public class BookmarkService {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
-
-	public SavedBookmarks getSavedBookmark(Long liferayUserId, int savedBookmarkId) {
-		return null;
-	}
-	
-
-
 }

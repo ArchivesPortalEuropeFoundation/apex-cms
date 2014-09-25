@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.bookmark;
 
-import java.io.Serializable;
-import java.util.Date;
 
 public class Bookmark implements Serializable {
 	/**

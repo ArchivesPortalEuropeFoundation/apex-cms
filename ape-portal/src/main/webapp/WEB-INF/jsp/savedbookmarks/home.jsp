@@ -5,7 +5,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
-<%-- <portlet:renderURL var="longUrl"></portlet:renderURL> --%>
 <portal:friendlyUrl var="savedBookmarkUrl" type="saved-Bookmark"/>
 <portal:friendlyUrl var="savedBookmarkPublicUrl" type="saved-bookmarks" noHttps="true"/>
 <portal:friendlyUrl var="savedBookmarkPagingUrl" type="saved-bookmarks-overview" />
@@ -46,15 +45,8 @@
 					</th>
 				</tr>
 				<c:forEach var="savedBookmark" items="${savedBookmarks}">
-<%--
-					<c:choose>
-						<c:when test="${savedBookmark.publicBookmark}"><c:set var="trClass" value="public"/></c:when>
-						<c:otherwise><c:set var="trClass" value=""/></c:otherwise>
-					</c:choose> 
---%>
 					<tr class="${trClass}">
 						<td><c:out value="${savedBookmark.id}"/></td>
-						<%-- <td><c:out value="${savedBookmark.name}"/></td> --%>
 						<td>
 						<a href="${savedBookmark.link}"> <c:out value="${savedBookmark.name}"/> </a>
 						</td>
@@ -62,15 +54,7 @@
 						<td><c:out value="${savedBookmark.typedocument}"/></td>
 						<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${savedBookmark.modifiedDate}" timeZone="${timeZone}"/></td>
 						<td>
-<%--
-							<c:choose>
-								<c:when test="${SavedBookmark.publicBookmark}">
-								<a href="${savedBookmarkPublicUrl}/${SavedBookmark.id}" 
-								onclick="return confirm('<fmt:message key="savedBookmarks.overview.public.areyousure"/>')"> <fmt:message key="savedBookmarks.overview.viewresults"/></a>
-								<a href="${savedBookmarkPublicUrl}/${SavedBookmark.id}/new" onclick="return confirm('<fmt:message key="savedBookmarks.overview.public.areyousure"/>')"><fmt:message key="savedBookmarks.overview.viewresults.new"/></a></c:when>
-								<c:otherwise><a href="${savedBookmarkUrl}/${SavedBookmark.id}"><fmt:message key="savedBookmarks.overview.viewresults"/></a><a href="${savedBookmarkUrl}/${SavedBookmark.id}/new"><fmt:message key="savedBookmarks.overview.viewresults.new"/></a></c:otherwise>
-							</c:choose>
---%>
+
 							<portlet:renderURL var="editUrl">
 								<portlet:param name="myaction" value="editSavedBookmarksForm" />
 								<portlet:param name="id" value="${savedBookmark.id}" />

@@ -38,10 +38,7 @@
     	<property name="userDAO" ref="userDAO"/>
     	<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
     </bean>
-    <bean class="eu.archivesportaleurope.portal.bookmark.BookmarkController">
-		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
-		<property name="messageSource" ref="messageSource"/>
-    </bean>
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
@@ -50,6 +47,18 @@
 		<property name="suffix" value=".jsp" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
 	</bean>
+	
+	<bean name="bookmarkService"
+		class="eu.archivesportaleurope.portal.bookmark.BookmarkService">
+         <property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
+     </bean>
+
+     <bean class="eu.archivesportaleurope.portal.bookmark.BookmarkController">
+         <property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
+         <property name="messageSource" ref="messageSource"></property>
+         <property name="bookmarkService" ref="bookmarkService"></property>
+     </bean>
+     	
 	<bean
 		class="eu.archivesportaleurope.portlet.ApeAnnotationMethodHandlerAdapter">
 	</bean>

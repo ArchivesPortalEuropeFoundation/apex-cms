@@ -25,10 +25,14 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
 
+import eu.apenet.dpt.utils.eag2012.Timetable;
+import eu.apenet.persistence.dao.SavedBookmarksDAO;
+import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
@@ -42,15 +46,21 @@ public class BookmarkController {
 
     private static final Logger LOGGER = Logger.getLogger(BookmarkController.class);
     private SavedBookmarksJpaDAO savedBookmarksDAO;
+    private BookmarkService bookmarkService;
     private final static int PAGESIZE  = 10;
 	private ResourceBundleMessageSource messageSource;
 
 	public void setMessageSource(ResourceBundleMessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
+	
 	public void setSavedBookmarksDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
 		this.savedBookmarksDAO = savedBookmarksDAO;
 	}
+	
+	 public void setBookmarkService (BookmarkService bookmarkService) {
+         this.bookmarkService = bookmarkService;
+     }
 
 	@ResourceMapping(value="bookmark")
     public ModelAndView showInitialPage(@ModelAttribute("bookmark") Bookmark bookmark, ResourceRequest request) throws PortalException, SystemException {
@@ -90,7 +100,12 @@ public class BookmarkController {
 					saved = true;
 				}
 				else{
-					BookmarkService bookmarkService = new BookmarkService(this.savedBookmarksDAO);
+					SavedBookmarks savedBookmark = savedBookmarksDAO.getSavedBookmark(liferayUserId, Long.parseLong(bookmark.getId()));
+					savedBookmark.setDescription(bookmark.getDescription());
+					savedBookmark.setLink(bookmark.getPersistentLink());
+					savedBookmark.setDescription(bookmark.getDescription());
+					savedBookmark.setName(bookmark.getBookmarkName());
+					savedBookmark.setTypedocument(bookmark.getTypedocument());
 					bookmarkService.saveBookmark(liferayUserId, bookmark);
 					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
 					saved = true;
@@ -200,7 +215,7 @@ public class BookmarkController {
 	}
 
 	@ActionMapping(params="myaction=saveEditSavedBookmarks")
-	public void saveSavedBookmark(@ModelAttribute("savedSearch") Bookmark bookmark, BindingResult bindingResult,ActionRequest request, ActionResponse response) throws IOException  {
+	public void saveSavedBookmark(@ModelAttribute("savedBookmark") Bookmark bookmark, BindingResult bindingResult,ActionRequest request, ActionResponse response) throws IOException  {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());

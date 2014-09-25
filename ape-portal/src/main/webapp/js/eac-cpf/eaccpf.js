@@ -1,6 +1,5 @@
 
 function init(){
-	changeButtonsDiv();
 	eraseData();
 	$(".displayLinkShowLess").addClass("hidden");
 	$('.displayLinkShowMore').addClass("hidden");
@@ -135,15 +134,6 @@ function showMore(clazz, id){
     	});
     });
     $(prefix + ".displayLinkShowMore").trigger("click");
-}
-
-/**
- * Function to set correctly the position for the "Translations" and for the
- * "Print" button.
- */
-function changeButtonsDiv(){
-//	$("#eacCpfDisplayPortlet #bookmarkAnswer").after($("#eacCpfDisplayPortlet h1.blockHeader"));
-	$("#eacCpfDisplayPortlet #buttonsDiv").before($("#eacCpfDisplayPortlet h1.blockHeader"));
 }
 
 /**

@@ -90,54 +90,52 @@
 	<!-- Persistent link. -->
 	<portal:eacCpfPersistentLink var="url" repoCode="${archivalInstitution.repositorycode}" id="${eaccpfIdentifier}" searchFieldsSelectionId="${element}" searchTerms="${term}" />
 
+	<!-- Div for the buttons. -->
+	<div id="buttonsDiv">
+		<!-- Print button. -->
+		<div id="printEacDetails" class="linkButton">
+			<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
+				<fmt:message key="label.print" />
+				<span class="icon_print">&nbsp;</span>
+			</a>
+		</div>
+		
+		<!-- Save bookmarks section. -->
+		<div id="bookmarksArea" class="linkButton">
+			<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
+			<div id="bookmarkEacCpf">
+	 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
+			</div>
+		</div>
+
+		<!-- Translations selector. -->
+		<div id="translationsSelectorDiv">
+			<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
+				<c:forEach var="langOptions" items="${languagesMap}">
+					<c:choose>
+						<c:when test="${translationLanguage == langOptions.key}">
+							<form:option selected="true" value="${langOptions.key}">
+								${langOptions.value}
+							</form:option>
+						</c:when>
+						<c:otherwise>
+							<form:option value="${langOptions.key}">
+								${langOptions.value}
+							</form:option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</form:select>
+		</div>
+	</div>
+
 	<div id="bookmarkAnswer">
 		<div id="bookmarkContent" class="hidden"></div>
 	</div>
 
 	<!-- Display of the apeEAC-CPF content. -->
 	<div id="eaccpfcontent">
-		<!-- Div for the buttons. -->
-		<div id="buttonsDiv">
-
-			<!-- Print button. -->
-			<div id="printEacDetails" class="linkButton">
-				<a href="javascript:printEacDetails('${printEacDetailsUrl}')">
-					<fmt:message key="label.print" />
-					<span class="icon_print">&nbsp;</span>
-				</a>
-			</div>
-
-			<!-- Save bookmarks section. -->
-			<div id="bookmarksArea" class="linkButton">
-				<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
-				<div id="bookmarkEacCpf">
-		 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
-				</div>
-				<!-- <div id="bookmarkContent" class="hidden"></div> -->
-			</div>
-
-			<!-- Translations selector. -->
-			<div id="translationsSelectorDiv">
-				<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
-					<c:forEach var="langOptions" items="${languagesMap}">
-						<c:choose>
-							<c:when test="${translationLanguage == langOptions.key}">
-								<form:option selected="true" value="${langOptions.key}">
-									${langOptions.value}
-								</form:option>
-							</c:when>
-							<c:otherwise>
-								<form:option value="${langOptions.key}">
-									${langOptions.value}
-								</form:option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</form:select>
-			</div>
-		</div>
-
-		<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}" translationLanguage="${translationLanguage}" />
+			<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}" translationLanguage="${translationLanguage}" />
 	</div>
 
 	<!-- User's feedback section. -->
