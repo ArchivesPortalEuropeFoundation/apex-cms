@@ -18,12 +18,13 @@ public class Results implements Serializable {
 	private boolean showSuggestions;
 	private String errorMessage;
 	private SpellCheckResponse spellCheckResponse;
-	
+	private boolean partialResults;
 
 	public void init (QueryResponse solrResponse){
 		totalNumberOfResults = solrResponse.getResults().getNumFound();
 		spellCheckResponse = solrResponse.getSpellCheckResponse();
 		totalNumberOfResults = solrResponse.getResults().getNumFound();
+		partialResults = solrResponse.getHeader().get("partialResults") != null;
 	}
 	public long getTotalNumberOfResults() {
 		return totalNumberOfResults;
@@ -65,6 +66,9 @@ public class Results implements Serializable {
 		this.eacCpfNumberOfResults = eacCpfNumberOfResults;
 	}
 
+	public boolean isPartialResults() {
+		return partialResults;
+	}
 	public String getEagNumberOfResultsClass(){
 		return getCssClass(eagNumberOfResults);		
 	}
