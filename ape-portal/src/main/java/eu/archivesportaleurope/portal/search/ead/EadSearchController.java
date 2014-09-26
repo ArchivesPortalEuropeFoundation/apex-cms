@@ -137,8 +137,8 @@ public class EadSearchController extends AbstractSearchController{
 					return modelAndView;
 				}
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+		}catch (Exception e) {
+
 		}
 		if (errorMessage == null){
 			errorMessage = "savedsearch.notexist";
@@ -225,6 +225,12 @@ public class EadSearchController extends AbstractSearchController{
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
+				results = new ContextResults();
+			} else {
+				results = new ListResults();
+			}
+			results.setErrorMessage( "search.message.internalerror");
 		}
 		return results;
 	}
@@ -241,6 +247,12 @@ public class EadSearchController extends AbstractSearchController{
 				}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
+				results = new ContextResults();
+			} else {
+				results = new ListResults();
+			}
+			results.setErrorMessage( "search.message.internalerror");			
 		}
 		return results;
 	}
