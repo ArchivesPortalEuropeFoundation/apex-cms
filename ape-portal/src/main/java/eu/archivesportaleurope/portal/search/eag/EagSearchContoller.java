@@ -113,7 +113,7 @@ public class EagSearchContoller extends AbstractSearchController {
 	public ListResults performNewSearch(PortletRequest request, EagSearch eagSearch) {
 		ListResults results = null;
 		try {
-			String error = validate(eagSearch);
+			String error = validate(eagSearch, request);
 			if (error == null) {
 				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eagSearch);
 				results = performNewSearchForListView(request, solrQueryParameters, eagSearch);
