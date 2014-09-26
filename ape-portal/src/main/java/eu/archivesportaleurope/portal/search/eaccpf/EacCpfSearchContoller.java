@@ -109,7 +109,7 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 	public ListResults performNewSearch(PortletRequest request, EacCpfSearch eacCpfSearch) {
 		ListResults results = null;
 		try {
-			String error = validate(eacCpfSearch);
+			String error = validate(eacCpfSearch, request);
 			if (error == null) {
 				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eacCpfSearch);
 				results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
