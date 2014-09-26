@@ -63,7 +63,16 @@ public class AbstractSearchController {
 		}
 		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
-	public String validate(AbstractSearchForm abstractSearchForm) {
+	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
+		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
+			String term = abstractSearchForm.getTerm().trim();
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() == null){
+				
+			}else if (false && term.matches("[\\?\\*\\~].*")){
+				return "search.message.noleadingwildcards";
+			}
+			
+		}
 		if (StringUtils.isNotBlank(abstractSearchForm.getFromdate())
 				&& !SearchUtil.isValidDate(abstractSearchForm.getFromdate())) {
 			return "search.message.IncorrectDateTyped";
