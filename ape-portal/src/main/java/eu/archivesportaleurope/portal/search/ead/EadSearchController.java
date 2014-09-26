@@ -40,7 +40,6 @@ import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 import eu.archivesportaleurope.portal.search.ead.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.ead.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
-import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "eadSearchController")
 @RequestMapping(value = "VIEW")
@@ -139,7 +138,7 @@ public class EadSearchController extends AbstractSearchController{
 				}
 			}
 		} catch (Exception e) {
-
+			LOGGER.error(e.getMessage());
 		}
 		if (errorMessage == null){
 			errorMessage = "savedsearch.notexist";
@@ -225,7 +224,7 @@ public class EadSearchController extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
 		}
 		return results;
 	}
@@ -241,7 +240,7 @@ public class EadSearchController extends AbstractSearchController{
 					results = performUpdateSearchForListView(request, solrQueryParameters, eadSearch);
 				}
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
 		}
 		return results;
 	}

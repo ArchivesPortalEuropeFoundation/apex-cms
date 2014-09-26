@@ -37,7 +37,6 @@ import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
-import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * 
@@ -136,8 +135,7 @@ public class EagSearchContoller extends AbstractSearchController {
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the eag search: Error: "
-					+ ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
 		}
 		return results;
 	}
@@ -148,8 +146,7 @@ public class EagSearchContoller extends AbstractSearchController {
 			SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, eagSearch);
 			results = performUpdateSearchForListView(request, solrQueryParameters, eagSearch);
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: "
-					+ ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
 		}
 		return results;
 	}
