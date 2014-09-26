@@ -66,9 +66,11 @@ public class AbstractSearchController {
 	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			String term = abstractSearchForm.getTerm().trim();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) && portletRequest.getUserPrincipal() == null){
+			if (portletRequest.getUserPrincipal() == null && term.matches("[\\?\\*\\~].*")){
+				return "search.message.noleadingwildcards";
+			}else if (portletRequest.getUserPrincipal() != null && AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) ){
 				
-			}else if (term.matches("[\\?\\*\\~].*")){
+			}else if (term.matches("[\\?\\*\\~].*") ){
 				return "search.message.noleadingwildcards";
 			}
 			
