@@ -194,7 +194,7 @@ public class EadSearchController extends AbstractSearchController{
 	public Results performNewSearch(PortletRequest request, EadSearch eadSearch) {
 		Results results = null;
 		try {
-			String error = validate(eadSearch);
+			String error = validate(eadSearch, request);
 			if (error == null) {
 				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eadSearch);
 				if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
