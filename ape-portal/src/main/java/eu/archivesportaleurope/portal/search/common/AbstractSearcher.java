@@ -35,6 +35,7 @@ public abstract class AbstractSearcher {
 	private final static Logger LOGGER = Logger.getLogger(AbstractSearcher.class);
 	private final static Integer timeAllowedList = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TIME);
 	private final static Integer timeAllowedTree = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TREE_TIME);
+	private static Long lastTimeEmailSend = 0l;
 	private HttpSolrServer solrServer;
 	protected final HttpSolrServer getSolrServer(){
 		if (solrServer == null){
@@ -60,7 +61,8 @@ public abstract class AbstractSearcher {
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.debug("Query(autocompletion): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
-	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
+	    return query(query).getTermsResponse();
+
 	}
 	public long getNumberOfResults(SolrQueryParameters solrQueryParameters) throws SolrServerException, ParseException{
 		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0,null, null, null, null, false, false);
@@ -295,7 +297,7 @@ public abstract class AbstractSearcher {
 			timeAllowed = timeAllowedList;			
 		}
 		query.setTimeAllowed(timeAllowed);
-		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
+		QueryResponse result = query(query);
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +result.getElapsedTime() + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
@@ -307,5 +309,27 @@ public abstract class AbstractSearcher {
 	private static boolean isSimpleSearchTerms(String term){
 		Matcher matcher = NORMAL_TERM_PATTERN.matcher(term);
 		return matcher.matches();
+	}
+	protected QueryResponse query(SolrQuery  query) throws SolrServerException{
+		try {
+			return getSolrServer().query(query, METHOD.POST);
+		}catch (SolrServerException sse){
+			long currentTime = System.currentTimeMillis();
+			long lastTimeSend = currentTime - 1000*60*30;
+			boolean send = false;
+			synchronized (lastTimeEmailSend){
+				if (lastTimeSend > lastTimeEmailSend){
+					lastTimeEmailSend = currentTime;
+					send = true;
+					
+				}
+			}
+			if (send){
+				LOGGER.info("Send email");
+			}else {
+				LOGGER.info("Nothing send");
+			}
+			throw sse;
+		}
 	}
 }
