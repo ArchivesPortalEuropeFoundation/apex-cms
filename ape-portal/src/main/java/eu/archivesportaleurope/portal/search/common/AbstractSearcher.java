@@ -40,6 +40,8 @@ public abstract class AbstractSearcher {
 		if (solrServer == null){
 			try {
 				solrServer = new HttpSolrServer(getSolrSearchUrl(), null);
+				solrServer.setConnectionTimeout(10000);
+				solrServer.setSoTimeout(10000);
 				LOGGER.info("Successfully instantiate the solr client: " + getSolrSearchUrl());
 			} catch (Exception e) {
 				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
