@@ -171,11 +171,6 @@ public class CollectionController {
 			Long id = Long.parseLong(request.getParameter("id"));
 			Collection collection = this.collectionDAO.getCollectionByIdAndUserId(id, liferayUserId);
 			if (collection!=null && collection.getLiferayUserId()==liferayUserId){
-				CollectionContentDAO collectionContentDAO = this.collectionContentDAO;
-				List<CollectionContent> listCollectionSearches = collectionContentDAO.getCollectionContentsByCollectionId(id);
-				if(listCollectionSearches!=null && listCollectionSearches.size()>0){
-					collectionContentDAO.delete(listCollectionSearches);
-				}
 				this.collectionDAO.delete(collection);
 			}
 		}
