@@ -25,5 +25,8 @@ public class PropertiesKeys {
 	public static final String APE_GOOGLEMAPS_CENTER_SOUTHWEST_LONGITUDE = "ape.google.maps.center.southwest.longitude";
 	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LATITUDE = "ape.google.maps.center.northeast.latitude";
 	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LONGITUDE = "ape.google.maps.center.northeast.longitude";
+	
+	public static final String APE_MAX_SOLR_QUERY_TIME = "ape.solr.querytime.max";
+	public static final String APE_MAX_SOLR_QUERY_TREE_TIME = "ape.solr.querytime.tree.max";
 
 }
