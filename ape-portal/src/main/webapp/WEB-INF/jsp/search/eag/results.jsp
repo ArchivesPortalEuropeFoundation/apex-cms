@@ -70,7 +70,7 @@
 						</div>
 				</c:when>
 				<c:otherwise>
-					<span id="noResults"><fmt:message key="search.message.notResults" /></span>
+					<span id="noResults"><fmt:message key="search.message.notResults" /><c:if test="${results.partialResults}"><span class="partialresults"> (<fmt:message key="search.message.approximately" />)</span></c:if></span>
 				</c:otherwise>
 			</c:choose>	
 			</div>
