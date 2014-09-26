@@ -20,6 +20,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
 
 import eu.apenet.commons.solr.SolrField;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public abstract class AbstractSearcher {
@@ -31,6 +33,8 @@ public abstract class AbstractSearcher {
 	protected static final String COLON = ":";
 	protected final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private final static Logger LOGGER = Logger.getLogger(AbstractSearcher.class);
+	private final static Integer timeAllowedList = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TIME);
+	private final static Integer timeAllowedTree = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TREE_TIME);
 	private HttpSolrServer solrServer;
 	protected final HttpSolrServer getSolrServer(){
 		if (solrServer == null){
@@ -284,11 +288,17 @@ public abstract class AbstractSearcher {
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)|| solrQueryParameters.getSolrFields().contains(SolrField.EAC_CPF_ENTITY_ID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
-		long startTime = System.currentTimeMillis();
+		Integer timeAllowed = timeAllowedTree;
+		if (QUERY_TYPE_LIST.equals(queryType)){
+			timeAllowed = timeAllowedList;			
+		}
+		query.setTimeAllowed(timeAllowed);
 		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
 		if (LOGGER.isDebugEnabled()){
-			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +result.getElapsedTime() + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+		}
+		if (result.getHeader().get("partialResults") != null){
+			LOGGER.warn("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +result.getElapsedTime() + "ms): '" + solrQueryParameters.getTerm() +"' exceed query time("+ timeAllowed +"ms)");
 		}
 		return result;
 	}
