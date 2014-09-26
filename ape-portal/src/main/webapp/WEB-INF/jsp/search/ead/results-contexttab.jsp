@@ -5,11 +5,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%> 
+<%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <portlet:defineObjects />
-<portlet:resourceURL var="contextTreeUrl" id="contextTree" />
 <portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 	<portlet:param  name="element" value="${eadSearch.element}"/>
 </portlet:resourceURL>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="contextTreeUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="contextTree" /></portal:removeParameters>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		initContextTabHandlers("${contextTreeUrl}", "${displayPreviewUrl}", "<portlet:namespace/>");
