@@ -216,7 +216,8 @@
 
 #searchingPart #numberOfResults {
 	float: left;
-    width: 243px;	
+    min-width: 223px;	
+    margin-right:20px;
 }
 #searchingPart .partialresults {
     color: #4d4d4d;
