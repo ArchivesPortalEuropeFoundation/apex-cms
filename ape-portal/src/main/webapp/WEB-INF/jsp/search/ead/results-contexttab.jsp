@@ -26,7 +26,7 @@
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" /></span>
-						${results.totalNumberOfResultsString}
+						${results.totalNumberOfResultsString} <c:if test="${results.partialResults}"><span class="partialresults">(<fmt:message key="search.message.approximately" />)</span></c:if>
 					</div>			
 				</c:when>
 				<c:otherwise>
