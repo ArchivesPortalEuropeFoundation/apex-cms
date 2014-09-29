@@ -38,4 +38,11 @@ public class PropertiesUtil {
 		}
 		return Integer.parseInt(value);
 	}
+	public static Long getLong(String key){
+		String value = PropsUtil.get(key);
+		if (value == null){
+			value =  defaultProperties.getProperty(key);
+		}
+		return Long.parseLong(value);
+	}
 }
