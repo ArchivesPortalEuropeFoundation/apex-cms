@@ -22,6 +22,7 @@ import org.apache.solr.client.solrj.response.TermsResponse;
 import eu.apenet.commons.solr.SolrField;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
+import eu.archivesportaleurope.portal.common.email.EmailSender;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public abstract class AbstractSearcher {
@@ -327,9 +328,7 @@ public abstract class AbstractSearcher {
 				}
 			}
 			if (send){
-				LOGGER.info("Send email");
-			}else {
-				LOGGER.info("Nothing send");
+				EmailSender.sendExceptionToAdmin("Solr search engine has problems", sse);
 			}
 			throw sse;
 		}
