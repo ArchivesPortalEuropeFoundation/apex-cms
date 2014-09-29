@@ -33,16 +33,18 @@ public abstract class AbstractSearcher {
 	protected static final String COLON = ":";
 	protected final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private final static Logger LOGGER = Logger.getLogger(AbstractSearcher.class);
-	private final static Integer timeAllowedList = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TIME);
-	private final static Integer timeAllowedTree = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TREE_TIME);
+	private final static Integer TIME_ALLOWED = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TIME);
+	private final static Integer TIME_ALLOWED_TREE = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TREE_TIME);
+	private final static Integer HTTP_TIMEOUT = PropertiesUtil.getInt(PropertiesKeys.APE_SOLR_HTTP_TIMEOUT);
+	private final static Long RESEND_EMAIL_TIME = PropertiesUtil.getLong(PropertiesKeys.APE_SOLR_RESEND_EMAIL_TIME_WAIT);
 	private static Long lastTimeEmailSend = 0l;
 	private HttpSolrServer solrServer;
 	protected final HttpSolrServer getSolrServer(){
 		if (solrServer == null){
 			try {
 				solrServer = new HttpSolrServer(getSolrSearchUrl(), null);
-				solrServer.setConnectionTimeout(10000);
-				solrServer.setSoTimeout(10000);
+				solrServer.setConnectionTimeout(HTTP_TIMEOUT);
+				solrServer.setSoTimeout(HTTP_TIMEOUT);
 				LOGGER.info("Successfully instantiate the solr client: " + getSolrSearchUrl());
 			} catch (Exception e) {
 				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
@@ -292,9 +294,9 @@ public abstract class AbstractSearcher {
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)|| solrQueryParameters.getSolrFields().contains(SolrField.EAC_CPF_ENTITY_ID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
-		Integer timeAllowed = timeAllowedTree;
+		Integer timeAllowed = TIME_ALLOWED_TREE;
 		if (QUERY_TYPE_LIST.equals(queryType)){
-			timeAllowed = timeAllowedList;			
+			timeAllowed = TIME_ALLOWED;			
 		}
 		query.setTimeAllowed(timeAllowed);
 		QueryResponse result = query(query);
@@ -315,7 +317,7 @@ public abstract class AbstractSearcher {
 			return getSolrServer().query(query, METHOD.POST);
 		}catch (SolrServerException sse){
 			long currentTime = System.currentTimeMillis();
-			long lastTimeSend = currentTime - 1000*60*30;
+			long lastTimeSend = currentTime - RESEND_EMAIL_TIME;
 			boolean send = false;
 			synchronized (lastTimeEmailSend){
 				if (lastTimeSend > lastTimeEmailSend){
