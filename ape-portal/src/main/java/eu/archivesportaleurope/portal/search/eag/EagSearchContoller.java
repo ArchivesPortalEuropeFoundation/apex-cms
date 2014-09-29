@@ -136,6 +136,8 @@ public class EagSearchContoller extends AbstractSearchController {
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			results = new ListResults();
+			results.setErrorMessage( "search.message.internalerror");			
 		}
 		return results;
 	}
