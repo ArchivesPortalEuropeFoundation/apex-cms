@@ -132,6 +132,8 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			results = new ListResults();
+			results.setErrorMessage( "search.message.internalerror");
 		}
 		return results;
 	}
@@ -142,6 +144,8 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 			results = performUpdateSearchForListView(request, solrQueryParameters, eacCpfSearch);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			results = new ListResults();
+			results.setErrorMessage( "search.message.internalerror");			
 		}
 		return results;
 	}
