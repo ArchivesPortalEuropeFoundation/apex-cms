@@ -5,12 +5,14 @@ package eu.archivesportaleurope.portal.common.email;
 
 
 import eu.apenet.commons.infraestructure.EmailComposer;
+import eu.apenet.commons.infraestructure.EmailComposer.Priority;
 import eu.apenet.commons.infraestructure.Emailer;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.User;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.contact.Contact;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * User: Yoann Moranville
@@ -20,6 +22,8 @@ import eu.archivesportaleurope.portal.contact.Contact;
  */
 public final class EmailSender {
 
+	private final static String ADMINS_EMAIL = PropertiesUtil.get(PropertiesKeys.APE_EMAILS_ADMINS);
+	
     public static void sendContactFormEmail(Contact contact, com.liferay.portal.model.User user) {
     	
         Emailer emailer = new Emailer();
@@ -119,5 +123,12 @@ public final class EmailSender {
         if (contact.isReceiveCopy()){
         	emailer.sendMessage(contact.getEmail(), null, null, null, emailComposer);
         }
+    }
+    public static void sendExceptionToAdmin(String title, Exception e) {
+        Emailer emailer = new Emailer();
+        EmailComposer emailComposer = new EmailComposer("emails/admins.txt", title, true, false);
+        emailComposer.setProperty("body", ApeUtil.generateThrowableLog(e));
+        emailComposer.setPriority(Priority.HIGH);
+        emailer.sendMessage(ADMINS_EMAIL, null, null, null, emailComposer);
     }
 }
