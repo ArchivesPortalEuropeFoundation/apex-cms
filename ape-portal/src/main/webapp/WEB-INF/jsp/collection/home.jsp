@@ -58,8 +58,8 @@
 						<div>
 							<a href="${createMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.edit"/></a>
 						</div>
-						<div>
-							<a href="${deleteMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.delete"/></a>
+ 						<div>
+							<a href="${deleteMyCollectionUrl}&id=${collection.id}" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/></a>
 						</div>
 					</div>
 				</div>

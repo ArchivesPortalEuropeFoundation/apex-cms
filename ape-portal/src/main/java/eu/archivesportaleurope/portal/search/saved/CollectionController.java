@@ -225,8 +225,11 @@ public class CollectionController {
 
 				try {
 					//delete
-					if(parametersIn.size()>0){
-						List<CollectionContent> collectionContentToBeDeleted = collectionContentDAO.getAllCollectionContentWithoutIds(parametersIn,ddbbCollection.getId());
+					List<Long> deleteParameters = new ArrayList<Long>();
+					deleteParameters.addAll(parametersIn);
+					deleteParameters.addAll(bookmarksIn);
+					if(deleteParameters.size()>0){
+						List<CollectionContent> collectionContentToBeDeleted = collectionContentDAO.getAllCollectionContentWithoutIds(deleteParameters,ddbbCollection.getId());
 						if(collectionContentToBeDeleted!=null && collectionContentToBeDeleted.size()>0){
 							collectionContentDAO.delete(collectionContentToBeDeleted);
 						}
