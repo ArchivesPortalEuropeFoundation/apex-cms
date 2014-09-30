@@ -75,11 +75,10 @@ for (int i = 0; i < locales.length; i++) {
 }
 %>
 
-<c:choose>
-	<c:when test="${true}">
+
 		<aui:form action="<%= formAction %>" method="post" name="<%= formName %>">
 					<div class="changeLanguage">
-			<aui:select changesContext="<%= true %>" label="" name="<%= name %>" onChange='<%= "submitForm(document." + namespace + formName + ");" %>' title="language">
+			<aui:select changesContext="<%= true %>" label="" name="<%= name %>" onChange="document.getElementById('_82_fm').submit()" title="language">
 
 				<%
 				for (int i = 0; i < locales.length; i++) {
@@ -103,51 +102,3 @@ for (int i = 0; i < locales.length; i++) {
 			</aui:select>
 			</div>
 		</aui:form>
-	</c:when>
-	<c:otherwise>
-
-		<%
-		for (int i = 0; i < locales.length; i++) {
-			String language = locales[i].getDisplayLanguage(locales[i]);
-			String country = locales[i].getDisplayCountry(locales[i]);
-
-			if (displayStyle == LanguageTag.LIST_SHORT_TEXT) {
-				if (language.length() > 3) {
-					language = locales[i].getLanguage().toUpperCase();
-				}
-
-				country = locales[i].getCountry().toUpperCase();
-			}
-		%>
-
-			<c:choose>
-				<c:when test="<%= (displayStyle == LanguageTag.LIST_LONG_TEXT) || (displayStyle == LanguageTag.LIST_SHORT_TEXT) %>">
-					<a class="taglib-language-list-text <%= ((i + 1) < locales.length) ? StringPool.BLANK : "last" %>" href="<%= formAction %>&<%= name %>=<%= locales[i].getLanguage()%>" lang="<%= LocaleUtil.toW3cLanguageId(locales[i]) %>">
-						<%= language %>
-
-						<c:if test="<%= duplicateLanguages.contains(locales[i].getLanguage()) %>">
-							(<%= country %>)
-						</c:if>
-					</a>
-				</c:when>
-				<c:otherwise>
-
-					<%
-					String message = locales[i].getDisplayName(locales[i]);
-					%>
-
-					<liferay-ui:icon
-						image='<%= "../language/" + LocaleUtil.toLanguageId(locales[i]) %>'
-						lang="<%= LocaleUtil.toW3cLanguageId(locales[i]) %>"
-						message="<%= message %>"
-						url='<%= formAction + "&" + name + "=" + LocaleUtil.toLanguageId(locales[i]) %>'
-					/>
-				</c:otherwise>
-			</c:choose>
-
-		<%
-		}
-		%>
-
-	</c:otherwise>
-</c:choose>
