@@ -7,10 +7,8 @@
 <head>
 	<title>$the_title</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	#js("$javascript_folder/jquery-1.7.2.min.js")
-	#js("$javascript_folder/jquery-ui-1.8.14.custom.min.js")
-	#js("$javascript_folder/jquery.dynatree.js")
-	#js("$javascript_folder/jquery.poshytip.min.js")		
+	#js("//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+	#js("//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js")		
 	<script type="text/javascript">
 	var gId = 'UA-42421913-1';
 	var hostname = window.location.hostname;
