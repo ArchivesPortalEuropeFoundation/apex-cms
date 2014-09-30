@@ -8,6 +8,7 @@ public class PropertiesKeys {
 	public static final String APE_EMAILS_CONTRIBUTE = "ape.emails.contribute";
 	public static final String APE_EMAILS_SUGGESTIONS = "ape.emails.suggestions";
 	public static final String APE_EMAILS_FEEDBACK_USER = "ape.emails.feedback.user";
+	public static final String APE_EMAILS_ADMINS = "ape.emails.admins";
 
 	public static final String LIFERAY_RECAPTCHA_PUBLIC_KEY = "captcha.engine.recaptcha.key.public";
 	public static final String LIFERAY_RECAPTCHA_PRIVATE_KEY = "captcha.engine.recaptcha.key.private";
@@ -25,5 +26,10 @@ public class PropertiesKeys {
 	public static final String APE_GOOGLEMAPS_CENTER_SOUTHWEST_LONGITUDE = "ape.google.maps.center.southwest.longitude";
 	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LATITUDE = "ape.google.maps.center.northeast.latitude";
 	public static final String APE_GOOGLEMAPS_CENTER_NORTHEAST_LONGITUDE = "ape.google.maps.center.northeast.longitude";
+	
+	public static final String APE_MAX_SOLR_QUERY_TIME = "ape.solr.querytime.max";
+	public static final String APE_MAX_SOLR_QUERY_TREE_TIME = "ape.solr.querytime.tree.max";
+	public static final String APE_SOLR_HTTP_TIMEOUT = "ape.solr.http.timeout";
+	public static final String APE_SOLR_RESEND_EMAIL_TIME_WAIT = "ape.solr.send.email.time.wait";
 
 }

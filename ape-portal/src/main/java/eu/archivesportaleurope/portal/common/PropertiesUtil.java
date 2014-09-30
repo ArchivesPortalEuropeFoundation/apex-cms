@@ -31,5 +31,18 @@ public class PropertiesUtil {
 		}
 		return value;
 	}
-
+	public static Integer getInt(String key){
+		String value = PropsUtil.get(key);
+		if (value == null){
+			value =  defaultProperties.getProperty(key);
+		}
+		return Integer.parseInt(value);
+	}
+	public static Long getLong(String key){
+		String value = PropsUtil.get(key);
+		if (value == null){
+			value =  defaultProperties.getProperty(key);
+		}
+		return Long.parseLong(value);
+	}
 }
