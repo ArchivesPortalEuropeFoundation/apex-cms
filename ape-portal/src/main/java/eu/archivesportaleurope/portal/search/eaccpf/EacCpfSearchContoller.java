@@ -29,14 +29,13 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
-import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * 
@@ -109,7 +108,7 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 	public ListResults performNewSearch(PortletRequest request, EacCpfSearch eacCpfSearch) {
 		ListResults results = null;
 		try {
-			String error = validate(eacCpfSearch);
+			String error = validate(eacCpfSearch, request);
 			if (error == null) {
 				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eacCpfSearch);
 				results = performNewSearchForListView(request, solrQueryParameters, eacCpfSearch);
@@ -132,7 +131,9 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the eac cpf search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
+			results = new ListResults();
+			results.setErrorMessage( "search.message.internalerror");
 		}
 		return results;
 	}
@@ -142,7 +143,9 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 			SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, eacCpfSearch);
 			results = performUpdateSearchForListView(request, solrQueryParameters, eacCpfSearch);
 		} catch (Exception e) {
-			LOGGER.error("There was an error during the execution of the advanced search: Error: " + ApeUtil.generateThrowableLog(e));
+			LOGGER.error(e.getMessage());
+			results = new ListResults();
+			results.setErrorMessage( "search.message.internalerror");			
 		}
 		return results;
 	}
