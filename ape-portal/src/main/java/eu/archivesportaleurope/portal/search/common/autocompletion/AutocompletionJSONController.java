@@ -70,7 +70,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 			writeToResponseAndClose(builder, resourceResponse);
 
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
