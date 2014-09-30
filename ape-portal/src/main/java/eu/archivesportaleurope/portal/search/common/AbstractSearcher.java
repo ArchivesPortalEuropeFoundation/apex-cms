@@ -20,6 +20,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
 
 import eu.apenet.commons.solr.SolrField;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
+import eu.archivesportaleurope.portal.common.email.EmailSender;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public abstract class AbstractSearcher {
@@ -31,11 +34,18 @@ public abstract class AbstractSearcher {
 	protected static final String COLON = ":";
 	protected final static SimpleDateFormat SOLR_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private final static Logger LOGGER = Logger.getLogger(AbstractSearcher.class);
+	private final static Integer TIME_ALLOWED = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TIME);
+	private final static Integer TIME_ALLOWED_TREE = PropertiesUtil.getInt(PropertiesKeys.APE_MAX_SOLR_QUERY_TREE_TIME);
+	private final static Integer HTTP_TIMEOUT = PropertiesUtil.getInt(PropertiesKeys.APE_SOLR_HTTP_TIMEOUT);
+	private final static Long RESEND_EMAIL_TIME = PropertiesUtil.getLong(PropertiesKeys.APE_SOLR_RESEND_EMAIL_TIME_WAIT);
+	private static Long lastTimeEmailSend = 0l;
 	private HttpSolrServer solrServer;
 	protected final HttpSolrServer getSolrServer(){
 		if (solrServer == null){
 			try {
 				solrServer = new HttpSolrServer(getSolrSearchUrl(), null);
+				solrServer.setConnectionTimeout(HTTP_TIMEOUT);
+				solrServer.setSoTimeout(HTTP_TIMEOUT);
 				LOGGER.info("Successfully instantiate the solr client: " + getSolrSearchUrl());
 			} catch (Exception e) {
 				LOGGER.error("Unable to instantiate the solr client: " + e.getMessage());
@@ -54,7 +64,8 @@ public abstract class AbstractSearcher {
 		if (LOGGER.isDebugEnabled()){
 			LOGGER.debug("Query(autocompletion): " +getSolrSearchUrl() + "/select?"+ query.toString());
 		}
-	    return getSolrServer().query(query, METHOD.POST).getTermsResponse();
+	    return query(query).getTermsResponse();
+
 	}
 	public long getNumberOfResults(SolrQueryParameters solrQueryParameters) throws SolrServerException, ParseException{
 		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0,null, null, null, null, false, false);
@@ -284,16 +295,42 @@ public abstract class AbstractSearcher {
 		if (needSuggestions && !(solrQueryParameters.getSolrFields().contains(SolrField.UNITID) || solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID)|| solrQueryParameters.getSolrFields().contains(SolrField.EAC_CPF_ENTITY_ID)) && StringUtils.isNotBlank(solrQueryParameters.getTerm())){
 			query.set("spellcheck", "on");
 		}
-		long startTime = System.currentTimeMillis();
-		QueryResponse result =  getSolrServer().query(query, METHOD.POST);
+		Integer timeAllowed = TIME_ALLOWED_TREE;
+		if (QUERY_TYPE_LIST.equals(queryType)){
+			timeAllowed = TIME_ALLOWED;			
+		}
+		query.setTimeAllowed(timeAllowed);
+		QueryResponse result = query(query);
 		if (LOGGER.isDebugEnabled()){
-			long duration = System.currentTimeMillis() - startTime;
-			LOGGER.debug("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +duration + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+			LOGGER.info("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +result.getElapsedTime() + "ms): " +getSolrSearchUrl() + "/select?"+ query.toString());
+		}
+		if (result.getHeader().get("partialResults") != null){
+			LOGGER.warn("Query(" + queryType + ", hits: "+result.getResults().getNumFound()+ ", d: " +result.getElapsedTime() + "ms): '" + solrQueryParameters.getTerm() +"' exceed query time("+ timeAllowed +"ms)");
 		}
 		return result;
 	}
 	private static boolean isSimpleSearchTerms(String term){
 		Matcher matcher = NORMAL_TERM_PATTERN.matcher(term);
 		return matcher.matches();
+	}
+	protected QueryResponse query(SolrQuery  query) throws SolrServerException{
+		try {
+			return getSolrServer().query(query, METHOD.POST);
+		}catch (SolrServerException sse){
+			long currentTime = System.currentTimeMillis();
+			long lastTimeSend = currentTime - RESEND_EMAIL_TIME;
+			boolean send = false;
+			synchronized (lastTimeEmailSend){
+				if (lastTimeSend > lastTimeEmailSend){
+					lastTimeEmailSend = currentTime;
+					send = true;
+					
+				}
+			}
+			if (send){
+				EmailSender.sendExceptionToAdmin("Solr search engine has problems", sse);
+			}
+			throw sse;
+		}
 	}
 }
