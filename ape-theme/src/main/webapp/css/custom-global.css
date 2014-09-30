@@ -222,7 +222,15 @@ a:hover {
 	background-color: #E9F3FA;
 	border: 1px solid #00A0DF;
 }
-
+#searchingPart .otherfindingaids .linkButton .nolink, #searchingPart .otherfindingaids .linkButton a {
+	
+	font-size:10px;
+	padding:3px;
+	border-radius: 3px;
+	letter-spacing: normal;
+	margin:3px;
+	
+}
 
 .linkButton a:hover {
     color: #00384D;
