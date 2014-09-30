@@ -58,6 +58,7 @@
 						<div id="numberOfResults">
 							<span class="bold"><fmt:message key="advancedsearch.text.results" />:</span>
 							<ape:pageDescription numberOfItems="${results.totalNumberOfResults}" pageSize="${results.pageSize}" pageNumber="${eagSearch.pageNumber}" numberFormat="${numberFormat}" />
+							<c:if test="${results.partialResults}"><span class="partialresults">(<fmt:message key="search.message.approximately" />)</span></c:if>
 						</div>
 						<div id="resultPerPageContainer">
 							<label for="updateCurrentSearch_resultsperpage" id="resultPerPageLabel" class="bold"><fmt:message key="advancedsearch.text.numberofresults"/></label>
@@ -69,7 +70,7 @@
 						</div>
 				</c:when>
 				<c:otherwise>
-					<span id="noResults"><fmt:message key="search.message.notResults" /></span>
+					<span id="noResults"><fmt:message key="search.message.notResults" /><c:if test="${results.partialResults}"><span class="partialresults"> (<fmt:message key="search.message.approximately" />)</span></c:if></span>
 				</c:otherwise>
 			</c:choose>	
 			</div>
