@@ -22,10 +22,12 @@ function init(){
 			$(this).find('.displayLinkShowMore').addClass("hidden");
 		}
 	});
-	
+	expandedSection();
+	sameHeight();
 }
 function initPrint(){
 	eraseData();
+	sameHeight();
 	try{
 		$("body").css("cursor", "progress");
 		$(".displayLinkShowMore").each(function(){
@@ -115,6 +117,7 @@ function showLess(clazz, id){
 		});
 	});
 	$(prefix + ".displayLinkShowLess").trigger("click");
+	sameHeight();
 }
 
 /**
@@ -134,6 +137,7 @@ function showMore(clazz, id){
     	});
     });
     $(prefix + ".displayLinkShowMore").trigger("click");
+    sameHeight();
 }
 
 /**
@@ -185,4 +189,60 @@ function fixUrlLang(url, lang) {
 	}
 
 	return fixedUrl;
+}
+
+/**
+ * Function to expand or collapse the different eac-cpf's sections
+ */
+function expandedSection(){
+		$('h2.title').click(function() {
+			var target = $(this).next();
+			if ($(this).hasClass("expanded")) {
+				$(this).removeClass("expanded").addClass("collapsed");
+				target.hide();
+				$(target).find('.displayLinkShowMore').each(function(){
+					$(this).addClass("hidden");
+				});
+				$(target).find('.displayLinkShowLess').each(function(){
+					$(this).addClass("hidden");
+				});
+			} else {
+				$(this).removeClass("collapsed").addClass("expanded");
+				target.show();
+				$(target).find('.moreDisplay').each(function(index){
+					if ($(this).find('p').length > 3){
+						$(this).find('.displayLinkShowMore').removeClass("hidden");
+						$(this).find('p').each(function(index){
+							if(index > 2){
+								$(this).addClass("hidden");
+							}
+						});
+						sameHeight();
+					}	else if ($(this).find('li.item').length > 3){
+							$(this).find('.displayLinkShowMore').removeClass("hidden");
+							$(this).find('li.item').each(function(index){
+								if(index > 2){
+									$(this).addClass("hidden");
+								}
+							});
+						sameHeight();
+					} else{
+						$(this).find('.displayLinkShowMore').addClass("hidden");
+					}
+				});
+			}
+				
+		});
+}
+/**
+ * Function to assign the same height that its container
+ */
+function sameHeight(){
+	
+	$('#eacCpfDisplayPortlet .row').each(function(){
+		$(this).css("height","");
+		$(this).children().css("height","");
+		var height = $(this).css("height");
+		$(this).children().css("height",height);
+	});
 }
