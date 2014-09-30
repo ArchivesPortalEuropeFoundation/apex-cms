@@ -5,11 +5,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%> 
+<%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <portlet:defineObjects />
-<portlet:resourceURL var="contextTreeUrl" id="contextTree" />
 <portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
 	<portlet:param  name="element" value="${eadSearch.element}"/>
 </portlet:resourceURL>
+<c:set var="portletNamespace"><portlet:namespace/></c:set>
+<portal:removeParameters  var="contextTreeUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="contextTree" /></portal:removeParameters>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		initContextTabHandlers("${contextTreeUrl}", "${displayPreviewUrl}", "<portlet:namespace/>");
@@ -26,11 +29,11 @@
 				<c:when test="${results.totalNumberOfResults > 0}">
 					<div id="numberOfResults">
 						<span class="bold"><fmt:message key="advancedsearch.text.results" /></span>
-						${results.totalNumberOfResultsString}
+						${results.totalNumberOfResultsString} <c:if test="${results.partialResults}"><span class="partialresults">(<fmt:message key="search.message.approximately" />)</span></c:if>
 					</div>			
 				</c:when>
 				<c:otherwise>
-					<span id="noResults"><fmt:message key="search.message.notResults" /></span>
+					<span id="noResults"><fmt:message key="search.message.notResults" /><c:if test="${results.partialResults}"><span class="partialresults"> (<fmt:message key="search.message.approximately" />)</span></c:if></span>
 				</c:otherwise>
 			</c:choose>
 			</div>
