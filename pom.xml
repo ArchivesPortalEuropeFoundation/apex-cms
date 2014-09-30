@@ -16,8 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<liferay.version>6.1.0</liferay.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<archivesportaleurope.common.version>1.6.0.4</archivesportaleurope.common.version>
-		<archivesportaleurope.dptutil.version>1.6.0</archivesportaleurope.dptutil.version>
+		<archivesportaleurope.common.version>1.6.0.5</archivesportaleurope.common.version>
+		<archivesportaleurope.dptutil.version>1.6.0.1</archivesportaleurope.dptutil.version>
 		<artifact.suffix />
 	</properties>
 	<build>
