@@ -8,6 +8,7 @@ function eraseData(){
 	eraseLocationPlace();
 	eraseList();
 	eraseEmptyLi();
+	eraseEmptyTitleSection();
 }
 
 function eraseEmptyLi(){
@@ -91,4 +92,44 @@ function eraseList(){
 			$(this).remove();
 		}
 	});
+}
+/**
+ * Function to delete the titles when there aren't sections to display
+ * 
+ */
+function eraseEmptyTitleSection(){
+	
+	$(".blockPlural").find(".blockSingular:empty").each(function(){
+		removeNodeAndTitle($(this));
+	});
+	
+	$(".section").each(function(){
+		if($(this).children().length==0){
+			removeNodeAndTitle($(this));
+		}
+	});
+	
+	$(".blockPlural").each(function(){
+		if($(this).children().length==0){
+			$(this).remove();
+		}
+	});
+	
+	$("div#details").children().each(function(){
+		if($(this).is("h2.title")){
+			var sectionTitle = $(this).next();
+			if(!sectionTitle.is("div") || !( sectionTitle.hasClass("blockPlural") || sectionTitle.hasClass("section"))){
+				$(this).remove();
+			}
+		}
+	});
+}
+
+function removeNodeAndTitle(node){
+	var parent = node.parent();
+	var before = parent.prev();
+	if(before.is("h2") && before.hasClass("title")){
+		before.remove();
+	}
+	node.remove();
 }
