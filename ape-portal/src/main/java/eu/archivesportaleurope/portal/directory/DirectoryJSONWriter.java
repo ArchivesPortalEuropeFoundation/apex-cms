@@ -41,6 +41,7 @@ import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * JSON Writer for the directory tree
@@ -71,7 +72,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			Collections.sort(countryList);
 			writeToResponseAndClose(generateDirectoryJSON(navigationTree, countryList), resourceResponse);
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ApeUtil.generateThrowableLog(e));
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
@@ -152,7 +153,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ApeUtil.generateThrowableLog(e));
 		}
 
 	}
