@@ -340,7 +340,12 @@ public abstract class AbstractSearcher {
 		query.setTimeAllowed(timeAllowed);
 		String resultLog = "Query;";
 		if (query.getRows() == 0) {
-			resultLog += "count;";
+			if (QUERY_TYPE_LIST.equals(queryType)){
+				resultLog += "count;";
+			}else {
+				resultLog += queryType +"-count;";
+			}
+			
 		} else {
 			resultLog += queryType + ";";
 		}
