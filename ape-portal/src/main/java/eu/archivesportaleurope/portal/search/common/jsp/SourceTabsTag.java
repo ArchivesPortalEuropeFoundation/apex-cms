@@ -36,6 +36,7 @@ public class SourceTabsTag extends SimpleTagSupport {
 		addTab("eacCpf","menu.name-search", "name-search" , numberFormat);
 		addTab("eag","menu.institution-search", "institution-search", numberFormat );
 		writer.append("</ul>");
+		writer.append("<div class=\"icon_help\"></div>");
 		writer.append("<div class=\"tab_header\">");
 		writer.append("<div id=\"tabHeaderContent\"></div>");
 		writer.append("</div>");
