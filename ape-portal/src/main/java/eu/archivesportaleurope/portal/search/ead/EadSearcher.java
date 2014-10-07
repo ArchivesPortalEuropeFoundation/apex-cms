@@ -9,7 +9,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.FacetParams;
 
 import eu.apenet.commons.solr.SolrFields;
-import eu.apenet.commons.utils.APEnetUtilities;
 import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
@@ -19,9 +18,10 @@ public final class EadSearcher extends AbstractSearcher {
 	private static final String QUERY_TYPE_CONTEXT = "context";
 
 	@Override
-	protected String getSolrSearchUrl() {
-		return APEnetUtilities.getApePortalConfig().getBaseSolrSearchUrl() + "/eads";
+	protected String getCore() {
+		return "eads";
 	}
+
 
 	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
