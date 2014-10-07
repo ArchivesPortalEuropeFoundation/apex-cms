@@ -62,12 +62,16 @@
 	<portlet>
 		<portlet-name>eag-search</portlet-name>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/search/jquery.blockUI.js</header-portlet-javascript>		
+		<header-portlet-javascript>/js/search/jquery.poshytip.min.js</header-portlet-javascript>			
 		<header-portlet-javascript>/js/search/common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/search/eag/search.js</header-portlet-javascript>
 	</portlet>	
 	<portlet>
 		<portlet-name>eac-cpf-search</portlet-name>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/search/jquery.blockUI.js</header-portlet-javascript>		
+		<header-portlet-javascript>/js/search/jquery.poshytip.min.js</header-portlet-javascript>		
 		<header-portlet-javascript>/js/search/common.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/search/eaccpf/search.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/eac-cpf/eaccpf_common.js</header-portlet-javascript>
