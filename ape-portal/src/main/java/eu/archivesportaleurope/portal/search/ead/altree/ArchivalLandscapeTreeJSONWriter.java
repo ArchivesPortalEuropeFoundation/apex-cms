@@ -34,6 +34,7 @@ import eu.archivesportaleurope.portal.common.al.CountryUnit;
 import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.common.tree.TreeNode;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * JSON Writer for the navigated tree
@@ -147,7 +148,7 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
 
