@@ -72,14 +72,15 @@ public abstract class AbstractSearcher {
 		String resultLog = "Query;terms;" + getCore() + ";'" + term + "';";
 		long startTime = System.currentTimeMillis();
 		try {
-			TermsResponse response = query(query).getTermsResponse();
+			QueryResponse queryResponse = query(query);
+			TermsResponse response = queryResponse.getTermsResponse();
 			if (LOGGER.isDebugEnabled()) {
-				resultLog += (System.currentTimeMillis() - startTime) + "ms;;;;;;;;";
+				resultLog += (System.currentTimeMillis() - startTime) + "ms;" + queryResponse.getQTime()+"ms;;;;;;;;";
 				LOGGER.debug(resultLog);
 			}
 			return response;
 		} catch (SolrServerException e) {
-			resultLog += (System.currentTimeMillis() - startTime) + "ms;;;;;;;;" + e.getMessage();
+			resultLog += (System.currentTimeMillis() - startTime) + "ms;;;;;;;;;" + e.getMessage();
 			LOGGER.error(resultLog);
 			throw e;
 		}
@@ -88,25 +89,25 @@ public abstract class AbstractSearcher {
 
 	public long getNumberOfResults(SolrQueryParameters solrQueryParameters) throws SolrServerException, ParseException {
 		QueryResponse queryResponse = getListViewResults(solrQueryParameters, 0, 0, null, null, null, null, false,
-				false);
+				false, false);
 		return queryResponse.getResults().getNumFound();
 	}
 
 	public QueryResponse performNewSearchForListView(SolrQueryParameters solrQueryParameters, int rows,
 			List<ListFacetSettings> facetSettings) throws SolrServerException, ParseException {
-		return getListViewResults(solrQueryParameters, 0, rows, facetSettings, null, null, null, true, true);
+		return getListViewResults(solrQueryParameters, 0, rows, facetSettings, null, null, null, true, true, false);
 	}
 
 	public QueryResponse updateListView(SolrQueryParameters solrQueryParameters, int start, int rows,
 			List<ListFacetSettings> facetSettings, String orderByField, String startDate, String endDate)
 			throws SolrServerException, ParseException {
 		return getListViewResults(solrQueryParameters, start, rows, facetSettings, orderByField, startDate, endDate,
-				false, true);
+				false, true, true);
 	}
 
 	private QueryResponse getListViewResults(SolrQueryParameters solrQueryParameters, int start, int rows,
 			List<ListFacetSettings> facetSettingsList, String orderByField, String startDate, String endDate,
-			boolean needSuggestions, boolean highlight) throws SolrServerException, ParseException {
+			boolean needSuggestions, boolean highlight, boolean update) throws SolrServerException, ParseException {
 		boolean withStartdateAndEnddate = false;
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(highlight);
@@ -138,7 +139,7 @@ public abstract class AbstractSearcher {
 				query.addSort("enddate", ORDER.asc);
 			}
 		}
-		return executeQuery(query, solrQueryParameters, QUERY_TYPE_LIST, needSuggestions);
+		return executeQuery(query, solrQueryParameters, QUERY_TYPE_LIST, needSuggestions, update);
 
 	}
 
@@ -275,9 +276,12 @@ public abstract class AbstractSearcher {
 		// }
 		// return refinement;
 	}
-
 	protected QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType,
 			boolean needSuggestions) throws SolrServerException {
+		return executeQuery(query, solrQueryParameters, queryType, needSuggestions, false);
+	}
+	protected QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType,
+			boolean needSuggestions, boolean update) throws SolrServerException {
 		query.setQuery(escapeSolrCharacters(solrQueryParameters.getTerm()));
 
 		if (solrQueryParameters.getAndParameters() != null) {
@@ -347,7 +351,15 @@ public abstract class AbstractSearcher {
 			}
 			
 		} else {
-			resultLog += queryType + ";";
+			if (QUERY_TYPE_LIST.equals(queryType) ){
+				if (update){
+					resultLog += queryType + "-update;";
+				}else {
+					resultLog += queryType + "-new;";
+				}
+			}else {
+				resultLog += queryType + ";";
+			}
 		}
 		resultLog +=  getCore() + ";'" + solrQueryParameters.getTerm() + "';";
 		String resultLogSuffix = "";
@@ -387,7 +399,7 @@ public abstract class AbstractSearcher {
 		try {
 
 			QueryResponse result = query(query);
-			resultLog += (System.currentTimeMillis() - startTime) + "ms;" + result.getResults().getNumFound()
+			resultLog += (System.currentTimeMillis() - startTime) + "ms;"+result.getQTime() + "ms;" + result.getResults().getNumFound()
 					+ " hits;" + resultLogSuffix;
 			if (result.getHeader().get("partialResults") != null) {
 				resultLog += "exceed query time(" + timeAllowed + "ms)";
@@ -395,7 +407,7 @@ public abstract class AbstractSearcher {
 			LOGGER.debug(resultLog);
 			return result;
 		} catch (SolrServerException e) {
-			resultLog += (System.currentTimeMillis() - startTime) + "ms;;" +resultLogSuffix  + e.getMessage();
+			resultLog += (System.currentTimeMillis() - startTime) + "ms;;;" +resultLogSuffix  + e.getMessage();
 			LOGGER.error(resultLog);
 			throw e;
 		}
