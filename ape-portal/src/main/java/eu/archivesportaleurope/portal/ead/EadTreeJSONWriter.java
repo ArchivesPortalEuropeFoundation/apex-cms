@@ -19,6 +19,7 @@ import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  * JSON Writer for the directory tree
@@ -105,7 +106,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			}
 
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
 
