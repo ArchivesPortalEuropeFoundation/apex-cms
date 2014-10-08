@@ -144,7 +144,7 @@
 						<div id="advancedSearchOptionsContent" class="searchOptionsContent">
 							<table id="advancedsearchCriteria">
 								<tr>
-									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" /></label></td>
+									<td><label for="element"><fmt:message key="advancedsearch.text.selectelement" />:</label></td>
 									<td colspan="3"><form:select path="element" id="element" tabindex="6">
 											<form:option value="0">
 												<fmt:message key="advancedsearch.text.noselection" />
