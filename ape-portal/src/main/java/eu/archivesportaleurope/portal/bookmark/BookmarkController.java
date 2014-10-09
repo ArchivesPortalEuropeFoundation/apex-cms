@@ -1,40 +1,10 @@
 package eu.archivesportaleurope.portal.bookmark;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.ResourceRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.User;
-import com.liferay.portal.util.PortalUtil;
-
-import eu.apenet.persistence.vo.SavedBookmarks;
-import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
-import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.util.ApeUtil;
+import ape-portal.src.main.java.eu.archivesportaleurope.portal.bookmark.Bookmark;
+import ape-portal.src.main.java.eu.archivesportaleurope.portal.bookmark.BookmarkService;
+import ape-portal.src.main.java.eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
+import ape-portal.src.main.java.eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import ape-portal.src.main.java.eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 @Controller(value = "bookmarkController")
 @RequestMapping(value = "VIEW")
@@ -43,6 +13,11 @@ public class BookmarkController {
     private static final Logger LOGGER = Logger.getLogger(BookmarkController.class);
     private SavedBookmarksJpaDAO savedBookmarksDAO;
     private BookmarkService bookmarkService;
+    
+	private CollectionDAO collectionDAO;
+	private CollectionContentDAO collectionContentDAO;
+
+	private static final String COLLECTION_IN = "collectionToAdd_";
     private final static int PAGESIZE  = 10;
 	private ResourceBundleMessageSource messageSource;
 
@@ -54,10 +29,18 @@ public class BookmarkController {
 		this.savedBookmarksDAO = savedBookmarksDAO;
 	}
 	
+	public void setCollectionDAO(CollectionDAO collectionDAO) {
+		this.collectionDAO = collectionDAO;
+	}	
+	
 	 public void setBookmarkService (BookmarkService bookmarkService) {
          this.bookmarkService = bookmarkService;
      }
 
+	public void setCollectionContentDAO(CollectionContentDAO collectionContentDAO) {
+		this.collectionContentDAO = collectionContentDAO;
+	}
+	
 	@ResourceMapping(value="bookmark")
     public ModelAndView showInitialPage(@ModelAttribute("bookmark") Bookmark bookmark, ResourceRequest request) throws PortalException, SystemException {
 		boolean loggedIn = request.getUserPrincipal() != null;
@@ -185,7 +168,7 @@ public class BookmarkController {
  		}
  		return modelAndView;
  	}
-	
+ 		
     @ResourceMapping(value="bookmarkAction")
     public ModelAndView showResult(@ModelAttribute("bookmark") Bookmark bookmark, BindingResult result, ResourceRequest request) throws PortalException, SystemException {
         ModelAndView modelAndView = new ModelAndView();
@@ -202,6 +185,171 @@ public class BookmarkController {
 	@RenderMapping(params="myaction=editSavedBookmarksForm")
 	public String showEditSavedBookmarksForm() {
 		return "editSavedBookmarksForm";
+	}
+	
+	@RenderMapping(params="myaction=addSavedBookmarksForm")
+	public ModelAndView showAddSavedBookmarksForm(RenderRequest request, Bookmark bookmark) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("addSavedBookmarksForm");
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
+ 		Principal principal = request.getUserPrincipal();
+ 		if (principal != null){
+ 			Integer pageNumber = 1;
+ 			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+ 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+ 			}
+			try {
+	 			Long liferayUserId = Long.parseLong(principal.toString());
+	 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE);
+				//cargar solo las colecciones que NO contengan el marcador
+	 			List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
+	 			//irterate collection to check if bookmark exists
+	 			Iterator<Collection> itcollections = collections.iterator();
+				while(itcollections.hasNext()){
+					Collection collection = itcollections.next();
+					
+					boolean contains = false;
+					Set<CollectionContent> collectioncontentSet = collection.getCollectionContents();
+		 			Iterator<CollectionContent> itcollectionContents = collectioncontentSet.iterator();
+					while(!contains && itcollectionContents.hasNext()){
+						CollectionContent collectionContent = itcollectionContents.next();
+						if ((collectionContent.getSavedBookmarks()!=null) && 
+							(collectionContent.getSavedBookmarks().getId()==Long.parseLong(request.getParameter("id")))) {
+							contains = true;
+						}
+					}
+					if (!contains) {
+						collectionsWithoutBookmark.add(collection);
+					}
+				}
+	 			User user = (User) request.getAttribute(WebKeys.USER);
+				modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+				modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", collectionsWithoutBookmark.size());
+				modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+				modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
+				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmark);	
+			} catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
+			}
+ 		}
+		return modelAndView;
+	}
+		
+	/***
+	 * Gets the list of the collections in which can be stored the bookmarks, if a collection alredy has the bookmark will not be shown
+	 * @param request RenderRequest
+	 * @param bookmark Bookmark object
+	 * @return modelAndView
+	 */
+	@RenderMapping(params="myaction=addBookmarksTo")
+	public ModelAndView addBookmarksTo(RenderRequest request, Bookmark bookmark) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("viewBookmarksInCollectionsForm");
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
+ 		Principal principal = request.getUserPrincipal();
+ 		Long liferayUserId = Long.parseLong(principal.toString());
+		Integer pageNumber = 1;
+		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}	
+ 		if (principal != null){
+			try {	
+				//selected bookmark id
+				Long savedBookmarkId = Long.parseLong(request.getParameter("savedBookmark_id"));
+				//recover selected collections from the request
+				Enumeration<String> parametersNames = request.getParameterNames();
+				List<Long> collectionsList = new ArrayList<Long>();
+				while(parametersNames.hasMoreElements()){
+					String parameterName = parametersNames.nextElement();
+					if(parameterName!=null){
+						if(parameterName.contains(COLLECTION_IN)){
+							if(request.getParameter(parameterName).equalsIgnoreCase("on")){
+								collectionsList.add(Long.parseLong(parameterName.substring(COLLECTION_IN.length())));
+							}
+						}
+					}
+				}
+				//if bookmark id is not null and collections list is not empty call to the method
+				if(!collectionsList.isEmpty() && savedBookmarkId !=null){
+					if(addbookmarkToCollections(collectionsList, savedBookmarkId, liferayUserId)){
+			 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE);
+						//cargar solo las colecciones que NO contengan el marcador
+			 			List<Collection> collectionsWithBookmark=new ArrayList<Collection>();
+			 			//irterate collection to check if bookmark exists
+			 			Iterator<Collection> itcollections = collections.iterator();
+						while(itcollections.hasNext()){
+							Collection collection = itcollections.next();
+							boolean contains = false;
+							Set<CollectionContent> collectioncontentSet = collection.getCollectionContents();
+				 			Iterator<CollectionContent> itcollectionContents = collectioncontentSet.iterator();
+							while(!contains && itcollectionContents.hasNext()){
+								CollectionContent collectionContent = itcollectionContents.next();
+								if ((collectionContent.getSavedBookmarks()!=null) && 
+									(collectionContent.getSavedBookmarks().getId()==savedBookmarkId)) {
+									contains = true;
+								}
+							}
+							if (contains) {
+								collectionsWithBookmark.add(collection);
+							}
+						}
+			 			User user = (User) request.getAttribute(WebKeys.USER);
+						modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+						modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+						modelAndView.getModelMap().addAttribute("totalNumberOfResults", collectionsWithBookmark.size());
+						modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+						modelAndView.getModelMap().addAttribute("saved", true);
+						modelAndView.getModelMap().addAttribute("loggedIn", true);
+						modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
+						modelAndView.getModelMap().addAttribute("collections",collectionsWithBookmark);	
+						return modelAndView;
+					}
+				} 
+			} catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
+				modelAndView.getModelMap().addAttribute("saved", false);
+				return modelAndView;
+			}
+		}
+ 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+		return modelAndView;
+	}
+		
+	/***
+	 * Adds a bookmark in a list of collections
+	 * @param collectionIds the list of the collections in which will be stored the bookmark
+	 * @param bookmarkId the id of the bookmark 
+	 * @param liferayUserId the user ID
+	 * @return true if the bookmark is stores, false if not.
+	 */
+	private boolean addbookmarkToCollections(List<Long> collectionIds, Long bookmarkId, Long liferayUserId) {
+		//get an bookmark object with bookmarkId to use it in the collections
+		SavedBookmarks savedBookmark = savedBookmarksDAO.getSavedBookmark(liferayUserId, bookmarkId);
+		//create a list with identifiers to iterate and to add the bookmarks
+		List<CollectionContent> newCollectionContentList = new ArrayList<CollectionContent>();
+		//iterator iterate and set values
+		Iterator<Long> itCollectionIds = collectionIds.iterator();
+		try {
+			while(itCollectionIds.hasNext()){
+				// get Id form element
+				Collection col = collectionDAO.findById(itCollectionIds.next());
+				CollectionContent newCollectionContent = new CollectionContent();
+				//get collections that contains selected IDs
+				newCollectionContent.setCollection(col);
+				newCollectionContent.setSavedBookmarks(savedBookmark);
+				//add item to the list
+				newCollectionContentList.add(newCollectionContent);
+			}
+			//add content
+			if(newCollectionContentList.size()>0){
+				this.collectionContentDAO.store(newCollectionContentList);
+				return true;
+			}
+		} catch (Exception e) {
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
+		}
+		return false;
 	}
 
 	@ActionMapping(params="myaction=saveEditSavedBookmarks")

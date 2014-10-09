@@ -25,7 +25,7 @@
 	</bean>
 	<bean class="eu.archivesportaleurope.portal.search.eaccpf.DisplayPreviewContoller">
 		<property name="eacCpfDAO" ref="eacCpfDAO"/>
-	</bean>			
+	</bean>
 		
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

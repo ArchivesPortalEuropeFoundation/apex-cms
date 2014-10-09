@@ -34,6 +34,8 @@
      <bean class="eu.archivesportaleurope.portal.bookmark.BookmarkController">
          <property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
          <property name="messageSource" ref="messageSource"></property>
+         <property name="collectionDAO" ref="collectionDAO"></property>
+         <property name="collectionContentDAO" ref="collectionContentDAO"></property>
          <property name="bookmarkService" ref="bookmarkService"></property>
      </bean>    
     		

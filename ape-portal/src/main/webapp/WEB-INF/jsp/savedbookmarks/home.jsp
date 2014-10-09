@@ -54,19 +54,36 @@
 						<td><c:out value="${savedBookmark.typedocument}"/></td>
 						<td><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${savedBookmark.modifiedDate}" timeZone="${timeZone}"/></td>
 						<td>
-
-							<portlet:renderURL var="editUrl">
-								<portlet:param name="myaction" value="editSavedBookmarksForm" />
-								<portlet:param name="id" value="${savedBookmark.id}" />
-								<portlet:param name="overviewPageNumber" value="${pageNumber}" />
-							</portlet:renderURL>
-							<a href="${editUrl}"><fmt:message key="savedsearches.overview.edit"/></a>
-						
+						<br/>
+													
+						<div class="collectionBigAction" id="mycollectionCreateAction">
 							<a href="<portlet:actionURL>
 								<portlet:param name="myaction" value="deleteSavedBookmark" />
 								<portlet:param name="id" value="${savedBookmark.id}" />
 								</portlet:actionURL>" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/>
 							</a>
+						</div>
+						
+						<br/>
+						<portlet:renderURL var="addSavedBookmarksForm">
+							<portlet:param name="myaction" value="addSavedBookmarksForm" />
+							<portlet:param name="id" value="${savedBookmark.id}" />
+							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
+						</portlet:renderURL>
+						<div class="collectionBigAction" id="mycollectionCreateAction">
+							<a href="${addSavedBookmarksForm}"><fmt:message key="collections.add"/></a>
+						</div>
+						
+						<br/>
+						<portlet:renderURL var="editUrl">
+							<portlet:param name="myaction" value="editSavedBookmarksForm" />
+							<portlet:param name="id" value="${savedBookmark.id}" />
+							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
+						</portlet:renderURL>
+						<div class="collectionBigAction" id="mycollectionCreateAction">
+							<a href="${editUrl}"><fmt:message key="savedsearches.overview.edit"/></a>
+						</div>
+
 						</td>
 					</tr>
 				</c:forEach>
@@ -74,7 +91,9 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-		<h2><fmt:message key="search.message.notResults"/></h2>
+		<h2>
+			<fmt:message key="collections.searches.no"/> 
+		</h2>
 	</c:otherwise>
 </c:choose>
 </div>
