@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
@@ -28,6 +31,7 @@ import eu.apenet.persistence.vo.CollectionContent;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "collectionController")
 @RequestMapping(value = "VIEW")
@@ -35,10 +39,10 @@ public class CollectionController {
 	
 	private final static Logger LOGGER = Logger.getLogger(CollectionController.class);
 	private final static int PAGESIZE  = 10;
-	private static final String SEARCH_IN = "selected_search_";
-	private static final String SEARCH_OUT = "new_search_";
-	private static final String BOOKMARK_IN = "collection_bookmark_";
-	private static final String BOOKMARK_OUT = "new_bookmark_";
+	private static final String SEARCH_IN = "hidden_selected_search_";
+	private static final String SEARCH_OUT = "hidden_new_search_";
+	private static final String BOOKMARK_IN = "hidden_collection_bookmark_";
+	private static final String BOOKMARK_OUT = "hidden_new_bookmark_";
 	private CollectionDAO collectionDAO;
 	private CollectionContentDAO collectionContentDAO;
 	private SavedBookmarksDAO savedBookmarksDAO;
@@ -131,8 +135,7 @@ public class CollectionController {
 			Collection targetCollection = this.collectionDAO.getCollectionByIdAndUserId(id, liferayUserId);
 			if(targetCollection!=null){
 				modelAndView.getModelMap().addAttribute("collection",targetCollection);
-				CollectionContentDAO collectionContentDAO = this.collectionContentDAO;
-				List<CollectionContent> listCollectionContent = collectionContentDAO.getCollectionContentsByCollectionId(id);
+				List<CollectionContent> listCollectionContent = this.collectionContentDAO.getCollectionContentsByCollectionId(id);
 				if(listCollectionContent!=null){
 					List<CollectionContent> listCollectionSearches = new ArrayList<CollectionContent>();
 					List<CollectionContent> listCollectionBookmarks = new ArrayList<CollectionContent>();
@@ -144,22 +147,106 @@ public class CollectionController {
 						}
 					}
 					if(listCollectionSearches.size()>0){
-						modelAndView.getModelMap().addAttribute("collectionSearches",listCollectionSearches);
+						modelAndView.getModelMap().addAttribute("cSearches",listCollectionSearches);
 					}
 					if(listCollectionBookmarks.size()>0){
-						modelAndView.getModelMap().addAttribute("bookmarks",listCollectionBookmarks);
+						modelAndView.getModelMap().addAttribute("cBookmarks",listCollectionBookmarks);
 					}
 				}
 			}
 		}
-		List<EadSavedSearch> restCollectionSearches = this.eadSavedSearchDAO.getEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId);
-		if(restCollectionSearches!=null && restCollectionSearches.size()>0){
-			modelAndView.getModelMap().addAttribute("newSearches",restCollectionSearches);
+		return modelAndView;
+	}
+	
+	@ResourceMapping(value = "getSearches")
+	public ModelAndView getSearches(ResourceRequest request, ResourceResponse response){
+		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
+		ModelAndView modelAndView = new ModelAndView();
+		int pageNumber = 1;
+		if(id!=null){
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			List<CollectionContent> restCollectionSearches = this.collectionContentDAO.getCollectionContentsByCollectionId(id, true, pageNumber, PAGESIZE);
+			modelAndView.getModelMap().addAttribute("currentSearches",(restCollectionSearches!=null && restCollectionSearches.size()>0)?restCollectionSearches:null);
 		}
-		List<SavedBookmarks> restCollectionBookmarks = this.savedBookmarksDAO.getSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId);
-		if(restCollectionBookmarks!=null && restCollectionBookmarks.size()>0){
-			modelAndView.getModelMap().addAttribute("newBookmarks",restCollectionBookmarks);
+		modelAndView.setViewName("currentSearch");
+		// params
+		modelAndView.getModelMap().addAttribute("edit",(StringUtils.isNotBlank(request.getParameter("edit")) && new Boolean(request.getParameter("edit"))));
+		
+		User user = (User) request.getAttribute(WebKeys.USER);
+		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+		modelAndView.getModelMap().addAttribute("totalNumberOfResults", id!=null?this.collectionContentDAO.countCollectionContentsByCollectionId(id, true):0);
+		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		return modelAndView;
+	}
+	
+	@ResourceMapping(value = "getBookmarks")
+	public ModelAndView getBookmarks(ResourceRequest request, ResourceResponse response){
+		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
+		int pageNumber = 1;
+		ModelAndView modelAndView = new ModelAndView();
+		if(id!=null){
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			List<CollectionContent> restCollectionBookmarks = this.collectionContentDAO.getCollectionContentsByCollectionId(id, false, pageNumber, PAGESIZE);
+			modelAndView.getModelMap().addAttribute("currentBookmarks",(restCollectionBookmarks!=null && restCollectionBookmarks.size()>0)?restCollectionBookmarks:null);
 		}
+		modelAndView.setViewName("currentBookmark");
+		// params
+		modelAndView.getModelMap().addAttribute("edit",(StringUtils.isNotBlank(request.getParameter("edit")) && new Boolean(request.getParameter("edit"))));
+		
+		User user = (User) request.getAttribute(WebKeys.USER);
+		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+		modelAndView.getModelMap().addAttribute("totalNumberOfResults", id!=null?this.collectionContentDAO.countCollectionContentsByCollectionId(id, false):0);
+		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		return modelAndView;
+	}
+	
+	@ResourceMapping(value = "getNewSearches")
+	public ModelAndView getNewSearches(ResourceRequest request, ResourceResponse response){
+		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
+		Principal principal = request.getUserPrincipal();
+		long liferayUserId = Long.parseLong(principal.toString());
+		int pageNumber = 1;
+		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
+		List<EadSavedSearch> restCollectionSearches = this.eadSavedSearchDAO.getEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("collectionSearch");
+		modelAndView.getModelMap().addAttribute("searches",(restCollectionSearches!=null && restCollectionSearches.size()>0)?restCollectionSearches:null);
+		// params
+		User user = (User) request.getAttribute(WebKeys.USER);
+		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+		modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.eadSavedSearchDAO.countEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
+		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		return modelAndView;
+	}
+	
+	@ResourceMapping(value = "getNewBookmarks")
+	public ModelAndView getNewBookmarks(ResourceRequest request, ResourceResponse response){
+		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
+		Principal principal = request.getUserPrincipal();
+		long liferayUserId = Long.parseLong(principal.toString());
+		int pageNumber = 1;
+		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
+		List<SavedBookmarks> restCollectionBookmarks = this.savedBookmarksDAO.getSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("collectionBookmark");
+		modelAndView.getModelMap().addAttribute("bookmarks",(restCollectionBookmarks!=null && restCollectionBookmarks.size()>0)?restCollectionBookmarks:null);
+		// params
+		User user = (User) request.getAttribute(WebKeys.USER);
+		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+		modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.savedBookmarksDAO.countSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
+		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 		return modelAndView;
 	}
 
@@ -229,15 +316,20 @@ public class CollectionController {
 					deleteParameters.addAll(parametersIn);
 					deleteParameters.addAll(bookmarksIn);
 					if(deleteParameters.size()>0){
-						List<CollectionContent> collectionContentToBeDeleted = collectionContentDAO.getAllCollectionContentWithoutIds(deleteParameters,ddbbCollection.getId());
+						List<CollectionContent> collectionContentToBeDeleted = this.collectionContentDAO.getAllCollectionContentWithoutIds(deleteParameters,ddbbCollection.getId());
 						if(collectionContentToBeDeleted!=null && collectionContentToBeDeleted.size()>0){
-							collectionContentDAO.delete(collectionContentToBeDeleted);
+							this.collectionContentDAO.delete(collectionContentToBeDeleted);
+						}
+					}else{
+						List<CollectionContent> collectionsContents = this.collectionContentDAO.getCollectionContentsByCollectionId(ddbbCollection.getId());
+						if(collectionsContents!=null && collectionsContents.size()>0){
+							this.collectionContentDAO.delete(collectionsContents);
 						}
 					}
 					//create
 					createCollectionContentParametersBookmarks(parametersOut,bookmarksOut,ddbbCollection,liferayUserId);
 				} catch (Exception e) {
-					LOGGER.error(e.getMessage(), e);
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
 				}
 			}
 		}

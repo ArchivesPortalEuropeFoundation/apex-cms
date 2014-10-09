@@ -92,6 +92,7 @@
 		<friendly-url-mapping>cs</friendly-url-mapping>
 		<friendly-url-routes>collections-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/collection/collection.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>contact</portlet-name>
