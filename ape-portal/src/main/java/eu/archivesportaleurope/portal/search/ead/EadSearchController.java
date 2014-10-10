@@ -224,7 +224,7 @@ public class EadSearchController extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getMessage(),e);
 			if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
 				results = new ContextResults();
 			} else {
@@ -341,6 +341,7 @@ public class EadSearchController extends AbstractSearchController{
 		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eadSearch);
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eadSearch.getCountryList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eadSearch.getAiList());
+		SearchUtil.addRefinement(solrQueryParameters, FacetType.TOPIC, eadSearch.getTopicList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.TYPE, eadSearch.getTypeList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, eadSearch.getDateTypeList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.DAO, eadSearch.getDaoList());

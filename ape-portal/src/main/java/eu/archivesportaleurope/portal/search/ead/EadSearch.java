@@ -31,6 +31,7 @@ public class EadSearch extends AbstractSearchForm{
 
 	private String country;
 	private String ai;
+	private String topic;	
 	private String fond;
 	private String language;
 	private String roledao;
@@ -80,6 +81,24 @@ public class EadSearch extends AbstractSearchForm{
 		this.level = level;
 	}
 
+	
+	
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+	public List<String> getTopicList(){
+		if (StringUtils.isNotBlank(topic)){
+			return Arrays.asList(topic.split(LIST_SEPARATOR));
+		}else {
+			return null;
+		}
+	}
+	
+	
 	public List<String> getCountryList(){
 		if (StringUtils.isNotBlank(country)){
 			return Arrays.asList(country.split(LIST_SEPARATOR));
