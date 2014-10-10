@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
-    <import resource="i18n-common.xml"/>
+    <import resource="i18n-dynamic-common.xml"/>
 	<import resource="search-common.xml"/>
 	<import resource="persistence-common.xml"/>
 
