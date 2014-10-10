@@ -37,6 +37,7 @@
 		<form:hidden id="updateCurrentSearch_language" path="language"/>
 		<input type="hidden" id="updateCurrentSearch_country" name="country" value="${eadSearch.country}"/>
 		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${eadSearch.ai}"/>
+		<input type="hidden" id="updateCurrentSearch_topic" name="topic" value="${eadSearch.topic}"/>		
 		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${eadSearch.fond}"/>
 		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${eadSearch.type}"/>
 		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${eadSearch.dao}"/>
