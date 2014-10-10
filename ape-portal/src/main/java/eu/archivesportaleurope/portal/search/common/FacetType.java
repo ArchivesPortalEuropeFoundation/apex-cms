@@ -10,6 +10,7 @@ public enum FacetType {
 	COUNTRY(SolrFields.COUNTRY, SolrFields.COUNTRY_ID,true,true,"country."),
 	AI(SolrFields.AI, SolrFields.AI_ID, true),
 	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, true),
+	TOPIC(SolrFields.TOPIC_FACET,false, true,"", true),	
 	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
 	LEVEL(SolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
 	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
@@ -106,6 +107,7 @@ public enum FacetType {
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.AI));
+    	result.add(new ListFacetSettings(FacetType.TOPIC));    	
     	result.add(new ListFacetSettings(FacetType.TYPE));
     	result.add(new ListFacetSettings(FacetType.LEVEL));
     	result.add(new ListFacetSettings(FacetType.DAO));
