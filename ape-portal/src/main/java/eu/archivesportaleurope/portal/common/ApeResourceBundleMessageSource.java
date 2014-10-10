@@ -7,12 +7,25 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.context.support.AbstractMessageSource;
 
 import eu.apenet.commons.utils.APEnetUtilities;
+import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
+import eu.apenet.persistence.dao.TopicDAO;
+import eu.apenet.persistence.vo.ArchivalInstitution;
 
 public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 	private static final String LANGUAGE_PREFIX = "language.";
 	private static final String COUNTRY_PREFIX = "country.";
-
-    protected String getMessageInternal(String code, Object[] args, Locale locale) {
+	private static final String TOPIC_PREFIX = "topic.";
+	private final static Cache<String, String> topicCache = CacheManager.getInstance().<String, String>initCache("topicCache");
+	private TopicDAO topicDAO;
+	
+    public TopicDAO getTopicDAO() {
+		return topicDAO;
+	}
+	public void setTopicDAO(TopicDAO topicDAO) {
+		this.topicDAO = topicDAO;
+	}
+	protected String getMessageInternal(String code, Object[] args, Locale locale) {
 		if (code != null){
 			if (code.startsWith(LANGUAGE_PREFIX)){
 				try {
@@ -33,6 +46,19 @@ public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 						country = country.substring(0,1).toUpperCase() + country.substring(1);
 						return country;
 					}
+				}catch (Exception e){
+					
+				}
+			}else if (topicDAO != null && code.startsWith(TOPIC_PREFIX)){
+				try {
+					String topic = topicCache.get(code);
+					if (topic == null){
+						topic = topicDAO.getDescription(code);
+						if (topic != null){
+							topicCache.put(code, topic);
+						}
+					}
+					return topic;
 				}catch (Exception e){
 					
 				}
