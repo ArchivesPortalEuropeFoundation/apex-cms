@@ -21,7 +21,6 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
-import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 
 /**
@@ -49,7 +48,6 @@ public class DisplayPreviewContoller {
 		String id = resourceRequest.getParameter("id");
 		try {
 			if (StringUtils.isNotBlank(id)) {
-				AnalyzeLogger.logPreview(id);
 				if (id.startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					Long idLong = new Long(id.substring(1));
 					if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
