@@ -45,6 +45,7 @@
 		<friendly-url-mapping>dir</friendly-url-mapping>
 		<friendly-url-routes>directory-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
+		<header-portlet-javascript>/js/jquery.dynatree.js</header-portlet-javascript>		
 		<header-portlet-javascript>/js/geolocation/markerclusterer_packed.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/directory/directory.js</header-portlet-javascript>
 	</portlet>
