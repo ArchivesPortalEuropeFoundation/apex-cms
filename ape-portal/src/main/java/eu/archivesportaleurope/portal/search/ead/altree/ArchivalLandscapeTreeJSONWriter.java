@@ -16,9 +16,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
@@ -26,7 +26,6 @@ import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HgSgFaRelation;
 import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
-import eu.archivesportaleurope.portal.common.AnalyzeLogger;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.al.AlType;
 import eu.archivesportaleurope.portal.common.al.ArchivalLandscapeUtil;
@@ -92,7 +91,6 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				Integer countryId = null;
 				Integer aiId = null;
 				boolean displayAis = false;
-				AnalyzeLogger.logAlTree(parentType, treeType,start);
 				if (AlType.COUNTRY.equals(parentType) || AlType.ARCHIVAL_INSTITUTION.equals(parentType)) {
 					if (AlType.COUNTRY.equals(parentType)) {
 						countryId = id.intValue();
