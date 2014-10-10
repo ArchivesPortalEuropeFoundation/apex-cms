@@ -8,6 +8,7 @@ public class ListFacetSettings {
 	private final FacetType facet;
 	private int limit = DEFAULT_FACET_VALUE_LIMIT;
 	private Boolean expanded = true;
+	private boolean oneValueAllowed = false;
 	public ListFacetSettings(String inputString){
 		String[] values = inputString.split(SEPARATOR);
 		String facetName = values[0];
@@ -21,6 +22,10 @@ public class ListFacetSettings {
 	public ListFacetSettings(FacetType facet){
 		this.facet = facet;
 	}
+	public ListFacetSettings(FacetType facet, boolean oneValueAllowed){
+		this.facet = facet;
+		this.oneValueAllowed = oneValueAllowed;
+	}
 	public FacetType getFacetType() {
 		return facet;
 	}
@@ -29,6 +34,10 @@ public class ListFacetSettings {
 	}
 	public boolean isExpanded() {
 		return expanded;
+	}
+	
+	public boolean isOneValueAllowed() {
+		return oneValueAllowed;
 	}
 	@Override
 	public String toString() {
