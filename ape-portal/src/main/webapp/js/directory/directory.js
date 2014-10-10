@@ -253,6 +253,7 @@ function seeMore(clazz,identifier){
 }
 
 function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
+	showRelations();
 	$(".displayLinkSeeLess").addClass("hidden");
 	$(".longDisplay").hide();
 	//showRepositoryOnMap("#repository_1",selectedCountryCode,node, directoryTreeMapsUrl);
@@ -284,7 +285,159 @@ function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
 	$('html, body').stop().animate({
         'scrollTop': $("a#eagDetails").offset().top
     }, 900, 'swing', function () {
-    });
+    });	
+}
+
+//function showRelations() {
+//	var dimension = $("div[id^='resource_']").length;
+//
+//	$("div[id^='resource_']").each(function(index){
+//		var link1 = $.trim($(this).find("span#linkRelation").text());
+//		var typeLink1 = $.trim($(this).find("span#typeRelation").text());
+//		var lang1 = $.trim($(this).find("span#lang").text());
+//		var index=index+1;
+//
+//		if (index<=dimension){
+//			var classResource = "#resource_"+index;
+//			var link2 = $.trim($(classResource).find("span#linkRelation").text());
+//			var typeLink2 = $.trim($(classResource).find("span#typeRelation").text());
+//			var lang2 = $.trim($(classResource).find("span#lang").text());
+//			if ((link1 == link2) && (typeLink1 == typeLink2)){
+////				checkLanguage(lang1,lang2);
+//			}
+//		}
+//	});
+//}
+
+/**
+ * Function to fix the display of the resource relations erasing duplicates.
+ */
+function showRelations() {
+	// Selected language.
+	var langSelected = $.trim($("div#languageSelected").find("span#languageSelected").text());
+	// Default language.
+	var langDefault = "eng";
+	// Constant for no language in the relation.
+	var emptyLang = "emptyLang";
+
+	// Call method to fix the display of resourceRelations.
+	fixRelationsDisplayed(langSelected, langDefault, emptyLang, true);
+
+	// Call method to fix the display of eagRelations.
+	fixRelationsDisplayed(langSelected, langDefault, emptyLang, false);
+}
+
+/**
+ * Function to fix the display of the resource or eag relations erasing
+ * duplicates.
+ *
+ * @param langSelected The language code selected by the user.
+ * @param langDefault The default language code (eng).
+ * @param emptyLang The key for the empty language value.
+ * @param isResourceRelation Boolean to identify the resourceRelation or the
+ * eagRelation element
+ */
+function fixRelationsDisplayed(langSelected, langDefault, emptyLang, isResourceRelation) {
+	// First language.
+	var langFirst = "";
+
+	// List of the values for the different elements.
+	var arrayLinks = new Array();
+	var arrayTypes = new Array();
+	var arrayLangs = new Array();
+
+	// List of the indexes to maintain in the display.
+	var arrayIndexes = new Array();
+	// List of the indexes to remove from display.
+	var arrayRemoveIndexes = new Array();
+
+	// Check the relations to process.
+	var divRelationName = "";
+	var relationLinkName = "";
+	var relationTypeName = "";
+	var relationLangName = "";
+	if (isResourceRelation) {
+		divRelationName = "resource_";
+		relationLinkName = "linkRelation";
+		relationTypeName = "typeRelation";
+		relationLangName = "lang";
+	} else {
+		divRelationName = "eagRelation_";
+		relationLinkName = "linkEagRelation";
+		relationTypeName = "typeEagRelation";
+		relationLangName = "langEagRelation";
+	}
+
+	// Recover the values of all resource or eag relations.
+	$("div[id^='" + divRelationName + "']").each(function(index) {
+		var link = $.trim($(this).find("span#" + relationLinkName).text());
+		var typeLink = $.trim($(this).find("span#" + relationTypeName).text());
+		var lang = $.trim($(this).find("span#" + relationLangName).text());
+
+		// Add the first language in the file.
+		if (langFirst.length == 0) {
+			langFirst = lang;
+		}
+
+		// Checks if the current elements already exists in the array.
+		var posInArray = $.inArray(link, arrayLinks);
+		if (posInArray != -1) {
+			// Recover the values in the array.
+			var aLink = arrayLinks[posInArray];
+			var aType = arrayTypes[posInArray];
+
+			if (link == aLink && typeLink == aType) {
+				// Check wich is the correct relation to display based on
+				// language rules.
+				if (lang == langSelected) {
+					// 1.- Language selected.
+					arrayLangs[posInArray] = lang;
+					arrayRemoveIndexes.push(arrayIndexes[posInArray]);
+					arrayIndexes[posInArray] = index;
+				} else if (lang == langDefault) {
+					// 2.- Language default.
+					arrayLangs[posInArray] = lang;
+					arrayRemoveIndexes.push(arrayIndexes[posInArray]);
+					arrayIndexes[posInArray] = index;
+				} else if (lang.length == 0) {
+					// 3.- No language.
+					arrayLangs[posInArray] = emptyLang;
+					arrayRemoveIndexes.push(arrayIndexes[posInArray]);
+					arrayIndexes[posInArray] = index;
+				} else if (lang == langFirst) {
+					// 4.- First language.
+					arrayLangs[posInArray] = lang;
+					arrayRemoveIndexes.push(arrayIndexes[posInArray]);
+					arrayIndexes[posInArray] = index;
+				} else {
+					// Add the current index to the remove array.
+					arrayRemoveIndexes.push(index);
+				}
+			}
+		} else {
+			// Add the new value to the array.
+			// Link of the resource or eag relation.
+			arrayLinks.push(link);
+
+			// Type of the resource or eag relation.
+			arrayTypes.push(typeLink);
+
+			// Language of the resource or eag relation.
+			if (lang.length > 0) {
+				arrayLangs.push(lang);
+			} else {
+				arrayLangs.push(emptyLang);
+			}
+
+			// Position of the resource or eag relation.
+			arrayIndexes.push(index);
+		}
+	});
+
+	// Remove the no needed links.
+	arrayRemoveIndexes.forEach(function(value) {
+		$("div[id='" + divRelationName + (value + 1) + "']").remove();
+	});
 }
 
 function showRepository(identifier, selectedCountryCode, node, directoryTreeMapsUrl){
