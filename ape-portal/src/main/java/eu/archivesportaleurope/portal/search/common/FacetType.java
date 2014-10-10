@@ -107,7 +107,7 @@ public enum FacetType {
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.AI));
-    	result.add(new ListFacetSettings(FacetType.TOPIC));    	
+    	result.add(new ListFacetSettings(FacetType.TOPIC, true));    	
     	result.add(new ListFacetSettings(FacetType.TYPE));
     	result.add(new ListFacetSettings(FacetType.LEVEL));
     	result.add(new ListFacetSettings(FacetType.DAO));
@@ -129,10 +129,10 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.AI));
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_ENTITY_TYPE));   
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES));	
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION));	
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_MANDATE));	
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_FUNCTION));    
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES, true));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION, true));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_MANDATE, true));	
+    	result.add(new ListFacetSettings(FacetType.EAC_CPF_FUNCTION, true));    
     	result.add(new ListFacetSettings(FacetType.LANGUAGE));
     	result.add(new ListFacetSettings(FacetType.DATE_TYPE));  
     	result.add(new ListFacetSettings(FacetType.START_DATE));
