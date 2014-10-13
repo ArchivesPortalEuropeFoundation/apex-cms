@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.context.support.AbstractMessageSource;
 
 import eu.apenet.commons.utils.APEnetUtilities;
@@ -13,7 +12,6 @@ import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
 
 public class ApeResourceBundleMessageSource extends AbstractMessageSource {
-	private final static Logger LOGGER = Logger.getLogger(ApeResourceBundleMessageSource.class);
 	private static final String LANGUAGE_PREFIX = "language.";
 	private static final String COUNTRY_PREFIX = "country.";
 	private static final String TOPIC_PREFIX = "advancedsearch.facet.value.topic.";
@@ -28,7 +26,6 @@ public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 	}
 	protected String getMessageInternal(String code, Object[] args, Locale locale) {
 		if (StringUtils.isNotBlank(code)){
-			LOGGER.info(code);
 			if (code.startsWith(LANGUAGE_PREFIX)){
 				try {
 					String language = code.substring(LANGUAGE_PREFIX.length());
