@@ -27,7 +27,8 @@ public final class FriendlyUrlUtil {
 	public static final String DIRECTORY_CONTENT = "directory-content";
 	public static final String DIRECTORY_SITEMAP = "directory-sitemap";
 	public static final String SEARCH = "ead-search";
-	public static final String REMOVE_EAD_SEARCH = "remote-ead-search";
+	public static final String WIDGET_EAD_SEARCH = "widget-ead-search";
+	public static final String WIDGET_SAVED_SEARCH = "widget-saved-search";
 	public static final String SAVED_SEARCH = "saved-search";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SAVED_BOOKMARKS = "saved-bookmarks";
@@ -49,7 +50,8 @@ public final class FriendlyUrlUtil {
 		urls.put(DIRECTORY_CONTENT, "/directory/-/dir/content");
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
-		urls.put(REMOVE_EAD_SEARCH, "/search/-/s/n");
+		urls.put(WIDGET_EAD_SEARCH, "/search/-/s/widget/n");
+		urls.put(WIDGET_SAVED_SEARCH, "/search/-/s/widget/d");		
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
@@ -64,7 +66,7 @@ public final class FriendlyUrlUtil {
 	public static String getUrl(PortletRequest portletRequest, String type, boolean noHttps) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			String urlHome = themeDisplay.getPortalURL();
+			String urlHome = themeDisplay.getURLHome();
 			if (noHttps){
 				urlHome = urlHome.replaceFirst("https://", "http://");
 			}
