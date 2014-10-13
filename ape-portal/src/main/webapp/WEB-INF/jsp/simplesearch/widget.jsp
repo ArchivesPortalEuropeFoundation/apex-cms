@@ -7,7 +7,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
+<portal:friendlyUrl var="savedSearchPublicUrl" type="widget-saved-search" noHttps="true"/>
 <div id="widgetSimpleSearchPortlet">
 		<div id="simpleSearch">
 			<div class="simpleSearchOptions">
