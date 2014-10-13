@@ -22,6 +22,7 @@ import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 @RequestMapping(value = "VIEW")
 public class SaveSearchJSONControllor extends AbstractJSONWriter {
 	private static final int MAX_NUMBER_OF_AI = 20;
+	private static final int MAX_NUMBER_OF_TOPICS = 10;
 	private final static Logger LOGGER = Logger.getLogger(SavedSearchController.class);
 	private SavedSearchService savedSearchService;
 
@@ -57,10 +58,13 @@ public class SaveSearchJSONControllor extends AbstractJSONWriter {
 			if (aiList != null){
 				refinementAiSize = aiList.size();
 			}
+			List<String> topicList = eadSearch.getTopicList();
 			if (faHgSgFound){
 				answerMessage = source.getString("advancedsearch.text.savesearch.fahgsg");
-			}else if (numberOfArchivalInstitions >= MAX_NUMBER_OF_AI || refinementAiSize > MAX_NUMBER_OF_AI ){
+			}else if (numberOfArchivalInstitions > MAX_NUMBER_OF_AI || refinementAiSize > MAX_NUMBER_OF_AI ){
 				answerMessage = this.getMessageSource().getMessage("advancedsearch.text.savesearch.maxai", new String[]{MAX_NUMBER_OF_AI+""}, resourceRequest.getLocale());
+			}else if (topicList != null && topicList.size() > MAX_NUMBER_OF_TOPICS ){
+				answerMessage = this.getMessageSource().getMessage("advancedsearch.text.savesearch.maxtopic", new String[]{MAX_NUMBER_OF_TOPICS+""}, resourceRequest.getLocale());
 			}else {
 				long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 				try {
