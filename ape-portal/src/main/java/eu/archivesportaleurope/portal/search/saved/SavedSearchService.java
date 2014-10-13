@@ -102,6 +102,7 @@ public class SavedSearchService {
 		} else {
 			eadSavedSearch.setRefinementFond(removeEmptyString(eadSearch.getFond()));
 		}
+		eadSavedSearch.setRefinementTopic(removeEmptyString(eadSearch.getTopic()));
 		eadSavedSearch.setRefinementType(removeEmptyString(eadSearch.getType()));
 		eadSavedSearch.setRefinementLevel(removeEmptyString(eadSearch.getLevel()));
 		eadSavedSearch.setRefinementDao(removeEmptyString(eadSearch.getDao()));
@@ -154,6 +155,7 @@ public class SavedSearchService {
 				 */
 				eadSearch.setCountry(eadSavedSearch.getRefinementCountry());
 				eadSearch.setAi(eadSavedSearch.getRefinementAi());
+				eadSearch.setTopic(eadSavedSearch.getRefinementTopic());
 				eadSearch.setFond(eadSavedSearch.getRefinementFond());
 				eadSearch.setType(eadSavedSearch.getRefinementType());
 				eadSearch.setLevel(eadSavedSearch.getRefinementLevel());
@@ -198,6 +200,13 @@ public class SavedSearchService {
 				String aiName = source.getString("advancedsearch.text.savesearch.removedai");
 				refinements.add(new Refinement(FacetType.AI.getName(), aiId, aiName, true));
 			}
+			List<String> topics = eadSearch.getTopicList();
+			if (topics != null) {
+				for (String topic : topics) {
+					refinements.add(new Refinement(FacetType.TOPIC.getName(), topic, source.getString(FacetType.TOPIC
+							.getPrefix() + topic)));
+				}
+			}	
 			if (StringUtils.isNotBlank(eadSearch.getFond()) && eadSearch.getFond().length() > 1) {
 				XmlType xmlType = XmlType.getTypeBySolrPrefix(eadSearch.getFond().substring(0, 1));
 				String identifier = eadSearch.getFond().substring(1);
@@ -214,7 +223,7 @@ public class SavedSearchService {
 					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), fondName, true));
 				}
 
-			}
+			}		
 			List<String> types = eadSearch.getTypeList();
 			if (types != null) {
 				for (String type : types) {
