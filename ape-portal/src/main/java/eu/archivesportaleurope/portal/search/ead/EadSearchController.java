@@ -46,6 +46,9 @@ import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 public class EadSearchController extends AbstractSearchController{
 
 
+	private static final String TRUE = "true";
+
+
 	private final static Logger LOGGER = Logger.getLogger(EadSearchController.class);
 
 
@@ -83,6 +86,7 @@ public class EadSearchController extends AbstractSearchController{
 		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
+			String widget = request.getParameter("widget");
 			String publishedFromDate = request.getParameter("publishedFromDate");
 			String publishedToDate = request.getParameter("publishedToDate");
 			String showOnlyNew = request.getParameter("showOnlyNew");
@@ -110,23 +114,24 @@ public class EadSearchController extends AbstractSearchController{
 
 				}
 				if (errorMessage == null){
-					if ("true".equals(showOnlyNew)){
+					if (TRUE.equals(showOnlyNew)){
 						eadSearch.setPublishedFromDate(SearchUtil.getFullDateTimePublishedDate(eadSavedSearch.getModifiedDate()));
 					}else {
 						eadSearch.setPublishedFromDate(publishedFromDate);
 						eadSearch.setPublishedToDate(publishedToDate);
 					}
-					if (StringUtils.isBlank(term) && eadSavedSearch.isTemplate()){
-						eadSearch.setMode(EadSearch.MODE_NEW);
-					}else if (StringUtils.isNotBlank(term) && eadSavedSearch.isTemplate()){
+					if (TRUE.equals(widget)){
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						eadSearch.setTerm(term);
 						Results results = performNewSearch(request, eadSearch);
+						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
+					}else if (eadSavedSearch.isTemplate()){
+						eadSearch.setMode(EadSearch.MODE_NEW);
 					}else{
 						Results results = updateCurrentSearch(request, eadSearch);
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
-						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch, eadSavedSearch));
+						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
 					}
 					// owner of saved search
@@ -195,7 +200,7 @@ public class EadSearchController extends AbstractSearchController{
 		try {
 			String error = validate(eadSearch, request);
 			if (error == null) {
-				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eadSearch);
+				SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, eadSearch);
 				if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, eadSearch);
 				} else {
@@ -319,7 +324,7 @@ public class EadSearchController extends AbstractSearchController{
 
 	}
 
-	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EadSearch eadSearch) {
+	protected SolrQueryParameters handleSearchParametersInternal(PortletRequest portletRequest, EadSearch eadSearch) {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, portletRequest);
 		if (solrQueryParameters != null){
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
@@ -338,7 +343,7 @@ public class EadSearchController extends AbstractSearchController{
 	}
 
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EadSearch eadSearch) {
-		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eadSearch);
+		SolrQueryParameters solrQueryParameters = handleSearchParametersInternal(portletRequest, eadSearch);
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eadSearch.getCountryList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eadSearch.getAiList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.TOPIC, eadSearch.getTopicList());
@@ -353,7 +358,7 @@ public class EadSearchController extends AbstractSearchController{
 
 
 	protected SolrQueryParameters handleSearchParametersForContextUpdate(PortletRequest portletRequest, EadSearch eadSearch) {
-		return handleSearchParameters(portletRequest, eadSearch);
+		return handleSearchParametersInternal(portletRequest, eadSearch);
 
 	}
 

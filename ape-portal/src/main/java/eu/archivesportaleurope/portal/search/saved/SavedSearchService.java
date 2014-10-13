@@ -14,10 +14,10 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.CountryDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.dao.EadSavedSearchDAO;
-import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.Ead;
@@ -28,8 +28,8 @@ import eu.archivesportaleurope.portal.common.al.TreeType;
 import eu.archivesportaleurope.portal.search.common.DateGap;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.FacetValue;
-import eu.archivesportaleurope.portal.search.ead.EadSearch;
 import eu.archivesportaleurope.portal.search.ead.DateRefinement;
+import eu.archivesportaleurope.portal.search.ead.EadSearch;
 import eu.archivesportaleurope.portal.search.ead.Refinement;
 
 public class SavedSearchService {
@@ -173,8 +173,7 @@ public class SavedSearchService {
 		}
 	}
 
-	public List<Refinement> convertToRefinements(PortletRequest request, EadSearch eadSearch,
-			EadSavedSearch eadSavedSearch) {
+	public List<Refinement> convertToRefinements(PortletRequest request, EadSearch eadSearch) {
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		List<Refinement> refinements = new ArrayList<Refinement>();
 		try {
