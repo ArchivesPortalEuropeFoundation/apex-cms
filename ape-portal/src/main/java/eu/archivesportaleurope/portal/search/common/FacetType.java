@@ -10,7 +10,7 @@ public enum FacetType {
 	COUNTRY(SolrFields.COUNTRY, SolrFields.COUNTRY_ID,true,true,"country."),
 	AI(SolrFields.AI, SolrFields.AI_ID, true),
 	FOND(SolrFields.TITLE_OF_FOND, SolrFields.FOND_ID, true),
-	TOPIC(SolrFields.TOPIC_FACET,false, true,"", true),	
+	TOPIC(SolrFields.TOPIC_FACET,false, true,"advancedsearch.facet.value.topic.", true),	
 	TYPE(SolrFields.TYPE ,false, true,"advancedsearch.text."),
 	LEVEL(SolrFields.LEVEL,false, true,"advancedsearch.facet.value.level."),
 	DAO(SolrFields.DAO,false, true,"advancedsearch.facet.value.dao."),
