@@ -4,18 +4,19 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.context.support.AbstractMessageSource;
 
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.commons.utils.Cache;
 import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
-import eu.apenet.persistence.vo.ArchivalInstitution;
 
 public class ApeResourceBundleMessageSource extends AbstractMessageSource {
+	private final static Logger LOGGER = Logger.getLogger(ApeResourceBundleMessageSource.class);
 	private static final String LANGUAGE_PREFIX = "language.";
 	private static final String COUNTRY_PREFIX = "country.";
-	private static final String TOPIC_PREFIX = "topic.";
+	private static final String TOPIC_PREFIX = "advancedsearch.facet.value.topic.";
 	private final static Cache<String, String> topicCache = CacheManager.getInstance().<String, String>initCache("topicCache");
 	private TopicDAO topicDAO;
 	
@@ -26,7 +27,8 @@ public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 		this.topicDAO = topicDAO;
 	}
 	protected String getMessageInternal(String code, Object[] args, Locale locale) {
-		if (code != null){
+		if (StringUtils.isNotBlank(code)){
+			LOGGER.info(code);
 			if (code.startsWith(LANGUAGE_PREFIX)){
 				try {
 					String language = code.substring(LANGUAGE_PREFIX.length());
@@ -51,11 +53,12 @@ public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 				}
 			}else if (topicDAO != null && code.startsWith(TOPIC_PREFIX)){
 				try {
-					String topic = topicCache.get(code);
+					String topicCode = code.substring(TOPIC_PREFIX.length());
+					String topic = topicCache.get(topicCode);
 					if (topic == null){
-						topic = topicDAO.getDescription(code);
+						topic = topicDAO.getDescription(topicCode);
 						if (topic != null){
-							topicCache.put(code, topic);
+							topicCache.put(topicCode, topic);
 						}
 					}
 					return topic;
