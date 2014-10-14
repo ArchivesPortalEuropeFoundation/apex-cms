@@ -66,7 +66,7 @@ public final class FriendlyUrlUtil {
 	public static String getUrl(PortletRequest portletRequest, String type, boolean noHttps) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			String urlHome = themeDisplay.getURLHome();
+			String urlHome = themeDisplay.getPortalURL();
 			if (noHttps){
 				urlHome = urlHome.replaceFirst("https://", "http://");
 			}
