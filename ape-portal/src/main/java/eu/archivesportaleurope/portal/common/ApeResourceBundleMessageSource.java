@@ -14,7 +14,7 @@ import eu.apenet.persistence.dao.TopicDAO;
 public class ApeResourceBundleMessageSource extends AbstractMessageSource {
 	private static final String LANGUAGE_PREFIX = "language.";
 	private static final String COUNTRY_PREFIX = "country.";
-	private static final String TOPIC_PREFIX = "advancedsearch.facet.value.topic.";
+	private static final String TOPIC_PREFIX = "topic.";
 	private final static Cache<String, String> topicCache = CacheManager.getInstance().<String, String>initCache("topicCache");
 	private TopicDAO topicDAO;
 	
