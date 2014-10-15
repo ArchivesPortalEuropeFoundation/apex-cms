@@ -36,7 +36,7 @@ function clearSearch(){
 	$('#checkboxDao').attr('checked', false);
 	$("#element").val("");
 	$("#typedocument").val("");
-    removeSearchOption("#simpleSearchTopicSelected");
+	removeSimpleSearchTopic();
     $("#archivalLandscapeTree").dynatree("getRoot").visit(function(node){
         node.select(false);
       });
@@ -134,7 +134,7 @@ function performNewSearch() {
 		$(selectedTabsSelector).html(data);
 		updateSuggestions();
 		updateSourceTabs();
-		
+		addSimpleSearchTopic();
 		hideTabsIfNoResults();
 		$("#searchResultsContainer").removeClass("hidden");
 		//document.getElementById("searchResultsContainer").scrollIntoView(true);
@@ -196,8 +196,19 @@ function saveSearch(savedId) {
 	});
 }
 
-function removeSearchOption(parentId) {
-	$(parentId + " li").remove();
-	$(parentId + " input[type='hidden']").val("");
-	$(parentId).addClass("hidden");
+function removeSimpleSearchTopic() {
+	$("#simpleSearchTopicSelected ul").empty();
+	$("#simpleSearchTopicSelected input[type='hidden']").val("");
+	$("#simpleSearchTopicSelected").addClass("hidden");
+}
+
+function addSimpleSearchTopic() {
+	if ($("#NEWsimpleSearchTopicSelected").length > 0){
+		$("#simpleSearchTopicSelected ul").empty();
+		$("#simpleSearchTopicSelected ul").html($("#NEWsimpleSearchTopicSelected").html());
+		$("#simpleSearchTopicSelected").removeClass("hidden");
+		$("#NEWsimpleSearchTopicSelected").remove();
+		$("#searchTerms").val($("#updateCurrentSearch_term").val());
+		$("#simpleSearchTopic").val($("#updateCurrentSearch_simpleSearchTopic").val());
+	}
 }
