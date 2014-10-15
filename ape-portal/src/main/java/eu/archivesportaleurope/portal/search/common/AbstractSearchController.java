@@ -1,5 +1,8 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.portlet.PortletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +12,9 @@ import eu.archivesportaleurope.portal.search.ead.EadSearcher;
 import eu.archivesportaleurope.portal.search.eag.EagSearcher;
 
 public class AbstractSearchController {
+	protected static final Pattern NO_WHITESPACE_PATTERN = Pattern.compile("\\S+");
+
+	private static final String REGEX = "[\\?\\*\\~].*";
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
 	private EagSearcher eagSearcher;
@@ -63,14 +69,25 @@ public class AbstractSearchController {
 		}
 		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
+
+	private boolean validateTerm(String string){
+		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(string.trim());
+		while (matcher.find()) {
+			String word = matcher.group();
+			if (word.matches(REGEX)){
+				return false;
+			}
+		}
+		return true;
+	}
 	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
-			String term = abstractSearchForm.getTerm().trim();
-			if (portletRequest.getUserPrincipal() == null && term.matches("[\\?\\*\\~].*")){
+			boolean valid = validateTerm(abstractSearchForm.getTerm());
+			if (portletRequest.getUserPrincipal() == null && !valid){
 				return "search.message.noleadingwildcards";
 			}else if (portletRequest.getUserPrincipal() != null && AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) ){
 				
-			}else if (term.matches("[\\?\\*\\~].*") ){
+			}else if (!valid){
 				return "search.message.noleadingwildcards";
 			}
 			
