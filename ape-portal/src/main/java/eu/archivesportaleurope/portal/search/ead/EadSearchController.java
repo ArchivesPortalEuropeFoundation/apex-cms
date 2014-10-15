@@ -2,7 +2,9 @@ package eu.archivesportaleurope.portal.search.ead;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -44,6 +46,9 @@ import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
 @Controller(value = "eadSearchController")
 @RequestMapping(value = "VIEW")
 public class EadSearchController extends AbstractSearchController{
+
+
+	private static final String TOPIC_PREFIX = "topic:";
 
 
 	private static final String TRUE = "true";
@@ -120,14 +125,15 @@ public class EadSearchController extends AbstractSearchController{
 						eadSearch.setPublishedFromDate(publishedFromDate);
 						eadSearch.setPublishedToDate(publishedToDate);
 					}
-					if (TRUE.equals(widget)){
+					fillSpecialSelectedOptions(request,eadSearch);
+					if (StringUtils.isBlank(term) && eadSavedSearch.isTemplate()){
+						eadSearch.setMode(EadSearch.MODE_NEW);
+						eadSearch.setTerm("");
+					}else if (StringUtils.isNotBlank(term) && eadSavedSearch.isTemplate()){
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						eadSearch.setTerm(term);
 						Results results = performNewSearch(request, eadSearch);
-						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
-					}else if (eadSavedSearch.isTemplate()){
-						eadSearch.setMode(EadSearch.MODE_NEW);
 					}else{
 						Results results = updateCurrentSearch(request, eadSearch);
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
@@ -200,7 +206,8 @@ public class EadSearchController extends AbstractSearchController{
 		try {
 			String error = validate(eadSearch, request);
 			if (error == null) {
-				SolrQueryParameters solrQueryParameters = handleSearchParametersForListUpdate(request, eadSearch);
+				fillSpecialSelectedOptions(request,eadSearch);
+				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eadSearch);
 				if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, eadSearch);
 				} else {
@@ -229,7 +236,7 @@ public class EadSearchController extends AbstractSearchController{
 			// request.setAttribute("results", results);
 
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(),e);
+			LOGGER.error(e.getMessage());
 			if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
 				results = new ContextResults();
 			} else {
@@ -324,7 +331,18 @@ public class EadSearchController extends AbstractSearchController{
 
 	}
 
-	protected SolrQueryParameters handleSearchParametersInternal(PortletRequest portletRequest, EadSearch eadSearch) {
+	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EadSearch eadSearch) {
+		String term = "";
+		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(eadSearch.getTerm().trim());
+		while (matcher.find()) {
+			String word = matcher.group();
+			if (word.startsWith(TOPIC_PREFIX)){
+				eadSearch.setSimpleSearchTopic(word.substring(TOPIC_PREFIX.length()));
+			}else {
+				term += word + " ";
+			}
+		}
+		eadSearch.setTerm(term);
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, portletRequest);
 		if (solrQueryParameters != null){
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
@@ -338,12 +356,20 @@ public class EadSearchController extends AbstractSearchController{
 			SearchUtil.addPublishedDates(eadSearch.getPublishedFromDate(), eadSearch.getPublishedToDate(), solrQueryParameters);
 			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(eadSearch.getElement()));
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.DAO.getName(), eadSearch.getSimpleSearchDao());
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.TOPIC.getName(), eadSearch.getSimpleSearchTopic());
 		}
 		return solrQueryParameters;
 	}
+	protected void fillSpecialSelectedOptions(PortletRequest request, EadSearch eadSearch){
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+		if (StringUtils.isNotBlank(eadSearch.getSimpleSearchTopic())){
+			eadSearch.setSelectedSimpleSearchTopic(new Refinement(FacetType.TOPIC.getName(), eadSearch.getSimpleSearchTopic(), source.getString(FacetType.TOPIC
+						.getPrefix() + eadSearch.getSimpleSearchTopic())));
+		}	
+	}
 
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EadSearch eadSearch) {
-		SolrQueryParameters solrQueryParameters = handleSearchParametersInternal(portletRequest, eadSearch);
+		SolrQueryParameters solrQueryParameters = handleSearchParameters(portletRequest, eadSearch);
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.COUNTRY, eadSearch.getCountryList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.AI, eadSearch.getAiList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.TOPIC, eadSearch.getTopicList());
@@ -358,7 +384,7 @@ public class EadSearchController extends AbstractSearchController{
 
 
 	protected SolrQueryParameters handleSearchParametersForContextUpdate(PortletRequest portletRequest, EadSearch eadSearch) {
-		return handleSearchParametersInternal(portletRequest, eadSearch);
+		return handleSearchParameters(portletRequest, eadSearch);
 
 	}
 

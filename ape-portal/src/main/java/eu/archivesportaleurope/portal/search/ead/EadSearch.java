@@ -25,6 +25,7 @@ public class EadSearch extends AbstractSearchForm{
 	private String typedocument = "";
 
 	private String simpleSearchDao;
+	private String simpleSearchTopic;
 	private String dao;
 	private boolean advanced = true;
 
@@ -42,6 +43,7 @@ public class EadSearch extends AbstractSearchForm{
 
 	private String selectedNodes;
 
+	private Refinement selectedSimpleSearchTopic;
 
 	public String getView() {
 		return view;
@@ -52,6 +54,14 @@ public class EadSearch extends AbstractSearchForm{
 	}
 
 
+
+	public String getSimpleSearchTopic() {
+		return simpleSearchTopic;
+	}
+
+	public void setSimpleSearchTopic(String simpleSearchTopic) {
+		this.simpleSearchTopic = simpleSearchTopic;
+	}
 
 	public String getSimpleSearchDao() {
 		return simpleSearchDao;
@@ -261,6 +271,14 @@ public class EadSearch extends AbstractSearchForm{
 	@Override
 	protected List<ListFacetSettings> getDefaultListFacetSettings() {
 		return FacetType.getDefaultEadListFacetSettings();
+	}
+
+	public Refinement getSelectedSimpleSearchTopic() {
+		return selectedSimpleSearchTopic;
+	}
+
+	public void setSelectedSimpleSearchTopic(Refinement selectedSimpleSearchTopic) {
+		this.selectedSimpleSearchTopic = selectedSimpleSearchTopic;
 	}
 
 
