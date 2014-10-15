@@ -36,11 +36,10 @@ function clearSearch(){
 	$('#checkboxDao').attr('checked', false);
 	$("#element").val("");
 	$("#typedocument").val("");
+    removeSearchOption("#simpleSearchTopicSelected");
     $("#archivalLandscapeTree").dynatree("getRoot").visit(function(node){
         node.select(false);
       });
-
-	
 }
 
 function initTabs() {
@@ -195,4 +194,10 @@ function saveSearch(savedId) {
 		$('#answerMessageSavedSearch').delay(3000).fadeOut('slow');
 
 	});
+}
+
+function removeSearchOption(parentId) {
+	$(parentId + " li").remove();
+	$(parentId + " input[type='hidden']").val("");
+	$(parentId).addClass("hidden");
 }
