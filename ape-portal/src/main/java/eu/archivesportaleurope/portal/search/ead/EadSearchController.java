@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.search.ead;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -332,17 +331,7 @@ public class EadSearchController extends AbstractSearchController{
 	}
 
 	protected SolrQueryParameters handleSearchParameters(PortletRequest portletRequest, EadSearch eadSearch) {
-		String term = "";
-		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(eadSearch.getTerm().trim());
-		while (matcher.find()) {
-			String word = matcher.group();
-			if (word.startsWith(TOPIC_PREFIX)){
-				eadSearch.setSimpleSearchTopic(word.substring(TOPIC_PREFIX.length()));
-			}else {
-				term += word + " ";
-			}
-		}
-		eadSearch.setTerm(term.trim());
+
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, portletRequest);
 		if (solrQueryParameters != null){
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
@@ -366,6 +355,22 @@ public class EadSearchController extends AbstractSearchController{
 			eadSearch.setSelectedSimpleSearchTopic(new Refinement(FacetType.TOPIC.getName(), eadSearch.getSimpleSearchTopic(), source.getString(FacetType.TOPIC
 						.getPrefix() + eadSearch.getSimpleSearchTopic())));
 		}	
+	}
+	
+
+	public String validate(EadSearch eadSearch, PortletRequest portletRequest) {
+		String term = "";
+		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(eadSearch.getTerm().trim());
+		while (matcher.find()) {
+			String word = matcher.group();
+			if (word.startsWith(TOPIC_PREFIX)){
+				eadSearch.setSimpleSearchTopic(word.substring(TOPIC_PREFIX.length()));
+			}else {
+				term += word + " ";
+			}
+		}
+		eadSearch.setTerm(term.trim());
+		return super.validate(eadSearch, portletRequest);
 	}
 
 	protected SolrQueryParameters handleSearchParametersForListUpdate(PortletRequest portletRequest, EadSearch eadSearch) {
