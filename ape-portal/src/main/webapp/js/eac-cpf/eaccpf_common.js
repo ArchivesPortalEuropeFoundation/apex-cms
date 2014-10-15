@@ -9,6 +9,34 @@ function eraseData(){
 	eraseList();
 	eraseEmptyLi();
 	eraseEmptyTitleSection();
+	eraseDuplicatedArchivalLi();
+}
+
+function eraseDuplicatedArchivalLi(){
+	var group = $("div#archives").find("li");
+	var targetTexts = new Array();
+	group.each(function(){
+		targetTexts.push($(this).text());
+	});
+	var deleted = false;
+	for(var i=0;i<targetTexts.length;i++){
+		var j = 0;
+		$("div#archives").find("li:contains('"+targetTexts[i]+"')").each(function(){
+			if(j>0){
+				$(this).remove();
+				deleted = true;
+			}
+			j++;
+		});
+	}
+	if(deleted){ //it's needed change figure
+		var textToBeChanged = $("div#archives .boxtitle").find("span.text").text();
+		if($.inArray("(",textToBeChanged) && $.inArray(")",textToBeChanged)){
+			textToBeChanged = textToBeChanged.substring(0,$.inArray("(",textToBeChanged));
+			textToBeChanged += "("+$("div#archives").find("li").length+")";
+			$("div#archives .boxtitle").find("span.text").html(textToBeChanged);
+		}
+	}
 }
 
 function eraseEmptyLi(){
