@@ -241,7 +241,7 @@
 	font-size: 8pt;
 }
 
-#searchingPart #selectedRefinements {
+#searchingPart .selectedCriteria {
     clear: both;
     display: inline-block;
     padding-top: 5px;
@@ -255,14 +255,14 @@
 	padding-top: 2px;
 }
 
-#searchingPart #selectedRefinements ul {
+#searchingPart .selectedCriteria ul {
 	list-style-type: none;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 }
 
-#searchingPart #selectedRefinements ul li {
+#searchingPart .selectedCriteria ul li {
 	float: left;
 	display: block;
 	border: 1px solid #afdefc;
@@ -272,6 +272,7 @@
 	margin-left: 2px;
 	margin-right: 2px;
 	margin-bottom: 5px;
+	background-color: white;
 }
 
 #searchingPart .list-searchresult-actions {
@@ -310,20 +311,20 @@
 	background-color: rgba(0, 160, 223, 0.2);
 }
 
-#searchingPart #selectedRefinements ul li a {
+#searchingPart .selectedCriteria ul li a {
 	color: #006CB0;
 }
-#searchingPart #selectedRefinements ul li.removed {
+#searchingPart .selectedCriteria ul li.removed {
     border: 1px solid #FF0000;
 }
-#searchingPart #selectedRefinements ul li.removed a {
+#searchingPart .selectedCriteria ul li.removed a {
 	color: #FF0000;
 }
-#searchingPart #selectedRefinements ul li a:hover {
+#searchingPart .selectedCriteria ul li a:hover {
 	text-decoration: line-through;
 }
 
-#searchingPart #selectedRefinements ul li a .close-icon {
+#searchingPart .selectedCriteria ul li a .close-icon {
 	display: inline-block;
 	background-image:
 		url("../images/ape/jquery/ui-icons_217bc0_256x240.png");
