@@ -88,7 +88,7 @@ public class SavedSearchService {
 		eadSavedSearch.setFromdate(removeEmptyString(eadSearch.getFromdate()));
 		eadSavedSearch.setTodate(removeEmptyString(eadSearch.getTodate()));
 		eadSavedSearch.setExactDateSearch(TRUE.equals(eadSearch.getExactDateSearch()));
-
+		eadSavedSearch.setTopic(removeEmptyString(eadSearch.getSimpleSearchTopic()));
 		/*
 		 * al search options
 		 */
@@ -149,6 +149,7 @@ public class SavedSearchService {
 				eadSearch.setExactDateSearch(TRUE);
 			}
 			eadSearch.setSelectedNodes(addDepthToSelectedNodes(eadSavedSearch.getAlTreeSelectedNodes()));
+			eadSearch.setSimpleSearchTopic(eadSavedSearch.getTopic());
 			if (!eadSavedSearch.isTemplate()) {
 				/*
 				 * refinements
