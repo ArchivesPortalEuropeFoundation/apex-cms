@@ -218,6 +218,18 @@
 												<form:checkbox path="simpleSearchDao" id="checkboxDao" tabindex="4" value="true"/>
 												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 											</div>
+
+											<div id="simpleSearchTopicSelected" class="row selectedCriteria ${eadSearch.selectedSimpleSearchTopicCssClass}" ><div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.topic" />:</div><form:hidden path="simpleSearchTopic" id="simpleSearchTopic"/>
+											<ul>
+												<c:if test="${!empty eadSearch.selectedSimpleSearchTopic}">
+													<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSearchOption('#simpleSearchTopicSelected')">
+											${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'></span></a></li>							
+							
+												</c:if>
+												
+											</ul>
+											
+											</div>
 										</td>
 										<td class="rightcolumn">
 											<div id="clearSearchRow" class="row">

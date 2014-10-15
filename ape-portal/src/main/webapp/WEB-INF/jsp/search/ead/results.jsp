@@ -21,6 +21,13 @@
 			numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 	</div>
 </c:if>
+<c:if test="${!empty eadSearch.selectedSimpleSearchTopic}">
+	<div class="hidden" id="NEWsimpleSearchTopicSelected">
+	<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSearchOption('#simpleSearchTopicSelected')">
+${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'></span></a></li>	
+</div>						
+</c:if>
+
 <portal:sourceTabs results="${results}" ajax="true" type="ead"/>
 <form:form id="updateCurrentSearch" name="eadSearchForm" commandName="eadSearch" method="post">
 		<form:hidden id="updateCurrentSearch_term" path="term"/>
@@ -28,6 +35,7 @@
 		<form:hidden id="updateCurrentSearch_mode" path="mode" value="update-search"/>
 		<form:hidden id="updateCurrentSearch_advanced" path="advanced"/>
 		<form:hidden id="updateCurrentSearch_simpleSearchDao" path="simpleSearchDao"/>
+		<form:hidden id="updateCurrentSearch_simpleSearchTopic" path="simpleSearchTopic"/>		
 		<form:hidden id="updateCurrentSearch_view" path="view"/>
 		<form:hidden id="updateCurrentSearch_element" path="element"/>
 		<form:hidden id="updateCurrentSearch_typedocument" path="typedocument"/>
