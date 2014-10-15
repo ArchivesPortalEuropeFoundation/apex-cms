@@ -206,8 +206,8 @@ public class EadSearchController extends AbstractSearchController{
 		try {
 			String error = validate(eadSearch, request);
 			if (error == null) {
-				fillSpecialSelectedOptions(request,eadSearch);
 				SolrQueryParameters solrQueryParameters = handleSearchParameters(request, eadSearch);
+				fillSpecialSelectedOptions(request,eadSearch);
 				if (EadSearch.VIEW_HIERARCHY.equals(eadSearch.getView())) {
 					results = performNewSearchForContextView(request, solrQueryParameters, eadSearch);
 				} else {
@@ -342,7 +342,7 @@ public class EadSearchController extends AbstractSearchController{
 				term += word + " ";
 			}
 		}
-		eadSearch.setTerm(term);
+		eadSearch.setTerm(term.trim());
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, portletRequest);
 		if (solrQueryParameters != null){
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,

@@ -280,7 +280,13 @@ public class EadSearch extends AbstractSearchForm{
 	public void setSelectedSimpleSearchTopic(Refinement selectedSimpleSearchTopic) {
 		this.selectedSimpleSearchTopic = selectedSimpleSearchTopic;
 	}
-
+	public String getSelectedSimpleSearchTopicCssClass() {
+		if (selectedSimpleSearchTopic == null){
+			return "hidden";
+		}else {
+			return "";
+		}
+	}
 
 
 	
