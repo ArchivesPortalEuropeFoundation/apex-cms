@@ -33,16 +33,31 @@
 	width:98%;
     margin-right:0px;
 }
-
+#eacCpfDisplayPortlet h1.iconPerson {
+	background-image: url("../images/ape/icons/eac_types/person_big.png");
+    background-repeat: no-repeat;
+    background-size:32px;
+}
+#eacCpfDisplayPortlet h1.iconCorporateBody {
+	background-image: url("../images/ape/icons/eac_types/org_big.png");
+    background-repeat: no-repeat;
+    background-size:32px;
+}
+#eacCpfDisplayPortlet h1.iconFamily {
+	background-image: url("../images/ape/icons/eac_types/fam_big.png");
+    background-repeat: no-repeat;
+    background-size:32px;
+}
 #eacCpfDisplayPortlet h1 {
     color: #2A4862;
     font-size: 130%;
     font-weight: bold;
 	/*margin-top:15px;*/
-	margin-bottom:15px;
+	padding-bottom:15px;
 	display: inline-block;
-    text-align: center;
-    width:690px;
+    text-align: left;
+   /* width:690px;*/width:640px;
+    padding-left:50px;
 }
 
 #eacCpfDisplayPortlet #printPreview h1 {
@@ -102,6 +117,7 @@
 	border-bottom: none;
 	font-size:8pt;
 	font-weight:bold;
+	padding-left:16px;
 }
 
 #eacCpfDisplayPortlet .grey {
@@ -179,6 +195,25 @@
 #relations li {
 	padding-bottom:5px;
 }
+#persons li.relationPerson{
+	background-image: url("../images/ape/icons/eac_types/person_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+    padding-left:25px;
+}
+#persons li.relationCorporateBody{
+	background-image: url("../images/ape/icons/eac_types/org_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+    padding-left:25px;
+}
+#persons li.relationFamily{
+	background-image: url("../images/ape/icons/eac_types/fam_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+    padding-left:25px;
+}
+
 .linkShow:link {
 	color: #C65400;
 	text-decoration:underline;

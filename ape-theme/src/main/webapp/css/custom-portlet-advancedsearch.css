@@ -941,8 +941,36 @@
 	line-height: 1.8em;
 	margin-bottom: 0.5em;
 }
+#eacCpfSearchPortlet #eaccpfcontent .leftcolumn h2 {
+	padding-left:0px;	
+}
+.titleproperEac{
+	font-size: 10pt;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.2em;
+	text-align: left;
+	border-bottom: none;
+	padding-bottom: 0px;
+	padding-left: 22px;
+}
 
+.iconPerson {
+	background-image: url("../images/ape/icons/eac_types/person_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
+.iconCorporateBody {
+	background-image: url("../images/ape/icons/eac_types/org_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
 
+.iconFamily {
+	background-image: url("../images/ape/icons/eac_types/fam_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
 .tooltipSubContent {
 	padding-bottom:10px;	
 }

@@ -288,27 +288,6 @@ function initEagDetails(selectedCountryCode,node, directoryTreeMapsUrl){
     });	
 }
 
-//function showRelations() {
-//	var dimension = $("div[id^='resource_']").length;
-//
-//	$("div[id^='resource_']").each(function(index){
-//		var link1 = $.trim($(this).find("span#linkRelation").text());
-//		var typeLink1 = $.trim($(this).find("span#typeRelation").text());
-//		var lang1 = $.trim($(this).find("span#lang").text());
-//		var index=index+1;
-//
-//		if (index<=dimension){
-//			var classResource = "#resource_"+index;
-//			var link2 = $.trim($(classResource).find("span#linkRelation").text());
-//			var typeLink2 = $.trim($(classResource).find("span#typeRelation").text());
-//			var lang2 = $.trim($(classResource).find("span#lang").text());
-//			if ((link1 == link2) && (typeLink1 == typeLink2)){
-////				checkLanguage(lang1,lang2);
-//			}
-//		}
-//	});
-//}
-
 /**
  * Function to fix the display of the resource relations erasing duplicates.
  */
