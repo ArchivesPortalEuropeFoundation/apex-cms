@@ -120,6 +120,9 @@ public abstract class AbstractSearcher {
 				} else {
 					query.addFacetField(facetType.getNameWithLabel());
 					query.setParam("f." + facetType.getName() + ".facet.limit", facetSettings.getLimit() + "");
+					if (facetSettings.getMincount() != null){
+						query.setParam("f." + facetType.getName() + ".facet.mincount", facetSettings.getMincount() + "");
+					}
 				}
 
 			}
