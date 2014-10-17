@@ -9,6 +9,7 @@ public class ListFacetSettings {
 	private int limit = DEFAULT_FACET_VALUE_LIMIT;
 	private Boolean expanded = true;
 	private boolean oneValueAllowed = false;
+	private Integer mincount = null;
 	public ListFacetSettings(String inputString){
 		String[] values = inputString.split(SEPARATOR);
 		String facetName = values[0];
@@ -18,6 +19,15 @@ public class ListFacetSettings {
 		this.limit = Integer.parseInt(limit);
 		this.expanded = Boolean.parseBoolean(expanded);
 		
+	}
+	public ListFacetSettings(FacetType facet, Integer mincount){
+		this.facet = facet;
+		this.mincount = mincount;
+	}
+	public ListFacetSettings(FacetType facet, boolean oneValueAllowed, Integer mincount){
+		this.facet = facet;
+		this.oneValueAllowed = oneValueAllowed;
+		this.mincount = mincount;
 	}
 	public ListFacetSettings(FacetType facet){
 		this.facet = facet;
@@ -38,6 +48,10 @@ public class ListFacetSettings {
 	
 	public boolean isOneValueAllowed() {
 		return oneValueAllowed;
+	}
+	
+	public Integer getMincount() {
+		return mincount;
 	}
 	@Override
 	public String toString() {
