@@ -3,39 +3,55 @@
  * Function to delete the data not necessary 
  */
 function eraseData(){
+	eraseDuplicatedArchivalLi();
 	eraseComma();
 	eraseNameTitle();
 	eraseLocationPlace();
 	eraseList();
 	eraseEmptyLi();
 	eraseEmptyTitleSection();
-	eraseDuplicatedArchivalLi();
 }
 
 function eraseDuplicatedArchivalLi(){
-	var group = $("div#archives").find("li");
 	var targetTexts = new Array();
-	group.each(function(){
-		targetTexts.push($(this).text());
-	});
-	var deleted = false;
-	for(var i=0;i<targetTexts.length;i++){
-		var j = 0;
-		$("div#archives").find("li:contains('"+targetTexts[i]+"')").each(function(){
-			if(j>0){
-				$(this).remove();
-				deleted = true;
+	var targetCodes = new Array();
+	var i = 0;
+	$("div#archives").find("li").each(function(){
+		if($(this).find("a").length>0){
+			if(i++==0){
+				targetCodes.push($(this).find("a[href]").attr("href"));
+				targetTexts.push($(this).text());
+			}else{
+				var found = false;
+				for(var x=0;!found && x<targetCodes.length;x++){
+					if(targetCodes[x]==$(this).find("a[href]").attr("href")){
+						found = true;
+						$(this).remove();
+					}
+				}
+				if(!found){
+					targetCodes.push($(this).find("a[href]").attr("href"));
+					targetTexts.push($(this).text());
+				}
 			}
-			j++;
-		});
-	}
-	if(deleted){ //it's needed change figure
-		var textToBeChanged = $("div#archives .boxtitle").find("span.text").text();
-		if($.inArray("(",textToBeChanged) && $.inArray(")",textToBeChanged)){
-			textToBeChanged = textToBeChanged.substring(0,$.inArray("(",textToBeChanged));
-			textToBeChanged += "("+$("div#archives").find("li").length+")";
-			$("div#archives .boxtitle").find("span.text").html(textToBeChanged);
+		}else{
+			var deleted = false;
+			for(var x=0;!deleted && x<targetTexts.length;x++){
+				if(targetTexts[x]==$(this).text()){
+					$(this).remove();
+					deleted = true;
+				}
+			}
+			if(!deleted){
+				targetTexts.push($(this).text());
+			}
 		}
+	});
+	var textToBeChanged = $("div#archives .boxtitle").find("span.text").text();
+	if($.inArray("(",textToBeChanged) && $.inArray(")",textToBeChanged)){
+		textToBeChanged = textToBeChanged.substring(0,$.inArray("(",textToBeChanged));
+		textToBeChanged += "("+$("div#archives").find("li").length+")";
+		$("div#archives .boxtitle").find("span.text").html(textToBeChanged);
 	}
 }
 
