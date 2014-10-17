@@ -83,7 +83,7 @@
 			</div>
 		</div>
 		<c:if test="${empty results.errorMessage and (results.totalNumberOfResults > 0  or eacCpfSearch.mode == 'update-search')}">
-			<div id="selectedRefinements">
+			<div id="selectedRefinements" class="selectedCriteria">
 				<div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.choosed" /></div>
 				<ul>
 					<c:if test="${!empty selectedRefinements }">
