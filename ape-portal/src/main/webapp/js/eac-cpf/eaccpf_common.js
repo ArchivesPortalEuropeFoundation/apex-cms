@@ -47,6 +47,21 @@ function eraseDuplicatedArchivalLi(){
 			}
 		}
 	});
+	
+	targetTexts = new Array();
+	$("div#archives").find("li").find("a").each(function(){
+		var texts = $(this).text();
+		targetTexts.push(texts);
+	});
+	
+	$("div#archives").find("li").not(":has(a)").each(function(){
+		for(var i=0;i<targetTexts.length;i++){
+			if($(this).text()==targetTexts[i]){
+				$(this).remove();
+			}
+		}
+	});
+	
 	var textToBeChanged = $("div#archives .boxtitle").find("span.text").text();
 	if($.inArray("(",textToBeChanged) && $.inArray(")",textToBeChanged)){
 		textToBeChanged = textToBeChanged.substring(0,$.inArray("(",textToBeChanged));
