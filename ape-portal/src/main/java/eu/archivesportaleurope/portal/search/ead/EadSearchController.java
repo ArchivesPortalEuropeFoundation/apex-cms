@@ -90,7 +90,6 @@ public class EadSearchController extends AbstractSearchController{
 		String errorMessage = null;
 		try {
 			String id = request.getParameter("savedSearchId");
-			String widget = request.getParameter("widget");
 			String publishedFromDate = request.getParameter("publishedFromDate");
 			String publishedToDate = request.getParameter("publishedToDate");
 			String showOnlyNew = request.getParameter("showOnlyNew");
@@ -165,6 +164,7 @@ public class EadSearchController extends AbstractSearchController{
 		if (StringUtils.isBlank(savedSearchId)){
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("home");
+			fillSpecialSelectedOptions(request,eadSearch);
 			modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
 			if (StringUtils.isNotBlank(eadSearch.getTerm())){
 				Results results = performNewSearch(request, eadSearch);
