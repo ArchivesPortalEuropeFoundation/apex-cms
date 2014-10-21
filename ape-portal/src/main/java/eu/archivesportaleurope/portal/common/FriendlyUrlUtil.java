@@ -50,8 +50,8 @@ public final class FriendlyUrlUtil {
 		urls.put(DIRECTORY_CONTENT, "/directory/-/dir/content");
 		urls.put(DIRECTORY_SITEMAP, "/directory/-/dir/sitemap");
 		urls.put(SEARCH, "/search");
-		urls.put(WIDGET_EAD_SEARCH, "/search/-/s/widget/n");
-		urls.put(WIDGET_SAVED_SEARCH, "/search/-/s/widget/d");		
+		urls.put(WIDGET_EAD_SEARCH, "/search/-/s/n");
+		urls.put(WIDGET_SAVED_SEARCH, "/search/-/s/d");		
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
@@ -67,6 +67,9 @@ public final class FriendlyUrlUtil {
 		ThemeDisplay themeDisplay = (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
 			String urlHome = themeDisplay.getPortalURL();
+			if (urlHome.contains("localhost")){
+				urlHome = themeDisplay.getURLHome();
+			}
 			if (noHttps){
 				urlHome = urlHome.replaceFirst("https://", "http://");
 			}
