@@ -23,7 +23,7 @@
 </c:if>
 <c:if test="${!empty eadSearch.selectedSimpleSearchTopic}">
 	<div class="hidden" id="NEWsimpleSearchTopicSelected">
-	<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSearchOption('#simpleSearchTopicSelected')">
+	<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSimpleSearchTopic()">
 ${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'></span></a></li>	
 </div>						
 </c:if>

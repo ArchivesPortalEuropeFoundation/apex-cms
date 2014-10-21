@@ -12,6 +12,7 @@
 	<portlet:param name="myaction" value="advancedSearch" />
 </portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
+
 <portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
 <portal:removeParameters  var="displayPreviewUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="displayPreview" /></portal:removeParameters>
 <portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
@@ -29,7 +30,16 @@
 <liferay-portlet:renderURL var="eagSearchUrl"  plid="${eagSearchPlId}" portletName="${eagSearchPortletId}">
 	<portlet:param name="myaction" value="simpleSearch" />
 </liferay-portlet:renderURL>
-
+		<c:choose>
+			<c:when test="${eadSearch.showOnlyResults}">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				setUrls("${ajaxAdvancedSearchUrl}","${autocompletionUrl}", "${saveSearchUrl}","${archivalLandscapeTreeUrl}","${displayPreviewUrl}", "<portlet:namespace/>");	
+			});
+			
+		</script>			
+			</c:when>
+			<c:otherwise>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				setCommonUrls("${eacCpfSearchUrl}","","${eagSearchUrl}");
@@ -44,8 +54,15 @@
 			});
 			
 		</script>
+			</c:otherwise>
+</c:choose>
 <div id="searchingPart">
 		<div id="eadSearchPortlet" >
+		<c:choose>
+			<c:when test="${eadSearch.showOnlyResults}">
+			<portal:friendlyUrl var="savedSearchUrl" type="widget-saved-search" />
+			<h2 id="searchResultsHeader"><fmt:message key="advancedsearch.text.results.in" /> '<c:out value="${eadSearch.savedSearchDescription }"/>' <fmt:message key="advancedsearch.text.results.with.searchterm" />: '<c:out value="${eadSearch.term }"/>' (<a href="${savedSearchUrl}/${eadSearch.savedSearchId}"><fmt:message key="advancedsearch.text.results.alloptions" /></a>)</h2></c:when>
+			<c:otherwise>
 			<portal:sourceTabs results="${results}" type="ead"/>
 			<div id="searchOptions">
 			
@@ -222,7 +239,7 @@
 											<div id="simpleSearchTopicSelected" class="row selectedCriteria ${eadSearch.selectedSimpleSearchTopicCssClass}" ><div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.topic" />:</div><form:hidden path="simpleSearchTopic" id="simpleSearchTopic"/>
 											<ul>
 												<c:if test="${!empty eadSearch.selectedSimpleSearchTopic}">
-													<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSearchOption('#simpleSearchTopicSelected')">
+													<li><a title='${eadSearch.selectedSimpleSearchTopic.longDescription}' href="javascript:removeSimpleSearchTopic()">
 											${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'></span></a></li>							
 							
 												</c:if>
@@ -247,6 +264,7 @@
 				</div>
 			</form:form>
 			</div>
+			</c:otherwise></c:choose>
 			<c:if test="${empty results or eadSearch.mode == 'new'}">
 				<c:set var="showResults" value="hidden" />
 			</c:if>
@@ -267,11 +285,13 @@
 							numberOfResultsStyleClass="suggestionNumberOfHits" misSpelledStyleClass="suggestionMisspelled" />
 					</c:if>
 				</div>
+				<c:if test="${!eadSearch.showOnlyResults}">
 				<h2 id="searchResultsHeader">
 					<fmt:message key="advancedsearch.text.results" />:
 				</h2>
-		
+				</c:if>
 				<div id="tabs">
+					<c:if test="${!eadSearch.showOnlyResults}">
 					<ul id="tabscontainer">
 						<li><a href="#tabs-list"><fmt:message key="advancedsearch.text.list" /></a></li>
 						<li><a href="#tabs-context"><fmt:message key="advancedsearch.text.context" /></a></li>
@@ -290,7 +310,9 @@
 						<div id="answerMessageSavedSearch"></div>
 						
 					</div>
+					
 					<div class="icon_help"></div>
+					</c:if>
 					<div id="tabs-context">
 						<c:if test="${!empty results and eadSearch.mode != 'new' and eadSearch.view == 'hierarchy'}">
 						<jsp:include page="results.jsp" />
