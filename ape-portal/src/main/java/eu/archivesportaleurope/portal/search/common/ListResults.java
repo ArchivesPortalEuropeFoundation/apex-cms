@@ -77,7 +77,7 @@ public class ListResults extends Results {
 					}
 					if (facetContainer.getValues().size() > 1){
 						facetContainers.add(facetContainer);
-					}else if (facetSettings.isOneValueAllowed() && facetContainer.getValues().size() > 1){
+					}else if (facetSettings.isOneValueAllowed() && facetContainer.getValues().size() >= 1){
 						facetContainers.add(facetContainer);
 					}
 				}
