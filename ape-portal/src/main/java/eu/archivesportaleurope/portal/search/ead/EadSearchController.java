@@ -93,6 +93,8 @@ public class EadSearchController extends AbstractSearchController{
 			String publishedFromDate = request.getParameter("publishedFromDate");
 			String publishedToDate = request.getParameter("publishedToDate");
 			String showOnlyNew = request.getParameter("showOnlyNew");
+			boolean showOnlyResults = TRUE.equals(request.getParameter("showOnlyResults"));
+
 			Long savedSearchId = Long.parseLong(id);
 			Long liferayUserId = null;
 			if (request.getUserPrincipal() != null) {
@@ -130,6 +132,11 @@ public class EadSearchController extends AbstractSearchController{
 					}else if (StringUtils.isNotBlank(term) && eadSavedSearch.isTemplate()){
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						eadSearch.setTerm(term);
+						if (showOnlyResults){
+							eadSearch.setShowOnlyResults(showOnlyResults);
+							eadSearch.setSavedSearchDescription(eadSavedSearch.getDescription());
+							eadSearch.setSavedSearchId(savedSearchId);
+						}
 						Results results = performNewSearch(request, eadSearch);
 						modelAndView.getModelMap().addAttribute("results", results);
 					}else{
@@ -147,7 +154,7 @@ public class EadSearchController extends AbstractSearchController{
 				}
 			}
 		}catch (Exception e) {
-
+			LOGGER.error(e.getMessage());
 		}
 		if (errorMessage == null){
 			errorMessage = "savedsearch.notexist";

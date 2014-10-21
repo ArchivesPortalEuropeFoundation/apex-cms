@@ -29,6 +29,7 @@ import eu.apenet.commons.solr.SolrValues;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
+import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
@@ -68,7 +69,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			SearchUtil.setToDate(solrQueryParameters.getAndParameters(), eadSearch.getTodate(),
 					eadSearch.hasExactDateSearch());
 			
-
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.TOPIC.getName(), eadSearch.getSimpleSearchTopic());
 			// Only refine on dao if selected
 			if ("true".equals(eadSearch.getDao())) {
 				SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,

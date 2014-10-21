@@ -39,7 +39,9 @@ public class EadSearch extends AbstractSearchForm{
 	private String type;
 	private String level;
 	private String dateType;
-
+	private boolean showOnlyResults = false;
+	private String savedSearchDescription;
+	private Long savedSearchId;
 
 	private String selectedNodes;
 
@@ -286,6 +288,30 @@ public class EadSearch extends AbstractSearchForm{
 		}else {
 			return "";
 		}
+	}
+
+	public boolean isShowOnlyResults() {
+		return showOnlyResults;
+	}
+
+	public void setShowOnlyResults(boolean showOnlyResults) {
+		this.showOnlyResults = showOnlyResults;
+	}
+
+	public String getSavedSearchDescription() {
+		return savedSearchDescription;
+	}
+
+	public void setSavedSearchDescription(String savedSearchDescription) {
+		this.savedSearchDescription = savedSearchDescription;
+	}
+
+	public Long getSavedSearchId() {
+		return savedSearchId;
+	}
+
+	public void setSavedSearchId(Long savedSearchId) {
+		this.savedSearchId = savedSearchId;
 	}
 
 

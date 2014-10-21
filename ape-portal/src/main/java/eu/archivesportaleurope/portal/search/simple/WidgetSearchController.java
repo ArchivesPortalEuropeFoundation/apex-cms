@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
+
 @Controller(value = "widgetSearchController")
 @RequestMapping(value = "VIEW")
 public class WidgetSearchController {
+	private static final String VIEW = "/onlyresults";
+	private static final String ONLYRESULTS = "onlyresults";
 	private final static Pattern COLOR_PATTERN = Pattern.compile("[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}");
 	@RenderMapping
 	public ModelAndView showSimpleSearch(RenderRequest request) {
@@ -21,7 +25,13 @@ public class WidgetSearchController {
 		String savedSearchId = request.getParameter("savedSearchId");
 		updateColors(modelAndView, request);
 		if (StringUtils.isNotBlank(savedSearchId) && StringUtils.isNumeric(savedSearchId)) {
-			modelAndView.getModel().put("savedSearchId", savedSearchId);
+			String url = FriendlyUrlUtil.getUrl(request, FriendlyUrlUtil.WIDGET_SAVED_SEARCH, false);
+			url += "/" + savedSearchId;
+			String searchPage = request.getParameter("searchPage");
+			if (ONLYRESULTS.equalsIgnoreCase(searchPage)){
+				url +="/" + ONLYRESULTS;
+			}
+			modelAndView.getModel().put("url", url);
 			modelAndView.setViewName("widget");
 		} else {
 			modelAndView.setViewName("widget-all");
