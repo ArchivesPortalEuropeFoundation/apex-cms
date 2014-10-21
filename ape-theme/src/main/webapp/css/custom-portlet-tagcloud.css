@@ -1,34 +1,65 @@
-	#tags ul{
-		    font-family: Arial,sans-serif;
-		    font-size: 8pt;
-		margin:1em 0;
-		padding:.5em 10px;
-		text-align:center;
-		background:white;
-		width:450px;		
-		}
-	#tags li{
-		margin:0;
-		padding:0;
-		list-style:none;
-		display:inline;
-		}
-	#tags li a{
-		text-decoration:none;
-		padding:0 2px;	
-		}
-	#tags li a:hover{	
-		text-decoration:underline;
-	}		
-	
-	.tag1{font-size:100%;}
-	.tag2{font-size:120%;}
-	.tag3{font-size:140%;}
-	.tag4{font-size:160%;}
-	.tag5{font-size:180%;}
-	
-	#tags li.tag2  a {color:#66594a;}
-	#tags li.tag3  a {color:#00a0df;}
-	#tags li.tag4  a {color:#f58d0f;}
-	#tags li.tag1  a {color:#b23062;}
-	#tags li.tag5  a {color:#b23062;}	}
+#tags ul {
+	font-family: Arial, sans-serif;
+	font-size: 8pt;
+	margin: 1em 0;
+	padding: .5em 10px;
+	text-align: center;
+	background: white;
+	width: 450px;
+}
+
+#tags li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline;
+}
+
+#tags li a {
+	text-decoration: none;
+	padding: 0 2px;
+}
+
+#tags li a:hover {
+	text-decoration: underline;
+}
+
+.tag1 {
+	font-size: 100%;
+}
+
+.tag2 {
+	font-size: 120%;
+}
+
+.tag3 {
+	font-size: 140%;
+}
+
+.tag4 {
+	font-size: 160%;
+}
+
+.tag5 {
+	font-size: 180%;
+}
+
+#tags li.tag2  a {
+	color: #66594a;
+}
+
+#tags li.tag3  a {
+	color: #00a0df;
+}
+
+#tags li.tag4  a {
+	color: #f58d0f;
+}
+
+#tags li.tag1  a {
+	color: #b23062;
+}
+
+#tags li.tag5  a {
+	color: #b23062;
+}
