@@ -536,12 +536,17 @@
 #searchingPart .preview-button-holder-show {
 	border: 1px solid #E6E6E6;
 	background-color: #FAFAFA;
-	background-image: none;
 	background-image: url("../images/ape/search/preview.png");
 	background-repeat: no-repeat;
 	background-position: center center;
 }
-
+#searchingPart #searchresultsList .preview-button-holder-selected {
+	border: 1px solid #afdefc;
+	background-color: #FAFAFA;
+	background-image: url("../images/ape/search/preview.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+}
 #searchingPart .notitle {
 	font-style: italic;
 }
