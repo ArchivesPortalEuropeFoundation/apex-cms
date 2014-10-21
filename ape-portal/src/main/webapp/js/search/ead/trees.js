@@ -74,7 +74,8 @@ function getSearchTreeData(dtnode) {
 		searchType : dtnode.data.searchType,
 		start : dtnode.data.start,
 		fondId : dtnode.data.fondId,
-		selectedNodes : $("#updateCurrentSearch_selectedNodes").val()
+		selectedNodes : $("#updateCurrentSearch_selectedNodes").val(),
+		simpleSearchTopic : $("#updateCurrentSearch_simpleSearchTopic").val()
 	};
 }
 

@@ -313,6 +313,8 @@ function initListTabHandlers() {
 	});
 	$(".preview-button-holder").mouseenter(
 			function() {
+				$(".preview-button-holder").removeClass("preview-button-holder-show").removeClass("preview-button-holder-selected");
+				$(this).addClass("preview-button-holder-selected");
 				var url = $(this).attr("data-url");
 				$.get(url, function(data) {
 					displayPreview("#search-preview",data);
@@ -323,8 +325,7 @@ function initListTabHandlers() {
 			});
 	if ($(".list-searchresult").length > 0){
 		var firstSearchResult = $(".list-searchresult").first();
-		firstSearchResult.find(".list-searchresult-actions").removeClass("hidden");
-		firstSearchResult.find(".preview-button-holder").addClass("preview-button-holder-show");
+		firstSearchResult.find(".preview-button-holder").addClass("preview-button-holder-selected");
 		var url =firstSearchResult.find(".preview-button-holder").attr("data-url");
 		$.get(url, function(data) {
 			displayPreview("#search-preview",data);
