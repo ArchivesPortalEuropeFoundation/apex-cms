@@ -30,7 +30,13 @@
 		<pattern>/d/{savedSearchId:[\d]+}/new</pattern>
 		<implicit-parameter name="showOnlyNew">true</implicit-parameter>
 		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
-	</route>	
+	</route>
+	<route>
+		<pattern>/d/{savedSearchId:[\d]+}/onlyresults</pattern>
+		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
+		<generated-parameter name="showOnlyResults">true</generated-parameter>
+		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
+	</route>		
 	<route>
 		<pattern>/n</pattern>
 		<implicit-parameter name="advanced">false</implicit-parameter>
@@ -42,17 +48,5 @@
 		<implicit-parameter name="advanced">false</implicit-parameter>
 		<implicit-parameter name="myaction">simpleSearch</implicit-parameter>
 	</route>		
-	<route>
-		<pattern>/widget/n</pattern>
-		<implicit-parameter name="advanced">false</implicit-parameter>
-		<implicit-parameter name="myaction">simpleSearch</implicit-parameter>
-		<implicit-parameter name="widget">true</implicit-parameter>
-	</route>	
-	<route>
-		<pattern>/widget/d/{savedSearchId:[\d]+}</pattern>
-		<generated-parameter name="savedSearchId">{savedSearchId}</generated-parameter>
-		<implicit-parameter name="myaction">showSavedSearch</implicit-parameter>
-		<implicit-parameter name="widget">true</implicit-parameter>
-	</route>
-		
+	
 </routes>
