@@ -10,7 +10,7 @@
 <%@ taglib uri="http://portal.archivesportaleurope.eu/tags" prefix="portal"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
+<script type="text/javascript" src="${recaptchaAjaxUrl}"  defer="defer" async="async"></script>
 
 <portlet:defineObjects />
 
@@ -58,11 +58,6 @@
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
 <portal:friendlyUrl var="eadUrl" type="eaddisplay-persistent-archdesc"/>
-
-<script type="text/javascript">var switchTo5x=true;</script>
-<script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
-<script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
-
 
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eaccpfIdentifier,repositoryCode,element,term,type"><portlet:resourceURL id="feedback"/></portal:removeParameters>
@@ -146,3 +141,8 @@
 		<div id="feedbackContent" class="hidden"></div>
 	</div>
 </div>
+<script defer="defer" type="text/javascript">
+    window.onload=function(){
+    	initShareButtons();
+    }
+</script>

@@ -7,7 +7,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
-<script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
+<script type="text/javascript" src="${recaptchaAjaxUrl}" defer="defer" async="async"></script>
 <portlet:defineObjects />
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,element,term"><portlet:resourceURL id="eadTree">
@@ -48,14 +48,7 @@ initPanes();
 </script>
 <script defer="defer" type="text/javascript">
     window.onload=function(){
-        var mycode;
-        mycode=document.createElement("script");
-        mycode.type="text/javascript";
-        mycode.src="https://wd-edge.sharethis.com/button/buttons.js";
-        document.getElementsByTagName("head")[0].appendChild(mycode);
-        var switchTo5x=true;
-        stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false, onhover : true, tracking : 'google'});
-		stButtons.locateElements();
+    	initShareButtons();
     }
 </script>
 	
