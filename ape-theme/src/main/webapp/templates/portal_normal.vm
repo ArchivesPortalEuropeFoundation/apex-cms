@@ -30,7 +30,7 @@
 <body class="$css_class">
 
 	#if ($browserSniffer.isIe($request))
-	  #if($browserSniffer.getMajorVersion($request) < 7)
+	  #if($browserSniffer.getMajorVersion($request) < 8)
 			<div id="browser">
 				#language("header.browser")
 			</div>

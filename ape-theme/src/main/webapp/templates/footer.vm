@@ -1,4 +1,4 @@
-	<footer id="footer" role="contentinfo">
+	<div id="footer" role="contentinfo">
 		<div class="footer-bar">
 			<nav class="$nav_css_class" id="footer-navigation">
 				<ul>
@@ -24,4 +24,4 @@
 		<p class="powered-by">
 			#language("footer.text.apex")
 		</p>
-	</footer>
+	</div>
