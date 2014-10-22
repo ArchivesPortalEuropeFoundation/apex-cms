@@ -130,9 +130,9 @@ public enum FacetType {
     	result.add(new ListFacetSettings(FacetType.AI));
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_ENTITY_TYPE));   
     	result.add(new ListFacetSettings(FacetType.EAC_CPF_PLACES, true,2));	
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION, true,2));	
+    	//result.add(new ListFacetSettings(FacetType.EAC_CPF_OCCUPATION, true,2));	
     	//result.add(new ListFacetSettings(FacetType.EAC_CPF_MANDATE, true,2));	
-    	result.add(new ListFacetSettings(FacetType.EAC_CPF_FUNCTION, true,2));    
+    	//result.add(new ListFacetSettings(FacetType.EAC_CPF_FUNCTION, true,2));    
     	result.add(new ListFacetSettings(FacetType.LANGUAGE));
     	result.add(new ListFacetSettings(FacetType.DATE_TYPE));  
     	result.add(new ListFacetSettings(FacetType.START_DATE));
