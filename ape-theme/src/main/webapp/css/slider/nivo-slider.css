@@ -62,15 +62,15 @@
 .nivo-caption {
 	position:absolute;
 	left:0px;
-	width:480px;
+	width:400px;
 	top:0px;
-	max-height:350px;
+	max-height:250px;
 	background:#000;
 	color:#fff;
 	z-index:8;
 	padding: 5px 10px;
 	opacity: 0.8;
-	overflow: hidden;
+	overflow: hidden;	
 	display: none;
 	-moz-opacity: 0.8;
 	filter:alpha(opacity=8);
@@ -115,6 +115,6 @@
 
 .nivo-caption h2 {
 	color: #79B7E7;
-	font-size: 22px;
+	font-size: 18px;
 	margin-top: 2px;
 }
