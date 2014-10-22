@@ -65,7 +65,7 @@ if ((runtimePortletIds != null) && !runtimePortletIds.isEmpty()) {
 <c:if test="<%= PropsValues.JAVASCRIPT_LOG_ENABLED %>">
 	<%@ include file="/html/common/themes/bottom_js_logging.jspf" %>
 </c:if>
-
+<c:if test="<%=themeDisplay.isSignedIn()%>">
 <%@ include file="/html/common/themes/bottom_js.jspf" %>
 
 <%@ include file="/html/common/themes/password_expiring_soon.jspf" %>
@@ -89,11 +89,11 @@ StringBundler pageBottomSB = (StringBundler)request.getAttribute(WebKeys.PAGE_BO
 	%>
 
 </c:if>
-
+</c:if>
 <%-- Theme JavaScript --%>
 
 <script src="<%= HtmlUtil.escape(PortalUtil.getStaticResourceURL(request, themeDisplay.getPathThemeJavaScript() + "/main.js")) %>" type="text/javascript"></script>
-
+<c:if test="<%=themeDisplay.isSignedIn()%>">
 <c:if test="<%= layout != null %>">
 
 	<%-- User Inputted Layout and LayoutSet JavaScript --%>
@@ -114,7 +114,7 @@ StringBundler pageBottomSB = (StringBundler)request.getAttribute(WebKeys.PAGE_BO
 		// ]]>
 	</script>
 </c:if>
-
+</c:if>
 <c:if test="<%= PropsValues.MONITORING_PORTAL_REQUEST %>">
 	<%@ include file="/html/common/themes/bottom_monitoring.jspf" %>
 </c:if>
