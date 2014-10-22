@@ -71,7 +71,7 @@ function displayEadDetails(displayEadUrl, id, type, namespace) {
 	$.get(displayEadUrl, params, function(data) {
 		$("#right-pane").html(data);
 		initDAOs();
-
+		stButtons.locateElements();
 	});
 	logAction(document.title, displayEadUrl);
 }
