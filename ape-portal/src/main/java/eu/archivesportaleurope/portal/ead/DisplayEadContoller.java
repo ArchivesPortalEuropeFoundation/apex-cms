@@ -145,6 +145,7 @@ public class DisplayEadContoller {
 				return displayEadDetails(renderRequest, eadParams, modelAndView, ead);
 
 			} else {
+				displayEadDetails(renderRequest, eadParams, modelAndView, ead);
 				return displayEadIndex(renderRequest, eadParams, modelAndView, ead);
 			}
 		}else {
