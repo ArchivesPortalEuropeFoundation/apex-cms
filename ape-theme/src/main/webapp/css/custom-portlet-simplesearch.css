@@ -3,6 +3,10 @@
 	display: block;
 }
 
+#simpleSearchPortlet {
+	display: inline-block;
+}
+
 #simpleSearchPortlet #simpleSearch #searchTerms {
 	width: 310px;
 }
