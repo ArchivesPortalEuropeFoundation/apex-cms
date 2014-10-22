@@ -8,6 +8,11 @@
 			<wap-template-path>/ape-home.tpl</wap-template-path>
 			<thumbnail-path>/ape-home.png</thumbnail-path>			
 		</layout-template>
+		<layout-template id="ape-pagelayout-frontpage-tagcloud" name="Home (2-2-2)">
+			<template-path>/ape-home-with-tagcloud.tpl</template-path>
+			<wap-template-path>/ape-home-with-tagcloud.tpl</wap-template-path>
+			<thumbnail-path>/ape-home.png</thumbnail-path>			
+		</layout-template>		
 		<layout-template id="ape-pagelayout-mypages" name="My pages (20/80)">
 			<template-path>/ape-mypages.tpl</template-path>
 			<wap-template-path>/ape-mypages.tpl</wap-template-path>
