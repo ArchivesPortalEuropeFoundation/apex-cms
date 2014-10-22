@@ -1,11 +1,21 @@
+function initShareButtons(){
+    addJsFileToHead("share","http://wd-edge.sharethis.com/button/buttons.js", "https://wd-edge.sharethis.com/button/buttons.js");
+    var switchTo5x=true;
+    stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false, onhover : true, tracking : 'google'});
+	stButtons.locateElements();	
+}
+
 /*
  * Common functions to display the user's feedback.
  */
 
 function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) {
 	if ($('#feedbackContent').is(':empty')){
+		addJsFileToHead("recaptha", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "https://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
+		$(document).ready(function() {
 		$.post(feedbackUrl, {aiId: aiId, title: documentTitle, url: documentUrl}, function(data) {
 			$("#feedbackContent").html(data);
+			
 	        Recaptcha.create(publicKey, "recaptchaDiv", {
 	            theme: "white",
 	            callback: Recaptcha.focus_response_field});
@@ -15,6 +25,7 @@ function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) 
 	    		sendFeedback();
 	    	});
 	
+		});
 		});
 	}
 	logAction("SHOW FEEDBACK FORM", feedbackUrl);
