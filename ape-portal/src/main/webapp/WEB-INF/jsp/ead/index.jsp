@@ -21,16 +21,7 @@
 
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
-<script type="text/javascript">var switchTo5x=true;</script>
-<script type="text/javascript" src="https://wd-edge.sharethis.com/button/buttons.js"></script>
-<script type="text/javascript">stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false});</script>
-<script type='text/javascript'>
-	$(document).ready(function() {
-		initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
-		displayEadDetails("${displayEadUrl}", "${solrId}", null, "<portlet:namespace/>");
-		initPanes();
-	});		
-</script>
+
 <div id="eadDisplayPortlet">
 	<c:if test="${!empty errorMessage}">
 	<div class="error errorHeader">
@@ -46,6 +37,26 @@
 			<div id="eadTree"></div>
 		</div>
 		<div id="splitter" class="pane"></div>
-		<div id="right-pane" class="pane"></div>
+		<div id="right-pane" class="pane">
+			<jsp:include page="eaddetails.jsp" />
+		</div>
 	</div>
+
+<script type='text/javascript' defer="defer">
+initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
+initPanes();	
+</script>
+<script defer="defer" type="text/javascript">
+    window.onload=function(){
+        var mycode;
+        mycode=document.createElement("script");
+        mycode.type="text/javascript";
+        mycode.src="https://wd-edge.sharethis.com/button/buttons.js";
+        document.getElementsByTagName("head")[0].appendChild(mycode);
+        var switchTo5x=true;
+        stLight.options({publisher: "e059943f-766d-434b-84ea-1e0d4a91b7d4", doNotHash: true, doNotCopy: true, hashAddressBar: true, shorten:false, onhover : true, tracking : 'google'});
+		stButtons.locateElements();
+    }
+</script>
+	
 </div>
