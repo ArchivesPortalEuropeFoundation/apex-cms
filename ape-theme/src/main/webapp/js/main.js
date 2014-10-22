@@ -9,6 +9,18 @@ function logAction(title, url) {
 	}
 	_gaq.push([ '_trackPageview', shortUrl ]);
 }
+function addJsFileToHead(id, httpSrc, httpsSrc){
+	if ($("head #" + id).length == 0){
+	    var src;
+	    if ('https:' == document.location.protocol){
+	    	src = httpsSrc;
+	    }else {
+	    	src = httpSrc;
+	    }
+	    $("head").append('<script id="' + id +'" type="text/javascript" src="' + src + '"></script>');
+	}
+}
+
 function loadSurvey(c_name) {
 	$('#survey').removeClass("hidden");
 	$("#survey #start").click(function(event) {
