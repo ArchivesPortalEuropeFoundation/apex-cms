@@ -187,11 +187,22 @@
 #eacCpfDisplayPortlet .box .boxtitle {
 	cursor:pointer;
 }
-
+#eaccpfcontent{
+	-ms-word-break: break-all;
+	word-break: break-all;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
 #relations ul {
     list-style-type: none;
     margin: 0;
     padding: 0 0 0 5px;
+    -ms-word-break: break-all;
+	word-break: break-all;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
 }
 #relations li {
 	padding-bottom:5px;
