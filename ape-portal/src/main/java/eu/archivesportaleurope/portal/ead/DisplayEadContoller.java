@@ -285,10 +285,12 @@ public class DisplayEadContoller {
 					return modelAndView;
 				}
 				EadContent eadContent = ead.getEadContent();
-				PortalDisplayUtil.setPageTitle(renderRequest,
-						PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+				String documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle());
+				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+				PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
 				XmlType xmlType = XmlType.getContentType(ead);
 				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+				modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 				modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
 				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
@@ -336,6 +338,7 @@ public class DisplayEadContoller {
 		modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
 		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
+		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
@@ -345,7 +348,10 @@ public class DisplayEadContoller {
 		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
-		PortalDisplayUtil.setPageTitle(renderRequest,PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle));
+		
+		documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle);
+		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
+		PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 
 		modelAndView.setViewName("eaddetails-noscript");
