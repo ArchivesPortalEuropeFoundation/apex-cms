@@ -138,3 +138,38 @@ function updateIndividualCheckbox(targetName,checkbox){
 		}
 	}
 }
+	
+function getval(orderUrl, cel) {
+	var order = "orderAsc";
+	var column = $("table#savedCollectionsTable th#"+cel).attr("class");	
+
+	if(column.indexOf("Down")!=-1){
+    	order = "orderAsc";
+	}else if(column.indexOf("Up")!=-1){
+    	order = "orderDesc";
+	}else if(column.indexOf("header")!=-1){
+    	order = "orderAsc";
+	}
+	
+	$.post(orderUrl, {orderType: order, orderColumn: cel}, function(e){
+		$("#savedCollectionsPortlet").html(e);
+		
+		$('table#savedCollectionsTable tr#crown th').each (function() {
+			$(this).removeClass("header");
+			$(this).removeClass("headerSortUp");
+			$(this).removeClass("headerSortDown");
+			if ($(this).attr("id")!=cel && $(this).attr("id")!="actions"){
+				$(this).addClass("header");
+			}else{
+				var currentOrder = $("input#orderToSet").val();
+				if(currentOrder == "orderAsc"){
+					$("table#savedCollectionsTable th#"+cel).addClass("headerSortUp");
+				}else if(currentOrder == "orderDesc"){
+					$("table#savedCollectionsTable th#"+cel).addClass("headerSortDown");
+				} else {
+					$("table#savedCollectionsTable th#"+cel).addClass("header");
+				}
+			}
+		});
+	});
+}

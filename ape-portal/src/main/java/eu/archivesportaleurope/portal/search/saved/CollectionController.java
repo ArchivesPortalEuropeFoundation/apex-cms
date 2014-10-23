@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.search.saved;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -68,6 +69,7 @@ public class CollectionController {
 	public ModelAndView showSavedCollections(RenderRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
+		boolean orderAsc=true;
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
@@ -76,12 +78,19 @@ public class CollectionController {
 			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			}
-			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE);
+			if (request.getParameter("orderAsc")=="headerSortUp")
+				orderAsc=true;
+			else
+				orderAsc=false;
+				
+			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, request.getParameter("column"),orderAsc);
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", (collections.size()>0)?this.collectionDAO.countCollectionsByUserId(liferayUserId):collections.size());
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+			modelAndView.getModelMap().addAttribute("orderColumn", "none");
+			modelAndView.getModelMap().addAttribute("orderAsc", "none");
 			modelAndView.getModelMap().addAttribute("collections",collections);
 
 		}
@@ -93,31 +102,36 @@ public class CollectionController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collection");
 		Principal principal = request.getUserPrincipal();
-		if(principal!=null && request.getParameter("id")!=null){ //edit checks
-			long id = Long.parseLong(request.getParameter("id"));
-			Long liferayUserId = Long.parseLong(principal.toString());
-			Collection targetCollection = this.collectionDAO.getCollectionById(id);
-			if(targetCollection!=null && (targetCollection.isPublic_() || targetCollection.getLiferayUserId() == liferayUserId)){
-				modelAndView.getModelMap().addAttribute("edit",false);
-				modelAndView.getModelMap().addAttribute("collection",targetCollection);
-				List<CollectionContent> listCollectionContent = this.collectionContentDAO.getCollectionContentsByCollectionId(id);
-				if(listCollectionContent!=null){
-					List<CollectionContent> listCollectionSearches = new ArrayList<CollectionContent>();
-					List<CollectionContent> listCollectionBookmarks = new ArrayList<CollectionContent>();
-					for(CollectionContent collectionContent : listCollectionContent){
-						if(collectionContent.getSavedBookmarks()!=null){
-							listCollectionBookmarks.add(collectionContent);
-						}else if(collectionContent.getEadSavedSearch()!=null){
-							listCollectionSearches.add(collectionContent);
+		if(principal!=null && request.getParameter("id")!=null){ 
+			try {
+			//edit checks
+				long id = Long.parseLong(request.getParameter("id"));
+				Long liferayUserId = Long.parseLong(principal.toString());
+				Collection targetCollection = this.collectionDAO.getCollectionById(id);
+				if(targetCollection!=null && (targetCollection.isPublic_() || targetCollection.getLiferayUserId() == liferayUserId)){
+					modelAndView.getModelMap().addAttribute("edit",false);
+					modelAndView.getModelMap().addAttribute("collection",targetCollection);
+					List<CollectionContent> listCollectionContent = this.collectionContentDAO.getCollectionContentsByCollectionId(id);
+					if(listCollectionContent!=null){
+						List<CollectionContent> listCollectionSearches = new ArrayList<CollectionContent>();
+						List<CollectionContent> listCollectionBookmarks = new ArrayList<CollectionContent>();
+						for(CollectionContent collectionContent : listCollectionContent){
+							if(collectionContent.getSavedBookmarks()!=null){
+								listCollectionBookmarks.add(collectionContent);
+							}else if(collectionContent.getEadSavedSearch()!=null){
+								listCollectionSearches.add(collectionContent);
+							}
+						}
+						if(listCollectionSearches.size()>0){
+							modelAndView.getModelMap().addAttribute("collectionSearches",listCollectionSearches);
+						}
+						if(listCollectionBookmarks.size()>0){
+							modelAndView.getModelMap().addAttribute("bookmarks",listCollectionBookmarks);
 						}
 					}
-					if(listCollectionSearches.size()>0){
-						modelAndView.getModelMap().addAttribute("collectionSearches",listCollectionSearches);
-					}
-					if(listCollectionBookmarks.size()>0){
-						modelAndView.getModelMap().addAttribute("bookmarks",listCollectionBookmarks);
-					}
 				}
+			} catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
 		return modelAndView;
@@ -249,7 +263,39 @@ public class CollectionController {
 		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 		return modelAndView;
 	}
+	
+	@ResourceMapping(value = "orderResults")
+	public ModelAndView orderResults(ResourceRequest request, ResourceResponse response){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("home");
+		boolean orderAsc=true;
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
+		Principal principal = request.getUserPrincipal();
+		if (principal != null){
+			Long liferayUserId = Long.parseLong(principal.toString());
+			Integer pageNumber = 1;
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			if (request.getParameter("orderType").equals("orderAsc"))
+				orderAsc=true;
+			else
+				orderAsc=false;
 
+			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, request.getParameter("orderColumn"),orderAsc);
+			User user = (User) request.getAttribute(WebKeys.USER);
+			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+			modelAndView.getModelMap().addAttribute("totalNumberOfResults", (collections.size()>0)?this.collectionDAO.countCollectionsByUserId(liferayUserId):collections.size());
+			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+			modelAndView.getModelMap().addAttribute("orderColumn", request.getParameter("orderColumn"));
+			modelAndView.getModelMap().addAttribute("orderAsc", request.getParameter("orderType"));
+			modelAndView.getModelMap().addAttribute("collections",collections);
+		}
+		return modelAndView;
+	}
+
+	
 	@RenderMapping(params="action=deleteSavedCollections")
 	public ModelAndView deleteSavedCollection(RenderRequest request) {
 		Principal principal = request.getUserPrincipal();
@@ -258,7 +304,11 @@ public class CollectionController {
 			Long id = Long.parseLong(request.getParameter("id"));
 			Collection collection = this.collectionDAO.getCollectionByIdAndUserId(id, liferayUserId);
 			if (collection!=null && collection.getLiferayUserId()==liferayUserId){
-				this.collectionDAO.delete(collection);
+				try {
+					this.collectionDAO.delete(collection);
+				} catch (Exception e) {
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
+				}
 			}
 		}
 		return showSavedCollections(request);
@@ -270,6 +320,7 @@ public class CollectionController {
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
 			Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
+			User user = (User) request.getAttribute(WebKeys.USER);
 			boolean public_ = (request.getParameter("collectionField_public")!=null && new String(request.getParameter("collectionField_public")).equals("on"));
 			boolean edit = (request.getParameter("collectionField_edit")!=null && new String(request.getParameter("collectionField_edit")).equals("on"));
 			String title = request.getParameter("collectionTitle");
@@ -280,6 +331,7 @@ public class CollectionController {
 				ddbbCollection.setPublic_(public_);
 				ddbbCollection.setEdit(edit);
 				ddbbCollection.setDescription(description);
+				ddbbCollection.setModified_date(new Date());
 				this.collectionDAO.update(ddbbCollection);
 				//collection_search
 				Enumeration<String> parametersNames = request.getParameterNames();
@@ -390,37 +442,47 @@ public class CollectionController {
 		Principal principal = request.getUserPrincipal();
 		String title = request.getParameter("collectionTitle");
 		String description = request.getParameter("collectionDescription");
+		User user = (User) request.getAttribute(WebKeys.USER);
 		boolean public_ = (request.getParameter("collectionField_public")!=null && new String(request.getParameter("collectionField_public")).equals("on"));
 		boolean edit = (request.getParameter("collectionField_edit")!=null && new String(request.getParameter("collectionField_edit")).equals("on"));
 		Collection newCollection = new Collection();
 		if (principal != null && StringUtils.isNotBlank(title)){
-			//collection
-			Long liferayUserId = Long.parseLong(principal.toString());
-			newCollection.setTitle(title);
-			newCollection.setPublic_(public_);
-			newCollection.setLiferayUserId(liferayUserId);
-			newCollection.setDescription(description);
-			newCollection.setEdit(edit);
-			newCollection = this.collectionDAO.store(newCollection);
-			//collection content
-			Enumeration<String> parametersNames = request.getParameterNames();
-			List<Long> parametersOut = new ArrayList<Long>();
-			List<Long> bookmarksOut = new ArrayList<Long>();
-			while(parametersNames.hasMoreElements()){
-				String parameterName = parametersNames.nextElement();
-				if(parameterName!=null){
-					if(parameterName.contains(SEARCH_OUT)){
-						if(request.getParameter(parameterName).equalsIgnoreCase("on")){
-							parametersOut.add(Long.parseLong(parameterName.substring(SEARCH_OUT.length())));
-						}
-					}else if(parameterName.contains(BOOKMARK_OUT)){
-						if(request.getParameter(parameterName).equalsIgnoreCase("on")){
-							bookmarksOut.add(Long.parseLong(parameterName.substring(BOOKMARK_OUT.length())));
+			try {
+				//collection
+				Long liferayUserId = Long.parseLong(principal.toString());
+				newCollection.setTitle(title);
+				newCollection.setPublic_(public_);
+				newCollection.setLiferayUserId(liferayUserId);
+				newCollection.setDescription(description);
+				newCollection.setEdit(edit);
+				newCollection.setModified_date(new Date());
+				newCollection = this.collectionDAO.store(newCollection);
+				//collection content
+				Enumeration<String> parametersNames = request.getParameterNames();
+				List<Long> parametersOut = new ArrayList<Long>();
+				List<Long> bookmarksOut = new ArrayList<Long>();
+				try {
+					while(parametersNames.hasMoreElements()){
+						String parameterName = parametersNames.nextElement();
+						if(parameterName!=null){
+							if(parameterName.contains(SEARCH_OUT)){
+								if(request.getParameter(parameterName).equalsIgnoreCase("on")){
+									parametersOut.add(Long.parseLong(parameterName.substring(SEARCH_OUT.length())));
+								}
+							}else if(parameterName.contains(BOOKMARK_OUT)){
+								if(request.getParameter(parameterName).equalsIgnoreCase("on")){
+									bookmarksOut.add(Long.parseLong(parameterName.substring(BOOKMARK_OUT.length())));
+								}
+							}
 						}
 					}
+					createCollectionContentParametersBookmarks(parametersOut, bookmarksOut, newCollection, liferayUserId);
+				} catch (Exception e) {
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
 				}
+			} catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
-			createCollectionContentParametersBookmarks(parametersOut, bookmarksOut, newCollection, liferayUserId);
 		}
 		return showSavedCollections(request);
 	}

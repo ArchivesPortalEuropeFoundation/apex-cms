@@ -16,54 +16,70 @@
 	<portlet:param name="action" value="deleteSavedCollections" />
 </portlet:renderURL>
 <portlet:renderURL var="myCollections" />
-<div id="mycollectionPortletDiv">
+
+<div id="savedCollectionsPortlet">
 	<div id="mycollectionCreateAction" class="collectionBigAction">
 		<a href="${createMyCollectionUrl}" ><fmt:message key="collections.create"/></a>
 	</div>
 	<c:choose>
 		<c:when test="${not empty collections}">
-			<div class="collectionPaginator">
+			<h2><fmt:message key="collections.collections"/></h2>
+			<div id="children" class="box">
 				<div class="boxtitle">
 					<div class="numberOfPages">
 						<ape:pageDescription numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
 					</div>
-					<div id="child-paging" class="paging">
-						<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-							refreshUrl="${myCollections}" pageNumberId="pageNumber" />
-					</div>
-				</div>
+					
+			<%-- <div id="top-paging" class="paging">
+				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+				refreshUrl="${orderResultsUrl}/{pageNumber}" pageNumberId="pageNumber" liferayFriendlyUrl="true"/>
 			</div>
-			<div class="collectionFieldHeader">
-				<div class="collectionFieldTitle collectionHeader"><fmt:message key="advancedsearch.text.title2"/></div>
-				<div class="collectionFieldDescription collectionHeader"><fmt:message key="savedsearch.description"/></div>
-				<div class="collectionFieldPublic collectionHeader"><fmt:message key="collections.features"/></div>
-				<div class="collectionFieldActions collectionHeader"><fmt:message key="savedsearches.overview.actions"/></div>
-			</div>
+					
+			<div id="child-paging" class="paging">
+				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+				refreshUrl="javascript:updatePageNumberCollectionBookmarks('${getNewBookmarksUrl}');" pageNumberId="pageNumber" />
+			</div> --%>
 			
-			<c:forEach var="collection" items="${collections}" varStatus="counter">
-				<div class="collectionField" id="collectionField_${counter}">
-					<div class="collectionFieldTitle collectionContent"><c:out value="${collection.title}" /></div>
-					<div class="collectionFieldDescription collectionContent">&nbsp;${collection.description}</div>
-					<div class="collectionFieldPublic collectionContent">
-					<c:choose>
-						<c:when test="${collection.public_}"><fmt:message key="savedsearch.publicaccessible"/></c:when>
-						<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
-					</c:choose>
-						<%-- <input type="checkbox" id="collectionField_${counter}_public" <c:if test="${collection.public_}">checked="checked"</c:if> disabled="disabled" /> --%>
-					</div>
-					<div class="collectionFieldActions collectionContent">
-						<div>
-							<a href="${myCollectionUrl}&id=${collection.id}"><fmt:message key="collections.view"/></a>
-						</div>
-						<div>
-							<a href="${createMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.edit"/></a>
-						</div>
- 						<div>
-							<a href="${deleteMyCollectionUrl}&id=${collection.id}" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/></a>
-						</div>
-					</div>
+			<div id="child-paging" class="paging">
+				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+					refreshUrl="${myCollections}" pageNumberId="pageNumber" />
+			</div>
+				
 				</div>
-			</c:forEach>
+				<input id="orderToSet" type="hidden" value="${orderAsc}">
+				<table id="savedCollectionsTable" class="defaultlayout"> 
+					<tr id="crown">
+						<portlet:resourceURL var="orderResultsUrl" id="orderResults">
+						    <portlet:param name="pageNumber" value="${pageNumber}" />
+						</portlet:resourceURL>
+						<th id="title" class="name header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="advancedsearch.text.title2"/></th>
+						<th id="description" class="description header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="savedsearch.description"/></th>
+						<th id="public_collection" class="type header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="collections.features"/></th>
+						<th id="modified_date" class="modified header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="savedsearch.modified"/></th>
+						<th id="actions" class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
+					</tr>
+					<c:forEach var="collection" items="${collections}" varStatus="counter">
+						<tr class="${trClass}">
+							<td><c:out value="${collection.title}" /></td>
+							<td><c:out value="${collection.description}" /></td>
+							<td>
+								<c:choose>
+									<c:when test="${collection.public_}"><fmt:message key="savedsearch.publicaccessible"/></c:when>
+									<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
+								</c:choose>
+							</td>
+							<td><c:out value="${collection.modified_date}" /></td>
+							<td>
+	 							<div>
+									<a href="${myCollectionUrl}&id=${collection.id}"><fmt:message key="collections.view"/></a>
+									<a href="${createMyCollectionUrl}&id=${collection.id}" ><fmt:message key="savedsearches.overview.edit"/></a>
+									<a href="${deleteMyCollectionUrl}&id=${collection.id}" onclick="return confirm('<fmt:message key="collections.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/></a>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</c:when>
 		<c:otherwise>
 			<h2><fmt:message key="collections.no"/></h2>
