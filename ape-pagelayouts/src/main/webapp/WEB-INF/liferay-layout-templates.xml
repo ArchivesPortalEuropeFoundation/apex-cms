@@ -8,7 +8,7 @@
 			<wap-template-path>/ape-home.tpl</wap-template-path>
 			<thumbnail-path>/ape-home.png</thumbnail-path>			
 		</layout-template>
-		<layout-template id="ape-pagelayout-frontpage-tagcloud" name="Home (2-2-2)">
+		<layout-template id="ape-pagelayout-frontpage-tagcloud" name="Home (tagcloud) (2-2-2)">
 			<template-path>/ape-home-with-tagcloud.tpl</template-path>
 			<wap-template-path>/ape-home-with-tagcloud.tpl</wap-template-path>
 			<thumbnail-path>/ape-home.png</thumbnail-path>			
