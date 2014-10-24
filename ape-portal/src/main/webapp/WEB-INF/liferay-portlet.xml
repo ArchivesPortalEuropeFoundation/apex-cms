@@ -96,6 +96,10 @@
 		<header-portlet-javascript>/js/collection/collection.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
+		<portlet-name>tagcloud</portlet-name>
+		<instanceable>false</instanceable>
+	</portlet>	
+	<portlet>
 		<portlet-name>contact</portlet-name>
 		<instanceable>false</instanceable>
 	</portlet>

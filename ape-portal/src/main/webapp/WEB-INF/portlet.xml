@@ -80,7 +80,36 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-	</portlet>	
+	</portlet>
+	<portlet>
+		<portlet-name>tagcloud</portlet-name>
+		<display-name>Tag cloud</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<expiration-cache>-1</expiration-cache>
+		<cache-scope>public</cache-scope>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<resource-bundle>i18n.ApplicationResources</resource-bundle>
+		<portlet-info>
+			<title>Tag cloud</title>
+			<short-title>Tag cloud</short-title>
+			<keywords>tag cloud</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>			
 	<portlet>
 		<portlet-name>ead-search</portlet-name>
 		<display-name>EAD Search</display-name>
@@ -515,7 +544,6 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>APEFilter</filter-name>
-        <portlet-name>eac-cpf-display</portlet-name>
+        <portlet-name>tagcloud</portlet-name>
     </filter-mapping>       
-    
 </portlet-app>
