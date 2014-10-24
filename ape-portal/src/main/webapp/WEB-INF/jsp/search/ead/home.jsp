@@ -61,7 +61,7 @@
 		<c:choose>
 			<c:when test="${eadSearch.showOnlyResults}">
 			<portal:friendlyUrl var="savedSearchUrl" type="widget-saved-search" />
-			<h2 id="searchResultsHeader"><fmt:message key="advancedsearch.text.results.in" /> '<c:out value="${eadSearch.savedSearchDescription }"/>' <fmt:message key="advancedsearch.text.results.with.searchterm" />: '<c:out value="${eadSearch.term }"/>' (<a href="${savedSearchUrl}/${eadSearch.savedSearchId}"><fmt:message key="advancedsearch.text.results.alloptions" /></a>)</h2></c:when>
+			<h2 id="searchResultsHeader"><fmt:message key="advancedsearch.text.results.in" /> '<c:out value="${eadSearch.savedSearchDescription }"/>' <fmt:message key="advancedsearch.text.results.with.searchterm" />: '<c:out value="${eadSearch.term }"/>' (<a href="${savedSearchUrl}/${eadSearch.savedSearchId}?term=<c:out value="${eadSearch.term }"/>"><fmt:message key="advancedsearch.text.results.alloptions" /></a>)</h2></c:when>
 			<c:otherwise>
 			<portal:sourceTabs results="${results}" type="ead"/>
 			<div id="searchOptions">
