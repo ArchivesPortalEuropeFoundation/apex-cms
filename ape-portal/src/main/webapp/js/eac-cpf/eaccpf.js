@@ -24,6 +24,13 @@ function init(){
 	});
 	expandedSection();
 	sameHeight();
+	drawListDiscs();
+}
+
+function drawListDiscs(){
+	if($("div").find("#eacCpfDisplayPortlet li.item").length==1){
+		$("div").find("#eacCpfDisplayPortlet li.item").css("list-style","none outside none");
+	}
 }
 function initPrint(){
 	eraseData();
