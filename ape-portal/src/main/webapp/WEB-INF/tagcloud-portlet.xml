@@ -19,7 +19,8 @@
 	<bean
 		class="eu.archivesportaleurope.portal.tagcloud.TagCloudController">
 		<property name="eadSearcher" ref="eadSearcher"/>
-		<property name="messageSource" ref="messageSource"></property>
+		<property name="messageSource" ref="messageSource"/>
+		<property name="topicDAO" ref="topicDAO"/>
 	</bean>
 
 		
