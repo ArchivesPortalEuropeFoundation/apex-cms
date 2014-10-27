@@ -28,4 +28,5 @@
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 	</bean>
 	<bean id="userDAO" class="eu.apenet.persistence.hibernate.UserHibernateDAO"/>	
+	<bean id="topicDAO" class="eu.archivesportaleurope.persistence.jpa.dao.TopicJpaDAO"/>	
 </beans>
