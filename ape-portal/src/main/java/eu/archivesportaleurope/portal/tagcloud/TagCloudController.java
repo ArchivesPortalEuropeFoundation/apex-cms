@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import eu.apenet.commons.utils.Cache;
+import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
 import eu.apenet.persistence.vo.Topic;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
@@ -32,7 +34,7 @@ public class TagCloudController {
 	private static final int NUMBER_OF_GROUPS = 5;
 	private final static Logger LOGGER = Logger.getLogger(TagCloudController.class);
 	private final static int MAX_NUMBER_OF_TAGS = 15;
-	//private final static Cache<String, List<TagCloudItem>> CACHE = CacheManager.getInstance().<String, List<TagCloudItem>>initCache("topicCache");
+	private final static Cache<String, List<TagCloudItem>> CACHE = CacheManager.getInstance().<String, List<TagCloudItem>>initCache("tagCloudCache");
 	private TopicDAO topicDAO;
 	
 	private ResourceBundleMessageSource messageSource;
@@ -53,7 +55,7 @@ public class TagCloudController {
 
 	@RenderMapping
 	public String showTagCloud(RenderRequest request) {
-		List<TagCloudItem> tags = null;
+		List<TagCloudItem> tags = CACHE.get(TAGS_KEY);
 		if (tags == null){
 			tags= new ArrayList<TagCloudItem>();
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
@@ -87,7 +89,7 @@ public class TagCloudController {
 					tagCloudItemIndex++;
 				}
 			}
-			//CACHE.put(TAGS_KEY, tags);
+			CACHE.put(TAGS_KEY, tags);
 		}
 		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
