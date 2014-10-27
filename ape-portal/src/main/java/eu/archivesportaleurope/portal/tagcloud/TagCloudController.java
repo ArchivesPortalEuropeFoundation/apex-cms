@@ -16,6 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import eu.apenet.persistence.dao.TopicDAO;
+import eu.apenet.persistence.vo.Topic;
+import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.EadSearcher;
@@ -25,10 +28,13 @@ import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 @RequestMapping(value = "VIEW")
 public class TagCloudController {
 
+	private static final String TAGS_KEY = "tags";
 	private static final int NUMBER_OF_GROUPS = 5;
 	private final static Logger LOGGER = Logger.getLogger(TagCloudController.class);
 	private final static int MAX_NUMBER_OF_TAGS = 15;
-
+	//private final static Cache<String, List<TagCloudItem>> CACHE = CacheManager.getInstance().<String, List<TagCloudItem>>initCache("topicCache");
+	private TopicDAO topicDAO;
+	
 	private ResourceBundleMessageSource messageSource;
 	private EadSearcher eadSearcher;
 
@@ -40,53 +46,58 @@ public class TagCloudController {
 		this.messageSource = messageSource;
 	}
 
-	// --maps the incoming portlet request to this method
+
+	public void setTopicDAO(TopicDAO topicDAO) {
+		this.topicDAO = topicDAO;
+	}
+
 	@RenderMapping
 	public String showTagCloud(RenderRequest request) {
-		List<TagCloudItem> tags = new ArrayList<TagCloudItem>();
-		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-		solrQueryParameters.setTerm("*");
-		List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
-		facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_NUMBER_OF_TAGS));
-
-		try {
-			QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
-			FacetField facetField = response.getFacetFields().get(0);
-			for (Count count : facetField.getValues()) {
-				tags.add(new TagCloudItem(count.getCount(), count.getName(), messageSource.getMessage(
-						"topic." + count.getName(), null, request.getLocale())));
+		List<TagCloudItem> tags = null;
+		if (tags == null){
+			tags= new ArrayList<TagCloudItem>();
+			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+			solrQueryParameters.setTerm("*");
+			List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
+			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_NUMBER_OF_TAGS));
+	
+			try {
+				QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
+				FacetField facetField = response.getFacetFields().get(0);
+				for (Count count : facetField.getValues()) {
+					tags.add(new TagCloudItem(count.getCount(), count.getName()));
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
 			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-		int numberOfTagsWithResults = tags.size();
-		String preferences = "first.world.war=First World War;second.world.war=Second World War;";
-		preferences += "middle.ages=Middle Ages;cold.war=Cold War;slavery=Slavery;";
-		preferences += "genealogy=Genealogy;church.records=Church records;";
-		preferences += "state.collection=State Collection;gdr=German Democratic Republic;";
-		preferences += "politics=Politics;democracy=Democracy;communism=Communism;";
-		preferences += "industry=Industry;transport=Transport;thirty.years.war=30-years war;";
-		String[] items = preferences.split(";");
-		for (int i = 0; i < items.length && tags.size() < MAX_NUMBER_OF_TAGS; i++) {
-			String[] keyValue = items[i].split("=");
-			String description = messageSource.getMessage(keyValue[0], null, keyValue[1], request.getLocale());
-			TagCloudItem tagCloudItem = new TagCloudItem(0l, keyValue[0], description);
-			if (!tags.contains(tagCloudItem)) {
-				tags.add(tagCloudItem);
+			int numberOfTagsWithResults = tags.size();
+			List<Topic> topics = topicDAO.getFirstTopics();
+			for (int i = 0; i < topics.size() && tags.size() < MAX_NUMBER_OF_TAGS; i++) {
+				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
+				if (!tags.contains(tagCloudItem)) {
+					tags.add(tagCloudItem);
+				}
 			}
-		}
-		int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
-		int tagCloudItemIndex = 0;
-		for (int i = 0; i < NUMBER_OF_GROUPS; i++) {
-			int maxNumber = groups[i];
-			for (int j = 0; j < maxNumber; j++) {
-				tags.get(tagCloudItemIndex).setTagNumber((i + 1));
-				tagCloudItemIndex++;
+			int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
+			int tagCloudItemIndex = 0;
+			for (int i = 0; i < NUMBER_OF_GROUPS; i++) {
+				int maxNumber = groups[i];
+				for (int j = 0; j < maxNumber; j++) {
+					tags.get(tagCloudItemIndex).setTagNumber((i + 1));
+					tagCloudItemIndex++;
+				}
 			}
+			//CACHE.put(TAGS_KEY, tags);
 		}
-		Collections.sort(tags, new TagCloudComparator());
+		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+		for (TagCloudItem notTranslatedItem : tags){
+			String translatedName = source.getString("topic." + notTranslatedItem.getKey());
+			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
+		}
+		Collections.sort(translatedTags, new TagCloudComparator());
 		request.setAttribute("url", "/search/-/s/n/topic/");
-		request.setAttribute("tags", tags);
+		request.setAttribute(TAGS_KEY, translatedTags);
 		return "index";
 	}
 

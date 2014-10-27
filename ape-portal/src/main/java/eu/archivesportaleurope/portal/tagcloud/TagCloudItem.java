@@ -10,11 +10,19 @@ public class TagCloudItem {
 	public TagCloudItem(){
 		
 	}
-	public TagCloudItem(long count, String key, String name) {
+	
+	public TagCloudItem(long count, String key) {
 		super();
 		this.count = count;
 		this.key = key;
-		this.name = name;
+	}
+	
+	public TagCloudItem(TagCloudItem item, String translatedName) {
+		super();
+		this.count = item.getCount();
+		this.key = item.getKey();
+		this.name = translatedName;
+		this.tagNumber = item.getTagNumber();
 	}
 	public long getCount() {
 		return count;
@@ -44,6 +52,11 @@ public class TagCloudItem {
 	public void setTagNumber(int tagNumber) {
 		this.tagNumber = tagNumber;
 	}
+	
+	public int getTagNumber() {
+		return tagNumber;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
