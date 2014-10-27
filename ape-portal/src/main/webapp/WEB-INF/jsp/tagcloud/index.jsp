@@ -5,7 +5,6 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <portlet:defineObjects />
-<portal:friendlyUrl var="searchUrl" type="widget-ead-search" noHttps="true"/>
 <div id="tagcloudPortlet">
 
 <h2><fmt:message key="tagcloud.topics.title"/>:</h2>
