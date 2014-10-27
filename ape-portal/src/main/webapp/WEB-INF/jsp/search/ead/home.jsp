@@ -12,7 +12,7 @@
 	<portlet:param name="myaction" value="advancedSearch" />
 </portlet:renderURL>
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
-
+<portal:friendlyUrl var="helpUrl" type="help-pages"/>
 <portal:removeParameters  var="ajaxAdvancedSearchUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="advancedSearch" /></portal:removeParameters>
 <portal:removeParameters  var="displayPreviewUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="displayPreview" /></portal:removeParameters>
 <portal:removeParameters  var="autocompletionUrl" namespace="${portletNamespace}" parameters="myaction,term,resultsperpage,advanced,dao,view,method"><portlet:resourceURL id="autocompletion" /></portal:removeParameters>
@@ -79,7 +79,7 @@
 			<div id="navigatedSearchHelpDialog" class="hidden">
 				<div class="tooltipContent">
 					<div class="tooltipSubContent"><fmt:message key="search.ead.navigatedsearch.help" /></div>
-					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="${helpUrl}/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>
 			<div id="advancedSearchHelpDialog" class="hidden">
@@ -103,7 +103,7 @@
 							</li>								
 						</ul>
 					</div>
-					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="${helpUrl}/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>	
 			<div id="simpleSearchHelpDialog" class="hidden">
@@ -116,7 +116,7 @@
 					
 						</ul>		
 					</div>
-					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="help/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.help.more" />&nbsp;<a href="${helpUrl}/searching" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>
 			<div id="searchResultsHelpDialog" class="hidden">
@@ -131,7 +131,7 @@
 						<li><fmt:message key="search.results.savesearch.help" /></li>	
 					</ul>
 					</div>				
-					<div class="linkToMoreHelp"><fmt:message key="search.results.help.more" />&nbsp;<a href="help/search-results" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
+					<div class="linkToMoreHelp"><fmt:message key="search.results.help.more" />&nbsp;<a href="${helpUrl}/search-results" target="blank"><fmt:message key="search.help.more.link" /></a>.</div>
 				</div>
 			</div>							
 			<form:form id="newSearchForm" name="eadSearchForm" commandName="eadSearch" method="post"
