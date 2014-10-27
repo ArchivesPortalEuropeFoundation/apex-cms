@@ -17,18 +17,24 @@
 
 #tags li a {
 	text-decoration: none;
-	padding: 0 2px;
+	padding: 0 4px;
+}
+
+#tags li span {
+	text-decoration: none;
+	padding: 0 4px;
+	color: #BDBDBD;
 }
 
 #tags li a:hover {
 	text-decoration: underline;
 }
 
-.tag1 {
+.tag5 {
 	font-size: 100%;
 }
 
-.tag2 {
+.tag4 {
 	font-size: 120%;
 }
 
@@ -36,15 +42,15 @@
 	font-size: 140%;
 }
 
-.tag4 {
+.tag2 {
 	font-size: 160%;
 }
 
-.tag5 {
+.tag1 {
 	font-size: 180%;
 }
 
-#tags li.tag2  a {
+#tags li.tag4  a {
 	color: #66594a;
 }
 
@@ -52,14 +58,14 @@
 	color: #00a0df;
 }
 
-#tags li.tag4  a {
+#tags li.tag2  a {
 	color: #f58d0f;
 }
 
-#tags li.tag1  a {
+#tags li.tag5  a {
 	color: #b23062;
 }
 
-#tags li.tag5  a {
+#tags li.tag1  a {
 	color: #b23062;
 }
