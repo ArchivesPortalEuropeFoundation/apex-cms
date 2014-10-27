@@ -29,7 +29,9 @@ public final class FriendlyUrlUtil {
 	public static final String SEARCH = "ead-search";
 	public static final String WIDGET_EAD_SEARCH = "widget-ead-search";
 	public static final String WIDGET_SAVED_SEARCH = "widget-saved-search";
+	public static final String TOPIC_SEARCH = "topic-search";
 	public static final String SAVED_SEARCH = "saved-search";
+	public static final String HELP_PAGES = "help-pages";
 	public static final String SAVED_SEARCH_OVERVIEW = "saved-search-overview";
 	public static final String SAVED_BOOKMARKS = "saved-bookmarks";
 	public static final String SAVED_BOOKMARKS_OVERVIEW = "saved-bookmarks-overview";
@@ -53,6 +55,8 @@ public final class FriendlyUrlUtil {
 		urls.put(WIDGET_EAD_SEARCH, "/search/-/s/n");
 		urls.put(WIDGET_SAVED_SEARCH, "/search/-/s/d");		
 		urls.put(SAVED_SEARCH, "/search/-/s/d");
+		urls.put(TOPIC_SEARCH, "/search/-/s/n/topic");
+		urls.put(HELP_PAGES, "/help");			
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
 		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/savedbookmarks/-/sb");
