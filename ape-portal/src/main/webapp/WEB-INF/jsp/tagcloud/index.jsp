@@ -1,24 +1,24 @@
-<h2>
-	Explore our topics:</h2>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
+<%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<portlet:defineObjects />
+<portal:friendlyUrl var="searchUrl" type="widget-ead-search" noHttps="true"/>
+<div id="tagcloudPortlet">
+
+<h2><fmt:message key="tagcloud.topics.title"/>:</h2>
 <div id="tags">
 	<ul>
-		<li class="tag4">
-			<a href="/search/-/s/n/topic/first.world.war">First World War</a></li>
-		<li class="tag2">
-			<a href="/search/-/s/n/topic/state.collection">State Collection</a></li>
-		<li class="tag1">
-			<a href="#">Politics</a></li>
-		<li class="tag3">
-			<a href="/search/-/s/n/topic/gbr">German Democratic Republic</a></li>
-		<li class="tag5">
-			<a href="/search/-/s/n/topic/middle.ages">Middle Ages</a></li>
-		<li class="tag1">
-			<a href="/search/-/s/n/topic/slave.trade">Slavery Trade</a></li>
-		<li class="tag4">
-			<a href="/search/-/s/n/topic/second.world.war">Second World War</a></li>
-		<li class="tag3">
-			<a href="/search/-/s/n/topic/cold.war">Cold War</a></li>
-		<li class="tag2">
-			<a href="/search/-/s/n/topic/slavery">Slavery</a></li>
+		<c:forEach var="tag" items="${tags}">
+			<c:choose>
+				<c:when test="${tag.enabled}">
+					<li class="${tag.cssClass}"><a href="${url}${tag.key}">${tag.name}</a></li>				
+				</c:when>
+				<c:otherwise><li class="${tag.cssClass}"><span>${tag.name}</span></li></c:otherwise>
+			</c:choose>
+		</c:forEach>	
 	</ul>
+</div>
 </div>
