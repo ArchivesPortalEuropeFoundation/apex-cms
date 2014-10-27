@@ -29,6 +29,12 @@ public class ListFacetSettings {
 		this.oneValueAllowed = oneValueAllowed;
 		this.mincount = mincount;
 	}
+	public ListFacetSettings(FacetType facet, boolean oneValueAllowed, Integer mincount, Integer limit){
+		this.facet = facet;
+		this.oneValueAllowed = oneValueAllowed;
+		this.mincount = mincount;
+		this.limit = limit;
+	}
 	public ListFacetSettings(FacetType facet){
 		this.facet = facet;
 	}
