@@ -94,7 +94,15 @@
 				<span class="icon_print">&nbsp;</span>
 			</a>
 		</div>
-		
+		<!-- Save bookmarks section. -->
+		<div id="bookmarksArea" class="linkButton">
+			<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
+			<div id="bookmarkEacCpf">
+	 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
+			</div>
+		</div>
+	
+
 		<!-- share section. -->
 		<div id="shareButton" class="linkButton">
 			<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
@@ -122,6 +130,9 @@
 		</div>
 	</div>
 
+	<div id="bookmarkAnswer">
+		<div id="bookmarkContent" class="hidden"></div>
+	</div>
 
 	<!-- Display of the apeEAC-CPF content. -->
 	<div id="eaccpfcontent">
