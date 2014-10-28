@@ -95,7 +95,7 @@ public class SavedSearchController {
 			Long liferayUserId = Long.parseLong(principal.toString());
 			EadSavedSearch eadSavedSearch = eadSavedSearchDAO.getEadSavedSearch(Long.parseLong(savedSearch.getId()), liferayUserId);
 			if (eadSavedSearch.getLiferayUserId() == liferayUserId){
-				eadSavedSearch.setDescription(savedSearch.getDescription());
+				eadSavedSearch.setDescription(SavedSearchService.removeEmptyString(savedSearch.getDescription()));
 				if (! EadSearch.SEARCH_ALL_STRING.equals(eadSavedSearch.getSearchTerm())){
 					eadSavedSearch.setPublicSearch(savedSearch.isPublicSearch());
 				}

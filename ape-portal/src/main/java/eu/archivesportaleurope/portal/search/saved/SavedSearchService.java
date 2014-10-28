@@ -322,7 +322,7 @@ public class SavedSearchService {
 		}
 	}
 
-	private static String removeEmptyString(String string) {
+	public static String removeEmptyString(String string) {
 		if (StringUtils.isBlank(string)) {
 			return null;
 		} else {
