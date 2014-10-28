@@ -159,7 +159,8 @@ function eraseList(){
 function eraseEmptyTitleSection(){
 	
 	$(".blockPlural").find(".blockSingular:empty").each(function(){
-		removeNodeAndTitle($(this));
+		//removeNodeAndTitle($(this));
+		$(this).remove();
 	});
 	
 	$(".section").each(function(){
