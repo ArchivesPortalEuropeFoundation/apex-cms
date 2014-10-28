@@ -4,6 +4,8 @@ package eu.archivesportaleurope.portal.common.email;
 
 
 
+import org.apache.commons.lang.StringUtils;
+
 import eu.apenet.commons.infraestructure.EmailComposer;
 import eu.apenet.commons.infraestructure.EmailComposer.Priority;
 import eu.apenet.commons.infraestructure.Emailer;
@@ -85,12 +87,16 @@ public final class EmailSender {
 		String ccEmail = null;
 		String name = "UNKNOWN";
 		String archivalInstitutionName = archivalInstitution.getAiname();
-		if (archivalInstitution != null && archivalInstitution.getPartner() != null) {
+		if (archivalInstitution != null && StringUtils.isNotBlank(archivalInstitution.getFeedbackEmail())){
+			toEmail = archivalInstitution.getFeedbackEmail();
+			name = archivalInstitutionName;
+		}
+		if (archivalInstitution != null && archivalInstitution.getPartner() != null && toEmail == null) {
 			toEmail = archivalInstitution.getPartner() .getEmailAddress();
 			name = archivalInstitution.getPartner().getName();
 		}
 		if (archivalInstitution != null && countryManager != null) {
-			if (archivalInstitution.getPartner()  == null){
+			if (toEmail  == null){
 				toEmail = countryManager.getEmailAddress();
 				name = countryManager.getName();
 			}else {
