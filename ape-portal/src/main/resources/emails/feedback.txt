@@ -1,4 +1,4 @@
-Dear ${name} of ${archivalInstitution},
+Dear ${archivalInstitution},
 
 The user:
 Username: ${username}
