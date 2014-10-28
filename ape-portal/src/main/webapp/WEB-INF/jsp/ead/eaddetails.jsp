@@ -64,14 +64,6 @@
 		</c:otherwise>
 	</c:choose>
 	
-	<!-- Save bookmarks section. -->
-	<div id="bookmarksArea">
-		<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
-		<div id="bookmarkEad" class="linkButton">
- 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'ead')"><fmt:message key="bookmark.this" /></a>
-		</div>
-<!-- 		<div id="bookmarkContent" class="hidden"></div> -->
-	</div>
 		
 	<!-- share section. -->
 	<div id="shareButton" class="linkButton">
@@ -81,9 +73,6 @@
 	
 </div>
 
-<div id="bookmarkAnswer">
-	<div id="bookmarkContent" class="hidden"></div>
-</div>
 
 <div id="eaddetailsContent">
 	<c:choose>
