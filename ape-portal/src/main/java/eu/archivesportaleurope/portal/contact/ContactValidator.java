@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import eu.apenet.commons.utils.APEnetUtilities;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 
@@ -20,8 +21,6 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
  * @author Yoann Moranville
  */
 public class ContactValidator implements Validator {
-	private static final Pattern EMAIL_PATTERN = Pattern
-			.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
 
 	private boolean loggedIn = false;
 	private boolean feedback = false;
@@ -51,7 +50,7 @@ public class ContactValidator implements Validator {
 									// check(rejectIfEmptyOrWhitespace), prevent
 									// repeated messages
 				// RFC regexp for emails
-				Matcher matcher = EMAIL_PATTERN.matcher(email);
+				Matcher matcher = APEnetUtilities.EMAIL_PATTERN.matcher(email);
 				if (!matcher.find()) {
 					errors.rejectValue("email", "feedback.error.email");
 				}
