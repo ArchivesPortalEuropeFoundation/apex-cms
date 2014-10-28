@@ -181,9 +181,14 @@
 	padding-top:20px;
 	width:98%;
 }
-#eacCpfDisplayPortlet .box{
+#alternative{
 	margin-bottom:15px;
 }
+
+.box{
+	margin-bottom: 5px;
+}
+
 #eacCpfDisplayPortlet .box .boxtitle {
 	cursor:pointer;
 }
