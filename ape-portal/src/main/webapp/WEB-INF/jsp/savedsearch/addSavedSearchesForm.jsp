@@ -16,13 +16,13 @@
 </portlet:renderURL>
 <portlet:renderURL var="myCollections" />
 <div id="mycollectionPortletDiv">
-	<portlet:renderURL var="addBookmarksTo">
-	<portlet:param name="myaction" value="addBookmarksTo" />
-	<portlet:param name="savedBookmark_id" value="${savedBookmark.id}" />
+	<portlet:renderURL var="addSearchesTo">
+	<portlet:param name="myaction" value="addSearchesTo" />
+	<portlet:param name="eadSavedSearches_id" value="${savedSearch.id}" />
 	<portlet:param name="overviewPageNumber" value="${pageNumber}" />
 	</portlet:renderURL>
 	
-	<form name="frm" method="post" action="${addBookmarksTo}">
+	<form name="frm" method="post" action="${addSearchesTo}">
 		<c:choose>
 		<c:when test="${not empty collections}">
 			<div class="collectionPaginator">

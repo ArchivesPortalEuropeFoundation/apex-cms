@@ -239,7 +239,7 @@ public class BookmarkController {
  			}
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
-	 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"",false);
+	 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"none",false);
 	 			List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
 	 			//irterate collection to check if bookmark exists
 	 			Iterator<Collection> itcollections = collections.iterator();
@@ -311,7 +311,7 @@ public class BookmarkController {
 				//if bookmark id is not null and collections list is not empty call to the method
 				if(!collectionsList.isEmpty() && savedBookmarkId !=null){
 					if(addbookmarkToCollections(collectionsList, savedBookmarkId, liferayUserId)){
-			 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"",false);
+			 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"none",false);
 			 			List<Collection> collectionsWithBookmark=new ArrayList<Collection>();
 			 			//irterate collection to check if bookmark exists
 			 			Iterator<Collection> itcollections = collections.iterator();

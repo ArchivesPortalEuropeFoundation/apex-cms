@@ -44,7 +44,10 @@
 			<c:forEach var="collection" items="${collections}" varStatus="counter">
 				<div class="collectionField" id="collectionField_${counter}">
 					<div class="collectionFieldTitle collectionContent">
-						<a href="${myCollectionUrl}&id=${collection.id}"><c:out value="${collection.title}"/></a>
+						<c:out value="${collection.title}"/>
+					</div>
+					<div class="collectionFieldTitle collectionContent">
+						<c:out value="${collection.description}"/>
 					</div>
 				</div>
 			</c:forEach>

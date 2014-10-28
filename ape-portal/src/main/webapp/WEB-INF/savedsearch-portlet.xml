@@ -19,6 +19,8 @@
 		class="eu.archivesportaleurope.portal.search.saved.SavedSearchController">
 		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
 		<property name="messageSource" ref="messageSource"></property>
+         <property name="collectionDAO" ref="collectionDAO"></property>
+         <property name="collectionContentDAO" ref="collectionContentDAO"></property>
 	</bean>
 
 		

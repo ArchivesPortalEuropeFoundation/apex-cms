@@ -28,23 +28,11 @@
 				<div class="boxtitle">
 					<div class="numberOfPages">
 						<ape:pageDescription numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
-					</div>
-					
-			<%-- <div id="top-paging" class="paging">
-				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-				refreshUrl="${orderResultsUrl}/{pageNumber}" pageNumberId="pageNumber" liferayFriendlyUrl="true"/>
-			</div>
-					
-			<div id="child-paging" class="paging">
-				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-				refreshUrl="javascript:updatePageNumberCollectionBookmarks('${getNewBookmarksUrl}');" pageNumberId="pageNumber" />
-			</div> --%>
-			
-			<div id="child-paging" class="paging">
-				<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-					refreshUrl="${myCollections}" pageNumberId="pageNumber" />
-			</div>
-				
+					</div>		
+				<div id="child-paging" class="paging">
+					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+						refreshUrl="${myCollections}" pageNumberId="pageNumber" />
+				</div>
 				</div>
 				<input id="orderToSet" type="hidden" value="${orderAsc}">
 				<table id="savedCollectionsTable" class="defaultlayout"> 

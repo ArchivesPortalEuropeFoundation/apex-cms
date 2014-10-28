@@ -187,7 +187,6 @@ public class CollectionController {
 		modelAndView.setViewName("currentSearch");
 		// params
 		modelAndView.getModelMap().addAttribute("edit",(StringUtils.isNotBlank(request.getParameter("edit")) && new Boolean(request.getParameter("edit"))));
-		
 		User user = (User) request.getAttribute(WebKeys.USER);
 		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
@@ -211,7 +210,6 @@ public class CollectionController {
 		modelAndView.setViewName("currentBookmark");
 		// params
 		modelAndView.getModelMap().addAttribute("edit",(StringUtils.isNotBlank(request.getParameter("edit")) && new Boolean(request.getParameter("edit"))));
-		
 		User user = (User) request.getAttribute(WebKeys.USER);
 		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
@@ -320,7 +318,6 @@ public class CollectionController {
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
 			Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
-			User user = (User) request.getAttribute(WebKeys.USER);
 			boolean public_ = (request.getParameter("collectionField_public")!=null && new String(request.getParameter("collectionField_public")).equals("on"));
 			boolean edit = (request.getParameter("collectionField_edit")!=null && new String(request.getParameter("collectionField_edit")).equals("on"));
 			String title = request.getParameter("collectionTitle");
@@ -442,7 +439,6 @@ public class CollectionController {
 		Principal principal = request.getUserPrincipal();
 		String title = request.getParameter("collectionTitle");
 		String description = request.getParameter("collectionDescription");
-		User user = (User) request.getAttribute(WebKeys.USER);
 		boolean public_ = (request.getParameter("collectionField_public")!=null && new String(request.getParameter("collectionField_public")).equals("on"));
 		boolean edit = (request.getParameter("collectionField_edit")!=null && new String(request.getParameter("collectionField_edit")).equals("on"));
 		Collection newCollection = new Collection();
