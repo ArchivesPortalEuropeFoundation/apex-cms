@@ -28,8 +28,11 @@ function init(){
 }
 
 function drawListDiscs(){
-	if($("div").find("#eacCpfDisplayPortlet li.item").length==1){
-		$("div").find("#eacCpfDisplayPortlet li.item").css("list-style","none outside none");
+	if($("div#structureOrGenealogy").find("li.item").length==1){
+		$("div#structureOrGenealogy").find("li.item").css("list-style","none outside none");
+	}
+	if($("div#generalContext").find("li.item").length==1){
+		$("div#generalContext").find("li.item").css("list-style","none outside none");
 	}
 }
 function initPrint(){
