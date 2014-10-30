@@ -63,8 +63,8 @@ function eraseDuplicatedArchivalLi(){
 	});
 	
 	var textToBeChanged = $("div#archives .boxtitle").find("span.text").text();
-	if($.inArray("(",textToBeChanged) && $.inArray(")",textToBeChanged)){
-		textToBeChanged = textToBeChanged.substring(0,$.inArray("(",textToBeChanged));
+	if (textToBeChanged.indexOf("(") != -1 && textToBeChanged.indexOf(")") != -1) {
+		textToBeChanged = textToBeChanged.substring(0, textToBeChanged.indexOf("("));
 		textToBeChanged += "("+$("div#archives").find("li").length+")";
 		$("div#archives .boxtitle").find("span.text").html(textToBeChanged);
 	}
