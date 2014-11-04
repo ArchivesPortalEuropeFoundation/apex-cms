@@ -9,7 +9,6 @@
 <portlet:defineObjects />
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
 <c:set var="id"><c:out value="${param['id']}" /></c:set>
-<c:set var="term"><c:out value="${param['term']}" /></c:set>
 
 <div id="content">	
 	<div id="realcontent">

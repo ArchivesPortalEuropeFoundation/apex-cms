@@ -7,7 +7,6 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
 <portlet:defineObjects />
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
-<c:set var="term"><c:out value="${param['term']}" /></c:set>
 <portal:eadPersistentLink var="secondDisplayUrl" repoCode="${aiRepoCode}" xmlTypeName="fa" eadid=""/>		
 
 <div id="content">
