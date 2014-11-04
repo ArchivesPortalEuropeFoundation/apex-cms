@@ -19,6 +19,7 @@ import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  *
@@ -42,12 +43,13 @@ public class DisplayPreviewContoller {
 	public ModelAndView displayPreview(ResourceRequest resourceRequest) {
 		String eacCpfIdentifier = resourceRequest.getParameter("identifier");
 		String repositoryCode = resourceRequest.getParameter("repositoryCode");
+		String term = ApeUtil.decodeSpecialCharacters(resourceRequest.getParameter("term"));
 		//navigator's lang
 		HttpServletRequest request = PortalUtil.getHttpServletRequest(resourceRequest);
     	String langNavigator = request.getHeader("Accept-Language").substring(0, 2);	
 		try {
 			if (StringUtils.isNotBlank(eacCpfIdentifier) && StringUtils.isNotBlank(repositoryCode)) {
-				return fillEacCpfDetails(repositoryCode, eacCpfIdentifier, langNavigator);
+				return fillEacCpfDetails(repositoryCode, eacCpfIdentifier, langNavigator, term);
 			}else {
 				throw new NotExistInDatabaseException();
 			}
@@ -63,7 +65,7 @@ public class DisplayPreviewContoller {
 		return null;
 	}
 
-	private ModelAndView fillEacCpfDetails(String repositoryCode, String eacCpfIdentifier, String langNavigator) throws IOException, NotExistInDatabaseException {
+	private ModelAndView fillEacCpfDetails(String repositoryCode, String eacCpfIdentifier, String langNavigator, String term) throws IOException, NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		modelAndView.setViewName("preview/eaccpf");
@@ -76,7 +78,7 @@ public class DisplayPreviewContoller {
 		
 		File file= new File(eacCpfPath);
 		if (file.exists()){
-			
+			modelAndView.getModelMap().addAttribute("term", term);
 			modelAndView.getModelMap().addAttribute("eacCpf", eacCpf);
 			modelAndView.getModelMap().addAttribute("eacCpfUrl", eacCpfPath);
 			modelAndView.getModelMap().addAttribute("langNavigator", langNavigator);
