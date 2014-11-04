@@ -50,6 +50,7 @@ public class FeedbackController {
     		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitution(Integer.parseInt(contact.getAiId()));
     		contact.setInstitution(PortalDisplayUtil.replaceQuotesAndReturns(archivalInstitution.getAiname()));
     		contact.setRepoCode(archivalInstitution.getRepositorycode());
+    		contact = fixContactCharacters(contact);
         }
     	if (loggedIn){
     		com.liferay.portal.model.User currentUser = PortalUtil.getUser(request);
@@ -57,8 +58,6 @@ public class FeedbackController {
     	}
         return modelAndView;
     }
-
-
 	
     @ModelAttribute("contact")
     public Contact getCommandObject() {
@@ -75,6 +74,7 @@ public class FeedbackController {
 		if (result.hasErrors()){
 			 modelAndView.setViewName("feedback");
 		}else {
+			contact = fixContactCharacters(contact);
 			com.liferay.portal.model.User currentUser = null;
         	if (loggedIn){
         		currentUser = PortalUtil.getUser(request);
@@ -104,4 +104,12 @@ public class FeedbackController {
 		}
 		return modelAndView;
     }
+    
+	private Contact fixContactCharacters(Contact contact){
+		if(contact!=null){
+			contact.setTitle(PortalDisplayUtil.replaceHTMLDoubleAndSingleQuotes(contact.getTitle()));
+			contact.setInstitution(PortalDisplayUtil.replaceHTMLDoubleAndSingleQuotes(contact.getInstitution()));
+		}
+		return contact;
+	}
 }

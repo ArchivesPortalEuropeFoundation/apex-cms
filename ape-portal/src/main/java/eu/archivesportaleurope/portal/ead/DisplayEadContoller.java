@@ -285,7 +285,7 @@ public class DisplayEadContoller {
 					return modelAndView;
 				}
 				EadContent eadContent = ead.getEadContent();
-				String documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle());
+				String documentTitle = PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
 				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 				PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
 				XmlType xmlType = XmlType.getContentType(ead);
@@ -349,7 +349,8 @@ public class DisplayEadContoller {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
 		
-		documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle);
+		documentTitle = PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle));
+
 		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 		PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);

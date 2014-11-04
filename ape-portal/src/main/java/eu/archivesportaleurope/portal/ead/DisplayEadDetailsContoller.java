@@ -119,7 +119,7 @@ public class DisplayEadDetailsContoller {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
 		EadContent eadContent = currentCLevel.getEadContent();
-		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
+		documentTitle = PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle));
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);

@@ -69,6 +69,30 @@ public class PortalDisplayUtil {
 		}
 		return result;
 	}
+	
+	public static String replaceDoubleAndSingleQuotes(String quotedText){
+		if(quotedText!=null){
+			if(quotedText.contains("\"")){
+				quotedText = quotedText.replace("\"","&quote;");
+			}
+			if(quotedText.contains("'")){
+				quotedText = quotedText.replace("'","&#x27;");
+			}
+		}
+		return quotedText;
+	}
+	
+	public static String replaceHTMLDoubleAndSingleQuotes(String quotedText){
+		if(quotedText!=null){
+			if(quotedText.contains("&quote;")){
+				quotedText = quotedText.replace("&quote;","\"");
+			}
+			if(quotedText.contains("&#x27;")){
+				quotedText = quotedText.replace("&#x27;","'");
+			}
+		}
+		return quotedText;
+	}
 
 	public static String replaceLessThan(String string){
 		if (string != null){
@@ -107,7 +131,7 @@ public class PortalDisplayUtil {
 		}
 	}
 	public static String getEacCpfDisplayTitle(EacCpf eacCpf){
-		return PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER);
+		return PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER));
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
 		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);

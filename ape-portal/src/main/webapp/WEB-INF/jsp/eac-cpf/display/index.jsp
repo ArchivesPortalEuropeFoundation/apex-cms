@@ -69,7 +69,8 @@
 	 };
 
 	$(document).ready(function() {
-		document.title = "${documentTitle}";
+		var title = "${documentTitle}";
+		$("title").html($("<div />").html(title).text());
 		init();	
 		makeRelationsCollapsible();
 	});
@@ -142,7 +143,7 @@
 	<!-- User's feedback section. -->
 	<div id="feedbackArea">
 		<div id="sendFeedbackButton" class="linkButton">
- 			<a href="javascript:showFeedback('${feedbackUrl}', '${aiId}', '${documentTitle}','${url}','${recaptchaPubKey}')"><fmt:message key="label.feedback" /></a>	
+ 			<a href='javascript:showFeedback("<c:out value='${feedbackUrl}' />", "<c:out value='${aiId}' />", "<c:out value='${documentTitle}' />","<c:out value='${url}' />","<c:out value='${recaptchaPubKey}' />")'><fmt:message key="label.feedback" /></a>	
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 	</div>
