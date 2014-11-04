@@ -71,15 +71,14 @@ public class AbstractSearchController {
 	}
 
 	private boolean validateTerm(String string){
-		return !string.trim().matches(REGEX);
-//		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(string.trim());
-//		while (matcher.find()) {
-//			String word = matcher.group();
-//			if (word.matches(REGEX)){
-//				return false;
-//			}
-//		}
-//		return true;
+		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(string.trim());
+		while (matcher.find()) {
+			String word = matcher.group();
+			if (word.matches(REGEX)){
+				return false;
+			}
+		}
+		return true;
 	}
 	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
