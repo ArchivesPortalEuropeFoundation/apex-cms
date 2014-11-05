@@ -10,7 +10,6 @@
 <c:set var="identifier"><c:out value="${param['identifier']}" /></c:set>
 <c:set var="repositoryCode"><c:out value="${param['repositoryCode']}" /></c:set>
 <c:set var="element"><c:out value="${param['element']}" /></c:set>
-<c:set var="term"><c:out value="${param['term']}" /></c:set>
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
 <portal:friendlyUrl var="eacUrlBase" type="eac-display"/>
 <portal:friendlyUrl var="eadUrl" type="eaddisplay-persistent-archdesc"/>
