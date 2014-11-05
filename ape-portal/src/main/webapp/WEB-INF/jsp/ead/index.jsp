@@ -12,10 +12,10 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,element,term"><portlet:resourceURL id="eadTree">
 	<portlet:param name="solrId" value="${solrId}" />
-	<portlet:param name="ecId" value="${ead.eadContent.ecId}" />
+	<portlet:param name="ecId" value="${eadContent.ecId}" />
 </portlet:resourceURL></portal:removeParameters>
 <portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode"><portlet:resourceURL  id="displayEadDetails">
-	<portlet:param name="ecId" value="${ead.eadContent.ecId}" />
+	<portlet:param name="ecId" value="${eadContent.ecId}" />
 </portlet:resourceURL></portal:removeParameters>
 
 
