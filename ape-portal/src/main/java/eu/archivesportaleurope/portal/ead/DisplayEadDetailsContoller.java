@@ -39,10 +39,9 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
  */
 @Controller(value = "displayEadDetailsController")
 @RequestMapping(value = "VIEW")
-public class DisplayEadDetailsContoller {
+public class DisplayEadDetailsContoller extends AbstractEadController {
 	private static final int PAGE_SIZE = 10;
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadDetailsContoller.class);
-	private CLevelDAO clevelDAO;
 	private EadContentDAO eadContentDAO;
 	private MessageSource messageSource;
 	
@@ -58,9 +57,6 @@ public class DisplayEadDetailsContoller {
 		this.eadContentDAO = eadContentDAO;
 	}
 
-	public void setClevelDAO(CLevelDAO clevelDAO) {
-		this.clevelDAO = clevelDAO;
-	}
 
 	@ResourceMapping(value = "displayEadDetails")
 	public ModelAndView displayDetails(@ModelAttribute(value = "eadDetailsParams") EadDetailsParams eadDetailsParams, ResourceRequest resourceRequest) {
@@ -92,43 +88,9 @@ public class DisplayEadDetailsContoller {
 		} else {
 			id = Long.parseLong(eadDetailsParams.getId());
 		}
-		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.CDETAILS_XSLT);
-		CLevel currentCLevel = clevelDAO.findById(id);
-		Integer pageNumberInt = 1;
-		if (eadDetailsParams.getPageNumber() != null) {
-			pageNumberInt = eadDetailsParams.getPageNumber();
-		}
-		int orderId = (pageNumberInt - 1) * PAGE_SIZE;
-		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getClId(), orderId, PAGE_SIZE);
-		Long totalNumberOfChildren = clevelDAO.countChildCLevels(id);
-		StringBuilder builder = new StringBuilder();
-		builder.append("<c xmlns=\"urn:isbn:1-931666-22-9\">");
-		for (CLevel child : children) {
-			builder.append(child.getXml());
-		}
-		builder.append("</c>");
-		ArchivalInstitution archivalInstitution = currentCLevel.getEadContent().getEad().getArchivalInstitution();
-		modelAndView.getModelMap().addAttribute("c", currentCLevel);
-		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
-		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
-		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
-		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
-		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-				portletRequest.getLocale());
-		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
-		String documentTitle = currentCLevel.getUnittitle();
-		EadContent eadContent = currentCLevel.getEadContent();
-		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
-		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
-		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-		XmlType xmlType = XmlType.getContentType(eadContent.getEad());
-		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
+		CLevel currentCLevel = getClevelDAO().findById(id);
+		fillCDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(),modelAndView );
 		modelAndView.setViewName("eaddetails");
-		modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
-		modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 		return modelAndView;
 	}
 
@@ -137,23 +99,8 @@ public class DisplayEadDetailsContoller {
 		if (eadDetailsParams.getEcId() != null) {
 			EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
 			if (eadContent != null) {
-				modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);	
-				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-						portletRequest.getLocale());
-				ArchivalInstitution archivalInstitution = eadContent.getEad().getArchivalInstitution();
-				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
-				String documentTitle = eadContent.getUnittitle();
-				documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
-				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
-				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-				XmlType xmlType = XmlType.getContentType(eadContent.getEad());
-				modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
+				fillEadDetails(eadContent,portletRequest, modelAndView);
 				modelAndView.setViewName("eaddetails");
-				modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
-				modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());
 				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
