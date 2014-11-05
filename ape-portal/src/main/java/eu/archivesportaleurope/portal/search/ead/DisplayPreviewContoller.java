@@ -22,6 +22,7 @@ import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
+import eu.archivesportaleurope.util.ApeUtil;
 
 /**
  *
@@ -46,12 +47,13 @@ public class DisplayPreviewContoller {
 	@ResourceMapping(value = "displayPreview")
 	public ModelAndView displayPreview(ResourceRequest resourceRequest) {
 		String id = resourceRequest.getParameter("id");
+		String term = ApeUtil.decodeSpecialCharacters(resourceRequest.getParameter("term"));
 		try {
 			if (StringUtils.isNotBlank(id)) {
 				if (id.startsWith(SolrValues.C_LEVEL_PREFIX)) {
 					Long idLong = new Long(id.substring(1));
 					if (id.startsWith(SolrValues.C_LEVEL_PREFIX))
-						return fillCDetails(idLong);
+						return fillCDetails(idLong, term);
 
 				} else {
 					String solrPrefix = id.substring(0, 1);
@@ -61,6 +63,7 @@ public class DisplayPreviewContoller {
 						ModelAndView modelAndView = new ModelAndView();
 						modelAndView.setViewName("preview/frontpage");
 						modelAndView.getModelMap().addAttribute("xmlType", xmlType);
+						modelAndView.getModelMap().addAttribute("term", term);
 						EadContent eadContent = eadContentDAO.getEadContentByFileId(idLong.intValue(), xmlType.getEadClazz());
 						if (eadContent == null) {
 							throw new NotExistInDatabaseException(id);
@@ -102,7 +105,7 @@ public class DisplayPreviewContoller {
 		return modelAndView;
 	}
 
-	private ModelAndView fillCDetails(Long idLong) throws NotExistInDatabaseException {
+	private ModelAndView fillCDetails(Long idLong, String term) throws NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("preview/cdetails");
 		CLevel currentCLevel = clevelDAO.findById(idLong);
@@ -112,6 +115,7 @@ public class DisplayPreviewContoller {
 		Ead ead = currentCLevel.getEadContent().getEad();
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
 		XmlType xmlType = XmlType.getContentType(ead);
+		modelAndView.getModelMap().addAttribute("term", term);
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
