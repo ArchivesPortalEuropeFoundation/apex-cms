@@ -94,7 +94,6 @@ public class DisplayEadContoller extends AbstractEadController{
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (xmlType != null){
 				if (StringUtils.isNotBlank(eadParams.getUnitid())){
-					LOGGER.info(eadParams.getUnitid());
 					List<CLevel> clevels = getClevelDAO().getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getUnitid());
 					int size = clevels.size();
 					
@@ -219,7 +218,6 @@ public class DisplayEadContoller extends AbstractEadController{
 
 	public ModelAndView displayEadDetails(RenderRequest renderRequest, EadParams eadParams, ModelAndView modelAndView,
 			Ead ead) {
-		ArchivalInstitution archivalInstitution = null;
 		try {
 
 			if (ead == null) {
@@ -227,30 +225,18 @@ public class DisplayEadContoller extends AbstractEadController{
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				if (ead.isPublished()) {
-					archivalInstitution = ead.getArchivalInstitution();
-				} else {
+				if (!ead.isPublished()) {
 					// LOGGER.info("Found not indexed EAD in second display");
 					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
 					modelAndView.setViewName("indexError");
 					return modelAndView;
 				}
 				EadContent eadContent = ead.getEadContent();
-				fillEadDetails(eadContent, renderRequest, modelAndView);
 				if(PortalDisplayUtil.isNotDesktopBrowser(renderRequest)){
-					Integer pageNumberInt = 1;
-					if (eadParams.getPageNumber() != null) {
-						pageNumberInt = eadParams.getPageNumber();
-					}
-					int orderId = (pageNumberInt - 1) * PAGE_SIZE;
-					Long totalNumberOfChildren = getClevelDAO().countTopCLevels(eadContent.getEcId());
-					List<CLevel> children =  getClevelDAO().findTopCLevels(eadContent.getEcId(), orderId, PAGE_SIZE);
-					modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
-					modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
-					modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
-					modelAndView.getModelMap().addAttribute("children", children);
+					fillEadDetails(eadContent, renderRequest, eadParams.getPageNumber(), modelAndView, true);
 					modelAndView.setViewName("eaddetails-noscript");
 				}else {
+					fillEadDetails(eadContent, renderRequest,null, modelAndView, false);
 					modelAndView.setViewName("index");
 				}
 				return modelAndView;
@@ -267,10 +253,12 @@ public class DisplayEadContoller extends AbstractEadController{
 
 	private ModelAndView displayCDetails(RenderRequest renderRequest, EadParams eadParams, ModelAndView modelAndView,
 			Ead ead, CLevel currentCLevel) {
-		fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView);
+
 		if(PortalDisplayUtil.isNotDesktopBrowser(renderRequest)){
+			fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView,true);
 			modelAndView.setViewName("eaddetails-noscript");
 		}else {
+			fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView,false);
 			modelAndView.setViewName("index");
 		}
 		return modelAndView;

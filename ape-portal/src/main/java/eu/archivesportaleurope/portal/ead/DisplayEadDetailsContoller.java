@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.ead;
 
-import java.util.List;
-
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
@@ -17,18 +15,9 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
-import eu.apenet.commons.types.XmlType;
-import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
-import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
-import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.common.PropertiesKeys;
-import eu.archivesportaleurope.portal.common.PropertiesUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 /**
  * 
@@ -40,7 +29,6 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 @Controller(value = "displayEadDetailsController")
 @RequestMapping(value = "VIEW")
 public class DisplayEadDetailsContoller extends AbstractEadController {
-	private static final int PAGE_SIZE = 10;
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadDetailsContoller.class);
 	private EadContentDAO eadContentDAO;
 	private MessageSource messageSource;
@@ -89,7 +77,7 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
 			id = Long.parseLong(eadDetailsParams.getId());
 		}
 		CLevel currentCLevel = getClevelDAO().findById(id);
-		fillCDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(),modelAndView );
+		fillCDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(),modelAndView, false);
 		modelAndView.setViewName("eaddetails");
 		return modelAndView;
 	}
@@ -99,7 +87,7 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
 		if (eadDetailsParams.getEcId() != null) {
 			EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
 			if (eadContent != null) {
-				fillEadDetails(eadContent,portletRequest, modelAndView);
+				fillEadDetails(eadContent,portletRequest,null, modelAndView, false);
 				modelAndView.setViewName("eaddetails");
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());

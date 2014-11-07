@@ -42,7 +42,7 @@ public class AbstractEadController {
 		return clevelDAO;
 	}
 
-	protected ModelAndView fillCDetails(CLevel currentCLevel, PortletRequest portletRequest, Integer pageNumber, ModelAndView modelAndView) {
+	protected ModelAndView fillCDetails(CLevel currentCLevel, PortletRequest portletRequest, Integer pageNumber, ModelAndView modelAndView, boolean noscript) {
 		Integer pageNumberInt = 1;
 		if (pageNumber != null) {
 			pageNumberInt = pageNumber;
@@ -51,18 +51,23 @@ public class AbstractEadController {
 		int orderId = (pageNumberInt - 1) * PAGE_SIZE;
 		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getClId(), orderId, PAGE_SIZE);
 		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getClId());
-		StringBuilder builder = new StringBuilder();
-		builder.append("<c xmlns=\"urn:isbn:1-931666-22-9\">");
-		for (CLevel child : children) {
-			builder.append(child.getXml());
+		if (noscript){
+			modelAndView.getModelMap().addAttribute("children", children);
+		}else {
+			StringBuilder builder = new StringBuilder();
+			builder.append("<c xmlns=\"urn:isbn:1-931666-22-9\">");
+			for (CLevel child : children) {
+				builder.append(child.getXml());
+			}
+			builder.append("</c>");
+			modelAndView.getModelMap().addAttribute("childXml", builder.toString());			
 		}
-		builder.append("</c>");
-		ArchivalInstitution archivalInstitution = currentCLevel.getEadContent().getEad().getArchivalInstitution();
-		modelAndView.getModelMap().addAttribute("c", currentCLevel);
 		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
-		modelAndView.getModelMap().addAttribute("childXml", builder.toString());
+		ArchivalInstitution archivalInstitution = currentCLevel.getEadContent().getEad().getArchivalInstitution();
+		modelAndView.getModelMap().addAttribute("c", currentCLevel);
+
 		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 				portletRequest.getLocale());
 		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
@@ -82,7 +87,7 @@ public class AbstractEadController {
 		return modelAndView;
 	}
 
-	protected ModelAndView fillEadDetails(EadContent eadContent, PortletRequest portletRequest,ModelAndView modelAndView) {
+	protected ModelAndView fillEadDetails(EadContent eadContent, PortletRequest portletRequest, Integer pageNumber,ModelAndView modelAndView, boolean noscript) {
 		Ead ead = eadContent.getEad();
 		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
 		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
@@ -101,6 +106,19 @@ public class AbstractEadController {
 		modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
 		modelAndView.getModelMap().addAttribute("recaptchaPubKey",
 				PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+		if (noscript){
+			Integer pageNumberInt = 1;
+			if (pageNumber != null) {
+				pageNumberInt = pageNumber;
+			}
+			int orderId = (pageNumberInt - 1) * PAGE_SIZE;
+			Long totalNumberOfChildren = getClevelDAO().countTopCLevels(eadContent.getEcId());
+			List<CLevel> children =  getClevelDAO().findTopCLevels(eadContent.getEcId(), orderId, PAGE_SIZE);
+			modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
+			modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
+			modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
+			modelAndView.getModelMap().addAttribute("children", children);
+		}
 
 		return modelAndView;
 	}
