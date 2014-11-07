@@ -18,11 +18,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
-import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
-import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
@@ -31,7 +27,6 @@ import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 
@@ -45,7 +40,6 @@ import eu.archivesportaleurope.util.ApeUtil;
 @Controller(value = "displayEadController")
 @RequestMapping(value = "VIEW")
 public class DisplayEadContoller extends AbstractEadController{
-	private static final int PAGE_SIZE = 10;
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadContoller.class);
 	private EadDAO eadDAO;
 	private MessageSource messageSource;
