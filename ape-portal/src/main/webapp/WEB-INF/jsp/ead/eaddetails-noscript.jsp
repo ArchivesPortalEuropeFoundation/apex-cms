@@ -24,6 +24,11 @@ $(document).ready(function() {
 </c:set>
 <div id="eadDisplayPortlet">
 	<div class="mobile">
+		<c:if test="${!empty errorMessage}">
+		<div class="error errorHeader">
+			<fmt:message key="${errorMessage}" />
+		</div>
+		</c:if>
 		<h3 id="contextInformation">
 			${localizedCountryName} &gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 		</h3>
