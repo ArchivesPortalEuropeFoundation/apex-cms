@@ -9,6 +9,8 @@ public class EadParams {
 	private String unitid;
 	private String element;
 	private String term;
+	private String position;
+	private String cid;
 
 
 	public String getDatabaseId() {
@@ -73,6 +75,22 @@ public class EadParams {
 
 	public void setTerm(String term) {
 		this.term = term;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public String getCid() {
+		return cid;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 
 }

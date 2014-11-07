@@ -1,6 +1,8 @@
 package eu.archivesportaleurope.portal.ead;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -40,7 +42,10 @@ import eu.archivesportaleurope.util.ApeUtil;
 @Controller(value = "displayEadController")
 @RequestMapping(value = "VIEW")
 public class DisplayEadContoller extends AbstractEadController {
+	private static final String UNKNOWN = "UNKNOWN";
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadContoller.class);
+	private static final Pattern POSITION_REGEX = Pattern.compile("c\\d+(-c\\d+){0,9}");
+
 	private EadDAO eadDAO;
 	private MessageSource messageSource;
 
@@ -126,7 +131,7 @@ public class DisplayEadContoller extends AbstractEadController {
 									errorMessage = DISPLAY_EAD_CLEVEL_NOTFOUND;
 								}
 							}
-						}		
+						}
 					}
 					if (ead == null && errorMessage == null) {
 						errorMessage = ERROR_USER_SECOND_DISPLAY_NOTEXIST;
@@ -173,6 +178,52 @@ public class DisplayEadContoller extends AbstractEadController {
 
 	}
 
+	@ActionMapping(params ="myaction=redirectPositionAction")
+	public void redirectPosition(ActionRequest actionRequest, ActionResponse actionResponse, @ModelAttribute(value = "eadParams") EadParams eadParams) {
+		try {
+			if (StringUtils.isNotBlank(eadParams.getRepoCode()) && StringUtils.isNotBlank(eadParams.getEadid()) && StringUtils.isNotBlank(eadParams.getPosition())) {
+				XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
+				Long cLevelId = getCLevelId(eadParams.getRepoCode(),  xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getPosition());
+				EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(eadParams.getRepoCode(), xmlType.getResourceName(), eadParams.getEadid());
+				if (cLevelId == null){
+					eadPersistentUrl.setSearchId(SolrValues.C_LEVEL_PREFIX + UNKNOWN);
+				}else {
+					eadPersistentUrl.setSearchIdAsLong(cLevelId);
+				}
+				String redirectUrl =  FriendlyUrlUtil.getRelativeEadPersistentUrl(actionRequest, eadPersistentUrl);
+				actionResponse.sendRedirect(redirectUrl);
+			}
+		}catch (Exception e) {
+			LOGGER.error("Error in ead display process:" + e.getMessage());
+
+		}
+
+	}
+	private Long getCLevelId(String repositoryCode, Class<? extends Ead> clazz, String identifier, String position){
+	    Matcher m = POSITION_REGEX.matcher(position);
+	    boolean matches =  m.matches();
+	    Long cLevelId = null;
+	    if (matches){
+	    	String[] positions = position.split("-");
+	    	Long parentId = null;
+	    	
+	    	for (int i =0; i < positions.length;i++){
+	    		Integer orderId = Integer.parseInt(positions[i].substring(1));
+	    		
+	    		if (i == 0){
+    				cLevelId = getClevelDAO().getTopCLevelId(repositoryCode, clazz, identifier, orderId); 
+	    		}else {
+    				cLevelId = getClevelDAO().getChildCLevelId(parentId, orderId);
+	    		}
+	    		parentId = cLevelId;
+	    	}
+	    	
+	    	
+	    }
+	    return cLevelId;
+	}
+
+	
 	public EadPersistentUrl generateRedirectUrl(ActionRequest request, EadParams eadParams)
 			throws NotExistInDatabaseException {
 		Ead ead = null;
