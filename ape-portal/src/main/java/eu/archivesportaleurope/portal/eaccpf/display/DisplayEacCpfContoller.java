@@ -36,8 +36,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
@@ -55,7 +53,6 @@ import eu.apenet.persistence.vo.CollectionContent;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
-import eu.archivesportaleurope.portal.bookmark.Bookmark;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;

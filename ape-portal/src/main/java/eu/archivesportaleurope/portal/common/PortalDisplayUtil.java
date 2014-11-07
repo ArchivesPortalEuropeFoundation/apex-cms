@@ -70,11 +70,8 @@ public class PortalDisplayUtil {
 		return result;
 	}
 	
-	public static String replaceDoubleAndSingleQuotes(String quotedText){
+	public static String replaceSingleQuotes(String quotedText){
 		if(quotedText!=null){
-			if(quotedText.contains("\"")){
-				quotedText = quotedText.replace("\"","&quote;");
-			}
 			if(quotedText.contains("'")){
 				quotedText = quotedText.replace("'","&#x27;");
 			}
@@ -82,11 +79,8 @@ public class PortalDisplayUtil {
 		return quotedText;
 	}
 	
-	public static String replaceHTMLDoubleAndSingleQuotes(String quotedText){
+	public static String replaceHTMLSingleQuotes(String quotedText){
 		if(quotedText!=null){
-			if(quotedText.contains("&quote;")){
-				quotedText = quotedText.replace("&quote;","\"");
-			}
 			if(quotedText.contains("&#x27;")){
 				quotedText = quotedText.replace("&#x27;","'");
 			}
@@ -131,10 +125,10 @@ public class PortalDisplayUtil {
 		}
 	}
 	public static String getEacCpfDisplayTitle(EacCpf eacCpf){
-		return PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER));
+		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER));
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
-		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
+		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER));
 	}
 	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
 		if (institution.isGroup()){

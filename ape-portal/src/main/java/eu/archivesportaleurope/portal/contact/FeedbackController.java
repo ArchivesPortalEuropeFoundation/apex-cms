@@ -107,8 +107,8 @@ public class FeedbackController {
     
 	private Contact fixContactCharacters(Contact contact){
 		if(contact!=null){
-			contact.setTitle(PortalDisplayUtil.replaceHTMLDoubleAndSingleQuotes(contact.getTitle()));
-			contact.setInstitution(PortalDisplayUtil.replaceHTMLDoubleAndSingleQuotes(contact.getInstitution()));
+			contact.setTitle(PortalDisplayUtil.replaceHTMLSingleQuotes(contact.getTitle()));
+			contact.setInstitution(PortalDisplayUtil.replaceHTMLSingleQuotes(contact.getInstitution()));
 		}
 		return contact;
 	}

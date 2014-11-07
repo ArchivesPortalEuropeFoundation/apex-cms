@@ -18,8 +18,9 @@
 </c:set>
 <script type='text/javascript'>
 	$(document).ready(function() {
+		var title = "${documentTitle}";
+		$("title").html($("<div />").html(title).text());
 		self.print();
-		document.title = "${documentTitle}";
 	});
 </script>
 <div id="eadDisplayPortlet">
