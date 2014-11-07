@@ -88,3 +88,38 @@ function hasSaved(hasSaved, message){
 	$('#bookmarkContent').show();
 	$('#bookmarkContent').delay(3000).fadeOut('slow');
 }
+
+function showCollections(bookmark, seeAvaiableCollectionsUrl){
+	var searchTerm = $('input#searchTerm').val();
+	$.post(seeAvaiableCollectionsUrl, 
+		{bookmarkId: bookmark, 
+		criteria: searchTerm},
+		function(data) {
+			$("div[aria-labelledby^='ui-']").each(function(){
+				$(this).remove();
+			});
+			$('#collection-details').empty();
+			$("#collection-details").html(data);
+			$('#collection-details').removeClass("hidden");
+			$('#collection-details').show();
+		}
+	);
+}
+
+function saveBookmarkInCollections( seeAvaiableCollectionsUrl){
+	
+	$.post(seeAvaiableCollectionsUrl, 
+		$("#frm").serialize(),
+		function(data) {
+			$("div[aria-labelledby^='ui-']").each(function(){
+				$(this).remove();
+			});
+			$('#collection-details').empty();
+			$("#collection-details").html(data);
+			$('#collection-details').removeClass("hidden");
+			$('#collection-details').show();
+		}
+	);
+}
+
+

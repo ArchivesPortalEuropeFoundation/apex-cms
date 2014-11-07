@@ -30,9 +30,12 @@
 	</bean>	      
 	<bean
 		class="eu.archivesportaleurope.portal.ead.DisplayEadContoller">
-				<property name="clevelDAO" ref="cLevelDAO"/> 
-				<property name="eadDAO" ref="eadDAO"/> 
+				<property name="clevelDAO" ref="cLevelDAO"/>
+				<property name="eadDAO" ref="eadDAO"/>
 				<property name="messageSource" ref="messageSource"/>
+				<property name="collectionDAO" ref="collectionDAO"/>
+				<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
+				<property name="collectionContentDAO" ref="collectionContentDAO"/>
 	</bean>
     <bean class="eu.archivesportaleurope.portal.contact.FeedbackController">
     	<property name="userDAO" ref="userDAO"/>

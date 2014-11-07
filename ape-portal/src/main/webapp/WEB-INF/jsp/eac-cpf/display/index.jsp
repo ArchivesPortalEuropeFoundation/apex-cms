@@ -130,6 +130,8 @@
 			</form:select>
 		</div>
 	</div>
+	
+	<div id="collection-details" class="hidden"></div>
 
 	<div id="bookmarkAnswer">
 		<div id="bookmarkContent" class="hidden"></div>

@@ -9,42 +9,20 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="bookmarkUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="bookmarkAction"/></portal:removeParameters>
 
-<div id="bookmarkPortlet">
-
 <form:form id="bookmarkForm" name="bookmarkForm" commandName="bookmark" method="post" action="${bookmarkUrl}">
-    
-    <table class="bookmarkForm" id="bookmarkFormTr">
-		<tr id="bookmarkFormTr">
-		</tr>
-        <c:if test="${!loggedIn}">
-	        <tr>
-	            <td>
-	            	<div id="answerMessageSavedSearch">
-						<script type="text/javascript">showError("${message}");</script>
-					</div>
-				</td>
-	        </tr> 
-        </c:if>
-		<c:if test="${loggedIn}">
-			<c:if test="${!saved}">
-		        <tr>
-		            <td>
-		            	<div id="answerMessageSavedSearch">
-							<script type="text/javascript">hasSaved(false, "${message}");</script>
-						</div>
-					</td>
-		        </tr> 
-	        </c:if>
-     		<c:if test="${saved}">
-		        <tr>
-		            <td>
-		            	<div id="answerMessageSavedSearch">
-							<script type="text/javascript">hasSaved(true, "${message}");</script>
-						</div>
-					</td>
-		        </tr> 
-	        </c:if>
+	<c:if test="${!loggedIn}">
+		<script type="text/javascript">showError("${message}");</script>
+	</c:if>
+	<c:if test="${loggedIn}">
+		<c:if test="${!saved}">
+			<script type="text/javascript">hasSaved(false, "${message}");</script>
 		</c:if>
-		</table>
+		<c:if test="${saved}">
+			<c:if test="${showBox}">
+				<portlet:resourceURL var="seeAvaiableCollectionsUrl" id="seeAvaiableCollections"/>
+				<script type="text/javascript">showCollections("${bookmarkId}","${seeAvaiableCollectionsUrl}");</script>
+			</c:if>
+			<script type="text/javascript">hasSaved(true, "${message}");</script>
+		</c:if>
+	</c:if>
 </form:form>
-</div>

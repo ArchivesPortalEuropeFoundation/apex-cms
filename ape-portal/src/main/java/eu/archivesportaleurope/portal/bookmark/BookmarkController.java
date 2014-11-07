@@ -93,6 +93,9 @@ public class BookmarkController {
     		bookmark.setDescription(description);
 			if (saveBookmark(bookmark, request, modelAndView)){
 				modelAndView.getModelMap().addAttribute("saved",true);
+				modelAndView.getModelMap().addAttribute("showBox", true);
+				modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());
+				modelAndView.getModelMap().addAttribute("searchTerm",request.getParameter("searchTerm"));
 			}
 			else{
 				modelAndView.getModelMap().addAttribute("saved",false);
@@ -107,8 +110,7 @@ public class BookmarkController {
 
 	public boolean saveBookmark(Bookmark bookmark,ResourceRequest resourceRequest, ModelAndView modelAndView) {
 		boolean saved = false;
-		if (resourceRequest.getUserPrincipal() == null){
-		}else {
+		if (resourceRequest.getUserPrincipal() != null){
 			long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 			try {
 		        SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
@@ -116,6 +118,9 @@ public class BookmarkController {
 				if (checkIfExist(bookmark, resourceRequest)){
 			        modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.already"));
 					saved = true;
+					//when you click over bookmark this and the current element is already bookmarked.
+					//show the list of the collections in which can be added
+					modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());				
 				}
 				else{
 					this.bookmarkService.saveBookmark(liferayUserId, bookmark);
@@ -136,9 +141,10 @@ public class BookmarkController {
 		try {
 			List<SavedBookmarks> savedBookmarks = savedBookmarksDAO.getSavedBookmarks(liferayUserId, 1, PAGESIZE);
 			Iterator<SavedBookmarks> itBookmarks = savedBookmarks.iterator();
-			while(itBookmarks.hasNext()){
+			while(itBookmarks.hasNext() && !exist){
 				SavedBookmarks sb = itBookmarks.next();
 				if(sb.getLink().compareTo(bookmark.getPersistentLink())==0){
+					bookmark.setId(Long.toString(sb.getId()));
 			        exist = true;
 				}
 			}
@@ -152,8 +158,7 @@ public class BookmarkController {
     public Bookmark getCommandObject() {
         return new Bookmark();
     }
-    
-	
+    	
 	@ModelAttribute("savedbookmarks")
 	public Bookmark getSavedBookmark(PortletRequest request) {
 		Principal principal = request.getUserPrincipal();
@@ -225,7 +230,7 @@ public class BookmarkController {
 	public String showEditSavedBookmarksForm() {
 		return "editSavedBookmarksForm";
 	}
-	
+		
 	@RenderMapping(params="myaction=addSavedBookmarksForm")
 	public ModelAndView showAddSavedBookmarksForm(RenderRequest request, Bookmark bookmark) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -239,39 +244,42 @@ public class BookmarkController {
  			}
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
-	 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"none",false);
-	 			List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
-	 			//irterate collection to check if bookmark exists
-	 			Iterator<Collection> itcollections = collections.iterator();
-				while(itcollections.hasNext()){
-					Collection collection = itcollections.next();
-					
-					boolean contains = false;
-					Set<CollectionContent> collectioncontentSet = collection.getCollectionContents();
-		 			Iterator<CollectionContent> itcollectionContents = collectioncontentSet.iterator();
-					while(!contains && itcollectionContents.hasNext()){
-						CollectionContent collectionContent = itcollectionContents.next();
-						if ((collectionContent.getSavedBookmarks()!=null) && 
-							(collectionContent.getSavedBookmarks().getId()==Long.parseLong(request.getParameter("id")))) {
-							contains = true;
-						}
-					}
-					if (!contains) {
-						collectionsWithoutBookmark.add(collection);
-					}
-				}
 	 			User user = (User) request.getAttribute(WebKeys.USER);
 				modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 				modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
-				modelAndView.getModelMap().addAttribute("totalNumberOfResults", collectionsWithoutBookmark.size());
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", getCollectionsWithoutBookmark(request, liferayUserId).size());
 				modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 				modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
-				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmark);	
+				modelAndView.getModelMap().addAttribute("collections",getCollectionsWithoutBookmark(request, liferayUserId));	
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
  		}
 		return modelAndView;
+	}
+	
+	private List<Collection> getCollectionsWithoutBookmark(RenderRequest request, Long liferayUserId){
+		List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, PAGESIZE,"none",false);
+		List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
+		//irterate collection to check if bookmark exists
+		Iterator<Collection> itcollections = collections.iterator();
+		while(itcollections.hasNext()){
+			Collection collection = itcollections.next();
+			boolean contains = false;
+			Set<CollectionContent> collectioncontentSet = collection.getCollectionContents();
+ 			Iterator<CollectionContent> itcollectionContents = collectioncontentSet.iterator();
+			while(!contains && itcollectionContents.hasNext()){
+				CollectionContent collectionContent = itcollectionContents.next();
+				if ((collectionContent.getSavedBookmarks()!=null) && 
+					(collectionContent.getSavedBookmarks().getId()==Long.parseLong(request.getParameter("id")))) {
+					contains = true;
+				}
+			}
+			if (!contains) {
+				collectionsWithoutBookmark.add(collection);
+			}
+		}
+		return collectionsWithoutBookmark;
 	}
 		
 	/***

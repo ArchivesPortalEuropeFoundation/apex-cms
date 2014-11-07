@@ -70,7 +70,6 @@
 		<div id="bookmarkEad" class="linkButton">
  			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'ead')"><fmt:message key="bookmark.this" /></a>
 		</div>
-<!-- 		<div id="bookmarkContent" class="hidden"></div> -->
 	</div>
 		
 	<!-- share section. -->
@@ -80,6 +79,8 @@
 	</div>
 	
 </div>
+
+<div id="collection-details" class="hidden"></div>
 
 <div id="bookmarkAnswer">
 	<div id="bookmarkContent" class="hidden"></div>

@@ -17,8 +17,11 @@
    	
 	<bean
 		class="eu.archivesportaleurope.portal.eaccpf.display.DisplayEacCpfContoller">
-				<property name="eacCpfDAO" ref="eacCpfDAO"/> 
-				<property name="messageSource" ref="messageSource"/>
+			<property name="eacCpfDAO" ref="eacCpfDAO"/>
+			<property name="messageSource" ref="messageSource"/>
+			<property name="collectionDAO" ref="collectionDAO"/>
+			<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
+			<property name="collectionContentDAO" ref="collectionContentDAO"/>
 	</bean>
 	
     <bean class="eu.archivesportaleurope.portal.contact.FeedbackController">

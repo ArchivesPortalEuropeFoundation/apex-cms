@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.persistence.dao.EadSavedSearchDAO;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.util.ApeUtil;
@@ -44,7 +43,8 @@ public class BookmarkService {
 			savedbookmark.setLink(bookmarkObject.getPersistentLink());
 			savedbookmark.setName(bookmarkObject.getBookmarkName());
 			savedbookmark.setTypedocument(bookmarkObject.getTypedocument());
-			savedBookmarksDAO.store(savedbookmark);
+			SavedBookmarks bookmark = savedBookmarksDAO.store(savedbookmark);
+			bookmarkObject.setId(Long.toString(bookmark.getId()));
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
