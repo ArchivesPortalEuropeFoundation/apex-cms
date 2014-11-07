@@ -105,7 +105,25 @@
 		<generated-parameter name="eadid">{eadid}</generated-parameter>		
 		<generated-parameter name="databaseId">{databaseId}</generated-parameter>	
 		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>								
-	</route>	
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/position/{position:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="position">{position}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectPositionAction</implicit-parameter>													
+	</route>
+<!-- 	<route>
+		<pattern>/pl/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{eadid:[^/]+}/cid/{cid:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="eadid">{eadid}</generated-parameter>		
+		<generated-parameter name="cid">{cid}</generated-parameter>									
+	</route>	 -->	
 	<!--  old urls -->		
 	<route>
 		<pattern>/fp/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{eadid:.+}</pattern>
