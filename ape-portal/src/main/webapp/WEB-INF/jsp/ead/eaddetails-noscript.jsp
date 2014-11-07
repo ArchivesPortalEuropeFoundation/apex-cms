@@ -24,6 +24,11 @@ $(document).ready(function() {
 </c:set>
 <div id="eadDisplayPortlet">
 	<div class="mobile">
+		<c:if test="${!empty errorMessage}">
+		<div class="error errorHeader">
+			<fmt:message key="${errorMessage}" />
+		</div>
+		</c:if>
 		<h3 id="contextInformation">
 			${localizedCountryName} &gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 		</h3>
@@ -39,11 +44,11 @@ $(document).ready(function() {
 				<c:choose>
 					<c:when test="${empty c}">
 						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
-						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 					</c:when>
 					<c:otherwise>
 						<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
-						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}"  pageNumber="{pageNumber}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
 							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" />
 
@@ -63,7 +68,7 @@ $(document).ready(function() {
 						</div>
 						<table class="fullwidth">
 							<c:forEach var="child" items="${children}">
-							<portal:eadPersistentLink var="childLink" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadid}" clevel="${child}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+							<portal:eadPersistentLink var="childLink" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}" clevel="${child}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 								<tr class="child childHeader">
 									<td><c:out value="${child.unitid}"/></td>
 									<td><a href="${childLink}"><c:out value="${child.unittitle}"/></a></td>
