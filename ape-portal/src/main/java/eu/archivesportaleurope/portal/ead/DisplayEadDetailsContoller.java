@@ -91,12 +91,12 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
 				modelAndView.setViewName("eaddetails");
 			} else {
 				LOGGER.warn("No data available for ecId: " + eadDetailsParams.getEcId());
-				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+				modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
 				modelAndView.setViewName("eadDetailsError");
 			}
 		} else {
 			LOGGER.warn("No ecId given");
-			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.getModelMap().addAttribute("errorMessage",ERROR_USER_SECOND_DISPLAY_NOTEXIST);
 			modelAndView.setViewName("eadDetailsError");
 		}
 

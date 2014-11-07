@@ -1,7 +1,7 @@
 package eu.archivesportaleurope.portal.ead;
 
 public class EadParams {
-	private String eadDisplayId;
+	private String databaseId;
 	private String eadid;
 	private String repoCode;
 	private String xmlTypeName;
@@ -10,12 +10,13 @@ public class EadParams {
 	private String element;
 	private String term;
 
-	public String getEadDisplayId() {
-		return eadDisplayId;
+
+	public String getDatabaseId() {
+		return databaseId;
 	}
 
-	public void setEadDisplayId(String eadDisplayId) {
-		this.eadDisplayId = eadDisplayId;
+	public void setDatabaseId(String databaseId) {
+		this.databaseId = databaseId;
 	}
 
 	public String getEadid() {

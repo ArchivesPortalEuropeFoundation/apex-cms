@@ -22,6 +22,9 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 
 public class AbstractEadController {
 	private static final int PAGE_SIZE = 10;
+	protected static final String DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE = "display.ead.clevel.unitid.notunique";
+	protected static final String ERROR_USER_SECOND_DISPLAY_NOTEXIST = "error.user.second.display.notexist";
+	protected static final String DISPLAY_EAD_CLEVEL_NOTFOUND = "display.ead.clevel.notfound";	
 	private CLevelDAO clevelDAO;
 	private MessageSource messageSource;
 
