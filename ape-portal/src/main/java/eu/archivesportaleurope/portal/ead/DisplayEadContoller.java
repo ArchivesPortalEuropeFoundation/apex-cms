@@ -171,21 +171,10 @@ public class DisplayEadContoller extends AbstractEadController{
 				String subId = eadParams.getEadDisplayId().substring(1);
 				if (xmlType != null) {
 					ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
-				} else if (eadParams.getAiId() != null) {
-					xmlType = XmlType.getType(eadParams.getXmlTypeId());
-					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
-					}
-
 				}
 			}
 
-		} else if (eadParams.getAiId() != null) {
-			XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
-			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
-			}
-		} else if (eadParams.getRepoCode() != null) {
+		}else if (eadParams.getRepoCode() != null) {
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
 				ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
