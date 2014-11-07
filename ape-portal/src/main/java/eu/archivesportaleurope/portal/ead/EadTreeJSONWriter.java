@@ -182,7 +182,6 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 	}
 	private StringBuilder generateRootJSON(EadContent eadContent, StringBuilder childBuffer, 
 			boolean expand, boolean selected, EadTreeParams eadParams, Locale locale) {
-		boolean isWithPreface = true;
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(START_ARRAY);
 		buffer.append(START_ITEM);

@@ -18,11 +18,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
-import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
-import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
@@ -31,7 +27,6 @@ import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 
@@ -44,19 +39,13 @@ import eu.archivesportaleurope.util.ApeUtil;
  */
 @Controller(value = "displayEadController")
 @RequestMapping(value = "VIEW")
-public class DisplayEadContoller {
-	private static final int PAGE_SIZE = 10;
+public class DisplayEadContoller extends AbstractEadController {
 	private final static Logger LOGGER = Logger.getLogger(DisplayEadContoller.class);
-	private CLevelDAO clevelDAO;
 	private EadDAO eadDAO;
 	private MessageSource messageSource;
 
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
-	}
-
-	public void setClevelDAO(CLevelDAO clevelDAO) {
-		this.clevelDAO = clevelDAO;
 	}
 
 	public MessageSource getMessageSource() {
@@ -68,71 +57,91 @@ public class DisplayEadContoller {
 	}
 
 	@RenderMapping
-	public ModelAndView displayPersistentEad(RenderRequest renderRequest, @ModelAttribute(value = "eadParams") EadParams eadParams) {
+	public ModelAndView displayPersistentEad(RenderRequest renderRequest,
+			@ModelAttribute(value = "eadParams") EadParams eadParams) {
 		ModelAndView modelAndView = null;
 		try {
 			modelAndView = displayPersistentEadOrCLevelInternal(renderRequest, eadParams);
-			if (modelAndView != null){
+			if (modelAndView != null) {
 				modelAndView.getModelMap().addAttribute("element", eadParams.getElement());
 				modelAndView.getModelMap().addAttribute("term", ApeUtil.decodeSpecialCharacters(eadParams.getTerm()));
-				modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
-				modelAndView.getModelMap().addAttribute("recaptchaPubKey", PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+				modelAndView.getModel().put("recaptchaAjaxUrl",
+						PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+				modelAndView.getModelMap().addAttribute("recaptchaPubKey",
+						PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 			}
-		}catch (NotExistInDatabaseException e) {
-			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
-		}catch (Exception e) {
-			LOGGER.error("Error in ead display process:" +ApeUtil.generateThrowableLog(e));
+		} catch (NotExistInDatabaseException e) {
+			// LOGGER.error("SOLRID NOT IN DB:" + e.getId());
+		} catch (Exception e) {
+			LOGGER.error("Error in ead display process:" + ApeUtil.generateThrowableLog(e));
 
 		}
-		if (modelAndView == null){
+		if (modelAndView == null) {
 			modelAndView = new ModelAndView();
-			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
 			modelAndView.setViewName("indexError");
 		}
 		return modelAndView;
-	}	
-	public ModelAndView displayPersistentEadOrCLevelInternal(RenderRequest renderRequest, EadParams eadParams) throws NotExistInDatabaseException {
+	}
+
+	public ModelAndView displayPersistentEadOrCLevelInternal(RenderRequest renderRequest, EadParams eadParams)
+			throws NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		Ead ead = null;
-		if (StringUtils.isNotBlank(eadParams.getRepoCode()) && StringUtils.isNotBlank(eadParams.getEadid()) && StringUtils.isNotBlank(eadParams.getXmlTypeName())){
+		if (StringUtils.isNotBlank(eadParams.getRepoCode()) && StringUtils.isNotBlank(eadParams.getEadid())
+				&& StringUtils.isNotBlank(eadParams.getXmlTypeName())) {
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
-			if (xmlType != null){
-				if (StringUtils.isNotBlank(eadParams.getUnitid())){
-					LOGGER.info(eadParams.getUnitid());
-					List<CLevel> clevels = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getUnitid());
-					int size = clevels.size();
-					
-					if (size > 0) {
-						if (size > 1){
-							modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.unitid.notunique");
-						}
-						CLevel clevel = clevels.get(0);
-						modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
-						ead = clevel.getEadContent().getEad();
-						return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
+			if (xmlType != null) {
+				String errorMessage = null;
+				/*
+				 * if link to c-element
+				 */
+				if (StringUtils.isNotBlank(eadParams.getUnitid()) || StringUtils.isNotBlank(eadParams.getDatabaseId())){
+					if (StringUtils.isNotBlank(eadParams.getUnitid())){
+						List<CLevel> clevels = getClevelDAO().getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), eadParams.getUnitid());
+						int size = clevels.size();
 						
-					}else {
-						modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.notfound");
-					}
-				}else if (StringUtils.isNotBlank(eadParams.getEadDisplayId()) && eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
-					String subSolrId = eadParams.getEadDisplayId().substring(1);
-					if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
-						CLevel clevel = clevelDAO.getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), Long.parseLong(subSolrId));
-						if (clevel != null) {
-							modelAndView.getModelMap().addAttribute("solrId", eadParams.getEadDisplayId());
+						if (size > 0) {
+							if (size > 1){
+								modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE);
+							}
+							CLevel clevel = clevels.get(0);
+							modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
 							ead = clevel.getEadContent().getEad();
 							return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
+							
 						}else {
-							modelAndView.getModelMap().addAttribute("errorMessage", "display.ead.clevel.notfound");
+							errorMessage = DISPLAY_EAD_CLEVEL_NOTFOUND;
 						}
-					}						
+					}else if (StringUtils.isNotBlank(eadParams.getDatabaseId())){
+						if (eadParams.getDatabaseId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+							String subSolrId = eadParams.getDatabaseId().substring(1);
+							if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
+								CLevel clevel = getClevelDAO().getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(), eadParams.getEadid(), Long.parseLong(subSolrId));
+								if (clevel != null) {
+									modelAndView.getModelMap().addAttribute("solrId", eadParams.getDatabaseId());
+									ead = clevel.getEadContent().getEad();
+									return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
+								}else {
+									errorMessage = DISPLAY_EAD_CLEVEL_NOTFOUND;
+								}
+							}
+						}		
+					}
+					if (ead == null && errorMessage == null) {
+						errorMessage = ERROR_USER_SECOND_DISPLAY_NOTEXIST;
+					}
+				}
+				if (errorMessage != null){
+					modelAndView.getModelMap().addAttribute("errorMessage",errorMessage);
 				}
 				/*
-					 * link to archdesc
-					 */
-					if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
-					}
+				 * link to archdesc
+				 */
+				if (ead == null && StringUtils.isNotBlank(eadParams.getEadid())) {
+					ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(),
+							eadParams.getEadid());
+				}
 			}
 		}
 		if (ead != null) {
@@ -140,66 +149,57 @@ public class DisplayEadContoller {
 			PortalDisplayUtil.setPageTitle(renderRequest,
 					PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
 			return displayEadDetails(renderRequest, eadParams, modelAndView, ead);
-		}else {
+		} else {
 			return null;
 		}
 
-	}	
+	}
 
-	@ActionMapping(params ="myaction=redirectAction")
-	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse, @ModelAttribute(value = "eadParams") EadParams eadParams) {
+	@ActionMapping(params = "myaction=redirectAction")
+	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse,
+			@ModelAttribute(value = "eadParams") EadParams eadParams) {
 		try {
 			EadPersistentUrl eadPersistentUrl = generateRedirectUrl(actionRequest, eadParams);
-			if (eadPersistentUrl != null){
-				String redirectUrl =  FriendlyUrlUtil.getRelativeEadPersistentUrl(actionRequest, eadPersistentUrl);
+			if (eadPersistentUrl != null) {
+				String redirectUrl = FriendlyUrlUtil.getRelativeEadPersistentUrl(actionRequest, eadPersistentUrl);
 				actionResponse.sendRedirect(redirectUrl);
 			}
-		}catch (NotExistInDatabaseException e) {
-			//LOGGER.error("SOLRID NOT IN DB:" + e.getId());
-		}catch (Exception e) {
+		} catch (NotExistInDatabaseException e) {
+			// LOGGER.error("SOLRID NOT IN DB:" + e.getId());
+		} catch (Exception e) {
 			LOGGER.error("Error in ead display process:" + ApeUtil.generateThrowableLog(e));
 
 		}
 
 	}
-	
 
-	public EadPersistentUrl generateRedirectUrl(ActionRequest request, EadParams eadParams) throws NotExistInDatabaseException {
+	public EadPersistentUrl generateRedirectUrl(ActionRequest request, EadParams eadParams)
+			throws NotExistInDatabaseException {
 		Ead ead = null;
 		CLevel clevel = null;
-		if (StringUtils.isNotBlank(eadParams.getEadDisplayId())) {
-			if (eadParams.getEadDisplayId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
-				String subSolrId = eadParams.getEadDisplayId().substring(1);
+		if (StringUtils.isNotBlank(eadParams.getDatabaseId())) {
+			if (eadParams.getDatabaseId().startsWith(SolrValues.C_LEVEL_PREFIX)) {
+				String subSolrId = eadParams.getDatabaseId().substring(1);
 				if (StringUtils.isNotBlank(subSolrId) && StringUtils.isNumeric(subSolrId)) {
-					clevel = clevelDAO.findById(Long.parseLong(subSolrId));
+					clevel = getClevelDAO().findById(Long.parseLong(subSolrId));
 					if (clevel != null) {
 						ead = clevel.getEadContent().getEad();
 					}
 				}
 			} else {
-				String solrPrefix = eadParams.getEadDisplayId().substring(0, 1);
+				String solrPrefix = eadParams.getDatabaseId().substring(0, 1);
 				XmlType xmlType = XmlType.getTypeBySolrPrefix(solrPrefix);
-				String subId = eadParams.getEadDisplayId().substring(1);
+				String subId = eadParams.getDatabaseId().substring(1);
 				if (xmlType != null) {
 					ead = eadDAO.findById(Integer.parseInt(subId), xmlType.getClazz());
-				} else if (eadParams.getAiId() != null) {
-					xmlType = XmlType.getType(eadParams.getXmlTypeId());
-					if (StringUtils.isNotBlank(eadParams.getEadid())) {
-						ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
-					}
-
 				}
 			}
 
-		} else if (eadParams.getAiId() != null) {
-			XmlType xmlType = XmlType.getType(eadParams.getXmlTypeId());
-			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getAiId(), eadParams.getEadid());
-			}
 		} else if (eadParams.getRepoCode() != null) {
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+				ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(),
+						eadParams.getEadid());
 			}
 		}
 
@@ -208,104 +208,40 @@ public class DisplayEadContoller {
 			PortalDisplayUtil.setPageTitle(request,
 					PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
 			XmlType xmlType = XmlType.getContentType(ead);
-			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(), xmlType.getResourceName(), ead.getEadid());
+			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(),
+					xmlType.getResourceName(), ead.getEadid());
 			eadPersistentUrl.setClevel(clevel);
 			eadPersistentUrl.setPageNumberAsInt(eadParams.getPageNumber());
 			eadPersistentUrl.setSearchFieldsSelectionId(eadParams.getElement());
 			eadPersistentUrl.setSearchTerms(eadParams.getTerm());
 			return eadPersistentUrl;
-		}else {
+		} else {
 			return null;
-		}
-
-	}
-
-	private ModelAndView displayEadIndex(RenderRequest renderRequest, EadParams eadParam, ModelAndView modelAndView,
-			Ead ead) {
-		ArchivalInstitution archivalInstitution = null;
-		try {
-
-			if (ead == null) {
-				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
-				modelAndView.setViewName("indexError");
-				return modelAndView;
-			} else {
-				if (ead.isPublished()) {
-					archivalInstitution = ead.getArchivalInstitution();
-				} else {
-					// LOGGER.info("Found not indexed EAD in second display");
-					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
-					modelAndView.setViewName("indexError");
-					return modelAndView;
-				}
-				modelAndView.getModelMap().addAttribute("ead", ead);
-				modelAndView.getModelMap().addAttribute("xmlTypeId", XmlType.getContentType(ead).getIdentifier());
-				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-						renderRequest.getLocale());
-				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
-				modelAndView.setViewName("index");
-				return modelAndView;
-			}
-
-		} catch (Exception e) {
-			LOGGER.error("Error in second display process: " + e.getMessage());
-			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
-			modelAndView.setViewName("indexError");
-			return modelAndView;
 		}
 
 	}
 
 	public ModelAndView displayEadDetails(RenderRequest renderRequest, EadParams eadParams, ModelAndView modelAndView,
 			Ead ead) {
-		ArchivalInstitution archivalInstitution = null;
 		try {
 
 			if (ead == null) {
-				modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+				modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				if (ead.isPublished()) {
-					archivalInstitution = ead.getArchivalInstitution();
-				} else {
+				if (!ead.isPublished()) {
 					// LOGGER.info("Found not indexed EAD in second display");
 					modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
 					modelAndView.setViewName("indexError");
 					return modelAndView;
 				}
 				EadContent eadContent = ead.getEadContent();
-				String documentTitle = PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
-				modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
-				PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
-				XmlType xmlType = XmlType.getContentType(ead);
-				modelAndView.getModelMap().addAttribute("eadContent", eadContent);
-				modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-				modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-				modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
-				modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
-				modelAndView.getModelMap().addAttribute("ead", ead);
-				modelAndView.getModelMap().addAttribute("id",xmlType.getSolrPrefix() + ead.getId());
-				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-						renderRequest.getLocale());
-				String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-				modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
-				Integer pageNumberInt = 1;
-				if (eadParams.getPageNumber() != null) {
-					pageNumberInt = eadParams.getPageNumber();
-				}
-				int orderId = (pageNumberInt - 1) * PAGE_SIZE;
-				Long totalNumberOfChildren = clevelDAO.countTopCLevels(eadContent.getEcId());
-				List<CLevel> children =  clevelDAO.findTopCLevels(eadContent.getEcId(), orderId, PAGE_SIZE);
-				modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
-				modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
-				modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
-				modelAndView.getModelMap().addAttribute("children", children);
-				if(PortalDisplayUtil.isNotDesktopBrowser(renderRequest)){
+				if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+					fillEadDetails(eadContent, renderRequest, eadParams.getPageNumber(), modelAndView, true);
 					modelAndView.setViewName("eaddetails-noscript");
-				}else {
+				} else {
+					fillEadDetails(eadContent, renderRequest, null, modelAndView, false);
 					modelAndView.setViewName("index");
 				}
 				return modelAndView;
@@ -313,7 +249,7 @@ public class DisplayEadContoller {
 
 		} catch (Exception e) {
 			LOGGER.error("Error in second display process: " + e.getMessage());
-			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
+			modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
 			modelAndView.setViewName("indexError");
 			return modelAndView;
 		}
@@ -322,39 +258,12 @@ public class DisplayEadContoller {
 
 	private ModelAndView displayCDetails(RenderRequest renderRequest, EadParams eadParams, ModelAndView modelAndView,
 			Ead ead, CLevel currentCLevel) {
-		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.CDETAILS_XSLT);
-		Integer pageNumberInt = 1;
-		if (eadParams.getPageNumber() != null) {
-			pageNumberInt = eadParams.getPageNumber();
-		}
-		int orderId = (pageNumberInt - 1) * PAGE_SIZE;
-		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getClId(), orderId, PAGE_SIZE);
-		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getClId());
-		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
-		XmlType xmlType = XmlType.getContentType(ead);
-		modelAndView.getModelMap().addAttribute("eadid", ead.getEncodedIdentifier());
-		modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
-		modelAndView.getModelMap().addAttribute("c", currentCLevel);
-		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
-		modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
-		modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
-		modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
-		modelAndView.getModelMap().addAttribute("children", children);
-		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-				renderRequest.getLocale());
-		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
-		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
-		String documentTitle = currentCLevel.getUnittitle();
-		
-		documentTitle = PortalDisplayUtil.replaceDoubleAndSingleQuotes(PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle));
 
-		modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
-		PortalDisplayUtil.setPageTitle(renderRequest,documentTitle);
-		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
-
-		if(PortalDisplayUtil.isNotDesktopBrowser(renderRequest)){
+		if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+			fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, true);
 			modelAndView.setViewName("eaddetails-noscript");
-		}else {
+		} else {
+			fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, false);
 			modelAndView.setViewName("index");
 		}
 		return modelAndView;
