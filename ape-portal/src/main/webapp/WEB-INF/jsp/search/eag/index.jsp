@@ -49,7 +49,7 @@
 					<ul>
 						<li><b><fmt:message key="menu.archives-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.ead.description"/></li>
 						<li><b><fmt:message key="menu.name-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
-						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eag.description"/></li>
 					</ul>
 				</div>
 			</div>
