@@ -48,11 +48,11 @@ public class SourceTabsTag extends SimpleTagSupport {
 		if (results == null){
 			writer.append("<li class=\"ui-state-default ui-corner-top");
 			if (tabType.equalsIgnoreCase(type)){
-				writer.append(" ui-tabs-selected ui-state-active\"><a href=\"\">");
+				writer.append(" ui-tabs-selected ui-state-active\"><a href=\"javascript:void(0);\"");
 			}else {
-				writer.append("\"><a href=\"javascript:changeSearch('"+ tabFunction + "')\">");
+				writer.append("\"><a href=\"javascript:changeSearch('"+ tabFunction + "')\"");
 			}
-			writer.append(getResourceBundleSource().getString(tabName) + "</a></li>");
+			writer.append(">" +getResourceBundleSource().getString(tabName) + "</a></li>");
 		}else {
 			BeanWrapper searchBeanWrapper = PropertyAccessorFactory.forBeanPropertyAccess( this.results);
 			writer.append("<li class=\"ui-state-default ui-corner-top");
