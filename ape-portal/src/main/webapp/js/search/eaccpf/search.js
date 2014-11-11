@@ -6,7 +6,8 @@ function setUrls(necUrl, aUrl){
 
 function clearSearch(){
 	commonClearSearch();
-
+	$("#entityType").val("");
+	$("#element").val("all");
 }
 
 function init(){

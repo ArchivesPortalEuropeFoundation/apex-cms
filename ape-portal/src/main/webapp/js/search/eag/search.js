@@ -6,7 +6,8 @@ function setUrls(necUrl, aUrl){
 
 function clearSearch(){
 	commonClearSearch();
-
+	$("#repositoryType").val("");
+	$("#element").val("");
 }
 
 function init(){

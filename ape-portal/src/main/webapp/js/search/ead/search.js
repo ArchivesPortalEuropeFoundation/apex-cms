@@ -34,7 +34,7 @@ function clearSearch(){
 	commonClearSearch();
 	$('#checkboxHierarchy').attr('checked', false);
 	$('#checkboxDao').attr('checked', false);
-	$("#element").val("");
+	$("#element").val("0");
 	$("#typedocument").val("");
 	removeSimpleSearchTopic();
     $("#archivalLandscapeTree").dynatree("getRoot").visit(function(node){
