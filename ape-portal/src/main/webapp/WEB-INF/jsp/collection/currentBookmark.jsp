@@ -6,7 +6,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <%-- <portal:friendlyUrl var="myCollectionUrl" type="saved-collection-overview"/> --%>
-<div id="collectionBookmarks">
+<div class="collectionSearchFields" id="collectionSearchFields">
 	<c:if test="${currentBookmarks!=null}">
 		<c:choose>
 			<c:when test="${edit}">
@@ -33,29 +33,34 @@
 			</div>
 		</div>
 		
-		<div class="collectionSearchesHeader" id="collectionBookmarksHeader">
-			<c:if test="${edit}">
-				<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
-			</c:if>
-			<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
-			<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>">Name</div>
-			<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>">Description</div>
-		</div>
-		
-		<c:forEach var="collectionBookmark" items="${currentBookmarks}">
-			<div class="collectionSearches" id="newCollectionBookmarks_<c:out value="${collectionBookmark.id}" />">
+		<table class="defaultlayout" id="currentSearch">
+				<tr>
 				<c:if test="${edit}">
-					<div class="collectionSearchCheckbox"><input type="checkbox" name="collection_bookmark_${collectionBookmark.id}" id="collection_bookmark_${collectionBookmark.id}" checked="checked" /></div>
+					<th ><fmt:message key="collections.signal"/></th>
 				</c:if>
-				<div class="collectionSearchId"><c:out value="${collectionBookmark.savedBookmarks.id}" /></div>
-				<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.name}" /></div>
-				<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.description}" /></div>
+					<th><fmt:message key="savedsearch.id"/></th>
+					<th><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+					<th class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></th>
 				<c:if test="${!edit}">
-				<div class="collectionSearchAction">
-					<a href="${collectionBookmark.savedBookmarks.link}"><fmt:message key="collections.bookmarks.see"/></a>
-				</div>
-				</c:if>
-			</div>
-		</c:forEach>
+					<th><fmt:message key="savedsearches.overview.actions"/></th>
+				</c:if>	
+			</tr>
+			<c:forEach var="collectionBookmark" items="${currentBookmarks}">
+				<tr id="newCollectionBookmarks_<c:out value="${collectionBookmark.savedBookmarks.id}" />">
+					<c:if test="${edit}">
+						<td class="collectionSearchCheckbox"><input type="checkbox" name="collection_bookmark_${collectionBookmark.id}" id="collection_bookmark_${collectionBookmark.id}" checked="checked" /></td>
+					</c:if>
+					<td  class="collectionSearchId"><c:out value="${collectionBookmark.savedBookmarks.id}" /></td>
+					<td class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.name}" /></td>
+					<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${collectionBookmark.savedBookmarks.modifiedDate}" timeZone="${timeZone}"/></td>
+					<c:if test="${!edit}">
+						<td class="collectionSearchAction">
+							<a href="${collectionBookmark.savedBookmarks.link}"><fmt:message key="collections.bookmarks.see"/></a>
+						</td>
+					</c:if>
+				</tr>
+			</c:forEach>
+		</table>
+		<br/>
 	</c:if>
 </div>

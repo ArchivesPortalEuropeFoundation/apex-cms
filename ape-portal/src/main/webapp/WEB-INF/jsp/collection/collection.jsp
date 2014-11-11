@@ -24,33 +24,69 @@
 				<form id="frmCollectionContent" name="frmCollectionContent" method="post" action="${createNewCollection}" onsubmit="return prevSubmit();">
 			</c:otherwise>
 		</c:choose>
-		<div class="collectionSearchFieldHeader">
-			<div class="collectionFieldTitle"><fmt:message key="advancedsearch.text.title2"/></div> 
-			<div class="collectionFieldDescription"><fmt:message key="savedsearch.description"/></div> 
-		<c:if test="${edit}">
-			<div class="collectionFieldPublic2"><fmt:message key="savedsearch.publicaccessible"/></div>
-			<div class="collectionFieldEdit2"><fmt:message key="savedsearches.overview.edit"/></div>
-		</c:if>
-		</div>
-		<div class="collectionSearchFieldContent">
-			<div class="collectionFieldTitle">
+		
+		
+		
+	<table class="defaultlayout">
+		<tr>
+			<th><fmt:message key="advancedsearch.text.title2"/></th> 
+			<td>
 				<input type="text" id="collectionTitle" name="collectionTitle" 
 					<c:if test="${!edit}">disabled="disabled"</c:if>
 					<c:if test="${collection!=null && collection.title!=null}">value="${collection.title}"</c:if> 
 				/>
-			</div>
-			<div class="collectionFieldDescription">
-				<textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea>
-			</div>
-			<c:if test="${edit}">
-			<div class="collectionFieldPublic2">
-				<input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> />
-			</div>
-			<div class="collectionFieldEdit2">
-				<input type="checkbox" id="collectionField_edit" name="collectionField_edit" <c:if test="${!edit}">disabled="disabled"</c:if> <c:if test="${collection!=null && collection.edit}">checked="checked"</c:if> />
-			</div>
-			</c:if>
-		</div>
+			</td>
+		</tr>
+		<tr>
+			<th><fmt:message key="savedsearch.description"/></th> 
+			<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
+		</tr>
+		<c:if test="${edit}">
+			<tr>	
+				<th><fmt:message key="savedsearch.publicaccessible"/></th>
+				<td><input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /></td>				
+			</tr>
+			<tr>				
+				<th><fmt:message key="savedsearches.overview.edit"/></th>
+				<td><input type="checkbox" id="collectionField_edit" name="collectionField_edit" <c:if test="${!edit}">disabled="disabled"</c:if> <c:if test="${collection!=null && collection.edit}">checked="checked"</c:if> /></td>
+			</tr>
+		</c:if>
+	</table>
+		
+		
+		
+<!-- 		<div class="collectionSearchFieldHeader"> -->
+<%-- 			<div class="collectionFieldTitle"><fmt:message key="advancedsearch.text.title2"/></div>  --%>
+<%-- 			<div class="collectionFieldDescription"><fmt:message key="savedsearch.description"/></div>  --%>
+<%-- 			<c:if test="${edit}"> --%>
+<%-- 				<div class="collectionFieldPublic2"><fmt:message key="savedsearch.publicaccessible"/></div> --%>
+<%-- 				<div class="collectionFieldEdit2"><fmt:message key="savedsearches.overview.edit"/></div> --%>
+<%-- 			</c:if> --%>
+<!-- 		</div> -->
+<!-- 		<div class="collectionSearchFieldContent"> -->
+<!-- 			<div class="collectionFieldTitle"> -->
+<!-- 				<input type="text" id="collectionTitle" name="collectionTitle"  -->
+<%-- 					<c:if test="${!edit}">disabled="disabled"</c:if> --%>
+<%-- 					<c:if test="${collection!=null && collection.title!=null}">value="${collection.title}"</c:if>  --%>
+<!-- 				/> -->
+<!-- 			</div> -->
+<!-- 			<div class="collectionFieldDescription"> -->
+<%-- 				<textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea> --%>
+<!-- 			</div> -->
+<%-- 			<c:if test="${edit}"> --%>
+<!-- 			<div class="collectionFieldPublic2"> -->
+<%-- 				<input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /> --%>
+<!-- 			</div> -->
+<!-- 			<div class="collectionFieldEdit2"> -->
+<%-- 				<input type="checkbox" id="collectionField_edit" name="collectionField_edit" <c:if test="${!edit}">disabled="disabled"</c:if> <c:if test="${collection!=null && collection.edit}">checked="checked"</c:if> /> --%>
+<!-- 			</div> -->
+<%-- 			</c:if> --%>
+<!-- 		</div> -->
+		
+		
+		
+		
+		
 		<div class="collectionSearchField" id="collectionSearchFields"></div>
 		<div id="newCollectionSearches"> </div>
 		<div id="bookmarksDiv"> </div>

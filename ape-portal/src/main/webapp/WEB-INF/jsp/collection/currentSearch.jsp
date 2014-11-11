@@ -5,9 +5,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
+<portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
+<portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
 
-
-<div class="collectionSearchField" id="collectionSearchFields">
+<div class="collectionSearchFields" id="collectionSearchFields">
 	<c:if test="${currentSearches!=null}">
 	<div class="collectionSearchField" id="collectionSearchFields">
 		<c:if test="${currentSearches!=null && currentSearches.size() > 0}">
@@ -34,48 +35,44 @@
 					</div>
 				</div>
 			</div>
-			<div class="collectionSearchesHeader" id="collectionSearchesHeader">
-				<c:if test="${edit}">
-					<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
-				</c:if>
-				<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
-				<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="collections.terms"/></div>
-				<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></div>
-			</div>
-			<div id="collectionSearches" >
+			<table class="defaultlayout" id="currentSearch">
+				<tr>
+ 					<c:if test="${edit}">
+						<th class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></th>
+					</c:if> 
+						<th class="collectionSearchId"><fmt:message key="savedsearch.id"/></th>
+						<th class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+						<th class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></th>
+					<c:if test="${!edit}">
+						<th class="collectionSearchAction"><fmt:message key="savedsearches.overview.actions"/></th>
+					</c:if>					
+				</tr>
 				<c:forEach var="currentSearch" items="${currentSearches}">
-					<div class="collectionSearches" id="newCollectionSearch_<c:out value="${currentSearch.id}" />">
-					<c:if test="${edit}">
-						<div class="collectionSearchCheckbox"><input type="checkbox" name="selected_search_${currentSearch.id}" id="selected_search_${currentSearch.id}" checked="checked" /></div>
-					</c:if>
-						<div class="collectionSearchId"><c:out value="${currentSearch.eadSavedSearch.id}" /></div>
-						<div class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${currentSearch.eadSavedSearch.searchTerm}" /></div>
-						<div class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${currentSearch.eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></div>
+					<tr id="newCollectionSearches_<c:out value="${currentSearch.id}" />">
+						<c:if test="${edit}">
+							<td class="collectionSearchCheckbox"><input type="checkbox" name="selected_search_${currentSearch.id}" id="selected_search_${currentSearch.id}" checked="checked" /></td>
+						</c:if>
+						<td class="collectionSearchId"><c:out value="${currentSearch.eadSavedSearch.id}" /></td>
+						<td class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${currentSearch.eadSavedSearch.searchTerm}" /></td> 
+						<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${currentSearch.eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 						<c:if test="${!edit}">
-							<div class="collectionSearchAction">
+							<td class="collectionSearchAction">
 								<c:choose>
-									<c:when test="${collectionSearch.eadSavedSearch.publicSearch}">
-										<div>
-											<a href="${savedSearchPublicUrl}/${collectionSearch.eadSavedSearch.id}" > <fmt:message key="savedsearches.overview.viewresults"/></a>
-										</div>
-										<div>
-											<a href="${savedSearchPublicUrl}/${collectionSearch.eadSavedSearch.id}/new" ><fmt:message key="savedsearches.overview.viewresults.new"/></a>
-										</div>
+									<c:when test="${currentSearch.eadSavedSearch.publicSearch}">
+										<a href="${savedSearchPublicUrl}/${currentSearch.eadSavedSearch.id}" onclick="return confirm('<fmt:message key="savedsearches.overview.public.areyousure"/>')"> <fmt:message key="savedsearches.overview.viewresults"/></a><br/>
+										<a href="${savedSearchPublicUrl}/${currentSearch.eadSavedSearch.id}/new" onclick="return confirm('<fmt:message key="savedsearches.overview.public.areyousure"/>')"><fmt:message key="savedsearches.overview.viewresults.new"/></a>
 									</c:when>
 									<c:otherwise>
-										<div>
-											<a href="${savedSearchUrl}/${collectionSearch.eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a>
-										</div>
-										<div>
-											<a href="${savedSearchUrl}/${collectionSearch.eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a>
-										</div>
+										<a href="${savedSearchUrl}/${currentSearch.eadSavedSearch.id}"><fmt:message key="savedsearches.overview.viewresults"/></a><br/>
+										<a href="${savedSearchUrl}/${currentSearch.eadSavedSearch.id}/new"><fmt:message key="savedsearches.overview.viewresults.new"/></a>
 									</c:otherwise>
 								</c:choose>
-							</div>
+							</td>
 						</c:if>
-					</div>
+					</tr>
 				</c:forEach>
-			</div>
+			</table>
+			<br/>
 		</c:if>
 	</div>
 	</c:if>

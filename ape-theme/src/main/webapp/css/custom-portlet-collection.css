@@ -69,56 +69,97 @@
 	width: 100%;
 }
 
+.collectionBookmarkField, .collectionBookmarkFieldContent{
+	float:left;
+	width: 100%;
+}
+
 .collectionDescriptionTextarea{
 	float:left;
 	width: 85%;
 	height: 15px;
 }
+
 .collectionSearches{
 	float:left;
 	width: 100%;
 	background-color:#D9EEF7;
 	color: #333333;
 }
-.collectionSearchesHeader, .collectionSearchFieldHeader{
+
+.collectionBookmarks{
 	float:left;
 	width: 100%;
-	background-color:#F0F7FC;
-	border: 1px solid #D9EEF7;
+	background-color:#D9EEF7;
+	color: #333333;
 }
+
+.collectionSearchesHeader, .collectionSearchFieldHeader{
+	width: 100%;
+	border: 1px solid #D9EEF7;
+	font-size: 8pt;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+/* #collectionBookmarks #collectionSearchField #collectionSearch #collectionSearch #currentSearch #currentBookmark #collectionBookmark {
+	width: 100%;
+	border: 1px solid #D9EEF7;
+	font-size: 8pt;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#collectionBookmarks #collectionSearchField #collectionSearch #collectionSearch #currentSearch #currentBookmark #collectionBookmark a{
+	display:block;
+	font-size:11px;
+} */
+
+#collectionSearchFields #currentSearch{
+	width: 100%;
+	border: 1px solid #D9EEF7;
+	font-size: 8pt;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#collectionSearchFields th.signal {
+	min-width: 20%;
+}
+
 .collectionSearches:hover{
 	background-color:#F0F7FC;
 }
 .collectionSearchCheckbox{
-	float:left;
+/* 	float:left; */
 	width: 5%;
 }
 .collectionSearchId{
-	float:left;
+/* 	float:left; */
 	width: 5%;
 }
 .collectionSearchTerms{
-	float:left;
-	width: 50%;
+/* 	float:left; */
+	width: 70%;
 }
 .collectionSearchTerms2{
-    float: left;
-    width: 35%;
+/* 	float:left; */
+    width: 50%;
 }
 .collectionSearchDate{
-	float:left;
-	width: 40%;
+/* 	float:left; */
+	width: 15%;
 }
 .collectionSearchDate2{
-	float:left;
-	width: 20%;
+/* 	float:left; */
+	width: 15%;
 }
 .collectionSearchAction{
-	float:left;
-	width: 40%;
+/* 	float:left; */
+	width: 10%;
 }
 .collectionBigAction{
-	float:left;
+/* 	float:left; */
 	width: 100%;
 	margin-bottom: 10px;
 }

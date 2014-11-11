@@ -6,7 +6,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <%-- <portal:friendlyUrl var="myCollectionUrl" type="saved-collection-overview"/> --%>
-<div id="collectionSearch">
+<div class="collectionSearchFields" id="collectionSearchFields">
 	<c:if test="${searches!=null}">
 	<portlet:resourceURL var="getNewSearchesUrl" id="getNewSearches"></portlet:resourceURL>
 	<div><fmt:message key="collections.searches.out"/></div>
@@ -21,20 +21,22 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="collectionSearchesHeader" id="collectionSearchesHeader">
-		<div class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></div>
-		<div class="collectionSearchId"><fmt:message key="savedsearch.id"/></div>
-		<div class="collectionSearchTerms"><fmt:message key="collections.terms"/></div>
-		<div class="collectionSearchDate"><fmt:message key="advancedsearch.text.date"/></div>
-	</div>
-	<c:forEach var="search" items="${searches}">
-		<div class="collectionSearches" id="newCollectionSearches_<c:out value="${search.id}" />">
-			<div class="collectionSearchCheckbox"><input type="checkbox" name="new_search_${search.id}" id="new_search_${search.id}" /></div>
-			<div class="collectionSearchId"><c:out value="${search.id}" /></div>
-			<div class="collectionSearchTerms"><c:out value="${search.searchTerm}" /></div>
-			<div class="collectionSearchDate"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${search.modifiedDate}" timeZone="${timeZone}"/></div>
-		</div>
-	</c:forEach>
+		<table class="defaultlayout" id="currentSearch">
+			<tr>
+				<th class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></th>
+				<th class="collectionSearchId"><fmt:message key="savedsearch.id"/></th>
+				<th class="collectionSearchTerms"><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+				<th class="collectionSearchDate"><fmt:message key="advancedsearch.text.date"/></th>
+			</tr>
+			<c:forEach var="search" items="${searches}">
+				<tr id="newCollectionSearches_<c:out value="${search.id}" />">
+					<td class="collectionSearchCheckbox"><input type="checkbox" name="new_search_${search.id}" id="new_search_${search.id}" /></td>
+					<td class="collectionSearchId"><c:out value="${search.id}" /></td>
+					<td class="collectionSearchTerms"><c:out value="${search.searchTerm}" /></td>
+					<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z" value="${search.modifiedDate}" timeZone="${timeZone}"/></td>
+				</tr>
+			</c:forEach>
+		</table>
+		<br/>
 	</c:if>
 </div>
