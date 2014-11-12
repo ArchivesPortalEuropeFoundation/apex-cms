@@ -34,7 +34,7 @@
 <portlet:renderURL var="printEadDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEadDetails" />
 	<portlet:param name="id" value="${id}" />
-	<portlet:param name="ecId" value="${ecId}" />
+	<portlet:param name="ecId" value="${eadContent.ecId}" />
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
 	<portlet:param name="type" value="${type}" />
