@@ -43,6 +43,7 @@
 <script type='text/javascript' defer="defer">
 initEadTree("${eadTreeUrl}", "${displayEadUrl}", "<portlet:namespace/>");
 initPanes();	
+initDAOs();
 </script>
 <script defer="defer" type="text/javascript">
     window.onload=function(){
