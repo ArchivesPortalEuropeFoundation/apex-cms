@@ -85,8 +85,7 @@
 		<portlet-name>tagcloud</portlet-name>
 		<display-name>Tag cloud</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<expiration-cache>-1</expiration-cache>
-		<cache-scope>public</cache-scope>
+		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 			<portlet-mode>view</portlet-mode>
