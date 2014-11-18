@@ -15,7 +15,7 @@
     <import resource="i18n-common.xml"/>
 	<import resource="persistence-common.xml"/>
 
-	<bean class="eu.archivesportaleurope.portal.search.saved.CollectionController">
+	<bean class="eu.archivesportaleurope.portal.collections.CollectionController">
 		<property name="collectionDAO" ref="collectionDAO"></property>
 		<property name="collectionContentDAO" ref="collectionContentDAO"></property>
 		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
