@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -17,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -294,8 +296,8 @@ public class CollectionController {
 	}
 
 	
-	@RenderMapping(params="action=deleteSavedCollections")
-	public ModelAndView deleteSavedCollection(RenderRequest request) {
+	@ActionMapping(params="action=deleteSavedCollections")
+	public void deleteSavedCollection(ActionRequest request) {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null && request.getParameter("id")!=null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -309,11 +311,10 @@ public class CollectionController {
 				}
 			}
 		}
-		return showSavedCollections(request);
 	}
 
-	@RenderMapping(params="action=saveEditCollection")
-	public ModelAndView saveEditedCollection(RenderRequest request) throws IOException {
+	@ActionMapping(params="action=saveEditCollection")
+	public void saveEditedCollection(RenderRequest request) throws IOException {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -382,7 +383,6 @@ public class CollectionController {
 				}
 			}
 		}
-		return showSavedCollections(request);
 	}
 	
 	private boolean createCollectionContentParametersBookmarks(List<Long> parametersOut, List<Long> bookmarksOut, Collection ddbbCollection, Long liferayUserId) {
@@ -434,8 +434,8 @@ public class CollectionController {
 		return false;
 	}
 
-	@RenderMapping(params="action=saveNewCollection")
-	public ModelAndView saveCollection(RenderRequest request) throws IOException {
+	@ActionMapping(params="action=saveNewCollection")
+	public void saveCollection(ActionRequest request) throws IOException {
 		Principal principal = request.getUserPrincipal();
 		String title = request.getParameter("collectionTitle");
 		String description = request.getParameter("collectionDescription");
@@ -480,6 +480,5 @@ public class CollectionController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
-		return showSavedCollections(request);
 	}
 }
