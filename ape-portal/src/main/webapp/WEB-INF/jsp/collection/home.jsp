@@ -12,9 +12,9 @@
 <portlet:renderURL var="createMyCollectionUrl" >
 	<portlet:param name="action" value="createNewCollection" />
 </portlet:renderURL>
-<portlet:renderURL var="deleteMyCollectionUrl" >
+<portlet:actionURL var="deleteMyCollectionUrl" >
 	<portlet:param name="action" value="deleteSavedCollections" />
-</portlet:renderURL>
+</portlet:actionURL>
 <portlet:renderURL var="myCollections" />
 
 <div id="savedCollectionsPortlet">

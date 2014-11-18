@@ -7,12 +7,12 @@
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 <portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
 <portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
-<portlet:renderURL var="createNewCollection" >
+<portlet:actionURL var="createNewCollection" >
 	<portlet:param name="action" value="saveNewCollection" />
-</portlet:renderURL>
-<portlet:renderURL var="updateCollection" >
+</portlet:actionURL>
+<portlet:actionURL var="updateCollection" >
 	<portlet:param name="action" value="saveEditCollection" />
-</portlet:renderURL>
+</portlet:actionURL>
 <div id="mycollectionPortletDiv">
 	<div class="collectionFieldDiv" id="collectionFieldDiv">
 		<c:choose>
