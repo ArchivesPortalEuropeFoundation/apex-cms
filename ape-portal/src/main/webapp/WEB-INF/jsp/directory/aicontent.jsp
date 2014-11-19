@@ -25,12 +25,24 @@
 
 
 			<table>
-				<c:forEach var="ead" items="${eads}">
-					<tr class="child">
-						<portal:eadPersistentLink repoCode="${aiRepoCode}" xmlTypeName="${xmlTypeName}" eadid="${ead.encodedIdentifier}" var="link"/>
-						<td><a href="${link}">${ead.title}</a></td>
-					</tr>
-				</c:forEach>
+				<c:choose>
+				<c:when test="${!empty eads}">
+					<c:forEach var="ead" items="${eads}">
+						<tr class="child">
+							<portal:eadPersistentLink repoCode="${aiRepoCode}" xmlTypeName="${xmlTypeName}" eadid="${ead.encodedIdentifier}" var="link"/>
+							<td><a href="${link}">${ead.title}</a></td>
+						</tr>
+					</c:forEach>
+				</c:when>
+				<c:when test="${!empty eacCpfs}">
+					<c:forEach var="eacCpf" items="${eacCpfs}">
+						<tr class="child">
+							<portal:eacCpfPersistentLink var="link" repoCode="${aiRepoCode}" id="${eacCpf.encodedIdentifier}"/>
+							<td><a href="${link}">${eacCpf.title}</a></td>
+						</tr>
+					</c:forEach>
+				</c:when>				
+				</c:choose>
 			</table>
 		</div>
 	</div>

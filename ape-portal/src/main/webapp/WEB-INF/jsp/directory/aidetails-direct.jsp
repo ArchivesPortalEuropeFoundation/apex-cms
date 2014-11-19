@@ -84,6 +84,17 @@
 									</td>
 								</tr>
 								</c:if>
+								<c:if test="${hasEacCpfs}">
+								<tr>
+									<td colspan="2">
+										<div>
+											<a href="${contentUrl}/${archivalInstitution.encodedRepositorycode}/ec" target="_blank" title="<fmt:message key='directory.list.ec.title'/>">
+												<fmt:message key="directory.list.ec"/>
+											</a>
+										</div>
+									</td>
+								</tr>
+								</c:if>									
 							</tbody>
 						</table>
 					</c:if>
