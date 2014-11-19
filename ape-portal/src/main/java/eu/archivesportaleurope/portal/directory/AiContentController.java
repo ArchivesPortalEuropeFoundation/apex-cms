@@ -13,8 +13,10 @@ import eu.apenet.commons.exceptions.APEnetException;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
+import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
+import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
@@ -24,6 +26,7 @@ public class AiContentController {
 	private final static Logger LOGGER = Logger.getLogger(AiContentController.class);
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
+	private EacCpfDAO eacCpfDAO;
 
 
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
@@ -33,6 +36,11 @@ public class AiContentController {
 
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
+	}
+
+
+	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
+		this.eacCpfDAO = eacCpfDAO;
 	}
 
 
@@ -59,9 +67,15 @@ public class AiContentController {
 			modelAndView.getModelMap().addAttribute("aiRepoCode", aiContentParams.getRepoCode());
 			modelAndView.getModelMap().addAttribute("xmlTypeName", aiContentParams.getXmlTypeName());
 			modelAndView.getModelMap().addAttribute("pageNumber", aiContentParams.getPageNumber());
-			modelAndView.getModelMap().addAttribute("totalNumberOfResults", eadDAO.countEads(eadSearchOptions));
+
 			modelAndView.getModelMap().addAttribute("pageSize", eadSearchOptions.getPageSize());
-			modelAndView.getModelMap().addAttribute("eads", eadDAO.getEads(eadSearchOptions));
+			if (EacCpf.class.equals(eadSearchOptions.getContentClass())){
+				modelAndView.getModelMap().addAttribute("eacCpfs", eacCpfDAO.getEacCpfs(eadSearchOptions));
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", eacCpfDAO.countEacCpfs(eadSearchOptions));
+			}else {
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", eadDAO.countEads(eadSearchOptions));
+				modelAndView.getModelMap().addAttribute("eads", eadDAO.getEads(eadSearchOptions));
+			}
 			PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getArchivalInstitutionDisplayTitle(archivalInstitution));
 		} catch (NullPointerException e) {
 			modelAndView.setViewName("indexError");

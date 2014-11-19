@@ -23,13 +23,15 @@ import eu.apenet.commons.infraestructure.NavigationTree;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
+import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.CoordinatesDAO;
 import eu.apenet.persistence.dao.CountryDAO;
+import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Coordinates;
 import eu.apenet.persistence.vo.Country;
+import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.FindingAid;
 import eu.apenet.persistence.vo.HoldingsGuide;
 import eu.apenet.persistence.vo.SourceGuide;
@@ -47,6 +49,7 @@ public class DirectoryController {
 	private MessageSource messageSource;
 	private CoordinatesDAO coordinatesDAO;
 	private EadDAO eadDAO;
+	private EacCpfDAO eacCpfDAO;
 	private final static Logger LOGGER = Logger.getLogger(DirectoryController.class);
 	
 	private String google_maps_license = PropertiesUtil.get(PropertiesKeys.APE_GOOGLEMAPS_KEY);		// License key
@@ -67,6 +70,10 @@ public class DirectoryController {
 
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
+	}
+	
+	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
+		this.eacCpfDAO = eacCpfDAO;
 	}
 
 	public String getGoogle_maps_license() {
@@ -277,6 +284,8 @@ public class DirectoryController {
 		modelAndView.getModelMap().addAttribute("hasFindingAids",eadDAO.existEads(eadSearchOptions));
 		eadSearchOptions.setContentClass(SourceGuide.class);
 		modelAndView.getModelMap().addAttribute("hasSourceGuides",eadDAO.existEads(eadSearchOptions));
+		eadSearchOptions.setContentClass(EacCpf.class);
+		modelAndView.getModelMap().addAttribute("hasEacCpfs",eacCpfDAO.existEacCpfs(eadSearchOptions));
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
 		return this.addGoogleInfo(modelAndView);
 	}
