@@ -10,6 +10,7 @@ function eraseData(){
 	eraseList();
 	eraseEmptyLi();
 	eraseEmptyTitleSection();
+	eraseExistDates();
 }
 
 function eraseDuplicatedArchivalLi(){
@@ -192,4 +193,46 @@ function removeNodeAndTitle(node){
 		before.remove();
 	}
 	node.remove();
+}
+/**
+ * This function must to delete the existDates if it's appear in the nameEntry
+ */
+function eraseExistDates(){
+	var pattern = /[\d]{4}/;
+	var noPattern = /[^\d{4}]/;	
+	var titleName = $.trim($("div#eaccpfcontent h1 span#nameTitle").text());
+	var name = titleName.split(noPattern); 
+	var existDate = $.trim($("div#eaccpfcontent  h1 span.nameEtryDates").text());
+	existDate = existDate.split(noPattern); 
+	var nameArray = new Array();
+	var dateArray = new Array();
+	
+	$.each(name, function(i,val){
+		if (name[i].match(pattern) != null){
+			if (name[i].length < 5){
+				nameArray.push(name[i]); 
+			}
+		}
+	}); 
+	$.each(existDate, function(k,value){
+		if (existDate[k].match(pattern) != null){
+			if (existDate[k].length < 5){
+				dateArray.push(existDate[k]);
+			}
+		}
+	}); 
+	
+	var found = false;
+	$.each(dateArray, function(k,value){
+		if ($.inArray(dateArray[k], nameArray)!=-1 && !found){
+			found = true; 
+		}
+	});
+	
+	if(found){
+		var title = $("div#eaccpfcontent h1 span#nameTitle").html();
+		$("div#eaccpfcontent  h1 span.nameEtryDates").remove();
+		$("div#eaccpfcontent  h1 span#nameTitle").remove();
+		$("div#eaccpfcontent h1").html(title+'<span id="nameTitle" class="hidden">'+title+'</span>');
+	}
 }
