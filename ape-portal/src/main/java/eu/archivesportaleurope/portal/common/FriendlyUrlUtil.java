@@ -138,6 +138,10 @@ public final class FriendlyUrlUtil {
 		String baseUrl = FriendlyUrlUtil.getUrl(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, noHttps) ;
 		return baseUrl + eadPerstistentUrl.toString() ;	
 	}
+	public static String getEacCpfPersistentUrlForSitemap(PortletRequest portletRequest, EacCpfPersistentUrl eacCpfPerstistentUrl){
+		String baseUrl = FriendlyUrlUtil.getUrlWithoutLocalization(portletRequest, FriendlyUrlUtil.EAC_CPF_DISPLAY, true) ;
+		return baseUrl + eacCpfPerstistentUrl.toString() ;	
+	}
 	public static String getEadPersistentUrlForSitemap(PortletRequest portletRequest, EadPersistentUrl eadPerstistentUrl){
 		String baseUrl = FriendlyUrlUtil.getUrlWithoutLocalization(portletRequest, FriendlyUrlUtil.EAD_DISPLAY_PERSISTENT, true) ;
 		return baseUrl + eadPerstistentUrl.toString() ;	
