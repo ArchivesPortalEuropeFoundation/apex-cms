@@ -42,6 +42,7 @@
 			<property name="cLevelDAO" ref="cLevelDAO"/>	
 			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 			<property name="eadDAO" ref="eadDAO"/>
+			<property name="eacCpfDAO" ref="eacCpfDAO"/>
 	</bean>	  
 		
 	<bean id="viewResolver"
