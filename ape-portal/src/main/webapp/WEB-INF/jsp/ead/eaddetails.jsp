@@ -67,11 +67,15 @@
 	<!-- Save bookmarks section. -->
 	<div id="bookmarksArea">
 		<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
-		<div id="bookmarkEad" class="linkButton">
- 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'ead')"><fmt:message key="bookmark.this" /></a>
+		<div id="bookmarkEad" class="linkButton">	
+ 			<a id="eadBookmark" href="javascript:showBookmark('<c:out value='${bookmarkUrl}' />','<c:out value='${documentTitle}' />','<c:out value='${url}' />','<c:out value='${printEacDetailsUrl}' />', 'ead')"><fmt:message key="bookmark.this" /></a>
+		</div>
+		<!-- Disabled button -->
+		<div id="grey" class="grey hidden">	
+ 			<fmt:message key="bookmark.this" />
 		</div>
 	</div>
-		
+
 	<!-- share section. -->
 	<div id="shareButton" class="linkButton">
 		<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
@@ -81,6 +85,8 @@
 </div>
 
 <div id="collection-details" class="hidden"></div>
+
+<div id="collectionCreateAction" class="hidden"></div>
 
 <div id="bookmarkAnswer">
 	<div id="bookmarkContent" class="hidden"></div>

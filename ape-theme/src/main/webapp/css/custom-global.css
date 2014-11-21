@@ -222,6 +222,22 @@ a:hover {
 	background-color: #E9F3FA;
 	border: 1px solid #00A0DF;
 }
+
+.grey {
+	color: #006CB0;
+	border: 1px solid #00A0DF;
+	margin:5px;
+	font-size: 12px;
+    font-weight: bold;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:5px;
+    padding-bottom:5px;
+    letter-spacing:0.8px;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+    display: inline-block;
+}
 #searchingPart .otherfindingaids .linkButton .nolink, #searchingPart .otherfindingaids .linkButton a {
 	
 	font-size:10px;

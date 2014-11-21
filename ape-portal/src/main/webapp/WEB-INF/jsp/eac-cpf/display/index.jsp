@@ -99,7 +99,11 @@
 		<div id="bookmarksArea" class="linkButton">
 			<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
 			<div id="bookmarkEacCpf">
-	 			<a href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
+	 			<a id="eacBookmark" href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
+			</div>
+			<!-- Disabled button -->
+			<div id="grey" class="grey hidden">	
+	 			<fmt:message key="bookmark.this" />
 			</div>
 		</div>
 	
@@ -132,7 +136,9 @@
 	</div>
 	
 	<div id="collection-details" class="hidden"></div>
-
+	
+	<div id="collectionCreateAction" class="hidden"></div>
+	
 	<div id="bookmarkAnswer">
 		<div id="bookmarkContent" class="hidden"></div>
 	</div>

@@ -6,18 +6,6 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
 
-<%-- <portlet:renderURL var="myCollectionUrl" > --%>
-<%-- 	<portlet:param name="action" value="viewCollection" /> --%>
-<%-- </portlet:renderURL> --%>
-
-<%-- <portlet:renderURL var="createMyCollectionUrl" > --%>
-<%-- 	<portlet:param name="action" value="createNewCollection" /> --%>
-<%-- </portlet:renderURL> --%>
-
-<%-- <portlet:renderURL var="deleteMyCollectionUrl" > --%>
-<%-- 	<portlet:param name="action" value="deleteSavedCollections" /> --%>
-<%-- </portlet:renderURL> --%>
-
 <portlet:renderURL var="myCollections" />
 
 <div id="mycollectionPortletDiv">

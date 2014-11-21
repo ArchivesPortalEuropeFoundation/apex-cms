@@ -22,7 +22,9 @@
 				<portlet:resourceURL var="seeAvaiableCollectionsUrl" id="seeAvaiableCollections"/>
 				<script type="text/javascript">showCollections("${bookmarkId}","${seeAvaiableCollectionsUrl}");</script>
 			</c:if>
-			<script type="text/javascript">hasSaved(true, "${message}");</script>
+			<c:if test="${!showBox}">
+				<script type="text/javascript">hasSaved(true, "${message}");</script>
+			</c:if>
 		</c:if>
 	</c:if>
 </form:form>

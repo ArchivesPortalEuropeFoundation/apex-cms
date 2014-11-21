@@ -1,7 +1,9 @@
 package eu.archivesportaleurope.portal.ead;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -48,6 +51,7 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 /**
  *
@@ -356,7 +360,7 @@ public class DisplayEadContoller extends AbstractEadController {
 
 
 	/***
-	 * Return the modelAndView with the collections in whi9ch can be included a bookmark.
+	 * Return the modelAndView with the collections in which can be included a bookmark.
 	 * @param resourceRequest
 	 * @return modelAndView
 	 */
@@ -378,6 +382,10 @@ public class DisplayEadContoller extends AbstractEadController {
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
+			modelAndView.getModelMap().addAttribute("loggedIn", true);
+ 		}
+ 		else{
+ 			modelAndView.getModelMap().addAttribute("loggedIn", false);
  		}
 		modelAndView.getModelMap().addAttribute("bookmarkId",bookmarkId);
 		return modelAndView;
@@ -489,16 +497,22 @@ public class DisplayEadContoller extends AbstractEadController {
 						modelAndView.getModelMap().addAttribute("collections",collectionsWithBookmark);	
 					}else{
 						modelAndView.getModelMap().addAttribute("saved", false);
-						
 						modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
 					}
 					modelAndView.getModelMap().addAttribute("loggedIn", true);
 					modelAndView.getModelMap().addAttribute("showBox", false);
 					return modelAndView;
+				}else{
+					modelAndView.getModelMap().addAttribute("loggedIn", true);
+					modelAndView.getModelMap().addAttribute("showBox", false);
+					modelAndView.getModelMap().addAttribute("saved", true);
+					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.noCols"));
 				} 
+				
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 				modelAndView.getModelMap().addAttribute("saved", false);
+				modelAndView.getModelMap().addAttribute("loggedIn", true);
 				return modelAndView;
 			}
 		}
@@ -528,6 +542,7 @@ public class DisplayEadContoller extends AbstractEadController {
 				//get collections that contains selected IDs
 				newCollectionContent.setCollection(col);
 				newCollectionContent.setSavedBookmarks(savedBookmark);
+				savedBookmark.setName(PortalDisplayUtil.replaceHTMLSingleQuotes(savedBookmark.getName()));
 				//add item to the list
 				newCollectionContentList.add(newCollectionContent);
 			}
@@ -541,5 +556,102 @@ public class DisplayEadContoller extends AbstractEadController {
 		}
 		return false;
 	}
+	
+	//Create a new collection from second display
+	
+	@ResourceMapping(value="newCollection")
+	public ModelAndView newCollection(ResourceRequest request) throws IOException {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("collection");
+		modelAndView.getModelMap().addAttribute("edit",true);
+		Principal principal = request.getUserPrincipal();
+		Long id = request.getParameter("bookmarkId")!=null?Long.parseLong(request.getParameter("bookmarkId")):null;
+		if(principal!=null && id!=null){ 
+			modelAndView.getModelMap().addAttribute("bookmarkId",id);
+			modelAndView.getModelMap().addAttribute("loggedIn", true);
+		}
+		else{
+			modelAndView.getModelMap().addAttribute("loggedIn", false);
+		}
+		return modelAndView;
+	}
 
+	@ResourceMapping(value="saveNewCollection")
+	public ModelAndView saveNewCollection(ResourceRequest request) throws IOException {
+		Principal principal = request.getUserPrincipal();
+		String title = request.getParameter("title");
+		String description = request.getParameter("description");
+		boolean public_ = (request.getParameter("isPublic").equals("true"));
+		boolean edit = (request.getParameter("isEdit").equals("true"));
+		Long id = request.getParameter("bookmarkId")!=null?Long.parseLong(request.getParameter("bookmarkId")):null;
+		Collection newCollection = new Collection();
+		if (principal != null && StringUtils.isNotBlank(title)){
+			try {
+				//collection
+				Long liferayUserId = Long.parseLong(principal.toString());
+				newCollection.setTitle(title);
+				newCollection.setPublic_(public_);
+				newCollection.setLiferayUserId(liferayUserId);
+				newCollection.setDescription(description);
+				newCollection.setEdit(edit);
+				newCollection.setModified_date(new Date());
+				newCollection = this.collectionDAO.store(newCollection);
+				try {
+					List<Long> collectionsList = new ArrayList<Long>();
+					collectionsList.add(newCollection.getId());
+					addbookmarkToCollections(collectionsList, id, liferayUserId);
+				} catch (Exception e) {
+					LOGGER.error(ApeUtil.generateThrowableLog(e));
+				}
+			} catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
+			}
+		}
+		return showSavedCollections(request);
+	}		
+	
+	public ModelAndView showSavedCollections(ResourceRequest request) {
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("bookmark");
+		boolean orderAsc=true;
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
+		Principal principal = request.getUserPrincipal();
+		if (principal != null){
+			Long liferayUserId = Long.parseLong(principal.toString());
+			Integer pageNumber = 1;
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			if (request.getParameter("orderAsc")=="headerSortUp")
+				orderAsc=true;
+			else
+				orderAsc=false;
+				
+			try {
+				List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, request.getParameter("column"),orderAsc);
+				User user = (User) request.getAttribute(WebKeys.USER);
+				modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+				modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", (collections.size()>0)?this.collectionDAO.countCollectionsByUserId(liferayUserId):collections.size());
+				modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+				modelAndView.getModelMap().addAttribute("orderColumn", "none");
+				modelAndView.getModelMap().addAttribute("orderAsc", "none");
+				modelAndView.getModelMap().addAttribute("collections",collections);
+				modelAndView.getModelMap().addAttribute("showBox", false);
+				modelAndView.getModelMap().addAttribute("saved", true);
+		 		modelAndView.getModelMap().addAttribute("loggedIn", true);
+				modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
+			} catch (Exception e) {
+				modelAndView.getModelMap().addAttribute("saved", false);
+		 		modelAndView.getModelMap().addAttribute("loggedIn", true);
+				modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
+			}
+		}
+		else{
+	 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+		}
+		return modelAndView;
+	}
+	//End creation a new colection from second display
 }
