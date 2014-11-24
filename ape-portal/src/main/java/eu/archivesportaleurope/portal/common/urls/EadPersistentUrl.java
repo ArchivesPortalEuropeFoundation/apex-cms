@@ -22,7 +22,7 @@ public class EadPersistentUrl extends AbstractContentUrl{
 	}
 	public void setClevel(CLevel cLevel) {
 		if (cLevel != null){
-			setSearchIdAsLong(cLevel.getClId());
+			setSearchIdAsLong(cLevel.getId());
 			if (cLevel.isDuplicateUnitid()){
 				setUnitid(null);
 			}else {
