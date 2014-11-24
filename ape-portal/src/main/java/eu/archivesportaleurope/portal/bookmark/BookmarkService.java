@@ -9,6 +9,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "bookmarkService")
@@ -41,7 +42,7 @@ public class BookmarkService {
 			savedbookmark.setLiferayUserId(liferayUserId);
 			savedbookmark.setModifiedDate(new Date(System.currentTimeMillis()));
 			savedbookmark.setLink(bookmarkObject.getPersistentLink());
-			savedbookmark.setName(bookmarkObject.getBookmarkName());
+			savedbookmark.setName(PortalDisplayUtil.replaceHTMLSingleQuotes(bookmarkObject.getBookmarkName()));
 			savedbookmark.setTypedocument(bookmarkObject.getTypedocument());
 			SavedBookmarks bookmark = savedBookmarksDAO.store(savedbookmark);
 			bookmarkObject.setId(Long.toString(bookmark.getId()));

@@ -242,6 +242,8 @@ public class DisplayEacCpfContoller {
 					modelAndView.getModel().put("recaptchaAjaxUrl",  PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
 					modelAndView.getModelMap().addAttribute("recaptchaPubKey",  PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
 					String documentTitle = eac.getTitle();
+					String pageTitle = PortalDisplayUtil.getEacCpfDisplayPageTitle(eac);
+					modelAndView.getModelMap().addAttribute("pageTitle",pageTitle);
 					documentTitle = PortalDisplayUtil.getEacCpfDisplayTitle(eac);
 					modelAndView.getModelMap().addAttribute("documentTitle",documentTitle);
 

@@ -314,7 +314,7 @@ public class CollectionController {
 	}
 
 	@ActionMapping(params="action=saveEditCollection")
-	public void saveEditedCollection(RenderRequest request) throws IOException {
+	public void saveEditedCollection(ActionRequest request) throws IOException {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());

@@ -134,8 +134,7 @@
 	 };
 
 	$(document).ready(function() {
-		var title = "${documentTitle}";
-		$("title").html($("<div />").html(title).text());
+		document.title = "${pageTitle}";
 		initExpandableParts();
 	});
 

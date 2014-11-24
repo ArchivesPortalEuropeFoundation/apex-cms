@@ -69,8 +69,7 @@
 	 };
 
 	$(document).ready(function() {
-		var title = "${documentTitle}";
-		$("title").html($("<div />").html(title).text());
+		document.title = "${pageTitle}";
 		init();	
 		makeRelationsCollapsible();
 	});
@@ -99,7 +98,7 @@
 		<div id="bookmarksArea" class="linkButton">
 			<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
 			<div id="bookmarkEacCpf">
-	 			<a id="eacBookmark" href="javascript:showBookmark('${bookmarkUrl}','${documentTitle}','${url}', '${printEacDetailsUrl}', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
+	 			<a id="eacBookmark" href="javascript:showBookmark('<c:out value='${bookmarkUrl}' />', '<c:out value='${documentTitle}' />', '<c:out value='${url}' />', '<c:out value='${printEacDetailsUrl}' />', 'eac-cpf')"><fmt:message key="bookmark.this" /></a>
 			</div>
 			<!-- Disabled button -->
 			<div id="grey" class="grey hidden">	

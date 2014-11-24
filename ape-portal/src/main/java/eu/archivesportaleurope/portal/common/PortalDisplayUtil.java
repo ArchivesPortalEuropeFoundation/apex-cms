@@ -124,8 +124,14 @@ public class PortalDisplayUtil {
 			return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + TITLE_FEATURED_DOCUMENT + END_CHARACTER);
 		}
 	}
+	public static String getEacCpfDisplayPageTitle(EacCpf eacCpf){
+		return PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER);
+	}
 	public static String getEacCpfDisplayTitle(EacCpf eacCpf){
 		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( eacCpf.getTitle() + START_CHARACTER + eacCpf.getArchivalInstitution().getRepositorycode() + " - " + eacCpf.getIdentifier() + END_CHARACTER));
+	}
+	public static String getEadDisplayPageTitle(Ead ead, String title){
+		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER);
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
 		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER));
