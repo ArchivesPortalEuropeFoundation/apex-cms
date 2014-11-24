@@ -122,7 +122,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append(START_ITEM);
 			addTitle(buffer, clevel, locale);
 			buffer.append(COMMA);
-			addId(buffer, clevel.getClId());
+			addId(buffer, clevel.getId());
 			addChildren(buffer, clevel, eadParams, locale);
 			if (i < clevels.size() - 1) {
 				buffer.append(END_ITEM_WITH_COMMA);
@@ -145,7 +145,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 		buffer.append(START_ITEM);
 		addTitle(buffer, clevel, locale);
 		buffer.append(COMMA);
-        addId(buffer, clevel.getClId());
+        addId(buffer, clevel.getId());
 		buffer.append(COMMA);
 		buffer.append("\"selected\":true, \"activate\": true");
 
@@ -165,7 +165,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append(START_ITEM);
 			addTitle(buffer, parent, locale);
 			buffer.append(COMMA);
-            addId(buffer, parent.getClId());
+            addId(buffer, parent.getId());
 			buffer.append(COMMA);
 			addExpand(buffer);
 			buffer.append(COMMA);
@@ -205,7 +205,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append(COMMA);
 			buffer.append(FOLDER_LAZY);
 			buffer.append(COMMA);
-			addId(buffer, clevel.getClId());
+			addId(buffer, clevel.getId());
 		}
 	}
 
