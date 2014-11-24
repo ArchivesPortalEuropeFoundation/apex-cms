@@ -16,7 +16,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -51,7 +50,6 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
-import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 
 /**
  *
@@ -149,7 +147,7 @@ public class DisplayEadContoller extends AbstractEadController {
 								modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE);
 							}
 							CLevel clevel = clevels.get(0);
-							modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getClId());
+							modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + clevel.getId());
 							ead = clevel.getEadContent().getEad();
 							return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
 							
