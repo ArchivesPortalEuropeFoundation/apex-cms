@@ -52,8 +52,8 @@ public class AbstractEadController {
 		}
 		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.CDETAILS_XSLT);
 		int orderId = (pageNumberInt - 1) * PAGE_SIZE;
-		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getClId(), orderId, PAGE_SIZE);
-		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getClId());
+		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getId(), orderId, PAGE_SIZE);
+		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getId());
 		if (noscript){
 			modelAndView.getModelMap().addAttribute("children", children);
 		}else {
