@@ -317,16 +317,16 @@ public class ArchivalLandscapeTreeJSONWriter extends AbstractJSONWriter {
 				// The node is a Finding Aid
 				if (hgSgFaRelation != null && hgSgFaRelation.getFindingAid().isPublished()) {
 					addKey(node, AlType.FINDING_AID, hgSgFaRelation.getFaId(), TreeType.LEAF);
-					addPreviewCId(node, clevel.getClId());
+					addPreviewCId(node, clevel.getId());
 				} else {
 					node.setHideCheckbox(true);
-					addPreviewCId(node, clevel.getClId());
+					addPreviewCId(node, clevel.getId());
 				}
 
 			} else {
 				// The node is a group (series, subseries) within the
 				// EAD
-				addKey(node, AlType.C_LEVEL, clevel.getClId(), TreeType.GROUP);
+				addKey(node, AlType.C_LEVEL, clevel.getId(), TreeType.GROUP);
 				node.setFolder(true);
 				addAiId(node, aiId);
 				node.setHideCheckbox(true);
