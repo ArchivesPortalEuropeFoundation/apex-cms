@@ -33,6 +33,10 @@
 				<property name="clevelDAO" ref="cLevelDAO"/>
 				<property name="eadDAO" ref="eadDAO"/>
 				<property name="messageSource" ref="messageSource"/>
+	</bean>
+	<bean
+		class="eu.archivesportaleurope.portal.bookmark.BookmarkCollectionContoller">
+				<property name="messageSource" ref="messageSource"/>
 				<property name="collectionDAO" ref="collectionDAO"/>
 				<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
 				<property name="collectionContentDAO" ref="collectionContentDAO"/>
