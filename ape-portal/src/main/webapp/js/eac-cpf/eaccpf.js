@@ -258,12 +258,16 @@ function expandedSection(){
 /**
  * Function to assign the same height that its container
  */
-function sameHeight(){
-	
-	$('#eacCpfDisplayPortlet .row').each(function(){
-		$(this).css("height","");
-		$(this).children().css("height","");
-		var height = $(this).css("height");
-		$(this).children().css("height",height);
-	});
+function sameHeight() {
+    $('#eacCpfDisplayPortlet .row').each(function() {
+         if(!$(this).is( ":hidden" )){
+                 $(this).css("height", "");
+            $(this).children().css("height", "");
+            var height = $(this).height();
+            if(height == "auto"){
+                 height = $(this).css("height");
+            }
+            $(this).children().css("height", height);
+         }
+    });
 }
