@@ -8,47 +8,28 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 
-import eu.apenet.commons.solr.SolrValues;
-import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
-import eu.apenet.persistence.dao.EadDAO;
-import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Collection;
 import eu.apenet.persistence.vo.CollectionContent;
-import eu.apenet.persistence.vo.Ead;
-import eu.apenet.persistence.vo.EadContent;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
-import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
-import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.common.PropertiesKeys;
-import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.common.urls.EadPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 
 /**
@@ -58,12 +39,10 @@ import eu.archivesportaleurope.util.ApeUtil;
  * @author bverhoef
  *
  */
-@Controller(value = "displayEadController")
+@Controller(value = "BookmarkCollectionContoller")
 @RequestMapping(value = "VIEW")
 public class BookmarkCollectionContoller {
-	private static final String UNKNOWN = "UNKNOWN";
 	private final static Logger LOGGER = Logger.getLogger(BookmarkCollectionContoller.class);
-	private static final Pattern POSITION_REGEX = Pattern.compile("c\\d+(-c\\d+){0,9}");
 
 	private CollectionDAO collectionDAO;
 	private MessageSource messageSource;
