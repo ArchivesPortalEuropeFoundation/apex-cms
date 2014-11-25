@@ -40,7 +40,7 @@ $(document).ready(function() {
 						<div id="searchCollectionsButton" class="linkButton">
 				 			<a href="javascript:showCollections('${bookmarkId}','${seeAvaiableCollectionsUrl}')"><fmt:message key="advancedsearch.message.search" /></a>
 						</div>
-						<div id="searchButtonGrey" class="grey hidden">
+						<div id="searchButtonGrey" class="disableBookmarkButton hidden">
 				 			<fmt:message key="advancedsearch.message.search" />
 						</div>
 					</td>

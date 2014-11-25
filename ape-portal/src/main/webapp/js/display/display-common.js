@@ -246,11 +246,13 @@ function loadDialogShow(bookmark, seeAvaiableCollectionsUrl){
 function enableBookmarkButton(){
 	$('#bookmarkEad').removeClass('hidden');
 	$('#bookmarkEacCpf').removeClass('hidden');
-	$('#grey').addClass('hidden');
+	$('#bookmarkEadGrey').addClass('hidden');
+	$('#bookmarkEacCpfGrey').addClass('hidden');
 }
 
 function disableBookmarkButton(){
 	$('#bookmarkEad').addClass('hidden');
 	$('#bookmarkEacCpf').addClass('hidden');
-	$('#grey').removeClass('hidden');
+	$('#bookmarkEadGrey').removeClass('hidden');
+	$('#bookmarkEacCpfGrey').removeClass('hidden');
 }

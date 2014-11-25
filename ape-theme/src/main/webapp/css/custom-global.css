@@ -223,7 +223,7 @@ a:hover {
 	border: 1px solid #00A0DF;
 }
 
-.grey {
+.disableBookmarkButton {
 	color: #006CB0;
 	border: 1px solid #00A0DF;
 	margin:5px;
