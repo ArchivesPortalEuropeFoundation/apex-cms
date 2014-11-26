@@ -62,7 +62,7 @@ public class SourceTabsTag extends SimpleTagSupport {
 				otherCssClass ="";
 			}
 			if (tabType.equalsIgnoreCase(type)){
-				writer.append(" ui-tabs-selected ui-state-active\"><a href=\"\">");
+				writer.append(" ui-tabs-selected ui-state-active\"><a href=\"javascript:void(0);\">");
 			}else {
 				writer.append(" " + otherCssClass + "\"><a href=\"javascript:changeSearch('"+ tabFunction + "')\">");
 			}
