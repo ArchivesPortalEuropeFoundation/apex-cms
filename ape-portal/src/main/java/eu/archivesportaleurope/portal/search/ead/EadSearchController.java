@@ -138,9 +138,12 @@ public class EadSearchController extends AbstractSearchController{
 							eadSearch.setSavedSearchId(savedSearchId);
 						}
 						Results results = performNewSearch(request, eadSearch);
+//						modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
 						modelAndView.getModelMap().addAttribute("results", results);
 					}else{
 						Results results = updateCurrentSearch(request, eadSearch);
+//						LOGGER.info(eadSearch.getTerm());
+//						modelAndView.getModelMap().addAttribute("eadSearch", eadSearch);
 						eadSearch.setMode(EadSearch.MODE_NEW_SEARCH);
 						modelAndView.getModelMap().addAttribute("selectedRefinements", savedSearchService.convertToRefinements(request, eadSearch));
 						modelAndView.getModelMap().addAttribute("results", results);
