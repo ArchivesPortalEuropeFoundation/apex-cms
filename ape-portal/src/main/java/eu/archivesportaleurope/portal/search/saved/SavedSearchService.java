@@ -138,9 +138,8 @@ public class SavedSearchService {
 			/*
 			 * advanced search options
 			 */
-			eadSearch.setElement(eadSavedSearch.getElement());
-			if (!"0".equals(eadSavedSearch.getElement())) {
-				eadSearch.setElement(removeEmptyString(eadSavedSearch.getElement()));
+			if (StringUtils.isBlank(eadSavedSearch.getElement())) {
+				eadSearch.setElement("0");
 			}
 			eadSearch.setTypedocument(eadSavedSearch.getTypedocument());
 			eadSearch.setFromdate(eadSavedSearch.getFromdate());
