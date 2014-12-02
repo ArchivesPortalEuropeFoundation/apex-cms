@@ -59,7 +59,7 @@ public final class FriendlyUrlUtil {
 		urls.put(HELP_PAGES, "/help");			
 		urls.put(SAVED_SEARCH_OVERVIEW, "/saved-searches/-/sv");
 		urls.put(SAVED_BOOKMARKS, "/bookmarks/-/s/d");
-		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/savedbookmarks/-/sb");
+		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/saved-bookmarks/-/sb");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");
 		urls.put(SAVED_COLLECTION_OVERVIEW, "/saved-collections/-/cs");
 	}
