@@ -78,6 +78,7 @@ public class AbstractEadController {
 		String documentTitle = currentCLevel.getUnittitle();
 		EadContent eadContent = currentCLevel.getEadContent();
 		String pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+		PortalDisplayUtil.setPageTitle(portletRequest, pageTitle);
 		modelAndView.getModelMap().addAttribute("pageTitle", pageTitle);
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
@@ -102,6 +103,7 @@ public class AbstractEadController {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = eadContent.getUnittitle();
 		String pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+		PortalDisplayUtil.setPageTitle(portletRequest, pageTitle);
 		modelAndView.getModelMap().addAttribute("pageTitle", pageTitle);
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
