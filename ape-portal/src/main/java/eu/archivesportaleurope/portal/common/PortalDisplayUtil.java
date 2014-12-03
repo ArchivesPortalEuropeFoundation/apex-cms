@@ -7,7 +7,6 @@ import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentType;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import com.liferay.portal.util.PortalUtil;
 
@@ -19,7 +18,6 @@ import eu.apenet.persistence.vo.Ead;
 public class PortalDisplayUtil {
     private static final String END_CHARACTER = ")";
 	private static final String START_CHARACTER = " (";
-	private static final Logger LOGGER = Logger.getLogger(PortalDisplayUtil.class);
     public static final String TITLE_HOME = "HOME";
     public static final String TITLE_DIRECTORY = "DIRECTORY";
     public static final String TITLE_EAD_SEARCH = "ARCHIVES SEARCH";
@@ -88,11 +86,11 @@ public class PortalDisplayUtil {
 	}
 	public static boolean isNotDesktopBrowser(PortletRequest portletRequest){
 		ReadableUserAgent agent = getUserAgent(portletRequest);
-		return agent == null || !UserAgentType.BROWSER.equals(agent.getType());
+		return agent == null || !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.UNKNOWN.equals(agent.getType()));
 	}
 	public static boolean isNotNormalBrowser(PortletRequest portletRequest){
 		ReadableUserAgent agent = getUserAgent(portletRequest);
-		return agent == null || !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()));
+		return agent == null || !(UserAgentType.BROWSER.equals(agent.getType()) || UserAgentType.MOBILE_BROWSER.equals(agent.getType()) || UserAgentType.UNKNOWN.equals(agent.getType()));
 	}
 	public static void setPageTitle(PortletRequest portletRequest, String title){
 		String documentTitle = PortalDisplayUtil.replaceQuotesAndReturns(title);
