@@ -78,6 +78,7 @@ public class AbstractEadController {
 		String documentTitle = currentCLevel.getUnittitle();
 		EadContent eadContent = currentCLevel.getEadContent();
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
+		PortalDisplayUtil.setPageTitle(portletRequest, documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
 		modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
@@ -100,6 +101,7 @@ public class AbstractEadController {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = eadContent.getUnittitle();
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle);
+		PortalDisplayUtil.setPageTitle(portletRequest, documentTitle);
 		modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
 		modelAndView.getModelMap().addAttribute("eadContent", eadContent);
 		XmlType xmlType = XmlType.getContentType(ead);
