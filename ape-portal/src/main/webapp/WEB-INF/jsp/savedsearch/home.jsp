@@ -16,11 +16,9 @@
 			<div class="boxtitle">
 				<div class="numberOfPages">
 					<ape:pageDescription numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
-				</div>
+				</div>		
 				<div id="top-paging" class="paging">
-					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-						refreshUrl="${savedSearchPagingUrl}/{pageNumber}" pageNumberId="pageNumber"  liferayFriendlyUrl="true"/>
-
+					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" refreshUrl="${savedSearchPagingUrl}/{pageNumber}" pageNumberId="pageNumber"  liferayFriendlyUrl="true"/>
 				</div>
 			</div>
 

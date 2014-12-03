@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -244,44 +245,40 @@ public class BookmarkController {
  			}
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
-	 			User user = (User) request.getAttribute(WebKeys.USER);
+	 			User user = (User) request.getAttribute(WebKeys.USER);				
+	 			//get the list of collectionContent that contains the elemet (saved search or saved bookmark)
+				List<CollectionContent> restCollectionBookmarks = collectionContentDAO.getCollectionContentByElementId("Bookmark", bookmark.getId());
+				//iterate the list to get collectionContent Ids
+	 			List<Long> collectionIdsWithElement=new ArrayList<Long>();
+				for (CollectionContent content: restCollectionBookmarks) {
+					collectionIdsWithElement.add(content.getCollection().getId());
+				}
+				//get paged list of user collections that NOT contais the elements of the list
+				List<Collection> collectionsWithoutElements = collectionDAO.getUserCollectionsWithoutIds(liferayUserId, collectionIdsWithElement, pageNumber, PAGESIZE);
+				//count the number of user collections that NOT contains the element
+				Long totalNumberOfResults = collectionDAO.countUserCollectionsWithoutIds(liferayUserId, collectionIdsWithElement);
+				
 				modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 				modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
-				modelAndView.getModelMap().addAttribute("totalNumberOfResults", getCollectionsWithoutBookmark(request, liferayUserId).size());
+				modelAndView.getModelMap().addAttribute("totalNumberOfResults", totalNumberOfResults);
 				modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 				modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
-				modelAndView.getModelMap().addAttribute("collections",getCollectionsWithoutBookmark(request, liferayUserId));	
+				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutElements);
+				String listChecked = null;
+				if (request.getParameter("listChecked") == null) {
+					listChecked = "";
+				} else {
+					listChecked = request.getParameter("listChecked");
+				}
+				modelAndView.getModelMap().addAttribute("listChecked", listChecked);
+								
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
  		}
-		return modelAndView;
+		return modelAndView; 
 	}
-	
-	private List<Collection> getCollectionsWithoutBookmark(RenderRequest request, Long liferayUserId){
-		List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, PAGESIZE,"none",false);
-		List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
-		//irterate collection to check if bookmark exists
-		Iterator<Collection> itcollections = collections.iterator();
-		while(itcollections.hasNext()){
-			Collection collection = itcollections.next();
-			boolean contains = false;
-			Set<CollectionContent> collectioncontentSet = collection.getCollectionContents();
- 			Iterator<CollectionContent> itcollectionContents = collectioncontentSet.iterator();
-			while(!contains && itcollectionContents.hasNext()){
-				CollectionContent collectionContent = itcollectionContents.next();
-				if ((collectionContent.getSavedBookmarks()!=null) && 
-					(collectionContent.getSavedBookmarks().getId()==Long.parseLong(request.getParameter("id")))) {
-					contains = true;
-				}
-			}
-			if (!contains) {
-				collectionsWithoutBookmark.add(collection);
-			}
-		}
-		return collectionsWithoutBookmark;
-	}
-		
+			
 	/***
 	 * Gets the list of the collections in which can be stored the bookmarks, if a collection alredy has the bookmark will not be shown
 	 * @param request RenderRequest
@@ -298,24 +295,24 @@ public class BookmarkController {
 		Integer pageNumber = 1;
 		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}	
+		}
  		if (principal != null){
 			try {	
 				//selected bookmark id
 				Long savedBookmarkId = Long.parseLong(request.getParameter("savedBookmark_id"));
 				//recover selected collections from the request
-				Enumeration<String> parametersNames = request.getParameterNames();
 				List<Long> collectionsList = new ArrayList<Long>();
-				while(parametersNames.hasMoreElements()){
-					String parameterName = parametersNames.nextElement();
-					if(parameterName!=null){
-						if(parameterName.contains(COLLECTION_IN)){
-							if(request.getParameter(parameterName).equalsIgnoreCase("on")){
-								collectionsList.add(Long.parseLong(parameterName.substring(COLLECTION_IN.length())));
-							}
-						}
+				String[] listChecked = {""};
+				if (request.getParameter("listChecked") == null) {
+					listChecked = null;
+				} else {
+					listChecked = request.getParameter("listChecked").split(",");
+					for (int i = 0; i < listChecked.length; i++){
+						collectionsList.addAll(Arrays.asList(Long.parseLong(listChecked[i])));
 					}
+					modelAndView.getModelMap().addAttribute("listChecked", listChecked);
 				}
+				
 				//if bookmark id is not null and collections list is not empty call to the method
 				if(!collectionsList.isEmpty() && savedBookmarkId !=null){
 					if(addbookmarkToCollections(collectionsList, savedBookmarkId, liferayUserId)){
@@ -353,11 +350,13 @@ public class BookmarkController {
 				} 
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
+				modelAndView.getModelMap().addAttribute("loggedIn", false);
 				modelAndView.getModelMap().addAttribute("saved", false);
 				return modelAndView;
 			}
 		}
- 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+		modelAndView.getModelMap().addAttribute("loggedIn", false);
+		modelAndView.getModelMap().addAttribute("saved", false);
 		return modelAndView;
 	}
 		

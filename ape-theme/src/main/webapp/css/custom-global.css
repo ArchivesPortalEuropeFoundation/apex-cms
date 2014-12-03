@@ -185,6 +185,12 @@ a:hover {
 	color: red;	
 	font-weight: bold;
 }
+
+.success, .errorBlock {
+	color: green;	
+	font-weight: bold;
+}
+
 .errorBlock{
 	display:block;
 }

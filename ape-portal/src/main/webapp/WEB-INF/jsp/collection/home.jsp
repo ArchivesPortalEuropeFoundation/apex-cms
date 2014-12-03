@@ -15,6 +15,7 @@
 <portlet:actionURL var="deleteMyCollectionUrl" >
 	<portlet:param name="action" value="deleteSavedCollections" />
 </portlet:actionURL>
+
 <portlet:renderURL var="myCollections" />
 
 <div id="savedCollectionsPortlet">
@@ -29,10 +30,10 @@
 					<div class="numberOfPages">
 						<ape:pageDescription numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
 					</div>		
-				<div id="child-paging" class="paging">
-					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
+					<div id="child-paging" class="paging">
+						<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" 
 						refreshUrl="${myCollections}" pageNumberId="pageNumber" />
-				</div>
+					</div>
 				</div>
 				<input id="orderToSet" type="hidden" value="${orderAsc}">
 				<table id="savedCollectionsTable" class="defaultlayout"> 

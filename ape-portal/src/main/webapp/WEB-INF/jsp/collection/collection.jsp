@@ -24,6 +24,7 @@
 				<form id="frmCollectionContent" name="frmCollectionContent" method="post" action="${createNewCollection}" onsubmit="return prevSubmit();">
 			</c:otherwise>
 		</c:choose>
+
 		<table class="defaultlayout">
 			<tr>
 				<th><fmt:message key="advancedsearch.text.title2"/></th> 
@@ -49,24 +50,24 @@
 				</tr>
 			</c:if>
 		</table>
-				
+		
 		<div class="collectionSearchField" id="collectionSearchFields"></div>
 		<div id="newCollectionSearches"> </div>
 		<div id="bookmarksDiv"> </div>
 		<div id="newBookmarksDiv"> </div>
-			
+
 		<c:if test="${cSearches!=null}">
 			<c:forEach var="currentSearch" items="${cSearches}">
 				<input type="hidden" name="hidden_selected_search_${currentSearch.id}" id="hidden_selected_search_${currentSearch.id}" value="on" />
 			</c:forEach>
 		</c:if>
-		
+
 		<c:if test="${cBookmarks!=null}">
 			<c:forEach var="currentBookmark" items="${cBookmarks}">
 				<input type="hidden" name="hidden_collection_bookmark_${currentBookmark.id}" id="hidden_collection_bookmark_${currentBookmark.id}" value="on" />
 			</c:forEach>
 		</c:if>
-		
+
 		<c:if test="${edit}">
 			<div id="collectionFieldSubmit" class="collectionFieldSubmit">
 				<input type="submit" value="<fmt:message key="savedsearch.save"/>" />

@@ -263,13 +263,13 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	width:100%;
 }
 
-#eadDisplayPortlet #bookmarkAnswer .success {
+#eadDisplayPortlet #mycollectionPortletDiv #bookmarkAnswer #answerMessageSaved .success {
 	color: green;
 	font-weight: bold;
 	text-align: center;
 }
 
-#eadDisplayPortlet #bookmarkAnswer .failure {
+#eadDisplayPortlet #mycollectionPortletDiv #bookmarkAnswer #answerMessageSaved .failure {
 	color: red;
 	font-weight: bold;
 	text-align: center;

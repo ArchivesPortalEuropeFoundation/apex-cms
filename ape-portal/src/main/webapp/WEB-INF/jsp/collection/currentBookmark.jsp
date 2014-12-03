@@ -5,9 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
-<%-- <portal:friendlyUrl var="myCollectionUrl" type="saved-collection-overview"/> --%>
 <div class="collectionSearchFields" id="collectionSearchFields">
 	<c:if test="${currentBookmarks!=null}">
+	<br/>
 		<c:choose>
 			<c:when test="${edit}">
 				<portlet:resourceURL var="getBookmarksUrl" id="getBookmarks">

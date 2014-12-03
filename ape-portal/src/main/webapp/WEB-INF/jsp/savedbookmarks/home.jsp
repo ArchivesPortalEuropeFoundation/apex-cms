@@ -10,7 +10,7 @@
 <portal:friendlyUrl var="savedBookmarkPagingUrl" type="saved-bookmarks-overview" />
 <div id="savedBookmarksPortlet">
 <c:choose>
-	<c:when test="${not empty savedBookmarks}">
+	<c:when test="${not empty '${savedBookmarks}'}">
 		<h2><fmt:message key="bookmarks.bookmarks"/></h2>
 		<div id="children" class="box">
 			<div class="boxtitle">
@@ -18,8 +18,7 @@
 					<ape:pageDescription numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
 				</div>
 				<div id="top-paging" class="paging">
-					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}"
-						refreshUrl="${savedBookmarkPagingUrl}/{pageNumber}" pageNumberId="pageNumber" liferayFriendlyUrl="true"/>
+					<ape:paging numberOfItems="${totalNumberOfResults}" pageSize="${pageSize}" pageNumber="${pageNumber}" refreshUrl="${savedBookmarkPagingUrl}/{pageNumber}" pageNumberId="pageNumber" liferayFriendlyUrl="true"/>
 				</div>
 			</div>
 			<table id="savedBookmarksTable" class="defaultlayout">

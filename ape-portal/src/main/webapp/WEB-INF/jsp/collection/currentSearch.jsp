@@ -10,6 +10,7 @@
 
 <div class="collectionSearchFields" id="collectionSearchFields">
 	<c:if test="${currentSearches!=null}">
+	<br/>
 	<div class="collectionSearchField" id="collectionSearchFields">
 		<c:if test="${currentSearches!=null && currentSearches.size() > 0}">
 			<div><fmt:message key="advancedsearch.text.savedsearches"/>:</div>
