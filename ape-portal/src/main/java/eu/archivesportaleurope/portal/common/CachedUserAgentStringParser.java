@@ -8,7 +8,7 @@ import eu.apenet.commons.utils.CacheManager;
 
 public final class CachedUserAgentStringParser implements UserAgentStringParser {
 
-	private final UserAgentStringParser parser = UADetectorServiceFactory.getCachingAndUpdatingParser();
+	private final UserAgentStringParser parser = UADetectorServiceFactory.getOnlineUpdatingParser();
 	private final static Cache<String, ReadableUserAgent> cache = CacheManager.getInstance().<String, ReadableUserAgent>initCache("UserAgentCache");
 
 	private static CachedUserAgentStringParser instance;
