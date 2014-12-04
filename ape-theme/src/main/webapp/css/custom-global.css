@@ -186,7 +186,7 @@ a:hover {
 	font-weight: bold;
 }
 
-.success, .errorBlock {
+.success{
 	color: green;	
 	font-weight: bold;
 }
