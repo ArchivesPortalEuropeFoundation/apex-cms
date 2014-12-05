@@ -13,8 +13,9 @@ import eu.archivesportaleurope.portal.search.eag.EagSearcher;
 
 public class AbstractSearchController {
 	protected static final Pattern NO_WHITESPACE_PATTERN = Pattern.compile("\\S+");
-
-	private static final String REGEX = "[\\?\\*\\~].*";
+	private static final Pattern LEADING_WILDCARD_PATTERN = Pattern.compile("[\\?\\*\\~].*");
+	private static final Pattern END_WILDCARD_PATTERN = Pattern.compile("[^\\?\\*\\~]{2}.*");
+	private static final String WILDCARD = "*";
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
 	private EagSearcher eagSearcher;
@@ -70,12 +71,20 @@ public class AbstractSearchController {
 		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
 
-	private boolean validateTerm(String string){
+	private static boolean validateTerm(String string){
 		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(string.trim());
 		while (matcher.find()) {
 			String word = matcher.group();
-			if (word.matches(REGEX)){
-				return false;
+			if (!WILDCARD.equals(word)){
+		        Matcher m = LEADING_WILDCARD_PATTERN.matcher(word);
+		        if (m.matches()){
+		        	return false;
+		        }else {
+		        	m = END_WILDCARD_PATTERN.matcher(word);
+		        	if (!m.matches()){
+		        		return false;
+		        	}
+		        }
 			}
 		}
 		return true;
@@ -83,11 +92,7 @@ public class AbstractSearchController {
 	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			boolean valid = validateTerm(abstractSearchForm.getTerm());
-			if (portletRequest.getUserPrincipal() == null && !valid){
-				return "search.message.noleadingwildcards";
-			}else if (portletRequest.getUserPrincipal() != null && AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm()) ){
-				
-			}else if (!valid){
+			if (!valid){
 				return "search.message.noleadingwildcards";
 			}
 			
