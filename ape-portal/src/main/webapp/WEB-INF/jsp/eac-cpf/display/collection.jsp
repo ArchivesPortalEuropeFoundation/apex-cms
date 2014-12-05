@@ -18,7 +18,9 @@ $(document).ready(function() {
 <div id="mycollectionPortletDiv" title="<fmt:message key="collections.create"/>">
 	<div class="collectionFieldDiv" id="collectionFieldDiv">
 		<c:if test="${!loggedIn}">
-			<script type="text/javascript">showError("${message}");</script>
+			<div class="error">
+				<fmt:message key="bookmarks.logged.ko"/>
+			</div>
 		</c:if>
 		<c:if test="${loggedIn}">
 			<form id="frmCollectionContent" name="frmCollectionContent" method="post" action="${createNewCollection}" onsubmit="return prevSubmit();">
@@ -48,7 +50,7 @@ $(document).ready(function() {
 							<th><fmt:message key="savedsearch.publicaccessible"/></th>
 							<td>
 								<input type="checkbox" id="collectionField_public" name="collectionField_public" 
-	 								<c:if test="${!edit}">disabled="disabled"</c:if>
+									<c:if test="${!edit}">disabled="disabled"</c:if>
 								/>
 							</td>				
 						</tr>
@@ -56,7 +58,7 @@ $(document).ready(function() {
 							<th><fmt:message key="savedsearches.overview.edit"/></th>
 							<td>
 								<input type="checkbox" id="collectionField_edit" name="collectionField_edit" 
-	 								<c:if test="${!edit}">disabled="disabled"</c:if>
+									<c:if test="${!edit}">disabled="disabled"</c:if>
 								/>
 							</td>
 						</tr>

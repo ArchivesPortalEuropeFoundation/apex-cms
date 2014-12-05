@@ -274,3 +274,15 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	font-weight: bold;
 	text-align: center;
 }
+
+#eadDisplayPortlet #bookmarkAnswer .success {
+	color: green;
+	font-weight: bold;
+	text-align: center;
+}
+
+#eadDisplayPortlet #bookmarkAnswer .failure {
+	color: red;
+	font-weight: bold;
+	text-align: center;
+}

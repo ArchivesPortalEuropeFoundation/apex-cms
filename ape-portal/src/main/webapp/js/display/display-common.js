@@ -152,10 +152,10 @@ function createCollections(bookmark, CollectionUrl){
 			$("div[aria-labelledby^='ui-']").each(function(){
 				$(this).remove();
 			});
-			$('#collectionCreateAction').empty();
-			$("#collectionCreateAction").html(data);
-			$('#collectionCreateAction').removeClass("hidden");
-			$('#collectionCreateAction').show();
+			$('#collection-details').empty();
+			$("#collection-details").html(data);
+			$('#collection-details').removeClass("hidden");
+			$('#collection-details').show();
 		}
 	);
 }

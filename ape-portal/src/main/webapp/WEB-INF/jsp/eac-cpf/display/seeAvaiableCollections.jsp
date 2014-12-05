@@ -10,6 +10,7 @@
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 <portlet:resourceURL var="seeAvaiableCollectionsUrl" id="seeAvaiableCollections"/>
+<portlet:resourceURL var="CollectionUrl" id="newCollection"/>
 <script>
 $(document).ready(function() {
 	loadDialogShow('${bookmarkId}','${seeAvaiableCollectionsUrl}');
@@ -24,12 +25,12 @@ $(document).ready(function() {
 		</div>
 	</c:if>
 	<c:if test="${loggedIn}">
-	
+
 		<portlet:resourceURL var="addBookmarksToUrl" id="addBookmarksTo">
 			<portlet:param name="bookmarkId" value="${bookmarkId}" />
 		</portlet:resourceURL>
-	
-		<form name="frm" id="frm" method="post" action="${addBookmarksToUrl}">		
+
+		<form name="frm" id="frm" method="post" action="${addBookmarksToUrl}">
 			<table>
 				<tr>
 					<td>
@@ -39,12 +40,12 @@ $(document).ready(function() {
 						<div id="searchCollectionsButton" class="linkButton">
 				 			<a href="javascript:showCollections('${bookmarkId}','${seeAvaiableCollectionsUrl}')"><fmt:message key="advancedsearch.message.search" /></a>
 						</div>
-						<div id="searchButtonGrey" class="disableBookmarkButton hidden"> <!-- style="display: inline-flex" -->
+						<div id="searchButtonGrey" class="disableBookmarkButton hidden">
 				 			<fmt:message key="advancedsearch.message.search" />
 						</div>
 					</td>
 				</tr>
-			</table>	
+			</table>
 			<hr>
 			<c:choose>
 			<c:when test="${not empty collections}">
@@ -64,7 +65,6 @@ $(document).ready(function() {
 				<div id="mycollectionCreateAction" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:saveBookmarkInCollections('${addBookmarksToUrl}')"><fmt:message key="collections.bookmarks.add" /></a>
 				</div>
-				<portlet:resourceURL var="CollectionUrl" id="newCollection"/>
 				<div id="searchButton" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:createCollections('${bookmarkId}','${CollectionUrl}')"><fmt:message key="collections.create.new" /></a>
 				</div>
@@ -78,8 +78,12 @@ $(document).ready(function() {
 				<div id="searchButton" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:showAllCollections('${bookmarkId}','${seeAvaiableCollectionsUrl}')"><fmt:message key="collections.back" /></a>
 				</div>
+				<br/>
+				<div id="searchButton" class="linkButton" style="display: inline-flex">
+		 			<a href="javascript:createCollections('${bookmarkId}','${CollectionUrl}')"><fmt:message key="collections.create.new" /></a>
+				</div>
 			</c:otherwise>
-			</c:choose>	
+			</c:choose>
 	 	</form>
-	 </c:if>
+	</c:if>
 </div>

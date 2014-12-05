@@ -145,9 +145,9 @@ public class CollectionController {
 		modelAndView.setViewName("collection");
 		modelAndView.getModelMap().addAttribute("edit",true);
 		Principal principal = request.getUserPrincipal();
-		long liferayUserId = Long.parseLong(principal.toString());
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		if(principal!=null && id!=null){ //edit checks
+			long liferayUserId = Long.parseLong(principal.toString());
 			Collection targetCollection = this.collectionDAO.getCollectionByIdAndUserId(id, liferayUserId);
 			if(targetCollection!=null){
 				modelAndView.getModelMap().addAttribute("collection",targetCollection);
@@ -223,22 +223,24 @@ public class CollectionController {
 	@ResourceMapping(value = "getNewSearches")
 	public ModelAndView getNewSearches(ResourceRequest request, ResourceResponse response){
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
-		Principal principal = request.getUserPrincipal();
-		long liferayUserId = Long.parseLong(principal.toString());
-		int pageNumber = 1;
-		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
-		List<EadSavedSearch> restCollectionSearches = this.eadSavedSearchDAO.getEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collectionSearch");
-		modelAndView.getModelMap().addAttribute("searches",(restCollectionSearches!=null && restCollectionSearches.size()>0)?restCollectionSearches:null);
-		// params
-		User user = (User) request.getAttribute(WebKeys.USER);
-		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
-		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
-		modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.eadSavedSearchDAO.countEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
-		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		Principal principal = request.getUserPrincipal();
+		if(principal!=null){
+			long liferayUserId = Long.parseLong(principal.toString());
+			int pageNumber = 1;
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			List<EadSavedSearch> restCollectionSearches = this.eadSavedSearchDAO.getEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
+			modelAndView.getModelMap().addAttribute("searches",(restCollectionSearches!=null && restCollectionSearches.size()>0)?restCollectionSearches:null);
+			// params
+			User user = (User) request.getAttribute(WebKeys.USER);
+			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+			modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.eadSavedSearchDAO.countEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
+			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		}
 		return modelAndView;
 	}
 	
@@ -246,21 +248,24 @@ public class CollectionController {
 	public ModelAndView getNewBookmarks(ResourceRequest request, ResourceResponse response){
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		Principal principal = request.getUserPrincipal();
-		long liferayUserId = Long.parseLong(principal.toString());
-		int pageNumber = 1;
-		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
-		List<SavedBookmarks> restCollectionBookmarks = this.savedBookmarksDAO.getSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collectionBookmark");
-		modelAndView.getModelMap().addAttribute("bookmarks",(restCollectionBookmarks!=null && restCollectionBookmarks.size()>0)?restCollectionBookmarks:null);
-		// params
-		User user = (User) request.getAttribute(WebKeys.USER);
-		modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
-		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
-		modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.savedBookmarksDAO.countSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
-		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		if(principal!=null){
+			long liferayUserId = Long.parseLong(principal.toString());
+			int pageNumber = 1;
+			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
+			List<SavedBookmarks> restCollectionBookmarks = this.savedBookmarksDAO.getSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId, pageNumber, PAGESIZE);
+
+			modelAndView.getModelMap().addAttribute("bookmarks",(restCollectionBookmarks!=null && restCollectionBookmarks.size()>0)?restCollectionBookmarks:null);
+			// params
+			User user = (User) request.getAttribute(WebKeys.USER);
+			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
+			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
+			modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.savedBookmarksDAO.countSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
+			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		}
 		return modelAndView;
 	}
 	

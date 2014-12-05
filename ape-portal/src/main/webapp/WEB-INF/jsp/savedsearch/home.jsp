@@ -61,13 +61,13 @@
 							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
 						</portlet:renderURL>
 						<a href="${editUrl}"><fmt:message key="savedsearches.overview.edit"/></a>
-						<portlet:renderURL var="addSavedSearchesForm">
+						<portlet:renderURL var="addSavedSearchesFormUrl">
 							<portlet:param name="myaction" value="addSavedSearchesForm" />
 							<portlet:param name="id" value="${eadSavedSearch.id}" />
 							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
 						</portlet:renderURL>
 						<div>
-							<a href="${addSavedSearchesForm}"><fmt:message key="collections.add"/></a>
+							<a href="${addSavedSearchesFormUrl}"><fmt:message key="collections.add"/></a>
 						</div>
 						<a href="<portlet:actionURL>
 							<portlet:param name="myaction" value="deleteSavedSearch" />

@@ -3,61 +3,100 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
+import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
+import com.liferay.portal.util.PortalUtil;
 
+import eu.apenet.commons.types.XmlType;
+import eu.apenet.commons.utils.APEnetUtilities;
+import eu.apenet.commons.utils.DisplayUtils;
+import eu.apenet.commons.xslt.tags.AbstractEacTag;
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
+import eu.apenet.persistence.dao.EacCpfDAO;
+import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Collection;
 import eu.apenet.persistence.vo.CollectionContent;
+import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
+import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.PropertiesKeys;
+import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.common.urls.EacCpfPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
-
 /**
  *
- * This is display ead controller
+ * This is display ead and eac-cpf common methods to manage collections controller
  *
- * @author bverhoef
+ * @author bverhoef & Fernando Vicente
  *
  */
 @Controller(value = "BookmarkCollectionContoller")
 @RequestMapping(value = "VIEW")
 public class BookmarkCollectionContoller {
 	private final static Logger LOGGER = Logger.getLogger(BookmarkCollectionContoller.class);
-
-	private CollectionDAO collectionDAO;
 	private MessageSource messageSource;
+	private EacCpfDAO eacCpfDAO;
+	private CollectionDAO collectionDAO;
 	private static final String COLLECTION_IN = "collectionToAdd_";
     private final static int PAGESIZE  = 20;
     private SavedBookmarksJpaDAO savedBookmarksDAO;
 	private CollectionContentDAO collectionContentDAO;
 
-
+	public void setCollectionDAO(CollectionDAO collectionDAO) {
+		this.collectionDAO = collectionDAO;
+	}
+		
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
 	
-	public void setCollectionDAO(CollectionDAO collectionDAO) {
-		this.collectionDAO = collectionDAO;
+	public EacCpfDAO getEacCpfDAO() {
+		return this.eacCpfDAO;
+	}
+	
+	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
+		this.eacCpfDAO = eacCpfDAO;
 	}
 	
 	public void setSavedBookmarksDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
@@ -67,7 +106,6 @@ public class BookmarkCollectionContoller {
 	public void setCollectionContentDAO(CollectionContentDAO collectionContentDAO) {
 		this.collectionContentDAO = collectionContentDAO;
 	}
-
 
 	/***
 	 * Return the modelAndView with the collections in which can be included a bookmark.
@@ -81,6 +119,7 @@ public class BookmarkCollectionContoller {
 		PortalDisplayUtil.setPageTitle(resourceRequest, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
  		Principal principal = resourceRequest.getUserPrincipal();
  		//bookmark ID and search term
+ 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
  		String bookmarkId=resourceRequest.getParameter("bookmarkId");
  		String searchTerm=resourceRequest.getParameter("criteria");
  		if (searchTerm==null)
@@ -95,7 +134,8 @@ public class BookmarkCollectionContoller {
 			modelAndView.getModelMap().addAttribute("loggedIn", true);
  		}
  		else{
- 			modelAndView.getModelMap().addAttribute("loggedIn", false);
+ 	 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+ 	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
  		}
 		modelAndView.getModelMap().addAttribute("bookmarkId",bookmarkId);
 		return modelAndView;
@@ -113,7 +153,7 @@ public class BookmarkCollectionContoller {
 		List<Collection> collections = null;
 		
 		if (searchTerm=="")
-			collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, 20,"collection.title",false);
+			collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, 20,"collection.modified_date",false);
 		else
 			collections = this.collectionDAO.getCollectionByName(liferayUserId, searchTerm, 20);
 		
@@ -146,12 +186,11 @@ public class BookmarkCollectionContoller {
 	 * @return modelAndView
 	 */
 	@ResourceMapping(value="addBookmarksTo")
-	public ModelAndView addBookmarksTo(ResourceRequest request/*, Bookmark bookmark*/) {
+	public ModelAndView addBookmarksTo(ResourceRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("bookmark");
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
  		Principal principal = request.getUserPrincipal();
- 		Long liferayUserId = Long.parseLong(principal.toString());
  		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		Integer pageNumber = 1;
 		if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
@@ -176,6 +215,7 @@ public class BookmarkCollectionContoller {
 				}
 				//if bookmark id is not null and collections list is not empty call to the method
 				if(!collectionsList.isEmpty() && savedBookmarkId !=null){
+					Long liferayUserId = Long.parseLong(principal.toString());
 					if(addbookmarkToCollections(collectionsList, savedBookmarkId, liferayUserId)){
 			 			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE,"none",false);
 			 			List<Collection> collectionsWithBookmark=new ArrayList<Collection>();
@@ -217,7 +257,7 @@ public class BookmarkCollectionContoller {
 					modelAndView.getModelMap().addAttribute("showBox", false);
 					modelAndView.getModelMap().addAttribute("saved", true);
 					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.noCols"));
-				} 
+				}
 				
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
@@ -227,6 +267,8 @@ public class BookmarkCollectionContoller {
 			}
 		}
  		modelAndView.getModelMap().addAttribute("loggedIn", false);
+ 		modelAndView.getModelMap().addAttribute("saved", false);
+ 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		return modelAndView;
 	}
 		
@@ -275,13 +317,17 @@ public class BookmarkCollectionContoller {
 		modelAndView.setViewName("collection");
 		modelAndView.getModelMap().addAttribute("edit",true);
 		Principal principal = request.getUserPrincipal();
-		Long id = request.getParameter("bookmarkId")!=null?Long.parseLong(request.getParameter("bookmarkId")):null;
-		if(principal!=null && id!=null){ 
+ 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+ 		Long id = request.getParameter("bookmarkId")!=null?Long.parseLong(request.getParameter("bookmarkId")):null;
+		if(principal!=null && id!=null){
 			modelAndView.getModelMap().addAttribute("bookmarkId",id);
 			modelAndView.getModelMap().addAttribute("loggedIn", true);
 		}
 		else{
-			modelAndView.getModelMap().addAttribute("loggedIn", false);
+	 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+	 		modelAndView.getModelMap().addAttribute("saved", false);
+	 		modelAndView.getModelMap().addAttribute("showBox", false);
+	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		}
 		return modelAndView;
 	}
@@ -360,6 +406,8 @@ public class BookmarkCollectionContoller {
 		}
 		else{
 	 		modelAndView.getModelMap().addAttribute("loggedIn", false);
+	 		modelAndView.getModelMap().addAttribute("saved", false);
+	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		}
 		return modelAndView;
 	}

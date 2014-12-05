@@ -10,6 +10,7 @@
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 
 <portlet:resourceURL var="seeAvaiableCollectionsUrl" id="seeAvaiableCollections"/>
+<portlet:resourceURL var="CollectionUrl" id="newCollection"/>
 <script>
 $(document).ready(function() {
 	loadDialogShow('${bookmarkId}','${seeAvaiableCollectionsUrl}');
@@ -24,19 +25,18 @@ $(document).ready(function() {
 		</div>
 	</c:if>
 	<c:if test="${loggedIn}">
-		
+
 		<portlet:resourceURL var="addBookmarksToUrl" id="addBookmarksTo">
 			<portlet:param name="bookmarkId" value="${bookmarkId}" />
 		</portlet:resourceURL>
 
-		<form name="frm" id="frm" method="post" action="${addBookmarksToUrl}">			
+		<form name="frm" id="frm" method="post" action="${addBookmarksToUrl}">
 			<table>
 				<tr>
 					<td>
 						<input id="searchTerm" tabindex="1" maxlength="30"/>
 					</td>
 					<td>
-						<portlet:resourceURL var="seeAvaiableCollectionsUrl" id="seeAvaiableCollections"/>
 						<div id="searchCollectionsButton" class="linkButton">
 				 			<a href="javascript:showCollections('${bookmarkId}','${seeAvaiableCollectionsUrl}')"><fmt:message key="advancedsearch.message.search" /></a>
 						</div>
@@ -65,8 +65,6 @@ $(document).ready(function() {
 				<div id="mycollectionCreateAction" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:saveBookmarkInCollections('${addBookmarksToUrl}')"><fmt:message key="collections.bookmarks.add" /></a>
 				</div>
-				
-				<portlet:resourceURL var="CollectionUrl" id="newCollection"/>
 				<div id="searchButton" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:createCollections('${bookmarkId}','${CollectionUrl}')"><fmt:message key="collections.create.new" /></a>
 				</div>
@@ -80,8 +78,12 @@ $(document).ready(function() {
 				<div id="searchButton" class="linkButton" style="display: inline-flex">
 		 			<a href="javascript:showAllCollections('${bookmarkId}','${seeAvaiableCollectionsUrl}')"><fmt:message key="collections.back" /></a>
 				</div>
+				<br/>
+				<div id="searchButton" class="linkButton" style="display: inline-flex">
+		 			<a href="javascript:createCollections('${bookmarkId}','${CollectionUrl}')"><fmt:message key="collections.create.new" /></a>
+				</div>
 			</c:otherwise>
 			</c:choose>
 	 	</form>
- 	</c:if>
+	</c:if>
 </div>

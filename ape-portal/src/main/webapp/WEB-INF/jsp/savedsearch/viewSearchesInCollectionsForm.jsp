@@ -15,11 +15,6 @@
 	<portlet:param name="eadSavedSearches_id" value="${savedSearch.id}" />
 	<portlet:param name="overviewPageNumber" value="${pageNumber}" />
 </portlet:renderURL>
-	
-<portlet:renderURL var="addSavedsEARCHESFormUrl">
-	<portlet:param name="myaction" value="addSavedsEARCHESForm" />
-	<portlet:param name="id" value="${savedSearch.id}" />
-</portlet:renderURL>
 
 <portlet:renderURL var="myCollections" />
 
