@@ -94,7 +94,7 @@ public class TagCloudController {
 		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		for (TagCloudItem notTranslatedItem : tags){
-			String translatedName = source.getString("topic." + notTranslatedItem.getKey());
+			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
 			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
 		}
 		Collections.sort(translatedTags, new TagCloudComparator());
