@@ -7,7 +7,7 @@
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
-<script type="text/javascript" src="${recaptchaAjaxUrl}" defer="defer" async="async"></script>
+<script type="text/javascript" src="${recaptchaAjaxUrl}"></script>
 <portlet:defineObjects />
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,element,term,pageNumber,databaseId"><portlet:resourceURL id="eadTree">
