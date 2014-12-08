@@ -130,6 +130,7 @@ public abstract class AbstractSearcher {
 				buildDateRefinement(query, startDate, endDate, true);
 			}
 		}
+		query.setParam("facet.method", "enum");
 		query.setStart(start);
 		if (rows > 50) {
 			rows = 10;
