@@ -31,6 +31,10 @@ public final class EadSearcher extends AbstractSearcher {
 		query.setFacetMinCount(1);
 		query.setRows(0);
 		query.setHighlight(false);
+		/*
+		 * facet method is faster when you have a small amount of facets, but large number of results.
+		 */
+		query.setParam("facet.method", "enum");
 		return executeQuery(query, solrQueryParameters,  QUERY_TYPE_CONTEXT, true);
 	}
 
@@ -48,6 +52,10 @@ public final class EadSearcher extends AbstractSearcher {
 		//query.setFacetLimit(-1);
 		query.setRows(0);
 		query.setHighlight(false);
+		/*
+		 * facet method is faster when you have a small amount of facets, but large number of results.
+		 */
+		query.setParam("facet.method", "enum");
 		QueryResponse rsp = executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 		return rsp.getFacetFields().get(0);
 	}
