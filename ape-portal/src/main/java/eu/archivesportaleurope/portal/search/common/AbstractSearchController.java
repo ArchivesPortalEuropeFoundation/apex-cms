@@ -93,7 +93,7 @@ public class AbstractSearchController {
 		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
 			boolean valid = validateTerm(abstractSearchForm.getTerm());
 			if (!valid){
-				return "search.message.noleadingwildcards";
+				return "search.message.lesswildcards";
 			}
 			
 		}
