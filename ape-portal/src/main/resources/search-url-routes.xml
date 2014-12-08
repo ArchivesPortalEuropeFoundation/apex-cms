@@ -46,6 +46,7 @@
 		<pattern>/n/topic/{simpleSearchTopic:[^/]+}</pattern>
 		<generated-parameter name="simpleSearchTopic">{simpleSearchTopic}</generated-parameter>
 		<implicit-parameter name="advanced">false</implicit-parameter>
+		<implicit-parameter name="term">*</implicit-parameter>
 		<implicit-parameter name="myaction">simpleSearch</implicit-parameter>
 	</route>		
 	
