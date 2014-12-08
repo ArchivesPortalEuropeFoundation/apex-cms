@@ -72,7 +72,7 @@
 					<ul>
 						<li><b><fmt:message key="menu.archives-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.ead.description"/></li>
 						<li><b><fmt:message key="menu.name-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
-						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eac-cpf.description"/></li>
+						<li><b><fmt:message key="menu.institution-search"/></b>&nbsp;<fmt:message key="search.sourcetabs.help.eag.description"/></li>
 					</ul>
 				</div>
 			</div>			
@@ -235,7 +235,15 @@
 												<form:checkbox path="simpleSearchDao" id="checkboxDao" tabindex="4" value="true"/>
 												<label for="checkboxDao"><fmt:message key="advancedsearch.message.dao" /></label>
 											</div>
-
+										</td>
+										<td class="rightcolumn">
+											<div id="clearSearchRow" class="row">
+												<a href="javascript:clearSearch()"><fmt:message key="searchpage.options.simple.clearsearch" /></a>	
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
 											<div id="simpleSearchTopicSelected" class="row selectedCriteria ${eadSearch.selectedSimpleSearchTopicCssClass}" ><div id="selectedRefinementsTitle"><fmt:message key="advancedsearch.facet.title.topic" />:</div><form:hidden path="simpleSearchTopic" id="simpleSearchTopic"/>
 											<ul>
 												<c:if test="${!empty eadSearch.selectedSimpleSearchTopic}">
@@ -246,12 +254,7 @@
 												
 											</ul>
 											
-											</div>
-										</td>
-										<td class="rightcolumn">
-											<div id="clearSearchRow" class="row">
-												<a href="javascript:clearSearch()"><fmt:message key="searchpage.options.simple.clearsearch" /></a>	
-											</div>
+											</div>										
 										</td>
 									</tr>
 								</table>
