@@ -156,6 +156,7 @@
    	margin-top:10px;
 	padding-left: 15px;
 	border-bottom: 1px solid #79B7E7;
+	height: 20px;
 }
 
 #searchingPart #navigatedSearchOptionsHeader {
@@ -882,13 +883,11 @@
     margin-bottom: 1em;
 }
 #searchingPart #eagSearchPortlet #advancedSearchOptionsContent {
-	 height: 35px;
+	 height: 50px;
 }
-#searchingPart #eagSearchPortlet #advancedSearchOptionsContent {
-	 height: 35px;
-}
+
 #searchingPart #eagSearchPortlet  #simpleSearchOptionsContent {
-	height: 35px;
+	height: 50px;
 }
 #searchingPart #eagSearchPortlet #advancedSearch #repositoryType {
 	max-width:250px;
