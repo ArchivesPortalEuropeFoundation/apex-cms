@@ -243,5 +243,7 @@ public abstract class AbstractSearchForm implements Serializable{
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
-
+	public boolean isAdvancedSearch(){
+		return false;
+	}
 }
