@@ -57,7 +57,9 @@
 									<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
 								</c:choose>
 							</td>
-							<td><c:out value="${collection.modified_date}" /></td>
+							<td>
+								<fmt:formatDate pattern="dd-MMM-yyyy HH:mm z" value="${collection.modified_date}" timeZone="${timeZone}"/>
+							</td>
 							<td>
 	 							<div>
 									<a href="${myCollectionUrl}&id=${collection.id}"><fmt:message key="collections.view"/></a>
