@@ -314,6 +314,28 @@ public class EadSearch extends AbstractSearchForm{
 		this.savedSearchId = savedSearchId;
 	}
 
+	@Override
+	public boolean isAdvancedSearch() {
+		if (StringUtils.isNotBlank(simpleSearchTopic)){
+			return true;
+		}else if (StringUtils.isNotBlank(simpleSearchDao)){
+			return true;
+		}else if (StringUtils.isNotBlank(typedocument)){
+			return true;
+		}else if (!"0".equals(element)){
+			return true;
+		}else if (StringUtils.isNotBlank(getFromdate())){
+			return true;
+		}else if (StringUtils.isNotBlank(getTodate())){
+			return true;
+		}else if (StringUtils.isNotBlank(getExactDateSearch())){
+			return true;
+		}else if (StringUtils.isNotBlank(selectedNodes)){
+			return true;
+		}
+		return false;
+	}
+
 
 	
 }

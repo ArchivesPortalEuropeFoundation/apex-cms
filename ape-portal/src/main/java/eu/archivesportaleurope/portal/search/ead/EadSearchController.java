@@ -407,7 +407,7 @@ public class EadSearchController extends AbstractSearchController{
 	protected void countOtherSearchResults(PortletRequest request, 
 			EadSearch eadSearch, Results results) throws SolrServerException, ParseException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, request);
-		if (solrQueryParameters != null){ 
+		if (solrQueryParameters != null && !eadSearch.isAdvancedSearch()){ 
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEadNumberOfResults(results.getTotalNumberOfResults());
 			results.setEagNumberOfResults(getEagSearcher().getNumberOfResults(solrQueryParameters));
