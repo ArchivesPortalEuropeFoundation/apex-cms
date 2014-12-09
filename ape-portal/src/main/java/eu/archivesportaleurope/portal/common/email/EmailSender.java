@@ -48,7 +48,7 @@ public final class EmailSender {
         emailComposer.setProperty("email", contact.getEmail().replaceAll("[><]","_"));
         emailComposer.setProperty("body", contact.getFeedback().replaceAll("[><]","_"));
         if (user == null){
-        	 emailComposer.setProperty("username", "");
+        	 emailComposer.setProperty("username", contact.getUsername());
         	 emailComposer.setProperty("userid", "");
         }else {
        	 emailComposer.setProperty("username", user.getFullName());
@@ -70,7 +70,7 @@ public final class EmailSender {
         emailComposer.setProperty("title", contact.getTitle());
         emailComposer.setProperty("url", contact.getUrl());
         if (user == null){
-        	 emailComposer.setProperty("username", "");
+        	 emailComposer.setProperty("username", contact.getUsername());
         	 emailComposer.setProperty("userid", "");
         }else {
        	 emailComposer.setProperty("username", user.getFullName());
@@ -118,7 +118,7 @@ public final class EmailSender {
         emailComposer.setProperty("name", name);
         emailComposer.setProperty("archivalInstitution", archivalInstitutionName);
         if (user == null){
-        	 emailComposer.setProperty("username", "");
+        	 emailComposer.setProperty("username", contact.getUsername());
         	 emailComposer.setProperty("userid", "");
         }else {
        	 emailComposer.setProperty("username", user.getFullName());
