@@ -220,5 +220,19 @@ public class EacCpfSearch extends AbstractSearchForm {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
+	@Override
+	public boolean isAdvancedSearch() {
+		if (StringUtils.isNotBlank(entityType)){
+			return true;
+		}else if (!"all".equals(element)){
+			return true;
+		}else if (StringUtils.isNotBlank(getFromdate())){
+			return true;
+		}else if (StringUtils.isNotBlank(getTodate())){
+			return true;
+		}else if (StringUtils.isNotBlank(getExactDateSearch())){
+			return true;
+		}
+		return false;
+	}
 }

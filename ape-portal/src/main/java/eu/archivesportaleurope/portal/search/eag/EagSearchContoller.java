@@ -253,7 +253,7 @@ public class EagSearchContoller extends AbstractSearchController {
 	protected void countOtherSearchResults(PortletRequest request, EagSearch eagSearch, Results results)
 			throws SolrServerException, ParseException {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, request);
-		if (solrQueryParameters != null) {
+		if (solrQueryParameters != null && !eagSearch.isAdvancedSearch()) {
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEadNumberOfResults(getEadSearcher().getNumberOfResults(solrQueryParameters));
 			results.setEagNumberOfResults(results.getTotalNumberOfResults());

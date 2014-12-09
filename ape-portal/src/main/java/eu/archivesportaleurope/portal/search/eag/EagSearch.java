@@ -122,6 +122,14 @@ public class EagSearch extends AbstractSearchForm {
 		this.repositoryTypeValues = repositoryTypeValues;
 	}
 
-
+	@Override
+	public boolean isAdvancedSearch() {
+		if (StringUtils.isNotBlank(repositoryType)){
+			return true;
+		}else if (StringUtils.isNotBlank(element)){
+			return true;
+		}
+		return false;
+	}
 
 }
