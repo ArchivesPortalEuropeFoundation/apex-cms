@@ -1,7 +1,6 @@
 package eu.archivesportaleurope.portal.contact;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
@@ -44,6 +43,7 @@ public class ContactValidator implements Validator {
 
 		if (!loggedIn) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "feedback.error.email");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "feedback.error.username");
 			// Email test.
 			String email = contact.getEmail();
 			if (StringUtils.isNotBlank(email)) { // it's rejected in preview

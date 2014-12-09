@@ -44,7 +44,7 @@ public class ContactController {
     	if (loggedIn){
     		User currentUser = PortalUtil.getUser(request);
     		contact.setEmail(currentUser.getEmailAddress());
-    		
+    		contact.setUsername(currentUser.getFullName());
     	}
         return modelAndView;
     }

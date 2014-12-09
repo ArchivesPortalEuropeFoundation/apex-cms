@@ -20,7 +20,7 @@ public class Contact implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1372031592145506858L;
-	private String name;
+	private String username;
 	private String email;
     private String type;
     private String title;
@@ -153,13 +153,15 @@ public class Contact implements Serializable {
 		this.repoCode = repoCode;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
+
+
 
 
 
