@@ -23,6 +23,14 @@
     <table class="contactForm">
         <tr>
             <td class="tdLabel">
+                <label for="contact_username" class="label"><fmt:message key="feedback.username" /><span class="required">*</span>:</label>
+            </td>
+            <td>
+                <form:input path="username" type="text" name="username" size="50" id="contact_username" /><form:errors path="username" cssClass="errorBlock" />
+            </td>
+        </tr> 
+        <tr>
+            <td class="tdLabel">
                 <label for="contact_email" class="label"><fmt:message key="label.email.contact" /><span class="required">*</span>:</label>
             </td>
             <td>
