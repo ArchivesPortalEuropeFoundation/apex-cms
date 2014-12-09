@@ -24,6 +24,7 @@ function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) 
 		        $("#feedbackContent").removeClass("feedbackContent").addClass("feedbackContent");
 		    	$("#contactFeedbackSend").click(function(event) {
 		    		event.preventDefault();
+		    		$("#contactFeedbackSend").attr('disabled', 'disabled');
 		    		sendFeedback();
 		    	});
 			});
@@ -49,6 +50,7 @@ function sendFeedback(){
         $("#feedbackContent").removeClass("feedbackContent").addClass("feedbackContent");
     	$("#contactFeedbackSend").click(function(event) {
     		event.preventDefault();
+    		$("#contactFeedbackSend").attr('disabled', 'disabled');
     		sendFeedback();
     	});		
 	});
