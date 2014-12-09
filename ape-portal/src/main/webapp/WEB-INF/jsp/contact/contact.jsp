@@ -15,6 +15,12 @@
 	 var RecaptchaOptions = {
 	    theme : 'white'
 	 };
+	$(document).ready(function() {
+		 $('#contactForm').submit(function(){
+			    $('input[type=submit]', this).attr('disabled', 'disabled');
+			});	
+	});
+
 </script>
 <div id="contactPortlet">
 <h1><fmt:message key="contact.form.title" /></h1>
