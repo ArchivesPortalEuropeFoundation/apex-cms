@@ -55,6 +55,7 @@ public class FeedbackController {
     	if (loggedIn){
     		com.liferay.portal.model.User currentUser = PortalUtil.getUser(request);
     		contact.setEmail(currentUser.getEmailAddress());
+    		contact.setUsername(currentUser.getFullName());
     	}
         return modelAndView;
     }
