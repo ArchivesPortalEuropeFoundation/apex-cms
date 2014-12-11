@@ -1,4 +1,7 @@
 function updateSelectedCollections (id, list, page){
+	// Empty the div which contains the error message.
+	$("div#noCollectionsSelected").empty();
+
 	//get the list of selected collections
 	var storeCollectionIds = $('input#storeCollectionIdsInput').val();
 	if(storeCollectionIds==undefined || storeCollectionIds.length==0){

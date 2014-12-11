@@ -135,7 +135,15 @@ public class CollectionContentController {
 				Long liferayUserId = Long.parseLong(principal.toString());
 	 			User user = (User) request.getAttribute(WebKeys.USER);				
 	 			//get the list of collectionContent that contains the elemet (saved search or saved bookmark)
-				List<CollectionContent> restCollectionBookmarks = collectionContentDAO.getCollectionContentByElementId("Search", request.getParameter("id"));
+	 			String id = "";
+	 			if (request.getParameter("id") != null) {
+	 				id = request.getParameter("id");
+	 			} else  if(request.getParameter("eadSavedSearches_id") != null) {
+	 				id = request.getParameter("eadSavedSearches_id");
+	 			} else {
+	 				id = request.getParameter("savedBookmark_id");
+	 			}
+				List<CollectionContent> restCollectionBookmarks = collectionContentDAO.getCollectionContentByElementId("Search", id);
 				//iterate the list to get collectionContent Ids
 	 			List<Long> collectionIdsWithElement=new ArrayList<Long>();
 				for (CollectionContent content: restCollectionBookmarks) {
@@ -212,7 +220,7 @@ public class CollectionContentController {
 				//recover selected collections from the request
 				List<Long> collectionsList = new ArrayList<Long>();
 				String[] listChecked = {""};
-				if (request.getParameter("listChecked") == null) {
+				if (request.getParameter("listChecked") == null || request.getParameter("listChecked").isEmpty()) {
 					listChecked = null;
 				} else {
 					listChecked = request.getParameter("listChecked").split(",");
@@ -265,7 +273,20 @@ public class CollectionContentController {
 						modelAndView.getModelMap().addAttribute("collections",collectionsWithBookmark);	
 						return modelAndView;
 					}
-				} 
+				} else if (listChecked == null) {
+					modelAndView = showAddSavedElement(request, savedSearch, bookmark, type);
+					modelAndView.getModelMap().addAttribute("isNoCollectionsSelected", true);
+
+					if (BOOKMARK.equalsIgnoreCase(type)) {
+						bookmark.setId(Long.toString(elementId));
+						modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
+					} else {
+						savedSearch.setId(Long.toString(elementId));
+						modelAndView.getModelMap().addAttribute("savedSearch", savedSearch);
+					}
+
+					return modelAndView;
+				}
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 				modelAndView.getModelMap().addAttribute("loggedIn", false);

@@ -37,6 +37,11 @@
 		<c:choose>
 			<c:when test="${not empty collections}">
 				<h2><fmt:message key="collections.searchAddTo"/></h2>
+				<div id="noCollectionsSelected" class="error">
+					<c:if test="${isNoCollectionsSelected}">
+						<fmt:message key="collections.select.one"/>
+					</c:if>
+				</div>
 				<div class="collectionPaginator">
 					<div class="boxtitle">
 						<div class="numberOfPages">
