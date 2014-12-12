@@ -11,18 +11,19 @@
 <portal:friendlyUrl var="searchUrl" type="topic-search"/>
 <h2><fmt:message key="tagcloud.topics.title"/>:</h2>
 <div id="tags">
-	<ul>
-		<c:forEach var="tag" items="${tags}">
-			<c:choose>
-				<c:when test="${tag.enabled}">
-					<li class="${tag.cssClass}"><a href="${searchUrl}/${tag.key}">${tag.name}</a></li>				
-				</c:when>
-				<c:otherwise><li class="${tag.cssClass}"><span>${tag.name}</span></li></c:otherwise>
-			</c:choose>
-		</c:forEach>	
-	</ul>
-	<div id="viewAllTags">
-		<a href="${viewAllTopicsUrl}"><fmt:message key="tagcloud.topics.view.all"/></a>
-	</div>
+<table id="allTagsTable" class="defaultlayout">
+<tr><th><fmt:message key="advancedsearch.facet.title.topic" /></th><th><fmt:message key="tagcloud.topics.view.all.results" /></th></tr>
+			<c:forEach var="tag" items="${tags}">
+				<tr><td>
+				<c:choose>
+					<c:when test="${tag.enabled}">
+						<a href="${searchUrl}/${tag.key}">${tag.name}</a>				
+					</c:when>
+					<c:otherwise><span>${tag.name}</span></c:otherwise>
+				</c:choose>
+				<td class="tagCount">${tag.displayCount}</td></tr>
+			</c:forEach>
+				
+</table>
 </div>
 </div>
