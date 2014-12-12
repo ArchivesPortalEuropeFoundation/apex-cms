@@ -3,6 +3,7 @@
  * Function to delete the data not necessary 
  */
 function eraseData(){
+	eraseEmptyRow();
 	eraseDuplicatedArchivalLi();
 	eraseComma();
 	eraseNameTitle();
@@ -132,7 +133,7 @@ function eraseNameTitle() {
 	}
 }
 /**
- * Function to delete the location if there is'nt nothing to show.
+ * Function to delete the location if there isn't nothing to show.
  */
 function eraseLocationPlace(){
 	$("div#eaccpfcontent .locationPlace").each(function(){
@@ -187,26 +188,12 @@ function eraseExistDates(){
 	var noPattern = /[^\d{4}]/;	
 	var titleName = $.trim($("div#eaccpfcontent h1 span#nameTitle").text());
 	var name = titleName.split(noPattern); 
-	var existDate = $.trim($("div#eaccpfcontent  h1 span.nameEtryDates").text());
-	existDate = existDate.split(noPattern); 
+	var existDate = $.trim($("div#eaccpfcontent  h1 span.existDates").text());
+	existDate = existDate.split(noPattern);
 	var nameArray = new Array();
 	var dateArray = new Array();
-	
-	$.each(name, function(i,val){
-		if (name[i].match(pattern) != null){
-			if (name[i].length < 5){
-				nameArray.push(name[i]); 
-			}
-		}
-	}); 
-	$.each(existDate, function(k,value){
-		if (existDate[k].match(pattern) != null){
-			if (existDate[k].length < 5){
-				dateArray.push(existDate[k]);
-			}
-		}
-	}); 
-	
+	nameArray = makeArray(name, nameArray, pattern);
+	dateArray = makeArray(existDate, dateArray, pattern);
 	var found = false;
 	$.each(dateArray, function(k,value){
 		if ($.inArray(dateArray[k], nameArray)!=-1 && !found){
@@ -220,4 +207,27 @@ function eraseExistDates(){
 		$("div#eaccpfcontent  h1 span#nameTitle").remove();
 		$("div#eaccpfcontent h1").html(title+'<span id="nameTitle" class="hidden">'+title+'</span>');
 	}
+}
+function makeArray(dates, arrayDates, pattern){
+	$.each(dates, function(i,val){
+		if (dates[i].match(pattern) != null){
+			if (dates[i].length < 5){
+				arrayDates.push(dates[i]); 
+			}
+		}
+	}); 
+	return arrayDates;
+}
+/**
+ * Function to delete the row if there isn't nothing to show.
+ */
+function eraseEmptyRow(){
+	$("div#eaccpfcontent .row").each(function(){
+		if($(this).find(".rightcolumn p").length > 0){
+			var textRightColumn = $.trim($(this).find(".rightcolumn p").text()); 
+			if (textRightColumn == ''){
+				$(this).remove();
+			}
+		}
+	});
 }
