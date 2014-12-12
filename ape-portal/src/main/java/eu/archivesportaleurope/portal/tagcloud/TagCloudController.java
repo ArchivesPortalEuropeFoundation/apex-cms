@@ -34,6 +34,8 @@ import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 public class TagCloudController {
 
 	private static final String TAGS_KEY = "tags";
+	private static final String TAGS_LEFT_KEY = "tagsLeft";
+	private static final String TAGS_RIGHT_KEY = "tagsRight";
 	private static final String ALL_TAGS_KEY = "all-tags";
 	private static final int NUMBER_OF_GROUPS = 5;
 	private final static Logger LOGGER = Logger.getLogger(TagCloudController.class);
@@ -120,12 +122,11 @@ public class TagCloudController {
 				QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
 				FacetField facetField = response.getFacetFields().get(0);
 				for (Count count : facetField.getValues()) {
-					tags.add(new TagCloudItem(numberFormat, count.getCount(), count.getName()));
+					tags.add(new TagCloudItem(count.getCount(), count.getName()));
 				}
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
-//			int numberOfTagsWithResults = tags.size();
 			List<Topic> topics = topicDAO.findAll();
 			for (int i = 0; i < topics.size(); i++) {
 				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
@@ -133,25 +134,29 @@ public class TagCloudController {
 					tags.add(tagCloudItem);
 				}
 			}
-//			int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
-//			int tagCloudItemIndex = 0;
-//			for (int i = 0; i < NUMBER_OF_GROUPS; i++) {
-//				int maxNumber = groups[i];
-//				for (int j = 0; j < maxNumber; j++) {
-//					tags.get(tagCloudItemIndex).setTagNumber((i + 1));
-//					tagCloudItemIndex++;
-//				}
-//			}
 			CACHE.put(ALL_TAGS_KEY, tags);
 		}
 		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		for (TagCloudItem notTranslatedItem : tags){
 			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
-			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
+			translatedTags.add(new TagCloudItem(numberFormat, notTranslatedItem, translatedName));
 		}
 		Collections.sort(translatedTags, new TagCloudComparator());
-		request.setAttribute(TAGS_KEY, translatedTags);
+		List<TagCloudItem> translatedTagsLeft = new ArrayList<TagCloudItem>();
+		List<TagCloudItem> translatedTagsRight = new ArrayList<TagCloudItem>();
+		double firstNumberOfTags = Math.ceil(((double)translatedTags.size()) /2d);
+		int item = 0;
+		for (TagCloudItem tag : translatedTags){
+			if (item < firstNumberOfTags){
+				translatedTagsLeft.add(tag);
+			}else {
+				translatedTagsRight.add(tag);
+			}
+			item++;
+		}
+		request.setAttribute(TAGS_LEFT_KEY, translatedTagsLeft);
+		request.setAttribute(TAGS_RIGHT_KEY, translatedTagsRight);
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_TOPICS);
 
 		return "view-all";

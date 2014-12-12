@@ -14,25 +14,27 @@ public class TagCloudItem {
 
 	}
 
+
 	public TagCloudItem(long count, String key) {
 		super();
 		this.count = count;
 		this.key = key;
 	}
-
-	public TagCloudItem(NumberFormat numberFormat, long count, String key) {
-		super();
-		this.count = count;
-		this.key = key;
-		this.numberFormat = numberFormat;
-	}
-
 	public TagCloudItem(TagCloudItem item, String translatedName) {
 		super();
 		this.count = item.getCount();
 		this.key = item.getKey();
 		this.name = translatedName;
 		this.tagNumber = item.getTagNumber();
+	}
+
+	public TagCloudItem(NumberFormat numberFormat, TagCloudItem item, String translatedName) {
+		super();
+		this.count = item.getCount();
+		this.key = item.getKey();
+		this.name = translatedName;
+		this.tagNumber = item.getTagNumber();
+		this.numberFormat = numberFormat;
 	}
 
 	public long getCount() {
@@ -80,6 +82,7 @@ public class TagCloudItem {
 			if (numberFormat == null) {
 				return count + "";
 			} else {
+				System.out.println("yes");
 				return numberFormat.format(count);
 			}
 		} else {
