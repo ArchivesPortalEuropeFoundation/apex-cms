@@ -2,6 +2,7 @@ package eu.archivesportaleurope.portal.tagcloud;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.portlet.RenderRequest;
 import javax.portlet.WindowState;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
@@ -25,6 +27,7 @@ import eu.apenet.persistence.vo.Topic;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.FacetType;
+import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.EadSearcher;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
@@ -68,20 +71,25 @@ public class TagCloudController {
 		}
 	}
 
-	public String showTopicsCloud(RenderRequest request) {
+	private String showTopicsCloud(RenderRequest request) {
 		List<TagCloudItem> tags = CACHE.get(TAGS_KEY);
 		if (tags == null){
 			tags= new ArrayList<TagCloudItem>();
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+			List<String> blockedTopics = getBlockedTopics(request);
 			solrQueryParameters.setTerm("*");
 			List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
-			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_NUMBER_OF_TAGS));
+			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_NUMBER_OF_TAGS+ blockedTopics.size()));
 	
 			try {
 				QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
 				FacetField facetField = response.getFacetFields().get(0);
+				int numberAdded = 0;
 				for (Count count : facetField.getValues()) {
-					tags.add(new TagCloudItem(count.getCount(), count.getName()));
+					if (numberAdded < MAX_NUMBER_OF_TAGS && !blockedTopics.contains(count.getName())){
+						tags.add(new TagCloudItem(count.getCount(), count.getName()));
+						numberAdded++;
+					}
 				}
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -115,7 +123,12 @@ public class TagCloudController {
 		request.setAttribute(TAGS_KEY, translatedTags);
 		return "index";
 	}
-	public String showTopicsList(RenderRequest request) {
+	private List<String> getBlockedTopics(RenderRequest request){
+		String blockedTopics = request.getPreferences().getValue("blockedTopics", "");
+		String[] blockedTopicsList = blockedTopics.split("\\|");
+		return Arrays.asList(blockedTopicsList);
+	}
+	private String showTopicsList(RenderRequest request) {
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
 		List<TagCloudItem> tags = CACHE.get(ALL_TAGS_KEY);
 		if (tags == null){
@@ -168,7 +181,7 @@ public class TagCloudController {
 
 		return "view-all";
 	}
-	public static int[] numberPerGroup(int numberOfItemsWithResults, int numberOfItemsWithoutResults) {
+	private static int[] numberPerGroup(int numberOfItemsWithResults, int numberOfItemsWithoutResults) {
 		int numberOfGroups = NUMBER_OF_GROUPS;
 		int numberOfItems = numberOfItemsWithResults + numberOfItemsWithoutResults;
 		int[] groups = new int[numberOfGroups];
