@@ -33,7 +33,7 @@ public class PortalDisplayUtil {
     public static final String TITLE_EAG_SEARCH = "INSTITUTION SEARCH";
 	public static final String TITLE_SAVED_BOOKMARK = "SAVE BOOKMARK";
 	public static final String TITLE_SAVED_COLLECTIONS = "SAVED COLLECTIONS";
-    public static final String TITLE_TOPICS = "SHOW ALL TOPICS";
+    public static final String TITLE_TOPICS = "TOPICS";
     /**
      * Method to replace whitespaces, carriage returns and all the problematic
      * characters.
