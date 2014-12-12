@@ -58,9 +58,17 @@ public class TagCloudController {
 	public void setTopicDAO(TopicDAO topicDAO) {
 		this.topicDAO = topicDAO;
 	}
+	@RenderMapping()
+	public String showTopics(RenderRequest request){
+		String view = request.getPreferences().getValue("view", "tagcloud");
+		if ("list".equals(view)){
+			return showTopicsList(request);
+		}else {
+			return showTopicsCloud(request);
+		}
+	}
 
-	@RenderMapping(value= "NORMAL")
-	public String showTagCloud(RenderRequest request) {
+	public String showTopicsCloud(RenderRequest request) {
 		List<TagCloudItem> tags = CACHE.get(TAGS_KEY);
 		if (tags == null){
 			tags= new ArrayList<TagCloudItem>();
@@ -107,8 +115,7 @@ public class TagCloudController {
 		request.setAttribute(TAGS_KEY, translatedTags);
 		return "index";
 	}
-	@RenderMapping(value= "MAXIMIZED")
-	public String showTagCloudMaximized(RenderRequest request) {
+	public String showTopicsList(RenderRequest request) {
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
 		List<TagCloudItem> tags = CACHE.get(ALL_TAGS_KEY);
 		if (tags == null){
