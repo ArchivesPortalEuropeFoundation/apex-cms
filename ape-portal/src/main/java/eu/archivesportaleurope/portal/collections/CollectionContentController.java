@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.collections;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -323,7 +324,7 @@ public class CollectionContentController {
 	}
 	
 	private boolean addElementToCollections(List<Long> collectionIds, Long searchId, Long bookmarkId, Long liferayUserId, String type) {
-		List<CollectionContent> newCollectionContentList = new ArrayList<CollectionContent>();
+		boolean isStored = false;
 		//iterator iterate and set values
 		Iterator<Long> itCollectionIds = collectionIds.iterator();
 		try {
@@ -338,19 +339,22 @@ public class CollectionContentController {
 				}else{
 					newCollectionContent.setEadSavedSearch(eadSavedSearchDAO.getEadSavedSearch(searchId, liferayUserId));
 				}
-				//add item to the list
-				newCollectionContentList.add(newCollectionContent);
-			}
-			//add content
-			if(newCollectionContentList.size()>0){
-				this.collectionContentDAO.store(newCollectionContentList);
-				return true;
+
+				// Store current content.
+				this.collectionContentDAO.store(newCollectionContent);
+
+				// Update current collection.
+				col.setModified_date(new Date());
+				this.collectionDAO.update(col);
+
+				// Set stored.
+				isStored = true;
 			}
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
+			isStored = false;
 		}
-		return false;
+
+		return isStored;
 	}
-	
-	//----------------------------------------------------------------
 }

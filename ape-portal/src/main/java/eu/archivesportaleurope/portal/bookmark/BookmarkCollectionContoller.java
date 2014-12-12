@@ -349,8 +349,8 @@ public class BookmarkCollectionContoller {
 	private boolean addbookmarkToCollections(List<Long> collectionIds, Long bookmarkId, Long liferayUserId) {
 		//get an bookmark object with bookmarkId to use it in the collections
 		SavedBookmarks savedBookmark = savedBookmarksDAO.getSavedBookmark(liferayUserId, bookmarkId);
-		//create a list with identifiers to iterate and to add the bookmarks
-		List<CollectionContent> newCollectionContentList = new ArrayList<CollectionContent>();
+		boolean isStored = false;
+
 		//iterator iterate and set values
 		Iterator<Long> itCollectionIds = collectionIds.iterator();
 		try {
@@ -362,18 +362,23 @@ public class BookmarkCollectionContoller {
 				newCollectionContent.setCollection(col);
 				newCollectionContent.setSavedBookmarks(savedBookmark);
 				savedBookmark.setName(PortalDisplayUtil.replaceHTMLSingleQuotes(savedBookmark.getName()));
-				//add item to the list
-				newCollectionContentList.add(newCollectionContent);
-			}
-			//add content
-			if(newCollectionContentList.size()>0){
-				this.collectionContentDAO.store(newCollectionContentList);
-				return true;
+
+				// Store current content.
+				this.collectionContentDAO.store(newCollectionContent);
+
+				// Update current collection.
+				col.setModified_date(new Date());
+				this.collectionDAO.update(col);
+
+				// Set stored.
+				isStored = true;
 			}
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
+			isStored = false;
 		}
-		return false;
+
+		return isStored;
 	}
 	
 	//Create a new collection from second display
