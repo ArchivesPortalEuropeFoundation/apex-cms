@@ -1,11 +1,13 @@
 package eu.archivesportaleurope.portal.tagcloud;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.WindowState;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.response.FacetField;
@@ -20,6 +22,7 @@ import eu.apenet.commons.utils.Cache;
 import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
 import eu.apenet.persistence.vo.Topic;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
@@ -31,6 +34,7 @@ import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 public class TagCloudController {
 
 	private static final String TAGS_KEY = "tags";
+	private static final String ALL_TAGS_KEY = "all-tags";
 	private static final int NUMBER_OF_GROUPS = 5;
 	private final static Logger LOGGER = Logger.getLogger(TagCloudController.class);
 	private final static int MAX_NUMBER_OF_TAGS = 15;
@@ -53,7 +57,7 @@ public class TagCloudController {
 		this.topicDAO = topicDAO;
 	}
 
-	@RenderMapping
+	@RenderMapping(value= "NORMAL")
 	public String showTagCloud(RenderRequest request) {
 		List<TagCloudItem> tags = CACHE.get(TAGS_KEY);
 		if (tags == null){
@@ -98,11 +102,60 @@ public class TagCloudController {
 			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
 		}
 		Collections.sort(translatedTags, new TagCloudComparator());
-		request.setAttribute("url", "/search/-/s/n/topic/");
 		request.setAttribute(TAGS_KEY, translatedTags);
 		return "index";
 	}
+	@RenderMapping(value= "MAXIMIZED")
+	public String showTagCloudMaximized(RenderRequest request) {
+		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
+		List<TagCloudItem> tags = CACHE.get(ALL_TAGS_KEY);
+		if (tags == null){
+			tags= new ArrayList<TagCloudItem>();
+			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
+			solrQueryParameters.setTerm("*");
+			List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
+			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, 300));
+	
+			try {
+				QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
+				FacetField facetField = response.getFacetFields().get(0);
+				for (Count count : facetField.getValues()) {
+					tags.add(new TagCloudItem(numberFormat, count.getCount(), count.getName()));
+				}
+			} catch (Exception e) {
+				LOGGER.error(e.getMessage());
+			}
+//			int numberOfTagsWithResults = tags.size();
+			List<Topic> topics = topicDAO.findAll();
+			for (int i = 0; i < topics.size(); i++) {
+				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
+				if (!tags.contains(tagCloudItem)) {
+					tags.add(tagCloudItem);
+				}
+			}
+//			int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
+//			int tagCloudItemIndex = 0;
+//			for (int i = 0; i < NUMBER_OF_GROUPS; i++) {
+//				int maxNumber = groups[i];
+//				for (int j = 0; j < maxNumber; j++) {
+//					tags.get(tagCloudItemIndex).setTagNumber((i + 1));
+//					tagCloudItemIndex++;
+//				}
+//			}
+			CACHE.put(ALL_TAGS_KEY, tags);
+		}
+		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+		for (TagCloudItem notTranslatedItem : tags){
+			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
+			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
+		}
+		Collections.sort(translatedTags, new TagCloudComparator());
+		request.setAttribute(TAGS_KEY, translatedTags);
+		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_TOPICS);
 
+		return "view-all";
+	}
 	public static int[] numberPerGroup(int numberOfItemsWithResults, int numberOfItemsWithoutResults) {
 		int numberOfGroups = NUMBER_OF_GROUPS;
 		int numberOfItems = numberOfItemsWithResults + numberOfItemsWithoutResults;
