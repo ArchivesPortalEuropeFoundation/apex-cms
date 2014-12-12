@@ -21,12 +21,18 @@ if (Validator.isNotNull(portletResource)) {
 	preferences = PortletPreferencesFactoryUtil.getPortletSetup(request, portletResource);
 }
 String view = preferences.getValue("view", "tagcloud");
+String blockedTopics = preferences.getValue("blockedTopics", "");
+
 %>
 <table class="lfr-table">
 
 <tr>
 	<td>Topics view(tagcloud,list):</td>
 	<td><input  type="text" name="<portlet:namespace />preferences--view--" value="<%=view %>"/> </td>
+</tr>
+<tr>
+	<td>List of blocked topics (separated by |):</td>
+	<td><input  type="text" name="<portlet:namespace />preferences--blockedTopics--" value="<%=blockedTopics %>"/> </td>
 </tr>
 </table>  
 <input type="button" value="Save" onClick="submitForm(document.<portlet:namespace />fm);" /> </form>
