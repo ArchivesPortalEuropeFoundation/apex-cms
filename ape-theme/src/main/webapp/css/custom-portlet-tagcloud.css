@@ -83,3 +83,7 @@
 #tags .tagCount {
 	text-align:right;
 }
+#tags > div {
+	float: left;
+	padding: 5px;
+}
