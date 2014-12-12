@@ -71,6 +71,7 @@
 }
 #tags #viewAllTags {
 	border-top: 2px  solid #79b7e7;
+	margin-top: 5px;
 }
 
 #tags #viewAllTags a {
@@ -83,7 +84,7 @@
 #tags .tagCount {
 	text-align:right;
 }
-#tags > div {
+#tags #leftTags, #tags #rightTags {
 	float: left;
 	padding: 5px;
 }
