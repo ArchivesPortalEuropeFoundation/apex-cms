@@ -99,7 +99,8 @@
 	</portlet>
 	<portlet>
 		<portlet-name>tagcloud</portlet-name>
-		<instanceable>false</instanceable>
+		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
+		<instanceable>true</instanceable>
 	</portlet>	
 	<portlet>
 		<portlet-name>contact</portlet-name>

@@ -83,30 +83,32 @@
 	</portlet>
 	<portlet>
 		<portlet-name>tagcloud</portlet-name>
-		<display-name>Tag cloud</display-name>
+		<display-name>Topics cloud</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<expiration-cache>0</expiration-cache>
+		<init-param>
+            <name>config-jsp</name>
+            <value>/WEB-INF/jsp/tagcloud/configuration.jsp</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 			<portlet-mode>view</portlet-mode>
 		</supports>
 		<resource-bundle>i18n.ApplicationResources</resource-bundle>
 		<portlet-info>
-			<title>Tag cloud</title>
-			<short-title>Tag cloud</short-title>
-			<keywords>tag cloud</keywords>
+			<title>Topics cloud</title>
+			<short-title>topics cloud</short-title>
+			<keywords>topics cloud</keywords>
 		</portlet-info>
-		<security-role-ref>
-			<role-name>administrator</role-name>
-		</security-role-ref>
+        <portlet-preferences>
+            <preference>
+                <name>view</name>
+                <value>tagcloud</value>
+                <read-only>false</read-only>
+            </preference>  
+        </portlet-preferences>		
 		<security-role-ref>
 			<role-name>guest</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>power-user</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>			
 	<portlet>
