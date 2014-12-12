@@ -69,3 +69,17 @@
 #tags li.tag1  a {
 	color: #b23062;
 }
+#tags #viewAllTags {
+	border-top: 2px  solid #79b7e7;
+}
+
+#tags #viewAllTags a {
+	font-weight: bold;
+	font-size:11px;
+}
+#tags #allTagsTable tr td a {
+	font-weight: bold;
+}
+#tags .tagCount {
+	text-align:right;
+}
