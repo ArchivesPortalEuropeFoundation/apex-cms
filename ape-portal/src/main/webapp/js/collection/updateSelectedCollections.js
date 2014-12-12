@@ -32,7 +32,6 @@ function updateSelectedCollections (id, list, page){
 function updateSelectedCollectionsAdd(storeCollectionIds, page){
 	//complete url when user clicks save
 	var targetUrl= $('form#frm').attr("action");
-	console.log("updateSelectedCollections -> "+completeUrl (targetUrl, storeCollectionIds, page));
 	//update url wall selected collections
 	$('form#frm').attr('action',completeUrl (targetUrl, storeCollectionIds, page));
 }
@@ -42,7 +41,6 @@ function updatePaging(storeCollectionIds, page){
 	$("div#child-paging").find("li").each(function(){
 		if($(this).find("a").length>0){
 			var targetUrl= $(this).find("a[href]").attr("href");
-			console.log("updatePaging -> "+completeUrl (targetUrl, storeCollectionIds, page));
 			//update url with the selected collections
 			$(this).find("a[href]").attr("href",completeUrl (targetUrl, storeCollectionIds, page));
 		}	

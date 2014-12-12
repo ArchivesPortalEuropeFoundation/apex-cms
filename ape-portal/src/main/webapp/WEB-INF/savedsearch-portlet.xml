@@ -15,11 +15,6 @@
     <import resource="i18n-common.xml"/>
 	<import resource="persistence-common.xml"/>
 
-	<bean
-		class="eu.archivesportaleurope.portal.search.saved.SavedSearchController">
-		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
-	</bean>
-	
      <bean
 		class="eu.archivesportaleurope.portal.collections.CollectionContentController">
 		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"></property>
@@ -28,6 +23,11 @@
         <property name="collectionContentDAO" ref="collectionContentDAO"></property>
 	</bean>
 
+	<bean
+		class="eu.archivesportaleurope.portal.search.saved.SavedSearchController">
+		<property name="eadSavedSearchDAO" ref="eadSavedSearchDAO"></property>
+	</bean>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

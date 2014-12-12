@@ -47,13 +47,13 @@
 								</portlet:actionURL>" onclick="return confirm('<fmt:message key="bookmarks.delete.areyousure"/>')"><fmt:message key="savedsearches.overview.delete"/>
 							</a>
 						</div>
-						<portlet:renderURL var="addSavedBookmarksFormUrl">
+						<portlet:renderURL var="addSavedBookmarksForm">
 							<portlet:param name="myaction" value="addSavedBookmarksForm" />
 							<portlet:param name="id" value="${savedBookmark.id}" />
 							<portlet:param name="overviewPageNumber" value="${pageNumber}" />
 						</portlet:renderURL>
 						<div>
-							<a href="${addSavedBookmarksFormUrl}"><fmt:message key="collections.add"/></a>
+							<a href="${addSavedBookmarksForm}"><fmt:message key="collections.add"/></a>
 						</div>
 						<portlet:renderURL var="editUrl">
 							<portlet:param name="myaction" value="editSavedBookmarksForm" />

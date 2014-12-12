@@ -63,6 +63,7 @@ function sendFeedback(){
 //_____________________
 
 function showBookmark(bookmarkUrl, documentTitle, documentUrl, description, typedocument) {	
+	$.ajaxSetup({async: false});
 	$.post(bookmarkUrl, 
 		{bookmarkName: documentTitle, 
 		persistentLink: documentUrl, 
@@ -70,8 +71,9 @@ function showBookmark(bookmarkUrl, documentTitle, documentUrl, description, type
 		typedocument: typedocument}, 
 		function(data) {
 			$("#bookmarkContent").html(data);
+			$.ajaxSetup({async: true});
 		}
-	);	
+	);
 }
 
 function showError(message) {
@@ -99,23 +101,20 @@ function showCollections(bookmark, seeAvaiableCollectionsUrl){
 	$('#searchCollectionsButton').addClass("hidden");
 	$('#searchButtonGrey').removeClass("hidden");
 	var searchTerm = $('input#searchTerm').val();
-	$.post(seeAvaiableCollectionsUrl, 
-		{bookmarkId: bookmark, 
-		criteria: searchTerm},
-		function(data) {
-			$("div[aria-labelledby^='ui-']").each(function(){
-				$(this).remove();
-			});
-			$('#collection-details').empty();
-			$("#collection-details").html(data);
-			$('#collection-details').removeClass("hidden");
-			$('#collection-details').show();
-		}
-	);
+	if (searchTerm == undefined) {
+		searchTerm = "";
+	} else {
+		$('input#searchTerm').val("");
+	}
+	getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm);
 }
 
 function showAllCollections(bookmark, seeAvaiableCollectionsUrl){
-	var searchTerm = "";
+	getShowCollections(bookmark, seeAvaiableCollectionsUrl, "");
+}
+
+function getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm){
+	$.ajaxSetup({async: false});
 	$.post(seeAvaiableCollectionsUrl, 
 		{bookmarkId: bookmark, 
 		criteria: searchTerm},
@@ -123,15 +122,20 @@ function showAllCollections(bookmark, seeAvaiableCollectionsUrl){
 			$("div[aria-labelledby^='ui-']").each(function(){
 				$(this).remove();
 			});
+			$("div#mycollectionPortletDiv").each(function(){
+				$(this).remove();
+			});
 			$('#collection-details').empty();
 			$("#collection-details").html(data);
 			$('#collection-details').removeClass("hidden");
 			$('#collection-details').show();
+			$.ajaxSetup({async: true});
 		}
 	);
 }
 
 function saveBookmarkInCollections( seeAvaiableCollectionsUrl){
+	$.ajaxSetup({async: false});
 	$.post(seeAvaiableCollectionsUrl, 
 		$("#frm").serialize(),
 		function(data) {
@@ -143,11 +147,13 @@ function saveBookmarkInCollections( seeAvaiableCollectionsUrl){
 			$('#collection-details').removeClass("hidden");
 			enableBookmarkButton();
 			$('#collection-details').show();
+			$.ajaxSetup({async: true});
 		}
 	);
 }
 
 function createCollections(bookmark, CollectionUrl){
+	$.ajaxSetup({async: false});
 	$.post(CollectionUrl, 
 		{bookmarkId: bookmark},
 		function(data) {
@@ -158,6 +164,7 @@ function createCollections(bookmark, CollectionUrl){
 			$("#collection-details").html(data);
 			$('#collection-details').removeClass("hidden");
 			$('#collection-details').show();
+			$.ajaxSetup({async: true});
 		}
 	);
 }
@@ -206,15 +213,17 @@ function saveCollections(bookmark, CollectionUrl){
  * Function to load the popup to create a new collection
  * @returns null
  */
-function loadDialogSave(bookmarkId,CollectionUrl){
-	$( "#mycollectionPortletDiv" ).dialog({
-		resizable: false, 
-		height: "auto", 
-		beforeClose: function() {
-			enableBookmarkButton();
-		}
-	 });
-	return null;
+function loadDialogSave(){
+	disableBookmarkButton();
+	var dialog = $('#mycollectionPortletDiv');    
+    dialog.dialog({
+    	resizable: false,
+    	height: "auto",
+    	beforeClose: function() {$('#mycollectionPortletDiv').addClass('hidden');
+    							enableBookmarkButton(); },
+    	close: function() {$(this).remove(); },
+    	open: function() { $('#mycollectionPortletDiv').removeClass('hidden');}
+    });
 }
 
 /***
@@ -224,17 +233,9 @@ function loadDialogSave(bookmarkId,CollectionUrl){
  * @returns null
  */
 function loadDialogShow(bookmark, seeAvaiableCollectionsUrl){
-	$( "#mycollectionPortletDiv" ).dialog({
-		resizable: false,
-		height: "auto",
-		beforeClose: function() {
-			enableBookmarkButton();
-		},
-        open: function() {
-        	disableBookmarkButton();
-        }
-	 });
 
+	loadDialogSave();
+	
     $("#mycollectionPortletDiv").keypress(function(e) {
         if(e.which == 13) {
         	e.preventDefault();
@@ -250,6 +251,7 @@ function enableBookmarkButton(){
 	$('#bookmarkEacCpf').removeClass('hidden');
 	$('#bookmarkEadGrey').addClass('hidden');
 	$('#bookmarkEacCpfGrey').addClass('hidden');
+	$('#mycollectionPortletDiv').addClass('hidden');
 }
 
 function disableBookmarkButton(){
@@ -257,4 +259,5 @@ function disableBookmarkButton(){
 	$('#bookmarkEacCpf').addClass('hidden');
 	$('#bookmarkEadGrey').removeClass('hidden');
 	$('#bookmarkEacCpfGrey').removeClass('hidden');
+	$('#mycollectionPortletDiv').removeClass('hidden');
 }

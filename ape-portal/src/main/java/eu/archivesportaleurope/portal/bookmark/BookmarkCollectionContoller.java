@@ -3,25 +3,13 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
-import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -30,36 +18,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.util.PortalUtil;
 
-import eu.apenet.commons.types.XmlType;
-import eu.apenet.commons.utils.APEnetUtilities;
-import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEacTag;
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
 import eu.apenet.persistence.dao.EacCpfDAO;
-import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Collection;
 import eu.apenet.persistence.vo.CollectionContent;
-import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
-import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.common.PropertiesKeys;
-import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.common.urls.EacCpfPersistentUrl;
 import eu.archivesportaleurope.util.ApeUtil;
 /**
  *
@@ -79,6 +54,7 @@ public class BookmarkCollectionContoller {
     private final static int PAGESIZE  = 20;
     private SavedBookmarksJpaDAO savedBookmarksDAO;
 	private CollectionContentDAO collectionContentDAO;
+    private BookmarkService bookmarkService;
 
 	public void setCollectionDAO(CollectionDAO collectionDAO) {
 		this.collectionDAO = collectionDAO;
@@ -107,6 +83,89 @@ public class BookmarkCollectionContoller {
 		this.collectionContentDAO = collectionContentDAO;
 	}
 
+	public void setBookmarkService (BookmarkService bookmarkService) {
+		this.bookmarkService = bookmarkService;
+	}
+
+	@ResourceMapping(value="bookmark")
+    public ModelAndView showInitialPage(@ModelAttribute("bookmark") Bookmark bookmark, ResourceRequest request) throws PortalException, SystemException {
+		boolean loggedIn = request.getUserPrincipal() != null;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("bookmark");  
+        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
+		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
+    	if (loggedIn){
+    		User currentUser = (User) PortalUtil.getUser(request);
+    		String description = bookmark.getDescription() + " " + currentUser.getEmailAddress();
+    		bookmark.setDescription(description);
+			if (saveBookmark(bookmark, request, modelAndView)){
+				modelAndView.getModelMap().addAttribute("saved",true);
+				modelAndView.getModelMap().addAttribute("showBox", true);
+				modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());
+				modelAndView.getModelMap().addAttribute("searchTerm",request.getParameter("searchTerm"));
+			}
+			else{
+				modelAndView.getModelMap().addAttribute("saved",false);
+				modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
+			}
+    	}
+    	else{
+    		modelAndView.getModelMap().addAttribute("loggedIn", false);
+	 		modelAndView.getModelMap().addAttribute("saved", false);
+	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
+    	}
+        return modelAndView;
+    }
+
+	public boolean saveBookmark(Bookmark bookmark,ResourceRequest resourceRequest, ModelAndView modelAndView) {
+		boolean saved = false;
+        SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
+		if (resourceRequest.getUserPrincipal() != null){
+			long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
+			try {
+				if (checkIfExist(bookmark, resourceRequest)){
+			        modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.already"));
+					saved = true;
+					//when you click over bookmark this and the current element is already bookmarked.
+					//show the list of the collections in which can be added
+					modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());				
+				}
+				else{
+					this.bookmarkService.saveBookmark(liferayUserId, bookmark);
+					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
+					saved = true;
+				}
+			}catch (Exception e) {
+				LOGGER.error(ApeUtil.generateThrowableLog(e));
+				saved = false;
+			}
+		}else{
+			modelAndView.getModelMap().addAttribute("loggedIn", false);
+	 		modelAndView.getModelMap().addAttribute("saved", false);
+	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
+		}
+		return saved;
+	}
+	
+	private boolean checkIfExist(Bookmark bookmark, ResourceRequest resourceRequest){
+		boolean exist = false;
+		long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
+		try {
+			List<SavedBookmarks> savedBookmarks = savedBookmarksDAO.getSavedBookmarks(liferayUserId, 1, PAGESIZE);
+			Iterator<SavedBookmarks> itBookmarks = savedBookmarks.iterator();
+			while(itBookmarks.hasNext() && !exist){
+				SavedBookmarks sb = itBookmarks.next();
+				if(sb.getLink().compareTo(bookmark.getPersistentLink())==0){
+					bookmark.setId(Long.toString(sb.getId()));
+			        exist = true;
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error(ApeUtil.generateThrowableLog(e));
+		}
+		return exist;
+	}
+
 	/***
 	 * Return the modelAndView with the collections in which can be included a bookmark.
 	 * @param resourceRequest
@@ -127,7 +186,13 @@ public class BookmarkCollectionContoller {
  		if (principal != null){
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
-				modelAndView.getModelMap().addAttribute("collections",getCollectionsWithoutBookmark(searchTerm, bookmarkId, liferayUserId));	
+
+	 			if(getCollectionsWithoutBookmark("", bookmarkId, liferayUserId).size()>0)
+	 				modelAndView.getModelMap().addAttribute("hasFreeCollections", true);
+	 			else
+	 				modelAndView.getModelMap().addAttribute("hasFreeCollections",false);
+	 			
+				modelAndView.getModelMap().addAttribute("collections",getCollectionsWithoutBookmark(searchTerm, bookmarkId, liferayUserId));
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
@@ -180,6 +245,7 @@ public class BookmarkCollectionContoller {
 	}
 		
 	/***
+	 * This is used in the second display window to manage collections popup
 	 * Gets the list of the collections in which can be stored the bookmarks, if a collection alredy has the bookmark will not be shown
 	 * @param request RenderRequest
 	 * @param bookmark Bookmark object
@@ -255,8 +321,9 @@ public class BookmarkCollectionContoller {
 				}else{
 					modelAndView.getModelMap().addAttribute("loggedIn", true);
 					modelAndView.getModelMap().addAttribute("showBox", false);
-					modelAndView.getModelMap().addAttribute("saved", true);
+					modelAndView.getModelMap().addAttribute("saved", false);
 					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.noCols"));
+					return modelAndView;
 				}
 				
 			} catch (Exception e) {

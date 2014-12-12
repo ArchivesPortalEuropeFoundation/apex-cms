@@ -31,7 +31,7 @@
 		<friendly-url-mapping>sv</friendly-url-mapping>
 		<friendly-url-routes>savedsearch-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
-		<header-portlet-javascript>/js/savedbookmarks/savedbookmarks.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/collection/updateSelectedCollections.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>savedbookmarks</portlet-name>
@@ -39,7 +39,7 @@
 		<friendly-url-mapping>sb</friendly-url-mapping>
 		<friendly-url-routes>savedbookmarks-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
-		<header-portlet-javascript>/js/savedbookmarks/savedbookmarks.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/collection/updateSelectedCollections.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
