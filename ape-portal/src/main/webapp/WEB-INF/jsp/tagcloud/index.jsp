@@ -6,8 +6,8 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <portlet:defineObjects />
-<portlet:renderURL var="viewAllTopicsUrl" windowState='maximized'/>
 <div id="tagcloudPortlet">
+<portal:friendlyUrl var="viewAllTopicsUrl" type="topic-overview"/>
 <portal:friendlyUrl var="searchUrl" type="topic-search"/>
 <h2><fmt:message key="tagcloud.topics.title"/>:</h2>
 <div id="tags">
