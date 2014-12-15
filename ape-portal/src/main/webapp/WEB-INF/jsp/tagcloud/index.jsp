@@ -15,9 +15,9 @@
 		<c:forEach var="tag" items="${tags}">
 			<c:choose>
 				<c:when test="${tag.enabled}">
-					<li class="${tag.cssClass}"><a href="${searchUrl}/${tag.key}">${tag.name}</a></li>				
+					<li class="${tag.cssClass}"><a href="${searchUrl}/${tag.key}" title="${tag.name}">${tag.shortName}</a></li>				
 				</c:when>
-				<c:otherwise><li class="${tag.cssClass}"><span>${tag.name}</span></li></c:otherwise>
+				<c:otherwise><li class="${tag.cssClass}" ><span title="${tag.name}">${tag.shortName}</span></li></c:otherwise>
 			</c:choose>
 		</c:forEach>	
 	</ul>
