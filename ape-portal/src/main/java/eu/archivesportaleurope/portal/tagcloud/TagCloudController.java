@@ -155,13 +155,13 @@ public class TagCloudController {
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
-			List<Topic> topics = topicDAO.findAll();
-			for (int i = 0; i < topics.size(); i++) {
-				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
-				if (!tags.contains(tagCloudItem)) {
-					tags.add(tagCloudItem);
-				}
-			}
+//			List<Topic> topics = topicDAO.findAll();
+//			for (int i = 0; i < topics.size(); i++) {
+//				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
+//				if (!tags.contains(tagCloudItem)) {
+//					tags.add(tagCloudItem);
+//				}
+//			}
 			CACHE.put(ALL_TOPICS_KEY, tags);
 		}
 		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
