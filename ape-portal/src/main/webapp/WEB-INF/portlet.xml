@@ -105,11 +105,6 @@
                 <name>view</name>
                 <value>tagcloud</value>
                 <read-only>false</read-only>
-            </preference>  
-            <preference>
-                <name>blockedTopics</name>
-                <value></value>
-                <read-only>false</read-only>
             </preference>              
         </portlet-preferences>		
 		<security-role-ref>
