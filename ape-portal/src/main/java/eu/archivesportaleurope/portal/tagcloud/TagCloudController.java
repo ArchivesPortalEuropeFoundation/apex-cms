@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.portlet.RenderRequest;
 
@@ -22,7 +20,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import eu.apenet.commons.utils.Cache;
 import eu.apenet.commons.utils.CacheManager;
-import eu.apenet.commons.utils.DisplayUtils;
 import eu.apenet.persistence.dao.TopicDAO;
 import eu.apenet.persistence.vo.Topic;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
@@ -35,7 +32,6 @@ import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 @Controller(value = "tagCloudController")
 @RequestMapping(value = "VIEW")
 public class TagCloudController {
-	private static final Pattern WORD_PATTERN = Pattern.compile("([\\p{L}\\p{Digit}\\s]+)");
 	private static final String TAGS_KEY = "tags";
 	private static final String TAGS_LEFT_KEY = "tagsLeft";
 	private static final String TAGS_RIGHT_KEY = "tagsRight";
@@ -117,16 +113,17 @@ public class TagCloudController {
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		for (TagCloudItem notTranslatedItem : tags){
 			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
-			translatedTags.add(new TagCloudItem(notTranslatedItem, clean(translatedName)));
+			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
 		}
 		Collections.sort(translatedTags, new TagCloudComparator());
 		request.setAttribute(TAGS_KEY, translatedTags);
 		return "index";
 	}
 	private List<String> getBlockedTopics(RenderRequest request){
-		String blockedTopics = request.getPreferences().getValue("blockedTopics", "");
-		String[] blockedTopicsList = blockedTopics.split("\\|");
-		return Arrays.asList(blockedTopicsList);
+//		String blockedTopics = request.getPreferences().getValue("blockedTopics", "");
+//		String[] blockedTopicsList = blockedTopics.split("\\|");
+//		return Arrays.asList(blockedTopicsList);
+		return new ArrayList<String>();
 	}
 	private String showTopicsList(RenderRequest request) {
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
@@ -214,16 +211,6 @@ public class TagCloudController {
 
 		}
 		return groups;
-	}
-	
-	private static String clean(String string){
-		String result = "";
-		Matcher matcher = WORD_PATTERN.matcher(string);
-		if (matcher.find()) {
-			result = DisplayUtils.substring(matcher.group().trim(), 20);
-		}
-		return result;
-
 	}
 
 	private static class TagCloudComparator implements Comparator<TagCloudItem> {
