@@ -2,7 +2,6 @@ package eu.archivesportaleurope.portal.bookmark;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -13,7 +12,6 @@ import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,7 +31,6 @@ import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
-import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.util.ApeUtil;
 
 @Controller(value = "bookmarkController")
@@ -42,21 +39,11 @@ public class BookmarkController {
 
     private static final Logger LOGGER = Logger.getLogger(BookmarkController.class);
     private SavedBookmarksJpaDAO savedBookmarksDAO;
-    private BookmarkService bookmarkService;
     private final static int PAGESIZE  = 10;
-	private ResourceBundleMessageSource messageSource;
-	
-	public void setMessageSource(ResourceBundleMessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
 	
 	public void setSavedBookmarksDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
 		this.savedBookmarksDAO = savedBookmarksDAO;
 	}
-	
-	 public void setBookmarkService (BookmarkService bookmarkService) {
-         this.bookmarkService = bookmarkService;
-     }
 
 	// --maps the incoming portlet request to this method
  	@RenderMapping
@@ -133,85 +120,6 @@ public class BookmarkController {
 			}
 		}		
 		return bookmark;
-	}
-	
-	@ResourceMapping(value="bookmark")
-    public ModelAndView showInitialPage(@ModelAttribute("bookmark") Bookmark bookmark, ResourceRequest request) throws PortalException, SystemException {
-		boolean loggedIn = request.getUserPrincipal() != null;
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("bookmark");  
-        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
-		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
-    	if (loggedIn){
-    		User currentUser = (User) PortalUtil.getUser(request);
-    		String description = bookmark.getDescription() + " " + currentUser.getEmailAddress();
-    		bookmark.setDescription(description);
-			if (saveBookmark(bookmark, request, modelAndView)){
-				modelAndView.getModelMap().addAttribute("saved",true);
-				modelAndView.getModelMap().addAttribute("showBox", true);
-				modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());
-				modelAndView.getModelMap().addAttribute("searchTerm",request.getParameter("searchTerm"));
-			}
-			else{
-				modelAndView.getModelMap().addAttribute("saved",false);
-				modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ko"));
-			}
-    	}
-    	else{
-    		modelAndView.getModelMap().addAttribute("loggedIn", false);
-	 		modelAndView.getModelMap().addAttribute("saved", false);
-	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
-    	}
-        return modelAndView;
-    }
-
-	public boolean saveBookmark(Bookmark bookmark,ResourceRequest resourceRequest, ModelAndView modelAndView) {
-		boolean saved = false;
-        SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
-		if (resourceRequest.getUserPrincipal() != null){
-			long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
-			try {
-				if (checkIfExist(bookmark, resourceRequest)){
-			        modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.already"));
-					saved = true;
-					//when you click over bookmark this and the current element is already bookmarked.
-					//show the list of the collections in which can be added
-					modelAndView.getModelMap().addAttribute("bookmarkId",bookmark.getId());				
-				}
-				else{
-					this.bookmarkService.saveBookmark(liferayUserId, bookmark);
-					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.ok"));
-					saved = true;
-				}
-			}catch (Exception e) {
-				LOGGER.error(ApeUtil.generateThrowableLog(e));
-				saved = false;
-			}
-		}else{
-			modelAndView.getModelMap().addAttribute("loggedIn", false);
-	 		modelAndView.getModelMap().addAttribute("saved", false);
-	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
-		}
-		return saved;
-	}
-	
-	private boolean checkIfExist(Bookmark bookmark, ResourceRequest resourceRequest){
-		boolean exist = false;
-		long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
-		try {
-			List<SavedBookmarks> savedBookmarks = savedBookmarksDAO.getSavedBookmarks(liferayUserId, 1, PAGESIZE);
-			Iterator<SavedBookmarks> itBookmarks = savedBookmarks.iterator();
-			while(itBookmarks.hasNext() && !exist){
-				SavedBookmarks sb = itBookmarks.next();
-				if(sb.getLink().compareTo(bookmark.getPersistentLink())==0){
-					bookmark.setId(Long.toString(sb.getId()));
-			        exist = true;
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error(ApeUtil.generateThrowableLog(e));
-		}
-		return exist;
 	}
 	
     @ModelAttribute("bookmark")

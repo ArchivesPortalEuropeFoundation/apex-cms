@@ -62,13 +62,12 @@ function sendFeedback(){
 //Bookmarking feature
 //_____________________
 
-function showBookmark(bookmarkUrl, documentTitle, documentUrl, description, typedocument) {	
+function showBookmark(bookmarkUrl, documentTitle, documentUrl, typedocument) {	
 	$.ajaxSetup({async: false});
-	$.post(bookmarkUrl, 
-		{bookmarkName: documentTitle, 
-		persistentLink: documentUrl, 
-		description: description, 
-		typedocument: typedocument}, 
+	$.post(bookmarkUrl,
+		{bookmarkName: documentTitle,
+		persistentLink: documentUrl,
+		typedocument: typedocument},
 		function(data) {
 			$("#bookmarkContent").html(data);
 			$.ajaxSetup({async: true});

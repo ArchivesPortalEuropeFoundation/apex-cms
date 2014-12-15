@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
-import com.liferay.portal.util.PortalUtil;
 
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
@@ -85,9 +84,6 @@ public class BookmarkCollectionContoller {
         modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
     	if (loggedIn){
-    		User currentUser = (User) PortalUtil.getUser(request);
-    		String description = bookmark.getDescription() + " " + currentUser.getEmailAddress();
-    		bookmark.setDescription(description);
 			if (saveBookmark(bookmark, request, modelAndView)){
 				modelAndView.getModelMap().addAttribute("saved",true);
 				modelAndView.getModelMap().addAttribute("showBox", true);
@@ -176,13 +172,14 @@ public class BookmarkCollectionContoller {
  		if (principal != null){
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
+	 			List<Collection> collectionsWithoutBookmarkList = getCollectionsWithoutBookmark("", bookmarkId, liferayUserId);
 
-	 			if(getCollectionsWithoutBookmark("", bookmarkId, liferayUserId).size()>0)
+	 			if(collectionsWithoutBookmarkList.size()>0)
 	 				modelAndView.getModelMap().addAttribute("hasFreeCollections", true);
 	 			else
 	 				modelAndView.getModelMap().addAttribute("hasFreeCollections",false);
 	 			
-				modelAndView.getModelMap().addAttribute("collections",getCollectionsWithoutBookmark(searchTerm, bookmarkId, liferayUserId));
+				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmarkList);
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
@@ -208,7 +205,7 @@ public class BookmarkCollectionContoller {
 		List<Collection> collections = null;
 		
 		if (searchTerm=="")
-			collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, 20,"collection.modified_date",false);
+			collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, 20,"modified_date",false);
 		else
 			collections = this.collectionDAO.getCollectionByName(liferayUserId, searchTerm, 20);
 		

@@ -68,7 +68,7 @@
 	<div id="bookmarksArea">
 		<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
 		<div id="bookmarkEad" class="linkButton">	
- 			<a id="eadBookmark" href="javascript:showBookmark('<c:out value='${bookmarkUrl}' />','<c:out value='${documentTitle}' />','<c:out value='${url}' />','<c:out value='${printEacDetailsUrl}' />', 'ead')"><fmt:message key="bookmark.this" /></a>
+ 			<a id="eadBookmark" href="javascript:showBookmark('<c:out value='${bookmarkUrl}' />', '<c:out value='${documentTitle}' />', '<c:out value='${url}' />', 'ead')"><fmt:message key="bookmark.this" /></a>
 		</div>
 		<!-- Disabled button -->
 		<div id="bookmarkEadGrey" class="disableBookmarkButton hidden">	
