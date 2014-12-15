@@ -54,7 +54,7 @@
 						</div>
 					</div>
 				</div>
-				<table class="defaultlayout" id="currentSearch">
+				<table class="defaultlayout" id="currentAvailableCollections">
 					<tr>
 						<th class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></th>
 						<th class="collectionSearchId"><fmt:message key="savedsearch.id"/></th>

@@ -45,6 +45,7 @@
 		<property name="collectionDAO" ref="collectionDAO"/>
 		<property name="savedBookmarksDAO" ref="savedBookmarksDAO"/>
 		<property name="collectionContentDAO" ref="collectionContentDAO"/>
+		<property name="bookmarkService" ref="bookmarkService"></property>
 	</bean>
 
      <bean

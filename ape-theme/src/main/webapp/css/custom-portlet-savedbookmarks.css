@@ -7,7 +7,7 @@
 	float: left;
 	font-weight: normal;
 }
-#savedBookmarksPortlet #savedBookmarksTable {
+#savedBookmarksPortlet #savedBookmarksTable, #currentAvailableCollections {
 	font-size: 8pt;
 	width: 100%;
 	padding-left:10px;

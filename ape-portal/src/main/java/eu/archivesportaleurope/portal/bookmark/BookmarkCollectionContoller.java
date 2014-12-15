@@ -28,7 +28,6 @@ import com.liferay.portal.util.PortalUtil;
 
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
-import eu.apenet.persistence.dao.EacCpfDAO;
 import eu.apenet.persistence.vo.Collection;
 import eu.apenet.persistence.vo.CollectionContent;
 import eu.apenet.persistence.vo.SavedBookmarks;
@@ -48,7 +47,6 @@ import eu.archivesportaleurope.util.ApeUtil;
 public class BookmarkCollectionContoller {
 	private final static Logger LOGGER = Logger.getLogger(BookmarkCollectionContoller.class);
 	private MessageSource messageSource;
-	private EacCpfDAO eacCpfDAO;
 	private CollectionDAO collectionDAO;
 	private static final String COLLECTION_IN = "collectionToAdd_";
     private final static int PAGESIZE  = 20;
@@ -65,14 +63,6 @@ public class BookmarkCollectionContoller {
 	}
 	public void setMessageSource(MessageSource messageSource) {
 		this.messageSource = messageSource;
-	}
-	
-	public EacCpfDAO getEacCpfDAO() {
-		return this.eacCpfDAO;
-	}
-	
-	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
-		this.eacCpfDAO = eacCpfDAO;
 	}
 	
 	public void setSavedBookmarksDAO(SavedBookmarksJpaDAO savedBookmarksDAO) {
