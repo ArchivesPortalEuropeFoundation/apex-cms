@@ -91,7 +91,6 @@ public class TagCloudItem {
 			if (numberFormat == null) {
 				return count + "";
 			} else {
-				System.out.println("yes");
 				return numberFormat.format(count);
 			}
 		} else {
