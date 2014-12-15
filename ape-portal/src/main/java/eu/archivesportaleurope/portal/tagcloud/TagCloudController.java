@@ -64,10 +64,10 @@ public class TagCloudController {
 		if ("list".equals(view)){
 			return showTopicsList(request);
 		}else {
-			return showNewTopicsCloud(request);
+			return showTopicsCloud(request);
 		}
 	}
-	private String showNewTopicsCloud(RenderRequest request) {
+	private String showTopicsCloud(RenderRequest request) {
 		List<TagCloudItem> activeTopics = CACHE.get(ALL_ACTIVE_TOPICS);
 		if (activeTopics == null){
 			activeTopics= getAllActiveTopics();
@@ -117,32 +117,6 @@ public class TagCloudController {
 		request.setAttribute(TAGS_KEY, translatedTags);
 	}
 	
-	private static List<TagCloudItem> getAllActiveTopicsStub(){
-		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
-		tags.add(new TagCloudItem(10l, "first.world.war"));
-		tags.add(new TagCloudItem(100l, "second.world.war"));
-		tags.add(new TagCloudItem(140l, "slavery"));
-		tags.add(new TagCloudItem(110l, "cold.war"));
-		/*
-		tags.add(new TagCloudItem(110l, "state.collection"));
-		tags.add(new TagCloudItem(150l, "german.democratic.republic"));
-		tags.add(new TagCloudItem(150l, "germany.sed.fdgb"));
-		tags.add(new TagCloudItem(1220l, "medieval.period"));
-		tags.add(new TagCloudItem(14300l, "politics"));
-		tags.add(new TagCloudItem(14540l, "democracy"));
-		tags.add(new TagCloudItem(11340l, "transport"));
-		tags.add(new TagCloudItem(1234l, "genealogy"));
-		tags.add(new TagCloudItem(123l, "churches"));
-		tags.add(new TagCloudItem(1250l, "crime"));
-		tags.add(new TagCloudItem(1554500l, "taxation"));
-		*/
-		/*
-		tags.add(new TagCloudItem(15450l, "economics"));
-		tags.add(new TagCloudItem(16550l, "national.administration"));
-		tags.add(new TagCloudItem(153430l, "agriculture"));
-*/
-		return tags;
-	}
 	private synchronized List<TagCloudItem> getAllActiveTopics(){
 		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
 		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
@@ -162,57 +136,6 @@ public class TagCloudController {
 		return tags;
 	}
 	
-	private String showTopicsCloud(RenderRequest request) {
-		List<TagCloudItem> tags = CACHE.get(TAGS_KEY);
-		if (tags == null){
-			tags= new ArrayList<TagCloudItem>();
-			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			solrQueryParameters.setTerm("*");
-			List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
-			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_NUMBER_OF_TAGS));
-	
-			try {
-				QueryResponse response = eadSearcher.performNewSearchForListView(solrQueryParameters, 0, facetSettings);
-				FacetField facetField = response.getFacetFields().get(0);
-				int numberAdded = 0;
-				for (Count count : facetField.getValues()) {
-					if (numberAdded < MAX_NUMBER_OF_TAGS){
-						tags.add(new TagCloudItem(count.getCount(), count.getName()));
-						numberAdded++;
-					}
-				}
-			} catch (Exception e) {
-				LOGGER.error(e.getMessage());
-			}
-			int numberOfTagsWithResults = tags.size();
-			List<Topic> topics = topicDAO.getFirstTopics();
-			for (int i = 0; i < topics.size() && tags.size() < MAX_NUMBER_OF_TAGS; i++) {
-				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
-				if (!tags.contains(tagCloudItem)) {
-					tags.add(tagCloudItem);
-				}
-			}
-			int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
-			int tagCloudItemIndex = 0;
-			for (int i = 0; i < NUMBER_OF_GROUPS; i++) {
-				int maxNumber = groups[i];
-				for (int j = 0; j < maxNumber; j++) {
-					tags.get(tagCloudItemIndex).setTagNumber((i + 1));
-					tagCloudItemIndex++;
-				}
-			}
-			CACHE.put(TAGS_KEY, tags);
-		}
-		List<TagCloudItem> translatedTags = new ArrayList<TagCloudItem>();
-		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
-		for (TagCloudItem notTranslatedItem : tags){
-			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
-			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
-		}
-		Collections.sort(translatedTags, new TagCloudComparator());
-		request.setAttribute(TAGS_KEY, translatedTags);
-		return "index";
-	}
 	private String showTopicsList(RenderRequest request) {
 		NumberFormat numberFormat = NumberFormat.getInstance(request.getLocale());
 		List<TagCloudItem> tags = CACHE.get(ALL_TOPICS_KEY);
