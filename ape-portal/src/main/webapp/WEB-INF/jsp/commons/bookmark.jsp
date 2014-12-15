@@ -11,9 +11,7 @@
 
 <form:form id="bookmarkForm" name="bookmarkForm" commandName="bookmark" method="post" action="${bookmarkUrl}">
 	<c:if test="${!loggedIn}">
-		<div class="error">
-			<fmt:message key="bookmarks.logged.ko"/>
-		</div>
+		<script type="text/javascript">hasSaved(false, "${message}");</script>
 	</c:if>
 	<c:if test="${loggedIn}">
 		<c:if test="${!saved}">
