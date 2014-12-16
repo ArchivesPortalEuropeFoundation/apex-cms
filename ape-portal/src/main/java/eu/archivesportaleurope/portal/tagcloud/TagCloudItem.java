@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import eu.apenet.commons.utils.DisplayUtils;
 
 public class TagCloudItem {
-	private static final Pattern WORD_PATTERN = Pattern.compile("([\\p{L}\\p{Digit}\\s]+)");
+	private static final Pattern WORD_PATTERN = Pattern.compile("([\\p{L}\\p{Digit}\\s-]+)");
 
 	private long count;
 	private String key;
@@ -122,11 +122,11 @@ public class TagCloudItem {
 			return false;
 		return true;
 	}
-	private static String clean(String string){
+	public static String clean(String string){
 		String result = "";
 		Matcher matcher = WORD_PATTERN.matcher(string);
 		if (matcher.find()) {
-			result = DisplayUtils.substring(matcher.group().trim(), 20);
+			result = DisplayUtils.substring(matcher.group().trim(), 25);
 		}
 		return result;
 

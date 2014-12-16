@@ -116,7 +116,32 @@ public class TagCloudController {
 		Collections.sort(translatedTags, new TagCloudComparator());
 		request.setAttribute(TAGS_KEY, translatedTags);
 	}
-	
+
+//	private static List<TagCloudItem> getAllActiveTopicsStub(){
+//		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
+//		tags.add(new TagCloudItem(100000l, "first.world.war"));
+//		tags.add(new TagCloudItem(1000000l, "second.world.war"));
+//		tags.add(new TagCloudItem(140l, "slavery"));
+//		tags.add(new TagCloudItem(110l, "cold.war"));
+//
+//		tags.add(new TagCloudItem(110l, "state.collection"));
+//		tags.add(new TagCloudItem(150l, "german.democratic.republic"));
+//		tags.add(new TagCloudItem(150l, "germany.sed.fdgb"));
+//		tags.add(new TagCloudItem(1220l, "medieval.period"));
+//		tags.add(new TagCloudItem(14300l, "politics"));
+//		tags.add(new TagCloudItem(14540l, "democracy"));
+//		tags.add(new TagCloudItem(11340l, "transport"));
+//		tags.add(new TagCloudItem(1234l, "genealogy"));
+//		tags.add(new TagCloudItem(123l, "churches"));
+//		tags.add(new TagCloudItem(1250l, "crime"));
+//		tags.add(new TagCloudItem(1554500l, "taxation"));
+//
+//		tags.add(new TagCloudItem(15450l, "economics"));
+//		tags.add(new TagCloudItem(16550l, "national.administration"));
+//		tags.add(new TagCloudItem(153430l, "agriculture"));
+//
+//		return tags;
+//	}
 	private synchronized List<TagCloudItem> getAllActiveTopics(){
 		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
 		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
