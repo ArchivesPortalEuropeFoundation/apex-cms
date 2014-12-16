@@ -88,15 +88,15 @@ public class TagCloudController {
 	}
 	public void displayTopics(RenderRequest request, List<TagCloudItem> tags){
 		int numberOfTagsWithResults = tags.size();
-		if (numberOfTagsWithResults < MAX_NUMBER_OF_TAGS){
-			List<Topic> topics = topicDAO.getFirstTopics();
-			for (int i = 0; i < topics.size() && tags.size() < MAX_NUMBER_OF_TAGS; i++) {
-				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
-				if (!tags.contains(tagCloudItem)) {
-					tags.add(tagCloudItem);
-				}
-			}
-		}
+//		if (numberOfTagsWithResults < MAX_NUMBER_OF_TAGS){
+//			List<Topic> topics = topicDAO.getFirstTopics();
+//			for (int i = 0; i < topics.size() && tags.size() < MAX_NUMBER_OF_TAGS; i++) {
+//				TagCloudItem tagCloudItem = new TagCloudItem(0l, topics.get(i).getPropertyKey());
+//				if (!tags.contains(tagCloudItem)) {
+//					tags.add(tagCloudItem);
+//				}
+//			}
+//		}
 		Collections.sort(tags, new TagCloudCountComparator());
 		int[] groups = numberPerGroup(numberOfTagsWithResults, tags.size() - numberOfTagsWithResults);
 		int tagCloudItemIndex = 0;
