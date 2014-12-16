@@ -8,10 +8,10 @@
 		</div>
 	</div>
 	<div class="portlet-layout">
-		<div class="aui-w70 portlet-column portlet-column-first" id="column-3">
+		<div class="aui-w75 portlet-column portlet-column-first" id="column-3">
 			$processor.processColumn("column-3", "portlet-column-content portlet-column-content-first")
 		</div>
-		<div class="aui-w30 portlet-column portlet-column-last" id="column-3a">
+		<div class="aui-w25 portlet-column portlet-column-last" id="column-3a">
 			$processor.processColumn("column-3a", "portlet-column-content portlet-column-content-last")
 		</div>
 	</div>	
