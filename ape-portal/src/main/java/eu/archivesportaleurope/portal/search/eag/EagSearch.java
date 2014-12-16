@@ -12,7 +12,7 @@ import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public class EagSearch extends AbstractSearchForm {
-	public static final String NOSELECTION = "all";
+	public static final String NOSELECTION = "";
 	/**
 	 * 
 	 */
