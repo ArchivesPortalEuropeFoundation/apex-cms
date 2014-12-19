@@ -15,11 +15,12 @@ public class AbstractSearchController {
 	protected static final Pattern NO_WHITESPACE_PATTERN = Pattern.compile("\\S+");
 	private static final Pattern LEADING_WILDCARD_PATTERN = Pattern.compile("[\\?\\*\\~].*");
 	private static final Pattern END_WILDCARD_PATTERN = Pattern.compile("[^\\?\\*\\~]{2}.*");
+	private static final Pattern ONE_CHARACTER_PATTERN = Pattern.compile("[^\\?\\*\\~]");
 	private static final String WILDCARD = "*";
 	private EadSearcher eadSearcher;
 	private EacCpfSearcher eacCpfSearcher;
 	private EagSearcher eagSearcher;
-	
+
 	public EadSearcher getEadSearcher() {
 		return eadSearcher;
 	}
@@ -36,7 +37,6 @@ public class AbstractSearchController {
 		this.eacCpfSearcher = eacCpfSearcher;
 	}
 
-	
 	public EagSearcher getEagSearcher() {
 		return eagSearcher;
 	}
@@ -45,24 +45,26 @@ public class AbstractSearchController {
 		this.eagSearcher = eagSearcher;
 	}
 
-	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest){
-		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
+	public static SolrQueryParameters getSolrQueryParametersByForm(AbstractSearchForm abstractSearchForm,
+			PortletRequest portletRequest) {
+		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())) {
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
-			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())){
-				if (portletRequest.getUserPrincipal() == null){
+			if (AbstractSearchForm.SEARCH_ALL_STRING.equals(abstractSearchForm.getTerm())) {
+				if (portletRequest.getUserPrincipal() == null) {
 					return null;
 				}
 				solrQueryParameters.setTerm("");
-			}else {
+			} else {
 				solrQueryParameters.setTerm(abstractSearchForm.getTerm());
 			}
 			solrQueryParameters.setMatchAllWords(abstractSearchForm.matchAllWords());
-			return solrQueryParameters;			
+			return solrQueryParameters;
 		}
 		return null;
 
 	}
-	protected static void updatePagination( ListResults results) {
+
+	protected static void updatePagination(ListResults results) {
 		Long totalNumberOfPages = results.getTotalNumberOfResults() / results.getPageSize();
 		Long rest = results.getTotalNumberOfResults() % results.getPageSize();
 		if (rest > 0) {
@@ -71,31 +73,41 @@ public class AbstractSearchController {
 		results.setTotalNumberOfPages(totalNumberOfPages);
 	}
 
-	private static boolean validateTerm(String string){
-		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(string.trim());
+	private static boolean validateTerm(String string) {
+		String temp = string.trim();
+		if (WILDCARD.equals(temp)) {
+			return true;
+		}
+		if (temp.length() < 3){
+			return false;
+		}
+		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(temp);
 		while (matcher.find()) {
 			String word = matcher.group();
-			if (!WILDCARD.equals(word)){
-		        Matcher m = LEADING_WILDCARD_PATTERN.matcher(word);
-		        if (m.matches()){
-		        	return false;
-		        }else {
-		        	m = END_WILDCARD_PATTERN.matcher(word);
-		        	if (!m.matches()){
-		        		return false;
-		        	}
-		        }
+			Matcher m = LEADING_WILDCARD_PATTERN.matcher(word);
+			if (m.matches()) {
+				return false;
+			} else {
+				m = ONE_CHARACTER_PATTERN.matcher(word);
+				if (!m.matches()) {
+					m = END_WILDCARD_PATTERN.matcher(word);
+					if (!m.matches()) {
+						return false;
+					}
+				}
 			}
+
 		}
 		return true;
 	}
+
 	public String validate(AbstractSearchForm abstractSearchForm, PortletRequest portletRequest) {
-		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())){
+		if (StringUtils.isNotBlank(abstractSearchForm.getTerm())) {
 			boolean valid = validateTerm(abstractSearchForm.getTerm());
-			if (!valid){
+			if (!valid) {
 				return "search.message.lesswildcards";
 			}
-			
+
 		}
 		if (StringUtils.isNotBlank(abstractSearchForm.getFromdate())
 				&& !SearchUtil.isValidDate(abstractSearchForm.getFromdate())) {
