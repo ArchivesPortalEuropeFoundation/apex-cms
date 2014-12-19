@@ -78,9 +78,6 @@ public class AbstractSearchController {
 		if (WILDCARD.equals(temp)) {
 			return true;
 		}
-		if (temp.length() < 3){
-			return false;
-		}
 		Matcher matcher = NO_WHITESPACE_PATTERN.matcher(temp);
 		while (matcher.find()) {
 			String word = matcher.group();
