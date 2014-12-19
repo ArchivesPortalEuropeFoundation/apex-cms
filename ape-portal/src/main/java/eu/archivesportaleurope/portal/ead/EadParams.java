@@ -11,6 +11,7 @@ public class EadParams {
 	private String term;
 	private String position;
 	private String cid;
+	private String preview;
 
 
 	public String getDatabaseId() {
@@ -91,6 +92,14 @@ public class EadParams {
 
 	public void setCid(String cid) {
 		this.cid = cid;
+	}
+
+	public String getPreview() {
+		return preview;
+	}
+
+	public void setPreview(String preview) {
+		this.preview = preview;
 	}
 
 }
