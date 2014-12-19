@@ -40,6 +40,7 @@
 				</c:if>
 					<th><fmt:message key="savedsearch.id"/></th>
 					<th><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+					<th><fmt:message key="savedsearch.description"/></th>
 					<th class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></th>
 				<c:if test="${!edit}">
 					<th><fmt:message key="savedsearches.overview.actions"/></th>
@@ -52,6 +53,7 @@
 					</c:if>
 					<td  class="collectionSearchId"><c:out value="${collectionBookmark.savedBookmarks.id}" /></td>
 					<td class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.name}" /></td>
+					<td class="<c:choose><c:when test="${edit}">collectionSearchDescription</c:when><c:otherwise>collectionDescription2</c:otherwise></c:choose>"><c:out value="${collectionBookmark.savedBookmarks.description}" /></td>
 					<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${collectionBookmark.savedBookmarks.modifiedDate}" timeZone="${timeZone}"/></td>
 					<c:if test="${!edit}">
 						<td class="collectionSearchAction">

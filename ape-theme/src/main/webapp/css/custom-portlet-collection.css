@@ -124,16 +124,24 @@
 	width: 5%;
 }
 .collectionSearchTerms{
-	width: 70%;
+	/*width: 70%;*/
+	width:35%;
 }
 .collectionSearchTerms2{
-    width: 50%;
+  /*  width: 50%;*/
+  width:25%;
 }
 .collectionSearchDate{
 	width: 15%;
 }
 .collectionSearchDate2{
 	width: 15%;
+}
+.collectionSearchDescription{
+	width:35%;
+}
+.collectionSearchDescription2{
+	width: 25%;
 }
 .collectionSearchAction{
 	width: 10%;

@@ -43,6 +43,7 @@
 					</c:if> 
 						<th class="collectionSearchId"><fmt:message key="savedsearch.id"/></th>
 						<th class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+						<th class="<c:choose><c:when test="${edit}">collectionSearchDescription</c:when><c:otherwise>collectionSearchDescription2</c:otherwise></c:choose>"><fmt:message key="savedsearch.description"/></th>
 						<th class="<c:choose><c:when test="${edit}">collectionSearchDate</c:when><c:otherwise>collectionSearchDate2</c:otherwise></c:choose>"><fmt:message key="advancedsearch.text.date"/></th>
 					<c:if test="${!edit}">
 						<th class="collectionSearchAction"><fmt:message key="savedsearches.overview.actions"/></th>
@@ -55,6 +56,7 @@
 						</c:if>
 						<td class="collectionSearchId"><c:out value="${currentSearch.eadSavedSearch.id}" /></td>
 						<td class="<c:choose><c:when test="${edit}">collectionSearchTerms</c:when><c:otherwise>collectionSearchTerms2</c:otherwise></c:choose>"><c:out value="${currentSearch.eadSavedSearch.searchTerm}" /></td> 
+						<td class="<c:choose><c:when test="${edit}">collectionSearchDescription</c:when><c:otherwise>collectionSearchDescription2</c:otherwise></c:choose>"><c:out value="${currentSearch.eadSavedSearch.description}" /></td>
 						<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z"  value="${currentSearch.eadSavedSearch.modifiedDate}" timeZone="${timeZone}"/></td>
 						<c:if test="${!edit}">
 							<td class="collectionSearchAction">

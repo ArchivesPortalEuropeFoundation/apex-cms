@@ -26,6 +26,7 @@
 				<th class="collectionSearchCheckbox"><fmt:message key="collections.signal"/></th>
 				<th class="collectionSearchId"><fmt:message key="savedsearch.id"/></th>
 				<th class="collectionSearchTerms"><fmt:message key="advancedsearch.eaccpf.element.name"/></th>
+				<th class="collectionSearchTerms"><fmt:message key="savedsearch.description"/></th>
 				<th class="collectionSearchDate"><fmt:message key="advancedsearch.text.date"/></th>
 			</tr>
 			<c:forEach var="bookmark" items="${bookmarks}">
@@ -33,6 +34,7 @@
 					<td class="collectionSearchCheckbox"><input type="checkbox" name="new_bookmark_${bookmark.id}" id="new_bookmark_${bookmark.id}" /></td>
 					<td class="collectionSearchId"><c:out value="${bookmark.id}" /></td>
 					<td class="collectionSearchTerms"><c:out value="${bookmark.name}" /></td>
+					<td class="collectionSearchDescription2"><c:out value="${bookmark.description}" /></td>
 					<td class="collectionSearchDate2"><fmt:formatDate pattern="dd-MMM-yyyy HH:mm z" value="${bookmark.modifiedDate}" timeZone="${timeZone}"/></td>
 				</tr>
 			</c:forEach>
