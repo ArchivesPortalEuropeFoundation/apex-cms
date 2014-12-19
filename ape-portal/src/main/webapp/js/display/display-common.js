@@ -133,22 +133,29 @@ function getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm){
 	);
 }
 
-function saveBookmarkInCollections( seeAvaiableCollectionsUrl){
-	$.ajaxSetup({async: false});
-	$.post(seeAvaiableCollectionsUrl, 
-		$("#frm").serialize(),
-		function(data) {
-			$("div[aria-labelledby^='ui-']").each(function(){
-				$(this).remove();
-			});
-			$('#collection-details').empty();
-			$("#collection-details").html(data);
-			$('#collection-details').removeClass("hidden");
-			enableBookmarkButton();
-			$('#collection-details').show();
-			$.ajaxSetup({async: true});
+function saveBookmarkInCollections( seeAvaiableCollectionsUrl, errorEmpty){
+	if($("[name^='collectionToAdd_']:checked").length>0){
+		$("#error_message_collection").remove();
+		$.ajaxSetup({async: false});
+		$.post(seeAvaiableCollectionsUrl, 
+			$("#frm").serialize(),
+			function(data) {
+				$("div[aria-labelledby^='ui-']").each(function(){
+					$(this).remove();
+				});
+				$('#collection-details').empty();
+				$("#collection-details").html(data);
+				$('#collection-details').removeClass("hidden");
+				enableBookmarkButton();
+				$('#collection-details').show();
+				$.ajaxSetup({async: true});
+			}
+		);
+	}else{
+		if($("#error_message_collection").length==0){
+			$("#searchCollectionsButton").parent().parent().parent().parent().next().after("<div id=\"error_message_collection\" class=\"error\">"+errorEmpty+"</div>");
 		}
-	);
+	}
 }
 
 function createCollections(bookmark, CollectionUrl){

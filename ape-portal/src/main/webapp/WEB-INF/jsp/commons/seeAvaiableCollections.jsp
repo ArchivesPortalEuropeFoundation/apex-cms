@@ -22,7 +22,7 @@
 	});
 </script>
 
-<div id="mycollectionPortletDiv" class="hidden" title="<fmt:message key="bookmarks.save"/>">
+<div id="mycollectionPortletDiv" class="hidden" title="<fmt:message key="collections.message.addToCollection"/>">
 	<c:if test="${!loggedIn}">
 		<div class="error">
 			<fmt:message key="bookmarks.logged.ko"/>
@@ -63,7 +63,7 @@
 					</table>
 					<hr>
 					<div id="mycollectionCreateAction" class="linkButton" style="display: inline-flex">
-			 			<a href="javascript:saveBookmarkInCollections('${addBookmarksToUrl}')"><fmt:message key="collections.bookmarks.add" /></a>
+			 			<a href="javascript:saveBookmarkInCollections('${addBookmarksToUrl}','<fmt:message key="collections.bookmarks.error.neededatleastone" />')"><fmt:message key="collections.bookmarks.add" /></a>
 					</div>
 				</c:if>
 				<c:if test="${empty collections}">
