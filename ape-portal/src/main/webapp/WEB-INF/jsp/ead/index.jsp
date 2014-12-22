@@ -16,6 +16,7 @@
 </portlet:resourceURL></portal:removeParameters>
 <portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,pageNumber,databaseId"><portlet:resourceURL  id="displayEadDetails">
 	<portlet:param name="ecId" value="${eadContent.ecId}" />
+	<portlet:param name="preview" value="${preview}" />
 </portlet:resourceURL></portal:removeParameters>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
@@ -26,10 +27,12 @@
 		<fmt:message key="${errorMessage}" />
 	</div>
 	</c:if>
+	<c:if test="${not preview}">
 	<h3 id="contextInformation">
 		${localizedCountryName}
 		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
 	</h3>
+	</c:if>
 	<div id="eadcontent">
 		<div id="left-pane" class="pane">
 			<div id="eadTree"></div>
@@ -46,10 +49,11 @@ initPanes();
 initDAOs();
 initDAOs();
 </script>
+<c:if test="${not preview}">
 <script defer="defer" type="text/javascript">
     window.onload=function(){
     	initShareButtons();
     }
 </script>
-	
+</c:if>	
 </div>

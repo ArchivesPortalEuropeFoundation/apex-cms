@@ -45,7 +45,7 @@
 <portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
 
-
+<c:if test="${not preview}">
 <div id="buttonsHeader">
 
 	<!-- Print section. -->
@@ -91,7 +91,7 @@
 <div id="bookmarkAnswer">
 	<div id="bookmarkContent" class="hidden"></div>
 </div>
-
+</c:if>
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
@@ -118,7 +118,7 @@
 		</c:otherwise>
 	</c:choose>
 </div>
-
+<c:if test="${not preview}">
 <!-- there is the user's feedback feature for WEB 2.0 -->
 <div id="feedbackArea">
 	<div id="sendFeedbackButton" class="linkButton">
@@ -127,7 +127,7 @@
 	</div>
 	<div id="feedbackContent" class="hidden"></div>
 </div>
-
+</c:if>
 <script type="text/javascript" defer="defer">
 	 var RecaptchaOptions = {
 	    theme : 'white'
