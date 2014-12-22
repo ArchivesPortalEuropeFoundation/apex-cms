@@ -62,7 +62,6 @@ public class DisplayEadContoller extends AbstractEadController {
 		this.messageSource = messageSource;
 	}
 
-	@RenderMapping
 	public ModelAndView displayDefaultPage() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
@@ -80,6 +79,7 @@ public class DisplayEadContoller extends AbstractEadController {
 		XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 		if (xmlType != null) {
 			boolean published = !eadParams.isPreview();
+			modelAndView.getModelMap().addAttribute("preview", eadParams.isPreview());
 			Ead ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid(),published);
 			if (ead != null) {
 				EadContent eadContent = ead.getEadContent();
