@@ -79,7 +79,8 @@ public class DisplayEadContoller extends AbstractEadController {
 			ModelAndView modelAndView) {
 		XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 		if (xmlType != null) {
-			Ead ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid());
+			boolean published = !eadParams.isPreview();
+			Ead ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid(),published);
 			if (ead != null) {
 				EadContent eadContent = ead.getEadContent();
 				PortalDisplayUtil.setPageTitle(renderRequest,
@@ -246,8 +247,8 @@ public class DisplayEadContoller extends AbstractEadController {
 		} else if (eadParams.getRepoCode() != null) {
 			XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 			if (StringUtils.isNotBlank(eadParams.getEadid())) {
-				ead = eadDAO.getPublishedEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(),
-						eadParams.getEadid());
+				ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(),
+						eadParams.getEadid(), true);
 			}
 		}
 
@@ -278,7 +279,7 @@ public class DisplayEadContoller extends AbstractEadController {
 				modelAndView.setViewName("indexError");
 				return modelAndView;
 			} else {
-				if (!ead.isPublished()) {
+				if (!eadParams.isPreview() && !ead.isPublished()) {
 					// LOGGER.info("Found not indexed EAD in second display");
 					modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTINDEXED);
 					modelAndView.setViewName("indexError");

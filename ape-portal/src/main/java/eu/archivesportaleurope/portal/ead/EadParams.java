@@ -11,7 +11,7 @@ public class EadParams {
 	private String term;
 	private String position;
 	private String cid;
-	private String preview;
+	private boolean preview;
 
 
 	public String getDatabaseId() {
@@ -94,11 +94,11 @@ public class EadParams {
 		this.cid = cid;
 	}
 
-	public String getPreview() {
+	public boolean isPreview() {
 		return preview;
 	}
 
-	public void setPreview(String preview) {
+	public void setPreview(boolean preview) {
 		this.preview = preview;
 	}
 
