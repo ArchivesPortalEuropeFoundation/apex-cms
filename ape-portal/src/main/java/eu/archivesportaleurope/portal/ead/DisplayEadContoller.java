@@ -79,7 +79,7 @@ public class DisplayEadContoller extends AbstractEadController {
 		XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
 		if (xmlType != null) {
 			boolean published = !eadParams.isPreview();
-			modelAndView.getModelMap().addAttribute("preview", eadParams.isPreview());
+			modelAndView.getModelMap().addAttribute("previewDetails", eadParams.isPreview());
 			Ead ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid(),published);
 			if (ead != null) {
 				EadContent eadContent = ead.getEadContent();
