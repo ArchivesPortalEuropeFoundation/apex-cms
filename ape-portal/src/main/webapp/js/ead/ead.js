@@ -125,9 +125,9 @@ function initPanes() {
 	var leftPane = $("#left-pane");
 	var rightPane = $("#right-pane");
 	var splitter = $("#splitter");
-	var header = $("body");
+	var header = $("#banner");
 	var totalWidth = header.outerWidth(true);
-	var marge = 30;
+	var marge = 10;
 	rightPane.width(totalWidth - leftPane.outerWidth(true) - splitter.outerWidth(true) - marge);
 	
 	$(splitter).draggable({
