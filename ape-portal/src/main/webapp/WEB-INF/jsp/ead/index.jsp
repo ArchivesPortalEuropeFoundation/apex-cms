@@ -14,25 +14,34 @@
 	<portlet:param name="solrId" value="${solrId}" />
 	<portlet:param name="ecId" value="${eadContent.ecId}" />
 </portlet:resourceURL></portal:removeParameters>
-<portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,pageNumber,databaseId"><portlet:resourceURL  id="displayEadDetails">
+<portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,pageNumber,databaseId,preview"><portlet:resourceURL  id="displayEadDetails">
 	<portlet:param name="ecId" value="${eadContent.ecId}" />
-	<portlet:param name="preview" value="${preview}" />
+	<portlet:param name="previewDetails" value="${previewDetails}" />	
 </portlet:resourceURL></portal:removeParameters>
-
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+<c:if test="${previewDetails}">
+	<header id="banner" role="banner">
+		<div id="header">
+			<div id="logo"></div>
+			<div class="left-header"></div>
+			<div class="right-header"> </div>
+		</div>
 
+
+
+	</header>
+</c:if>
 <div id="eadDisplayPortlet">
 	<c:if test="${!empty errorMessage}">
 	<div class="error errorHeader">
 		<fmt:message key="${errorMessage}" />
 	</div>
 	</c:if>
-	<c:if test="${not preview}">
 	<h3 id="contextInformation">
 		${localizedCountryName}
-		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
+		&gt; <c:choose><c:when test="${previewDetails}">${archivalInstitution.ainame}</c:when><c:otherwise><a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a></c:otherwise>
+		</c:choose>
 	</h3>
-	</c:if>
 	<div id="eadcontent">
 		<div id="left-pane" class="pane">
 			<div id="eadTree"></div>
@@ -49,7 +58,7 @@ initPanes();
 initDAOs();
 initDAOs();
 </script>
-<c:if test="${not preview}">
+<c:if test="${not previewDetails}">
 <script defer="defer" type="text/javascript">
     window.onload=function(){
     	initShareButtons();

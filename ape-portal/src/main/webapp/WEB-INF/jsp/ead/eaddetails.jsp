@@ -45,7 +45,6 @@
 <portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eadid,element,term,ecId,id,unitid,xmlTypeName,repoCode"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
 
-<c:if test="${not preview}">
 <div id="buttonsHeader">
 
 	<!-- Print section. -->
@@ -53,7 +52,7 @@
 		<a href="javascript:printEadDetails('${printEadDetailsUrl}')"><fmt:message key="label.print" /><span
 			class="icon_print">&nbsp;</span></a>
 	</div>
-	
+	<c:if test="${not previewDetails}">
 	<!-- Persistent link. -->
 	<c:choose>
 		<c:when test="${empty c}">
@@ -81,7 +80,7 @@
 		<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
 			st_url="${url}"></span>
 	</div>
-	
+	</c:if>
 </div>
 
 <div id="collection-details" class="hidden"></div>
@@ -91,7 +90,7 @@
 <div id="bookmarkAnswer">
 	<div id="bookmarkContent" class="hidden"></div>
 </div>
-</c:if>
+
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
@@ -118,7 +117,7 @@
 		</c:otherwise>
 	</c:choose>
 </div>
-<c:if test="${not preview}">
+<c:if test="${not previewDetails}">
 <!-- there is the user's feedback feature for WEB 2.0 -->
 <div id="feedbackArea">
 	<div id="sendFeedbackButton" class="linkButton">
