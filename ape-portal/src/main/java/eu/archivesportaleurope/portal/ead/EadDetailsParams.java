@@ -6,6 +6,7 @@ public class EadDetailsParams {
 	private String id;
 	private Long ecId;
 	private Integer pageNumber;
+	private boolean preview;
 	public String getType() {
 		return type;
 	}
@@ -29,6 +30,12 @@ public class EadDetailsParams {
 	}
 	public void setEcId(Long ecId) {
 		this.ecId = ecId;
+	}
+	public boolean isPreview() {
+		return preview;
+	}
+	public void setPreview(boolean preview) {
+		this.preview = preview;
 	}
 	
 }
