@@ -35,7 +35,6 @@ import com.liferay.portal.util.PortalUtil;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEacTag;
 import eu.apenet.persistence.dao.CollectionContentDAO;
 import eu.apenet.persistence.dao.CollectionDAO;
 import eu.apenet.persistence.dao.EacCpfDAO;
@@ -48,6 +47,7 @@ import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.urls.EacCpfPersistentUrl;
+import eu.archivesportaleurope.portal.display.eac.jsp.EacTag;
 import eu.archivesportaleurope.util.ApeUtil;
 /**
  * 
@@ -201,7 +201,7 @@ public class DisplayEacCpfContoller {
 						modelAndView.setViewName("indexError");
 						return modelAndView;
 					}
-					modelAndView.getModelMap().addAttribute("type", AbstractEacTag.EACCPFDETAILS_XSLT);
+					modelAndView.getModelMap().addAttribute("type", EacTag.EACCPFDETAILS_XSLT);
 					modelAndView.getModelMap().addAttribute("repositoryCode", eacParam.getRepositoryCode());
 					modelAndView.getModelMap().addAttribute("eaccpfIdentifier", eacParam.getEaccpfIdentifier());
 					modelAndView.getModelMap().addAttribute("eac", eac);
