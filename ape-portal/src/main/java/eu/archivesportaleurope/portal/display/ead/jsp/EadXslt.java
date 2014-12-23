@@ -1,4 +1,4 @@
-package eu.archivesportaleurope.portal.display.ead.xslt;
+package eu.archivesportaleurope.portal.display.ead.jsp;
 
 import java.io.Writer;
 import java.util.List;
@@ -19,12 +19,12 @@ import org.apache.log4j.Logger;
 
 import eu.apenet.commons.ResourceBundleSource;
 import eu.apenet.commons.solr.SolrField;
-import eu.apenet.commons.xslt.extensions.EadidCheckerExtension;
-import eu.apenet.commons.xslt.extensions.HighlighterExtension;
 import eu.apenet.commons.xslt.extensions.ResourcebundleExtension;
 import eu.apenet.commons.xslt.extensions.SpecialCharactersEncoderExtension;
 import eu.apenet.commons.xslt.extensions.TypeOfDisplayExtension;
 import eu.archivesportaleurope.portal.common.xslt.ClasspathURIResolver;
+import eu.archivesportaleurope.portal.common.xslt.EadidCheckerExtension;
+import eu.archivesportaleurope.portal.common.xslt.HighlighterExtension;
 
 public final class EadXslt {
     private static final Logger LOG = Logger.getLogger(EadXslt.class);
