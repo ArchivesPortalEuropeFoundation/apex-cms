@@ -173,12 +173,17 @@ public class BookmarkCollectionContoller {
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
 	 			List<Collection> collectionsWithoutBookmarkList = getCollectionsWithoutBookmark("", bookmarkId, liferayUserId);
-
-	 			if(collectionsWithoutBookmarkList.size()>0)
-	 				modelAndView.getModelMap().addAttribute("hasFreeCollections", true);
-	 			else
-	 				modelAndView.getModelMap().addAttribute("hasFreeCollections",false);
 	 			
+	 			if (collectionDAO.countCollectionsByUserId(liferayUserId)==0){
+	 				modelAndView.getModelMap().addAttribute("hasNotCollections",true);
+	 			} else{
+	 				modelAndView.getModelMap().addAttribute("hasNotCollections",false);
+	 			
+		 			if(collectionsWithoutBookmarkList.size()>0)
+		 				modelAndView.getModelMap().addAttribute("hasFreeCollections", true);
+		 			else
+		 				modelAndView.getModelMap().addAttribute("hasFreeCollections",false);
+	 			}
 				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmarkList);
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
@@ -204,10 +209,19 @@ public class BookmarkCollectionContoller {
 	private List<Collection> getCollectionsWithoutBookmark(String searchTerm, String bookmarkId, Long liferayUserId){
 		List<Collection> collections = null;
 		
-		if (searchTerm=="")
-			collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, 1, 20,"modified_date",false);
-		else
+		if (searchTerm==""){
+			List<CollectionContent> restCollectionBookmarks=null;
+ 			restCollectionBookmarks = this.collectionContentDAO.getCollectionContentByElementId("bookmark", bookmarkId);
+			//iterate the list to get collectionContent Ids
+ 			List<Long> collectionIdsWithElement=new ArrayList<Long>();
+			for (CollectionContent content: restCollectionBookmarks) {
+				collectionIdsWithElement.add(content.getCollection().getId());
+			}
+			//get paged list of user collections that NOT contais the elements of the list
+			collections = this.collectionDAO.getUserCollectionsWithoutIds(liferayUserId, collectionIdsWithElement, 1, 20);
+		}else{
 			collections = this.collectionDAO.getCollectionByName(liferayUserId, searchTerm, 20);
+		}
 		
 		List<Collection> collectionsWithoutBookmark=new ArrayList<Collection>();
 		//irterate collection to check if bookmark exists

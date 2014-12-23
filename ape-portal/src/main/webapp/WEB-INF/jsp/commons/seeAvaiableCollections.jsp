@@ -31,6 +31,12 @@
 	<c:if test="${loggedIn}">
 		<form name="frm" id="frm" method="post" action="${addBookmarksToUrl}">
 			<c:choose>
+			<c:when test="${hasNotCollections}">
+				<div class="error">
+					<fmt:message key="collections.no"/>
+				</div>
+				<hr>
+			</c:when>
 			<c:when test="${hasFreeCollections}">
 				<table>
 					<tr>
