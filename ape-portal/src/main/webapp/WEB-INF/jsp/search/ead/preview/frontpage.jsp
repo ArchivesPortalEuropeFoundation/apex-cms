@@ -12,7 +12,7 @@
 
 <div id="content">	
 	<div id="realcontent">
-	<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"  preview="true"/>
+	<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}"  searchFieldsSelectionId="${element}"  preview="true" xmlTypeName="${xmlType.resourceName}"/>
 	</div>
 </div>
 <div id="more-line" class="hide-more-line">&nbsp;</div>
