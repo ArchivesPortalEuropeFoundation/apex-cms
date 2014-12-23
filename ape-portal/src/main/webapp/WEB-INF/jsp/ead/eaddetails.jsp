@@ -99,7 +99,7 @@
 		<c:otherwise>
 			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${secondDisplayUrl}" />
+				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" />
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
