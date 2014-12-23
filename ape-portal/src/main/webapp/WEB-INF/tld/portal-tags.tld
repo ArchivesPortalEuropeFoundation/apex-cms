@@ -114,7 +114,12 @@
 		<attribute>
 			<name>aiId</name>		
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>	
+		</attribute>
+		<attribute>
+			<name>xmlTypeName</name>		
+			<rtexprvalue>true</rtexprvalue>
+			<required>true</required>
+		</attribute>		
 		<attribute>
 			<name>preview</name>		
 			<rtexprvalue>true</rtexprvalue>
