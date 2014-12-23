@@ -16,20 +16,20 @@
   	<import resource="persistence-common.xml"/>
   		
 	<bean
-		class="eu.archivesportaleurope.portal.ead.EadTreeJSONWriter">
+		class="eu.archivesportaleurope.portal.display.ead.EadTreeJSONWriter">
 		<property name="eadDAO" ref="eadDAO"/> 
 		<property name="eadContentDAO" ref="eadContentDAO"/>
 		<property name="clevelDAO" ref="cLevelDAO"/>  
 		<property name="messageSource" ref="messageSource"/>
 	</bean>	
 	<bean
-		class="eu.archivesportaleurope.portal.ead.DisplayEadDetailsContoller">
+		class="eu.archivesportaleurope.portal.display.ead.DisplayEadDetailsContoller">
 				<property name="clevelDAO" ref="cLevelDAO"/>  
 				<property name="eadContentDAO" ref="eadContentDAO"/>
 				<property name="messageSource" ref="messageSource"/>
 	</bean>	      
 	<bean
-		class="eu.archivesportaleurope.portal.ead.DisplayEadContoller">
+		class="eu.archivesportaleurope.portal.display.ead.DisplayEadContoller">
 				<property name="clevelDAO" ref="cLevelDAO"/>
 				<property name="eadDAO" ref="eadDAO"/>
 				<property name="messageSource" ref="messageSource"/>
