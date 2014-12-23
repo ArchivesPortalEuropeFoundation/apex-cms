@@ -20,11 +20,11 @@ import org.apache.taglibs.standard.tag.common.fmt.BundleSupport;
 import eu.apenet.commons.DefaultResourceBundleSource;
 import eu.apenet.commons.ResourceBundleSource;
 import eu.apenet.commons.solr.SolrField;
+import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.APEnetUtilities;
 
 public class EadTag  extends SimpleTagSupport {
-	private Logger logger = Logger.getLogger(this.getClass());
-
+	private final static Logger LOG = Logger.getLogger(EadTag.class);
 
 	public static final String CDETAILS_CHILD_XSLT = "cdetails-child";
 	public static final String FRONTPAGE_XSLT = "frontpage";
@@ -37,7 +37,8 @@ public class EadTag  extends SimpleTagSupport {
 	private String type;
 	private String preview;
 	private String dashboardPreview;
-	private final static Logger LOG = Logger.getLogger(EadTag.class);
+	private String xmlTypeName;
+
 	private static final List<SolrField> DEFAULT_HIGHLIGHT_FIELDS = SolrField.getDefaults();
 
 	private final static Map<String, String> xsltUrls = new HashMap<String,String>();
@@ -69,11 +70,12 @@ public class EadTag  extends SimpleTagSupport {
 				}else if (CDETAILS_CHILD_XSLT.equalsIgnoreCase(getType())){
 					typeOfDisplay = "child";
 				}
+				XmlType xmlType = XmlType.getTypeByResourceName(xmlTypeName);
 				EadXslt.convertEadToHtml(xslLocation, this.getJspContext().getOut(), xmlSource, searchTerms,
-					highlightFields, getResourceBundleSource(), secondDisplayUrl, aiIdInt, "true".equalsIgnoreCase(getDashboardPreview()), APEnetUtilities.getApePortalConfig().getSolrStopwordsUrl(),typeOfDisplay);
+					highlightFields, getResourceBundleSource(), secondDisplayUrl, aiIdInt, "true".equalsIgnoreCase(getDashboardPreview()), APEnetUtilities.getApePortalConfig().getSolrStopwordsUrl(),typeOfDisplay, xmlType);
 			}
 		} catch (Exception e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.getMessage(),e);
 		}
 
 	}
@@ -83,7 +85,7 @@ public class EadTag  extends SimpleTagSupport {
 		if (locCtxt != null) {
 			return new DefaultResourceBundleSource(locCtxt.getResourceBundle());
 		} else {
-			logger.error("Unable to find the localizationContext");
+			LOG.error("Unable to find the localizationContext");
 			return new DefaultResourceBundleSource(null);
 		}
 	}
@@ -152,6 +154,14 @@ public class EadTag  extends SimpleTagSupport {
 
 	public void setDashboardPreview(String dashboardPreview) {
 		this.dashboardPreview = dashboardPreview;
+	}
+
+	public String getXmlTypeName() {
+		return xmlTypeName;
+	}
+
+	public void setXmlTypeName(String xmlTypeName) {
+		this.xmlTypeName = xmlTypeName;
 	}
 	
 }
