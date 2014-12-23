@@ -98,7 +98,6 @@ public class DisplayEacCpfContoller {
 	@RenderMapping
 	public ModelAndView displayEacCpf(RenderRequest renderRequest, @ModelAttribute(value = "eacParams") EacCpfParams eacParams) {
 		ModelAndView modelAndView = null;
-		LOGGER.info("displayEacCpf");
 		try {
 			modelAndView = displayDetails(renderRequest, eacParams);
 		}catch (NotExistInDatabaseException e) {
@@ -169,7 +168,7 @@ public class DisplayEacCpfContoller {
 		if (eacParams.getEaccpfIdentifier() != null
 				&& eacParams.getRepositoryCode() != null){
 			modelAndView.getModelMap().addAttribute("previewDetails", eacParams.isPreview());
-			eaccpf = eacCpfDAO.getEacCpfByIdentifier(eacParams.getRepositoryCode(), eacParams.getEaccpfIdentifier(),eacParams.isPreview());
+			eaccpf = eacCpfDAO.getEacCpfByIdentifier(eacParams.getRepositoryCode(), eacParams.getEaccpfIdentifier(),!eacParams.isPreview());
 		}
 		
 		if (eaccpf != null) {
@@ -194,13 +193,14 @@ public class DisplayEacCpfContoller {
 				String path = APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eac.getPath();
 				File file= new File(path);
 				if (file.exists()){
-					if (eac.isPublished()) {
-						archivalInstitution = eac.getArchivalInstitution();
-					} else {
+					if (!eacParam.isPreview() && !eac.isPublished()) {
 						// LOGGER.info("Found not indexed EAD in second display");
 						modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notindexed");
 						modelAndView.setViewName("indexError");
 						return modelAndView;
+						
+					} else {
+						archivalInstitution = eac.getArchivalInstitution();
 					}
 					modelAndView.getModelMap().addAttribute("type", EacTag.EACCPFDETAILS_XSLT);
 					modelAndView.getModelMap().addAttribute("repositoryCode", eacParam.getRepositoryCode());
