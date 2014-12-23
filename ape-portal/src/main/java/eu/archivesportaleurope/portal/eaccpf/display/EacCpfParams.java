@@ -22,6 +22,7 @@ public class EacCpfParams {
 	private String term;
 	private String langNavigator;
 	private String translationLanguage;
+	private boolean preview;
 
 	// Map for the languages in the file.
     private Map<String,String> languagesMap = new LinkedHashMap<String,String>();
@@ -168,4 +169,12 @@ public class EacCpfParams {
 	public void setLanguagesMap(Map<String, String> languagesMap) {
 		this.languagesMap = languagesMap;
 	}
+	public boolean isPreview() {
+		return preview;
+	}
+	public void setPreview(boolean preview) {
+		this.preview = preview;
+	}
+
+	
 }

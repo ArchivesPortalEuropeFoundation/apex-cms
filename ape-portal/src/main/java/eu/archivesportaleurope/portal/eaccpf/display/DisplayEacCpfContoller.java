@@ -98,7 +98,7 @@ public class DisplayEacCpfContoller {
 	@RenderMapping
 	public ModelAndView displayEacCpf(RenderRequest renderRequest, @ModelAttribute(value = "eacParams") EacCpfParams eacParams) {
 		ModelAndView modelAndView = null;
-
+		LOGGER.info("displayEacCpf");
 		try {
 			modelAndView = displayDetails(renderRequest, eacParams);
 		}catch (NotExistInDatabaseException e) {
@@ -168,7 +168,8 @@ public class DisplayEacCpfContoller {
 		// Recover the current apeEAC-CPF from identifier and repositoryCode.
 		if (eacParams.getEaccpfIdentifier() != null
 				&& eacParams.getRepositoryCode() != null){
-			eaccpf = eacCpfDAO.getEacCpfByIdentifier(eacParams.getRepositoryCode(), eacParams.getEaccpfIdentifier());
+			modelAndView.getModelMap().addAttribute("previewDetails", eacParams.isPreview());
+			eaccpf = eacCpfDAO.getEacCpfByIdentifier(eacParams.getRepositoryCode(), eacParams.getEaccpfIdentifier(),eacParams.isPreview());
 		}
 		
 		if (eaccpf != null) {
