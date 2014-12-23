@@ -42,6 +42,7 @@
 	<portlet:param name="type" value="${type}" />
    	<portlet:param name="langNavigator" value="${langNavigator}"/>
 	<portlet:param name="translationLanguage" value="${translationLanguage}" />
+	<portlet:param name="preview" value="${previewDetails}" />		
 </portlet:renderURL>
 
 <portlet:renderURL var="translateEacDetailsUrl">
@@ -53,6 +54,7 @@
 	<portlet:param name="type" value="${type}" />
    	<portlet:param name="langNavigator" value="${langNavigator}"/>
 	<portlet:param name="translationLanguage" value="${translationLanguage}" />
+	<portlet:param name="preview" value="${previewDetails}" />		
 </portlet:renderURL>
 
 <portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
@@ -111,7 +113,7 @@
 			<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
 				st_url="${url}"></span>
 		</div>
-		
+		</c:if>
 		<!-- Translations selector. -->
 		<div id="translationsSelectorDiv">
 			<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
@@ -131,7 +133,7 @@
 				</c:forEach>
 			</form:select>
 		</div>
-		</c:if>
+		
 	</div>
 	
 	<div id="collection-details" class="hidden"></div>
