@@ -283,7 +283,7 @@
 	</tag>	
 	<tag>
 		<name>eacCpfPersistentLink</name>
-		<tag-class>eu.archivesportaleurope.portal.display.ead.jsp.EacCpfPersistentUrlTag</tag-class>
+		<tag-class>eu.archivesportaleurope.portal.display.eac.jsp.EacCpfPersistentUrlTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>var</name>
