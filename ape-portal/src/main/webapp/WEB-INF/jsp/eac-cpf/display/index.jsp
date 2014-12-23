@@ -62,7 +62,6 @@
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 <portal:removeParameters  var="feedbackUrl" namespace="${portletNamespace}" parameters="eaccpfIdentifier,repositoryCode,element,term,type"><portlet:resourceURL id="feedback"/></portal:removeParameters>
 
-
 <script type="text/javascript">
 	 var RecaptchaOptions = {
 	    theme : 'white'
@@ -74,7 +73,15 @@
 		makeRelationsCollapsible();
 	});
 </script>
-
+<c:if test="${previewDetails}">
+	<header id="banner" role="banner">
+		<div id="header">
+			<div id="logo"></div>
+			<div class="left-header"></div>
+			<div class="right-header"> </div>
+		</div>
+	</header>
+</c:if>
 <div id="eacCpfDisplayPortlet">
 	<!-- Path for the apeEAC-CPF. -->
 	<h3 id="contextInformation">
@@ -94,6 +101,7 @@
 				<span class="icon_print">&nbsp;</span>
 			</a>
 		</div>
+		<c:if test="${not previewDetails}">
 		<!-- Save bookmarks section. -->
 		<div id="bookmarksArea" class="linkButton">
 			<portlet:resourceURL var="bookmarkUrl" id="bookmark"/>
@@ -112,7 +120,7 @@
 			<span class="st_sharethis_button" displayText='<fmt:message key="label.share" />' st_title="${documentTitle}"
 				st_url="${url}"></span>
 		</div>
-
+		
 		<!-- Translations selector. -->
 		<div id="translationsSelectorDiv">
 			<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
@@ -132,6 +140,7 @@
 				</c:forEach>
 			</form:select>
 		</div>
+		</c:if>
 	</div>
 	
 	<div id="collection-details" class="hidden"></div>
@@ -144,9 +153,9 @@
 
 	<!-- Display of the apeEAC-CPF content. -->
 	<div id="eaccpfcontent">
-			<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}" translationLanguage="${translationLanguage}" />
+			<portal:eac type="eaccpfdetails" eacUrl="${eac.path}" repositoryCode="${repositoryCode}" eaccpfIdentifier="${eaccpfIdentifier}" aiCodeUrl="${aiCodeUrl}" eacUrlBase="${eacUrlBase}" eadUrl="${eadUrl}" searchFieldsSelectionId="${element}" searchTerms="${term}" langNavigator="${langNavigator}" translationLanguage="${translationLanguage}"  dashboardPreview="${previewDetails}" />
 	</div>
-
+	<c:if test="${not previewDetails}">
 	<!-- User's feedback section. -->
 	<div id="feedbackArea">
 		<div id="sendFeedbackButton" class="linkButton">
@@ -154,6 +163,7 @@
 		</div>
 		<div id="feedbackContent" class="hidden"></div>
 	</div>
+	</c:if>
 </div>
 <script defer="defer" type="text/javascript">
     window.onload=function(){

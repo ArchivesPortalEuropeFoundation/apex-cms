@@ -26,9 +26,6 @@
 			<div class="left-header"></div>
 			<div class="right-header"> </div>
 		</div>
-
-
-
 	</header>
 </c:if>
 <div id="eadDisplayPortlet">
