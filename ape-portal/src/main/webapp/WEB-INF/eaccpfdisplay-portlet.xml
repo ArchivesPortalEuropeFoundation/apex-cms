@@ -16,7 +16,7 @@
   	<import resource="persistence-common.xml"/>
    	
 	<bean
-		class="eu.archivesportaleurope.portal.eaccpf.display.DisplayEacCpfContoller">
+		class="eu.archivesportaleurope.portal.display.eac.DisplayEacCpfContoller">
 			<property name="eacCpfDAO" ref="eacCpfDAO"/>
 			<property name="messageSource" ref="messageSource"/>
 			<property name="collectionDAO" ref="collectionDAO"/>
