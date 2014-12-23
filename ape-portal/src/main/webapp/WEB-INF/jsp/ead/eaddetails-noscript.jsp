@@ -43,14 +43,14 @@ $(document).ready(function() {
 			<div id="eaddetailsContent">
 				<c:choose>
 					<c:when test="${empty c}">
-						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
+						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" />
 						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 					</c:when>
 					<c:otherwise>
 						<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
-							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" />
+							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" xmlTypeName="${xmlTypeName}"/>
 
 					</c:otherwise>
 				</c:choose>

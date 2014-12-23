@@ -94,12 +94,12 @@
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
-			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" />
+			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}"/>
 		</c:when>
 		<c:otherwise>
 			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" />
+				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" xmlTypeName="${xmlTypeName}" />
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
@@ -111,7 +111,7 @@
 								refreshUrl="javascript:updatePageNumber('${displayChildrenUrl}')" pageNumberId="pageNumber" />
 						</div>
 					</div>
-					<portal:ead type="cdetails-child" xml="${childXml}" />
+					<portal:ead type="cdetails-child" xml="${childXml}" xmlTypeName="${xmlTypeName}"/>
 				</div>
 			</c:if>
 		</c:otherwise>
