@@ -10,7 +10,7 @@
 <%@ taglib uri="http://portal.archivesportaleurope.eu/tags" prefix="portal"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<script type="text/javascript" src="${recaptchaAjaxUrl}"  defer="defer" async="async"></script>
+<script type="text/javascript" src="${recaptchaAjaxUrl}" ></script>
 
 <portlet:defineObjects />
 
@@ -73,20 +73,11 @@
 		makeRelationsCollapsible();
 	});
 </script>
-<c:if test="${previewDetails}">
-	<header id="banner" role="banner">
-		<div id="header">
-			<div id="logo"></div>
-			<div class="left-header"></div>
-			<div class="right-header"> </div>
-		</div>
-	</header>
-</c:if>
 <div id="eacCpfDisplayPortlet">
 	<!-- Path for the apeEAC-CPF. -->
 	<h3 id="contextInformation">
 		${localizedCountryName}
-		&gt; <a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a>
+		&gt; <c:choose><c:when test="${previewDetails}">${archivalInstitution.ainame}</c:when><c:otherwise><a href="${aiCodeUrl}/${archivalInstitution.encodedRepositorycode}">${archivalInstitution.ainame}</a></c:otherwise></c:choose>
 	</h3>
 
 	<!-- Persistent link. -->
