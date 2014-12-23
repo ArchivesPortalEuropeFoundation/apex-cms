@@ -110,6 +110,11 @@ public class DisplayEacCpfContoller {
 			modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
+		}else{
+			if (eacParams.isPreview()){
+				modelAndView.setViewName("index-preview");
+			}
+		
 		}
 		return modelAndView;
 	}
@@ -156,6 +161,11 @@ public class DisplayEacCpfContoller {
 			modelAndView = new ModelAndView();
 			modelAndView.getModelMap().addAttribute("errorMessage", "error.user.second.display.notexist");
 			modelAndView.setViewName("indexError");
+		}else{
+			if (eacParams.isPreview()){
+				modelAndView.setViewName("index-preview");
+			}
+		
 		}
 		return modelAndView;
 	}
