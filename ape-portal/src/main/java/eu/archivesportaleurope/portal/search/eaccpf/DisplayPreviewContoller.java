@@ -69,7 +69,7 @@ public class DisplayPreviewContoller {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		modelAndView.setViewName("preview/eaccpf");
-		EacCpf eacCpf = eacCpfDAO.getEacCpfByIdentifier(repositoryCode, eacCpfIdentifier);
+		EacCpf eacCpf = eacCpfDAO.getEacCpfByIdentifier(repositoryCode, eacCpfIdentifier, true);
 		
 		if (eacCpf == null) {
 			throw new NotExistInDatabaseException();
