@@ -83,7 +83,7 @@
 	</tag>
 	<tag>
 		<name>ead</name>
-		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadTag</tag-class>
+		<tag-class>eu.archivesportaleurope.portal.display.ead.jsp.EadTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>xml</name>
@@ -114,7 +114,11 @@
 		<attribute>
 			<name>preview</name>		
 			<rtexprvalue>true</rtexprvalue>
-		</attribute>					
+		</attribute>
+		<attribute>
+			<name>dashboardPreview</name>		
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>								
 	</tag>
 	<tag>
 		<name>eadNavigation</name>
