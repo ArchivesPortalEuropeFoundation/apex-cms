@@ -32,7 +32,7 @@
 	<c:choose>
 		<c:when test="${empty c}">
 			<div id="contextInformation">
-				<ape:context eadContent="${eadContent}" onlyArchives="true" country="${localizedCountryName}" />
+				<portal:context eadContent="${eadContent}" onlyArchives="true" country="${localizedCountryName}" />
 			</div>
 			<div id="eadcontent">
 				<portal:ead type="${type}" xml="${eadContent.xml}" />
@@ -40,7 +40,7 @@
 		</c:when>
 		<c:otherwise>
 			<div id="contextInformation">
-				<ape:context clevel="${c}" country="${localizedCountryName}" />
+				<portal:context clevel="${c}" country="${localizedCountryName}" />
 			</div>
 			<div id="eadcontent">
 
