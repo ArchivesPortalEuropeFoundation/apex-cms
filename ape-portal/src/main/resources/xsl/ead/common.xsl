@@ -127,9 +127,9 @@
 					<xsl:choose>
 						<xsl:when test="./@xlink:title and text()">
 							<xsl:variable name="title" select="./@xlink:title" />
-							<xsl:variable name="initTitle" select="ape:resource('seconddisplay.view.fa.external')" />
+							<xsl:variable name="initTitle" select="ape:otherfindingaid('link','external')" />
 							<a href="{$href}" target="_blank" title="{$initTitle} '{$title}'">
-								<xsl:value-of select="ape:resource('seconddisplay.view.fa.external')" />
+								<xsl:value-of select="ape:otherfindingaid('link','external')" />
 								<xsl:text> '</xsl:text>
 								<xsl:value-of select="text()" />
 								<xsl:text>' </xsl:text>
@@ -137,7 +137,7 @@
 						</xsl:when>
 						<xsl:when test="./@xlink:title">
 							<a href="{$href}" target="_blank">
-								<xsl:value-of select="ape:resource('seconddisplay.view.fa.external')" />
+								<xsl:value-of select="ape:otherfindingaid('link','external')" />
 								<xsl:text> '</xsl:text>
 								<xsl:value-of select="./@xlink:title" />
 								<xsl:text>' </xsl:text>
@@ -145,7 +145,7 @@
 						</xsl:when>
 						<xsl:when test="text()">
 							<a href="{$href}" target="_blank">
-								<xsl:value-of select="ape:resource('seconddisplay.view.fa.external')" />
+								<xsl:value-of select="ape:otherfindingaid('link','external')" />
 								<xsl:text> '</xsl:text>
 								<xsl:value-of select="text()" />
 								<xsl:text>' </xsl:text>
@@ -153,7 +153,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<a href="{$href}" target="_blank">
-								<xsl:value-of select="ape:resource('seconddisplay.view.fa.external')" />
+								<xsl:value-of select="ape:otherfindingaid('link','external')" />
 							</a>
 						</xsl:otherwise>
 					</xsl:choose>
@@ -167,7 +167,7 @@
 							<xsl:choose>
 								<xsl:when test="./@xlink:title and text()">
 									<xsl:variable name="title" select="./@xlink:title" />
-									<xsl:variable name="initTitle" select="ape:resource('seconddisplay.view.fa.internal')" />
+									<xsl:variable name="initTitle" select="ape:otherfindingaid('link','internal')" />
 									<a href="{$prefix}{$encodedHref}" target="{$encodedHref}" title="{$initTitle} '{$title}'">
 										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
 										<xsl:text> '</xsl:text>
@@ -177,7 +177,7 @@
 								</xsl:when>
 								<xsl:when test="./@xlink:title">
 									<a href="{$prefix}{$encodedHref}" target="{$encodedHref}">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="./@xlink:title" />
 										<xsl:text>' </xsl:text>
@@ -185,7 +185,7 @@
 								</xsl:when>
 								<xsl:when test="text()">
 									<a href="{$prefix}{$encodedHref}" target="{$encodedHref}">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -193,7 +193,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<a href="{$prefix}{$encodedHref}" target="{$encodedHref}">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 									</a>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -205,9 +205,9 @@
 							<xsl:choose>
 								<xsl:when test="./@xlink:title and text()">
 									<xsl:variable name="title" select="./@xlink:title" />
-									<xsl:variable name="initTitle" select="ape:resource('seconddisplay.view.fa.internal')" />
+									<xsl:variable name="initTitle" select="ape:otherfindingaid('link','internal')" />
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')" title="{$initTitle} '{$title}'">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -215,7 +215,7 @@
 								</xsl:when>
 								<xsl:when test="./@xlink:title">
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="./@xlink:title" />
 										<xsl:text>' </xsl:text>
@@ -223,7 +223,7 @@
 								</xsl:when>
 								<xsl:when test="text()">
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -231,7 +231,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 									</a>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -243,9 +243,9 @@
 							<xsl:choose>
 								<xsl:when test="./@xlink:title and text()">
 									<xsl:variable name="title" select="./@xlink:title" />
-									<xsl:variable name="initTitle" select="ape:resource('seconddisplay.view.fa.internal')" />
+									<xsl:variable name="initTitle" select="ape:otherfindingaid('link','internal')" />
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')" class="notIndexed" title="{$initTitle} '{$title}'">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -253,7 +253,7 @@
 								</xsl:when>
 								<xsl:when test="./@xlink:title">
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')" class="notIndexed">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="./@xlink:title" />
 										<xsl:text>' </xsl:text>
@@ -261,7 +261,7 @@
 								</xsl:when>
 								<xsl:when test="text()">
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')" class="notIndexed">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -269,7 +269,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<a href="javascript:void(0)" onclick="window.alert('{$extref.warning}')" class="notIndexed">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 									</a>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -282,7 +282,7 @@
 									<xsl:variable name="title" select="./@xlink:title" />
 									<xsl:variable name="initTitle" select="ape:resource('seconddisplay.view.fa.internal')" />
 									<div class="nolink">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -290,7 +290,7 @@
 								</xsl:when>
 								<xsl:when test="./@xlink:title">
 									<div class="nolink">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="./@xlink:title" />
 										<xsl:text>' </xsl:text>
@@ -298,7 +298,7 @@
 								</xsl:when>
 								<xsl:when test="text()">
 									<div class="nolink">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 										<xsl:text> '</xsl:text>
 										<xsl:value-of select="text()" />
 										<xsl:text>' </xsl:text>
@@ -306,7 +306,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<div class="nolink">
-										<xsl:value-of select="ape:resource('seconddisplay.view.fa.internal')" />
+										<xsl:value-of select="ape:otherfindingaid('link','internal')" />
 									</div>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -1000,7 +1000,7 @@
 	</xsl:template>
 	<xsl:template name="otherfindaid">
 		<h2>
-			<xsl:value-of select="ape:resource('eadcontent.otherfindaid')" />
+			<xsl:value-of select="ape:otherfindingaid('title')" />
 		</h2>
 		<div class="ead-content">
 			<xsl:for-each select="ead:otherfindaid">
