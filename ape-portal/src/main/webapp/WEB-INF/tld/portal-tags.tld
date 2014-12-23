@@ -122,7 +122,7 @@
 	</tag>
 	<tag>
 		<name>eadNavigation</name>
-		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadNavigationTag</tag-class>
+		<tag-class>eu.archivesportaleurope.portal.display.ead.jsp.EadNavigationTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>clevel</name>
@@ -233,7 +233,7 @@
 	</tag>	
 	<tag>
 		<name>eadPersistentLink</name>
-		<tag-class>eu.archivesportaleurope.portal.common.jsp.EadPersistentUrlTag</tag-class>
+		<tag-class>eu.archivesportaleurope.portal.display.ead.jsp.EadPersistentUrlTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>var</name>
