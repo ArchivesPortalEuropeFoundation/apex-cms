@@ -80,6 +80,10 @@
 			<name>translationLanguage</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
+		<attribute>
+			<name>dashboardPreview</name>		
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>			
 	</tag>
 	<tag>
 		<name>ead</name>
