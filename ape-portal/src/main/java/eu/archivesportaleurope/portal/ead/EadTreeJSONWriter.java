@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import eu.archivesportaleurope.portal.display.ead.jsp.EadTag;
 import eu.archivesportaleurope.util.ApeUtil;
 
 /**
@@ -191,7 +191,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
 			buffer.append("\"selected\":true, \"activate\": true");
 		}
 		buffer.append(COMMA);
-	    addType(buffer, AbstractEadTag.FRONTPAGE_XSLT);
+	    addType(buffer, EadTag.FRONTPAGE_XSLT);
 	    buffer.append(COMMA);
 		buffer.append(FOLDER_WITH_CHILDREN);
 		buffer.append(childBuffer);

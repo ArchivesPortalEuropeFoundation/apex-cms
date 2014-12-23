@@ -9,7 +9,6 @@ import org.springframework.web.portlet.ModelAndView;
 
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.utils.DisplayUtils;
-import eu.apenet.commons.xslt.tags.AbstractEadTag;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
@@ -19,6 +18,7 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
+import eu.archivesportaleurope.portal.display.ead.jsp.EadTag;
 
 public class AbstractEadController {
 	private static final int PAGE_SIZE = 10;
@@ -50,7 +50,7 @@ public class AbstractEadController {
 		if (pageNumber != null) {
 			pageNumberInt = pageNumber;
 		}
-		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.CDETAILS_XSLT);
+		modelAndView.getModelMap().addAttribute("type", EadTag.CDETAILS_XSLT);
 		int orderId = (pageNumberInt - 1) * PAGE_SIZE;
 		List<CLevel> children = clevelDAO.findChildCLevels(currentCLevel.getId(), orderId, PAGE_SIZE);
 		Long totalNumberOfChildren = clevelDAO.countChildCLevels(currentCLevel.getId());
@@ -95,7 +95,7 @@ public class AbstractEadController {
 
 	protected ModelAndView fillEadDetails(EadContent eadContent, PortletRequest portletRequest, Integer pageNumber,ModelAndView modelAndView, boolean noscript) {
 		Ead ead = eadContent.getEad();
-		modelAndView.getModelMap().addAttribute("type", AbstractEadTag.FRONTPAGE_XSLT);
+		modelAndView.getModelMap().addAttribute("type", EadTag.FRONTPAGE_XSLT);
 		SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 				portletRequest.getLocale());
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
