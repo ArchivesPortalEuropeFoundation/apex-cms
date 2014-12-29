@@ -6021,39 +6021,39 @@
 	<xsl:template name="typeEntityId">
 		<xsl:param name="entityId"/>
 		<xsl:choose>
-   			<xsl:when test="$entityId[@localType!='']">
+   			<xsl:when test="$entityId[fn:normalize-space(@localType)!='']">
    				<xsl:choose>
-   					<xsl:when test="$entityId[fn:upper-case(@localType)='VIAF']">
+   					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='VIAF']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://viaf.org/viaf/'"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(@localType)='GND']">
+					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='GND']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://d-nb.info/gnd/'"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(@localType)='CGUIA']">
+					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='CGUIA']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://censoarchivos.mcu.es/CensoGuia/productordetail.htm?id='"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(@localType)='LCNAF']">
+					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='LCNAF']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://id.loc.gov/authorities/names/'"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(@localType)='ISNI']">
+					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='ISNI']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://isni.org/isni/'"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(@localType)='BNF']">
+					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='BNF']">
 		   				<xsl:call-template name="displayEntityId">
 		   					<xsl:with-param name="entityId" select="$entityId"/>
 		   					<xsl:with-param name="url" select="'http://data.bnf.fr/'"/>
@@ -6063,7 +6063,7 @@
 		   				<p>
 							<xsl:apply-templates select="$entityId" mode="other"/>
 							<xsl:text> (</xsl:text>
-							<xsl:value-of select="$entityId/@localType"/>												
+							<xsl:value-of select="$entityId/fn:normalize-space(@localType)"/>												
 							<xsl:text>)</xsl:text>
 						</p>
 					</xsl:otherwise>
@@ -6085,7 +6085,7 @@
 			<xsl:variable name="href" select="$entityId/text()"/>
 			<a href="{fn:concat($url,$href)}" target="_blank"><xsl:apply-templates select="$entityId" mode="other"/></a>
 			<xsl:text> (</xsl:text>
-			<xsl:value-of select="$entityId/@localType"/>												
+			<xsl:value-of select="$entityId/fn:normalize-space(@localType)"/>												
 			<xsl:text>)</xsl:text>
 		</p>
 	</xsl:template>
