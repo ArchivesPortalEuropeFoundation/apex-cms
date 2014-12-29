@@ -214,6 +214,10 @@ code, pre {
 	font-weight: bold;
 }
 
+.pOrigination{
+	margin-top:0.2em;
+}
+
 /* ---------- Main content body ---------- */
 
 .portal-iframe #main-content {
