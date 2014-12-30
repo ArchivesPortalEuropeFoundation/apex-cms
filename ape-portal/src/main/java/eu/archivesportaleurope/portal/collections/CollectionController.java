@@ -72,27 +72,44 @@ public class CollectionController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		boolean orderAsc=true;
+		String orderType = request.getParameter("orderType");
+		String orderColumn = request.getParameter("orderColumn");
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
 			Integer pageNumber = 1;
+
 			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			}
-			if (request.getParameter("orderAsc")=="headerSortUp")
-				orderAsc=true;
-			else
+
+			// Check if the order should be ascending, descending or no order.
+			if (orderType != null) {
+				if (orderType.equals("orderAsc")) {
+					orderAsc=true;
+				} else {
+					orderAsc=false;
+				}
+			} else {
 				orderAsc=false;
-				
-			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, request.getParameter("column"),orderAsc);
+				orderType = "none";
+			}
+
+			// Check if if exists a column selected to order.
+			if (orderColumn == null
+					|| orderColumn.isEmpty()) {
+				orderColumn = "none";
+			}
+
+			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, orderColumn, orderAsc);
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", (collections.size()>0)?this.collectionDAO.countCollectionsByUserId(liferayUserId):collections.size());
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
-			modelAndView.getModelMap().addAttribute("orderColumn", "none");
-			modelAndView.getModelMap().addAttribute("orderAsc", "none");
+			modelAndView.getModelMap().addAttribute("orderType", orderType);
+			modelAndView.getModelMap().addAttribute("orderColumn", orderColumn);
 			modelAndView.getModelMap().addAttribute("collections",collections);
 
 		}
@@ -268,34 +285,51 @@ public class CollectionController {
 		}
 		return modelAndView;
 	}
-	
+
 	@ResourceMapping(value = "orderResults")
 	public ModelAndView orderResults(ResourceRequest request, ResourceResponse response){
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		boolean orderAsc=true;
+		String orderType = request.getParameter("orderType");
+		String orderColumn = request.getParameter("orderColumn");
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
 			Integer pageNumber = 1;
+
 			if (StringUtils.isNotBlank(request.getParameter("pageNumber"))){
 				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			}
-			if (request.getParameter("orderType").equals("orderAsc"))
-				orderAsc=true;
-			else
-				orderAsc=false;
 
-			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, request.getParameter("orderColumn"),orderAsc);
+			// Check if the order should be ascending, descending or no order.
+			if (orderType != null) {
+				if (orderType.equals("orderAsc")) {
+					orderAsc=true;
+				} else {
+					orderAsc=false;
+				}
+			} else {
+				orderAsc=false;
+				orderType = "none";
+			}
+
+			// Check if if exists a column selected to order.
+			if (orderColumn == null
+					|| orderColumn.isEmpty()) {
+				orderColumn = "none";
+			}
+
+			List<Collection> collections = this.collectionDAO.getCollectionsByUserId(liferayUserId, pageNumber, PAGESIZE, orderColumn, orderAsc);
 			User user = (User) request.getAttribute(WebKeys.USER);
 			modelAndView.getModelMap().addAttribute("timeZone", user.getTimeZone());
 			modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", (collections.size()>0)?this.collectionDAO.countCollectionsByUserId(liferayUserId):collections.size());
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
-			modelAndView.getModelMap().addAttribute("orderColumn", request.getParameter("orderColumn"));
-			modelAndView.getModelMap().addAttribute("orderAsc", request.getParameter("orderType"));
-			modelAndView.getModelMap().addAttribute("collections",collections);
+			modelAndView.getModelMap().addAttribute("orderType", orderType);
+			modelAndView.getModelMap().addAttribute("orderColumn", orderColumn);
+			modelAndView.getModelMap().addAttribute("collections", collections);
 		}
 		return modelAndView;
 	}

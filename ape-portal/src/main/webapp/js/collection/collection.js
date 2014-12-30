@@ -150,8 +150,11 @@ function getval(orderUrl, cel) {
 	}else if(column.indexOf("header")!=-1){
     	order = "orderAsc";
 	}
+
+	// Checks if URL contains the order parameters.
+	orderUrl = checkOrder(order, cel, orderUrl);
 	
-	$.post(orderUrl, {orderType: order, orderColumn: cel}, function(e){
+	$.post(orderUrl, function(e){
 		$("#savedCollectionsPortlet").html(e);
 		
 		$('table#savedCollectionsTable tr#crown th').each (function() {
@@ -171,5 +174,88 @@ function getval(orderUrl, cel) {
 				}
 			}
 		});
+	});
+}
+
+/**
+ * Function to check if the passed URL contains the information about the
+ * order, and fill it correctly when needed.
+ *
+ * @param order Current type of order to be applied.
+ * @param cel Current column to apply the order.
+ * @param orderUrl Current URL to check.
+ *
+ * @returns Correct URL with the parameters correctly filled.
+ */
+function checkOrder(order, cel, orderUrl) {
+	var targetUrl = orderUrl;
+	var paramOrderType = "&_collections_WAR_Portal_orderType=";
+	var paramOrderColum = "&_collections_WAR_Portal_orderColumn=";
+
+	// Check parameters passed.
+	if (order == null || order.trim().length == 0 || order == undefined) {
+		order = "none";
+	}
+	if (cel == null ||cel.trim().length == 0 || cel == undefined) {
+		cel = "none";
+	}
+
+	// Checks and builds the URL with the correct "orderType" parameter.
+	targetUrl = fillOrderParams(targetUrl, paramOrderType, order);
+
+	// Checks and builds the URL with the correct "orderColumn" parameter.
+	targetUrl = fillOrderParams(targetUrl, paramOrderColum, cel);
+
+	return targetUrl;
+}
+
+/**
+ * Function to fill in the passed URL the order parameters.
+ *
+ * @param orderUrl URL to fill with the order parameters.
+ * @param param Current parameter of order to be filled.
+ * @param value Current value of the parameter to be filled.
+ *
+ * @returns URL with the parameter filled.
+ */
+function fillOrderParams(orderUrl, param, value) {
+	var finalUrl = orderUrl;
+
+	if (orderUrl.indexOf(param) != -1) {
+		var firstPartURL = orderUrl.substr(0, orderUrl.indexOf(param));
+		var middlePartURL = orderUrl.substr((orderUrl.indexOf(param) + param.length), orderUrl.length);
+		var endPartURL="";
+
+		if (middlePartURL.indexOf("&") != -1) {
+			endPartURL = middlePartURL.substr(middlePartURL.indexOf("&"), middlePartURL.length);
+		}
+
+		finalUrl = firstPartURL + param + value + endPartURL;
+	} else {
+		finalUrl += param + value;
+	}
+
+	return finalUrl;
+}
+
+/**
+ * Function to fill the current order and column in the pagination URLs.
+ *
+ * @param orderType Current type of order to be applied.
+ * @param orderColumn Current column to apply the order.
+ */
+function keepOrderPagination(orderType, orderColumn) {
+	var urlorder="&_collections_WAR_Portal_orderType="+ orderType;
+	var urlcolum="&_collections_WAR_Portal_orderColumn="+ orderColumn;
+
+	// Loop pagination to get the list of the URLs.
+	$("div#child-paging").find("li").each(function() {
+		if($(this).find("a").length > 0) {
+			// Update current URL with the current order parameters.
+			var targetUrl = $(this).find("a[href]").attr("href");
+			var finalUrl = targetUrl+urlorder+urlcolum;
+
+			$(this).find("a[href]").attr("href", finalUrl);
+		}
 	});
 }
