@@ -79,7 +79,11 @@
 	width: 85%;
 	height: 15px;
 }
-
+table.tableCollection .collectionDescriptionBigger{
+	float:left;
+	width:450px;
+	height:60px;
+}
 .collectionSearches{
 	float:left;
 	width: 100%;

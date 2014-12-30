@@ -25,7 +25,7 @@
 			</c:otherwise>
 		</c:choose>
 
-		<table class="defaultlayout">
+		<table class="defaultlayout tableCollection">
 			<tr>
 				<th><fmt:message key="advancedsearch.text.title2"/></th> 
 				<td>
@@ -37,7 +37,7 @@
 			</tr>
 			<tr>
 				<th><fmt:message key="savedsearch.description"/></th> 
-				<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
+				<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionBigger" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
 			</tr>
 			<c:if test="${edit}">
 				<tr>	
