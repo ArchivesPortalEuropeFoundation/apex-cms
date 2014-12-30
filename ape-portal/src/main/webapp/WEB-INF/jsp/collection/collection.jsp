@@ -9,9 +9,15 @@
 <portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
 <portlet:actionURL var="createNewCollection" >
 	<portlet:param name="action" value="saveNewCollection" />
+	<portlet:param name="id" value="${collection.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <portlet:actionURL var="updateCollection" >
 	<portlet:param name="action" value="saveEditCollection" />
+	<portlet:param name="id" value="${collection.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <div id="mycollectionPortletDiv">
 	<div class="collectionFieldDiv" id="collectionFieldDiv">
@@ -68,11 +74,24 @@
 			</c:forEach>
 		</c:if>
 
-		<c:if test="${edit}">
-			<div id="collectionFieldSubmit" class="collectionFieldSubmit">
-				<input type="submit" value="<fmt:message key="savedsearch.save"/>" />
-			</div>
-		</c:if>
+		<c:choose>
+			<c:when test="${edit &&  collection != null}">
+				<div id="collectionFieldSubmit" class="linkButton">
+					<a href="javascript:completeUrl('${updateCollection}', 'collections' , 'frmCollectionContent')">
+						<fmt:message key="savedsearch.save"/>
+					</a>
+				</div>
+			</c:when>
+			<c:when test="${edit}">
+				<div id="collectionFieldSubmit" class="linkButton">
+					<a href="javascript:completeUrl('${createNewCollection}', 'collections' , 'frmCollectionContent')">
+						<fmt:message key="savedsearch.save"/>
+					</a>
+				</div>
+			</c:when>
+			<c:otherwise/>
+		</c:choose>
+
 		</form>
 		<c:choose>
 			<c:when test="${edit}">

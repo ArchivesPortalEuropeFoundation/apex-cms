@@ -32,6 +32,7 @@
 		<friendly-url-routes>savedsearch-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/collection/updateSelectedCollections.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/myPages/myPages.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>savedbookmarks</portlet-name>
@@ -40,6 +41,7 @@
 		<friendly-url-routes>savedbookmarks-url-routes.xml</friendly-url-routes>		
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/collection/updateSelectedCollections.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/myPages/myPages.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>directory</portlet-name>
@@ -96,6 +98,7 @@
 		<friendly-url-routes>collections-url-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 		<header-portlet-javascript>/js/collection/collection.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/myPages/myPages.js</header-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>tagcloud</portlet-name>

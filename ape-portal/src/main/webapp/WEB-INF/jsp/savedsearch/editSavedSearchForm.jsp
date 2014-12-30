@@ -7,11 +7,14 @@
 <portal:friendlyUrl var="savedSearchUrl" type="saved-search"/>
 <portlet:actionURL var="saveEadSavedSearchActionUrl">
 	<portlet:param name="myaction" value="saveEditSavedSearch" />
+	<portlet:param name="id" value="${savedSearch.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <portlet:renderURL var="homeUrl">
 </portlet:renderURL>
 <div id="savedSearchesPortlet">
-<form:form name="editSavedSearchForm" commandName="savedSearch" method="post"
+<form:form id="editSavedSearchForm" name="editSavedSearchForm" commandName="savedSearch" method="post"
 	action="${saveEadSavedSearchActionUrl}">
 	<form:hidden path="id"/>
 	<form:hidden path="overviewPageNumber"/>
@@ -29,7 +32,12 @@
 																			</c:choose></td></tr>
 		<tr><th><fmt:message key="savedsearch.template"/>:</th><td><form:checkbox path="template" value="true"/></td></tr>
 		<tr><td  colspan="2"><a href="${savedSearchUrl}/${savedSearch.id}"><fmt:message key="savedsearches.overview.edit.parameters"/></a></td></tr>
-		<tr><td colspan="2"><input type="submit" class="mainButton" value="<fmt:message key="savedsearch.save"/>"></td>
+		<tr>
+			<td class="linkButton" colspan="2">
+				<a href="javascript:completeUrl('${saveEadSavedSearchActionUrl}', 'savedsearch' , 'editSavedSearchForm')">
+					<fmt:message key="savedsearch.save"/>
+				</a>
+			</td>
 		</tr>
 
 	</table>

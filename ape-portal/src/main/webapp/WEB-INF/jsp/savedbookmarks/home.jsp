@@ -10,7 +10,7 @@
 <portal:friendlyUrl var="savedBookmarkPagingUrl" type="saved-bookmarks-overview" />
 <div id="savedBookmarksPortlet">
 <c:choose>
-	<c:when test="${not empty '${savedBookmarks}'}">
+	<c:when test="${not empty savedBookmarks}">
 		<h2><fmt:message key="bookmarks.bookmarks"/></h2>
 		<div id="children" class="box">
 			<div class="boxtitle">
