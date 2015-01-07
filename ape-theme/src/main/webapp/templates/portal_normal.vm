@@ -37,13 +37,13 @@
 			</div>
 		#end
 	#elseif ($browserSniffer.isChrome($request))
-	  #if($browserSniffer.getMajorVersion($request) < 35)
+	  #if($browserSniffer.getMajorVersion($request) < 38)
 			<div id="browser">
 				#language("header.browser")
 			</div>
 		#end
 	#elseif ($browserSniffer.isFirefox($request))
-	  #if($browserSniffer.getMajorVersion($request) < 17)
+	  #if($browserSniffer.getMajorVersion($request) < 24)
 			<div id="browser">
 				#language("header.browser")
 			</div>
