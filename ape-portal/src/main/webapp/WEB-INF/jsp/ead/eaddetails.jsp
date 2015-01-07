@@ -17,23 +17,22 @@
 <c:set var="term">
 	<c:out value="${param['term']}" />
 </c:set>
-<c:set var="id">
-	<c:out value="${param['id']}" />
-</c:set>
-<c:set var="ecId">
-	<c:out value="${param['ecId']}" />
-</c:set>
+
 
 
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
-	<portlet:param name="id" value="${id}" />
+	<c:if test="${not empty c}">
+	<portlet:param name="id" value="${c.id}" />
+	</c:if>
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
 </portlet:resourceURL>
 
 <portlet:renderURL var="printEadDetailsUrl" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="myaction" value="printEadDetails" />
-	<portlet:param name="id" value="${id}" />
+	<c:if test="${not empty c}">
+	<portlet:param name="id" value="${c.id}" />
+	</c:if>
 	<portlet:param name="ecId" value="${eadContent.ecId}" />
 	<portlet:param name="element" value="${element}" />
 	<portlet:param name="term" value="${term}" />
