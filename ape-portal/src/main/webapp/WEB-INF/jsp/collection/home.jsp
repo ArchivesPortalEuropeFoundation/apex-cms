@@ -71,8 +71,11 @@
 							<fmt:message key="savedsearch.description"/>
 						</th>
 
-						<th id="public_collection"
-							class="type 
+						<!-- Issue #1781: Collections: Public/Edit fields. -->
+						<!-- Commented the display of the two fields. Uncomment
+							 when the fields should be used again. -->
+<!-- 						<th id="public_collection"
+							class="type
 								<c:choose>
 								<c:when test="${orderColumn == 'public_collection' && orderType == 'orderAsc'}"> headerSortUp</c:when>
 								<c:when test="${orderColumn == 'public_collection' && orderType == 'orderDesc'}"> headerSortDown</c:when>
@@ -80,7 +83,7 @@
 								</c:choose>"
 							onclick="javascript:getval('${orderResultsUrl}',this.id)">
 							<fmt:message key="collections.features"/>
-						</th>
+						</th> -->
 
 						<th id="modified_date"
 							class="modified 
@@ -99,12 +102,17 @@
 						<tr class="${trClass}">
 							<td><c:out value="${collection.title}" /></td>
 							<td><c:out value="${collection.description}" /></td>
-							<td>
+
+							<!-- Issue #1781: Collections: Public/Edit fields. -->
+							<!-- Commented the display of the two fields. Uncomment
+								 when the fields should be used again. -->
+<!-- 							<td>
 								<c:choose>
 									<c:when test="${collection.public_}"><fmt:message key="savedsearch.publicaccessible"/></c:when>
 									<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
 								</c:choose>
-							</td>
+							</td> -->
+
 							<td>
 								<fmt:formatDate pattern="dd-MMM-yyyy HH:mm z" value="${collection.modified_date}" timeZone="${timeZone}"/>
 							</td>

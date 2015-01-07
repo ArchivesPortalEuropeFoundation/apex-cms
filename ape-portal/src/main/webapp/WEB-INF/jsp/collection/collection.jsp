@@ -45,16 +45,20 @@
 				<th><fmt:message key="savedsearch.description"/></th> 
 				<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
 			</tr>
-			<c:if test="${edit}">
-				<tr>	
+
+			<!-- Issue #1781: Collections: Public/Edit fields. -->
+			<!-- Commented the display of the two fields. Uncomment when the
+				 fields should be used again. -->
+<!-- 			<c:if test="${edit}">
+				<tr>
 					<th><fmt:message key="savedsearch.publicaccessible"/></th>
-					<td><input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /></td>				
+					<td><input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /></td>
 				</tr>
-				<tr>				
+				<tr>
 					<th><fmt:message key="savedsearches.overview.edit"/></th>
 					<td><input type="checkbox" id="collectionField_edit" name="collectionField_edit" <c:if test="${!edit}">disabled="disabled"</c:if> <c:if test="${collection!=null && collection.edit}">checked="checked"</c:if> /></td>
 				</tr>
-			</c:if>
+			</c:if> -->
 		</table>
 		
 		<div class="collectionSearchField" id="collectionSearchFields"></div>
