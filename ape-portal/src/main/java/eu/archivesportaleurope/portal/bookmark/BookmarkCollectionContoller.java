@@ -173,18 +173,19 @@ public class BookmarkCollectionContoller {
 			try {
 	 			Long liferayUserId = Long.parseLong(principal.toString());
 	 			List<Collection> collectionsWithoutBookmarkList = getCollectionsWithoutBookmark("", bookmarkId, liferayUserId);
+	 			List<Collection> collectionsWithoutBookmarkListSearchTerm = getCollectionsWithoutBookmark(searchTerm, bookmarkId, liferayUserId);
 	 			
 	 			if (collectionDAO.countCollectionsByUserId(liferayUserId)==0){
 	 				modelAndView.getModelMap().addAttribute("hasNotCollections",true);
 	 			} else{
 	 				modelAndView.getModelMap().addAttribute("hasNotCollections",false);
 	 			
-		 			if(collectionsWithoutBookmarkList.size()>0)
+		 			if(collectionsWithoutBookmarkList.size() > 0)
 		 				modelAndView.getModelMap().addAttribute("hasFreeCollections", true);
 		 			else
 		 				modelAndView.getModelMap().addAttribute("hasFreeCollections",false);
 	 			}
-				modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmarkList);
+	 			modelAndView.getModelMap().addAttribute("collections",collectionsWithoutBookmarkListSearchTerm);
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
