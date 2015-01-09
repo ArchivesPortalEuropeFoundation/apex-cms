@@ -58,6 +58,9 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 		border-bottom: 2px solid gray;
 
 	}
+	#eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
+		display: inline;
+	}
 }
 
 #eadDisplayPortlet #eadcontent em{
@@ -120,6 +123,7 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 #eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
 	padding-left: 15px;
 	padding-right: 15px;
+	display: inline-block;
 }
 
 #eadDisplayPortlet .expand-unitid {
