@@ -8,7 +8,7 @@
  * @param section Current section of my pages in which the edition is performed.
  * @param form Form to be submitted after recover all the needed values.
  */
-function completeUrl(targetUrl, section, form) {
+function completeUrlMyPages(targetUrl, section, form) {
 	var parametersToAdd = "";
 
 	// Checks the current section to call the needed function.
