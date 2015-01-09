@@ -28,7 +28,7 @@
 <body class="portal-popup $css_class">
 
 	#if ($browserSniffer.isIe($request))
-	  #if($browserSniffer.getMajorVersion($request) < 7)
+	  #if($browserSniffer.getMajorVersion($request) < 8)
 			<div id="browser">
 				#language("header.browser")
 			</div>
@@ -40,7 +40,7 @@
 			</div>
 		#end
 	#elseif ($browserSniffer.isFirefox($request))
-	  #if($browserSniffer.getMajorVersion($request) < 24)
+	  #if($browserSniffer.getMajorVersion($request) < 17)
 			<div id="browser">
 				#language("header.browser")
 			</div>

@@ -43,7 +43,7 @@
 			</div>
 		#end
 	#elseif ($browserSniffer.isFirefox($request))
-	  #if($browserSniffer.getMajorVersion($request) < 24)
+	  #if($browserSniffer.getMajorVersion($request) < 17)
 			<div id="browser">
 				#language("header.browser")
 			</div>
