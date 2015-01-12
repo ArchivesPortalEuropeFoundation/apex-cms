@@ -201,7 +201,7 @@ function fixUrlLang(url, lang) {
 		var urlFinal = "";
 
 		if (transValue.indexOf("&") > -1) {
-			urlFinal = transValue.substring(0, fixedUrl.indexOf("&"));
+			urlFinal = transValue.substring(transValue.indexOf("&"));
 		}
 
 		fixedUrl = urlInit + lang + urlFinal;

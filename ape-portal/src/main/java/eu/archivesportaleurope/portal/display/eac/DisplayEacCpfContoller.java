@@ -250,13 +250,17 @@ public class DisplayEacCpfContoller {
 					// Add languages from the file.
 					Map<String, String> langsMap = recoverLanguagesInXML(path);
 					eacParam.getLanguagesMap().putAll(langsMap);
-
+					if (langsMap.size()>=2){
+						modelAndView.getModelMap().addAttribute("hasLanguages", true);
+					}else{
+						modelAndView.getModelMap().addAttribute("hasLanguages", false);
+					}
 					// Last element, all values.
 					eacParam.getLanguagesMap().put("showAll", source.getString("label.show.all.translations"));
 
 					// Add map as a parameter.
 					modelAndView.getModelMap().addAttribute("languagesMap", eacParam.getLanguagesMap());
-
+					
 					// Add the selected translation language.
 					String translationLanguage = "default";
 					if (eacParam.getTranslationLanguage() != null) {
