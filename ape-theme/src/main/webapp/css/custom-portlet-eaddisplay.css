@@ -122,6 +122,10 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 .otherfindingaids .linkButton {
 	text-align: left;
 }
+
+.otherfindingaids .linkButton a {
+    margin-left: 0;
+}
 #eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
 	padding-left: 15px;
 	padding-right: 15px;
