@@ -21,7 +21,7 @@
 		<xsl:value-of select="fn:normalize-space(ape:highlight(., 'title'))" disable-output-escaping="yes" />
 	</xsl:template>
 	<xsl:template match="text()" mode="other">
-		<xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes" /><xsl:text> </xsl:text>
+		<xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes" /><xsl:text> </xsl:text> 
 	</xsl:template>
 	<xsl:template match="text()" mode="otherwithoutwhitespace">
 		<xsl:value-of select="ape:highlight(., 'otherwithoutwhitespace')" disable-output-escaping="yes" />
@@ -1093,15 +1093,66 @@
 			<xsl:value-of select="ape:resource('eadcontent.controlaccess')" />
 		</h2>
 		<div class="ead-content">
-			<xsl:for-each select="ead:controlaccess">
-				<xsl:apply-templates mode="other" />
-				<xsl:if test="position() != last()">
-				   <xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
+	 		<xsl:for-each-group select="ead:controlaccess/*" group-by="fn:local-name()">
+				 	<xsl:choose> 
+				  		<xsl:when test="fn:local-name()='name'"> 
+					  		<br/>
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.name')"/>:</b>
+					    </xsl:when>		
+				       <xsl:when test="fn:local-name()='corpname'">
+							<br/>
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.corpname')"/>:</b>
+					    </xsl:when>
+					    <xsl:when test="fn:local-name()='geogname'">
+							<br/>
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.geogname')"/>:</b>
+					    </xsl:when>
+					    <xsl:when test="fn:local-name()='famname'">
+							<br/>
+								<b> <xsl:value-of select="ape:resource('eadcontent.controlaccess.famname')"/>:</b>
+					    </xsl:when> 
+				 		<xsl:when test="fn:local-name()='function'">
+							<br/>
+							  <b><xsl:value-of select="ape:resource('eadcontent.controlaccess.function')"/>:</b> 
+					    </xsl:when> 
+				 		<xsl:when test="fn:local-name()='genreform'">
+							<br/>
+							  <b><xsl:value-of select="ape:resource('eadcontent.controlaccess.genreform')"/>:</b>
+					    </xsl:when> 
+				 		<xsl:when test="fn:local-name()='occupation'">
+							<br/>
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.occupation')"/>:</b> 
+					    </xsl:when>
+				 		<xsl:when test="fn:local-name()='persname'">
+							<br/>
+							  <b><xsl:value-of select="ape:resource('eadcontent.controlaccess.persname')"/>:</b>
+					    </xsl:when>
+					    <xsl:when test="fn:local-name()='subject'">
+							<br/>
+							  <b><xsl:value-of select="ape:resource('eadcontent.controlaccess.subject')"/>:</b> 
+					    </xsl:when>
+					    <xsl:when test="fn:local-name()='title'">
+							<br/>
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.title')"/>:</b> 
+					    </xsl:when>
+					    <xsl:otherwise/>
+				 	</xsl:choose>
+				 	<xsl:choose>
+				 		<xsl:when test="fn:local-name()='genreform'">
+			 				<br/>
+			 				<xsl:for-each select="current-group()">
+						   			<xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes" />
+						   			<br/>
+						   	</xsl:for-each> 
+				 		</xsl:when>
+				 		<xsl:otherwise>
+				 			<xsl:apply-templates select="current-group()" mode="other"/>
+				 		    <br/> 
+				 		</xsl:otherwise>
+				 	</xsl:choose>
+		 	</xsl:for-each-group> 
 		</div>
 	</xsl:template>
-	
 <!-- 	<xsl:template name="container">
 		<h2>
 			<xsl:value-of select="ape:resource('eadcontent.container')" />
