@@ -126,6 +126,16 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 .otherfindingaids .linkButton a {
     margin-left: 0;
 }
+#eadDisplayPortlet .archdescDidHead {
+padding-bottom: 5px;
+    font-style: normal;
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-align: left;
+    color: #2a4862;
+    padding-left: 15px;
+}
+
 #eadDisplayPortlet .ead-content,#eadDisplayPortlet .creation-content {
 	padding-left: 15px;
 	padding-right: 15px;
