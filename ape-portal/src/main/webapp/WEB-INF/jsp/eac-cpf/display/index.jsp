@@ -115,25 +115,26 @@
 		</div>
 		</c:if>
 		<!-- Translations selector. -->
-		<div id="translationsSelectorDiv">
-			<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
-				<c:forEach var="langOptions" items="${languagesMap}">
-					<c:choose>
-						<c:when test="${translationLanguage == langOptions.key}">
-							<form:option selected="true" value="${langOptions.key}">
-								${langOptions.value}
-							</form:option>
-						</c:when>
-						<c:otherwise>
-							<form:option value="${langOptions.key}">
-								${langOptions.value}
-							</form:option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</form:select>
-		</div>
-		
+		<c:if test="${hasLanguages and not previewDetails}">
+			<div id="translationsSelectorDiv">
+				<form:select path="type" name="translationsSelector" id="translationsSelector" onchange="javascript:translateContent('${translateEacDetailsUrl}', $(this))" >
+					<c:forEach var="langOptions" items="${languagesMap}">
+						<c:choose>
+							<c:when test="${translationLanguage == langOptions.key}">
+								<form:option selected="true" value="${langOptions.key}">
+									${langOptions.value}
+								</form:option>
+							</c:when>
+							<c:otherwise>
+								<form:option value="${langOptions.key}">
+									${langOptions.value}
+								</form:option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select>
+			</div>
+		</c:if>
 	</div>
 	
 	<div id="collection-details" class="hidden"></div>

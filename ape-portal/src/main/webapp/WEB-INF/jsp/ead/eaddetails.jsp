@@ -106,8 +106,10 @@
 							<ape:pageDescription numberOfItems="${totalNumberOfChildren}" pageSize="${pageSize}" pageNumber="${pageNumber}" />
 						</div>
 						<div id="child-paging" class="paging">
+							<c:if test="${not previewDetails}">
 							<ape:paging numberOfItems="${totalNumberOfChildren}" pageSize="${pageSize}" pageNumber="${pageNumber}"
 								refreshUrl="javascript:updatePageNumber('${displayChildrenUrl}')" pageNumberId="pageNumber" />
+							</c:if>
 						</div>
 					</div>
 					<portal:ead type="cdetails-child" xml="${childXml}" xmlTypeName="${xmlTypeName}"/>

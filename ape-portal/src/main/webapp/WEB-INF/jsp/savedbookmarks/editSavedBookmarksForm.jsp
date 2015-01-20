@@ -40,7 +40,7 @@
 		</tr>
 		<tr>
 			<td class="linkButton" colspan="2">
-				<a href="javascript:completeUrl('${saveBookmarksActionUrl}', 'savedbookmarks' , 'editSavedBookmarksForm')">
+				<a href="javascript:completeUrlMyPages('${saveBookmarksActionUrl}', 'savedbookmarks' , 'editSavedBookmarksForm')">
 					<fmt:message key="bookmarks.save"/>
 				</a>
 			</td>

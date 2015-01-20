@@ -28,13 +28,13 @@
 <body class="portal-popup $css_class">
 
 	#if ($browserSniffer.isIe($request))
-	  #if($browserSniffer.getMajorVersion($request) < 7)
+	  #if($browserSniffer.getMajorVersion($request) < 8)
 			<div id="browser">
 				#language("header.browser")
 			</div>
 		#end
 	#elseif ($browserSniffer.isChrome($request))
-	  #if($browserSniffer.getMajorVersion($request) < 35)
+	  #if($browserSniffer.getMajorVersion($request) < 38)
 			<div id="browser">
 				#language("header.browser")
 			</div>

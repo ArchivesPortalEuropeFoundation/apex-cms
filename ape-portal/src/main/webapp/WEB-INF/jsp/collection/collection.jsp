@@ -81,14 +81,14 @@
 		<c:choose>
 			<c:when test="${edit &&  collection != null}">
 				<div id="collectionFieldSubmit" class="linkButton">
-					<a href="javascript:completeUrl('${updateCollection}', 'collections' , 'frmCollectionContent')">
+					<a href="javascript:completeUrlMyPages('${updateCollection}', 'collections' , 'frmCollectionContent')">
 						<fmt:message key="savedsearch.save"/>
 					</a>
 				</div>
 			</c:when>
 			<c:when test="${edit}">
 				<div id="collectionFieldSubmit" class="linkButton">
-					<a href="javascript:completeUrl('${createNewCollection}', 'collections' , 'frmCollectionContent')">
+					<a href="javascript:completeUrlMyPages('${createNewCollection}', 'collections' , 'frmCollectionContent')">
 						<fmt:message key="savedsearch.save"/>
 					</a>
 				</div>

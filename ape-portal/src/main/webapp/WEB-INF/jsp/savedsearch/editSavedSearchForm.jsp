@@ -34,7 +34,7 @@
 		<tr><td  colspan="2"><a href="${savedSearchUrl}/${savedSearch.id}"><fmt:message key="savedsearches.overview.edit.parameters"/></a></td></tr>
 		<tr>
 			<td class="linkButton" colspan="2">
-				<a href="javascript:completeUrl('${saveEadSavedSearchActionUrl}', 'savedsearch' , 'editSavedSearchForm')">
+				<a href="javascript:completeUrlMyPages('${saveEadSavedSearchActionUrl}', 'savedsearch' , 'editSavedSearchForm')">
 					<fmt:message key="savedsearch.save"/>
 				</a>
 			</td>
