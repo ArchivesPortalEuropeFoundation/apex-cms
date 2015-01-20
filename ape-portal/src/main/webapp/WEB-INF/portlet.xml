@@ -144,6 +144,10 @@
 	    <portlet-name>collections</portlet-name>
 	    <display-name>My Collections</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -169,6 +173,10 @@
 		<portlet-name>savedsearch</portlet-name>
 		<display-name>Saved Search</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -194,6 +202,10 @@
 		<portlet-name>savedbookmarks</portlet-name>
 		<display-name>Saved Bookmarks</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>check-auth-token</name>
+			<value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>

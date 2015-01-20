@@ -45,7 +45,12 @@ $(document).ready(function() {
 						<th><fmt:message key="savedsearch.description"/></th> 
 						<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionTextarea" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
 					</tr>
-					<c:if test="${edit}">
+
+
+					<!-- Issue #1781: Collections: Public/Edit fields. -->
+					<!-- Commented the display of the two fields. Uncomment
+						 when the fields should be used again. -->
+<!-- 					<c:if test="${edit}">
 						<tr>	
 							<th><fmt:message key="savedsearch.publicaccessible"/></th>
 							<td>
@@ -62,7 +67,7 @@ $(document).ready(function() {
 								/>
 							</td>
 						</tr>
-					</c:if>
+					</c:if> -->
 				</table>
 				<hr>
 				<portlet:resourceURL var="CollectionUrl" id="saveNewCollection"/>

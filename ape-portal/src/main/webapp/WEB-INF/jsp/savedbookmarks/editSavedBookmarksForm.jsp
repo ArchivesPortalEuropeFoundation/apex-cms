@@ -6,11 +6,14 @@
 
 <portlet:actionURL var="saveBookmarksActionUrl">
 	<portlet:param name="myaction" value="saveEditSavedBookmarks" />
+	<portlet:param name="id" value="${savedbookmarks.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <portlet:renderURL var="homeUrl">
 </portlet:renderURL>
 <div id="savedBookmarksPortlet">
-<form:form name="editSavedBookmarksForm" commandName="savedbookmarks" method="post"
+<form:form id="editSavedBookmarksForm" name="editSavedBookmarksForm" commandName="savedbookmarks" method="post"
 	action="${saveBookmarksActionUrl}">
 	<form:hidden path="id"/>
 	<form:hidden path="overviewPageNumber"/>
@@ -36,7 +39,11 @@
 			<td><c:out value="${savedbookmarks.typedocument}"/></td>
 		</tr>
 		<tr>
-			<td colspan="2"><input type="submit" class="mainButton" value="<fmt:message key="bookmarks.save"/>"></td>
+			<td class="linkButton" colspan="2">
+				<a href="javascript:completeUrl('${saveBookmarksActionUrl}', 'savedbookmarks' , 'editSavedBookmarksForm')">
+					<fmt:message key="bookmarks.save"/>
+				</a>
+			</td>
 		</tr>
 	</table>
 </form:form>

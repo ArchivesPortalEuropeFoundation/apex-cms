@@ -9,9 +9,15 @@
 <portal:friendlyUrl var="savedSearchPublicUrl" type="saved-search" noHttps="true"/>
 <portlet:actionURL var="createNewCollection" >
 	<portlet:param name="action" value="saveNewCollection" />
+	<portlet:param name="id" value="${collection.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <portlet:actionURL var="updateCollection" >
 	<portlet:param name="action" value="saveEditCollection" />
+	<portlet:param name="id" value="${collection.id}" />
+	<portlet:param name="pageNumber" value="${pageNumber}" />
+	<portlet:param name="overviewPageNumber" value="${overviewPageNumber}" />
 </portlet:actionURL>
 <div id="mycollectionPortletDiv">
 	<div class="collectionFieldDiv" id="collectionFieldDiv">
@@ -39,16 +45,20 @@
 				<th><fmt:message key="savedsearch.description"/></th> 
 				<td><textarea id="collectionDescription" name="collectionDescription" class="collectionDescriptionBigger" <c:if test="${!edit}">disabled="disabled"</c:if>>${collection.description}</textarea></td>
 			</tr>
-			<c:if test="${edit}">
-				<tr>	
+
+			<!-- Issue #1781: Collections: Public/Edit fields. -->
+			<!-- Commented the display of the two fields. Uncomment when the
+				 fields should be used again. -->
+<!-- 			<c:if test="${edit}">
+				<tr>
 					<th><fmt:message key="savedsearch.publicaccessible"/></th>
-					<td><input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /></td>				
+					<td><input type="checkbox" id="collectionField_public" name="collectionField_public" <c:if test="${collection!=null && collection.public_}">checked="checked"</c:if> <c:if test="${!edit}">disabled="disabled"</c:if> /></td>
 				</tr>
-				<tr>				
+				<tr>
 					<th><fmt:message key="savedsearches.overview.edit"/></th>
 					<td><input type="checkbox" id="collectionField_edit" name="collectionField_edit" <c:if test="${!edit}">disabled="disabled"</c:if> <c:if test="${collection!=null && collection.edit}">checked="checked"</c:if> /></td>
 				</tr>
-			</c:if>
+			</c:if> -->
 		</table>
 		
 		<div class="collectionSearchField" id="collectionSearchFields"></div>
@@ -68,11 +78,24 @@
 			</c:forEach>
 		</c:if>
 
-		<c:if test="${edit}">
-			<div id="collectionFieldSubmit" class="collectionFieldSubmit">
-				<input type="submit" value="<fmt:message key="savedsearch.save"/>" />
-			</div>
-		</c:if>
+		<c:choose>
+			<c:when test="${edit &&  collection != null}">
+				<div id="collectionFieldSubmit" class="linkButton">
+					<a href="javascript:completeUrl('${updateCollection}', 'collections' , 'frmCollectionContent')">
+						<fmt:message key="savedsearch.save"/>
+					</a>
+				</div>
+			</c:when>
+			<c:when test="${edit}">
+				<div id="collectionFieldSubmit" class="linkButton">
+					<a href="javascript:completeUrl('${createNewCollection}', 'collections' , 'frmCollectionContent')">
+						<fmt:message key="savedsearch.save"/>
+					</a>
+				</div>
+			</c:when>
+			<c:otherwise/>
+		</c:choose>
+
 		</form>
 		<c:choose>
 			<c:when test="${edit}">

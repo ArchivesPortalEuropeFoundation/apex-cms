@@ -140,6 +140,8 @@ public class SavedSearchService {
 			 */
 			if (StringUtils.isBlank(eadSavedSearch.getElement())) {
 				eadSearch.setElement("0");
+			}else {
+				eadSearch.setElement(eadSavedSearch.getElement());
 			}
 			eadSearch.setTypedocument(eadSavedSearch.getTypedocument());
 			eadSearch.setFromdate(eadSavedSearch.getFromdate());

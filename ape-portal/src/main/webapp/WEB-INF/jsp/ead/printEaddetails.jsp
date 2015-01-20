@@ -35,7 +35,7 @@
 				<portal:context eadContent="${eadContent}" onlyArchives="true" country="${localizedCountryName}" />
 			</div>
 			<div id="eadcontent">
-				<portal:ead type="${type}" xml="${eadContent.xml}" />
+				<portal:ead type="${type}" xml="${eadContent.xml}"   xmlTypeName="${xmlTypeName}"/>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -44,11 +44,11 @@
 			</div>
 			<div id="eadcontent">
 
-				<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}" />
+				<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"  xmlTypeName="${xmlTypeName}"/>
 				<c:if test="${not c.leaf}">
 					<div id="children" class="box">
 						<div class="boxtitle"></div>
-						<portal:ead type="cdetails-child" xml="${childXml}" />
+						<portal:ead type="cdetails-child" xml="${childXml}"  xmlTypeName="${xmlTypeName}" />
 					</div>
 				</c:if>
 			</div>

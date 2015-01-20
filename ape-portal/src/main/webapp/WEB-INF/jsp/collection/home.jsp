@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="portal" uri="http://portal.archivesportaleurope.eu/tags"%>
 <%@ taglib prefix="ape" uri="http://commons.archivesportaleurope.eu/tags"%>
-<%-- <portal:friendlyUrl var="myCollectionUrl" type="saved-collection-overview"/> --%>
+
 <portlet:renderURL var="myCollectionUrl" >
 	<portlet:param name="action" value="viewCollection" />
 </portlet:renderURL>
@@ -17,6 +17,12 @@
 </portlet:actionURL>
 
 <portlet:renderURL var="myCollections" />
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		keepOrderPagination("${orderType}","${orderColumn}");
+	});
+</script>
 
 <div id="savedCollectionsPortlet">
 	<div id="mycollectionCreateAction" class="collectionBigAction">
@@ -35,28 +41,78 @@
 						refreshUrl="${myCollections}" pageNumberId="pageNumber" />
 					</div>
 				</div>
-				<input id="orderToSet" type="hidden" value="${orderAsc}">
+				<input id="orderToSet" type="hidden" value="${orderType}">
+				<input id="orderColumnToSet" type="hidden" value="${orderColumn}">
 				<table id="savedCollectionsTable" class="defaultlayout"> 
 					<tr id="crown">
 						<portlet:resourceURL var="orderResultsUrl" id="orderResults">
 						    <portlet:param name="pageNumber" value="${pageNumber}" />
 						</portlet:resourceURL>
-						<th id="title" class="name header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="advancedsearch.text.title2"/></th>
-						<th id="description" class="description header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="savedsearch.description"/></th>
-						<th id="public_collection" class="type header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="collections.features"/></th>
-						<th id="modified_date" class="modified header" onclick="javascript:getval('${orderResultsUrl}',this.id)"><fmt:message key="savedsearch.modified"/></th>
+
+						<th id="title"
+							class="name 
+								<c:choose>
+								<c:when test="${orderColumn == 'title' && orderType == 'orderAsc'}"> headerSortUp</c:when>
+								<c:when test="${orderColumn == 'title' && orderType == 'orderDesc'}"> headerSortDown</c:when>
+								<c:otherwise> header</c:otherwise>
+								</c:choose>"
+							onclick="javascript:getval('${orderResultsUrl}',this.id)">
+							<fmt:message key="advancedsearch.text.title2"/>
+						</th>
+
+						<th id="description"
+							class="description 
+								<c:choose>
+								<c:when test="${orderColumn == 'description' && orderType == 'orderAsc'}"> headerSortUp</c:when>
+								<c:when test="${orderColumn == 'description' && orderType == 'orderDesc'}"> headerSortDown</c:when>
+								<c:otherwise> header</c:otherwise>
+								</c:choose>"
+							onclick="javascript:getval('${orderResultsUrl}',this.id)">
+							<fmt:message key="savedsearch.description"/>
+						</th>
+
+						<!-- Issue #1781: Collections: Public/Edit fields. -->
+						<!-- Commented the display of the two fields. Uncomment
+							 when the fields should be used again. -->
+<!-- 						<th id="public_collection"
+							class="type
+								<c:choose>
+								<c:when test="${orderColumn == 'public_collection' && orderType == 'orderAsc'}"> headerSortUp</c:when>
+								<c:when test="${orderColumn == 'public_collection' && orderType == 'orderDesc'}"> headerSortDown</c:when>
+								<c:otherwise> header</c:otherwise>
+								</c:choose>"
+							onclick="javascript:getval('${orderResultsUrl}',this.id)">
+							<fmt:message key="collections.features"/>
+						</th> -->
+
+						<th id="modified_date"
+							class="modified 
+								<c:choose>
+								<c:when test="${orderColumn == 'modified_date' && orderType == 'orderAsc'}"> headerSortUp</c:when>
+								<c:when test="${orderColumn == 'modified_date' && orderType == 'orderDesc'}"> headerSortDown</c:when>
+								<c:otherwise> header</c:otherwise>
+								</c:choose>"
+							onclick="javascript:getval('${orderResultsUrl}',this.id)">
+							<fmt:message key="savedsearch.modified"/>
+						</th>
+
 						<th id="actions" class="actions"><fmt:message key="savedsearches.overview.actions"/></th>
 					</tr>
 					<c:forEach var="collection" items="${collections}" varStatus="counter">
 						<tr class="${trClass}">
 							<td><c:out value="${collection.title}" /></td>
 							<td><c:out value="${collection.description}" /></td>
-							<td>
+
+							<!-- Issue #1781: Collections: Public/Edit fields. -->
+							<!-- Commented the display of the two fields. Uncomment
+								 when the fields should be used again. -->
+<!-- 							<td>
 								<c:choose>
 									<c:when test="${collection.public_}"><fmt:message key="savedsearch.publicaccessible"/></c:when>
 									<c:otherwise><fmt:message key="collections.private"/></c:otherwise>
 								</c:choose>
-							</td>
+							</td> -->
+
 							<td>
 								<fmt:formatDate pattern="dd-MMM-yyyy HH:mm z" value="${collection.modified_date}" timeZone="${timeZone}"/>
 							</td>

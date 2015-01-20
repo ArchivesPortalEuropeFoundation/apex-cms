@@ -208,7 +208,13 @@ table.tableCollection .collectionDescriptionBigger{
     margin: 4px;
     padding: 5px;
 }
-#savedCollectionsPortlet th.name {
+
+/* Issue #1781: Collections: Public/Edit fields.
+ *
+ * Commented the display of the two fields. Uncomment when the fields should be
+ * used again.
+ */
+/* #savedCollectionsPortlet th.name {
 	min-width: 30%;
 	cursor:pointer;
 }
@@ -222,7 +228,21 @@ table.tableCollection .collectionDescriptionBigger{
 }
 #savedCollectionsPortlet th.modified {
 
+} */
+
+/* Remove when the fields Public/Edit should be used again. */
+#savedCollectionsPortlet th.name {
+	min-width: 35%;
+	cursor:pointer;
 }
+#savedCollectionsPortlet th.description {
+	min-width: 35%;
+	cursor:pointer;
+}
+#savedCollectionsPortlet th.modified {
+
+}
+/* End remove. */
 
 #savedCollectionsPortlet div.public {
     font-weight: bold;
