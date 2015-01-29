@@ -1098,69 +1098,70 @@
 				  			<xsl:apply-templates select="ead:head | ead:p" mode="other"/>
 				  		</xsl:if>
 				  		<xsl:if test="ead:subject">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.subject')"/>:</b> 
-					    	<xsl:apply-templates select="ead:subject" mode="other"/>
-					    	<br/> 
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.subject')"/>:</b> 
+						    	<xsl:apply-templates select="ead:subject" mode="other"/>
+					    	</div> 
 					    </xsl:if>
 				  		<xsl:if test="ead:geogname">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.geogname')"/>:</b>
-					    	<xsl:apply-templates select="ead:geogname" mode="other"/>
-					    	<br/>
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.geogname')"/>:</b>
+						    	<xsl:apply-templates select="ead:geogname" mode="other"/>
+					    	</div>
 					    </xsl:if>
 				  		<xsl:if test="ead:persname">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.persname')"/>:</b>
-					    	<xsl:apply-templates select="ead:persname" mode="other"/>
-					    	<br/>
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.persname')"/>:</b>
+						    	<xsl:apply-templates select="ead:persname" mode="other"/>
+					    	</div>
 					    </xsl:if>
 				  		 <xsl:if test="ead:famname">
-							<br/>
-							<b> <xsl:value-of select="ape:resource('eadcontent.controlaccess.famname')"/>:</b>
-					   		<xsl:apply-templates select="ead:famname" mode="other"/>
-					   		<br/>
+							<div class="pControlacces">
+								<b> <xsl:value-of select="ape:resource('eadcontent.controlaccess.famname')"/>:</b>
+						   		<xsl:apply-templates select="ead:famname" mode="other"/>
+					   		</div>
 					    </xsl:if> 
 				  		<xsl:if test="ead:corpname">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.corpname')"/>:</b>
-					    	<xsl:apply-templates select="ead:corpname" mode="other"/>
-					    	<br/>
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.corpname')"/>:</b>
+						    	<xsl:apply-templates select="ead:corpname" mode="other"/>
+					    	</div>
 					    </xsl:if>
 				  		<xsl:if test="ead:name"> 
-					  		<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.name')"/>:</b>
-					   		<xsl:apply-templates select="ead:name" mode="other"/>
-					   		<br/>
+					  		<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.name')"/>:</b>
+						   		<xsl:apply-templates select="ead:name" mode="other"/>
+					   		</div>
 					    </xsl:if>		
 					    <xsl:if test="ead:occupation">
-							<br/>
+							<div class="pControlacces">
 							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.occupation')"/>:</b> 
 					    	<xsl:apply-templates select="ead:occupation" mode="other"/>
-					    	<br/>
+					    	</div>
 					    </xsl:if>
 				 		<xsl:if test="ead:function">
-							<br/>
+							<div class="pControlacces">
 							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.function')"/>:</b> 
 					   		<xsl:apply-templates select="ead:function" mode="other"/>
-					   		<br/>
+					   		</div>
 						</xsl:if> 
 				 		<xsl:if test="ead:genreform">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.genreform')"/>:</b>
-					    	<br>
-					    	<xsl:for-each select="ead:genreform">
-						   		<br>	
-						   			<xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes" />
-						   		</br>
-						   	</xsl:for-each> 
-						   	</br>
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.genreform')"/>:</b>
+						       	<div>
+							    	<xsl:for-each select="ead:genreform">
+								   		<br>	
+								   			<xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes" />
+								   		</br>
+								   	</xsl:for-each> 
+								</div>
+						   	</div>
 					    </xsl:if> 
 					    <xsl:if test="ead:title">
-							<br/>
-							<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.title')"/>:</b> 
-					    	<xsl:apply-templates select="ead:title" mode="other"/>
-					    	<br/>
+							<div class="pControlacces">
+								<b><xsl:value-of select="ape:resource('eadcontent.controlaccess.title')"/>:</b> 
+						    	<xsl:apply-templates select="ead:title" mode="other"/>
+					    	</div>
 					    </xsl:if>
 		 	</xsl:for-each> 
 		</div>

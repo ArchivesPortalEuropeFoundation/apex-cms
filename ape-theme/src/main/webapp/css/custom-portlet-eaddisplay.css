@@ -306,3 +306,6 @@ background: url("../images/ape/eaddisplay/vgrabber.gif") no-repeat scroll center
 	font-weight: bold;
 	text-align: center;
 }
+#eadDisplayPortlet .pControlacces{
+	padding-top:30px;
+}
