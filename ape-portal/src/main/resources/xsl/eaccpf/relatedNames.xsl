@@ -3,11 +3,27 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
-
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
+	
+	<xd:doc type="stylesheet">
+		<xd:short>Page to display the information that links the entity.</xd:short>
+		<xd:detail>
+			This file contains the relations between the entity (corporate body, person or family) and other eac-cpf entities.
+		</xd:detail>
+	</xd:doc>
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 
 	<!-- Template for related names. -->
+	
+	<xd:doc>
+		<xd:short>
+			Template for related names. 
+		</xd:short>
+		<xd:detail>
+			This template display the box "Related Names" in relations section.
+		</xd:detail>
+	</xd:doc>
 	<xsl:template name="relatedNames">
 		<div id="persons" class="box">
 			<div class="boxtitle">

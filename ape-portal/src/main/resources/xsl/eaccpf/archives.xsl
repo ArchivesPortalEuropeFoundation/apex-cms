@@ -3,11 +3,36 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
-
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
+	
+	<xd:doc type="stylesheet">
+		<xd:short>Page to display the information that links the entity.</xd:short>
+		<xd:detail>
+			This file contains the relations between the entity (corporate body, person or family) and other eag entities.
+		</xd:detail>
+	</xd:doc>
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 
 	<!-- Template for archives relations. -->
+	
+	<xd:doc>
+		<xd:short>
+			Template for related names. 
+		</xd:short>
+		<xd:detail>
+			This template display the box "Archives" in relations section.
+		</xd:detail>
+	</xd:doc>
+	
+	<xd:doc>
+		<xd:short>
+			Template for archives relations. 
+		</xd:short>
+		<xd:detail>
+			This template display the box "Archives" in the relations section.
+		</xd:detail>
+	</xd:doc>	
 	<xsl:template name="archivesRelations">
 		<div id="archives" class="box">
 			<div class="boxtitle">
@@ -47,6 +72,17 @@
 	</xsl:template>
 
 	<!-- template for multilanguage archives -->
+	
+	<xd:doc>
+		<xd:short>
+			Template for multilanguage archives. 
+		</xd:short>
+		<xd:detail>
+			This template display the elements <code>&lt;relationEntry</code> with the attribute <code>@localType="agencyCode"</code>
+			 or <code>@localType="agencyName"</code> according with the language's rules.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageArchives">
 		<xsl:param name="list"/>
 		<xsl:choose>

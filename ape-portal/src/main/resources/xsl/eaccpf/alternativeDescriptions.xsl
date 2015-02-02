@@ -3,11 +3,28 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
-
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
+	
+	<xd:doc type="stylesheet">
+		<xd:short>Page to display the information that links the entity.</xd:short>
+		<xd:detail>
+			This file contains the relations between the entity (corporate body) and other eac-cpf resources
+			 with <code>&lt;alternativeSet&gt;</code> element.
+		</xd:detail>
+	</xd:doc>
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 
 	<!-- Template for alternative descriptions. -->
+	
+	<xd:doc>
+		<xd:short>
+			Template for alternative descriptions. 
+		</xd:short>
+		<xd:detail>
+			This template display the box "Alternative descriptions" in relations section.
+		</xd:detail>
+	</xd:doc>
 	<xsl:template name="alternativeDescriptions">
 		<div id="alternative" class="box">
 			<div class="boxtitle">
@@ -102,6 +119,15 @@
 	</xsl:template>
 
 	<!-- Template for multilanguage alternativeSet with @localType='title'. -->
+	
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;alternativeSet&gt;</code>.
+	  </xd:short>
+	  <xd:detail>Template to display the details <code>&lt;alternativeSet&gt;</code> with the attribute <code>@localType='title'</code> 
+	  according with the rules of the language.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;alternativeSet&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageAlternativeSetTitle">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -522,6 +548,14 @@
 	</xsl:template>
 
 	<!-- Template for multilanguage alternativeSet. -->
+	
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;alternativeSet&gt;</code>.</xd:short>
+	  <xd:detail>Template to display the details <code>&lt;alternativeSet&gt;</code> 
+	  according with the rules of the language.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;alternativeSet&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageAlternativeSet">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -930,6 +964,13 @@
 	</xsl:template>
 
 	<!-- Template for the link to the related institution of an AlternativeSet. -->
+	
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;alternativeSet&gt;</code> with "agencyName".</xd:short>
+	  <xd:detail>Template for the link to the related institution, attribute <code>@localType="agencyName"</code>, of an <code>&lt;alternativeSet&gt;</code> element.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;alternativeSet&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="agencyAlternativeSet">
 		<xsl:param name="list"/>
 		<xsl:choose>

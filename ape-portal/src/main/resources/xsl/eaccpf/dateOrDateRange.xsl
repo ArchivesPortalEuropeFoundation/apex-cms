@@ -3,15 +3,39 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
 
+	<xd:doc type="stylesheet">
+		<xd:short>Page to display the details related to the dates in the different elements of the eac-cpf.</xd:short>
+	</xd:doc>
+	
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 	
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;existDates&gt;</code>.</xd:short>
+	  <xd:detail>Template for show the details for <code>&lt;date&gt;</code>, <code>&lt;dateRange&gt;</code> and <code>&lt;dateSet&gt;</code>
+	  inside the element <code>&lt;existDates&gt;</code>.
+	  </xd:detail>
+	</xd:doc>
 	<xsl:template match="*" mode="existDates">
 	  <xsl:apply-templates mode="#current"/>
 	</xsl:template>
 	
 	<!-- template for commons dates -->
+	<xd:doc>
+	  <xd:short>Template to show details for dates.
+	  </xd:short>
+	  <xd:detail>
+	  	Display the information of the dates in <code>&lt;place&gt;</code>, <code>&lt;localDescription&gt;</code>, <code>&lt;legalStatus&gt;</code>,
+	  	<code>&lt;function&gt;</code>, <code>&lt;occupation&gt;</code>, <code>&lt;mandates&gt;</code> and <code>&lt;chronList&gt;</code>. 
+	  </xd:detail>
+	  <xd:param name="date">The parameter "date" is the content of the element <code>&lt;date&gt;</code>.</xd:param>
+	  <xd:param name="dateRange">The parameter "dateRange" is the content of the element <code>&lt;dateRange&gt;</code>.</xd:param>
+	  <xd:param name="dateSet">The parameter "dateSet" is the content of the element <code>&lt;dateSet&gt;</code>.</xd:param>
+	  <xd:param name="mode">The parameter "mode" is the mode in the translation combo.</xd:param>
+	  <xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="commonDates">
 		<xsl:param name="date"/>
 		<xsl:param name="dateRange"/>
@@ -118,6 +142,12 @@
 	</xsl:template>
 
 	<!-- Template for toDate or fromDate to detect the different @localType's values -->
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;fromDate&gt;</code> or <code>&lt;toDate&gt;</code>.</xd:short>
+	  <xd:detail>Template for <code>&lt;fromDate&gt;</code> or <code>&lt;toDate&gt;</code> to detect the different @localType's values.
+	  </xd:detail>
+	  <xd:param name="dateUnknow">The parameter "dateUnknow" gets <code>&lt;fromDate&gt;</code> or <code>&lt;toDate&gt;</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="dateUnknow"> 
 		<!-- dateUnknow gets fromDate or toDate -->
 		<xsl:param name="dateUnknow"/>
@@ -161,6 +191,15 @@
 	</xsl:template>
 
 	<!-- template for dateSet -->
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;dateSet&gt;</code>.
+	  </xd:short>
+	  <xd:detail>
+	  	Inside the <code>&lt;dateSet&gt;</code> element we can find the elements <code>&lt;dateRange&gt;</code> and <code>&lt;date&gt;</code>.
+	  </xd:detail>
+	  <xd:param name="mode">The parameter "mode" is the mode in the translation combo.</xd:param>
+	  <xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template match="eac:dateSet">
 		<xsl:param name="mode"/>
 		<xsl:param name="langNode"/>
@@ -281,6 +320,15 @@
 
 	<!-- Template that will show all the dates in the passed list
 		 independent of its language. -->
+	
+	<xd:doc>
+	  <xd:short>
+	  	Template that display all the dates.
+	  </xd:short>
+	  <xd:detail>Template that will show all the dates in the passed list independent of its language.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of dates.</xd:param>
+	</xd:doc>
 	<xsl:template name="showAllDates">
 		<xsl:param name="list"/>
 
@@ -305,6 +353,14 @@
 
 	<!-- Template that will show all the date ranges in the passed list
 		 independent of its language. -->
+	<xd:doc>
+	  <xd:short>
+	  	Template to display all the <code>&lt;dateRange&gt;</code>.
+	  </xd:short>
+	  <xd:detail>Template that will show all the <code>&lt;dateRange&gt;</code> elements in the passed list independent of its language.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;dateRange&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="showAllDateRanges">
 		<xsl:param name="list"/>
 
@@ -332,6 +388,15 @@
 	</xsl:template>
 
 	<!-- template for multilanguageDate -->
+	
+	<xd:doc>
+	  <xd:short>
+	  	Template to display multilanguage <code>&lt;date&gt;</code>.
+	  </xd:short>
+	  <xd:detail>Template to display the <code>&lt;date&gt;</code> elements according with the language's rules.
+	  </xd:detail>
+	   <xd:param name="list">The parameter "list" is an array of date elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageDate">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -456,6 +521,13 @@
 	</xsl:template>	
 
 	<!-- template for multilanguageDateRange -->
+	
+	<xd:doc>
+	  <xd:short>Template to display multilanguage <code>&lt;dateRange&gt;</code>. </xd:short>
+	  <xd:detail>Template to display <code>&lt;dateRange&gt;</code> elements according with the language's rules.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;dateRange&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageDateRange">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -653,6 +725,13 @@
 	</xsl:template>	
 	
 	<!--template fromDate toDate-->
+	
+	<xd:doc>
+	  <xd:short>Template to <code>&lt;fromDate&gt;</code> <code>&lt;toDate&gt;</code>.</xd:short>
+	  <xd:detail>Template to call the template "dateUnknow" with the parameter "dateUnknow" that contains the elements in <code>&lt;dateRange&gt;</code>.
+	  </xd:detail>
+	  <xd:param name="dateRange">The parameter "dateRange" is the content of the element <code>&lt;dateRange&gt;</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="fromToDate">
 		<xsl:param name="dateRange"/>
 		
@@ -675,6 +754,12 @@
 	</xsl:template>
 
 	<!-- template for date -->
+	
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;date&gt;</code>.</xd:short>
+	  <xd:detail>Template to display <code>&lt;date&gt;</code> elements.
+	  </xd:detail>
+	</xd:doc>
 	<xsl:template match="eac:date">
 		<xsl:if test="./text()">
 			<xsl:if test="position() != last() and current()[not(@localType ='open')]">
@@ -694,6 +779,13 @@
 	</xsl:template>
 	
 	<!-- template for dateRange -->
+	
+	<xd:doc>
+	  <xd:short>Template to <code>&lt;dateRange&gt;</code>.</xd:short>
+	  <xd:detail>Template to call the template "fromToDate" with the parameter "dateRange".
+	  </xd:detail>
+	  <xd:param name="dateRange">The parameter "dateRange" is the content of the element <code>&lt;dateRange&gt;</code>.</xd:param>
+	</xd:doc>
 	<xsl:template match="eac:dateRange">
 			<xsl:call-template name="fromToDate">
 				<xsl:with-param name="dateRange" select="."/>
@@ -701,6 +793,13 @@
 	</xsl:template>
 
 	<!-- template for multilanguage only one element date in birth, death, foundation or closing-->
+	
+	<xd:doc>
+	  <xd:short>Template for one date.</xd:short>
+	  <xd:detail>Template to display only one <code>&lt;date&gt;</code> element in birth, death, foundation or closing according with the language's rules.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;date&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageOneDate">
 		<xsl:param name="list"/>
 			<xsl:choose>
@@ -769,6 +868,14 @@
 
 	<!-- Template to display the date of the entity in case the translation
 		 selected will be a specific language.  -->
+	
+	<xd:doc>
+	  <xd:short>Template to display the date of the entity.</xd:short>
+	  <xd:detail>Template to display the entity's date in case the translation selected will be a specific language.
+	  </xd:detail>
+	  <xd:param name="dateElement">The parameter "dateElement" is the content of the element.</xd:param>
+	  <xd:param name="entityType">The parameter "entityType" is the entity type.</xd:param>	
+	</xd:doc>
 	<xsl:template name="dateInitialDefault" >
 		<xsl:param name="dateElement"/>
 		<xsl:param name="entityType"/>
@@ -794,6 +901,14 @@
 
 	<!-- Template to display the date of the entity in case the translation
 		 selected will be "Translations" or "Show all".  -->
+	
+	<xd:doc>
+	  <xd:short>Template to <code>&lt;existDates&gt;</code>.</xd:short>
+	  <xd:detail>Template to display the entity's date in case the translation selected will be "Original display" or "Show all".
+	  </xd:detail>
+	  <xd:param name="existDates">The parameter "existDates" is the content of the element <code>&lt;existDates&gt;</code>.</xd:param>
+	  <xd:param name="entityType">The parameter "entityType" is the <code>&lt;entityType&gt;</code> element.</xd:param>	
+	</xd:doc>
 	<xsl:template name="dateInitial" >
 		<xsl:param name="existDates"/>
 		<xsl:param name="entityType"/>
@@ -817,6 +932,14 @@
 	</xsl:template>
 	
 	<!--Template to show the existDates's content -->
+	
+	<xd:doc>
+	  <xd:short>Template to display the existDates's content.
+	  </xd:short>
+	  <xd:detail>
+	  	Display only the values in <code>&lt;date&gt;</code>, <code>&lt;dateRange&gt;</code> and <code>&lt;dateSet&gt;</code>.
+	  </xd:detail>
+	</xd:doc>
 	<xsl:template match="eac:existDates">
 		<xsl:apply-templates select="eac:date | eac:dateRange | eac:dateSet" mode="existDates"/>
 	</xsl:template>

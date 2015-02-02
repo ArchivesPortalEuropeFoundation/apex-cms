@@ -3,12 +3,23 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
 
+	<xd:doc type="stylesheet">
+		<xd:short>Page to display common parts to relation's section.</xd:short>
+	</xd:doc>
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 		
 	<!-- Template for multilanguage resourceRelations with @localType='title'. -->
 	
+	<xd:doc>
+		<xd:short>Template for multilanguage relations with title.</xd:short>
+		<xd:detail>
+			Template for multilanguage <code>&lt;resourceRelation&gt;</code> with the attribute <code>@localType</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements with the attribute <code>@localType</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationsTitle">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -41,7 +52,14 @@
 	</xsl:template>
 	
 	<!-- BEGIN multilanguageRelationTitle templates with multilanguage included not(@xml:lang) -->
-	
+	<xd:doc>
+		<xd:short>Template to multilanguage relations.</xd:short>
+		<xd:detail>
+			Template to display the relation's details with multilanguage included not <code>@xml:lang</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> element.</xd:param>
+		<xd:param name="paramLanguage">The parameter "paramLanguage" is the language to apply.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleLanguageParam">
 		<xsl:param name="list"/>
 		<xsl:param name="paramLanguage"/>
@@ -142,6 +160,14 @@
 		
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with title.</xd:short>
+		<xd:detail>
+			Template to display the relation's details when the language is the selected one or it hasn't language, and has the <code>@localType="title"</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code>.</xd:param>
+		<xd:param name="paramLanguage">The parameter "paramLanguage" is the selected language.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleLanguageSelectedAList">
 		<xsl:param name="list" />
 		<xsl:param name="paramLanguage" />
@@ -167,7 +193,13 @@
 		
 	</xsl:template>
 	
-	
+	<xd:doc>
+		<xd:short>Template to relations with the language selected </xd:short>
+		<xd:detail>
+			Template to call the "multilanguageRelationTitleLanguageParam" when the language is the selected one.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleLanguageSelected">
 		<xsl:param name="list"/>
  	 	
@@ -178,6 +210,13 @@
 	 	
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with the navigator's language.</xd:short>
+		<xd:detail>
+			Template to call the "multilanguageRelationTitleLanguageParam" whith the navigator's language.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleLanguageNavigator">
 		<xsl:param name="list"/>
  	 	
@@ -188,6 +227,13 @@
 	
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with the default language.</xd:short>
+		<xd:detail>
+			Template to call the "multilanguageRelationTitleLanguageParam" whith the default language (english).
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleLanguageDefault">
 		<xsl:param name="list"/>
  	 	
@@ -198,9 +244,16 @@
  	 	
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with the first language.</xd:short>
+		<xd:detail>
+			Template to call the "multilanguageRelationTitleLanguageParam" whith the first language in the element <code>&lt;relationEntry&gt;</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleFirstLanguage">
-		
 		<xsl:param name="list"/>
+		
  	 	<xsl:call-template name="multilanguageRelationTitleLanguageParam">
  	 		<xsl:with-param name="list" select="$list"></xsl:with-param>
  	 		<xsl:with-param name="paramLanguage" select="$list[@localType='title'][1]/@xml:lang" ></xsl:with-param>
@@ -208,6 +261,13 @@
 		
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with not <code>@xml:lang</code>.</xd:short>
+		<xd:detail>
+			Template to call the "multilanguageRelationTitleLanguageParam" whith the parameter "notLang".
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelationTitleNotLanguage">
 		<xsl:param name="list"/>
  	 	
@@ -220,6 +280,14 @@
 	
 	<!-- END multilanguageRelationTitle templates with multilanguage included not(@xml:lang) -->
 	
+	<xd:doc>
+		<xd:short>Template to <code>&lt;resourceRelation&gt;</code> with link and title.</xd:short>
+		<xd:detail>
+			Template to display the details of the element <code>&lt;resourceRelation&gt;</code> when it has the attribute <code>@xlink:href</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code>.</xd:param>
+		<xd:param name="first">The parameter "first" is the first <code>&lt;resourceRelation&gt;</code> of the relation.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationListAWithLink">
 		<xsl:param name="list"></xsl:param>
 		<xsl:param name="first"></xsl:param>
@@ -248,9 +316,16 @@
 				<!-- </a>  -->
 			</xsl:otherwise>
 		</xsl:choose>
-		
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to <code>&lt;resourceRelation&gt;</code> with title.</xd:short>
+		<xd:detail>
+			Template to display the title of <code>&lt;resourceRelation&gt;</code> as a link to ead.
+		</xd:detail>
+		<xd:param name="link2">The parameter "link2" is a link to ead.</xd:param>
+		<xd:param name="title">The parameter "title" is the title from ead.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationLinkWithIdATitleTwoCases">
 		<xsl:param name="link2" />
 		<xsl:param name="title" />
@@ -266,6 +341,14 @@
 		</xsl:choose>
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to <code>&lt;resourceRelation&gt;</code> with a link .</xd:short>
+		<xd:detail>
+			Template to display the details of the title of <code>&lt;resourceRelation&gt;</code> when it has the attribute <code>@xlink:href</code>.
+		</xd:detail>
+		<xd:param name="link">The parameter "link" is a link to ead.</xd:param>
+		<xd:param name="title">The parameter "title" is the content of the first <code>&lt;relationEntry&gt;</code> with not <code>@localType</code>, in other case is a text plane like "Go to a related resource".</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationLinkWithIdATitleThreeCases">
 		<xsl:param name="link" />
 		<xsl:param name="title" />
@@ -283,7 +366,14 @@
 		</xsl:choose>
 	</xsl:template>
 	
-	
+	<xd:doc>
+		<xd:short>Template to <code>&lt;resourceRelation&gt;</code> with <code>@localType="id"</code>.</xd:short>
+		<xd:detail>
+			Template to search the title with <code>@localType="id"</code> when there is a link without a title.
+		</xd:detail>
+		<xd:param name="id">The parameter "id" is the attribute <code>@localType="id"</code>.</xd:param>
+		<xd:param name="first">The parameter "first" is the first <code>&lt;resourceRelation&gt;</code> of the relation.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationLinkWithIdA">
 		<xsl:param name="id"></xsl:param>
 		<xsl:param name="first"></xsl:param>
@@ -331,6 +421,15 @@
 		</xsl:choose>
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations without <code>@localType="id"</code></xd:short>
+		<xd:detail>
+			Template to display the details of the element <code>&lt;resourceRelation&gt;</code> when it hasn't the attribute <code>@localType="id"</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code>.</xd:param>
+		<xd:param name="title">The parameter "title" is the attribute <code>@xlink:title</code>.</xd:param>
+		<xd:param name="first">The parameter "first" is the first <code>&lt;resourceRelation&gt;</code> of the relation.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationListWithoutIdNotA">
 		<xsl:param name="list"></xsl:param>
 		<xsl:param name="title"></xsl:param>
@@ -359,8 +458,15 @@
 		</xsl:choose>
 	</xsl:template>	
 	
+	<xd:doc>
+		<xd:short>Template to relations with <code>@localType="id"</code></xd:short>
+		<xd:detail>
+			Template to display the details of the element <code>&lt;resourceRelation&gt;</code> when it has the attribute <code>@localType="id"</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code></xd:param>
+		<xd:param name="first">The parameter "first" is the first <code>&lt;resourceRelation&gt;</code> of the relation.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationListWithIdA">
-	
 		<xsl:param name="list"></xsl:param>
 		<xsl:param name="first"></xsl:param>
 	
@@ -414,6 +520,13 @@
 		</xsl:choose>
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to relations with <code>@localType="id"</code></xd:short>
+		<xd:detail>
+			Template to display the details of the element <code>&lt;resourceRelation&gt;</code> when it has the attribute <code>@localType="id"</code>.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="resourceRelationListId">
 		<xsl:param name="list"/>
 		<xsl:variable name="first" select="$list[1]/parent::node()/eac:relationEntry[1]" />
@@ -481,6 +594,14 @@
 	
 
 	<!-- Template for multilanguage relations. -->
+	
+	<xd:doc>
+		<xd:short>Template for multilanguage relations.</xd:short>
+		<xd:detail>
+			Template to display the details of the relations elements according to the rules language.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;relationEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageRelations">
 		<xsl:param name="list"/>
 		<xsl:choose>
@@ -610,6 +731,13 @@
 	</xsl:template>
 
 	<!-- Template for links to file type. -->
+	<xd:doc>
+		<xd:short>Template to <code>@xlink:href</code>.</xd:short>
+		<xd:detail>
+			Template to display the details of the links to file type.
+		</xd:detail>
+		<xd:param name="link">The parameter "link" is the link to file type.</xd:param>
+	</xd:doc>
 	<xsl:template name="linkToFile">
 		<xsl:param name="link"/>
 	   	<xsl:if test="starts-with($link, 'http') or starts-with($link, 'https') or starts-with($link, 'ftp') or starts-with($link, 'www')">
@@ -717,6 +845,14 @@
 	</xsl:template>
 
 	<!-- Template for attribute @cpfRelationType or @resourceRelationType. -->
+	
+	<xd:doc>
+		<xd:short>Template for the relation type.</xd:short>
+		<xd:detail>
+			Template for attribute <code>@cpfRelationType</code> or <code>@resourceRelationType</code>.
+		</xd:detail>
+		<xd:param name="current">The parameter "current" is the <code>&lt;resourceRelation&gt;</code> or the <code>&lt;cpfRelation&gt;</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="relationType">
 		<xsl:param name="current"/>
 		<xsl:if test="name($current)='cpfRelation' and $current[@cpfRelationType]"> 

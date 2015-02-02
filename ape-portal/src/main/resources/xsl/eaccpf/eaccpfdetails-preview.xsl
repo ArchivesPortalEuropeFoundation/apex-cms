@@ -3,30 +3,208 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns='http://www.w3.org/1999/xhtml' xmlns:eac="urn:isbn:1-931666-33-4"
 	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-	exclude-result-prefixes="xlink xlink xsi eac ape">
+	xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+	exclude-result-prefixes="xlink xlink xsi eac ape xd">
 	
+	<xsl:import href="dateOrDateRange.xsl"/>
+	
+	<xd:doc type="stylesheet">
+		<xd:short>Page for display the data from the eac-cpf file in the preview.</xd:short>
+		<xd:detail>
+  			With the following data:
+			<ul>
+				<li><span class="detailAttribute">Title</span> (Entity Icon, Name of the entity, Dates of use)
+				</li><br/>
+				<li><span class="detailAttribute">Date of birth</span> (If the entity is a person or family)</li><br/>
+				<li><span class="detailAttribute">Date of death</span> (If the entity is a person or family)</li><br/>
+				<li><span class="detailAttribute">Date of foundation</span> (If the entity is a corporate body)</li><br/>
+				<li><span class="detailAttribute">Date of suppression</span> (If the entity is a corporate body)</li><br/>
+				<li><span class="detailAttribute">Note</span></li><br/>
+				<li><span class="detailAttribute">Alternative names</span>
+				</li><br/>
+				<li><b>PLACE</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Place</span></li>
+						<li><span class="detailAttribute">Role of the place</span></li>
+						<li><span class="detailAttribute">Visitors address</span> (if the address[@localType="visitors address"]) <span class="detailAttribute">Postal address</span> (if the address[@localType="postal address"]) <span class="detailAttribute">Address</span> (if the address[@localType="other" or not(@localType)]) 
+							<ul>
+								<li><span class="detailAttribute">Street</span> (if the addressLine[@localType="street"])</li>
+								<li><span class="detailAttribute">Postal code</span> (if the addressLine[@localType="postalcode"])</li>
+								<li><span class="detailAttribute">Region / Autonomous authority</span> (if the addressLine[@localType="firstdem"])</li>
+								<li><span class="detailAttribute">County / Local authority</span> (if the addressLine[@localType="secondem"])</li>
+								<li><span class="detailAttribute">District</span> (if the addressLine[@localType="localentity"])</li>								
+								<li><span class="detailAttribute">Address Information</span> (if the addressLine[@localType="other" or not(@localType)])</li>
+								<li><span class="detailAttribute">Country</span> (if the addressLine[@localType="country"])</li>
+							</ul>						
+						</li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>LOCAL DESCRIPTION</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Local description</span></li>
+						<li><span class="detailAttribute">Location</span></li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>LEGAL STATUS</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Legal status</span></li>
+						<li><span class="detailAttribute">Location</span></li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>FUNCTION</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Function</span></li>
+						<li><span class="detailAttribute">Location</span></li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>OCCUPATION</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Occupation</span></li>
+						<li><span class="detailAttribute">Location</span></li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>MANDATE</b>
+					<ul><br/>
+						<li><span class="detailAttribute">Mandate</span></li>
+						<li><span class="detailAttribute">Location</span></li>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>GENEALOGY</b> (If the entity is a person)
+					<ul><br/>
+						<li><span class="detailAttribute">Genealogy</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>STRUCTURE / GENEALOGY</b> (If the entity is a family)
+					<ul><br/>
+						<li><span class="detailAttribute">Structure / genealogy</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>STRUCTURE</b> (If the entity is a corporate body)
+					<ul><br/>
+						<li><span class="detailAttribute">Structure</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>GENERAL CONTEXT</b>
+					<ul><br/>
+						<li><span class="detailAttribute">General Context</span></li>
+						<li><span class="detailAttribute">Note</span></li>
+					</ul>
+				</li><br/>
+				<li><b>BIOGRAPHY</b> (If the entity is a person or family)
+					<ul><br/>
+						<li><span class="detailAttribute">Summary</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Biography</span></li><br/>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Place</span></li>
+						<li><span class="detailAttribute">Event</span></li>
+					</ul>
+				</li><br/>
+				<li><b>HISTORICAL NOTE</b> (If the entity is a corporate body)
+					<ul><br/>					
+						<li><span class="detailAttribute">Summary</span></li>
+						<li><span class="detailAttribute">Citation</span></li>
+						<li><span class="detailAttribute">Historical note</span></li><br/>
+						<li><span class="detailAttribute">Date</span></li>
+						<li><span class="detailAttribute">Place</span></li>
+						<li><span class="detailAttribute">Event</span></li>
+					</ul>
+				</li><br/>
+			</ul>
+   </xd:detail>  
+  </xd:doc>
+  <xd:doc type="import">
+ 	<xd:short>Import the XML: <a href="dateOrDateRange.xsl.xd.html"><code>dateOrDateRange.xsl</code></a>.
+ 	</xd:short>
+	<xd:detail>
+		dateOrDateRange.xsl templates related to display the dates details.<br/>
+	</xd:detail>    
+  </xd:doc>	
 	<xsl:output method="html" indent="yes" version="4.0"
 		encoding="UTF-8"/>
-	<xsl:param name="eaccontent.extref.prefix"/>
-	<xsl:param name="language.selected"/>
-	<xsl:param name="lang.navigator"/>
-	<xsl:param name="aiCodeUrl"/>
-	<xsl:param name="eacUrlBase"/>
-	<xsl:param name="eadUrl"/>
-	<xsl:param name="searchTerms"/>
-	<xsl:param name="translationLanguage"/>
-
-	<xsl:variable name="language.default" select="'eng'"/>
-
-	<xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" />
-	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
-    
-    <xsl:include href="dateOrDateRange.xsl"/>
 	
+	<xd:doc>
+		 <xd:short>The parameter with the secondDisplay url.</xd:short>    
+	</xd:doc>
+	<xsl:param name="eaccontent.extref.prefix"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the selected language.</xd:short>    
+	</xd:doc>
+	<xsl:param name="language.selected"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the navigator language.</xd:short>    
+	</xd:doc>
+	<xsl:param name="lang.navigator"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the institution url.</xd:short>    
+	</xd:doc>
+	<xsl:param name="aiCodeUrl"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the eac url.</xd:short>    
+	</xd:doc>
+	<xsl:param name="eacUrlBase"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the ead url.</xd:short>    
+	</xd:doc>
+	<xsl:param name="eadUrl"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the search term.</xd:short>    
+	</xd:doc>
+	<xsl:param name="searchTerms"/>
+	<xd:doc>
+		 <xd:short>The parameter that controls the translation language in the translation combo.</xd:short>    
+	</xd:doc>
+	<xsl:param name="translationLanguage"/>
+	<xd:doc>
+		 <xd:short>The variable that controls the default language.</xd:short>    
+	</xd:doc>
+	<xsl:variable name="language.default" select="'eng'"/>
+	<xd:doc>
+		 <xd:short>The variable that controls the lower-case letters.</xd:short>    
+	</xd:doc>
+	<xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" />
+	<xd:doc>
+		 <xd:short>The variable that controls the upper-case letters.</xd:short>    
+	</xd:doc>
+	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+	
+	<xd:doc>
+	  <xd:short>Template <code>/text()</code>.</xd:short>
+	  <xd:detail>
+	   Template that display the information and highlight the search term if it's in it. 
+	  </xd:detail>
+	</xd:doc>
 	<xsl:template match="text()" mode="other">
 		<xsl:value-of select="fn:normalize-space(ape:highlight(., 'other'))" disable-output-escaping="yes" />
 	</xsl:template>
 	
+	<xd:doc>
+	  <xd:short>Template <code>main</code>.</xd:short>
+	  <xd:detail>
+	   Template main that display the eac-cpf details
+	  </xd:detail>
+	</xd:doc>
 	<xsl:template match="/">
 		<xsl:variable name="existDates" select="./eac:eac-cpf/eac:cpfDescription/eac:description/eac:existDates"/>
 		<xsl:variable name="entityType" select="./eac:eac-cpf/eac:cpfDescription/eac:identity/eac:entityType"/>
@@ -1612,6 +1790,12 @@
 	</div>
 	</xsl:template>
 	
+	<xd:doc>
+		<xd:short>Template to <code>&lt;biogHist&gt;</code>.</xd:short>
+	  	<xd:detail>Template to display the details <code>&lt;biogHist&gt;</code> element according to the selected language.</xd:detail>
+		<xd:param name="bioHist">The parameter "biogHist" is an array of <code>biogHist</code> elements.</xd:param>
+		<xd:param name="entityType">The parameter "entityType" is the entity type.</xd:param>
+	</xd:doc>
 	<xsl:template name="bioHistMultilanguage">
 		<xsl:param name="bioHist"></xsl:param>
 		<xsl:param name="entityType"></xsl:param>
@@ -1920,6 +2104,14 @@
 	</xsl:template>
 	
 	<!-- Template to display biogHist citation -->
+	
+	<xd:doc>
+	   <xd:short>Template for <code>/biogHist/citation</code>.</xd:short>
+	   <xd:detail>Display the details <code>&lt;citation&gt;</code> into the <code>&lt;biogHist&gt;</code> element.</xd:detail>
+		<xd:param name="bioHist">The parameter "biogHist" is the element <code>&lt;biogHist&gt;</code>.</xd:param>
+		<xd:param name="entityType">The parameter "entityType" is the entity type.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="templateBiogHistCitation">
 		<xsl:param name="bioHist"/>
 		<xsl:param name="entityType"/>
@@ -1975,6 +2167,14 @@
 	</xsl:template>
 	
 	<!-- Template to display biogHist p -->
+	
+	<xd:doc>
+	  	<xd:short>Template for <code>/biogHist/p</code>.</xd:short>
+	  	<xd:detail>Display the details <code>&lt;p&gt;</code> element inside the <code>&lt;biogHist&gt;</code> element.</xd:detail>
+		<xd:param name="bioHist">The parameter "biogHist" is the father element of <code>&lt;p&gt;</code>.</xd:param>
+		<xd:param name="entityType">The parameter "entityType" is the entity type.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="templateBiogHistP">
 		<xsl:param name="bioHist"/>
 		<xsl:param name="entityType"/>
@@ -2016,10 +2216,15 @@
 		</xsl:if>	
 	</xsl:template>
 	
+	<xd:doc>
+	  	<xd:short>Template for <code>&lt;chronList&gt;</code>.</xd:short>
+	  	<xd:detail>Display the details <code>&lt;chronList&gt;</code> element inside the <code>&lt;biogHist&gt;</code> element according with the language.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;chronList&gt;</code> elements.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="chronListMultilanguage">
 		<xsl:param name="list"/>
 		<xsl:param name="langNode"/>
-		
 	
 	 	<xsl:if test="$list/eac:chronItem or $list/eac:placeEntry or $list/eac:event">
 			
@@ -2150,6 +2355,12 @@
 	
 	<!-- Template for select the correct order to display the alternative names
 		 based in the value of the attribute "@localType". -->
+	<xd:doc>
+	  	<xd:short>Template to the correct order of <code>&lt;nameEntry&gt;</code>.</xd:short>
+	  	<xd:detail>Select the correct order to display the alternative names based in the value of the attribute <code>@localType</code>.</xd:detail>
+		<xd:param name="list">The parameter "list" is the array of <code>&lt;nameEntry&gt;</code>.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="alternativeNamePriorisation">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -2212,6 +2423,11 @@
 	</xsl:template>
 	
 	<!-- Template for alternative forms of name -->
+	<xd:doc>
+	  	<xd:short>Template "alternativeName".</xd:short>
+	  	<xd:detail>Template that call to the template "compositeName" to compose the differents parts of the name.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of alternative names.</xd:param>
+	</xd:doc>
 	<xsl:template name="alternativeName">
 		<xsl:param name="list"/>
 
@@ -2226,6 +2442,13 @@
 	</xsl:template>
 
 	<!--template to order eac:placeEntry into eac:places level -->
+	<xd:doc>
+	    <xd:short>Template to order <code>&lt;placeEntry&gt;</code>.</xd:short>
+	    <xd:detail>Select the correct order to display the <code>&lt;placeEntry&gt;</code> into <code>&lt;places&gt;</code> level.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;place&gt;</code> elements.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="placesPriorisation">
 		<xsl:param name="list"/>
 		<xsl:param name="posParent"/>
@@ -2349,6 +2572,16 @@
 	</xsl:template>
 	
 	<!-- template for the details in /places/place -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>&lt;place&gt;</code>.</xd:short>
+	  	<xd:detail>Template to show the details in <code>&lt;place&gt;</code> inside <code>&lt;places&gt;</code>.
+	  	</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;place&gt;</code> elements.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="placeDetails">
 		<xsl:param name="list"/>
 		<xsl:param name="posChild"/>
@@ -2533,6 +2766,15 @@
 	
 	<!-- Template for select the correct order to display the places based in
 		 the value of the attribute "@localType". -->
+	
+	<xd:doc>
+		<xd:short>Template to order the <code>&lt;place&gt;</code> elements.</xd:short>
+	  	<xd:detail>Template for select the correct order to display the places based in the value of the attribute <code>@localType</code>.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;place&gt;</code> elements.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="placePriorisation">
 		<xsl:param name="list"/>
 		<xsl:param name="posParent"/>
@@ -2629,6 +2871,18 @@
 	</xsl:template>
 
 	<!-- template places -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>&lt;placeEntry&gt;</code>.</xd:short>
+	  	<xd:detail>Template to display the details related to <code>&lt;placeEntry&gt;</code> into <code>&lt;place&gt;</code> element
+	  	according with the mode in the translation combo.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;placeEntry&gt;</code> elements.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="title">The parameter "title" is the label's title.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="places">
 		<xsl:param name="list"/>
 	    <xsl:param name="clazz"/>
@@ -2671,6 +2925,18 @@
 	</xsl:template>
 
 	<!-- template term -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>&lt;term&gt;</code>.</xd:short>
+	  	<xd:detail>Template to display the details in <code>&lt;term&gt;</code> element according with the mode value 
+	  	in the translation combo and the node's language.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;term&gt;</code> elements.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="title">The parameter "title" is the label's title.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="term">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -2718,6 +2984,16 @@
 	</xsl:template>
 	
 	<!--template for common childs -->
+	<xd:doc>
+	  	<xd:short>Template to common parts.</xd:short>
+	  	<xd:detail>Template to display the details for commons parts in the node's xml.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of commons elements inside the nodes of xml.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="title">The parameter "title" is the label's title.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="commonChild">
 		<xsl:param name="list"/>
 	    <xsl:param name="clazz"/>
@@ -2759,6 +3035,12 @@
 
 	<!-- Template for select the correct name to display as title based in the
 		 value of the attribute "@localType". -->
+	
+	<xd:doc>
+		<xd:short>Template to display the <code>&lt;nameEntry&gt;</code> as title.</xd:short>
+	  	<xd:detail>Template for select the correct name to display as title based in the value of the attribute <code>@localType</code>.</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;nameEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="namePriorisation">
 		<xsl:param name="list"/>
 
@@ -2820,6 +3102,11 @@
 	</xsl:template>
 
 	<!-- template for language nameEntry -->
+	<xd:doc>
+	  	<xd:short>Template to multilanguage <code>&lt;nameEntry&gt;</code>.</xd:short>
+	  	<xd:detail>Template for the <code>&lt;nameEntry&gt;y</code> when translation selected is "default" (value shown in selected "Original display").</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;nameEntry&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageName">
 		<xsl:param name="list"/>
 			<xsl:choose>
@@ -2894,6 +3181,13 @@
 	</xsl:template>
 
 	<!-- template for compose the name -->
+	
+	<xd:doc>
+	  	<xd:short>Template to compose the name.</xd:short>
+	  	<xd:detail>Template to compose the different <code>&lt;part&gt;</code> into <code>&lt;nameEntry&gt;</code> element.</xd:detail>
+		<xd:param name="listName">The parameter "list" is an array of <code>&lt;nameEntry&gt;</code> elements.</xd:param>
+		<xd:param name="isHeader" type="boolean">The parameter "isHeader" is to display or not the alternative names.</xd:param>
+	</xd:doc>
 	<xsl:template name="compositeName">
 		<xsl:param name="listName"/>
 		<xsl:param name="isHeader"/>
@@ -2910,6 +3204,12 @@
 	</xsl:template> 
 	
 	<!-- template nameEntry -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>&lt;nameEntry&gt;</code>.</xd:short>
+	  	<xd:detail>Template to display the <code>&lt;nameEntry&gt;</code> element.</xd:detail>
+	  	<xd:param name="listName">The parameter "listName" is an array of <code>&lt;nameEntry&gt;</code> elements.</xd:param>	
+	</xd:doc>
 	<xsl:template name="nameEntry">
 		<xsl:param name="listName"/>
     	<xsl:variable name="firstName" select="$listName/eac:part[@localType='firstname']"/>
@@ -3039,6 +3339,12 @@
 	</xsl:template>
 	
 	<!-- template vocabularySource -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>@vocabularySource</code>.</xd:short>
+	  	<xd:detail>Template to display the attribute <code>@vocabularySource</code>.</xd:detail>
+		<xd:param name="node">The parameter "node" is the element that has the attribute <code>@vocabularySource</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="vocabularySource">
 		<xsl:param name="node"/>
 		<xsl:variable name="link" select="$node/@vocabularySource"/>
@@ -3077,6 +3383,14 @@
 		</xsl:if>	
 	</xsl:template>	
 	
+	<xd:doc>
+	  	<xd:short>Template to title in <code>&lt;citation&gt;</code>.</xd:short>
+	  	<xd:detail>Template to show the title in <code>&lt;citation&gt;</code>.
+	  	</xd:detail>
+		<xd:param name="content">The parameter "content" is the content of the element <code>&lt;citation&gt;</code>.</xd:param>
+		<xd:param name="section">The parameter "section" is the section which <code>&lt;citation&gt;</code> belongs.</xd:param>
+		<xd:param name="title">The parameter "title" is the title in the attribute <code>@xlink:title</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="citationHrefTitle">
 		<xsl:param name="content"/>
 		<xsl:param name="section" />
@@ -3096,6 +3410,14 @@
 	</xsl:template>
 
 	<!-- template for citation with/without @href -->
+	<xd:doc>
+	  <xd:short>Template to show <code>&lt;citation&gt;</code> with/without the attribute <code>@href</code>.
+	  </xd:short>
+		<xd:param name="link">The parameter "link" is the content of <code>@xlink:href</code>.</xd:param>
+		<xd:param name="title">The parameter "title" is the title in the attribute <code>@xlink:title</code>.</xd:param>
+		<xd:param name="content">The parameter "content" is the content of the element <code>&lt;citation&gt;</code>.</xd:param>
+		<xd:param name="section">The parameter "section" is the section which <code>citation</code> belongs.</xd:param>
+	</xd:doc>
 	<xsl:template name="citationHref">
 		<xsl:param name="link"/>
 		<xsl:param name="title"/>
@@ -3172,6 +3494,13 @@
 	</xsl:template>
 	
 	<!-- Template to display de country name from country code. -->
+	
+	<xd:doc>
+	  	<xd:short>Template to <code>@countryCode</code>.</xd:short>
+	  	<xd:detail>Template to display the country name from <code>@countryCode</code>.
+	  	</xd:detail>
+		<xd:param name="countryCode">The parameter "countryCode" is the content of the attribute <code>@countryCode</code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="countryName">
 		<xsl:param name="countryCode"/>
 
@@ -3193,6 +3522,13 @@
 	</xsl:template>
 	
 	<!-- template for multilanguage -->
+	<xd:doc>
+		<xd:short>Template multilanguage information.</xd:short>	
+		<xd:detail>Template to display the elements according to the language's rules.
+		</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;p&gt;</code> elements.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguage">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3325,6 +3661,14 @@
 	</xsl:template>
 
 	<!-- template for multilanguage wit no <p> -->
+	
+	<xd:doc>
+	  <xd:short>Template multilanguage <code>/languagesUsed/descriptiveNote/p</code>.</xd:short>
+	  <xd:detail>Template for multilanguage <code>&lt;p&gt;</code> in <code>&lt;languagesUsed&gt;</code>.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;p&gt;</code> elements.</xd:param>
+	  <xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageNoP">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>	
@@ -3405,6 +3749,15 @@
 	</xsl:template>
 	
 	<!--template for outline in structureOrGenealogy-->
+	
+	<xd:doc>
+	  <xd:short>Template for <code>/structureOrGenealogy/outline</code>.</xd:short>
+	  <xd:detail>Template for the element <code>&lt;outline&gt;</code> into the element <code>&lt;structureOrGenealogy&gt;</code>. 
+	  </xd:detail>
+	   <xd:param name="list">The parameter "list" is an array of <code>&lt;structureOrGenealogy&gt;</code> elements.</xd:param>
+	  <xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	  <xd:param name="entityType">The parameter "entityType" is the entity type.</xd:param>
+	</xd:doc>
 	<xsl:template name="outlineStructure">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3432,6 +3785,14 @@
 	</xsl:template>
 	
 	<!--template for outline -->
+	<xd:doc>
+	  <xd:short>Template <code>/generalContext/outline</code>.</xd:short>
+	  <xd:detail>Template for the element <code>&lt;outline&gt;</code> into the element <code>&lt;generalContext&gt;</code>. 
+	  </xd:detail>
+	 <xd:param name="list">The parameter "list" is an array of <code>&lt;generalContext&gt;</code>.</xd:param>
+	  <xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	  <xd:param name="title">The parameter "title" is the title in the label of the corresponding section.</xd:param>
+	</xd:doc>
 	<xsl:template name="outline">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3451,6 +3812,14 @@
 	</xsl:template>
 	
 	<!-- template for <p> in structureOrGenealogy or generalContext-->
+	<xd:doc>
+	  <xd:short>Template for <code>structureOrGenealogy/p</code> or <code>generalContext/p</code>.</xd:short>
+	  <xd:detail>Template for the element <code>&lt;p&gt;</code> in <code>&lt;generalContext&gt;</code> or <code>&lt;structureOrGenealogy&gt;</code>.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;p&gt;</code> elements.</xd:param>
+	  <xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	  <xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="p">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3488,6 +3857,13 @@
 	</xsl:template>
 	
 	<!-- template for outline -->
+	
+	<xd:doc>
+	  <xd:short>Template for multilanguage <code>&lt;outline&gt;</code>.</xd:short>
+	  <xd:detail>Template for the element <code>&lt;outline&gt;</code> following the language's rules.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;level&gt;</code> elements.</xd:param>
+	</xd:doc>
 	<xsl:template name="multilanguageOutline">
 		<xsl:param name="list"/><!-- outline/level -->
 		<xsl:choose>
@@ -3530,6 +3906,13 @@
 	</xsl:template>
 	
 	<!-- template for outline recursive -->
+	<xd:doc>
+	  <xd:short>Template for <code>&lt;item&gt;</code></xd:short>
+	  <xd:detail>Template to display the element <code>&lt;item&gt;</code> into the element <code>/outline/level</code>.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of <code>&lt;level&gt;</code> elements.</xd:param>
+	  <xd:param name="language">The parameter "language" is the language selected to display the information.</xd:param>	
+	</xd:doc>
 	<xsl:template name="multilanguageOutlineRecursive">
 		<xsl:param name="list"/>
 		<xsl:param name="language"/>
@@ -3561,6 +3944,15 @@
  		</ul>
 	</xsl:template>
 	<!-- Template to show the information according with the language and the search term  -->
+	
+	<xd:doc>
+	  	<xd:short>Template to show details of the eac-cpf.</xd:short>
+	 	 <xd:detail>Template to show the information according with the language and the search term.
+	 	 </xd:detail>
+		<xd:param name="list">The parameter "list" is an array of the elements in the eac-cpf.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="showDetails">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3632,7 +4024,18 @@
 	</xsl:template>
 	
 	<!--Template to show the information about placeEntry  -->
-		<xsl:template name="showDetailsPlaceEntrySeveral">
+	
+	<xd:doc>
+	  	<xd:short>Template to several details <code>&lt;placeEntry&gt;</code>.</xd:short>
+	  	<xd:detail>Template to display the information of the <code>&lt;placeEntry&gt;</code> in the right language.
+	  	</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;placeEntry&gt;</code> elements.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posParent">The parameter "posParent" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="posChild">The parameter "posChild" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
+	<xsl:template name="showDetailsPlaceEntrySeveral">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
 		<xsl:param name="posParent"/>
@@ -3687,6 +4090,15 @@
 			</xsl:for-each>
 		</div>
 	</xsl:template>
+	
+	<xd:doc>
+		<xd:short>Template to show all the elements <code>>&lt;descriptiveNote&gt;</code>.</xd:short>
+	  	<xd:detail>Template that will show all the elements <code>&lt;descriptiveNote&gt;</code> in the passed list dependent of its language. 
+	  	</xd:detail>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;descriptiveNote&gt;</code> elements.</xd:param>
+		<xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="showDetailsDescriptiveNote">
 		<xsl:param name="list"/>
 		<xsl:param name="clazz"/>
@@ -3727,6 +4139,15 @@
 	
 	<!-- Template to display correctly the details of the "<descriptiveNote>"
 		 element inside "<languageUsed>" element. -->
+	
+	<xd:doc>
+	  <xd:short>Template to <code>/languagesUsed/descriptiveNote</code>.</xd:short>
+	  <xd:detail>Template to display correctly the details of the <code>&lt;descriptiveNote&gt;</code> element inside <code>&lt;languagesUsed&gt;</code> element.
+	  </xd:detail>
+	 <xd:param name="element">The parameter "element" is the element <code>&lt;p&gt;</code> in <code>/languagesUsed/descriptiveNote</code>.</xd:param>
+	  <xd:param name="clazz">The parameter "clazz" is the attribute <code>id</code> in the <code>HTML div tag </code>.</xd:param>
+	  <xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="descriptiveNoteNoP">
 		<xsl:param name="element"/>
 		<xsl:param name="clazz"/>
@@ -3755,6 +4176,14 @@
 	</xsl:template>
 	
 	<!-- template for show details in descriptiveNote -->
+	
+	<xd:doc>
+	  <xd:short>Template to <code>&lt;descriptiveNote&gt;</code>.</xd:short>
+	  <xd:detail>Template for show details in <code>&lt;descriptiveNote&gt;</code> according with the language's rule.
+	  </xd:detail>
+	  <xd:param name="list">The parameter "list" is an array of elements <code>&lt;p&gt;</code>.</xd:param>
+	  <xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="showDetailsNoP">
 		<xsl:param name="list"/>
 		<xsl:param name="langNode"/>
@@ -3779,6 +4208,13 @@
 	</xsl:template>
 	
 	<!-- Template that will show the information in placeEntry -->
+	
+	<xd:doc>
+	  <xd:short>Template to display the information of the first <code>&lt;placeEntry&gt;</code> in the right language.
+	  </xd:short>
+		<xd:param name="list">The parameter "list" is an array of <code>&lt;placeEntry&gt;</code> elements.</xd:param>
+		<xd:param name="langNode">The parameter "langNode" is the node's language.</xd:param>
+	</xd:doc>
 	<xsl:template name="showDetailsPlaceEntry">
 		<xsl:param name="list"/>
 		<xsl:param name="langNode"/>
