@@ -52,6 +52,10 @@
 			<div id="search-preview" class="preview-container search-result-preview-container"></div>
 			</div>
 		</div>
+		<div id="selectedRefinements" class="hidden">
+				<ul>
+				</ul>
+		</div>		
 		</c:if>
 </div>	
 
