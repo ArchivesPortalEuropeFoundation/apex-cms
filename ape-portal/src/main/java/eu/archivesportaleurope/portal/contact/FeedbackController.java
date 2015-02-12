@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.contact;
 
+import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,10 @@ import eu.apenet.persistence.vo.User;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.email.EmailSender;
 
+
+/***
+ * This is the feedback controller class
+ */
 @Controller(value = "feedbackController")
 @RequestMapping(value = "VIEW")
 public class FeedbackController {
@@ -38,8 +43,17 @@ public class FeedbackController {
 		this.userDAO = userDAO;
 	}
 
-
-
+	/***
+	 * This function shows the contact form
+	 * 
+	 * @param contact {@link Contact} Contact object
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'contact'
+	 * 
+	 * @throws PortalException
+	 * @throws SystemException
+	 */
 	@ResourceMapping(value="feedback")
     public ModelAndView showInitialPage(@ModelAttribute("contact") Contact contact,ResourceRequest request) throws PortalException, SystemException {
 		boolean loggedIn = request.getUserPrincipal() != null;
@@ -60,12 +74,32 @@ public class FeedbackController {
         return modelAndView;
     }
 	
+	/***
+	 * Returns a new contact object
+	 * 
+	 * @return {@link Contact} object
+	 */
     @ModelAttribute("contact")
     public Contact getCommandObject() {
         return new Contact();
     }
 
-
+    /***
+     * @ResourceMapping(value="feedbackAction")
+     * 
+     * @ModelAttribute("contact")
+     * 
+     * This function sends the email with the feeback to the country manager of the selected resource
+     * 
+     * @param contact {@link Contact} email address
+	 * @param bindingResult {@link BindingResult} bindingResult object name: "contact"
+	 * @param request {@link ResourceRequest} request has not value vhen comes from feedback form
+     * 
+     * @return modelAndView {@link ModelAndView} ModelAndView: reference to view with name 'contact'
+     * 
+     * @throws PortalException
+     * @throws SystemException
+     */
     @ResourceMapping(value="feedbackAction")
     public ModelAndView showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ResourceRequest request) throws PortalException, SystemException {
         ModelAndView modelAndView = new ModelAndView();
@@ -106,6 +140,13 @@ public class FeedbackController {
 		return modelAndView;
     }
     
+    /***
+     * This function returns a contact with title and related institution
+     * 
+     * @param contact {@link Contact} object
+     * 
+     * @return contact {@link Contact} object with title and related institution
+     */
 	private Contact fixContactCharacters(Contact contact){
 		if(contact!=null){
 			contact.setTitle(PortalDisplayUtil.replaceHTMLSingleQuotes(contact.getTitle()));

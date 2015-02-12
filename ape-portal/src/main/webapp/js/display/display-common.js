@@ -1,3 +1,6 @@
+/***
+ * This function adds the Share button
+ */
 function initShareButtons(){
     addJsFileToHead("share","http://wd-edge.sharethis.com/button/buttons.js", "https://wd-edge.sharethis.com/button/buttons.js");
     var switchTo5x=true;
@@ -9,6 +12,17 @@ function initShareButtons(){
  * Common functions to display the user's feedback.
  */
 
+/***
+ * This function shows the contact form with the recaptcha validation<br/>
+ * This method is called from eac-cpf/display/index and from ead/eaddetails
+ * 
+ * @param feedbackUrl email address
+ * @param aiId archival institution id
+ * @param documentTitle the title of the document
+ * @param documentUrl Url of the related resouce
+ * @param publicKey recaptche public key
+ * 
+ */
 function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) {
 	if ($('#feedbackContent').is(':empty')){
 		addJsFileToHead("recaptha", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "https://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
@@ -39,6 +53,9 @@ function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) 
 
 }
 
+/***
+ * This function gets recaptcha key, enables/disables button and sends the mail with the feedback
+ */
 function sendFeedback(){
 	var url = $("#contactForm").attr("action");
 	var publicKey = $("#contactForm #recaptchaPubKey").attr("value");
@@ -62,6 +79,16 @@ function sendFeedback(){
 //Bookmarking feature
 //_____________________
 
+
+/***
+ * This function is called from the second display<br/>
+ * and shows the pop up with the last 20 available collections for thr current element
+ * 
+ * @param bookmarkUrl complete url with params to send to teh modelandview
+ * @param documentTitle title of the documment
+ * @param documentUrl complete resource url
+ * @param typedocument "ead" or "eac-cpf" sets type of the resource
+ */
 function showBookmark(bookmarkUrl, documentTitle, documentUrl, typedocument) {	
 	$.ajaxSetup({async: false});
 	$.post(bookmarkUrl,
@@ -75,6 +102,12 @@ function showBookmark(bookmarkUrl, documentTitle, documentUrl, typedocument) {
 	);
 }
 
+/***
+ * This function is called whe the action to add a bookmark gives an error.<br/>
+ * This function writes an error in the screen
+ * 
+ * @param message the error message
+ */
 function showError(message) {
 	$('#bookmarkContent').html(message);
 	$('#bookmarkContent').removeClass("success").removeClass("failure").removeClass("hidden");
@@ -83,6 +116,12 @@ function showError(message) {
 	$('#bookmarkContent').delay(3000).fadeOut('slow');
 }
 
+/***
+ * This function prints a message in the screen
+ * 
+ * @param hasSaved True or false depending if there has been errors while saving a bookmark
+ * @param message The message to print
+ */
 function hasSaved(hasSaved, message){
 	$('#bookmarkContent').html(message);
 	$('#bookmarkContent').removeClass("success").removeClass("failure").removeClass("hidden");	
@@ -96,6 +135,12 @@ function hasSaved(hasSaved, message){
 	$('#bookmarkContent').delay(3000).fadeOut('slow');
 }
 
+/***
+ * This function is called from the button Add Bookmark, disables the button Add Bookmark and raises teh pop up
+ * 
+ * @param bookmark bookmark id
+ * @param seeAvaiableCollectionsUrl complete url with parameters for the Request
+ */
 function showCollections(bookmark, seeAvaiableCollectionsUrl){
 	$('#searchCollectionsButton').addClass("hidden");
 	$('#searchButtonGrey').removeClass("hidden");
@@ -108,10 +153,23 @@ function showCollections(bookmark, seeAvaiableCollectionsUrl){
 	getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm);
 }
 
+/***
+ * This function raises the pop up window with the available collections
+ *  
+ * @param bookmark the bookmark id
+ * @param seeAvaiableCollectionsUrl the url with the parameters for teh Request
+ */
 function showAllCollections(bookmark, seeAvaiableCollectionsUrl){
 	getShowCollections(bookmark, seeAvaiableCollectionsUrl, "");
 }
 
+/***
+ * This function call to the java class to get the result of the available collections to show the pop up window
+ * 
+ * @param bookmark the bookmark id
+ * @param seeAvaiableCollectionsUrl complete url with parameters for the Request
+ * @param searchTerm search params to mach the name of the collections
+ */
 function getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm){
 	$.ajaxSetup({async: false});
 	$.post(seeAvaiableCollectionsUrl, 
@@ -133,6 +191,13 @@ function getShowCollections(bookmark, seeAvaiableCollectionsUrl, searchTerm){
 	);
 }
 
+/***
+ * This function is called from teh Add Bookmark button in the second display<br/>
+ * to add the selected resource to the selected collections
+ * 
+ * @param seeAvaiableCollectionsUrl complete url with parameters to the Request
+ * @param errorEmpty gets the error message if there is not selected at least one collectios to add the bookmark
+ */
 function saveBookmarkInCollections( seeAvaiableCollectionsUrl, errorEmpty){
 	if($("[name^='collectionToAdd_']:checked").length>0){
 		$("#error_message_collection").remove();
@@ -158,6 +223,12 @@ function saveBookmarkInCollections( seeAvaiableCollectionsUrl, errorEmpty){
 	}
 }
 
+/***
+ * This function creates a new collection to save the curnt resource from the bookmark pop up in the second display
+ * 
+ * @param bookmark bookmark id
+ * @param CollectionUrl complete url with parameters for the Request
+ */
 function createCollections(bookmark, CollectionUrl){
 	$.ajaxSetup({async: false});
 	$.post(CollectionUrl, 
@@ -177,8 +248,10 @@ function createCollections(bookmark, CollectionUrl){
 
 /***
  * Saves a collection and sets teh bookmark in it
+ * 
  * @param bookmark bookmark ID
  * @param CollectionUrl collection ID
+ * 
  * @returns the page with the bookmark saved into the new collection
  */
 function saveCollections(bookmark, CollectionUrl){
@@ -217,7 +290,7 @@ function saveCollections(bookmark, CollectionUrl){
 
 /***
  * Function to load the popup to create a new collection
- * @returns null
+ * 
  */
 function loadDialogSave(){
 	disableBookmarkButton();
@@ -234,8 +307,10 @@ function loadDialogSave(){
 
 /***
  * Function that loads the popup with the available collections to bookmark
+ * 
  * @param bookmark bookmarkId
  * @param seeAvaiableCollectionsUrl link url
+ * 
  * @returns null
  */
 function loadDialogShow(bookmark, seeAvaiableCollectionsUrl){
@@ -252,6 +327,9 @@ function loadDialogShow(bookmark, seeAvaiableCollectionsUrl){
     return null;
 }
 
+/***
+ * This function enables the bookmark button hidding the disabled button
+ */
 function enableBookmarkButton(){
 	$('#bookmarkEad').removeClass('hidden');
 	$('#bookmarkEacCpf').removeClass('hidden');
@@ -260,6 +338,9 @@ function enableBookmarkButton(){
 	$('#mycollectionPortletDiv').addClass('hidden');
 }
 
+/***
+ * This function disables the bookmark button showing the disabled button
+ */
 function disableBookmarkButton(){
 	$('#bookmarkEad').addClass('hidden');
 	$('#bookmarkEacCpf').addClass('hidden');
