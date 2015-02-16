@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 
+import net.sf.saxon.om.Sequence;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -95,32 +96,28 @@ public class TypeOfEacCpfExtension extends ExtensionFunctionDefinition {
 			super();
 		}
 
-		/**
-		 * Method to checks the eac-cpf type throw the link value.
-		 *
-		 */
-		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
-			
-			String identifier = arguments[0].next().getStringValue();
-			String typeEacCpf = "";
-			if (arguments.length ==1){
-				
-				EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
-				EacCpf eacCpf = null;
-				eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(identifier, false);
-				if (eacCpf != null){
-					String path = APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eacCpf.getPath();
-					typeEacCpf = extractElementFromXML(path,"eac-cpf/cpfDescription/identity/entityType").trim();
-				} 
-				return SingletonIterator.makeIterator(new StringValue(typeEacCpf));
-			}else{
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
-			}
-		
-		}
-		
+        /**
+         * Method to checks the eac-cpf type throw the link value.
+         *
+         */
+        @Override
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+            String identifier = sequences[0].toString();
+            String typeEacCpf = "";
+            if (sequences.length == 1) {
+                EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
+                EacCpf eacCpf = null;
+                eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(identifier, false);
+                if (eacCpf != null){
+                    String path = APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eacCpf.getPath();
+                    typeEacCpf = extractElementFromXML(path,"eac-cpf/cpfDescription/identity/entityType").trim();
+                }
+                return StringValue.makeStringValue(typeEacCpf);
+            }else{
+                return StringValue.makeStringValue("ERROR");
+            }
+        }
+
 		/**
 		 * Method to extract an element from the xml file
 		 * @param path

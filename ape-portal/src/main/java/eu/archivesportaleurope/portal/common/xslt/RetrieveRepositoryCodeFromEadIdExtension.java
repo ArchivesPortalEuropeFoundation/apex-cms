@@ -10,6 +10,7 @@ import eu.archivesportaleurope.util.ApeUtil;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -80,75 +81,73 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
 			super();
 		}
 
-		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
-			if (arguments!= null && arguments.length == 2) {
-				String firstArgValue = arguments[0].next().getStringValue();
-				String secondArgValue = arguments[1].next().getStringValue();
-				String value = "";
-				String type = "";
+        @Override
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+            if (sequences!= null && sequences.length == 2) {
+                String firstArgValue = sequences[0].toString();
+                String secondArgValue = sequences[1].toString();
+                String value = "";
+                String type = "";
 
-				// apeEAD.
-				EadDAO eadDAO = DAOFactory.instance().getEadDAO();
-				Ead ead = null;
+                // apeEAD.
+                EadDAO eadDAO = DAOFactory.instance().getEadDAO();
+                Ead ead = null;
 
-				if (firstArgValue != null && !firstArgValue.isEmpty()) {
-					// Checks if exists a FA with the provided identifier.
-					if (secondArgValue != null && !secondArgValue.isEmpty()) {
-						// And repository code.
-						ead = eadDAO.getEadByEadid(FindingAid.class, secondArgValue, firstArgValue, true);
-						type = "fa";
-					} else {
-						// First FA with identifier.
-						ead = eadDAO.getFirstPublishedEadByEadid(FindingAid.class, firstArgValue);
-						type = "fa";
-					}
+                if (firstArgValue != null && !firstArgValue.isEmpty()) {
+                    // Checks if exists a FA with the provided identifier.
+                    if (secondArgValue != null && !secondArgValue.isEmpty()) {
+                        // And repository code.
+                        ead = eadDAO.getEadByEadid(FindingAid.class, secondArgValue, firstArgValue, true);
+                        type = "fa";
+                    } else {
+                        // First FA with identifier.
+                        ead = eadDAO.getFirstPublishedEadByEadid(FindingAid.class, firstArgValue);
+                        type = "fa";
+                    }
 
-					if (ead == null) {
-						// Checks if exists a HG with the provided identifier.
-						if (secondArgValue != null && !secondArgValue.isEmpty()) {
-							// And repository code.
-							ead = eadDAO.getEadByEadid(HoldingsGuide.class, secondArgValue, firstArgValue, true);
-							type = "hg";
-						} else {
-							// First HG with identifier.
-							ead = eadDAO.getFirstPublishedEadByEadid(HoldingsGuide.class, firstArgValue);
-							type = "hg";
-						}
-					}
+                    if (ead == null) {
+                        // Checks if exists a HG with the provided identifier.
+                        if (secondArgValue != null && !secondArgValue.isEmpty()) {
+                            // And repository code.
+                            ead = eadDAO.getEadByEadid(HoldingsGuide.class, secondArgValue, firstArgValue, true);
+                            type = "hg";
+                        } else {
+                            // First HG with identifier.
+                            ead = eadDAO.getFirstPublishedEadByEadid(HoldingsGuide.class, firstArgValue);
+                            type = "hg";
+                        }
+                    }
 
-					if (ead == null) {
-						// Checks if exists a SG with the provided identifier.
-						if (secondArgValue != null && !secondArgValue.isEmpty()) {
-							// And repository code.
-							ead = eadDAO.getEadByEadid(SourceGuide.class, secondArgValue, firstArgValue, true);
-							type = "sg";
-						} else {
-							// First SG with identifier.
-							ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, firstArgValue);
-							type = "sg";
-						}
-					}
-				}
+                    if (ead == null) {
+                        // Checks if exists a SG with the provided identifier.
+                        if (secondArgValue != null && !secondArgValue.isEmpty()) {
+                            // And repository code.
+                            ead = eadDAO.getEadByEadid(SourceGuide.class, secondArgValue, firstArgValue, true);
+                            type = "sg";
+                        } else {
+                            // First SG with identifier.
+                            ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, firstArgValue);
+                            type = "sg";
+                        }
+                    }
+                }
 
-				if (ead != null) {
-					String repositoryCode = "";
-					if (secondArgValue != null && !secondArgValue.isEmpty()) {
-						repositoryCode = secondArgValue;
-					} else {
-						repositoryCode = ead.getArchivalInstitution().getRepositorycode();
-					}
+                if (ead != null) {
+                    String repositoryCode = "";
+                    if (secondArgValue != null && !secondArgValue.isEmpty()) {
+                        repositoryCode = secondArgValue;
+                    } else {
+                        repositoryCode = ead.getArchivalInstitution().getRepositorycode();
+                    }
 
-					value = "aicode/" + repositoryCode + "/type/" + type + "/id/" + ApeUtil.encodeSpecialCharacters(ead.getEadid());
-				}
+                    value = "aicode/" + repositoryCode + "/type/" + type + "/id/" + ApeUtil.encodeSpecialCharacters(ead.getEadid());
+                }
 
-				return SingletonIterator.makeIterator(new StringValue(value));
-			} else {
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
-			}
-		}
-		
+                return StringValue.makeStringValue(value);
+            } else {
+                return StringValue.makeStringValue("ERROR");
+            }
+        }
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -76,40 +77,38 @@ public class RetrieveCountryNameExtension extends ExtensionFunctionDefinition {
 			super();
 		}
 
-		/**
-		 * Recovers the name of the country in the language passed from the country code.
-		 *
-		 *     arg[0] -> Three letter language code
-		 *     arg[1] -> Two letter country code
-		 */
-		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
-			if (arguments.length == 2) {
-				String lang = arguments[0].next().getStringValue();
-				String countryCode = arguments[1].next().getStringValue();
-				String value = countryCode;
+        /**
+         * Recovers the name of the country in the language passed from the country code.
+         *
+         *     arg[0] -> Three letter language code
+         *     arg[1] -> Two letter country code
+         */
+        @Override
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+            if (sequences.length == 2) {
+                String lang = sequences[0].toString();
+                String countryCode = sequences[1].toString();
+                String value = countryCode;
 
-				if (lang != null && !lang.isEmpty()
-						&& countryCode != null && !countryCode.isEmpty()) {
+                if (lang != null && !lang.isEmpty()
+                        && countryCode != null && !countryCode.isEmpty()) {
 
-					// Checks the language.
-					Map<String, Locale> localeMap = APEnetUtilities.getIso3ToIso2LanguageCodesMap();
-					Locale language = localeMap.get(lang);
-					if (language == null) {
-						language = Locale.ENGLISH;
-					}
+                    // Checks the language.
+                    Map<String, Locale> localeMap = APEnetUtilities.getIso3ToIso2LanguageCodesMap();
+                    Locale language = localeMap.get(lang);
+                    if (language == null) {
+                        language = Locale.ENGLISH;
+                    }
 
-					Locale locale = new Locale("", countryCode);
-					value = locale.getDisplayCountry(language);
-				}
+                    Locale locale = new Locale("", countryCode);
+                    value = locale.getDisplayCountry(language);
+                }
 
-				return SingletonIterator.makeIterator(new StringValue(value));
-			} else {
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
-			}
-		}
-		
+                return StringValue.makeStringValue(value);
+            } else {
+                return StringValue.makeStringValue("ERROR");
+            }
+        }
 	}
 
 }
