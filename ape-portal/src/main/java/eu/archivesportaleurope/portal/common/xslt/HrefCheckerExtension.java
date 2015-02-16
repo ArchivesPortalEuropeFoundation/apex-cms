@@ -18,7 +18,6 @@ import eu.apenet.persistence.vo.SourceGuide;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -88,98 +87,100 @@ public class HrefCheckerExtension extends ExtensionFunctionDefinition {
 			super();
 		}
 
-        /**
-         * Checks the list of @xlink:href passed in order to test if at least
-         * one of them is a valid link.
-         *
-         *     arg[0] -> List of @xlink:href
-         */
-        @Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            String splitValue = "_HREF_SEPARATOR_";
+		/**
+		 * Checks the list of @xlink:href passed in order to test if at least
+		 * one of them is a valid link.
+		 *
+		 *     arg[0] -> List of @xlink:href
+		 */
+		@Override
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
+				throws XPathException {
+			String splitValue = "_HREF_SEPARATOR_";
 
-            if (sequences.length == 1) {
-                String list = sequences[0].toString();
-                boolean value = false;
+			if (arguments.length == 1) {
+				String list = arguments[0].next().getStringValue();
+				boolean value = false;
 
-                if (list != null && !list.isEmpty()) {
-                    List<String> hrefs = new ArrayList<String>(Arrays.asList(list.split(splitValue)));
+				if (list != null && !list.isEmpty()) {
+					List<String> hrefs = new ArrayList<String>(Arrays.asList(list.split(splitValue)));
 
-                    for (int i = 0; !value && i < hrefs.size(); i++) {
-                        String currentVal = hrefs.get(i);
+					for (int i = 0; !value && i < hrefs.size(); i++) {
+						String currentVal = hrefs.get(i);
 
-                        if (currentVal != null && !currentVal.isEmpty()
-                                && (currentVal.startsWith("http")
-                                || currentVal.startsWith("https")
-                                || currentVal.startsWith("ftp")
-                                || currentVal.startsWith("www"))) {
-                            // Checks if the link is an external one.
-                            value = true;
-                        } else {
-                            // Checks if the link is an internal one.
-                            // First, checks if is a link with another
-                            // apeEAC-CPF in the system.
-                            if (!value) {
-                                EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
-                                EacCpf eacCpf = null;
-                                eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(currentVal, true);
+						if (currentVal != null && !currentVal.isEmpty()
+								&& (currentVal.startsWith("http")
+										|| currentVal.startsWith("https")
+										|| currentVal.startsWith("ftp")
+										|| currentVal.startsWith("www"))) {
+							// Checks if the link is an external one.
+							value = true;
+						} else {
+							// Checks if the link is an internal one.
+							// First, checks if is a link with another
+							// apeEAC-CPF in the system.
+							if (!value) {
+								EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
+								EacCpf eacCpf = null;
+								eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(currentVal, true);
 
-                                if (eacCpf != null) {
-                                    value = true;
-                                }
-                            }
+								if (eacCpf != null) {
+									value = true;
+								}
+							}
 
-                            // Second, checks if is a link with an apeEAD (FA,
-                            // HG or SG) in the system.
-                            if (!value) {
-                                EadDAO eadDAO = DAOFactory.instance().getEadDAO();
-                                Ead ead = null;
-                                // First, FA with identifier.
-                                ead = eadDAO.getFirstPublishedEadByEadid(FindingAid.class, currentVal);
+							// Second, checks if is a link with an apeEAD (FA,
+							// HG or SG) in the system.
+							if (!value) {
+								EadDAO eadDAO = DAOFactory.instance().getEadDAO();
+								Ead ead = null;
+								// First, FA with identifier.
+								ead = eadDAO.getFirstPublishedEadByEadid(FindingAid.class, currentVal);
 
-                                if (ead != null) {
-                                    value = true;
-                                }
+								if (ead != null) {
+									value = true;
+								}
 
-                                // Second, HG with identifier.
-                                if (!value) {
-                                    ead = eadDAO.getFirstPublishedEadByEadid(HoldingsGuide.class, currentVal);
+								// Second, HG with identifier.
+								if (!value) {
+									ead = eadDAO.getFirstPublishedEadByEadid(HoldingsGuide.class, currentVal);
+	
+									if (ead != null) {
+										value = true;
+									}
+								}
 
-                                    if (ead != null) {
-                                        value = true;
-                                    }
-                                }
+								// Third, SG with identifier.
+								if (!value) {
+									ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, currentVal);
+	
+									if (ead != null) {
+										value = true;
+									}
+								}
+							}
 
-                                // Third, SG with identifier.
-                                if (!value) {
-                                    ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, currentVal);
+							// Third, checks if is a link with an EAG 2012 in
+							// the system.
+							if (!value) {
+								ArchivalInstitutionDAO archivalInstitutionDAO = DAOFactory.instance().getArchivalInstitutionDAO();
+								ArchivalInstitution archivalInstitution = null;
+								archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(currentVal);
 
-                                    if (ead != null) {
-                                        value = true;
-                                    }
-                                }
-                            }
+								if (archivalInstitution != null) {
+									value = true;
+								}
+							}
+						}
+					}
+				}
 
-                            // Third, checks if is a link with an EAG 2012 in
-                            // the system.
-                            if (!value) {
-                                ArchivalInstitutionDAO archivalInstitutionDAO = DAOFactory.instance().getArchivalInstitutionDAO();
-                                ArchivalInstitution archivalInstitution = null;
-                                archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(currentVal);
-
-                                if (archivalInstitution != null) {
-                                    value = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return StringValue.makeStringValue(Boolean.toString(value));
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
+				return SingletonIterator.makeIterator(new StringValue(Boolean.toString(value)));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
+		
 	}
 
 }

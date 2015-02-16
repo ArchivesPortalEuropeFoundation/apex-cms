@@ -4,7 +4,6 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -71,31 +70,30 @@ public class EadidCheckerExtension extends ExtensionFunctionDefinition {
 			this.preview = preview;
 		}
 
-		@Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences.length == 1) {
-                Item firstArgument = sequences[0].head();
-                String value = "notavailable";
-                if (firstArgument != null) {
-                    String eadid = firstArgument.getStringValue();
-                    if (aiId != null) {
-                        EadDAO eadDao = DAOFactory.instance().getEadDAO();
-                        if (eadDao.isEadidIndexed(eadid, aiId, FindingAid.class) != null) {
-                            if (preview) {
-                                value = "indexed-preview";
-                            } else {
-                                value = "indexed";
-                            }
-                        } else if (eadDao.isEadidUsed(eadid, aiId, FindingAid.class) != null) {
-                            value = "notindexed";
-                        }
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
+			if (arguments.length == 1) {
+				Item firstArgument = arguments[0].next();
+				String value = "notavailable";
+				if (firstArgument != null) {
+					String eadid = firstArgument.getStringValue();
+					if (aiId != null) {
+						EadDAO eadDao = DAOFactory.instance().getEadDAO();
+						if (eadDao.isEadidIndexed(eadid, aiId, FindingAid.class) != null) {
+							if (preview) {
+								value = "indexed-preview";
+							} else {
+								value = "indexed";
+							}
+						} else if (eadDao.isEadidUsed(eadid, aiId, FindingAid.class) != null) {
+							value = "notindexed";
+						}
 
-                    }
-                }
-                return StringValue.makeStringValue(value);
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
-    }
+					}
+				}
+				return SingletonIterator.makeIterator(new StringValue(value));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
+	}
 }

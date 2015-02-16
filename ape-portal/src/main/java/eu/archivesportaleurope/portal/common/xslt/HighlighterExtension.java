@@ -6,7 +6,6 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -76,25 +75,25 @@ public class HighlighterExtension extends ExtensionFunctionDefinition {
 			highlightUtil =  HighlightUtil.getInstance(solrStopwordsUrl);
 		}
 
-		@Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences.length == 2) {
-                Item firstArg = sequences[0].head();
-                String value = "";
-                if (firstArg != null) {
-                    value = firstArg.getStringValue();
-                    value = value.replaceAll(">", "&#62;").replaceAll("<","&#60;");
-                    if (hasSearchTerms) {
-                        SolrField highlightField = SolrField.getSolrField(sequences[1].toString());
-                        if (highlightField != null && highlightFields.contains(highlightField)) {
-                            value = highlightUtil.highlight(searchTerms, value, highlightField.getType());
-                        }
-                    }
-                }
-                return StringValue.makeStringValue(value);
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
-    }
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
+			if (arguments.length == 2) {
+				Item firstArg = arguments[0].next();
+				String value = "";
+				if (firstArg != null) {
+					value = firstArg.getStringValue();
+					value = value.replaceAll(">", "&#62;").replaceAll("<","&#60;");
+					if (hasSearchTerms) {
+						SolrField highlightField = SolrField.getSolrField(arguments[1].next()
+								.getStringValue());
+						if (highlightField != null && highlightFields.contains(highlightField)) {
+							value = highlightUtil.highlight(searchTerms, value, highlightField.getType());
+						}
+					}
+				}
+				return SingletonIterator.makeIterator(new StringValue(value));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
+	}
 }

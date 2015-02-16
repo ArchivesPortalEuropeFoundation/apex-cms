@@ -3,7 +3,6 @@ package eu.archivesportaleurope.portal.common.xslt;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -79,44 +78,45 @@ public class CheckAgencyCodeExtension extends ExtensionFunctionDefinition {
 			super();
 		}
 
-        /**
-         * Method to checks the agencyCode and agencyName values.
-         *
-         *     If exists arg[0] the method checks if the passed "agencyCode" exists in the system and returns the "repositoryCode".
-         *     If exists arg[1] the method checks if the passed "agencyNode" exists in the system and returns the "repositoryCode".
-         *     If exists arg[2] the method checks if the passed "agencyCode" (in arg[0]) exists in the system and returns the "repositoryName".
-         */
-        @Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences.length == 3) {
-                String firstArgValue = sequences[0].toString();
-                String secondArgValue = sequences[1].toString();
-                String thirdArgValue = sequences[2].toString();
-                String value = "";
+		/**
+		 * Method to checks the agencyCode and agencyName values.
+		 *
+		 *     If exists arg[0] the method checks if the passed "agencyCode" exists in the system and returns the "repositoryCode".
+		 *     If exists arg[1] the method checks if the passed "agencyNode" exists in the system and returns the "repositoryCode".
+		 *     If exists arg[2] the method checks if the passed "agencyCode" (in arg[0]) exists in the system and returns the "repositoryName".
+		 */
+		@Override
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
+				throws XPathException {
+			if (arguments.length == 3) {
+				String firstArgValue = arguments[0].next().getStringValue();
+				String secondArgValue = arguments[1].next().getStringValue();
+				String thirdArgValue = arguments[2].next().getStringValue();
+				String value = "";
 
-                // Recover the archival institutions.
-                ArchivalInstitutionDAO archivalInstitutionDAO = DAOFactory.instance().getArchivalInstitutionDAO();
-                ArchivalInstitution archivalInstitution = null;
+				// Recover the archival institutions.
+				ArchivalInstitutionDAO archivalInstitutionDAO = DAOFactory.instance().getArchivalInstitutionDAO();
+				ArchivalInstitution archivalInstitution = null;
 
-                if (firstArgValue != null && !firstArgValue.isEmpty()) {
-                    archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(firstArgValue);
-                } else if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                    archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByAiName(secondArgValue);
-                }
+				if (firstArgValue != null && !firstArgValue.isEmpty()) {
+					archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(firstArgValue);
+				} else if (secondArgValue != null && !secondArgValue.isEmpty()) {
+					archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByAiName(secondArgValue);
+				}
 
-                if (archivalInstitution != null) {
-                    if (thirdArgValue != null && !thirdArgValue.isEmpty() && thirdArgValue.equalsIgnoreCase("true")) {
-                        value = archivalInstitution.getRepositorycode();
-                    } else {
-                        value = archivalInstitution.getAiname();
-                    }
-                }
+				if (archivalInstitution != null) {
+					if (thirdArgValue != null && !thirdArgValue.isEmpty() && thirdArgValue.equalsIgnoreCase("true")) {
+						value = archivalInstitution.getRepositorycode();
+					} else {
+						value = archivalInstitution.getAiname();
+					}
+				}
 
-                return StringValue.makeStringValue(value);
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
+				return SingletonIterator.makeIterator(new StringValue(value));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
 	}
 
 }

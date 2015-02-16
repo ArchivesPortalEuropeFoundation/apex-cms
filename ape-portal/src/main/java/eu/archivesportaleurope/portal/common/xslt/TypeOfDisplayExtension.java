@@ -4,7 +4,6 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -63,18 +62,17 @@ public class TypeOfDisplayExtension extends ExtensionFunctionDefinition {
 			this.type = type;
 		}
 
-		@Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences.length == 1) {
-                Item firstArg = sequences[0].head();
-                boolean value = false;
-                if (firstArg != null) {
-                    value = type.equalsIgnoreCase(firstArg.getStringValue());
-                }
-                return BooleanValue.get(value);
-            } else {
-                return BooleanValue.FALSE;
-            }
-        }
-    }
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
+			if (arguments.length == 1) {
+				Item firstArg = arguments[0].next();
+				boolean value = false;
+				if (firstArg != null) {
+					value = type.equalsIgnoreCase(firstArg.getStringValue());
+				}
+				return SingletonIterator.makeIterator(BooleanValue.get(value));
+			} else {
+				return SingletonIterator.makeIterator(BooleanValue.FALSE);
+			}
+		}
+	}
 }

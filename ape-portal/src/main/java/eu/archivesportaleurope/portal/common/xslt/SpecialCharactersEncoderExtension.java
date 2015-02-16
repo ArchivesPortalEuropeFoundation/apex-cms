@@ -4,7 +4,6 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
-import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -65,19 +64,18 @@ public class SpecialCharactersEncoderExtension extends ExtensionFunctionDefiniti
 	class SpecialCharactersEncoderCall extends ExtensionFunctionCall {
 		private static final long serialVersionUID = 676191486303444493L;
 
-		@Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences.length == 1) {
-                Item firstArgument = sequences[0].head();
-                String value = "";
-                if (firstArgument != null) {
-                    String link = firstArgument.getStringValue();
-                    value =  ApeUtil.encodeSpecialCharacters(link);
-                }
-                return StringValue.makeStringValue(value);
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
-    }
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
+			if (arguments.length == 1) {
+				Item firstArgument = arguments[0].next();
+				String value = "";
+				if (firstArgument != null) {
+					String link = firstArgument.getStringValue();
+					value =  ApeUtil.encodeSpecialCharacters(link);
+				}
+				return SingletonIterator.makeIterator(new StringValue(value));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
+	}
 }

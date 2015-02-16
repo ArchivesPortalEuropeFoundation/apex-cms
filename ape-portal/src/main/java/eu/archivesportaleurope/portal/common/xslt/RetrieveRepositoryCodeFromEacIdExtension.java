@@ -3,9 +3,10 @@ package eu.archivesportaleurope.portal.common.xslt;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
-import net.sf.saxon.om.Sequence;
+import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
+import net.sf.saxon.tree.iter.SingletonIterator;
 import net.sf.saxon.value.SequenceType;
 import net.sf.saxon.value.StringValue;
 import eu.apenet.persistence.dao.EacCpfDAO;
@@ -75,33 +76,35 @@ public class RetrieveRepositoryCodeFromEacIdExtension extends ExtensionFunctionD
 			super();
 		}
 
-        @Override
-        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
-            if (sequences!= null && sequences.length == 2) {
-                String firstArgValue = sequences[0].toString();
-                String secondArgValue = sequences[1].toString();
-                String value = "";
+		@Override
+		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
+				throws XPathException {
+			if (arguments!= null && arguments.length == 2) {
+				String firstArgValue = arguments[0].next().getStringValue();
+				String secondArgValue = arguments[1].next().getStringValue();
+				String value = "";
 
-                // apeEAC-CPF.
-                EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
-                EacCpf eacCpf = null;
+				// apeEAC-CPF.
+				EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
+				EacCpf eacCpf = null;
 
-                if (firstArgValue != null && !firstArgValue.isEmpty()) {
-                    if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                        eacCpf = eacCpfDAO.getEacCpfByIdentifier(secondArgValue, firstArgValue, true);
-                    } else {
-                        eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(firstArgValue, true);
-                    }
-                }
+				if (firstArgValue != null && !firstArgValue.isEmpty()) {
+					if (secondArgValue != null && !secondArgValue.isEmpty()) {
+						eacCpf = eacCpfDAO.getEacCpfByIdentifier(secondArgValue, firstArgValue, true);
+					} else {
+						eacCpf = eacCpfDAO.getFirstPublishedEacCpfByIdentifier(firstArgValue, true);
+					}
+				}
 
-                if (eacCpf != null) {
-                    value = String.valueOf(eacCpf.getArchivalInstitution().getRepositorycode());
-                }
-                return StringValue.makeStringValue(value);
-            } else {
-                return StringValue.makeStringValue("ERROR");
-            }
-        }
+				if (eacCpf != null) {
+					value = String.valueOf(eacCpf.getArchivalInstitution().getRepositorycode());
+				}
+
+				return SingletonIterator.makeIterator(new StringValue(value));
+			} else {
+				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+			}
+		}
 	}
 
 }
