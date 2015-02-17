@@ -3,10 +3,13 @@ package eu.archivesportaleurope.portal.bookmark;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/***
+ * This is the bookmark class
+ * 
+ */
 public class Bookmark implements Serializable {
 	/**
-	 * 
+	 * class Bookmark
 	 */
 	private static final long serialVersionUID = 574790214370347998L;
 

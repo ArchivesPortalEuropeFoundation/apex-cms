@@ -33,15 +33,16 @@ import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.portal.bookmark.Bookmark;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.search.saved.SavedSearch;
-import eu.archivesportaleurope.portal.search.saved.SavedSearchController;
 import eu.archivesportaleurope.util.ApeUtil;
 
-
+/***
+ * This is the collection content controller class
+ */
 @Controller(value = "CollectionContentController")
 @RequestMapping(value = "VIEW")
 public class CollectionContentController {
 
-	private final static Logger LOGGER = Logger.getLogger(SavedSearchController.class);
+	private final static Logger LOGGER = Logger.getLogger(CollectionContentController.class);
     private SavedBookmarksJpaDAO savedBookmarksDAO;
 	
 	private final static int PAGESIZE  = 10;
@@ -69,17 +70,51 @@ public class CollectionContentController {
 
 	//DELETE
 	
+	/***
+	 * This action deletes a saved bookmark
+	 * 
+	 * @param request {@link ActionRequest} gets all data sent by the request
+	 */
 	@ActionMapping(params="myaction=deleteSavedBookmark")
 	public void deleteSavedBookmark(ActionRequest request) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"deleteSavedBookmark\"");
+		
 		deleteSavedElemet(request, BOOKMARK);
+		
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"deleteSavedBookmark\"");
+		
 	}
 	
+	/***
+	 * This action deletes and saved search
+	 * 
+	 * @param request {@link ActionRequest} gets all data sent by the request
+	 */
 	@ActionMapping(params="myaction=deleteSavedSearch")
 	public void deleteSavedSearch(ActionRequest request) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"deleteSavedSearch\"");
+		
 		deleteSavedElemet(request, SAVEDSEARCH);
+		
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"deleteSavedSearch\"");
+		
 	}
 	
+	/***
+	 * This method is used in the ActionMapping delete saved search and delete saved bookmark </br>
+	 * This request gets the element id to delete
+	 * 
+	 * @param request {@link ActionRequest} gets all data sent by the request
+	 * @param type {@link String} type can be BOOKMARK or Search depending from where has been called
+	 */
 	private void deleteSavedElemet(ActionRequest request, String type){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"deleteSavedElemet\"");
+		
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -98,23 +133,62 @@ public class CollectionContentController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"deleteSavedElemet\"");
+		
 	}
 
 	//----------------------------------------------------------------
 	
 	//ADD SAVED ELEMENT
 	
+	/***
+	 * This method gets @RenderMapping(params="myaction=addSavedSearchesForm")
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param savedSearch {@link SavedSearch} savedSearch object
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'
+	 */
 	@RenderMapping(params="myaction=addSavedSearchesForm")
 	public ModelAndView showaddSavedSearchesForm(RenderRequest request, SavedSearch savedSearch) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"showaddSavedSearchesForm\"");
+		
 		return showAddSavedElement(request, savedSearch, null, SAVEDSEARCH);
 	}
 	
+	/***
+	 * This method gets @RenderMapping(params="myaction=addSavedBookmarksForm")
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param bookmark {@link Bookmark} bookmark object
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'
+	 */
 	@RenderMapping(params="myaction=addSavedBookmarksForm")
 	public ModelAndView showAddSavedBookmarksForm(RenderRequest request, Bookmark bookmark) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"showAddSavedBookmarksForm\"");
+		
 		return showAddSavedElement(request, null, bookmark, BOOKMARK);
 	}
 	
+	/***
+	 * This method adds a saved search or a saved bookmark from the </br>
+	 * This method is used in the renderMapping addSavedSearchesForm or addSavedBookmarksForm
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param savedSearch {@link SavedSearch} savedSearch object
+	 * @param bookmark {@link Bookmark} object
+	 * @param type {@link String} defines if there is a saved search or a saved bookmark. Can be "savedsearch" or "bookmark"
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'
+	 */
 	private ModelAndView showAddSavedElement(RenderRequest request, SavedSearch savedSearch, Bookmark bookmark, String type){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"showAddSavedElement\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		
 		if (type!=BOOKMARK){
@@ -172,34 +246,60 @@ public class CollectionContentController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
  		}
+ 		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"showAddSavedElement\"");
+		
 		return modelAndView;
 	}
 	
 	/***
-	 * Gets the list of the collectionsin My Pages space in which can be stored the searches, 
-	 * if a collection alredy has the search will not be shown
-	 * @param request RenderRequest
-	 * @param savedSearch SavedSearch object
-	 * @return modelAndView
+	 * Gets the list of the collections in My Pages space in which can be stored the searches, 
+	 * if a collection already has the search will not be shown
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param savedSearch {@link SavedSearch} savedSearch object
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'
 	 */
 	@RenderMapping(params="myaction=addSearchesTo")
 	public ModelAndView addSearchesTo(RenderRequest request, SavedSearch savedSearch) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addSearchesTo\"");
+		
 		return addElementsTo(request, null, savedSearch, SAVEDSEARCH);
 	}
 	
 	/***
 	 * Gets the list of the collections in which can be stored the bookmarks, 
-	 * if a collection alredy has the bookmark will not be shown
-	 * @param request RenderRequest
-	 * @param bookmark Bookmark object
-	 * @return modelAndView
+	 * if a collection already has the bookmark will not be shown
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param bookmark {@link Bookmark} object
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'
 	 */
 	@RenderMapping(params="myaction=addBookmarksTo")
 	public ModelAndView addBookmarksTo(RenderRequest request, Bookmark bookmark) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addBookmarksTo\"");
+		
 		return addElementsTo(request, bookmark, null, BOOKMARK);
 	}
 	
+	/***
+	 * This method is used into the RenderMapping addSearchesTo and addBookmarksTo to add the elements into the collection.
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * @param bookmark {@link Bookmark} object
+	 * @param savedSearch {@link SavedSearch} savedSearch object
+	 * @param type {@link String} defines if there is a saved search or a saved bookmark. Can be "savedsearch" or "bookmark"
+	 * 
+	 * @return modelAndView {@link ModelAndView} reference to view with name 'bookmark'
+	 */
 	public ModelAndView addElementsTo(RenderRequest request, Bookmark bookmark, SavedSearch savedSearch, String type) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addElementsTo\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		Long elementId;
 		
@@ -218,7 +318,7 @@ public class CollectionContentController {
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		}
  		if (principal != null){
-			try {	
+			try {
 				//recover selected collections from the request
 				List<Long> collectionsList = new ArrayList<Long>();
 				String[] listChecked = {""};
@@ -273,6 +373,9 @@ public class CollectionContentController {
 						modelAndView.getModelMap().addAttribute("loggedIn", true);
 						modelAndView.getModelMap().addAttribute("savedBookmark", bookmark);
 						modelAndView.getModelMap().addAttribute("collections",collectionsWithBookmark);	
+						if (LOGGER.isDebugEnabled()) 
+							LOGGER.debug("Exit in method \"addElementsTo\" saved=true and LoggedIn=true");
+						
 						return modelAndView;
 					}
 				} else if (listChecked == null) {
@@ -286,44 +389,77 @@ public class CollectionContentController {
 						savedSearch.setId(Long.toString(elementId));
 						modelAndView.getModelMap().addAttribute("savedSearch", savedSearch);
 					}
-
+					if (LOGGER.isDebugEnabled()) 
+						LOGGER.debug("Exit in method \"addElementsTo\" listchecked=null");
+					
 					return modelAndView;
 				}
 			} catch (Exception e) {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 				modelAndView.getModelMap().addAttribute("loggedIn", false);
 				modelAndView.getModelMap().addAttribute("saved", false);
+				if (LOGGER.isDebugEnabled()) 
+					LOGGER.debug("Exit in method \"addElementsTo\" saved=false and LoggedIn=false");
+				
 				return modelAndView;
 			}
 		}
 		modelAndView.getModelMap().addAttribute("loggedIn", false);
 		modelAndView.getModelMap().addAttribute("saved", false);
+		
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"addElementsTo\" saved=false and LoggedIn=false");
+		
 		return modelAndView;
 	}
 	
 	/***
 	 * Adds a bookmark in a list of collections
-	 * @param collectionIds the list of the collections in which will be stored the bookmark
-	 * @param bookmarkId the id of the bookmark 
-	 * @param liferayUserId the user ID
-	 * @return true if the bookmark is stores, false if not.
+	 * 
+	 * @param collectionIds List {@link Long} the list of the collections in which will be stored the bookmark
+	 * @param bookmarkId {@link Long} the id of the bookmark 
+	 * @param liferayUserId {@link Long} current user id
+	 * 
+	 * @return true if the bookmark is stores, false if not
 	 */
 	private boolean addbookmarkToCollections(List<Long> collectionIds, Long bookmarkId, Long liferayUserId) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addbookmarkToCollections\"");
+		
 		return addElementToCollections(collectionIds, null, bookmarkId, liferayUserId, BOOKMARK);
 	}
-	
+
 	/***
 	 * Adds a saved search in a list of collections
-	 * @param collectionIds the list of the collections in which will be stored the saved search
-	 * @param searchId the id of the saved search 
-	 * @param liferayUserId the user ID
-	 * @return true if the saved search is stored, false if not.
+	 * 
+	 * @param collectionIds List {@link Long} the list of the collections in which will be stored the saved search
+	 * @param searchId {@link Long} the id of the saved search 
+	 * @param liferayUserId {@link Long} current user id
+	 * 
+	 * @return true if the saved search is stored, false if not
 	 */
 	private boolean addSearchToCollections(List<Long> collectionIds, Long searchId, Long liferayUserId) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addSearchToCollections\"");
+		
 		return addElementToCollections(collectionIds, searchId, null, liferayUserId, SAVEDSEARCH);
 	}
 	
+	/***
+	 * This method is used in addSearchToCollections to add the element into the collection
+	 * 
+	 * @param collectionIds List {@link Long} the list of the collections
+	 * @param searchId {@link Long} searchId the search id
+	 * @param bookmarkId {@link Long} bookmarkId the bookmark id
+	 * @param liferayUserId {@link Long} Liferay's user id.
+	 * @param type {@link String} defines if there is a saved search or a saved bookmark. Can be "savedsearch" or "bookmark"
+	 * 
+	 * @return isStored {@link boolean} true if the element has been stored, false if not
+	 */
 	private boolean addElementToCollections(List<Long> collectionIds, Long searchId, Long bookmarkId, Long liferayUserId, String type) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"addElementToCollections\"");
+		
 		boolean isStored = false;
 		//iterator iterate and set values
 		Iterator<Long> itCollectionIds = collectionIds.iterator();
@@ -354,7 +490,10 @@ public class CollectionContentController {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 			isStored = false;
 		}
-
+		
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"addElementToCollections\"");
+		
 		return isStored;
 	}
 }

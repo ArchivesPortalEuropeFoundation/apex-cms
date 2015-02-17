@@ -1,3 +1,11 @@
+/***
+ * This method is called from addSavedBookmarksForm.jsp and addSavedSearchesForm.jsp in My Pages space<br/>
+ * when the user clicks over a checkbox to select a collection to add
+ * 
+ * @param id "collectionToAdd_" + collection id
+ * @param list the list of the selected collections when the user changes page
+ * @param page "search" or "bookmarks" indicates from which page comes
+ */
 function updateSelectedCollections (id, list, page){
 	// Empty the div which contains the error message.
 	$("div#noCollectionsSelected").empty();
@@ -29,6 +37,13 @@ function updateSelectedCollections (id, list, page){
 	updatePaging(storeCollectionIds, page);
 }
 
+/***
+ * This function is called from updateSelectedCollections<br/>
+ * This function updates the action with the list of the selected elements
+ * 
+ * @param storeCollectionIds the list of the selected collections to add the selected elements
+ * @param page "search" or "bookmarks" indicates from which page comes
+ */
 function updateSelectedCollectionsAdd(storeCollectionIds, page){
 	//complete url when user clicks save
 	var targetUrl= $('form#frm').attr("action");
@@ -36,6 +51,13 @@ function updateSelectedCollectionsAdd(storeCollectionIds, page){
 	$('form#frm').attr('action',completeUrl (targetUrl, storeCollectionIds, page));
 }
 
+/***
+ * This function is called from updateSelectedCollections<br/>
+ * This function updates the list to avoid loose elements between pagination
+ * 
+ * @param storeCollectionIds the list of the selected collections to add the selected elements
+ * @param page "search" or "bookmarks" indicates from which page comes
+ */
 function updatePaging(storeCollectionIds, page){
 	//loop pagination to get the list of selected collections
 	$("div#child-paging").find("li").each(function(){
@@ -47,6 +69,16 @@ function updatePaging(storeCollectionIds, page){
 	});
 }
 
+/***
+ * This method is called from updateSelectedCollections and updateSelectedCollectionsAdd<br/>
+ * This methos writes the the updated elements list
+ * 
+ * @param targetUrl complete url with old elements list
+ * @param storeCollectionIds the list of the selected collections to update the selected elements
+ * @param page "search" or "bookmarks" indicates from which page comes
+ * 
+ * @returns complete url with updated list of selected elements
+ */
 function completeUrl (targetUrl, storeCollectionIds, page){
 	//get the collection id from the name of the collection 
 	var paramAdd="";
@@ -70,6 +102,12 @@ function completeUrl (targetUrl, storeCollectionIds, page){
 	return targetUrl;
 }
 
+/***
+ * This method is called from addSavedBookmarksForm.jsp and addSavedSearchesForm.jsp in My Pages space<br/>
+ * This method checks the related checkboxes in the list with the selected elements
+ * 
+ * @param list the list of the selected collections to check
+ */
 function showCheckedValuesInCollections(list){
 	$("input[id^='collectionToAdd_']").each(function(){
 		//check if the current checkboxes are in the list of selected collections

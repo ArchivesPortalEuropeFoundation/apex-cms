@@ -35,12 +35,11 @@ import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.util.ApeUtil;
 /**
- *
- * This is display ead and eac-cpf common methods to manage collections controller
- *
- * @author bverhoef & Fernando Vicente
- *
- */
+*
+* This is display ead and eac-cpf (BOOKMARK) common methods to manage collections controller
+*
+* @author bverhoef
+*/
 @Controller(value = "BookmarkCollectionContoller")
 @RequestMapping(value = "VIEW")
 public class BookmarkCollectionContoller {
@@ -76,8 +75,23 @@ public class BookmarkCollectionContoller {
 		this.bookmarkService = bookmarkService;
 	}
 
+	/***
+	 * 
+	 * This function loads the bookmark object from the second display when user clicks the "Bookmak This" button
+	 * 
+	 * @param bookmark {@link Bookmark} object
+	 * @param request {@link ResourceRequest} gets all data sent by the request: [typedocument, element, bookmarkName, term, persistentLink, myaction, eadid, xmlTypeName]
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'; model is {loggedIn, message, bookmarkId, saved, showBox, searchTerm}
+	 * 
+	 * @throws PortalException
+	 * @throws SystemException
+	 */
 	@ResourceMapping(value="bookmark")
     public ModelAndView showInitialPage(@ModelAttribute("bookmark") Bookmark bookmark, ResourceRequest request) throws PortalException, SystemException {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"showInitialPage\"");
+		
 		boolean loggedIn = request.getUserPrincipal() != null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("bookmark");  
@@ -100,10 +114,27 @@ public class BookmarkCollectionContoller {
 	 		modelAndView.getModelMap().addAttribute("saved", false);
 	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
     	}
+    	if (LOGGER.isDebugEnabled())
+    		LOGGER.debug("End method \"showInitialPage\"");
         return modelAndView;
     }
 
+	/***
+	 * This method saves a bookmark object<br/>
+	 * This is used from showInitialPage method in the second display when user clicks "Bookmark this" button
+	 * 
+	 * @param bookmark {@link Bookmark} object
+	 * @param request {@link ResourceRequest} gets all data sent by the request: typedocument, element, bookmarkName, unitid, term, persistentLink, myaction, eadid, xmlTypeName
+	 * @param modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'; model is {loggedIn, message, bookmarkId}
+	 * 
+	 * @return saved {@link boolean} true if the bookmark has been stored, false if not
+	 * 
+	 * @throws Exception e
+	 */
 	public boolean saveBookmark(Bookmark bookmark,ResourceRequest resourceRequest, ModelAndView modelAndView) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"saveBookmark\"");
+		
 		boolean saved = false;
         SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, resourceRequest.getLocale());
 		if (resourceRequest.getUserPrincipal() != null){
@@ -130,10 +161,25 @@ public class BookmarkCollectionContoller {
 	 		modelAndView.getModelMap().addAttribute("saved", false);
 	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"saveBookmark\"");
+		
 		return saved;
 	}
 	
+	/***
+	 * This method checks if the bookmark exist<br/>
+	 * This is used fromsaveBookmark method.
+	 * 
+	 * @param bookmark {@link Bookmark} object
+	 * @param request {@link ResourceRequest} gets all data sent by the request: typedocument, element, bookmarkName, unitid, term, persistentLink, myaction, eadid, xmlTypeName
+	 * 
+	 * @return exist {@link boolean} true if bookmark exists, false if not
+	 */
 	private boolean checkIfExist(Bookmark bookmark, ResourceRequest resourceRequest){
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"checkIfExist\"");
+			
 		boolean exist = false;
 		long liferayUserId = Long.parseLong(resourceRequest.getUserPrincipal().toString());
 		try {
@@ -149,16 +195,23 @@ public class BookmarkCollectionContoller {
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"checkIfExist\"");
 		return exist;
 	}
 
 	/***
-	 * Return the modelAndView with the collections in which can be included a bookmark.
-	 * @param resourceRequest
-	 * @return modelAndView
+	 * Return the modelAndView with the collections in which can be included a bookmark<br/>
+	 * This method is called from the second display when the user clicks in the "Bookmark this" button
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request: {element, repoCode, unitid, criteria, term, bookmarkId, myaction, eadid, xmlTypeName}
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'; model is {hasNotCollections, hasFreeCollections, collections[], loggedIn, bookmarkI}
 	 */
 	@ResourceMapping(value="seeAvaiableCollections")
 	public ModelAndView seeAvaiableCollections(ResourceRequest resourceRequest) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"seeAvaiableCollections\"");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("seeAvaiableCollections");
 		PortalDisplayUtil.setPageTitle(resourceRequest, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
@@ -196,18 +249,27 @@ public class BookmarkCollectionContoller {
  	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
  		}
 		modelAndView.getModelMap().addAttribute("bookmarkId",bookmarkId);
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"seeAvaiableCollections\"");
+		
 		return modelAndView;
 	}
 		
 	/***
-	 * Gets a list with the collections in which can include the selected bookmark. 
-	 * If there is a criteria to search, it will return the list of collections that matches with criteria.
-	 * @param searchTerm String with the name to search
-	 * @param bookmarkId String the bookmark ID
-	 * @param liferayUserId Long id Liferay's user
-	 * @return List<Collection> collectionsWithoutBookmark
+	 * Gets a list with the collections in which can include the selected bookmark
+	 * If there is a criteria to search, it will return the list of collections that matches with criteria
+	 * This is used from seeAvailableCollections function.
+	 * 
+	 * @param searchTerm {@link String} with the name to search
+	 * @param bookmarkId {@link String} the bookmark ID
+	 * @param liferayUserId {@link Long} current user id
+	 * 
+	 * @return collectionsWithoutBookmark List {@link Collection} collections Without Bookmark
 	 */
 	private List<Collection> getCollectionsWithoutBookmark(String searchTerm, String bookmarkId, Long liferayUserId){
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"getCollectionsWithoutBookmark\"");
+		
 		List<Collection> collections = null;
 		
 		if (searchTerm==""){
@@ -243,18 +305,24 @@ public class BookmarkCollectionContoller {
 					collectionsWithoutBookmark.add(collection);
 			}
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"getCollectionsWithoutBookmark\"");
 		return collectionsWithoutBookmark;
 	}
 		
 	/***
 	 * This is used in the second display window to manage collections popup
 	 * Gets the list of the collections in which can be stored the bookmarks, if a collection alredy has the bookmark will not be shown
-	 * @param request RenderRequest
-	 * @param bookmark Bookmark object
-	 * @return modelAndView
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request: {element, repoCode, collectionToAdd_, unitid, term, bookmarkId, myaction, eadid, xmlTypeName}
+	 *
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'; model is {timeZone,offset, pageNumber, totalNumberOfResults, pageSize, saved, message, collections[], loggedIn, showBox}
 	 */
 	@ResourceMapping(value="addBookmarksTo")
 	public ModelAndView addBookmarksTo(ResourceRequest request) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"addBookmarksTo\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("bookmark");
 		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_COLLECTIONS);
@@ -319,12 +387,16 @@ public class BookmarkCollectionContoller {
 					}
 					modelAndView.getModelMap().addAttribute("loggedIn", true);
 					modelAndView.getModelMap().addAttribute("showBox", false);
+					if (LOGGER.isDebugEnabled())
+						LOGGER.debug("Exit in method \"addBookmarksTo\" logged in and saved");
 					return modelAndView;
 				}else{
 					modelAndView.getModelMap().addAttribute("loggedIn", true);
 					modelAndView.getModelMap().addAttribute("showBox", false);
 					modelAndView.getModelMap().addAttribute("saved", false);
 					modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.saved.noCols"));
+					if (LOGGER.isDebugEnabled())
+						LOGGER.debug("Exit in method \"addBookmarksTo\" logged in and not saved");
 					return modelAndView;
 				}
 				
@@ -332,23 +404,32 @@ public class BookmarkCollectionContoller {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 				modelAndView.getModelMap().addAttribute("saved", false);
 				modelAndView.getModelMap().addAttribute("loggedIn", true);
+				if (LOGGER.isDebugEnabled())
+					LOGGER.debug("Exit in method \"addBookmarksTo\" with error: " + e.toString());
 				return modelAndView;
 			}
 		}
  		modelAndView.getModelMap().addAttribute("loggedIn", false);
  		modelAndView.getModelMap().addAttribute("saved", false);
  		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
-		return modelAndView;
+ 		if (LOGGER.isDebugEnabled())
+ 			LOGGER.debug("Exit in method \"addBookmarksTo\" not logged in and not saved");
+ 		return modelAndView;
 	}
 		
 	/***
 	 * Adds a bookmark in a list of collections
-	 * @param collectionIds the list of the collections in which will be stored the bookmark
-	 * @param bookmarkId the id of the bookmark 
-	 * @param liferayUserId the user ID
-	 * @return true if the bookmark is stores, false if not.
+	 * 
+	 * @param collectionIds List {@link Long} the list of the collections in which will be stored the bookmark
+	 * @param bookmarkId {@link Long} the id of the bookmark 
+	 * @param liferayUserId {@link Long} current user id
+	 * 
+	 * @return isStored {@link boolean} true if the bookmark is stored, false if not.
 	 */
 	private boolean addbookmarkToCollections(List<Long> collectionIds, Long bookmarkId, Long liferayUserId) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"addbookmarkToCollections\"");
+		
 		//get an bookmark object with bookmarkId to use it in the collections
 		SavedBookmarks savedBookmark = savedBookmarksDAO.getSavedBookmark(liferayUserId, bookmarkId);
 		boolean isStored = false;
@@ -379,14 +460,28 @@ public class BookmarkCollectionContoller {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 			isStored = false;
 		}
-
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"addbookmarkToCollections\"");
+		
 		return isStored;
 	}
 	
 	//Create a new collection from second display
 	
+	/***
+	 * Function to create a new collection from the pop up window in the second display
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request: {element, databaseId=, repoCode, term, bookmarkId, myaction, eadid, xmlTypeName}
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'bookmark'; model is {edit, bookmarkId, loggedIn}
+	 * 
+	 * @throws IOException
+	 */
 	@ResourceMapping(value="newCollection")
 	public ModelAndView newCollection(ResourceRequest request) throws IOException {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"newCollection\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collection");
 		modelAndView.getModelMap().addAttribute("edit",true);
@@ -403,11 +498,25 @@ public class BookmarkCollectionContoller {
 	 		modelAndView.getModelMap().addAttribute("showBox", false);
 	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"newCollection\"");
+		
 		return modelAndView;
 	}
 
+	/***
+	 * This method adds a bookmark into a collection from the pop up in the second display
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request: {element, databaseId, title, repoCode, isEdit, term, description, bookmarkId, myaction, eadid, isPublic, xmlTypeName}
+	 * 
+	 * @return modelAndView {@link ModelAndView} reference to view with name 'bookmark'; model is {timeZone,offset, pageNumber, totalNumberOfResults, pageSize, orderColumn, orderAsc, collections=[], showBox, saved, loggedIn, message}
+	 * 
+	 * @throws IOException
+	 */
 	@ResourceMapping(value="saveNewCollection")
 	public ModelAndView saveNewCollection(ResourceRequest request) throws IOException {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"saveNewCollection\"");
 		Principal principal = request.getUserPrincipal();
 		String title = request.getParameter("title");
 		String description = request.getParameter("description");
@@ -437,10 +546,24 @@ public class BookmarkCollectionContoller {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"saveNewCollection\"");
+		
 		return showSavedCollections(request);
 	}		
 	
+	/***
+	 * 
+	 * This method gets the saved collections and is returned from saveNewCollection function
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request: {element, databaseId, title, repoCode, isEdit, term, description, bookmarkId, myaction, eadid, isPublic, xmlTypeName}
+	 * 
+	 * @return modelAndView {@link ModelAndView} reference to view with name 'bookmark'; model is {timeZone,offset, pageNumber, totalNumberOfResults, pageSize, orderColumn, orderAsc, collections=[], showBox, saved, loggedIn, message}
+	 */
 	public ModelAndView showSavedCollections(ResourceRequest request) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Enter in method \"showSavedCollections\"");
+		
 		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource, request.getLocale());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("bookmark");
@@ -483,6 +606,9 @@ public class BookmarkCollectionContoller {
 	 		modelAndView.getModelMap().addAttribute("saved", false);
 	 		modelAndView.getModelMap().addAttribute("message",source.getString("bookmarks.logged.ko"));
 		}
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Exit in method \"showSavedCollections\"");
+			
 		return modelAndView;
 	}
 	//End creation a new colection from second display

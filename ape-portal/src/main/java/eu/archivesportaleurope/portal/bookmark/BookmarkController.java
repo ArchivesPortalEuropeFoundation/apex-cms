@@ -33,6 +33,10 @@ import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
+/***
+ * This is the controller for the Bookmark Class
+ * 
+ */
 @Controller(value = "bookmarkController")
 @RequestMapping(value = "VIEW")
 public class BookmarkController {
@@ -45,9 +49,20 @@ public class BookmarkController {
 		this.savedBookmarksDAO = savedBookmarksDAO;
 	}
 
-	// --maps the incoming portlet request to this method
+	/***
+	 * Maps the incoming portlet request to this method from My pages space<br/>
+	 * This method is called from My Bookmarks in My Pages space to show the bookmarks the user has<br/>
+	 * This method is called from "save bookmark" button when the user clicks in the "edit" button
+	 * 
+	 * @param request {@link RenderRequest} is empty when it cames from My bookmarks, [pageNumber] when it comes from edit bookmark
+	 * 
+	 * @return modelAndView {@link ModelAndView} ModelAndView: reference to view with name 'home'; model is {timeZone,transitions,lastRule, pageNumber, totalNumberOfResults, pageSize, savedBookmarks[]}
+	 */
  	@RenderMapping
  	public ModelAndView showSavedBookmarks(RenderRequest request) {
+ 		if (LOGGER.isDebugEnabled()) 
+ 			LOGGER.debug("Enter in method \"showSavedBookmarks\"");
+ 		
  		ModelAndView modelAndView = new ModelAndView();
  		modelAndView.setViewName("home");
  		PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.TITLE_SAVED_BOOKMARK);
@@ -70,16 +85,39 @@ public class BookmarkController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
  		}
+ 		if (LOGGER.isDebugEnabled()) 
+ 			LOGGER.debug("Exit in method \"showSavedBookmarks\"");
+ 		
  		return modelAndView;
  	}
 
+ 	/***
+ 	 * maps the incoming portlet request to this method from Edit Bookmark in My pages space
+ 	 * 
+ 	 * @return "editSavedBookmarksForm"
+ 	 */
 	@RenderMapping(params="myaction=editSavedBookmarksForm")
 	public String showEditSavedBookmarksForm() {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"showEditSavedBookmarksForm\"");
 		return "editSavedBookmarksForm";
 	}
 	
+	/***
+	 * This method saves a bookmark in the My Bookmarks in the My Pages space
+	 * 
+	 * @param bookmark {@link Bookmark} bookmark object
+	 * @param bindingResult {@link BindingResult} bindingResult object name: "savedBookmark"
+	 * @param request {@link ActionRequest} request parameters: {id, description, myaction, overviewPageNumber}
+	 * @param response {@link ActionResponse} response builds the friendlyurl and gets the location to the redirect
+	 * 
+	 * @throws IOException
+	 */
 	@ActionMapping(params="myaction=saveEditSavedBookmarks")
 	public void saveSavedBookmark(@ModelAttribute("savedBookmark") Bookmark bookmark, BindingResult bindingResult,ActionRequest request, ActionResponse response) throws IOException  {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"saveSavedBookmark\"");
+		
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -89,6 +127,9 @@ public class BookmarkController {
 				try {
 					savedBookmarksDAO.store(savedBookmark);
 					response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.SAVED_BOOKMARKS_OVERVIEW) + FriendlyUrlUtil.SEPARATOR + bookmark.getOverviewPageNumber());
+					if (LOGGER.isDebugEnabled()) 
+						LOGGER.debug("Exit in method \"saveSavedBookmark\"");
+					
 				} catch (Exception e) {
 					LOGGER.error(ApeUtil.generateThrowableLog(e));
 				}
@@ -96,8 +137,18 @@ public class BookmarkController {
 		}	
 	}
 
+	/***
+	 * This method gets a bookmark object in the Saved Bookmarks page in My Pages space
+	 * 
+	 * @param request {@link PortletRequest}, request has not value vhen comes from My Collections, it has values: {id, myaction, overviewPageNumber} when it cames from "edit bookmark"
+	 * 
+	 * @return Bookmark {@link Bookmark}, void when is calld from My Collections, full bookmark object when it is called from "edit bookmark"
+	 */
 	@ModelAttribute("savedbookmarks")
-	public Bookmark getSavedBookmark(PortletRequest request) {
+	public Bookmark getSavedBookmark(PortletRequest request) { 
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"getSavedBookmark\"");
+		
 		Principal principal = request.getUserPrincipal();
 		String id = request.getParameter("id");
 		Integer pageNumber = 1;
@@ -118,17 +169,43 @@ public class BookmarkController {
 				bookmark.setModifiedDate(savedBookmark.getModifiedDate());
 				bookmark.setId(savedBookmark.getId() +"");
 			}
-		}		
+		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"getSavedBookmark\"");
+		
 		return bookmark;
 	}
 	
+	/***
+	 * This method gets the bookmark object to show in the saved bookmarks list in My Space
+	 * 
+	 * @return Bookmark {@link Bookmark} object
+	 */
     @ModelAttribute("bookmark")
     public Bookmark getCommandObject() {
+    	if (LOGGER.isDebugEnabled()) 
+    		LOGGER.debug("Enter in method \"getCommandObject\"");
+    	
         return new Bookmark();
     }
     	
+    /***
+     * This method gets the current user
+     * 
+     * @param bookmark{@link Bookmark} bookmark object
+     * @param result {@link BindingResult} result
+	 * @param request {@link ResourceRequest} request has not value vhen comes from My Collections, it has values: {id, myaction, overviewPageNumber}
+     * 
+     * @return modelAndView {@link ModelAndView} ModelAndView: reference to view with name 'home'; model is {timeZone,transitions,lastRule, pageNumber, totalNumberOfResults, pageSize, savedBookmarks[]}
+     * 
+     * @throws PortalException
+     * @throws SystemException
+     */
     @ResourceMapping(value="bookmarkAction")
-    public ModelAndView showResult(@ModelAttribute("bookmark") Bookmark bookmark, BindingResult result, ResourceRequest request) throws PortalException, SystemException {
+    public ModelAndView showResult(@ModelAttribute("bookmark") Bookmark bookmark, BindingResult result, ResourceRequest request) throws PortalException, SystemException { 
+    	if (LOGGER.isDebugEnabled()) 
+    		LOGGER.debug("Enter in method \"showResult\"");
+    	
         ModelAndView modelAndView = new ModelAndView();
     	boolean loggedIn = request.getUserPrincipal() != null;
     	User currentUser = null;
@@ -137,6 +214,9 @@ public class BookmarkController {
     		modelAndView.getModelMap().addAttribute("currentUser", currentUser);
     	}
 		modelAndView.setViewName("success");
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"showResult\"");
+		
 		return modelAndView;
     }
 	

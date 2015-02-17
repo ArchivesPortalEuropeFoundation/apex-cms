@@ -36,7 +36,11 @@ import eu.apenet.persistence.vo.SavedBookmarks;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
-@Controller(value = "collectionController")
+
+/***
+ * This is the collection controller class
+ */
+@Controller(value = "CollectionController")
 @RequestMapping(value = "VIEW")
 public class CollectionController {
 	
@@ -67,8 +71,19 @@ public class CollectionController {
 		this.collectionDAO = collectionDAO;
 	}
 
+	/***
+	 * This method is used to show the user collections</br>
+	 * Those collections can be shown ordered by various columns
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@RenderMapping
 	public ModelAndView showSavedCollections(RenderRequest request) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"showSavedCollections\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		boolean orderAsc=true;
@@ -113,11 +128,25 @@ public class CollectionController {
 			modelAndView.getModelMap().addAttribute("collections",collections);
 
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"showSavedCollections\"");
+		
 		return modelAndView;
 	}
 	
+	/***
+	 * This method shows a collection by collection id and user id<br/>
+	 * Maps @RenderMapping(params="action=viewCollection")
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@RenderMapping(params="action=viewCollection")
 	public ModelAndView viewCollection(RenderRequest request){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"viewCollection\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collection");
 		Principal principal = request.getUserPrincipal();
@@ -153,11 +182,25 @@ public class CollectionController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"viewCollection\"");
+		
 		return modelAndView;
 	}
-	
+
+	/***
+	 * This method creates a new collection by user id from the My collections in My pages space <br/>
+	 * renders @RenderMapping(params="action=createNewCollection")
+	 * 
+	 * @param request {@link RenderRequest} gets all data sent by the request
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@RenderMapping(params="action=createNewCollection")
 	public ModelAndView createNewCollection(RenderRequest request){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"createNewCollection\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collection");
 		modelAndView.getModelMap().addAttribute("edit",true);
@@ -188,11 +231,25 @@ public class CollectionController {
 				}
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"createNewCollection\"");
+		
 		return modelAndView;
 	}
 	
+	/***
+	 * This method gets the searches stored in a collection to show in My Collections in My Pages space
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * @param response {@link ResourceResponse} gets all data sent by the response
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@ResourceMapping(value = "getSearches")
 	public ModelAndView getSearches(ResourceRequest request, ResourceResponse response){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"getSearches\"");
+		
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		ModelAndView modelAndView = new ModelAndView();
 		int pageNumber = 1;
@@ -211,11 +268,25 @@ public class CollectionController {
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 		modelAndView.getModelMap().addAttribute("totalNumberOfResults", id!=null?this.collectionContentDAO.countCollectionContentsByCollectionId(id, true):0);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"getSearches\"");
+		
 		return modelAndView;
 	}
 	
+	/***
+ 	 * This method gets the bookmarks stored in a collection to show in My Collections in My Pages space
+ 	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * @param response {@link ResourceResponse} gets all data sent by the response
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@ResourceMapping(value = "getBookmarks")
 	public ModelAndView getBookmarks(ResourceRequest request, ResourceResponse response){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"getBookmarks\"");
+		
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		int pageNumber = 1;
 		ModelAndView modelAndView = new ModelAndView();
@@ -234,11 +305,25 @@ public class CollectionController {
 		modelAndView.getModelMap().addAttribute("pageNumber", pageNumber);
 		modelAndView.getModelMap().addAttribute("totalNumberOfResults", id!=null?this.collectionContentDAO.countCollectionContentsByCollectionId(id, false):0);
 		modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"getBookmarks\"");
+		
 		return modelAndView;
 	}
 	
+	/***
+ 	 * This method gets the searches that are NOT in a collection to show in My Collections in My Pages space
+ 	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * @param response {@link ResourceResponse} gets all data sent by the response
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@ResourceMapping(value = "getNewSearches")
 	public ModelAndView getNewSearches(ResourceRequest request, ResourceResponse response){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"getNewSearches\"");
+		
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("collectionSearch");
@@ -258,11 +343,25 @@ public class CollectionController {
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.eadSavedSearchDAO.countEadSavedSearchOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"getNewSearches\"");
+		
 		return modelAndView;
 	}
 	
+	/***
+ 	 * This method gets the bookmarks that are NOT in a collection to show in My Collections in My Pages space
+ 	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * @param response {@link ResourceResponse} gets all data sent by the response
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@ResourceMapping(value = "getNewBookmarks")
 	public ModelAndView getNewBookmarks(ResourceRequest request, ResourceResponse response){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"getNewBookmarks\"");
+		
 		Long id = request.getParameter("id")!=null?Long.parseLong(request.getParameter("id")):null;
 		Principal principal = request.getUserPrincipal();
 		ModelAndView modelAndView = new ModelAndView();
@@ -283,11 +382,25 @@ public class CollectionController {
 			modelAndView.getModelMap().addAttribute("totalNumberOfResults", this.savedBookmarksDAO.countSavedBookmarksOutOfCollectionByCollectionIdAndLiferayUser(id, liferayUserId));
 			modelAndView.getModelMap().addAttribute("pageSize", PAGESIZE);
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"getNewBookmarks\"");
+		
 		return modelAndView;
 	}
 
+	/***
+	 * This method order the collections shown in My collections page from My Pages space by the selected header.
+	 * 
+	 * @param request {@link ResourceRequest} gets all data sent by the request
+	 * @param response {@link ResourceResponse} gets all data sent by the response
+	 * 
+	 * @return modelAndView {@link ModelAndView} modelAndView reference to view with name 'collection'
+	 */
 	@ResourceMapping(value = "orderResults")
 	public ModelAndView orderResults(ResourceRequest request, ResourceResponse response){
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"orderResults\"");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("home");
 		boolean orderAsc=true;
@@ -331,12 +444,22 @@ public class CollectionController {
 			modelAndView.getModelMap().addAttribute("orderColumn", orderColumn);
 			modelAndView.getModelMap().addAttribute("collections", collections);
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"orderResults\"");
+		
 		return modelAndView;
 	}
 
-	
+	/***
+	 * This method deletes a collection
+	 * 	 
+	 * @param request {@link ActionRequest} gets the user id and the collection id
+	 */
 	@ActionMapping(params="action=deleteSavedCollections")
 	public void deleteSavedCollection(ActionRequest request) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"deleteSavedCollection\"");
+		
 		Principal principal = request.getUserPrincipal();
 		if (principal != null && request.getParameter("id")!=null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -350,10 +473,23 @@ public class CollectionController {
 				}
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"deleteSavedCollection\"");
+		
 	}
 
+	/***
+	 * This method deletes a Collection but not its content
+	 * 
+	 * @param request {@link ActionRequest} gets the Collection data
+	 * 
+	 * @throws IOException
+	 */
 	@ActionMapping(params="action=saveEditCollection")
 	public void saveEditedCollection(ActionRequest request) throws IOException {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"saveEditedCollection\"");
+		
 		Principal principal = request.getUserPrincipal();
 		if (principal != null){
 			Long liferayUserId = Long.parseLong(principal.toString());
@@ -422,9 +558,26 @@ public class CollectionController {
 				}
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"saveEditedCollection\"");
+		
 	}
 	
+	/***
+	 * This method creates a new collection with saved searches and saved bookmarks from</br>
+	 * the @ActionMapping(params="action=saveEditCollection") and @ActionMapping(params="action=saveNewCollection").
+	 * 
+	 * @param parametersOut List {@link Long} list of saved searches id to add to the collection
+	 * @param bookmarksOut List {@link Long} list of saved bookmarks id to add to the collection
+	 * @param ddbbCollection {@link Collection} collection object
+	 * @param liferayUserId {@link Long} current user id
+	 * 
+	 * @return true if the collection has been stored, false if not
+	 */
 	private boolean createCollectionContentParametersBookmarks(List<Long> parametersOut, List<Long> bookmarksOut, Collection ddbbCollection, Long liferayUserId) {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"createCollectionContentParametersBookmarks\"");
+		
 		if(parametersOut.size()>0 || bookmarksOut.size()>0){
 			Iterator<Long> itParamsOut = parametersOut.iterator();
 			Iterator<Long> itBookmarksOut = bookmarksOut.iterator();
@@ -467,14 +620,35 @@ public class CollectionController {
 			}
 			if(newCollectionContent.size()>0){
 				this.collectionContentDAO.store(newCollectionContent);
+				if (LOGGER.isDebugEnabled()) 
+					LOGGER.debug("Exit in method \"createCollectionContentParametersBookmarks\" return true");
+				
 				return true;
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Exit in method \"createCollectionContentParametersBookmarks\" return false");
+		
 		return false;
 	}
 
+	/***
+	 * from saves a new collection from Create new collection button in My Collection in My Pages space.
+	 *  
+	 * @param request {@link ActionRequest} gets the new collection object data
+	 * "collectionTitle", 
+	 * "collectionDescription", 
+	 * "collectionField_public", 
+	 * "collectionField_public", 
+	 * "collectionField_edit"
+	 * 
+	 * @throws IOException
+	 */
 	@ActionMapping(params="action=saveNewCollection")
 	public void saveCollection(ActionRequest request) throws IOException {
+		if (LOGGER.isDebugEnabled()) 
+			LOGGER.debug("Enter in method \"saveCollection\"");
+		
 		Principal principal = request.getUserPrincipal();
 		String title = request.getParameter("collectionTitle");
 		String description = request.getParameter("collectionDescription");
@@ -519,5 +693,9 @@ public class CollectionController {
 				LOGGER.error(ApeUtil.generateThrowableLog(e));
 			}
 		}
+		if (LOGGER.isDebugEnabled()) 
+		LOGGER.debug("Exit in method \"saveCollection\"");
+	
 	}
+	
 }

@@ -1,3 +1,11 @@
+/***
+ * This function is called from getEditForm(url1,url2,url3,url4)<br/>
+ * This functions shows collection content to wiew
+ *  
+ * @param url1 complete url to load getBookmarks
+ * @param url2 complete url to load getSearches
+ * @param edit true if the page comes from edit collection, false if not
+ */
 function getViewForm(url1,url2,edit){
 	$.post(url1,function(e){
 		$("#bookmarksDiv").html(e);
@@ -13,6 +21,16 @@ function getViewForm(url1,url2,edit){
 	});
 }
 
+/***
+ * This function is called from collection/collection.jsp<br/>
+ * This function loads the collection content to edit
+ * 
+ * @param url1 complete url to load getNewBookmarks 
+ * @param url2 complete url to load getNewSearches
+ * @param url3 complete url to load getBookmarks
+ * @param url4 complete url to load getSearches
+ * 
+ */
 function getEditForm(url1,url2,url3,url4){
 	$.post(url1,function(e){
 		$("#newBookmarksDiv").html(e);
@@ -25,6 +43,12 @@ function getEditForm(url1,url2,url3,url4){
 	getViewForm(url3,url4,true);
 }
 
+/***
+ * This function whites a hidden input with the id of the selected element<br/>
+ * if the element has been checked in the Collection edition
+ * 
+ * @param inputVar the id of the element saved bookmark or saved search
+ */
 function updateInputVar(inputVar){
 	$("input[id^='"+inputVar+"']").each(function(){
 		var id = $(this).attr("id").substring(inputVar.length);
@@ -38,22 +62,41 @@ function updateInputVar(inputVar){
 	});
 }
 
+/***
+ * This method sends the string "new_bookmark_" to the updateInputVar(inputVar) function
+ */
 function checkNewBookmarks(){
 	updateInputVar("new_bookmark_");
 }
 
+/***
+ * This method sends the string "new_search_" to the updateInputVar(inputVar) function
+ */
 function checkNewSearches(){
 	updateInputVar("new_search_");
 }
 
+/***
+ * This method sends the string "collection_bookmark_" to the updateInputVar(inputVar) function
+ */
 function checkBookmarks(){
 	updateInputVar("collection_bookmark_");
 }
 
+/***
+ * This method sends the string "selected_search_" to the updateInputVar(inputVar) function
+ */
 function checkSearches(){
 	updateInputVar("selected_search_");
 }
 
+/***
+ * This method is called from collection/collection.jsp<br/>
+ * and from commons/collection.jsp. checks if title is filled before submit<br/>
+ * and calls updateInputVar(inputVar) method
+ *  
+ * @returns true if the title has been filled, false if not
+ */
 function prevSubmit(){
 	if($("#collectionTitle").val().length==0){
 		alert($("#hiddenEmptyTitleLabel").text());
@@ -66,7 +109,14 @@ function prevSubmit(){
 	return true;
 }
 
+/***
+ * This function updates the results of the table "Saved searches out of collection" in <br/>
+ * the collection in the edit collections page
+ * 
+ * @param url complete url to show the results
+ */
 function updatePageNumberCollectionSearches(url){
+
 	checkNewSearches();
 	$.post(url,function(e){
 		$("#newCollectionSearches").html(e);
@@ -75,6 +125,12 @@ function updatePageNumberCollectionSearches(url){
 	});
 }
 
+/***
+ * This function updates the results of the table "Saved searches" in <br/>
+ * the collection in the edit collections page
+ * 
+ * @param url complete url to show the results
+ */
 function updatePageNumberCurrentSearches(url){
 	checkSearches();
 	$.post(url,function(e){
@@ -84,6 +140,12 @@ function updatePageNumberCurrentSearches(url){
 	});
 }
 
+/***
+ * This function updates the results of the table "Saved bookmarks out of collection" in <br/>
+ * the collection in the edit collections page
+ * 
+ * @param url complete url to show the results
+ */
 function updatePageNumberCollectionBookmarks(url){
 	checkNewBookmarks();
 	$.post(url,function(e){
@@ -93,6 +155,12 @@ function updatePageNumberCollectionBookmarks(url){
 	});
 }
 
+/***
+ * This function updates the results of the table "Saved bookmarks" in <br/>
+ * the collection in the edit collections page
+ * 
+ * @param url complete url to show the results
+ */
 function updatePageNumberCurrentBookmarks(url){
 	checkBookmarks();
 	$.post(url,function(e){
@@ -102,30 +170,48 @@ function updatePageNumberCurrentBookmarks(url){
 	});
 }
 
+/***
+ * This function gets the checked bookmarks out of collection when the user changes the page
+ */
 function updateCheckboxNewBookmarks(){
 	$("#newBookmarksDiv").find("input").each(function(){
 		updateIndividualCheckbox("new_bookmark_",$(this));
 	});
 }
 
+/***
+ * This function gets the checked bookmarks of collection when the user changes the page
+ */
 function updateCheckboxBookmarks(){
 	$("#bookmarksDiv").find("input").each(function(){
 		updateIndividualCheckbox("collection_bookmark_",$(this));
 	});
 }
 
+/***
+ * This function gets the checked searches out of collection when the user changes the page
+ */
 function updateCheckboxNewSearches(){
 	$("#newCollectionSearches").find("input").each(function(){
 		updateIndividualCheckbox("new_search_",$(this));
 	});
 }
 
+/***
+ * This function gets the checked searches of collection when the user changes the page
+ */
 function updateCheckboxSearches(){
 	$("#collectionSearchFields").find("input").each(function(){
 		updateIndividualCheckbox("selected_search_",$(this));
 	});
 }
 
+/***
+ * This function checks and unchecks the selected elemets in the collections content
+ * 
+ * @param targetName to set the checkbox name 
+ * @param checkbox object to check
+ */
 function updateIndividualCheckbox(targetName,checkbox){
 	var id = checkbox.attr("id");
 	id = id.substring(targetName.length);
@@ -138,7 +224,13 @@ function updateIndividualCheckbox(targetName,checkbox){
 		}
 	}
 }
-	
+
+/***
+ * This function orders the results in the Collections table
+ * 
+ * @param orderUrl complete ur
+ * @param cel the column to order
+ */
 function getval(orderUrl, cel) {
 	var order = "orderAsc";
 	var column = $("table#savedCollectionsTable th#"+cel).attr("class");	
@@ -179,13 +271,13 @@ function getval(orderUrl, cel) {
 
 /**
  * Function to check if the passed URL contains the information about the
- * order, and fill it correctly when needed.
+ * order, and fill it correctly when needed
  *
- * @param order Current type of order to be applied.
- * @param cel Current column to apply the order.
- * @param orderUrl Current URL to check.
+ * @param order Current type of order to be applied
+ * @param cel Current column to apply the order
+ * @param orderUrl Current URL to check
  *
- * @returns Correct URL with the parameters correctly filled.
+ * @returns Correct URL with the parameters correctly filled
  */
 function checkOrder(order, cel, orderUrl) {
 	var targetUrl = orderUrl;
@@ -210,13 +302,13 @@ function checkOrder(order, cel, orderUrl) {
 }
 
 /**
- * Function to fill in the passed URL the order parameters.
+ * Function to fill in the passed URL the order parameters
  *
- * @param orderUrl URL to fill with the order parameters.
- * @param param Current parameter of order to be filled.
- * @param value Current value of the parameter to be filled.
+ * @param orderUrl URL to fill with the order parameters
+ * @param param Current parameter of order to be filled
+ * @param value Current value of the parameter to be filled
  *
- * @returns URL with the parameter filled.
+ * @returns URL with the parameter filled
  */
 function fillOrderParams(orderUrl, param, value) {
 	var finalUrl = orderUrl;
@@ -239,10 +331,10 @@ function fillOrderParams(orderUrl, param, value) {
 }
 
 /**
- * Function to fill the current order and column in the pagination URLs.
+ * Function to fill the current order and column in the pagination URLs
  *
- * @param orderType Current type of order to be applied.
- * @param orderColumn Current column to apply the order.
+ * @param orderType Current type of order to be applied
+ * @param orderColumn Current column to apply the order
  */
 function keepOrderPagination(orderType, orderColumn) {
 	var urlorder="&_collections_WAR_Portal_orderType="+ orderType;

@@ -12,6 +12,9 @@ import eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
+/***
+ * This is the Bookmark service class
+ */
 @Controller(value = "bookmarkService")
 @RequestMapping(value = "VIEW")
 public class BookmarkService {
@@ -35,9 +38,18 @@ public class BookmarkService {
 		
 	}
 
+	/***
+	 * This method saves a page into a bookmark in the second display
+	 * 
+	 * @param liferayUserId {@link Long} current user id
+	 * @param bookmark {@link Bookmark} bookmark object
+	 */
 	@ResourceMapping(value="saveBookmark")
 	public void saveBookmark(Long liferayUserId, Bookmark bookmarkObject) {
 		try {
+			if (LOGGER.isDebugEnabled()) 
+				LOGGER.debug("Enter in method \"saveBookmark\"");
+			
 			SavedBookmarks savedbookmark = new SavedBookmarks();
 			savedbookmark.setLiferayUserId(liferayUserId);
 			savedbookmark.setModifiedDate(new Date(System.currentTimeMillis()));
@@ -46,13 +58,30 @@ public class BookmarkService {
 			savedbookmark.setTypedocument(bookmarkObject.getTypedocument());
 			SavedBookmarks bookmark = savedBookmarksDAO.store(savedbookmark);
 			bookmarkObject.setId(Long.toString(bookmark.getId()));
+			if (LOGGER.isDebugEnabled()) 
+				LOGGER.debug("Exit in method \"saveBookmark\"");
+			
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
 	}
+	
+	/***
+	 * This function saves and edited bikmark
+	 * 
+	 * @param liferayUserId {@link Long} current user id
+	 * @param description {@link String} bookmark description
+	 * @param id {@link Long} bookmark id
+	 * @param name {@link String} bookmarks name
+	 * @param link {@link String} bookmark url link
+	 * @param typedocument {@link String} type of the bookmark
+	 */
 	@ResourceMapping(value="editBookmark")
 	public void editBookmark(Long liferayUserId, String description, Long id, String name, String link, String typedocument) {
 		try {
+			if (LOGGER.isDebugEnabled()) 
+				LOGGER.debug("Enter in method \"editBookmark\"");
+			
 			SavedBookmarks savedbookmark = new SavedBookmarks();
 			savedbookmark.setLiferayUserId(liferayUserId);
 			savedbookmark.setModifiedDate(new Date(liferayUserId));
@@ -63,6 +92,9 @@ public class BookmarkService {
 			savedbookmark.setTypedocument(typedocument);
 			savedbookmark.setLiferayUserId(liferayUserId);
 			savedBookmarksDAO.store(savedbookmark);
+			if (LOGGER.isDebugEnabled()) 
+				LOGGER.debug("Exit in method \"editBookmark\"");
+			
 		} catch (Exception e) {
 			LOGGER.error(ApeUtil.generateThrowableLog(e));
 		}
