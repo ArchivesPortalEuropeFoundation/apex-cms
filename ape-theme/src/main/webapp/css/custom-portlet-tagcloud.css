@@ -95,4 +95,5 @@
 #tags #leftTags, #tags #rightTags {
 	float: left;
 	padding: 5px;
+	width: 330px;
 }
