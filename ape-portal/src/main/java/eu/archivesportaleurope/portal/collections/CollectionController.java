@@ -582,7 +582,7 @@ public class CollectionController {
 			Iterator<Long> itParamsOut = parametersOut.iterator();
 			Iterator<Long> itBookmarksOut = bookmarksOut.iterator();
 			List<EadSavedSearch> eadSavedSearches = this.eadSavedSearchDAO.getEadSavedSearchByIdsAndUserid(parametersOut,liferayUserId);
-			List<SavedBookmarks> savedBookmarks = this.savedBookmarksDAO.getSavedSearchesByIdsAndUserid(bookmarksOut,liferayUserId);
+			List<SavedBookmarks> savedBookmarks = this.savedBookmarksDAO.getSavedBookmarksByIdsAndUserid(bookmarksOut, liferayUserId);
 			List<CollectionContent> newCollectionContent = new ArrayList<CollectionContent>();
 			if(eadSavedSearches!=null){
 				while(itParamsOut.hasNext()){
