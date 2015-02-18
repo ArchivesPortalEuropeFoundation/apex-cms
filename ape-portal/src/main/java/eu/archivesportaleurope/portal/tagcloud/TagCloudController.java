@@ -145,6 +145,7 @@ public class TagCloudController {
 		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
 		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 		solrQueryParameters.setTerm("*");
+		solrQueryParameters.setTimeAllowed(false);
 		List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
 		facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_ALL_TOPICS));
 
