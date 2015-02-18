@@ -132,7 +132,7 @@ public abstract class AbstractSearcher {
 		}
 		query.setParam("facet.method", "enum");
 		query.setStart(start);
-		if (rows > 50) {
+		if (rows > 30) {
 			rows = 10;
 		}
 		query.setRows(rows);
@@ -342,11 +342,14 @@ public abstract class AbstractSearcher {
 			//PERFORMANCE: remove autosuggestion
 			//query.set("spellcheck", "on");
 		}
-		Integer timeAllowed = TIME_ALLOWED_TREE;
-		if (QUERY_TYPE_LIST.equals(queryType)) {
-			timeAllowed = TIME_ALLOWED;
+		Integer timeAllowed = -1;
+		if (solrQueryParameters.isTimeAllowed()){
+			timeAllowed = TIME_ALLOWED_TREE;
+			if (QUERY_TYPE_LIST.equals(queryType)) {
+				timeAllowed = TIME_ALLOWED;
+			}
+			query.setTimeAllowed(timeAllowed);
 		}
-		query.setTimeAllowed(timeAllowed);
 		String resultLog = "Query;";
 		if (query.getRows() == 0) {
 			if (QUERY_TYPE_LIST.equals(queryType)){
