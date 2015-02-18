@@ -155,6 +155,7 @@ public class TagCloudController {
 			for (Count count : facetField.getValues()) {
 				tags.add(new TagCloudItem(count.getCount(), count.getName()));
 			}
+			LOGGER.info("Topics loaded in topic cloud");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -178,6 +179,7 @@ public class TagCloudController {
 				for (Count count : facetField.getValues()) {
 					tags.add(new TagCloudItem(count.getCount(), count.getName()));
 				}
+				LOGGER.info("Topics loaded in topic list");
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
