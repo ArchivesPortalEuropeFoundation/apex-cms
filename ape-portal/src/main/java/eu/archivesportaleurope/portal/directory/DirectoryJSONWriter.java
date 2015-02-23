@@ -12,6 +12,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
@@ -43,41 +44,55 @@ import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.util.ApeUtil;
 
-/**
- * JSON Writer for the directory tree
- * 
- * @author bastiaan
- * 
- */
-@Controller(value = "directoryJSONWriter")
-@RequestMapping(value = "VIEW")
-public class DirectoryJSONWriter extends AbstractJSONWriter {
-	private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
-	private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
-	private static final String NO_LINK = "\"noLink\": true";
-	private static final String EUROPE = "Europe";
-	private CoordinatesDAO coordinatesDAO;
-	private ArchivalInstitutionDAO archivalInstitutionDAO;
-	private CountryDAO countryDAO;
+	/**
+	 * Class for JSON Writer for the directory tree
+	 * 
+	 * @author bastiaan
+	 * 
+	 */
+	@Controller(value = "directoryJSONWriter")
+	@RequestMapping(value = "VIEW")
+	public class DirectoryJSONWriter extends AbstractJSONWriter {
+		private static final String FOLDER_LAZY = "\"isFolder\": true, \"isLazy\": true";
+		private static final String FOLDER_NOT_LAZY = "\"isFolder\": true";
+		private static final String NO_LINK = "\"noLink\": true";
+		private static final String EUROPE = "Europe";
+		private CoordinatesDAO coordinatesDAO;
+		private ArchivalInstitutionDAO archivalInstitutionDAO;
+		private CountryDAO countryDAO;
+		private final Logger log = Logger.getLogger(getClass());
+		
+		/**
+		 * Method for write conuntries JSON
+		 * @param resourceRequest {@link ResourceRequest} The ResourceRequest interface represents the request send to the portlet for rendering resources.
+		 * @param resourceResponse {@link ResourceResponse} The ResourceResponse defines an object to assist a portlet for rendering a resource. 
+		 */
+		@ResourceMapping(value = "directoryTree")
+		public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+			this.log.debug("Method start: \"fillEAG2012\"");
+			long startTime = System.currentTimeMillis();
+			try {
+				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+						resourceRequest.getLocale());
+				NavigationTree navigationTree = new NavigationTree(source);
+				List<CountryUnit> countryList = navigationTree.getALCountriesWithArchivalInstitutionsWithEAG();
 	
-	@ResourceMapping(value = "directoryTree")
-	public void writeCountriesJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
-		long startTime = System.currentTimeMillis();
-		try {
-			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
-					resourceRequest.getLocale());
-			NavigationTree navigationTree = new NavigationTree(source);
-			List<CountryUnit> countryList = navigationTree.getALCountriesWithArchivalInstitutionsWithEAG();
-
-			Collections.sort(countryList);
-			writeToResponseAndClose(generateDirectoryJSON(navigationTree, countryList), resourceResponse);
-		} catch (Exception e) {
-			log.error(ApeUtil.generateThrowableLog(e));
-		}
-		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
+				Collections.sort(countryList);
+				writeToResponseAndClose(generateDirectoryJSON(navigationTree, countryList), resourceResponse);
+			} catch (Exception e) {
+				log.error(ApeUtil.generateThrowableLog(e));
+			}
+			log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
 	}
-
+		
+	/**
+	 * Method for generate countries tree JSON
+	 * @param navigationTree {@link NavigationTree}
+	 * @param countryList {@link List<CountryUnit>}}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder generateCountriesTreeJSON(NavigationTree navigationTree, List<CountryUnit> countryList) {
+		this.log.debug("Method start: \"fillEAG2012\"");
 		CountryUnit countryUnit = null;
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ARRAY);
@@ -101,11 +116,19 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 
 		builder.append(END_ARRAY);
 		countryUnit = null;
+		this.log.debug("End method: \"fillEAG2012\"");
 		return builder;
 
 	}
-
+	
+	/**
+	 * Method for generate directory JSON
+	 * @param navigationTree {@link NavigationTree}
+	 * @param countryList {@link List<CountryUnit>}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder generateDirectoryJSON(NavigationTree navigationTree, List<CountryUnit> countryList) {
+		this.log.debug("Method start: \"generateDirectoryJSON\"");
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ARRAY);
 		builder.append(START_ITEM);
@@ -119,14 +142,22 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		builder.append(generateCountriesTreeJSON(navigationTree, countryList));
 		builder.append(END_ITEM);
 		builder.append(END_ARRAY);
+		this.log.debug("End method: \"generateDirectoryJSON\"");
 		return builder;
 	}
-
+	
+	/**
+	 * Method for write AiJson
+	 * @param resourceRequest {@link ResourceRequest} The ResourceRequest interface represents the request send to the portlet for rendering resources.
+	 * @param resourceResponse {@link ResourceResponse} The ResourceResponse defines an object to assist a portlet for rendering a resource. 
+	 */
 	@ResourceMapping(value = "directoryTreeAi")
 	public void writeAiJSON(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+		this.log.debug("Method start: \"writeAiJSON\"");
 		String nodeId = resourceRequest.getParameter("nodeId");
 		String countryCode = resourceRequest.getParameter("countryCode");
 		try {
+			
 			if (StringUtils.isBlank(nodeId) || StringUtils.isBlank(countryCode)) {
 				StringBuilder builder = new StringBuilder();
 				builder.append(START_ARRAY);
@@ -151,19 +182,28 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 						generateArchivalInstitutionsTreeJSON(navigationTree, archivalInstitutionList, countryCode),
 						resourceResponse);
 			}
-
+			
 		} catch (Exception e) {
 			log.error(ApeUtil.generateThrowableLog(e));
 		}
+		this.log.debug("End method: \"writeAiJSON\"");
 
 	}
-
-	private StringBuilder generateArchivalInstitutionsTreeJSON(NavigationTree navigationTree,
-			List<ArchivalInstitutionUnit> archivalInstitutionList, String countryCode) {
+	
+	/**
+	 * Method for generate archival institutions tree JSON
+	 * @param navigationTree {@link NavigationTree}
+	 * @param archivalInstitutionList {@link List<ArchivalInstitutionUnit>}
+	 * @param countryCode {@link String}
+	 * @return buffer {@link StringBuffer}
+	 */
+	private StringBuilder generateArchivalInstitutionsTreeJSON(NavigationTree navigationTree,	
+		List<ArchivalInstitutionUnit> archivalInstitutionList, String countryCode) {
+		this.log.debug("Method start: \"generateArchivalInstitutionsTreeJSON\"");
 		Locale locale = navigationTree.getResourceBundleSource().getLocale();
 		StringBuilder buffer = new StringBuilder();
 		ArchivalInstitutionUnit archivalInstitutionUnit = null;
-
+		
 		buffer.append(START_ARRAY);
 		for (int i = 0; i < archivalInstitutionList.size(); i++) {
 			// It is necessary to build a JSON response to display all the
@@ -216,6 +256,7 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 
 		buffer.append(END_ARRAY);
 		archivalInstitutionUnit = null;
+		this.log.debug("End method: \"generateArchivalInstitutionsTreeJSON\"");
 		return buffer;
 
 	}
@@ -250,10 +291,17 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 		} else if (nodeType.equals("archival_institution_no_eag")) {
 			buffer.append("\"key\":" + "\"ainoeag_" + key + "\"");
 		}
+		
 	}
 	
+	/**
+	 * Method for display archival institution parents tree
+	 * @param resourceRequest {@link ResourceRequest} The ResourceRequest interface represents the request send to the portlet for rendering resources.
+	 * @param resourceResponse {@link ResourceResponse} The ResourceResponse defines an object to assist a portlet for rendering a resource. 
+	 */
 	@ResourceMapping(value = "directoryTreeArchivalInstitution")
 	public void displayArchivalInstitutionParentsTree(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+		this.log.debug("Method start: \"displayArchivalInstitutionParentsTree\"");
 		String aiId = null;
 		if(resourceRequest.getParameter("aiId")!=null){
 			aiId = (String)resourceRequest.getParameter("aiId");
@@ -299,31 +347,33 @@ public class DirectoryJSONWriter extends AbstractJSONWriter {
 				}
 			}
 		}
+		this.log.debug("End method: \"displayArchivalInstitutionParentsTree\"");
 	}
 	
-/***
- * This method recovers the coordinates and other data from the database, In case of the selected item on the tree is a country this method call geocoder and gets coordinates for that country. Also This method prints only coordinates "inside the world" limits avoiding the use of non valid coordinates 
- * @param resourceRequest The ResourceRequest interface represents the request send to the portlet for rendering resources. It 
- extends the ClientDataRequest interface and provides resource request information to portlets. 
-The portlet container creates an ResourceRequest object and passes it as argument to the portlet's 
- serveResource method. 
-The ResourceRequest is provided with the current portlet mode, window state, and render parameters 
- that the portlet can access via the PortletResourceRequest with getPortletMode and, getWindowState, or 
- one of the getParameter methods. ResourceURLs cannot change the current portlet mode, window state 
- or render parameters. Parameters set on a resource URL are not render parameters but parameters for 
- serving this resource and will last only for only this the current serveResource request.
- * @param resourceResponse The ResourceResponse defines an object to assist a portlet for rendering a resource. 
-The difference between the RenderResponse is that for the ResourceResponse the output of this 
- response is delivered directly to the client without any additional markup added by the portal. It is 
- therefore allowed for the portlet to return binary content in this response. 
-A portlet can set HTTP headers for the response via the setProperty or addProperty call in the 
- ResourceResponse. To be successfully transmitted back to the client, headers must be set before the 
- response is committed. Headers set after the response is committed will be ignored by the portlet 
- container. 
-The portlet container creates a ResourceResponse object and passes it as argument to the portlet's 
- */
+	/***
+	 * This method recovers the coordinates and other data from the database, In case of the selected item on the tree is a country this method call geocoder and gets coordinates for that country. Also This method prints only coordinates "inside the world" limits avoiding the use of non valid coordinates 
+	 * @param resourceRequest {@link ResourceRequest} The ResourceRequest interface represents the request send to the portlet for rendering resources. It 
+	 * extends the ClientDataRequest interface and provides resource request information to portlets. 
+	 * The portlet container creates an ResourceRequest object and passes it as argument to the portlet's 
+	 * serveResource method. 
+	 * The ResourceRequest is provided with the current portlet mode, window state, and render parameters 
+	 * that the portlet can access via the PortletResourceRequest with getPortletMode and, getWindowState, or 
+	 * one of the getParameter methods. ResourceURLs cannot change the current portlet mode, window state 
+	 * or render parameters. Parameters set on a resource URL are not render parameters but parameters for 
+	 * serving this resource and will last only for only this the current serveResource request.
+	 * @param resourceResponse {@link ResourceResponse} The ResourceResponse defines an object to assist a portlet for rendering a resource. 
+	 * The difference between the RenderResponse is that for the ResourceResponse the output of this 
+	 * response is delivered directly to the client without any additional markup added by the portal. It is 
+	 * therefore allowed for the portlet to return binary content in this response. 
+	 * A portlet can set HTTP headers for the response via the setProperty or addProperty call in the 
+	 * ResourceResponse. To be successfully transmitted back to the client, headers must be set before the 
+	 * response is committed. Headers set after the response is committed will be ignored by the portlet 
+	 * container. 
+	 * The portlet container creates a ResourceResponse object and passes it as argument to the portlet's 
+	 */
 	@ResourceMapping(value = "directoryTreeGMaps")
 	public void displayGmaps(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+		this.log.debug("Method start: \"displayGmaps\"");
 		long startTime = System.currentTimeMillis();
 		try {
 			SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
@@ -376,9 +426,20 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 			log.error(e.getMessage(), e);
 		}
 		log.debug("Context search time: " + (System.currentTimeMillis() - startTime));
+		this.log.debug("End method: \"displayGmaps\"");
 	}
 	
+	/**
+	 * Method for generate Gmaps JSON
+	 * @param navigationTree {@link NavigationTree}
+	 * @param repoList {@link List<Coordinates>}
+	 * @param countryCode {@link String}
+	 * @param institutionID {@link String}
+	 * @param repositoryName {@link String}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder generateGmapsJSON(NavigationTree navigationTree, List<Coordinates> repoList, String countryCode, String institutionID, String repositoryName) {
+		this.log.debug("Method start: \"generateGmapsJSON\"");
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ITEM);
 		builder.append("\"count\":" + repoList.size());
@@ -429,11 +490,22 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		}
 		
 		builder.append(END_ITEM);
+		this.log.debug("End method: \"generateGmapsJSON\"");
 		return builder;
 	}
 	
+	/**
+	 * Method for center map builder
+	 * @param southwestLatitude {@link String}
+	 * @param southwestLongitude {@link String}
+	 * @param northeastLatitude {@link String}
+	 * @param northeastLongitude {@link String}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder centerMapBuilder(String southwestLatitude, String southwestLongitude,
+		
 			String northeastLatitude, String northeastLongitude) {
+		this.log.debug("Method start: \"centerMapBuilder\"");
 		StringBuilder builder = new StringBuilder();
 		// Build bounds node.
 		builder.append(COMMA);
@@ -457,10 +529,17 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		builder.append("\"longitude\":\"" + PortalDisplayUtil.replaceQuotesAndReturns(northeastLongitude) + "\"");
 		builder.append(END_ITEM);
 		builder.append(END_ARRAY);
+		this.log.debug("End method: \"centerMapBuilder\"");
 		return builder;
 	}
-
+	
+	/**
+	 * Method for build node
+	 * @param repon {@link Coordinates}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder buildNode(Coordinates repo){
+		this.log.debug("Method start: \"buildNode\"");
 		StringBuilder builder = new StringBuilder();
 		builder.append(START_ITEM);
 		builder.append("\"latitude\":\""+repo.getLat()+"\"");
@@ -482,16 +561,18 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		builder.append(COMMA);
 		builder.append("\"country\":\""+PortalDisplayUtil.replaceQuotesAndReturns(repo.getCountry())+"\"");
 		builder.append(END_ITEM);
+		this.log.debug("End method: \"buildNode\"");
 		return builder;
 	}
 
 	/**
 	 * Method to build the data for the institution bounds.
 	 *
-	 * @param institutionID Institution for recover the bounds.
+	 * @param institutionIDm {@link String} the Institution for recover the bounds.
 	 * @return Element with the bounds for the institution passed.
 	 */
 	private StringBuilder buildInstitutionBounds(String institutionID, String repositoryName) {
+		this.log.debug("Method start: \"buildInstitutionBounds\"");
 		StringBuilder builder = new StringBuilder();
 		// Recover the list of coordinates for the current institution.
 		ArchivalInstitution archivalInstitution = archivalInstitutionDAO.findById(Integer.parseInt(institutionID));
@@ -553,41 +634,36 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 		else{
 			builder.append(buildCountryBounds(archivalInstitution.getCountry().getIsoname()));
 		}
-
+		this.log.debug("End method: \"buildInstitutionBounds\"");
 		return builder;
 	}
 
 	/**
 	 * Method to build the data for the country bounds.
 	 *
-	 * @param countryCode Country code for recover the bounds.
+	 * @param countryCode {@link String} Country code for recover the bounds.
 	 * @return Element with the bounds for the country code passed.
 	 */
 	private StringBuilder buildCountryBounds(String countryCode) {
+		this.log.debug("Method start: \"buildCountryBounds\"");
 		StringBuilder builder = new StringBuilder();
 		List<Country> countriesList = countryDAO.getCountries(countryCode);
 		
 		if (countriesList != null && !countriesList.isEmpty()) {
 			String selectedCountryName = countriesList.get(0).getCname();
-			// Issue #1924 - To locate correctly the country "Georgia" instead
-			// of the state "Georgia", it's needed to add in the address, which
-			// is passed to the geolocator, the string ", Europe".
-			// Whit this change all the European countries are located
-			// correctly.
-			// NOTE: currently exists a country with name "Europe", which
-			// represents the country for the archive "Historical Archives of
-			// the European Union", for this one it's not needed to add the
-			// string in the address.
-			if (!selectedCountryName.trim().equalsIgnoreCase("EUROPE")) {
-				builder.append(this.mapBuilder(selectedCountryName + ", Europe"));
-			} else {
-				builder.append(this.mapBuilder(selectedCountryName));
-			}
+			builder.append(this.mapBuilder(selectedCountryName));
 		}
+		this.log.debug("End method: \"buildCountryBounds\"");
 		return builder;
 	}
 	
+	/**
+	 * Method for map builder
+	 * @param location {@link String}
+	 * @return builder {@link StringBuilder}
+	 */
 	private StringBuilder mapBuilder(String location){
+		this.log.debug("Method start: \"mapBuilder\"");
 		StringBuilder builder = new StringBuilder();
 		// Try to recover the coordinates to bound.
 		Geocoder geocoder = new Geocoder();
@@ -628,6 +704,7 @@ The portlet container creates a ResourceResponse object and passes it as argumen
 
 			}
 		}
+		this.log.debug("End method: \"mapBuilder\"");
 		return builder;
 	}
 

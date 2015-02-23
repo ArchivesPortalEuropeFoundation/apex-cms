@@ -30,14 +30,18 @@ import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 @RequestMapping(value = "VIEW")
 public class DisplayPreviewContoller {
 
-	/**
-	 *
-	 */
 	private final static Logger LOGGER = Logger.getLogger(DisplayPreviewContoller.class);
 
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private CoordinatesDAO coordinatesDAO;
 
+	/***
+	 * This function shows a static map to preview the eag file
+	 * 
+	 * @param resourceRequest {@link ResourceRequest}
+	 * 
+	 * @return modelAndView {@link ModelAndView}
+	 */
 	@ResourceMapping(value = "displayPreview")
 	public ModelAndView displayPreview(ResourceRequest resourceRequest) {
 		String repositoryCode = resourceRequest.getParameter("repositoryCode");
@@ -59,6 +63,15 @@ public class DisplayPreviewContoller {
 		return null;
 	}
 
+	/***
+	 * This function gets the code of the repository and shows the preview of the file
+	 * 
+	 * @param repositoryCode {@link String}
+	 * @return modelAndView {@link ModelAndView}
+	 * 
+	 * @throws IOException
+	 * @throws NotExistInDatabaseException
+	 */
 	private ModelAndView fillAiDetails(String repositoryCode) throws IOException, NotExistInDatabaseException {
 		ModelAndView modelAndView = new ModelAndView();
 		

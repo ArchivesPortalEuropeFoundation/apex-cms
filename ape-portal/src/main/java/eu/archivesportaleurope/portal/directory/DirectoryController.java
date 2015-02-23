@@ -41,6 +41,9 @@ import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.util.ApeUtil;
 
+/**
+ * class that controls the directory to which the screens are displayed
+ */
 @Controller(value = "directoryController")
 @RequestMapping(value = "VIEW")
 public class DirectoryController {
@@ -99,7 +102,13 @@ public class DirectoryController {
 	public void setGoogle_maps_jsapi(String google_maps_jsapi) {
 		this.google_maps_jsapi = google_maps_jsapi;
 	}
-
+	
+	/**
+	 * Method for show country details
+	 * @param renderRequest {@link RenderRequest} the renderRequest
+	 * @return modelAndView {@link ModelAndView}
+	 * @throws APEnetException
+	 */
 	@RenderMapping(params = "myaction=showCountryDetails")
 	public ModelAndView showCountryDetails(RenderRequest renderRequest) throws APEnetException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -107,8 +116,7 @@ public class DirectoryController {
 		try {
 			List<Country> countries = countryDAO.getCountries(countryCode);
 			if (countries.size() > 0){
-				Country country = countries.get(0);
-	
+				Country country = countries.get(0);	
 				SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
 						renderRequest.getLocale());
 				NavigationTree navigationTree = new NavigationTree(source);
@@ -131,7 +139,13 @@ public class DirectoryController {
 		modelAndView.setViewName("indexError");
 		return modelAndView;
 	}
-
+	
+	/**
+	 * Method for show ai group
+	 * @param renderRequest {@link RenderRequest} the renderRequest
+	 * @return
+	 * @throws APEnetException
+	 */
 	@RenderMapping(params = "myaction=showAiGroup")
 	public ModelAndView showAiGroup(RenderRequest renderRequest) throws APEnetException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -162,7 +176,13 @@ public class DirectoryController {
 		modelAndView.setViewName("indexError");
 		return modelAndView;
 	}
-
+	
+	/**
+	 * 
+	 * @param renderRequest {@link RenderRequest} the renderRequest
+	 * @return
+	 * @throws IOException
+	 */
 	@RenderMapping(params = "myaction=showAiDetails")
 	public ModelAndView showAiDetails(RenderRequest renderRequest) throws IOException {
 		ModelAndView modelAndView;
@@ -194,7 +214,13 @@ public class DirectoryController {
 		modelAndView.setViewName("indexError");
 		return modelAndView;
 	}
-
+	
+	/**
+	 * 
+	 * @param renderRequest {@link RenderRequest} the renderRequest
+	 * @return
+	 * @throws APEnetException
+	 */
 	@RenderMapping
 	public ModelAndView showDirectory(RenderRequest renderRequest) throws APEnetException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -220,7 +246,12 @@ public class DirectoryController {
 		PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.TITLE_DIRECTORY);
 		return this.addGoogleInfo(modelAndView);
 	}
-
+	
+	/**
+	 * 
+	 * @param resourceRequest {@link RenderRequest} the renderRequest
+	 * @return
+	 */
 	@ResourceMapping(value = "aiDetails")
 	public ModelAndView displayAiDetails(ResourceRequest resourceRequest) {
 		String idString = resourceRequest.getParameter("id");
@@ -238,7 +269,12 @@ public class DirectoryController {
 		}
 		return new ModelAndView("indexError");
 	}
-
+	
+	/**
+	 * 
+	 * @param renderRequest {@link RenderRequest} the renderRequest
+	 * @return
+	 */
 	@RenderMapping(params = "myaction=printEagDetails")
 	public ModelAndView displayEagPrint(RenderRequest renderRequest) {
 		String id = renderRequest.getParameter("id");
@@ -269,7 +305,13 @@ public class DirectoryController {
 		}
 		return new ModelAndView("indexError");
 	}
-
+	
+	/**
+	 * Method for fill ai details in the method addGoogleInfo
+	 * @param archivalInstitution {@link ArchivalInstitution} the archivalInstitution
+	 * @return modelAndView {@link ModelAndView}
+	 * @throws IOException
+	 */
 	private ModelAndView fillAIDetails(ArchivalInstitution archivalInstitution) throws IOException {
 		ModelAndView modelAndView = new ModelAndView();
 		String eagPath = APEnetUtilities.getApePortalConfig().getRepoDirPath() + archivalInstitution.getEagPath();
@@ -297,7 +339,12 @@ public class DirectoryController {
 	public void setArchivalInstitutionDAO(ArchivalInstitutionDAO archivalInstitutionDAO) {
 		this.archivalInstitutionDAO = archivalInstitutionDAO;
 	}
-
+	
+	/**
+	 * Method for add google info
+	 * @param modelAndView {@link ModelAndView} the modelAndView
+	 * @return model {@link ModelAndView}
+	 */
 	private ModelAndView addGoogleInfo(ModelAndView modelAndView) {
 		ModelAndView model = modelAndView;
 		modelAndView.getModelMap().addAttribute("google_maps_jsapi", this.getGoogle_maps_jsapi());
