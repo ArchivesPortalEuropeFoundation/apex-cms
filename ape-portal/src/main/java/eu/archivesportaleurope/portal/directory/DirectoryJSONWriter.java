@@ -651,7 +651,20 @@ import eu.archivesportaleurope.util.ApeUtil;
 		
 		if (countriesList != null && !countriesList.isEmpty()) {
 			String selectedCountryName = countriesList.get(0).getCname();
-			builder.append(this.mapBuilder(selectedCountryName));
+			// Issue #1924 - To locate correctly the country "Georgia" instead
+			// of the state "Georgia", it's needed to add in the address, which
+			// is passed to the geolocator, the string ", Europe".
+			// Whit this change all the European countries are located
+			// correctly.
+			// NOTE: currently exists a country with name "Europe", which
+			// represents the country for the archive "Historical Archives of
+			// the European Union", for this one it's not needed to add the
+			// string in the address.
+			if (!selectedCountryName.trim().equalsIgnoreCase("EUROPE")) {
+				builder.append(this.mapBuilder(selectedCountryName + ", Europe"));
+			} else {
+				builder.append(this.mapBuilder(selectedCountryName));
+			}
 		}
 		this.log.debug("End method: \"buildCountryBounds\"");
 		return builder;
