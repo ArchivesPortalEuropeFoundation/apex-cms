@@ -62,6 +62,7 @@ public class DisplayEadContoller extends AbstractEadController {
 		this.messageSource = messageSource;
 	}
 
+	@RenderMapping
 	public ModelAndView displayDefaultPage() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.getModelMap().addAttribute("errorMessage", ERROR_USER_SECOND_DISPLAY_NOTEXIST);
