@@ -3983,6 +3983,7 @@
 		<xsl:variable name="corpname" select="$listName/eac:part[@localType='corpname']"/>
 		<xsl:variable name="famname" select="$listName/eac:part[@localType='famname']"/>
 		<xsl:variable name="persname" select="$listName/eac:part[@localType='persname']"/>
+        <xsl:variable name="date" select="$listName/../eac:useDates"/>
     	<xsl:choose>
 	    	<xsl:when test="not($corpname) and not($famname) and not($persname) and not($legalform) and not($listName/eac:part[not(@localType) or @localType=''])"> 
 	    		<xsl:if test="$surName">
@@ -4095,6 +4096,36 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
+        <!--<xsl:if test="$date">-->
+            <!--<xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">-->
+                <!--&lt;!&ndash; when there are only 1 dateSet &ndash;&gt;-->
+                <!--<xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">-->
+                    <!--<xsl:apply-templates select="$date/eac:dateSet">-->
+                        <!--<xsl:with-param name="mode" select="default" />-->
+                        <!--<xsl:with-param name="langNode" select="''"/>-->
+                    <!--</xsl:apply-templates>-->
+                <!--</xsl:if>-->
+                <!--&lt;!&ndash; when there are only 1 dateRange &ndash;&gt;-->
+                <!--<xsl:if test="$date/eac:dateRange and ($date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate)">-->
+                    <!--<xsl:text> (</xsl:text>-->
+                    <!--<span class="nameEtryDates">-->
+                        <!--<xsl:apply-templates select="$date/eac:dateRange"/>-->
+                    <!--</span>-->
+                    <!--<xsl:text>)</xsl:text>-->
+                <!--</xsl:if>-->
+                <!--&lt;!&ndash; when there are only 1 date &ndash;&gt;-->
+                <!--<xsl:if test="$date/eac:date and $date/eac:date/text()">-->
+                    <!--<xsl:text> (</xsl:text>-->
+                    <!--<span class="nameEtryDates">-->
+                        <!--<xsl:apply-templates select="$date/eac:date"/>-->
+                    <!--</span>-->
+                    <!--<xsl:text>)</xsl:text>-->
+                <!--</xsl:if>-->
+                <!--<span class="existDates hidden">-->
+                    <!--<xsl:apply-templates select="$date"/>-->
+                <!--</span>-->
+            <!--</xsl:if>-->
+        <!--</xsl:if>-->
 	</xsl:template>
 	
 	<!-- template vocabularySource -->
