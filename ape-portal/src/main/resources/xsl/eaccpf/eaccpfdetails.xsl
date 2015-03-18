@@ -3958,12 +3958,14 @@
 		<xsl:param name="isHeader"/>
 	    <xsl:call-template name="nameEntry">
 	    	<xsl:with-param name="listName" select="$listName"/>
+            <xsl:with-param name="isHeader" select="$isHeader"/>
 	    </xsl:call-template>
 	    <xsl:if test="$isHeader = 'true'"> <!-- to display the alternative names -->
   			<span id="nameTitle" class="hidden">
   				<xsl:call-template name="nameEntry">
   					<xsl:with-param name="listName" select="$listName"/>
-  				</xsl:call-template>
+                    <xsl:with-param name="isHeader" select="$isHeader"/>
+                </xsl:call-template>
   			</span>
   		</xsl:if>	
 	</xsl:template> 
@@ -3971,6 +3973,7 @@
 	<!-- template nameEntry -->
 	<xsl:template name="nameEntry">
 		<xsl:param name="listName"/>
+		<xsl:param name="isHeader"/>
     	<xsl:variable name="firstName" select="$listName/eac:part[@localType='firstname']"/>
 		<xsl:variable name="surName" select="$listName/eac:part[@localType='surname']"/>
 		<xsl:variable name="patronymic" select="$listName/eac:part[@localType='patronymic']"/>
@@ -3983,7 +3986,6 @@
 		<xsl:variable name="corpname" select="$listName/eac:part[@localType='corpname']"/>
 		<xsl:variable name="famname" select="$listName/eac:part[@localType='famname']"/>
 		<xsl:variable name="persname" select="$listName/eac:part[@localType='persname']"/>
-        <xsl:variable name="date" select="$listName/../eac:useDates"/>
     	<xsl:choose>
 	    	<xsl:when test="not($corpname) and not($famname) and not($persname) and not($legalform) and not($listName/eac:part[not(@localType) or @localType=''])"> 
 	    		<xsl:if test="$surName">
@@ -4096,7 +4098,8 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
-        <xsl:if test="$date">
+        <xsl:variable name="date" select="$listName/../eac:useDates"/>
+        <xsl:if test="$date and $isHeader = 'false'">
             <xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">
                 <!-- when there are only 1 dateSet -->
                 <xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">
