@@ -4078,7 +4078,7 @@
 	    				<xsl:apply-templates select="$legalform" mode="other"/>
 	    			</xsl:when>
 	    			<xsl:otherwise>
-	    				<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/> (<xsl:value-of select="concat(' - ', current())"/>)
+	    				<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/> (<xsl:value-of select="concat(' - ', position())"/>)
 	    			</xsl:otherwise>
 	    		</xsl:choose>
 	    	</xsl:otherwise>
