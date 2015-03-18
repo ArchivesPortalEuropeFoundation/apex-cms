@@ -173,8 +173,10 @@
 
 			<!-- dates -->
 			<xsl:if test="$existDates/eac:date/text() or $existDates/eac:dateRange/eac:fromDate or $existDates/eac:dateRange/eac:toDate or $existDates/eac:dateSet/eac:date/text() or $existDates/eac:dateSet/eac:dateRange/eac:fromDate or $existDates/eac:dateSet/eac:dateRange/eac:toDate">
+                <xsl:value-of select="'1'"/>
 				<!-- when there are only 1 dateSet -->
 				<xsl:if test="$existDates/eac:dateSet and (($existDates/eac:dateSet/eac:dateRange/eac:fromDate or $existDates/eac:dateSet/eac:dateRange/eac:toDate) or ($existDates/eac:dateSet/eac:date and $existDates/eac:dateSet/eac:date/text()))">
+                    <xsl:value-of select="'2'"/>
 					<xsl:apply-templates select="$existDates/eac:dateSet">
 						<xsl:with-param name="mode" select="$translationMode" />
 						<xsl:with-param name="langNode" select="''"/>
@@ -182,6 +184,7 @@
 				</xsl:if>
 				<!-- when there are only 1 dateRange -->
 				<xsl:if test="$existDates/eac:dateRange and ($existDates/eac:dateRange/eac:fromDate or $existDates/eac:dateRange/eac:toDate)">
+                    <xsl:value-of select="'3'"/>
 					<xsl:text> (</xsl:text>
 						<span class="nameEtryDates">
 							<xsl:apply-templates select="$existDates/eac:dateRange"/>
@@ -190,6 +193,7 @@
 				</xsl:if>
 				<!-- when there are only 1 date -->
 				<xsl:if test="$existDates/eac:date and $existDates/eac:date/text()">
+                    <xsl:value-of select="'4'"/>
 					<xsl:text> (</xsl:text>
 						<span class="nameEtryDates">
 							<xsl:apply-templates select="$existDates/eac:date"/>
@@ -241,6 +245,7 @@
 				   		</h2>
 				   	</div>
 				   	<div class="rightcolumn">
+                        <xsl:value-of select="'5'"/>
 				   			<xsl:call-template name="alternativeNamePriorisation">
 				   				<xsl:with-param name="list" select="//eac:nameEntry"/>
 				   				<xsl:with-param name="clazz" select="'alternativeName'"/>
