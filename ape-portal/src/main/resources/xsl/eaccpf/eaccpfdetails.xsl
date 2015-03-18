@@ -36,8 +36,8 @@
 	</xsl:template>
 	
 	<xsl:template match="/">
-		<xsl:variable name="existDates" select="./eac:eac-cpf/eac:cpfDescription/eac:description/eac:existDates"/>
-		<xsl:variable name="entityType" select="./eac:eac-cpf/eac:cpfDescription/eac:identity/eac:entityType"/>
+		<xsl:variable name="existDates" select="/eac:eac-cpf/eac:cpfDescription/eac:description/eac:existDates"/>
+		<xsl:variable name="entityType" select="/eac:eac-cpf/eac:cpfDescription/eac:identity/eac:entityType"/>
 
 		<!-- Set the variable which indicates the mode used to display the translations. -->
    		<xsl:variable name="translationMode">
@@ -4100,7 +4100,6 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
-        (<xsl:value-of select="concat(' - ', position())"/>)
         <!--<xsl:if test="$date">-->
             <!--<xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">-->
                 <!--&lt;!&ndash; when there are only 1 dateSet &ndash;&gt;-->
