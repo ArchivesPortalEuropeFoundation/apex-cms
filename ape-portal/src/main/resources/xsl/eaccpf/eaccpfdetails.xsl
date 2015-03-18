@@ -4078,7 +4078,7 @@
 	    				<xsl:apply-templates select="$legalform" mode="other"/>
 	    			</xsl:when>
 	    			<xsl:otherwise>
-	    				<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/> (<xsl:value-of select="concat(' - ', position())"/>)
+	    				<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/>
 	    			</xsl:otherwise>
 	    		</xsl:choose>
 	    	</xsl:otherwise>
@@ -4096,6 +4096,7 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
+        (<xsl:value-of select="concat(' - ', position())"/>)
         <xsl:if test="$date">
             <xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">
                 <!-- when there are only 1 dateSet -->
