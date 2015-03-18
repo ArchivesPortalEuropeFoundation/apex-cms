@@ -173,10 +173,8 @@
 
 			<!-- dates -->
 			<xsl:if test="$existDates/eac:date/text() or $existDates/eac:dateRange/eac:fromDate or $existDates/eac:dateRange/eac:toDate or $existDates/eac:dateSet/eac:date/text() or $existDates/eac:dateSet/eac:dateRange/eac:fromDate or $existDates/eac:dateSet/eac:dateRange/eac:toDate">
-                <xsl:value-of select="'1'"/>
 				<!-- when there are only 1 dateSet -->
 				<xsl:if test="$existDates/eac:dateSet and (($existDates/eac:dateSet/eac:dateRange/eac:fromDate or $existDates/eac:dateSet/eac:dateRange/eac:toDate) or ($existDates/eac:dateSet/eac:date and $existDates/eac:dateSet/eac:date/text()))">
-                    <xsl:value-of select="'2'"/>
 					<xsl:apply-templates select="$existDates/eac:dateSet">
 						<xsl:with-param name="mode" select="$translationMode" />
 						<xsl:with-param name="langNode" select="''"/>
@@ -184,7 +182,6 @@
 				</xsl:if>
 				<!-- when there are only 1 dateRange -->
 				<xsl:if test="$existDates/eac:dateRange and ($existDates/eac:dateRange/eac:fromDate or $existDates/eac:dateRange/eac:toDate)">
-                    <xsl:value-of select="'3'"/>
 					<xsl:text> (</xsl:text>
 						<span class="nameEtryDates">
 							<xsl:apply-templates select="$existDates/eac:dateRange"/>
@@ -193,7 +190,6 @@
 				</xsl:if>
 				<!-- when there are only 1 date -->
 				<xsl:if test="$existDates/eac:date and $existDates/eac:date/text()">
-                    <xsl:value-of select="'4'"/>
 					<xsl:text> (</xsl:text>
 						<span class="nameEtryDates">
 							<xsl:apply-templates select="$existDates/eac:date"/>
@@ -4100,36 +4096,36 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
-        <!--<xsl:if test="$date">-->
-            <!--<xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">-->
-                <!--&lt;!&ndash; when there are only 1 dateSet &ndash;&gt;-->
-                <!--<xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">-->
-                    <!--<xsl:apply-templates select="$date/eac:dateSet">-->
-                        <!--<xsl:with-param name="mode" select="'other'" />-->
-                        <!--<xsl:with-param name="langNode" select="''"/>-->
-                    <!--</xsl:apply-templates>-->
-                <!--</xsl:if>-->
-                <!--&lt;!&ndash; when there are only 1 dateRange &ndash;&gt;-->
-                <!--<xsl:if test="$date/eac:dateRange and ($date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate)">-->
-                    <!--<xsl:text> (</xsl:text>-->
-                    <!--<span class="nameEtryDates">-->
-                        <!--<xsl:apply-templates select="$date/eac:dateRange"/>-->
-                    <!--</span>-->
-                    <!--<xsl:text>)</xsl:text>-->
-                <!--</xsl:if>-->
-                <!--&lt;!&ndash; when there are only 1 date &ndash;&gt;-->
-                <!--<xsl:if test="$date/eac:date and $date/eac:date/text()">-->
-                    <!--<xsl:text> (</xsl:text>-->
-                    <!--<span class="nameEtryDates">-->
-                        <!--<xsl:apply-templates select="$date/eac:date"/>-->
-                    <!--</span>-->
-                    <!--<xsl:text>)</xsl:text>-->
-                <!--</xsl:if>-->
-                <!--<span class="existDates hidden">-->
-                    <!--<xsl:apply-templates select="$date"/>-->
-                <!--</span>-->
-            <!--</xsl:if>-->
-        <!--</xsl:if>-->
+        <xsl:if test="$date">
+            <xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">
+                <!-- when there are only 1 dateSet -->
+                <xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">
+                    <xsl:apply-templates select="$date/eac:dateSet">
+                        <xsl:with-param name="mode" select="'other'" />
+                        <xsl:with-param name="langNode" select="''"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+                <!-- when there are only 1 dateRange -->
+                <xsl:if test="$date/eac:dateRange and ($date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate)">
+                    <xsl:text> (</xsl:text>
+                    <span class="nameEtryDates">
+                        <xsl:apply-templates select="$date/eac:dateRange"/>
+                    </span>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                <!-- when there are only 1 date -->
+                <xsl:if test="$date/eac:date and $date/eac:date/text()">
+                    <xsl:text> (</xsl:text>
+                    <span class="nameEtryDates">
+                        <xsl:apply-templates select="$date/eac:date"/>
+                    </span>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                <span class="existDates hidden">
+                    <xsl:apply-templates select="$date"/>
+                </span>
+            </xsl:if>
+        </xsl:if>
 	</xsl:template>
 	
 	<!-- template vocabularySource -->
