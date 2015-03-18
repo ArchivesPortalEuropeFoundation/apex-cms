@@ -4101,7 +4101,7 @@
                 <!-- when there are only 1 dateSet -->
                 <xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">
                     <xsl:apply-templates select="$date/eac:dateSet">
-                        <xsl:with-param name="mode" select="$translationMode" />
+                        <xsl:with-param name="mode" select="default" />
                         <xsl:with-param name="langNode" select="''"/>
                     </xsl:apply-templates>
                 </xsl:if>
