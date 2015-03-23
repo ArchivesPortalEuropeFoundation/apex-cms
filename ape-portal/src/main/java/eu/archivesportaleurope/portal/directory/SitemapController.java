@@ -81,7 +81,6 @@ public class SitemapController {
 	}
 	@ActionMapping(params ="myaction=redirectAction")
 	public void redirect(ActionRequest actionRequest, ActionResponse actionResponse) {
-		LOGGER.info("redirect");
 		try {
 			String aiId = actionRequest.getParameter("aiId");
 			String pageNumber = actionRequest.getParameter("pageNumber");
@@ -278,7 +277,6 @@ public class SitemapController {
 		try {
 			String eadid = resourceRequest.getParameter("id");
 			String repoCode = resourceRequest.getParameter("repoCode");
-			LOGGER.info (repoCode + " " + eadid);
 			ArchivalInstitution archivalInstitution = archivalInstitutionDAO.getArchivalInstitutionByRepositoryCode(repoCode);
 			XmlType xmlType = XmlType.getTypeByResourceName(resourceRequest.getParameter("xmlTypeName"));
 			long numberOfItems = 0;

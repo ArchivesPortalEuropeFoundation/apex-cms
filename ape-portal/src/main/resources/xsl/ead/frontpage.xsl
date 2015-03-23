@@ -65,11 +65,12 @@
 			</div>
 		<div id="content">
 			<div id="expandableContent">
+				<xsl:if test="/ead:ead/ead:archdesc/ead:did/ead:head">
+					<div class="archdescDidHead"><xsl:value-of select="/ead:ead/ead:archdesc/ead:did/ead:head" /></div>
+				</xsl:if>
 				<xsl:apply-templates select="/ead:ead/ead:archdesc" mode="searchable"/>
 				<xsl:for-each select="/ead:ead/ead:archdesc/ead:did">
-							<xsl:if test="ead:head">
-								<div class="archdescDidHead"><xsl:value-of select="./ead:head" /></div>
-							</xsl:if>
+
 							<xsl:if test="ead:langmaterial">
 								<xsl:call-template name="langmaterial" />
 							</xsl:if>
