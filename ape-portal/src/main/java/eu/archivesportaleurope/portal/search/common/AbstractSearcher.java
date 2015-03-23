@@ -339,8 +339,7 @@ public abstract class AbstractSearcher {
 						|| solrQueryParameters.getSolrFields().contains(SolrField.OTHERUNITID) || solrQueryParameters
 						.getSolrFields().contains(SolrField.EAC_CPF_ENTITY_ID))
 				&& StringUtils.isNotBlank(solrQueryParameters.getTerm())) {
-			//PERFORMANCE: remove autosuggestion
-			//query.set("spellcheck", "on");
+			query.set("spellcheck", "on");
 		}
 		Integer timeAllowed = -1;
 		if (solrQueryParameters.isTimeAllowed()){

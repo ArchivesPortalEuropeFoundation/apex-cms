@@ -44,7 +44,7 @@
 				<ul>
 					<c:forEach var="country" items="${results.countries}">
 				    	<c:set var="countryTitle" ><fmt:message key="country.${fn:toLowerCase(country.name)}"/> <span>(${country.count})</span></c:set>
-			    			<li data="term: '${eadSearch.term}', icon: false, country: '${country.id}', searchType: 'ai', matchAllWords: '${eadSearch.method}',isFolder: true, isLazy: true, title: '${countryTitle}'"></li>
+			    			<li data="term: '${eadSearch.term.replace('\'', '&apos;')}', icon: false, country: '${country.id}', searchType: 'ai', matchAllWords: '${eadSearch.method}',isFolder: true, isLazy: true, title: '${countryTitle}'"></li>
 			     		</c:forEach>
 				</ul>
 			</div>
