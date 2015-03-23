@@ -234,8 +234,8 @@
 	  </xd:detail>
 	</xd:doc>
 	<xsl:template match="/">
-		<xsl:variable name="existDates" select="./eac:eac-cpf/eac:cpfDescription/eac:description/eac:existDates"/>
-		<xsl:variable name="entityType" select="./eac:eac-cpf/eac:cpfDescription/eac:identity/eac:entityType"/>
+        <xsl:variable name="existDates" select="/eac:eac-cpf/eac:cpfDescription/eac:description/eac:existDates"/>
+        <xsl:variable name="entityType" select="/eac:eac-cpf/eac:cpfDescription/eac:identity/eac:entityType"/>
 
 		<!-- Set the variable which indicates the mode used to display the translations. -->
    		<xsl:variable name="translationMode">
@@ -4361,11 +4361,13 @@
 		<xsl:param name="isHeader"/>
 	    <xsl:call-template name="nameEntry">
 	    	<xsl:with-param name="listName" select="$listName"/>
+            <xsl:with-param name="isHeader" select="$isHeader"/>
 	    </xsl:call-template>
 	    <xsl:if test="$isHeader = 'true'"> <!-- to display the alternative names -->
   			<span id="nameTitle" class="hidden">
   				<xsl:call-template name="nameEntry">
   					<xsl:with-param name="listName" select="$listName"/>
+                    <xsl:with-param name="isHeader" select="$isHeader"/>
   				</xsl:call-template>
   			</span>
   		</xsl:if>	
@@ -4380,6 +4382,7 @@
 	</xd:doc>
 	<xsl:template name="nameEntry">
 		<xsl:param name="listName"/>
+        <xsl:param name="isHeader" />
     	<xsl:variable name="firstName" select="$listName/eac:part[@localType='firstname']"/>
 		<xsl:variable name="surName" select="$listName/eac:part[@localType='surname']"/>
 		<xsl:variable name="patronymic" select="$listName/eac:part[@localType='patronymic']"/>
@@ -4504,6 +4507,37 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
+        <xsl:variable name="date" select="$listName/../eac:useDates"/>
+        <xsl:if test="$date and $isHeader = 'false'">
+            <xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">
+                <!-- when there are only 1 dateSet -->
+                <xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">
+                    <xsl:apply-templates select="$date/eac:dateSet">
+                        <xsl:with-param name="mode" select="'other'" />
+                        <xsl:with-param name="langNode" select="''"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+                <!-- when there are only 1 dateRange -->
+                <xsl:if test="$date/eac:dateRange and ($date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate)">
+                    <xsl:text> (</xsl:text>
+                    <span class="nameEtryDates">
+                        <xsl:apply-templates select="$date/eac:dateRange"/>
+                    </span>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                <!-- when there are only 1 date -->
+                <xsl:if test="$date/eac:date and $date/eac:date/text()">
+                    <xsl:text> (</xsl:text>
+                    <span class="nameEtryDates">
+                        <xsl:apply-templates select="$date/eac:date"/>
+                    </span>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+                <span class="existDates hidden">
+                    <xsl:apply-templates select="$date"/>
+                </span>
+            </xsl:if>
+        </xsl:if>
 	</xsl:template>
 	
 	<!-- template vocabularySource -->
