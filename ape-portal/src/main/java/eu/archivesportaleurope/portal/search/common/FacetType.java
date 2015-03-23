@@ -105,14 +105,15 @@ public enum FacetType {
     }
     public static List<ListFacetSettings> getDefaultEadListFacetSettings(){
     	List<ListFacetSettings> result = new ArrayList<ListFacetSettings>();
+    	//PERFORMANCE: disable some facets.
     	result.add(new ListFacetSettings(FacetType.COUNTRY));
     	result.add(new ListFacetSettings(FacetType.AI));
     	result.add(new ListFacetSettings(FacetType.TOPIC, true));    	
-    	result.add(new ListFacetSettings(FacetType.TYPE));
-    	result.add(new ListFacetSettings(FacetType.LEVEL));
+    	//result.add(new ListFacetSettings(FacetType.TYPE));
+    	//result.add(new ListFacetSettings(FacetType.LEVEL));
     	result.add(new ListFacetSettings(FacetType.DAO));
-    	result.add(new ListFacetSettings(FacetType.ROLEDAO));	
-    	result.add(new ListFacetSettings(FacetType.DATE_TYPE));    	
+    	//result.add(new ListFacetSettings(FacetType.ROLEDAO));	
+    	//result.add(new ListFacetSettings(FacetType.DATE_TYPE));    	
     	result.add(new ListFacetSettings(FacetType.START_DATE));
     	result.add(new ListFacetSettings(FacetType.END_DATE));     	
         return result;

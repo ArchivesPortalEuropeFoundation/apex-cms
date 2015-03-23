@@ -66,8 +66,8 @@ public class EacCpfSearchResult extends SearchResult{
 		this.occupations = DisplayUtils.encodeHtmlWithHighlighting(occupations);
 		this.mandates =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_MANDATE, null);
 		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
-		this.functions =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_FACET_FUNCTION, null);
-		this.mandates = DisplayUtils.encodeHtmlWithHighlighting(mandates);
+		this.functions =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_FUNCTION, null);
+		this.functions = DisplayUtils.encodeHtmlWithHighlighting(functions);
 		this.places =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_PLACES, null);
 		this.places = DisplayUtils.encodeHtmlWithHighlighting(places);
 		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE) != null){
