@@ -10,6 +10,7 @@ import eu.apenet.commons.solr.SolrField;
 public final class SolrQueryParameters {
 	private String term;
 	private boolean matchAllWords;
+	private boolean timeAllowed = true;
 	private Map<String, List<String>> andParameters = new HashMap<String, List<String>>();
 	private Map<String, List<String>> orParameters = new HashMap<String, List<String>>();
 	private List<SolrField> solrFields = new ArrayList<SolrField>();
@@ -48,7 +49,11 @@ public final class SolrQueryParameters {
 	public void setMatchAllWords(boolean matchAllWords) {
 		this.matchAllWords = matchAllWords;
 	}
-
-	
+	public boolean isTimeAllowed() {
+		return timeAllowed;
+	}
+	public void setTimeAllowed(boolean timeAllowed) {
+		this.timeAllowed = timeAllowed;
+	}
 	
 }

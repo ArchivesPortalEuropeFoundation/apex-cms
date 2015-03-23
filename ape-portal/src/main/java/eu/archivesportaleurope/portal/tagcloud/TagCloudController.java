@@ -20,7 +20,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import eu.apenet.commons.utils.Cache;
 import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
-import eu.apenet.persistence.vo.Topic;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.FacetType;
@@ -146,6 +145,7 @@ public class TagCloudController {
 		List<TagCloudItem> tags= new ArrayList<TagCloudItem>();
 		SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 		solrQueryParameters.setTerm("*");
+		solrQueryParameters.setTimeAllowed(false);
 		List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
 		facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, MAX_ALL_TOPICS));
 
@@ -155,6 +155,7 @@ public class TagCloudController {
 			for (Count count : facetField.getValues()) {
 				tags.add(new TagCloudItem(count.getCount(), count.getName()));
 			}
+			LOGGER.info("Topics loaded in topic cloud");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -168,6 +169,7 @@ public class TagCloudController {
 			tags= new ArrayList<TagCloudItem>();
 			SolrQueryParameters solrQueryParameters = new SolrQueryParameters();
 			solrQueryParameters.setTerm("*");
+			solrQueryParameters.setTimeAllowed(false);
 			List<ListFacetSettings> facetSettings = new ArrayList<ListFacetSettings>();
 			facetSettings.add(new ListFacetSettings(FacetType.TOPIC, true, null, 300));
 	
@@ -177,6 +179,7 @@ public class TagCloudController {
 				for (Count count : facetField.getValues()) {
 					tags.add(new TagCloudItem(count.getCount(), count.getName()));
 				}
+				LOGGER.info("Topics loaded in topic list");
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
 			}
