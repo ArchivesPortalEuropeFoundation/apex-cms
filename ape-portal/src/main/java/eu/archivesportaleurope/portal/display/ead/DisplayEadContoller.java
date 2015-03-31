@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.display.ead;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -255,8 +256,11 @@ public class DisplayEadContoller extends AbstractEadController {
 
 		if (ead != null) {
 			EadContent eadContent = ead.getEadContent();
-			PortalDisplayUtil.setPageTitle(request,
-					PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+            if(StringUtils.isEmpty(eadContent.getUnittitle())) {
+                PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+            } else {
+                PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.getEadDisplayTitle(ead, getMessageSource().getMessage("advancedsearch.text.notitle", null, request.getLocale())));
+            }
 			XmlType xmlType = XmlType.getContentType(ead);
 			EadPersistentUrl eadPersistentUrl = new EadPersistentUrl(ead.getArchivalInstitution().getRepositorycode(),
 					xmlType.getResourceName(), ead.getEadid());
