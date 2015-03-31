@@ -85,8 +85,12 @@ public class DisplayEadContoller extends AbstractEadController {
 			Ead ead = eadDAO.getEadByEadid(xmlType.getEadClazz(), eadParams.getRepoCode(), eadParams.getEadid(),published);
 			if (ead != null) {
 				EadContent eadContent = ead.getEadContent();
-				PortalDisplayUtil.setPageTitle(renderRequest,
-						PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+                if(StringUtils.isNotBlank(eadContent.getUnittitle())) {
+                    PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
+                } else {
+                    PortalDisplayUtil.setPageTitle(renderRequest, PortalDisplayUtil.getEadDisplayTitle(ead, getMessageSource().getMessage("advancedsearch.text.notitle", null, renderRequest.getLocale())));
+                }
+
 				return displayEadDetails(renderRequest, eadParams, modelAndView, ead);
 			}
 		}
@@ -256,7 +260,7 @@ public class DisplayEadContoller extends AbstractEadController {
 
 		if (ead != null) {
 			EadContent eadContent = ead.getEadContent();
-            if(StringUtils.isEmpty(eadContent.getUnittitle())) {
+            if(StringUtils.isNotBlank(eadContent.getUnittitle())) {
                 PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.getEadDisplayTitle(ead, eadContent.getUnittitle()));
             } else {
                 PortalDisplayUtil.setPageTitle(request, PortalDisplayUtil.getEadDisplayTitle(ead, getMessageSource().getMessage("advancedsearch.text.notitle", null, request.getLocale())));

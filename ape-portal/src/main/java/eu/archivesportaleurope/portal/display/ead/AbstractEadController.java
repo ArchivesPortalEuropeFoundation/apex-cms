@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.portlet.PortletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.web.portlet.ModelAndView;
 
@@ -77,7 +78,10 @@ public class AbstractEadController {
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = currentCLevel.getUnittitle();
 		EadContent eadContent = currentCLevel.getEadContent();
-		String pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+        String pageTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), getMessageSource().getMessage("advancedsearch.text.notitle", null, portletRequest.getLocale()));
+        if(StringUtils.isNotBlank(documentTitle)) {
+            pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+        }
 		PortalDisplayUtil.setPageTitle(portletRequest, pageTitle);
 		modelAndView.getModelMap().addAttribute("pageTitle", pageTitle);
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), documentTitle);
@@ -102,7 +106,10 @@ public class AbstractEadController {
 		String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
 		modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
 		String documentTitle = eadContent.getUnittitle();
-		String pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+        String pageTitle = PortalDisplayUtil.getEadDisplayTitle(eadContent.getEad(), getMessageSource().getMessage("advancedsearch.text.notitle", null, portletRequest.getLocale()));
+        if(StringUtils.isNotBlank(documentTitle)) {
+            pageTitle = PortalDisplayUtil.getEadDisplayPageTitle(eadContent.getEad(), documentTitle);
+        }
 		PortalDisplayUtil.setPageTitle(portletRequest, pageTitle);
 		modelAndView.getModelMap().addAttribute("pageTitle", pageTitle);
 		documentTitle = PortalDisplayUtil.getEadDisplayTitle(ead, documentTitle);
