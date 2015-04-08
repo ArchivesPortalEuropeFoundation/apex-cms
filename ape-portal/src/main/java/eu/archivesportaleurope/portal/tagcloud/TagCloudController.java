@@ -1,10 +1,8 @@
 package eu.archivesportaleurope.portal.tagcloud;
 
+import java.text.Collator;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import javax.portlet.RenderRequest;
 
@@ -112,7 +110,7 @@ public class TagCloudController {
 			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
 			translatedTags.add(new TagCloudItem(notTranslatedItem, translatedName));
 		}
-		Collections.sort(translatedTags, new TagCloudComparator());
+		Collections.sort(translatedTags, new TagCloudComparator(request.getLocale()));
 		request.setAttribute(TAGS_KEY, translatedTags);
 	}
 
@@ -198,7 +196,7 @@ public class TagCloudController {
 			String translatedName = source.getString("topics." + notTranslatedItem.getKey());
 			translatedTags.add(new TagCloudItem(numberFormat, notTranslatedItem, translatedName));
 		}
-		Collections.sort(translatedTags, new TagCloudComparator());
+		Collections.sort(translatedTags, new TagCloudComparator(request.getLocale()));
 		List<TagCloudItem> translatedTagsLeft = new ArrayList<TagCloudItem>();
 		List<TagCloudItem> translatedTagsRight = new ArrayList<TagCloudItem>();
 		double firstNumberOfTags = Math.ceil(((double)translatedTags.size()) /2d);
@@ -273,10 +271,13 @@ public class TagCloudController {
 	}
 
 	private static class TagCloudComparator implements Comparator<TagCloudItem> {
-
+        private Collator collator;
+        public TagCloudComparator(Locale locale) {
+            collator = Collator.getInstance(locale);
+        }
 		@Override
 		public int compare(TagCloudItem o1, TagCloudItem o2) {
-			return o1.getName().compareTo(o2.getName());
+			return collator.compare(o1.getName(), o2.getName());
 		}
 
 	}
