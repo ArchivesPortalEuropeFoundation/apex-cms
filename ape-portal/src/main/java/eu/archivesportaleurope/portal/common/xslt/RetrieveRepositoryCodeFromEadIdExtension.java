@@ -10,6 +10,7 @@ import eu.archivesportaleurope.util.ApeUtil;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -81,11 +82,10 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
 		}
 
 		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
-			if (arguments!= null && arguments.length == 2) {
-				String firstArgValue = arguments[0].next().getStringValue();
-				String secondArgValue = arguments[1].next().getStringValue();
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+			if (sequences!= null && sequences.length == 2) {
+				String firstArgValue = sequences[0].head().getStringValue();
+				String secondArgValue = sequences[1].head().getStringValue();
 				String value = "";
 				String type = "";
 
@@ -143,9 +143,9 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
 					value = "aicode/" + repositoryCode + "/type/" + type + "/id/" + ApeUtil.encodeSpecialCharacters(ead.getEadid());
 				}
 
-				return SingletonIterator.makeIterator(new StringValue(value));
+				return StringValue.makeStringValue(value);
 			} else {
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+				return StringValue.makeStringValue("ERROR");
 			}
 		}
 		

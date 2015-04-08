@@ -4,12 +4,14 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
 import net.sf.saxon.tree.iter.SingletonIterator;
 import net.sf.saxon.value.BooleanValue;
 import net.sf.saxon.value.SequenceType;
+import net.sf.saxon.value.StringValue;
 
 public class TypeOfDisplayExtension extends ExtensionFunctionDefinition {
 	/**
@@ -62,16 +64,16 @@ public class TypeOfDisplayExtension extends ExtensionFunctionDefinition {
 			this.type = type;
 		}
 
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
-			if (arguments.length == 1) {
-				Item firstArg = arguments[0].next();
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+			if (sequences.length == 1) {
+				Item firstArg = sequences[0].head();
 				boolean value = false;
 				if (firstArg != null) {
 					value = type.equalsIgnoreCase(firstArg.getStringValue());
 				}
-				return SingletonIterator.makeIterator(BooleanValue.get(value));
+				return BooleanValue.get(value);
 			} else {
-				return SingletonIterator.makeIterator(BooleanValue.FALSE);
+				return BooleanValue.FALSE;
 			}
 		}
 	}

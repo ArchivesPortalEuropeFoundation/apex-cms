@@ -4,6 +4,7 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
 import net.sf.saxon.om.Item;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -70,9 +71,9 @@ public class EadidCheckerExtension extends ExtensionFunctionDefinition {
 			this.preview = preview;
 		}
 
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
-			if (arguments.length == 1) {
-				Item firstArgument = arguments[0].next();
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
+			if (sequences.length == 1) {
+				Item firstArgument = sequences[0].head();
 				String value = "notavailable";
 				if (firstArgument != null) {
 					String eadid = firstArgument.getStringValue();
@@ -90,9 +91,9 @@ public class EadidCheckerExtension extends ExtensionFunctionDefinition {
 
 					}
 				}
-				return SingletonIterator.makeIterator(new StringValue(value));
+				return StringValue.makeStringValue(value);
 			} else {
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+				return StringValue.makeStringValue("ERROR");
 			}
 		}
 	}

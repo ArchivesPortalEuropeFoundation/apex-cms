@@ -3,6 +3,7 @@ package eu.archivesportaleurope.portal.common.xslt;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -68,11 +69,11 @@ public class OtherFindingAidExtension extends ExtensionFunctionDefinition {
 			this.xmlType = xmlType;
 		}
 
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext context) throws XPathException {
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
 			String value="ERROR";
-			if (arguments.length >= 1){
-				String type = arguments[0].next().getStringValue();
-				if (arguments.length == 1){
+			if (sequences.length >= 1){
+				String type = sequences[0].head().getStringValue();
+				if (sequences.length == 1){
 					
 					if ("title".equals(type)){
 						if (XmlType.EAD_FA.equals(xmlType)){
@@ -81,8 +82,8 @@ public class OtherFindingAidExtension extends ExtensionFunctionDefinition {
 							value = resourceBundleSource.getString("eadcontent.otherfindaid.sghg2fa");
 						}
 					}
-				}else if (arguments.length == 2){
-					String suffix = arguments[1].next().getStringValue();
+				}else if (sequences.length == 2){
+					String suffix = sequences[1].head().getStringValue();
 					String prefix = "seconddisplay.view.sghg2fa.";
 					if ("link".equals(type)){
 						if (XmlType.EAD_FA.equals(xmlType)){
@@ -95,7 +96,7 @@ public class OtherFindingAidExtension extends ExtensionFunctionDefinition {
 					}				
 				}
 			}
-			return SingletonIterator.makeIterator(new StringValue(value));
+			return StringValue.makeStringValue(value);
 		}
 	}
 }

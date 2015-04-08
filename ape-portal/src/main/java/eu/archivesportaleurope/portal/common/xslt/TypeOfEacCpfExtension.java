@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 
+import net.sf.saxon.om.Sequence;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -100,12 +101,11 @@ public class TypeOfEacCpfExtension extends ExtensionFunctionDefinition {
 		 *
 		 */
 		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
 			
-			String identifier = arguments[0].next().getStringValue();
+			String identifier = sequences[0].head().getStringValue();
 			String typeEacCpf = "";
-			if (arguments.length ==1){
+			if (sequences.length ==1){
 				
 				EacCpfDAO eacCpfDAO = DAOFactory.instance().getEacCpfDAO();
 				EacCpf eacCpf = null;
@@ -114,9 +114,9 @@ public class TypeOfEacCpfExtension extends ExtensionFunctionDefinition {
 					String path = APEnetUtilities.getApePortalAndDashboardConfig().getRepoDirPath() + eacCpf.getPath();
 					typeEacCpf = extractElementFromXML(path,"eac-cpf/cpfDescription/identity/entityType").trim();
 				} 
-				return SingletonIterator.makeIterator(new StringValue(typeEacCpf));
+				return StringValue.makeStringValue(typeEacCpf);
 			}else{
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+				return StringValue.makeStringValue("ERROR");
 			}
 		
 		}

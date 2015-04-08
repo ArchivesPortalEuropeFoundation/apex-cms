@@ -18,6 +18,7 @@ import eu.apenet.persistence.vo.SourceGuide;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.Sequence;
 import net.sf.saxon.om.SequenceIterator;
 import net.sf.saxon.om.StructuredQName;
 import net.sf.saxon.trans.XPathException;
@@ -94,12 +95,11 @@ public class HrefCheckerExtension extends ExtensionFunctionDefinition {
 		 *     arg[0] -> List of @xlink:href
 		 */
 		@Override
-		public SequenceIterator call(SequenceIterator[] arguments, XPathContext arg1)
-				throws XPathException {
+        public Sequence call(XPathContext xPathContext, Sequence[] sequences) throws XPathException {
 			String splitValue = "_HREF_SEPARATOR_";
 
-			if (arguments.length == 1) {
-				String list = arguments[0].next().getStringValue();
+			if (sequences.length == 1) {
+				String list = sequences[0].head().getStringValue();
 				boolean value = false;
 
 				if (list != null && !list.isEmpty()) {
@@ -175,9 +175,9 @@ public class HrefCheckerExtension extends ExtensionFunctionDefinition {
 					}
 				}
 
-				return SingletonIterator.makeIterator(new StringValue(Boolean.toString(value)));
+				return StringValue.makeStringValue(Boolean.toString(value));
 			} else {
-				return SingletonIterator.makeIterator(new StringValue("ERROR"));
+				return StringValue.makeStringValue("ERROR");
 			}
 		}
 		
