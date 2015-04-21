@@ -278,7 +278,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:places//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -502,7 +502,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:localDescriptions//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -694,7 +694,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:legalStatuses//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -887,7 +887,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:functions//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -1079,7 +1079,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:occupations//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -1271,7 +1271,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:mandates//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -2622,7 +2622,7 @@
 					<xsl:value-of select="ape:checkHrefValue(string-join($bioHist/eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="false"/>
+					<xsl:value-of select="'false'"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -4398,12 +4398,12 @@
     	<xsl:choose>
 	    	<xsl:when test="not($corpname) and not($famname) and not($persname) and not($legalform) and not($listName/eac:part[not(@localType) or @localType=''])"> 
 	    		<xsl:if test="$surName">
-	    		<xsl:for-each select="$surName">
-	    			<xsl:apply-templates select="." mode="other"/>
-	    			<xsl:if test="position()!=last()">
-	    				<xsl:text> </xsl:text>
-	    			</xsl:if>
-	    		</xsl:for-each>	
+					<xsl:for-each select="$surName">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position()!=last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
 	    			<xsl:if test="$birthname">
 	    				<xsl:text> </xsl:text>
 	    			</xsl:if>
@@ -4507,8 +4507,9 @@
    			</xsl:for-each>	
 	   		<xsl:text>)</xsl:text>
 	    </xsl:if>
-        <xsl:variable name="date" select="$listName/../eac:useDates"/>
-        <xsl:if test="$date and $isHeader = 'false'">
+		<xsl:variable name="date" select="if (exists($listName/eac:useDates)) then $listName/eac:useDates else $listName/../eac:useDates" />
+		<xsl:if test="$date and $isHeader = 'false'">
+			<xsl:message select="'display date'"/>
             <xsl:if test="$date/eac:date/text() or $date/eac:dateRange/eac:fromDate or $date/eac:dateRange/eac:toDate or $date/eac:dateSet/eac:date/text() or $date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate">
                 <!-- when there are only 1 dateSet -->
                 <xsl:if test="$date/eac:dateSet and (($date/eac:dateSet/eac:dateRange/eac:fromDate or $date/eac:dateSet/eac:dateRange/eac:toDate) or ($date/eac:dateSet/eac:date and $date/eac:dateSet/eac:date/text()))">

@@ -234,7 +234,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:places//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -605,7 +605,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:localDescriptions//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -781,7 +781,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:legalStatuses//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -957,7 +957,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:functions//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -1133,7 +1133,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:occupations//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -1309,7 +1309,7 @@
 						<xsl:value-of select="ape:checkHrefValue(string-join(./eac:eac-cpf/eac:cpfDescription/eac:description/eac:mandates//eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="false"/>
+						<xsl:value-of select="'false'"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -1809,7 +1809,7 @@
 					<xsl:value-of select="ape:checkHrefValue(string-join($bioHist/eac:citation/@xlink:href, '_HREF_SEPARATOR_'))"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="false"/>
+					<xsl:value-of select="'false'"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
