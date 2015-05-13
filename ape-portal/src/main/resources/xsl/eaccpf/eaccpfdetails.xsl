@@ -6490,7 +6490,7 @@
 					<xsl:call-template name="showAllElements">
 			   			<xsl:with-param name="list" select="$list/eac:p[@xml:lang = $translationLanguage]"/>
 			   			<xsl:with-param name="clazz" select="$clazz"/>
-			   			<xsl:with-param name="posParent" select="'$pos'"/>
+			   			<xsl:with-param name="posParent" select="$pos"/>
 			   			<xsl:with-param name="mode" select="$mode"/>
 			   		</xsl:call-template>
 				</div>
@@ -6510,7 +6510,7 @@
 					<xsl:call-template name="showAllElements">
 			   			<xsl:with-param name="list" select="$list/eac:p"/>
 			   			<xsl:with-param name="clazz" select="$clazz"/>
-			   			<xsl:with-param name="posParent" select="'$pos'"/>
+			   			<xsl:with-param name="posParent" select="$pos"/>
 			   			<xsl:with-param name="mode" select="$mode"/>
 			   		</xsl:call-template>
 				</div>
@@ -6544,7 +6544,7 @@
 					<xsl:call-template name="showDetailsDescriptiveNote">
 			   			<xsl:with-param name="list" select="$list/eac:p"/>
 			   			<xsl:with-param name="clazz" select="$clazz"/>
-			   			<xsl:with-param name="posParent" select="'$pos'"/>
+			   			<xsl:with-param name="posParent" select="$pos"/>
 			   			<xsl:with-param name="mode" select="$mode"/>
 			   			<xsl:with-param name="langNode" select="$langNode"/>
 			   		</xsl:call-template>
