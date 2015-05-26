@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.archivesportaleurope.frontend</groupId>
 	<artifactId>frontend-project</artifactId>
-	<version>2015-04.2-SNAPSHOT</version>
+	<version>2015-05-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>frontend-project</name>
