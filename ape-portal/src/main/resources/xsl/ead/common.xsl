@@ -4,7 +4,7 @@
 	xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions" 	exclude-result-prefixes="xlink xlink xsi ead ape fn #default">
 
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
-	<xsl:template match="ead:head" mode="#all">
+	<xsl:template match="ead:head" name="head" mode="#all">
 		<h4>
 			<xsl:apply-templates mode="#current" />
 		</h4>
@@ -673,9 +673,10 @@
 		</h2>
 		<div class="ead-content">
 			<xsl:for-each select="ead:note">
-				<xsl:if test="./@label" >
-					<xsl:value-of select="./@label" />
-					<xsl:text>: </xsl:text>
+				<xsl:if test="./@label">
+					<h4>
+						<xsl:value-of select="./@label" />
+					</h4>
 				</xsl:if>
 				<xsl:apply-templates  mode="other"/>
 			</xsl:for-each>
