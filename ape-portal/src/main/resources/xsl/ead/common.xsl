@@ -673,6 +673,10 @@
 		</h2>
 		<div class="ead-content">
 			<xsl:for-each select="ead:note">
+				<xsl:if test="./@label" >
+					<xsl:value-of select="./@label" />
+					<xsl:text>: </xsl:text>
+				</xsl:if>
 				<xsl:apply-templates  mode="other"/>
 			</xsl:for-each>
 		</div>
