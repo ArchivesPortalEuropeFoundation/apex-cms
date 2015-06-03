@@ -187,6 +187,7 @@ function addDAOS(){
 	var spendWidth = 0;
 	var more = false;
 	var daolist = $(".daolist");
+	//for ead c elements
 	$( "#eaddetailsContent > .ead-content > .daolistContainer > .daolist-orig > div" ).each(function(index) {
 		found = true;
 		var width = 206;
@@ -205,6 +206,26 @@ function addDAOS(){
 			more = true;
 			return false;
 		}	
+	});
+	//for ead archdesc elements
+	$( "#eaddetailsContent > #body > #content > #expandableContent > .ead-content > .daolistContainer > .daolist-orig > div" ).each(function(index) {
+		found = true;
+		var width = 206;
+		if (width+spendWidth < innerWidth){
+			var innerDiv = $( "<div  class='dao'/>" );
+			spendWidth = spendWidth+ width;
+			var imgObject = $(this).find( "img" );
+			if (imgObject.attr("data-src") !== undefined){
+				imgObject.attr("src", imgObject.attr("data-src"));
+				imgObject.removeAttr("data-src");
+			}
+			innerDiv.append($(this).html());
+			daolist.append(innerDiv);
+			$(this).remove();
+		}else {
+			more = true;
+			return false;
+		}
 	});
 	if (!more){
 		$("#moreDaosButton").remove();	
