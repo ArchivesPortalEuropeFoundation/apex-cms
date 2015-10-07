@@ -19,6 +19,7 @@
 			<div class="logos">
 				<img src="$images_folder/ape/ictpsp_logo.gif"/>
 				<img src="$images_folder/ape/eu_logo.gif"/>
+                                <img src="$images_folder/ape/europeana.gif"/>
 			</div>
 		</div>
 		<p class="powered-by">
