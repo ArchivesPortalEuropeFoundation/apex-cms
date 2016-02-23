@@ -423,6 +423,25 @@
             <role-name>administrator</role-name>
         </security-role-ref>
     </portlet>
+    <portlet>
+        <portlet-name>api</portlet-name>
+        <display-name>Get API Key</display-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <resource-bundle>i18n.ApplicationResources</resource-bundle>
+        <portlet-info>
+            <title>Get API Key</title>
+            <short-title>Get API Key</short-title>
+            <keywords>Get API Key</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+    </portlet>
 	<portlet>
 		<portlet-name>featured-exhibition-frontpage</portlet-name>
 		<display-name>Featured Exhibition Frontpage</display-name>
