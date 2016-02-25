@@ -52,12 +52,14 @@ public class ApiController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         User user = (User) portletRequest.getAttribute(WebKeys.USER);
-        if (this.apiKey == null || !(this.apiKey.getEmail().equals(user.getEmailAddress()))) {
+//        if (this.apiKey == null || !(this.apiKey.getEmail().equals(user.getEmailAddress()))) {
+        if (this.apiKey == null) {
             this.apiKey = new ApiKey();
-            this.apiKey.setFirstName(user.getFirstName());
-            this.apiKey.setLastName(user.getLastName());
-            this.apiKey.setEmail(user.getEmailAddress());
         }
+        this.apiKey.setFirstName(user.getFirstName());
+        this.apiKey.setLastName(user.getLastName());
+        this.apiKey.setEmail(user.getEmailAddress());
+//        }
         modelAndView.getModelMap().addAttribute("apiKey", this.apiKey);
         return modelAndView;
     }
