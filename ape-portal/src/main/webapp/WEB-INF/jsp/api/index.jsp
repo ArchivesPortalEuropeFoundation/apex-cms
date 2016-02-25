@@ -18,7 +18,6 @@
 <div id="languagePortlet">
     <h1>Get API Key</h1>
     <h2>API Key</h2>
-    <c:out value="${apiKey}"/>
 
     <form:form id="getApiKey" name="getApiKey" commandName="apiKey" method="post"
                action="${getApiKey}">
