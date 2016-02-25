@@ -53,7 +53,6 @@ public class ApiController {
         modelAndView.setViewName("index");
         User user = (User) portletRequest.getAttribute(WebKeys.USER);
         if (this.apiKey == null || !(this.apiKey.getEmail().equals(user.getEmailAddress()))) {
-            System.out.println("Initializing ......");
             this.apiKey = new ApiKey();
             this.apiKey.setFirstName(user.getFirstName());
             this.apiKey.setLastName(user.getLastName());
@@ -65,7 +64,6 @@ public class ApiController {
 
     @ActionMapping(params = "myaction=getApiKey")
     public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
-        System.out.println(apiKey.getDomain() + "**************************");
         apiKey.setKey("changed");
         this.apiKey = apiKey;
         response.sendRedirect("/api-key");

@@ -53,11 +53,11 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                        <th>Domain Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
                         <td><c:out value="${apiKey.domain}"/></td>
                     </tr>
                     <tr>
-                        <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                        <th>Your Api Key<!--<fmt:message key="savedsearch.id"/>-->:</th>
                         <td><c:out value="${apiKey.key}"/></td>
                     </tr>
                 </c:otherwise>
