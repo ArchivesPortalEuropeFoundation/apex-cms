@@ -23,6 +23,7 @@
     <bean class="eu.archivesportaleurope.portal.api.ApiController" >
     		<property name="messageSource" ref="messageSource"></property>
     </bean>
+    <bean class="eu.archivesportaleurope.portal.api.ApiKey" />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

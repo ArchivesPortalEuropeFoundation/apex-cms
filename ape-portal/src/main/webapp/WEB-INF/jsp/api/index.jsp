@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
+<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,9 +11,57 @@
 <%@ taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
 <portlet:defineObjects />
 
+<portlet:actionURL var="getApiKey">
+    <portlet:param name="myaction" value="getApiKey" />
+</portlet:actionURL>
+
 <div id="languagePortlet">
     <h1>Get API Key</h1>
     <h2>API Key</h2>
-    <c:out value="${name}"/>
-    <c:out value="${email}"/>
+    <c:out value="${apiKey}"/>
+
+    <form:form id="getApiKey" name="getApiKey" commandName="apiKey" method="post"
+               action="${getApiKey}">
+        <form:hidden path="firstName" value="${apiKey.firstName}"/>
+        <form:hidden path="lastName" value="${apiKey.lastName}"/>
+        <form:hidden path="email" value="${apiKey.email}"/>
+        <form:hidden path="key" value="${apiKey.key}"/>
+        <table class="defaultlayout">
+            <tr>
+                <th>First Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                <td><c:out value="${apiKey.firstName}"/></td>
+            </tr>
+            <tr>
+                <th>Last Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                <td><c:out value="${apiKey.lastName}"/></td>
+            </tr>
+            <tr>
+                <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                <td><c:out value="${apiKey.email}"/></td>
+            </tr>
+            <c:choose>
+                <c:when test="${apiKey.key eq 'empty'}">
+                    <tr>
+                        <th class="description">Domain Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                        <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="linkButton" colspan="2">
+                            <input type="submit" value="Submit"/>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                        <td><c:out value="${apiKey.domain}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
+                        <td><c:out value="${apiKey.key}"/></td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
+        </table>
+    </form:form>
 </div>

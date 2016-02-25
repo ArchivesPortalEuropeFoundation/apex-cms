@@ -25,6 +25,8 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import java.io.IOException;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  *
@@ -39,6 +41,7 @@ public class ApiController {
 
     private final static Logger LOGGER = Logger.getLogger(ApiController.class);
     private ResourceBundleMessageSource messageSource;
+    private ApiKey apiKey = null;
 
     public void setMessageSource(ResourceBundleMessageSource messageSource) {
         this.messageSource = messageSource;
@@ -49,9 +52,23 @@ public class ApiController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         User user = (User) portletRequest.getAttribute(WebKeys.USER);
-        modelAndView.getModelMap().addAttribute("name", user.getFullName());
-        modelAndView.getModelMap().addAttribute("email", user.getEmailAddress());
+        if (this.apiKey == null || !(this.apiKey.getEmail().equals(user.getEmailAddress()))) {
+            System.out.println("Initializing ......");
+            this.apiKey = new ApiKey();
+            this.apiKey.setFirstName(user.getFirstName());
+            this.apiKey.setLastName(user.getLastName());
+            this.apiKey.setEmail(user.getEmailAddress());
+        }
+        modelAndView.getModelMap().addAttribute("apiKey", this.apiKey);
         return modelAndView;
+    }
+
+    @ActionMapping(params = "myaction=getApiKey")
+    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
+        System.out.println(apiKey.getDomain() + "**************************");
+        apiKey.setKey("changed");
+        this.apiKey = apiKey;
+        response.sendRedirect("/api-key");
     }
 
     @ActionMapping(params = "myaction=cleanServer")
