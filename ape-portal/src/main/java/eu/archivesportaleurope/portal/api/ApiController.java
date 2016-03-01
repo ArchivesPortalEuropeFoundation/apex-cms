@@ -79,7 +79,6 @@ public class ApiController {
                 perApiKey.setApiKey(new Date().toString());
                 apiKeyDAO.update(perApiKey);
             }
-            response.sendRedirect("/api-key", null);
         }
     }
 
