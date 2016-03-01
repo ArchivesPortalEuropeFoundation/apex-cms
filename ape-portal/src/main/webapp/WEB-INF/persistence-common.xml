@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
@@ -13,20 +13,22 @@
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
     <bean id="countryDAO" class="eu.apenet.persistence.hibernate.CountryHibernateDAO"/>
-	<bean id="archivalInstitutionDAO" class="eu.apenet.persistence.hibernate.ArchivalInstitutionHibernateDAO"/>
-	<bean id="cLevelDAO" class="eu.apenet.persistence.hibernate.CLevelHibernateDAO"/>
-	<bean id="eadContentDAO" class="eu.apenet.persistence.hibernate.EadContentHibernateDAO"/>
-	<bean id="eadDAO" class="eu.apenet.persistence.hibernate.EadHibernateDAO"/>
-	<bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
-	<bean id="eadSavedSearchDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EadSavedSearchJpaDAO"/>
-	<bean id="collectionDAO" class="eu.apenet.persistence.hibernate.CollectionHibernateDAO"/>
-	<bean id="collectionContentDAO" class="eu.apenet.persistence.hibernate.CollectionContentHibernateDAO"/>
-	<bean id="savedBookmarksDAO" class="eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO"/>
-	<bean id="eacCpfDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EacCpfJpaDAO"/>
-	<bean id="coordinatesDAO" class="eu.apenet.persistence.hibernate.CoordinatesHibernateDAO"/>
-	<bean id="databaseCacher" class="eu.archivesportaleurope.portal.search.common.DatabaseCacher">
-		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
-	</bean>
-	<bean id="userDAO" class="eu.apenet.persistence.hibernate.UserHibernateDAO"/>	
-	<bean id="topicDAO" class="eu.archivesportaleurope.persistence.jpa.dao.TopicJpaDAO"/>	
+    <bean id="archivalInstitutionDAO" class="eu.apenet.persistence.hibernate.ArchivalInstitutionHibernateDAO"/>
+    <bean id="cLevelDAO" class="eu.apenet.persistence.hibernate.CLevelHibernateDAO"/>
+    <bean id="eadContentDAO" class="eu.apenet.persistence.hibernate.EadContentHibernateDAO"/>
+    <bean id="eadDAO" class="eu.apenet.persistence.hibernate.EadHibernateDAO"/>
+    <bean id="findingAidDAO" class="eu.apenet.persistence.hibernate.FindingAidHibernateDAO"/>
+    <bean id="eadSavedSearchDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EadSavedSearchJpaDAO"/>
+    <bean id="collectionDAO" class="eu.apenet.persistence.hibernate.CollectionHibernateDAO"/>
+    <bean id="collectionContentDAO" class="eu.apenet.persistence.hibernate.CollectionContentHibernateDAO"/>
+    <bean id="savedBookmarksDAO" class="eu.archivesportaleurope.persistence.jpa.dao.SavedBookmarksJpaDAO"/>
+    <bean id="eacCpfDAO" class="eu.archivesportaleurope.persistence.jpa.dao.EacCpfJpaDAO"/>
+    <bean id="coordinatesDAO" class="eu.apenet.persistence.hibernate.CoordinatesHibernateDAO"/>
+    <bean id="databaseCacher" class="eu.archivesportaleurope.portal.search.common.DatabaseCacher">
+        <property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+    </bean>
+    <bean id="userDAO" class="eu.apenet.persistence.hibernate.UserHibernateDAO"/>	
+    <bean id="topicDAO" class="eu.archivesportaleurope.persistence.jpa.dao.TopicJpaDAO"/>
+    <bean id="apiKeyDAO" class="eu.apenet.persistence.hibernate.ApiKeyHibernateDAO"/>
+    <!--<bean id="ApiKeyRepo" class="eu.apenet.persistence.hibernate.ApiKeyRepo"/>-->	
 </beans>

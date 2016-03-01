@@ -14,8 +14,19 @@ public class ApiKey {
     private String firstName;
     private String lastName;
     private String email;
-    private String domain = "blank";
-    private String key = "empty";
+    private String domain;
+    private String key;
+
+    public ApiKey() {
+    }
+
+    public ApiKey(eu.apenet.persistence.vo.ApiKey aPIKey) {
+        this.firstName = aPIKey.getFirstName();
+        this.lastName = aPIKey.getLastName();
+        this.email = aPIKey.getEmailAddress();
+        this.key = aPIKey.getApiKey();
+        this.domain = aPIKey.getUrl();
+    }
 
     public String getFirstName() {
         return firstName;
@@ -55,6 +66,16 @@ public class ApiKey {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public eu.apenet.persistence.vo.ApiKey getPerApiKey(ApiKey apiKey) {
+        eu.apenet.persistence.vo.ApiKey perApiKey = new eu.apenet.persistence.vo.ApiKey();
+        perApiKey.setApiKey(apiKey.getKey());
+        perApiKey.setEmailAddress(apiKey.getEmail());
+        perApiKey.setFirstName(apiKey.getFirstName());
+        perApiKey.setLastName(apiKey.getLastName());
+        perApiKey.setUrl(apiKey.getDomain());
+        return perApiKey;
     }
 
 }

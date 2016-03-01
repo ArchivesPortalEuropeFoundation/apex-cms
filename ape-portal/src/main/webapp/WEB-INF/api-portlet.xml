@@ -12,18 +12,20 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>i18n.menu.menu</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>i18n.menu.menu</value>
+            </list>
+        </property>
+    </bean>
     <bean class="eu.archivesportaleurope.portal.api.ApiController" >
-    		<property name="messageSource" ref="messageSource"></property>
+        <property name="messageSource" ref="messageSource"></property>
+        <property name="apiKeyDAO" ref="apiKeyDAO"></property>
     </bean>
     <bean class="eu.archivesportaleurope.portal.api.ApiKey" />
+    <bean id="apiKeyDAO" class="eu.apenet.persistence.hibernate.ApiKeyHibernateDAO"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

@@ -42,7 +42,7 @@
                 <td><c:out value="${apiKey.email}"/></td>
             </tr>
             <c:choose>
-                <c:when test="${apiKey.key ne 'empty' and apiKey.key ne 'renew'}">
+                <c:when test="${not empty apiKey.key}">
                     <tr>
                         <th>Domain Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
                         <td><c:out value="${apiKey.domain}"/></td>
