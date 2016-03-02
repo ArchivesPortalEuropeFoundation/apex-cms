@@ -16,6 +16,9 @@
 <portlet:actionURL var="changeApiKey">
     <portlet:param name="myaction" value="changeApiKey" />
 </portlet:actionURL>
+<portlet:renderURL var="editUrl">
+    <portlet:param name="myaction" value="editApiKey" />
+</portlet:renderURL>
 
 
 <div id="languagePortlet">

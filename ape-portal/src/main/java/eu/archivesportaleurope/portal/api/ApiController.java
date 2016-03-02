@@ -22,6 +22,7 @@ import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
+import javax.portlet.RenderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -70,10 +71,10 @@ public class ApiController {
     }
 
     @ActionMapping(params = "myaction=getApiKey")
-    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response){
+    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) {
         if (actionRequest.getUserPrincipal() != null) {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            LOGGER.info("::: User is : "+user.getFullName()+" :::");
+            LOGGER.info("::: User is : " + user.getFullName() + " :::");
             eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
             if (perApiKey == null) {
                 LOGGER.info("::: No api key found in DB :::");
@@ -90,10 +91,17 @@ public class ApiController {
             }
 //            System.out.println(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
 //            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY),null);
-        }
-        else{
+        } else {
             LOGGER.error(":::: No Principle found ::::");
         }
+    }
+
+    @RenderMapping(params = "myaction=editApiKey")
+    public String edit(RenderRequest renderRequest) {
+        eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(((User) renderRequest.getAttribute(WebKeys.USER)).getEmailAddress());
+        perApiKey.setApiKey(null);
+        apiKeyDAO.update(perApiKey);
+        return "index";
     }
 
     @ActionMapping(params = "myaction=changeApiKey")
@@ -101,8 +109,13 @@ public class ApiController {
         if (actionRequest.getUserPrincipal() != null) {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
+            LOGGER.error(":::: deleting api key ::::");
             perApiKey.setApiKey(null);
             apiKeyDAO.update(perApiKey);
+            LOGGER.error(":::: api key changed to null ::::");
+        }
+        else {
+            LOGGER.error(":::: No Principle found ::::");
         }
     }
 
