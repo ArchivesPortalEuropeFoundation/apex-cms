@@ -19,6 +19,7 @@
 <portlet:renderURL var="editUrl">
     <portlet:param name="myaction" value="editApiKey" />
 </portlet:renderURL>
+<portal:friendlyUrl var="apiKeyUrl" type="api-key"/>
 
 
 <div id="languagePortlet">

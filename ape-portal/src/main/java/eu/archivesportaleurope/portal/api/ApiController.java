@@ -19,6 +19,7 @@ import eu.apenet.persistence.dao.ApiKeyDAO;
 import eu.apenet.persistence.hibernate.ApiKeyHibernateDAO;
 import eu.apenet.persistence.hibernate.ApiKeyRepo;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
+import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
@@ -51,8 +52,9 @@ public class ApiController {
     public ModelAndView chooseLayout(PortletRequest portletRequest) throws SystemException {
         Principal principal = portletRequest.getUserPrincipal();
         ModelAndView modelAndView = new ModelAndView();
+        PortalDisplayUtil.setPageTitle(portletRequest, PortalDisplayUtil.TITLE_HOME);
+        modelAndView.setViewName("home");
         if (principal != null) {
-            modelAndView.setViewName("index");
             User user = (User) portletRequest.getAttribute(WebKeys.USER);
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
             if (persistantApiKey != null) {
@@ -113,8 +115,7 @@ public class ApiController {
             perApiKey.setApiKey(null);
             apiKeyDAO.update(perApiKey);
             LOGGER.error(":::: api key changed to null ::::");
-        }
-        else {
+        } else {
             LOGGER.error(":::: No Principle found ::::");
         }
     }
