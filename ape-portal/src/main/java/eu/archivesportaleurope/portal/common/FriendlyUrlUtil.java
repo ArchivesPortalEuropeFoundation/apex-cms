@@ -39,6 +39,7 @@ public final class FriendlyUrlUtil {
 	public static final String SAVED_COLLECTION_OVERVIEW = "saved-collection-overview";
 	public static final String SEPARATOR = "/";
 	public static final String EAC_CPF_DISPLAY = "eac-display";
+        public static final String API_KEY = "api-key";
 	
 
 	
@@ -64,6 +65,7 @@ public final class FriendlyUrlUtil {
 		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/saved-bookmarks/-/sb");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");
 		urls.put(SAVED_COLLECTION_OVERVIEW, "/saved-collections/-/cs");
+                urls.put(API_KEY,"/api-key");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {

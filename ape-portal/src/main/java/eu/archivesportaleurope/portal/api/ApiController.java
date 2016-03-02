@@ -18,6 +18,7 @@ import com.liferay.portal.model.User;
 import eu.apenet.persistence.dao.ApiKeyDAO;
 import eu.apenet.persistence.hibernate.ApiKeyHibernateDAO;
 import eu.apenet.persistence.hibernate.ApiKeyRepo;
+import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
@@ -79,6 +80,8 @@ public class ApiController {
                 perApiKey.setApiKey(new Date().toString());
                 apiKeyDAO.update(perApiKey);
             }
+            System.out.println(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
+            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY),null);
         }
     }
 
