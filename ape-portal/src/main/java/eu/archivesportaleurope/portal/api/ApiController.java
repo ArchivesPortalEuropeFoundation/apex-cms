@@ -55,8 +55,10 @@ public class ApiController {
             User user = (User) portletRequest.getAttribute(WebKeys.USER);
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
             if (persistantApiKey != null) {
+                LOGGER.info("::: api key found in DB :::");
                 this.apiKey = new ApiKey(persistantApiKey);
             } else {
+                LOGGER.info("::: api key not found in DB :::");
                 this.apiKey = new ApiKey();
                 this.apiKey.setFirstName(user.getFirstName());
                 this.apiKey.setLastName(user.getLastName());
@@ -68,20 +70,29 @@ public class ApiController {
     }
 
     @ActionMapping(params = "myaction=getApiKey")
-    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
+    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response){
         if (actionRequest.getUserPrincipal() != null) {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
+            LOGGER.info("::: User is : "+user.getFullName()+" :::");
             eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
             if (perApiKey == null) {
+                LOGGER.info("::: No api key found in DB :::");
                 apiKey.setKey(new Date().toString());
+                LOGGER.info("::: Set api key :::");
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
+                LOGGER.info("::: api key sotred in DB :::");
                 this.apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
             } else {
+                LOGGER.info("::: api key found in DB :::");
                 perApiKey.setApiKey(new Date().toString());
                 apiKeyDAO.update(perApiKey);
+                LOGGER.info("::: api key updated in DB :::");
             }
-            System.out.println(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
-            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY),null);
+//            System.out.println(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
+//            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY),null);
+        }
+        else{
+            LOGGER.error(":::: No Principle found ::::");
         }
     }
 
