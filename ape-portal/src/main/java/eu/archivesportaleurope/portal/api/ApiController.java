@@ -91,7 +91,7 @@ public class ApiController {
                 LOGGER.info("::: No api key found in DB :::");
                 apiKey.setKey(ApiKeyGenUtil.generateApiKey(user.getEmailAddress()));
                 LOGGER.info("::: Set api key :::");
-                LOGGER.info("::::Object presen is "+apiKey.toString());
+                LOGGER.info("::::Object presen is " + apiKey.toString());
                 apiKey.setStatus(BaseEntity.STATUS_CREATED);
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
                 LOGGER.info("::: api key sotred in DB :::");
@@ -110,8 +110,10 @@ public class ApiController {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             Long liferayUserId = Long.parseLong(principal.toString());
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
-            persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
-            apiKeyDAO.update(persistantApiKey);
+            if (persistantApiKey != null) {
+                persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
+                apiKeyDAO.update(persistantApiKey);
+            }
             response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
             LOGGER.error(":::: api key changed to null ::::");
         } else {
