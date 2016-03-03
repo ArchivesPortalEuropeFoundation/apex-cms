@@ -65,7 +65,7 @@ public final class FriendlyUrlUtil {
 		urls.put(SAVED_BOOKMARKS_OVERVIEW, "/saved-bookmarks/-/sb");
 		urls.put(EAC_CPF_DISPLAY, "/eac-display/-/eac/pl");
 		urls.put(SAVED_COLLECTION_OVERVIEW, "/saved-collections/-/cs");
-                urls.put(API_KEY,"/api-key");
+                urls.put(API_KEY,"/get-api-key");
 	}
 
 	public static String getUrl(PortletRequest portletRequest, String type) {
