@@ -21,6 +21,7 @@ import eu.apenet.persistence.vo.BaseEntity;
 import eu.archivesportaleurope.portal.common.ApiKeyGenUtil;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
+import eu.archivesportaleurope.portal.common.email.EmailSender;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
@@ -97,6 +98,7 @@ public class ApiController {
                 LOGGER.info("::: api key sotred in DB :::");
                 //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
             }
+            EmailSender.sendApiKeyConfirmationEmail(apiKey, user);
             response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
         } else {
             LOGGER.error(":::: No Principle found ::::");

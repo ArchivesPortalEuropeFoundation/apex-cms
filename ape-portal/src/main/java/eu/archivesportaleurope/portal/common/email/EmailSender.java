@@ -11,6 +11,7 @@ import eu.apenet.commons.infraestructure.EmailComposer.Priority;
 import eu.apenet.commons.infraestructure.Emailer;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.User;
+import eu.archivesportaleurope.portal.api.ApiKey;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.contact.Contact;
@@ -60,6 +61,17 @@ public final class EmailSender {
         	emailer.sendMessage(contact.getEmail(), null, null, null, emailComposer);
         }
     }
+    
+    public static void sendApiKeyConfirmationEmail(ApiKey apiKey, com.liferay.portal.model.User user){
+        Emailer emailer = new Emailer();
+        String title = "Your Api key "+apiKey.getKey();
+        EmailComposer emailComposer = new EmailComposer("emails/apiConfirmationEmail.txt", title, true, false);
+        emailComposer.setProperty("username", user.getFullName());
+        emailComposer.setProperty("apikey", apiKey.getKey());
+        emailComposer.setProperty("domain", apiKey.getDomain());
+        emailer.sendMessage(PropertiesUtil.get(PropertiesKeys.APE_EMAILS_FEEDBACK_USER), null, null, user.getEmailAddress(), emailComposer);
+    }
+    
     public static void sendFeedbackFormEmail(Contact contact, com.liferay.portal.model.User user) {
     	
         Emailer emailer = new Emailer();

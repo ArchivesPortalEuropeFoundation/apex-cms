@@ -1,0 +1,5 @@
+Dear ${username},
+
+You have requested for an API KEY. And your registered API KEY
+is : ${apikey} for the domain ${domain}
+
