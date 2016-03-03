@@ -12,14 +12,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
-    <bean id="messageSource"
-          class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>i18n.menu.menu</value>
-            </list>
-        </property>
-    </bean>
+    <import resource="i18n-common.xml"/>
     <bean class="eu.archivesportaleurope.portal.api.ApiController" >
         <property name="messageSource" ref="messageSource"></property>
         <property name="apiKeyDAO" ref="apiKeyDAO"></property>

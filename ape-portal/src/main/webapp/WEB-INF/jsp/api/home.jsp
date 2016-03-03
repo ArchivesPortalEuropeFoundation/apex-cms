@@ -23,8 +23,15 @@
 
 
 <div id="languagePortlet">
-    <h1>Get API Key</h1>
-    <h2>API Key</h2>
+    <c:choose>
+        <c:when test="${not empty apiKey.key}">
+            <h1><fmt:message key="label.api.key.alreadyhave"/></h1>
+            <h2><fmt:message key="label.api.key"/> : ${apiKey.key}</h2>
+        </c:when>
+        <c:otherwise>
+            <h1><fmt:message key="label.api.key.get"/></h1>
+        </c:otherwise>
+    </c:choose>
 
     <form:form id="getApiKey" name="getApiKey" commandName="apiKey" method="post"
                action="${actionUrl}">
@@ -36,45 +43,40 @@
         <form:hidden path="status" value="${apiKey.status}"/>
         <table class="defaultlayout">
             <tr>
-                <th>First Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                <td><c:out value="${apiKey.firstName}"/></td>
+                <th><fmt:message key="advancedsearch.eaccpf.typeofname.firstname"/>:</th>
+            <td><c:out value="${apiKey.firstName}"/></td>
             </tr>
             <tr>
-                <th>Last Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                <td><c:out value="${apiKey.lastName}"/></td>
+                <th><fmt:message key="advancedsearch.eaccpf.typeofname.lastname"/>:</th>
+            <td><c:out value="${apiKey.lastName}"/></td>
             </tr>
             <tr>
-                <th>Email<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                <td><c:out value="${apiKey.email}"/></td>
+                <th><fmt:message key="label.email.contact"/>:</th>
+            <td><c:out value="${apiKey.email}"/></td>
             </tr>
             <c:choose>
                 <c:when test="${not empty apiKey.key}">
                     <tr>
-                        <th>Domain Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                        <td><c:out value="${apiKey.domain}"/></td>
+                        <th><fmt:message key="feedback.url"/>:</th>
+                    <td><c:out value="${apiKey.domain}"/></td>
                     </tr>
                     <tr>
-                        <th>Your Api Key<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                        <td><c:out value="${apiKey.key}"/></td>
+                        <th><fmt:message key="label.api.key"/>:</th>
+                    <td><c:out value="${apiKey.key}"/></td>
                     </tr>
-                    <a href="${changeApiKey}">Change Api Key</a>
+                    <a href="${changeApiKey}"><fmt:message key="label.api.key.change"/></a>
 
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <th class="description">Domain Name<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                        <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/></td>
+                        <th class="description"><fmt:message key="feedback.url"/>:</th>
+                    <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/></td>
                     </tr>
                     <tr>
                         <td class="linkButton" colspan="2">
                             <input type="submit" value="Submit"/>
                         </td>
                     </tr>
-                    <tr>
-                        <th>Your Api Key<!--<fmt:message key="savedsearch.id"/>-->:</th>
-                        <td><c:out value="${apiKey.key}"/></td>
-                    </tr>
-
                 </c:otherwise>
             </c:choose>
         </table>
