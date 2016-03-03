@@ -69,7 +69,8 @@ public final class EmailSender {
         emailComposer.setProperty("username", user.getFullName());
         emailComposer.setProperty("apikey", apiKey.getKey());
         emailComposer.setProperty("domain", apiKey.getDomain());
-        emailer.sendMessage(PropertiesUtil.get(PropertiesKeys.APE_EMAILS_FEEDBACK_USER), null, null, user.getEmailAddress(), emailComposer);
+        emailComposer.setProperty("email", PropertiesUtil.get(PropertiesKeys.APE_EMAILS_FEEDBACK_USER));
+        emailer.sendMessage(user.getEmailAddress(), null, null, null, emailComposer);
     }
     
     public static void sendFeedbackFormEmail(Contact contact, com.liferay.portal.model.User user) {

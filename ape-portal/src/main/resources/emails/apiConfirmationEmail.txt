@@ -3,3 +3,10 @@ Dear ${username},
 You have requested for an API KEY. And your registered API KEY
 is : ${apikey} for the domain ${domain}
 
+This is an auto generated e-mail. Please do not reply.
+If any questions send us your question by contact form or
+Send mail to ${email}.
+
+Best Regards,
+APE API team.
+
