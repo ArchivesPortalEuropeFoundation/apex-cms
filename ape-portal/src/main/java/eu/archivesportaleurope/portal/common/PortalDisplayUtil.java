@@ -34,6 +34,7 @@ public class PortalDisplayUtil {
 	public static final String TITLE_SAVED_BOOKMARK = "SAVE BOOKMARK";
 	public static final String TITLE_SAVED_COLLECTIONS = "SAVED COLLECTIONS";
     public static final String TITLE_TOPICS = "TOPICS";
+    public static final String TITLE_API_KEY = "GET API KEY";
     /**
      * Method to replace whitespaces, carriage returns and all the problematic
      * characters.

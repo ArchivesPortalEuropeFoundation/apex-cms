@@ -11,6 +11,8 @@ package eu.archivesportaleurope.portal.api;
  */
 public class ApiKey {
 
+    private long liferayUserId;
+    private String status;
     private String firstName;
     private String lastName;
     private String email;
@@ -26,6 +28,24 @@ public class ApiKey {
         this.email = aPIKey.getEmailAddress();
         this.key = aPIKey.getApiKey();
         this.domain = aPIKey.getUrl();
+        this.liferayUserId = aPIKey.getLiferayUserId();
+        this.status = aPIKey.getStatus();
+    }
+
+    public long getLiferayUserId() {
+        return liferayUserId;
+    }
+
+    public void setLiferayUserId(long liferayUserId) {
+        this.liferayUserId = liferayUserId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getFirstName() {
@@ -75,7 +95,14 @@ public class ApiKey {
         perApiKey.setFirstName(apiKey.getFirstName());
         perApiKey.setLastName(apiKey.getLastName());
         perApiKey.setUrl(apiKey.getDomain());
+        perApiKey.setLiferayUserId(apiKey.getLiferayUserId());
+        perApiKey.setStatus(apiKey.getStatus());
         return perApiKey;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiKey{" + "liferayUserId=" + liferayUserId + ", status=" + status + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", url=" + domain + ", key=" + key + '}';
     }
 
 }

@@ -32,6 +32,8 @@
         <form:hidden path="lastName" value="${apiKey.lastName}"/>
         <form:hidden path="email" value="${apiKey.email}"/>
         <form:hidden path="key" value="${apiKey.key}"/>
+        <form:hidden path="liferayUserId" value="${apiKey.liferayUserId}"/>
+        <form:hidden path="status" value="${apiKey.status}"/>
         <table class="defaultlayout">
             <tr>
                 <th>First Name<!--<fmt:message key="savedsearch.id"/>-->:</th>

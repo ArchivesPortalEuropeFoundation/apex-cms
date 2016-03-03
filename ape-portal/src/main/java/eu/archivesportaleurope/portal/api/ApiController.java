@@ -17,14 +17,14 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import eu.apenet.persistence.dao.ApiKeyDAO;
 import eu.apenet.persistence.hibernate.ApiKeyHibernateDAO;
-import eu.apenet.persistence.hibernate.ApiKeyRepo;
+import eu.apenet.persistence.vo.BaseEntity;
+import eu.archivesportaleurope.portal.common.ApiKeyGenUtil;
 import eu.archivesportaleurope.portal.common.FriendlyUrlUtil;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.Date;
 import javax.portlet.RenderRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
@@ -38,7 +38,6 @@ public class ApiController {
     private ApiKeyDAO apiKeyDAO;
     private final static Logger LOGGER = Logger.getLogger(ApiController.class);
     private ResourceBundleMessageSource messageSource;
-    private ApiKey apiKey = null;
 
     public void setApiKeyDAO(ApiKeyHibernateDAO apiKeyHibernateDAO) {
         this.apiKeyDAO = apiKeyHibernateDAO;
@@ -50,70 +49,70 @@ public class ApiController {
 
     @RenderMapping
     public ModelAndView chooseLayout(PortletRequest portletRequest) throws SystemException {
+        ApiKey apiKey;
         Principal principal = portletRequest.getUserPrincipal();
         ModelAndView modelAndView = new ModelAndView();
-        PortalDisplayUtil.setPageTitle(portletRequest, PortalDisplayUtil.TITLE_HOME);
-        modelAndView.setViewName("home");
+        PortalDisplayUtil.setPageTitle(portletRequest, PortalDisplayUtil.TITLE_API_KEY);
         if (principal != null) {
             User user = (User) portletRequest.getAttribute(WebKeys.USER);
-            eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
+            Long liferayUserId = Long.parseLong(principal.toString());
+            eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
             if (persistantApiKey != null) {
                 LOGGER.info("::: api key found in DB :::");
-                this.apiKey = new ApiKey(persistantApiKey);
+                apiKey = new ApiKey(persistantApiKey);
+                LOGGER.info(persistantApiKey.toString());
             } else {
                 LOGGER.info("::: api key not found in DB :::");
-                this.apiKey = new ApiKey();
-                this.apiKey.setFirstName(user.getFirstName());
-                this.apiKey.setLastName(user.getLastName());
-                this.apiKey.setEmail(user.getEmailAddress());
+                apiKey = new ApiKey();
+                apiKey.setFirstName(user.getFirstName());
+                apiKey.setLastName(user.getLastName());
+                apiKey.setEmail(user.getEmailAddress());
+                apiKey.setLiferayUserId(liferayUserId);
+                apiKey.setStatus(BaseEntity.STATUS_CREATED);
             }
-            modelAndView.getModelMap().addAttribute("apiKey", this.apiKey);
+            modelAndView.getModelMap().addAttribute("apiKey", apiKey);
+            modelAndView.setViewName("home");
+            LOGGER.info(apiKey.toString());
+//            LOGGER.info(persistantApiKey.toString());
         }
+
         return modelAndView;
     }
 
     @ActionMapping(params = "myaction=getApiKey")
-    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) {
-        if (actionRequest.getUserPrincipal() != null) {
+    public void saveApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException, NoSuchAlgorithmException {
+        Principal principal = actionRequest.getUserPrincipal();
+        if (principal != null) {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
             LOGGER.info("::: User is : " + user.getFullName() + " :::");
-            eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
-            if (perApiKey == null) {
+            Long liferayUserId = Long.parseLong(principal.toString());
+            eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
+            if (persistantApiKey == null) {
                 LOGGER.info("::: No api key found in DB :::");
-                apiKey.setKey(new Date().toString());
+                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user.getEmailAddress()));
                 LOGGER.info("::: Set api key :::");
+                LOGGER.info("::::Object presen is "+apiKey.toString());
+                apiKey.setStatus(BaseEntity.STATUS_CREATED);
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
                 LOGGER.info("::: api key sotred in DB :::");
-                this.apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
-            } else {
-                LOGGER.info("::: api key found in DB :::");
-                perApiKey.setApiKey(new Date().toString());
-                apiKeyDAO.update(perApiKey);
-                LOGGER.info("::: api key updated in DB :::");
+                //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
             }
-//            System.out.println(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
-//            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY),null);
+            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
         } else {
             LOGGER.error(":::: No Principle found ::::");
         }
     }
 
-    @RenderMapping(params = "myaction=editApiKey")
-    public String edit(RenderRequest renderRequest) {
-        eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(((User) renderRequest.getAttribute(WebKeys.USER)).getEmailAddress());
-        perApiKey.setApiKey(null);
-        apiKeyDAO.update(perApiKey);
-        return "index";
-    }
-
     @ActionMapping(params = "myaction=changeApiKey")
     public void changeApiKeyView(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
-        if (actionRequest.getUserPrincipal() != null) {
+        Principal principal = actionRequest.getUserPrincipal();
+        if (principal != null) {
             User user = (User) actionRequest.getAttribute(WebKeys.USER);
-            eu.apenet.persistence.vo.ApiKey perApiKey = apiKeyDAO.findByEmail(user.getEmailAddress());
-            LOGGER.error(":::: deleting api key ::::");
-            perApiKey.setApiKey(null);
-            apiKeyDAO.update(perApiKey);
+            Long liferayUserId = Long.parseLong(principal.toString());
+            eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
+            persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
+            apiKeyDAO.update(persistantApiKey);
+            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
             LOGGER.error(":::: api key changed to null ::::");
         } else {
             LOGGER.error(":::: No Principle found ::::");
@@ -124,7 +123,6 @@ public class ApiController {
     public void changeApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
         if (actionRequest.getUserPrincipal() != null) {
             apiKey.setKey("changed");
-            this.apiKey = apiKey;
             response.sendRedirect("/api-key");
         }
     }
