@@ -25,7 +25,6 @@ import eu.archivesportaleurope.portal.common.email.EmailSender;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import javax.portlet.RenderRequest;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**

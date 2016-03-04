@@ -11,13 +11,21 @@
     <packaging>war</packaging>
     <name>Archives Portal Europe Theme</name>
     <description>Default theme for Archives Portal Europe</description>
+    
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+        <liferay.theme.parent>_styled</liferay.theme.parent>
+        <liferay.theme.type>vm</liferay.theme.type>
+    </properties>
+    
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.6</version>
                 <configuration>
+                    <outputDirectory>${main.basedir}/deploy</outputDirectory>
                     <webResources>
                         <resource>
                             <filtering>true</filtering>
@@ -133,8 +141,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <liferay.theme.parent>_styled</liferay.theme.parent>
-        <liferay.theme.type>vm</liferay.theme.type>
-    </properties>
 </project>
