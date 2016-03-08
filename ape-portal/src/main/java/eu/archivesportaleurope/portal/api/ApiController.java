@@ -89,9 +89,8 @@ public class ApiController {
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
             if (persistantApiKey == null) {
                 LOGGER.info("::: No api key found in DB :::");
-                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user.getEmailAddress()));
+                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user));
                 LOGGER.info("::: Set api key :::");
-                LOGGER.info("::::Object presen is " + apiKey.toString());
                 apiKey.setStatus(BaseEntity.STATUS_CREATED);
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
                 LOGGER.info("::: api key sotred in DB :::");
@@ -108,7 +107,6 @@ public class ApiController {
     public void changeApiKeyView(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
         Principal principal = actionRequest.getUserPrincipal();
         if (principal != null) {
-            User user = (User) actionRequest.getAttribute(WebKeys.USER);
             Long liferayUserId = Long.parseLong(principal.toString());
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
             if (persistantApiKey != null) {
@@ -119,14 +117,6 @@ public class ApiController {
             LOGGER.error(":::: api key changed to null ::::");
         } else {
             LOGGER.error(":::: No Principle found ::::");
-        }
-    }
-
-    @ActionMapping(params = "myaction=doChangeApiKey")
-    public void changeApiKey(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
-        if (actionRequest.getUserPrincipal() != null) {
-            apiKey.setKey("changed");
-            response.sendRedirect("/api-key");
         }
     }
 }
