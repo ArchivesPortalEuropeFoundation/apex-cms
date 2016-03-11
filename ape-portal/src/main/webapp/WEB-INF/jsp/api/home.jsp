@@ -22,6 +22,45 @@
 <portal:friendlyUrl var="apiKeyUrl" type="get-api-key"/>
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#apiSubmit').hover(function () {
+            var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+//            var expressionWithOutHttp = /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
+            var urlText = $("#domain").val();
+            var terms = $('#agree').is(":checked");
+            var valid = true;
+            var validUrl = expression.test(urlText);
+
+            if (validUrl) {
+                $("#urlError").hide();
+                valid = valid && true;
+            }
+            else {
+                $("#urlError").show();
+                valid = valid && false;
+            }
+            if (terms) {
+                $("#termError").hide();
+                valid = valid && true;
+
+            }
+            else {
+                valid = valid && false;
+                $("#termError").show();
+
+            }
+            if (valid) {
+                $("#apiSubmit").prop('disabled', false);
+            }
+            else {
+                $("#apiSubmit").prop('disabled', true);
+            }
+        });
+    });
+</script>
+
 <div id="languagePortlet">
     <c:choose>
         <c:when test="${not empty apiKey.key}">
@@ -70,11 +109,21 @@
                 <c:otherwise>
                     <tr>
                         <th class="description"><fmt:message key="feedback.url"/>:</th>
-                    <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/></td>
+                    <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/>
+                    </td>
+                    <td><label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label></td>
+                    </tr>
+                    <tr>
+                        <th class="description"><fmt:message key="label.api.key.agreement"/>:</th>
+                    <td>
+                        <input type="checkbox" id="agree"/>
+
+                    </td>
+                    <td><label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label></td>
                     </tr>
                     <tr>
                         <td class="linkButton" colspan="2">
-                            <input type="submit" value="Submit"/>
+                            <input type="submit" value="Submit" id="apiSubmit"/>
                         </td>
                     </tr>
                 </c:otherwise>
