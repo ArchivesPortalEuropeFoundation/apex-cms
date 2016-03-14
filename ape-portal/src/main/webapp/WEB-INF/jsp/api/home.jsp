@@ -24,13 +24,18 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('getApiKey').on('keypress keyup', function (e) {
+            return e.which !== 13;
+        });
         $('#apiSubmit').hover(function () {
             var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 //            var expressionWithOutHttp = /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
-
             var urlText = $("#domain").val();
             var terms = $('#agree').is(":checked");
             var valid = true;
+            if (!urlText.match("^http")) {
+                urlText = "http://" + urlText;
+            }
             var validUrl = expression.test(urlText);
 
             if (validUrl) {
@@ -53,6 +58,7 @@
             }
             if (valid) {
                 $("#apiSubmit").prop('disabled', false);
+                $("#domain").val(urlText);
             }
             else {
                 $("#apiSubmit").prop('disabled', true);
