@@ -24,10 +24,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('getApiKey').on('keypress keyup', function (e) {
+        $('#getApiKey').on('keypress keyup', function (e) {
             return e.which !== 13;
         });
-        $('#apiSubmit').hover(function () {
+
+        $("#getApiKey").submit(function () {
             var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 //            var expressionWithOutHttp = /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
             var urlText = $("#domain").val();
@@ -57,11 +58,10 @@
 
             }
             if (valid) {
-                $("#apiSubmit").prop('disabled', false);
                 $("#domain").val(urlText);
             }
             else {
-                $("#apiSubmit").prop('disabled', true);
+                return false;
             }
         });
     });
