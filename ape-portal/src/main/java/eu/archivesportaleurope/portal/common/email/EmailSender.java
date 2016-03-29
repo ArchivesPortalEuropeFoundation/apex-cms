@@ -4,6 +4,7 @@ package eu.archivesportaleurope.portal.common.email;
 
 
 
+import eu.apenet.commons.exceptions.APEnetRuntimeException;
 import org.apache.commons.lang.StringUtils;
 
 import eu.apenet.commons.infraestructure.EmailComposer;
@@ -62,7 +63,7 @@ public final class EmailSender {
         }
     }
     
-    public static void sendApiKeyConfirmationEmail(ApiKey apiKey, com.liferay.portal.model.User user){
+    public static void sendApiKeyConfirmationEmail(ApiKey apiKey, com.liferay.portal.model.User user) throws APEnetRuntimeException {
         Emailer emailer = new Emailer();
         String title = "Your Api key "+apiKey.getKey();
         EmailComposer emailComposer = new EmailComposer("emails/apiConfirmationEmail.txt", title, true, false);
