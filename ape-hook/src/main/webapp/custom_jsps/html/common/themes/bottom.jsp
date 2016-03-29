@@ -92,7 +92,7 @@ StringBundler pageBottomSB = (StringBundler)request.getAttribute(WebKeys.PAGE_BO
 </c:if>
 <%-- Theme JavaScript --%>
 
-<script src="<%= HtmlUtil.escape(PortalUtil.getStaticResourceURL(request, themeDisplay.getPathThemeJavaScript() + "/main.js")) %>" type="text/javascript"></script>
+<script src="<%= HtmlUtil.escape(PortalUtil.getStaticResourceURL(request, themeDisplay.getPathThemeJavaScript() + "/main2.js")) %>" type="text/javascript"></script>
 <c:if test="<%=themeDisplay.isSignedIn()%>">
 <c:if test="<%= layout != null %>">
 
