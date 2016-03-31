@@ -21,7 +21,11 @@
 </portlet:renderURL>
 <portal:friendlyUrl var="apiKeyUrl" type="get-api-key"/>
 
-
+<style type="text/css">
+    .cancleButton:hover{
+        text-decoration: none;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#getApiKey').on('keypress keyup submit', function (e) {
@@ -131,9 +135,12 @@
                         </td>-->
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            <input class="aui-button-input aui-button-input-submit" type="submit" value="Submit" id="apiSubmit"/>
+                        <td style="text-align: center" colspan="2">
+                            <input type="submit" style="height: 25px;width: 60px;font-weight: bold;font-size: 12px;" class="aui-button-input aui-button-input-submit" value="Submit" id="apiSubmit"/>
+
+                            <a href="/get-api-key" class="cancleButton">
+                                <input type="button" style="height: 25px;width: 60px;font-weight: bold;font-size: 12px;" value="Cancel"/>
+                            </a>
                         </td>
                     </tr>
                 </c:otherwise>
