@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.archivesportaleurope.frontend</groupId>
     <artifactId>frontend-project</artifactId>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>frontend-project</name>
@@ -13,6 +13,7 @@
         <developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/branches/frontend-project-2.2</developerConnection>
     </scm>
     <properties>
+        <additionalparam>-Xdoclint:none</additionalparam>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <liferay.version>6.1.0</liferay.version>
         <liferay.auto.deploy.dir>../deploy</liferay.auto.deploy.dir>
@@ -22,57 +23,6 @@
         <archivesportaleurope.dptutil.version>2.2.0</archivesportaleurope.dptutil.version>
         <artifact.suffix />
     </properties>
-    <profiles>
-        <profile>
-            <id>java7orless</id>
-            <activation>
-                <jdk>(,1.8)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>java8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <additionalparam>-Xdoclint:none</additionalparam>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
