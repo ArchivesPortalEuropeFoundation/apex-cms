@@ -21,10 +21,14 @@
 </portlet:renderURL>
 <portal:friendlyUrl var="apiKeyUrl" type="get-api-key"/>
 
-
+<style type="text/css">
+    .cancleButton:hover{
+        text-decoration: none;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#getApiKey').on('keypress keyup', function (e) {
+        $('#getApiKey').on('keypress keyup submit', function (e) {
             return e.which !== 13;
         });
 
@@ -34,7 +38,7 @@
             var urlText = $("#domain").val();
             var terms = $('#agree').is(":checked");
             var valid = true;
-            if (!urlText.match("^http")) {
+            if (!urlText.match("^http[s]*://")) {
                 urlText = "http://" + urlText;
             }
             var validUrl = expression.test(urlText);
@@ -42,8 +46,7 @@
             if (validUrl) {
                 $("#urlError").hide();
                 valid = valid && true;
-            }
-            else {
+            } else {
                 $("#urlError").show();
                 valid = valid && false;
             }
@@ -51,16 +54,14 @@
                 $("#termError").hide();
                 valid = valid && true;
 
-            }
-            else {
+            } else {
                 valid = valid && false;
                 $("#termError").show();
 
             }
             if (valid) {
                 $("#domain").val(urlText);
-            }
-            else {
+            } else {
                 return false;
             }
         });
@@ -115,21 +116,31 @@
                 <c:otherwise>
                     <tr>
                         <th class="description"><fmt:message key="feedback.url"/>:</th>
-                    <td><form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/>
-                    </td>
-                    <td><label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label></td>
+                        <td>
+                            <form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/>
+                            <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
+                        </td>
+<!--                        <td>
+                            <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
+                        </td>-->
                     </tr>
                     <tr>
                         <th class="description"><fmt:message key="label.api.key.agreement"/>:</th>
-                    <td>
-                        <input type="checkbox" id="agree"/>
-
-                    </td>
-                    <td><label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label></td>
+                        <td>
+                            <input type="checkbox" id="agree"/>
+                            <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                        </td>
+<!--                        <td>
+                            <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                        </td>-->
                     </tr>
                     <tr>
-                        <td class="linkButton" colspan="2">
-                            <input type="submit" value="Submit" id="apiSubmit"/>
+                        <td style="text-align: center" colspan="2">
+                            <input type="submit" style="height: 25px;width: 60px;font-weight: bold;font-size: 12px;" class="aui-button-input aui-button-input-submit" value="Submit" id="apiSubmit"/>
+
+                            <a href="/get-api-key" class="cancleButton">
+                                <input type="button" style="height: 25px;width: 60px;font-weight: bold;font-size: 12px;" value="Cancel"/>
+                            </a>
                         </td>
                     </tr>
                 </c:otherwise>

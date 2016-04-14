@@ -10,13 +10,15 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author kaisar
  */
 public class ApiKeyGenUtil {
-
+    private final static Logger LOGGER = Logger.getLogger(ApiKeyGenUtil.class);
     public static String generateApiKey(User user) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.reset();
@@ -35,14 +37,11 @@ public class ApiKeyGenUtil {
     private static String getSecureRandomToken() {
         long value;
         try {
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom random = SecureRandom.getInstanceStrong();
             value = random.nextLong();
         } catch (NoSuchAlgorithmException ex) {
-            sun.security.provider.SecureRandom r = new sun.security.provider.SecureRandom();
-            byte[] b = new byte[4];
-            r.engineNextBytes(b);
-            value = ((0xFF & b[0]) << 24) | ((0xFF & b[1]) << 16)
-                    | ((0xFF & b[2]) << 8) | (0xFF & b[3]);
+            LOGGER.warn("No secure random algorithm found, "+ex.getMessage());
+            value = new Random().nextLong();
         }
         value = Math.abs(value);
         String token = Long.toString(value);

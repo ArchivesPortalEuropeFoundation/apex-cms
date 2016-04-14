@@ -13,13 +13,14 @@
         <developerConnection>scm:svn:https://build.archivesportaleurope.net/svn/apex-cms/trunk</developerConnection>
     </scm>
     <properties>
+        <additionalparam>-Xdoclint:none</additionalparam>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <liferay.version>6.1.0</liferay.version>
         <liferay.auto.deploy.dir>../deploy</liferay.auto.deploy.dir>
         <main.basedir>${project.basedir}</main.basedir>
         <spring.version>3.1.1.RELEASE</spring.version>
-        <archivesportaleurope.common.version>2016-03</archivesportaleurope.common.version>
-        <archivesportaleurope.dptutil.version>2016-03</archivesportaleurope.dptutil.version>
+        <archivesportaleurope.common.version>2.2.3-SNAPSHOT</archivesportaleurope.common.version>
+        <archivesportaleurope.dptutil.version>2.2.1-SNAPSHOT</archivesportaleurope.dptutil.version>
         <artifact.suffix />
     </properties>
     <build>
@@ -98,11 +99,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>https://build.archivesportaleurope.net/nexus/content/repositories/snapshots/</url>
+            <url>http://nexus.archivesportaleurope.net/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>releases</id>
-            <url>https://build.archivesportaleurope.net/nexus/content/repositories/releases/</url>
+            <url>http://nexus.archivesportaleurope.net/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
     <modules>
