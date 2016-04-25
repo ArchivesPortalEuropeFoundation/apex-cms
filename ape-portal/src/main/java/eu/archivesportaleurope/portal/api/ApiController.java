@@ -27,7 +27,6 @@ import eu.archivesportaleurope.portal.common.email.EmailSender;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -115,15 +114,7 @@ public class ApiController {
                 LOGGER.info("::: Set api key :::");
                 apiKey.setStatus(BaseEntity.STATUS_CREATED);
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
-                LOGGER.info("::: api key sotred in DB :::");
-                //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
-
-                LOGGER.info("::: No api key found in DB :::");
-                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user));
-                LOGGER.info("::: Set api key :::");
-                apiKey.setStatus(BaseEntity.STATUS_CREATED);
-                apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
-                LOGGER.info("::: api key sotred in DB :::");
+                LOGGER.info("::: api key stored in DB :::");
                 //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
 
                 try {
@@ -143,7 +134,6 @@ public class ApiController {
     public void changeApiKeyView(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
         Principal principal = actionRequest.getUserPrincipal();
         if (principal != null) {
-
             response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY) + "?change=bla");
             LOGGER.error(":::: api key changed to null ::::");
         } else {
