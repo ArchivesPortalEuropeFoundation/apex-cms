@@ -31,6 +31,14 @@
         $('#getApiKey').on('keypress keyup submit', function (e) {
             return e.which !== 13;
         });
+    <c:choose>
+        <c:when test="${not empty apiKey.key}">
+        $('#logo').show();
+        </c:when>
+        <c:otherwise>
+        $('#logo').hide();
+        </c:otherwise>
+    </c:choose>
 
         $("#getApiKey").submit(function () {
             var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -103,7 +111,7 @@
             <c:choose>
                 <c:when test="${not empty apiKey.key}">
                     <tr>
-                        <th><fmt:message key="feedback.url"/>:</th>
+                        <th><fmt:message key="label.api.key.url"/>:</th>
                     <td><c:out value="${apiKey.domain}"/></td>
                     </tr>
                     <tr>
@@ -115,24 +123,24 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <th class="description"><fmt:message key="feedback.url"/>:</th>
-                        <td>
-                            <form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/>
-                            <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
-                        </td>
-<!--                        <td>
-                            <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
-                        </td>-->
+                        <th class="description"><fmt:message key="label.api.key.url"/>:</th>
+                    <td>
+                    <form:input path="domain"  cssClass="longInput" maxlength="100" value="${apiKey.domain}"/>
+                    <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
+                    </td>
+                    <!--                        <td>
+                                                <label class="error" id="urlError" for="domain" hidden><fmt:message key="error.invalid.url"/></label>
+                                            </td>-->
                     </tr>
                     <tr>
                         <th class="description"><fmt:message key="label.api.key.agreement"/>:</th>
-                        <td>
-                            <input type="checkbox" id="agree"/>
-                            <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
-                        </td>
-<!--                        <td>
-                            <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
-                        </td>-->
+                    <td>
+                        <input type="checkbox" id="agree"/>
+                        <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                    </td>
+                    <!--                        <td>
+                                                <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                                            </td>-->
                     </tr>
                     <tr>
                         <td style="text-align: center" colspan="2">

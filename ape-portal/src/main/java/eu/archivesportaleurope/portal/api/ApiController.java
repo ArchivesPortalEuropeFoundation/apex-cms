@@ -55,18 +55,18 @@ public class ApiController {
     public ModelAndView chooseLayout(PortletRequest portletRequest) throws SystemException {
         ApiKey apiKey;
         Principal principal = portletRequest.getUserPrincipal();
+
         HttpServletRequest httpReq = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(portletRequest));
         String changeApiKey = httpReq.getParameter("change");
-        
-        LOGGER.info("Change parameter: "+changeApiKey);
-        
+
+        LOGGER.info("Change parameter: " + changeApiKey);
         ModelAndView modelAndView = new ModelAndView();
         PortalDisplayUtil.setPageTitle(portletRequest, PortalDisplayUtil.TITLE_API_KEY);
         if (principal != null) {
             User user = (User) portletRequest.getAttribute(WebKeys.USER);
             Long liferayUserId = Long.parseLong(principal.toString());
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
-            if (persistantApiKey != null && changeApiKey==null) {
+            if (persistantApiKey != null && changeApiKey == null) {
                 LOGGER.info("::: api key found in DB :::");
                 apiKey = new ApiKey(persistantApiKey);
                 LOGGER.info(persistantApiKey.toString());
@@ -99,28 +99,43 @@ public class ApiController {
             LOGGER.info("::: User is : " + user.getFullName() + " :::");
             Long liferayUserId = Long.parseLong(principal.toString());
             eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
+
             if (persistantApiKey != null) {
                 persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
                 apiKeyDAO.update(persistantApiKey);
-            }
-            
-            LOGGER.info("::: No api key found in DB :::");
-            apiKey.setKey(ApiKeyGenUtil.generateApiKey(user));
-            LOGGER.info("::: Set api key :::");
-            apiKey.setStatus(BaseEntity.STATUS_CREATED);
-            apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
-            LOGGER.info("::: api key sotred in DB :::");
-            //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
 
-            try {
-                EmailSender.sendApiKeyConfirmationEmail(apiKey, user);
-            } catch (APEnetRuntimeException ex) {
-                LOGGER.error("Couldn't send mail to: "+user.getEmailAddress());
+                try {
+                    EmailSender.sendApiKeyConfirmationEmail(apiKey, user);
+                } catch (APEnetRuntimeException ex) {
+                    LOGGER.error("Couldn't send mail to: " + user.getEmailAddress());
+                }
+
+                LOGGER.info("::: No api key found in DB :::");
+                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user));
+                LOGGER.info("::: Set api key :::");
+                apiKey.setStatus(BaseEntity.STATUS_CREATED);
+                apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
+                LOGGER.info("::: api key sotred in DB :::");
+                //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
+
+                LOGGER.info("::: No api key found in DB :::");
+                apiKey.setKey(ApiKeyGenUtil.generateApiKey(user));
+                LOGGER.info("::: Set api key :::");
+                apiKey.setStatus(BaseEntity.STATUS_CREATED);
+                apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
+                LOGGER.info("::: api key sotred in DB :::");
+                //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
+
+                try {
+                    EmailSender.sendApiKeyConfirmationEmail(apiKey, user);
+                } catch (APEnetRuntimeException ex) {
+                    LOGGER.error("Couldn't send mail to: " + user.getEmailAddress());
+                }
+
+                response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
+            } else {
+                LOGGER.error(":::: No Principle found ::::");
             }
-            
-            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
-        } else {
-            LOGGER.error(":::: No Principle found ::::");
         }
     }
 
@@ -128,13 +143,8 @@ public class ApiController {
     public void changeApiKeyView(@ModelAttribute("apiKey") ApiKey apiKey, ActionRequest actionRequest, ActionResponse response) throws IOException {
         Principal principal = actionRequest.getUserPrincipal();
         if (principal != null) {
-//            Long liferayUserId = Long.parseLong(principal.toString());
-//            eu.apenet.persistence.vo.ApiKey persistantApiKey = apiKeyDAO.findByLiferayUserId(liferayUserId);
-//            if (persistantApiKey != null) {
-//                persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
-//                apiKeyDAO.update(persistantApiKey);
-//            }
-            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY)+"?change=bla");
+
+            response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY) + "?change=bla");
             LOGGER.error(":::: api key changed to null ::::");
         } else {
             LOGGER.error(":::: No Principle found ::::");
