@@ -113,7 +113,7 @@ public class ApiController {
                 LOGGER.info("::: Set api key :::");
                 apiKey.setStatus(BaseEntity.STATUS_CREATED);
                 apiKeyDAO.store(apiKey.getPerApiKey(apiKey));
-                LOGGER.info("::: api key sotred in DB :::");
+                LOGGER.info("::: api key stored in DB :::");
                 //apiKey = new ApiKey(apiKeyDAO.findByEmail(user.getEmailAddress()));
 
                 try {
