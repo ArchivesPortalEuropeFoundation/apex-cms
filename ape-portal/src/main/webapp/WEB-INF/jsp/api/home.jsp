@@ -25,6 +25,12 @@
     .cancleButton:hover{
         text-decoration: none;
     }
+    .floatCenter{
+        float: right;
+        position: relative;
+        right: 50%;
+        text-align: left;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -161,7 +167,7 @@
     </form:form>
     <c:choose>
         <c:when test="${not empty apiKey.key}">
-            <a href="${changeApiKey}"><fmt:message key="label.api.key.change"/></a>
+            <a href="${changeApiKey}" class="floatCenter"><fmt:message key="label.api.key.change"/></a>
 
         </c:when>
     </c:choose>
