@@ -33,10 +33,10 @@
         });
     <c:choose>
         <c:when test="${not empty apiKey.key}">
-        $('#logo').show();
+        $('.api-manual').show();
         </c:when>
         <c:otherwise>
-        $('#logo').hide();
+        $('.api-manual').hide();
         </c:otherwise>
     </c:choose>
 
@@ -90,6 +90,7 @@
     <form:form id="getApiKey" name="getApiKey" commandName="apiKey" method="post"
                action="${actionUrl}">
         <form:hidden path="firstName" value="${apiKey.firstName}"/>
+        <form:hidden path="middleName" value="${apiKey.middleName}"/>
         <form:hidden path="lastName" value="${apiKey.lastName}"/>
         <form:hidden path="email" value="${apiKey.email}"/>
         <form:hidden path="key" value="${apiKey.key}"/>
@@ -99,6 +100,10 @@
             <tr>
                 <th><fmt:message key="advancedsearch.eaccpf.typeofname.firstname"/>:</th>
             <td><c:out value="${apiKey.firstName}"/></td>
+            </tr>
+            <tr>
+                <th><fmt:message key="advancedsearch.eaccpf.typeofname.middlename"/>:</th>
+            <td><c:out value="${apiKey.middleName}"/></td>
             </tr>
             <tr>
                 <th><fmt:message key="advancedsearch.eaccpf.typeofname.lastname"/>:</th>
@@ -118,7 +123,6 @@
                         <th><fmt:message key="label.api.key"/>:</th>
                     <td><c:out value="${apiKey.key}"/></td>
                     </tr>
-                    <a href="${changeApiKey}"><fmt:message key="label.api.key.change"/></a>
 
                 </c:when>
                 <c:otherwise>
@@ -133,14 +137,14 @@
                                             </td>-->
                     </tr>
                     <tr>
-                        <th class="description"><fmt:message key="label.api.key.agreement"/>:</th>
-                    <td>
-                        <input type="checkbox" id="agree"/>
-                        <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
-                    </td>
-                    <!--                        <td>
-                                                <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
-                                            </td>-->
+                        <th class="description"><a href="/terms-of-use"><fmt:message key="label.api.key.agreement"/></a>:</th>
+                        <td>
+                            <input type="checkbox" id="agree"/>
+                            <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                        </td>
+                        <!--                        <td>
+                                                    <label class="error" id="termError" for="domain" hidden><fmt:message key="error.invalid.term"/></label>
+                                                </td>-->
                     </tr>
                     <tr>
                         <td style="text-align: center" colspan="2">
@@ -155,4 +159,10 @@
             </c:choose>
         </table>
     </form:form>
+    <c:choose>
+        <c:when test="${not empty apiKey.key}">
+            <a href="${changeApiKey}"><fmt:message key="label.api.key.change"/></a>
+
+        </c:when>
+    </c:choose>
 </div>
