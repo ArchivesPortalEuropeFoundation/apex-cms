@@ -164,11 +164,10 @@
                 </c:otherwise>
             </c:choose>
         </table>
+        <c:choose>
+            <c:when test="${not empty apiKey.key}">
+                <a href="${changeApiKey}" class="floatCenter"><fmt:message key="label.api.key.change"/></a>
+            </c:when>
+        </c:choose>
     </form:form>
-    <c:choose>
-        <c:when test="${not empty apiKey.key}">
-            <a href="${changeApiKey}" class="floatCenter"><fmt:message key="label.api.key.change"/></a>
-
-        </c:when>
-    </c:choose>
 </div>
