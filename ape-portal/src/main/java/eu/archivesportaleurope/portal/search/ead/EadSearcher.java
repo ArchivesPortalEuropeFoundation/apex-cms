@@ -9,10 +9,10 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.FacetParams;
 
 import eu.apenet.commons.solr.SolrFields;
-import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
-import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
+import eu.apenet.commons.solr.SolrQueryParameters;
+import eu.archivesportaleurope.portal.search.common.AbstractPortalSearcher;
 
-public final class EadSearcher extends AbstractSearcher {
+public final class EadSearcher extends AbstractPortalSearcher {
 
 	private static final String FACET_SORT_COUNT = "count";
 	private static final String QUERY_TYPE_CONTEXT = "context";

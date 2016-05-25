@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
+import eu.apenet.commons.solr.AbstractSearcher;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
-import eu.archivesportaleurope.portal.search.common.AbstractSearcher;
 
 /**
  * Generates an json for autocompletion

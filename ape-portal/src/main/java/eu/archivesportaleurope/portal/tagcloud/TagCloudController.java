@@ -1,5 +1,8 @@
 package eu.archivesportaleurope.portal.tagcloud;
 
+import eu.apenet.commons.solr.SolrQueryParameters;
+import eu.apenet.commons.solr.facet.FacetType;
+import eu.apenet.commons.solr.facet.ListFacetSettings;
 import java.text.Collator;
 import java.text.NumberFormat;
 import java.util.*;
@@ -20,10 +23,7 @@ import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.TopicDAO;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.search.common.FacetType;
-import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.EadSearcher;
-import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 @Controller(value = "tagCloudController")
 @RequestMapping(value = "VIEW")

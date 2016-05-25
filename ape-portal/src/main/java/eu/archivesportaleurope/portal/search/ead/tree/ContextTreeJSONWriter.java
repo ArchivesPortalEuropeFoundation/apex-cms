@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead.tree;
 
+import eu.apenet.commons.solr.SearchUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -25,13 +26,12 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.SolrQueryParameters;
 import eu.apenet.commons.solr.SolrValues;
+import eu.apenet.commons.solr.facet.FacetType;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
-import eu.archivesportaleurope.portal.search.common.FacetType;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
-import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 
 /**
  * Generate JSON for context tab.

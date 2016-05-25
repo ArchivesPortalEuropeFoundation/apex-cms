@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import eu.apenet.commons.solr.SearchUtil;
 import junit.framework.Assert;
 
 import org.junit.Test;

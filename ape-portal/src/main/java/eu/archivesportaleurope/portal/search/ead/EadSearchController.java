@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead;
 
+import eu.apenet.commons.solr.SearchUtil;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
@@ -26,17 +27,16 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.SolrQueryParameters;
+import eu.apenet.commons.solr.facet.FacetType;
 import eu.apenet.persistence.vo.EadSavedSearch;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
 import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
-import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
-import eu.archivesportaleurope.portal.search.common.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 import eu.archivesportaleurope.portal.search.ead.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.ead.tree.TreeFacetValue;

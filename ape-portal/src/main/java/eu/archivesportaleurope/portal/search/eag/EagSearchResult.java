@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eag;
 
+import eu.apenet.commons.solr.SearchUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -10,11 +11,10 @@ import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
+import eu.apenet.commons.solr.facet.FacetType;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
-import eu.archivesportaleurope.portal.search.common.FacetType;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.util.ApeUtil;
 
 /**

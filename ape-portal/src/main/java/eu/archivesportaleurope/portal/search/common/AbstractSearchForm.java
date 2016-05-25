@@ -1,12 +1,12 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import eu.apenet.commons.solr.facet.ListFacetSettings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 import eu.archivesportaleurope.util.ApeUtil;
 
 public abstract class AbstractSearchForm implements Serializable{

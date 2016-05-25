@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import eu.archivesportaleurope.portal.common.al.AlType;
-import eu.archivesportaleurope.portal.common.al.TreeType;
+import eu.apenet.commons.ai.AlType;
+import eu.apenet.commons.ai.TreeType;
 
 public class AlTreeParams {
 	private String key;

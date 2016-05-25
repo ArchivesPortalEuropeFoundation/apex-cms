@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead.list;
 
+import eu.apenet.commons.solr.SearchUtil;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.utils.DisplayUtils;
 import eu.archivesportaleurope.portal.search.common.DatabaseCacher;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 
 /**
  * @author bverhoef

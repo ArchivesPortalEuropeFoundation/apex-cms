@@ -1,13 +1,13 @@
 package eu.archivesportaleurope.portal.search.ead;
 
+import eu.apenet.commons.solr.facet.FacetType;
+import eu.apenet.commons.solr.facet.ListFacetSettings;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
-import eu.archivesportaleurope.portal.search.common.FacetType;
-import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public class EadSearch extends AbstractSearchForm{
 

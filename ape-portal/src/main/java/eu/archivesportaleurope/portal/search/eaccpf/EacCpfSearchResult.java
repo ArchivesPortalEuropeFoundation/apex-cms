@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eaccpf;
 
+import eu.apenet.commons.solr.SearchUtil;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.apache.solr.common.SolrDocument;
 
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.utils.DisplayUtils;
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
 import eu.archivesportaleurope.portal.search.common.SearchResult;
 import eu.archivesportaleurope.util.ApeUtil;
 

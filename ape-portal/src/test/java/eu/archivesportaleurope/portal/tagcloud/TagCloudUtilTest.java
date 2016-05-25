@@ -1,7 +1,5 @@
 package eu.archivesportaleurope.portal.tagcloud;
 
-import eu.archivesportaleurope.portal.search.common.SearchUtil;
-import junit.framework.Assert;
 import org.junit.Test;
 
 import java.text.Collator;

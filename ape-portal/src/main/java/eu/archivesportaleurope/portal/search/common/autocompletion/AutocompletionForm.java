@@ -1,9 +1,9 @@
 package eu.archivesportaleurope.portal.search.common.autocompletion;
 
+import eu.apenet.commons.solr.facet.ListFacetSettings;
 import java.util.List;
 
 import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
-import eu.archivesportaleurope.portal.search.ead.list.ListFacetSettings;
 
 public class AutocompletionForm extends AbstractSearchForm {
 

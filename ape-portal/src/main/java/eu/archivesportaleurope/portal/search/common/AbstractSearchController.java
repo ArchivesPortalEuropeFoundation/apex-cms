@@ -1,5 +1,7 @@
 package eu.archivesportaleurope.portal.search.common;
 
+import eu.apenet.commons.solr.SearchUtil;
+import eu.apenet.commons.solr.SolrQueryParameters;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
