@@ -15,7 +15,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 
 /**
- *
+ * Refactored code, to reduce code duplication. Original author is (most probably) bastiaan
+ * 
  * @author mahbub
  */
 public abstract class AbstractPortalSearcher extends AbstractSearcher {
