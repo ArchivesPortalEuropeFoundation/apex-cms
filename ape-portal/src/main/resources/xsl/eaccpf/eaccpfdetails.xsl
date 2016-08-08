@@ -6757,13 +6757,20 @@
 		   					<xsl:with-param name="url" select="'http://isni.org/isni/'"/>
 		   				</xsl:call-template>
 					</xsl:when>
-					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='BNF']">
-		   				<xsl:call-template name="displayEntityId">
-		   					<xsl:with-param name="entityId" select="$entityId"/>
-		   					<xsl:with-param name="url" select="'http://data.bnf.fr/'"/>
-		   				</xsl:call-template>
-					</xsl:when>
-					<xsl:otherwise>
+   					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='BNF']">
+   						<xsl:call-template name="displayEntityId">
+   							<xsl:with-param name="entityId" select="$entityId"/>
+   							<xsl:with-param name="url" select="'http://data.bnf.fr/'"/>
+   						</xsl:call-template>
+   					</xsl:when>
+   					<!-- HANDLE added on 2016-08-08 -->
+   					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='HANDLE']">
+   						<xsl:call-template name="displayEntityId">
+   							<xsl:with-param name="entityId" select="$entityId"/>
+   							<xsl:with-param name="url" select="'http://proxy.handle.net/'"/>
+   						</xsl:call-template>
+   					</xsl:when>
+   					<xsl:otherwise>
 		   				<p>
 							<xsl:apply-templates select="$entityId" mode="other"/>
 							<xsl:text> (</xsl:text>
