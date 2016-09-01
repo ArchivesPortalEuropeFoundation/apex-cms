@@ -30,7 +30,9 @@ public class RetrieveSchemaServlet extends HttpServlet {
             String schema = requestURI.substring(requestURI.lastIndexOf("/"));
             if(StringUtils.isNotEmpty(schema) && !StringUtils.equals(schema, "/") && Xsd_enum.doesXsdExist(schema, "/")) {
                 InputStream inputStream = RetrieveSchemaServlet.class.getResourceAsStream(schema);
+                LOG.info("Xsd exist: "+schema);
                 if(inputStream == null) {
+                    LOG.info("Xsd file not found: "+schema);
                     response.sendError(404);
                 } else {
                     writer = new OutputStreamWriter(response.getOutputStream(), "UTF-8");
@@ -40,6 +42,7 @@ public class RetrieveSchemaServlet extends HttpServlet {
                     writer.close();
                 }
             } else {
+                LOG.error("Xsd does not exist: "+schema);
                 response.sendError(404);
             }
         } catch (Exception e) {
