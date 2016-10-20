@@ -6770,6 +6770,13 @@
    							<xsl:with-param name="url" select="'http://proxy.handle.net/'"/>
    						</xsl:call-template>
    					</xsl:when>
+   					<!-- PARES added on 2016-10-20 -->
+   					<xsl:when test="$entityId[fn:upper-case(fn:normalize-space(@localType))='PARES']">
+   						<xsl:call-template name="displayEntityId">
+   							<xsl:with-param name="entityId" select="$entityId"/>
+   							<xsl:with-param name="url" select="'http://pares.mcu.es/'"/>
+   						</xsl:call-template>
+   					</xsl:when>
    					<xsl:otherwise>
 		   				<p>
 							<xsl:apply-templates select="$entityId" mode="other"/>
