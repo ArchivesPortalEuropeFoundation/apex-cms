@@ -22,6 +22,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import eu.apenet.commons.solr.SolrValues;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.EadDAO;
+import eu.apenet.persistence.vo.AbstractContent;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
@@ -205,7 +206,7 @@ public class DisplayEadContoller extends AbstractEadController {
 
 	}
 
-	private Long getCLevelId(String repositoryCode, Class<? extends Ead> clazz, String identifier, String position) {
+	private Long getCLevelId(String repositoryCode, Class<? extends AbstractContent> clazz, String identifier, String position) {
 		Matcher m = POSITION_REGEX.matcher(position);
 		boolean matches = m.matches();
 		Long cLevelId = null;
