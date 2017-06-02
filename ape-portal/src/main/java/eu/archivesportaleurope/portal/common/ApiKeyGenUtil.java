@@ -20,10 +20,6 @@ public class ApiKeyGenUtil {
 
     private final static Logger LOGGER = Logger.getLogger(ApiKeyGenUtil.class);
 
-    public static void main(String args[]) {
-        System.out.println(getSecureRandomToken());
-    }
-
     public static String generateApiKey(User user) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.reset();
@@ -42,8 +38,6 @@ public class ApiKeyGenUtil {
     private static String getSecureRandomToken() {
         long value;
         SecureRandom rand = new SecureRandom();
-//            rand.nextLong()
-//            SecureRandom random = SecureRandom.getInstanceStrong();
         value = rand.nextLong();
 
         value = Math.abs(value);
