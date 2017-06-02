@@ -104,12 +104,6 @@ public class ApiController {
                 persistantApiKey.setStatus(BaseEntity.STATUS_DELETED);
                 apiKeyDAO.update(persistantApiKey);
 
-                try {
-                    EmailSender.sendApiKeyConfirmationEmail(apiKey, user);
-                } catch (APEnetRuntimeException ex) {
-                    LOGGER.error("Couldn't send mail to: " + user.getEmailAddress());
-                }
-
                 response.sendRedirect(FriendlyUrlUtil.getRelativeUrl(FriendlyUrlUtil.API_KEY));
             } else {
                 LOGGER.error(":::: No Api key found ::::");
