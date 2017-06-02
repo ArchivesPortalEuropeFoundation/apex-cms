@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates 6.1.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_6_1_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="ape-pagelayout-frontpage" name="Home (2-1-2)">
+			<template-path>/ape-home.tpl</template-path>
+			<wap-template-path>/ape-home.tpl</wap-template-path>
+			<thumbnail-path>/ape-home.png</thumbnail-path>			
+		</layout-template>
+		<layout-template id="ape-pagelayout-frontpage-tagcloud" name="Home (tagcloud) (2-2-2)">
+			<template-path>/ape-home-with-tagcloud.tpl</template-path>
+			<wap-template-path>/ape-home-with-tagcloud.tpl</wap-template-path>
+			<thumbnail-path>/ape-home.png</thumbnail-path>			
+		</layout-template>		
+		<layout-template id="ape-pagelayout-mypages" name="My pages (20/80)">
+			<template-path>/ape-mypages.tpl</template-path>
+			<wap-template-path>/ape-mypages.tpl</wap-template-path>
+			<thumbnail-path>/ape-mypages.png</thumbnail-path>
+		</layout-template>		
+		<layout-template id="ape-pagelayout-helppages" name="Help pages (25/75)">
+			<template-path>/ape-helppages.tpl</template-path>
+			<wap-template-path>/ape-helppages.tpl</wap-template-path>
+			<thumbnail-path>/ape-mypages.png</thumbnail-path>
+		</layout-template>			
+	</custom>
+</layout-templates>

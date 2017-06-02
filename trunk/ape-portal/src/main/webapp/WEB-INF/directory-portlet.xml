@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        ">
+    <import resource="i18n-common.xml"/>
+	<import resource="persistence-common.xml"/>
+	<bean
+		class="eu.archivesportaleurope.portal.directory.DirectoryJSONWriter">
+		<property name="messageSource" ref="messageSource"></property>	
+		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>	
+		<property name="coordinatesDAO" ref="coordinatesDAO"/>
+		<property name="countryDAO" ref="countryDAO"/>
+	</bean>        
+	<bean
+		class="eu.archivesportaleurope.portal.directory.AiContentController">
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="eadDAO" ref="eadDAO"/>
+			<property name="eacCpfDAO" ref="eacCpfDAO"/>
+		
+	</bean>	
+	<bean
+		class="eu.archivesportaleurope.portal.directory.DirectoryController">
+			<property name="messageSource" ref="messageSource"/>	
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="countryDAO" ref="countryDAO"/>
+			<property name="eadDAO" ref="eadDAO"/>
+			<property name="coordinatesDAO" ref="coordinatesDAO"/>	
+			<property name="eacCpfDAO" ref="eacCpfDAO"/>
+	</bean>	        
+ 	<bean
+		class="eu.archivesportaleurope.portal.directory.SitemapController">
+			<property name="cLevelDAO" ref="cLevelDAO"/>	
+			<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
+			<property name="eadDAO" ref="eadDAO"/>
+			<property name="eacCpfDAO" ref="eacCpfDAO"/>
+	</bean>	  
+		
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/directory/" />
+		<property name="suffix" value=".jsp" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	<bean
+		class="eu.archivesportaleurope.portlet.ApeAnnotationMethodHandlerAdapter">
+	</bean>
+
+</beans>

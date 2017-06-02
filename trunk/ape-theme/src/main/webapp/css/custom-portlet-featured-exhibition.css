@@ -1,0 +1,75 @@
+#featuredExhibitionDetailsPortlet #likeBar {
+	padding-top: 15px;
+}
+#featuredExhibitionDetailsPortlet #feTable {
+	width:100%;
+	margin-top:5px;
+}
+#featuredExhibitionDetailsPortlet .feTitle {
+	padding-right:20px;
+}
+#featuredExhibitionDetailsPortlet td {
+	padding:2px;
+}
+#featuredExhibitionDetailsPortlet .feDate {
+	width:20%;
+}
+
+#featuredExhibitionDetailsPortlet {
+	margin-bottom:50px;
+}
+
+#featuredExhibitionDetailsPortlet .magnifyarea { /* CSS to add shadow to magnified image. Optional */
+	box-shadow: 5px 5px 7px #818181;
+	-webkit-box-shadow: 5px 5px 7px #818181;
+	-moz-box-shadow: 5px 5px 7px #818181;
+	filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY=5, positive=true);
+	background: white;
+}
+
+#featuredExhibitionDetailsPortlet .targetarea { /* CSS for container div(s) of the zoomable image */
+	width: 350px; /* wide or wider than the widest zoomable image */
+	height: 350px; /* high or higher than the tallest zoomable image */
+	margin-top:3px;
+	border:1px solid #eee;
+	float: left;
+	background-color: white;
+}
+
+#featuredExhibitionDetailsPortlet #two { /* Added CSS for second target div of zoomable images */
+	height: 243px; /* high or higher than the tallest zoomable image */
+}
+
+#featuredExhibitionDetailsPortlet .targetarea img { /* zoomable image */
+	margin: auto; /* for horizontal centering */
+	display: block; /* also for horizontal centering */
+	position: relative; /* along with on the fly calculations in script, for vertical centering */
+	border-width: 0;
+}
+
+#featuredExhibitionDetailsPortlet .thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
+	padding-top: 25px;
+	width: 350px;
+	text-align: center;
+}
+
+#featuredExhibitionDetailsPortlet .thumbs a { /* trigger links on the thumbnail images */
+	text-decoration: none; /* avoid underlines of images, text or spaces in these links */
+}
+
+#featuredExhibitionDetailsPortlet .thumbs img { /* trigger images - the thumbnails used to load new zoomable images into the targetarea */
+	border-width: 0; /* avoid default borders in some browsers */
+}
+
+#featuredExhibitionDetailsPortlet #description-part {
+	padding:10px;
+	height: 350px;
+	overflow:auto;
+}
+
+#featuredExhibitionDetailsPortlet #image-collection {
+	padding:5px;
+	background-color: #E8E8E8;
+	display:block;
+
+}

@@ -1,0 +1,17 @@
+Dear ${archivalInstitution},
+
+The user:
+Username: ${username}
+Email: ${email}
+Userid: ${userid}
+
+has sent feedback to you about the following content:
+
+Title: ${title}
+Url: ${url}
+
+---------------------------------------------------------------------------
+
+${body}
+
+---------------------------------------------------------------------------

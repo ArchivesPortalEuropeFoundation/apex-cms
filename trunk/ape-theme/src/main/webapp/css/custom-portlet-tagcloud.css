@@ -1,0 +1,99 @@
+#tagcloudPortlet h2 {
+	margin-top: 0px;
+}
+#tags ul {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+    margin: 0;
+    padding: 0;
+	text-align: center;
+	background: white;
+	width: 100%;
+}
+
+#tags li {
+	list-style: none;
+	display: inline-block;
+	margin:2px;
+	padding: 4px;
+	border-radius:5px;
+}
+
+#tags li a {
+	text-decoration: none;
+	white-space: nowrap;
+	color: white;
+	font-weight:bold;
+}
+
+#tags li span {
+	text-decoration: none;
+	padding: 0 4px;
+	color: #BDBDBD;
+}
+
+#tags li a:hover {
+	text-decoration: underline;
+}
+
+.tag5 {
+	font-size: 80%;
+}
+
+.tag4 {
+	font-size: 90%;
+}
+
+.tag3 {
+	font-size: 100%;
+}
+
+.tag2 {
+	font-size: 110%;
+}
+
+.tag1 {
+	font-size: 120%;
+}
+
+#tags li.tag4  {
+	background-color: #66594a;
+}
+
+#tags li.tag3   {
+	background-color: #00a0df;
+}
+
+#tags li.tag2   {
+	background-color: #f58d0f;
+}
+
+#tags li.tag5   {
+	background-color: #b23062;
+	opacity: 0.6;
+}
+
+#tags li.tag1   {
+	background-color: #b23062;
+}
+
+#tags #viewAllTags {
+	border-top: 2px  solid #79b7e7;
+	margin-top: 5px;
+}
+
+#tags #viewAllTags a {
+	font-weight: bold;
+	font-size:11px;
+}
+#tags #allTagsTable tr td a {
+	font-weight: bold;
+}
+#tags .tagCount {
+	text-align:right;
+}
+#tags #leftTags, #tags #rightTags {
+	float: left;
+	padding: 5px;
+	width: 330px;
+}

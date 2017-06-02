@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
+"http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
+<routes>
+
+    <!-- repositoryCode, eaccpfIdentifier, searchField, searchTerm -->
+	<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/search/{element:[^/]+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+	</route>
+	
+		<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/relation/{relationType:[^/]+}/search/{element:[^/]+}/{term:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+		<generated-parameter name="element">{element}</generated-parameter>
+		<generated-parameter name="term">{term}</generated-parameter>
+		<generated-parameter name="relationType">{relationType}</generated-parameter>
+	</route>
+	<route>
+		<pattern>/pl/aicode/{repositoryCode:[^/]+}/type/ec/id/{eaccpfIdentifier:[^/]+}/relation/{relationType:[^/]+}</pattern>
+		<generated-parameter name="repositoryCode">{repositoryCode}</generated-parameter>
+ 		<generated-parameter name="eaccpfIdentifier">{eaccpfIdentifier}</generated-parameter>
+ 		<generated-parameter name="relationType">{relationType}</generated-parameter>		
+	</route>
+</routes>

@@ -1,0 +1,17 @@
+<nav class="$nav_css_class" id="navigation">
+	<ul>
+		#foreach ($nav_item in $nav_items) 
+			#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
+			 #if ($navigationPosition.size() == 0 || $navigationPosition.size() > 0 && $navigationPosition.get(0) !="footer" && $navigationPosition.get(0) !="top")
+				#if ($nav_item.isSelected())
+					<li class="selected" title="$nav_item.getTitle()">
+				#else
+					<li title="$nav_item.getTitle()">
+				#end
+					<a href="$nav_item.getURL()" $nav_item.getTarget()><span>$nav_item.icon() $nav_item.getName()</span></a>
+	
+				</li>
+				#end
+		#end
+	</ul>
+</nav>

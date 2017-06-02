@@ -1,0 +1,79 @@
+ .searchOptionsContent {
+	background-color: #E8E8E8;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 15px;
+	padding-bottom:27px;
+}
+ #simpleSearch #searchButton {
+	border: 1px solid #00a0df;
+	background: url("../images/ape/mainbutton.jpg") repeat-x scroll right
+		top #FFFFFF;
+	color: #00384d;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 3px;
+	width: 130px;
+	float:right;
+	margin-left: 5px;
+}
+ #simpleSearch table#simplesearchCriteria {
+	padding: 0px;
+	margin: 0px;
+	font-size: 12px;
+	border-collapse: collapse;
+	width: 100%;
+}
+ #simpleSearch #searchTerms {
+	background-color: white;
+	background-image: none;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 3px;
+	width: 320px;
+	float: left;
+}
+
+ #simpleSearch #simpleSearchOptionsContent {
+	height: 85px;	
+}
+ #simpleSearch  td.leftcolumn {
+	float: left;
+	max-width: 340px;
+	display:inline;
+	padding-right:10px;
+}
+ #simpleSearch  td.rightcolumn {
+	float: right;
+	width: auto;
+	display:inline;
+	vertical-align: top;
+}
+
+
+ #simpleSearch  td.rightcolumn div.row select {
+	font-size: 11px;
+	float: right;
+}
+ #simpleSearch  td.rightcolumn div.row label {
+	float: left;
+	margin-right: 11px;
+}
+
+ #simpleSearch div.row {
+	clear: both;
+	float: none;
+	font-size: 11px;
+	padding-top: 3px;
+    vertical-align: top;
+}
+ #simpleSearch  div.row input {
+	clear: left;
+    margin-right: 2px;
+    vertical-align: top;
+}
+#searchingPart #simpleSearch, #simpleSearchPortlet #simpleSearch {
+	float: right;
+	width: 500px;
+	
+}

@@ -1,0 +1,42 @@
+#contactForm .leftBtn {
+    padding-right: 10px;
+}
+
+#contactForm .rightBtn {
+    padding-left: 10px;
+}
+
+#contactForm .contactForm td {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#contactForm #contact_feedbackText {
+    width:500px;
+    height:180px;
+    vertical-align:middle;
+}
+#feedbackArea{
+    font-size: 8pt;
+    width:100%;
+    display: inline-block;
+}
+.sendFeedback {
+	padding-left: 15px;
+}
+.feedbackContent {
+	margin-left: 15px;
+	margin-right: 15px;
+	border: 1px solid #79B7E7;	
+	border-radius: 5px;	
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom:15px;
+	display: inline-block;
+	width: 90%;
+}
+
+#sendFeedbackButton {
+	float: left;
+	padding-left: 10px;
+}

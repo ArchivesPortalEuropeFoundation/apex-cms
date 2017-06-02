@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.1.0//EN"
+"http://www.liferay.com/dtd/liferay-friendly-url-routes_6_1_0.dtd">
+<routes>
+	<route>
+		<pattern>/co/{countryCode:[^/]+}</pattern>
+		<generated-parameter name="countryCode">{countryCode}</generated-parameter>
+		<implicit-parameter name="myaction">showCountryDetails</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/ai/id/{aiId:[^/]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<implicit-parameter name="myaction">showAiGroup</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/ai/code/{repoCode:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<implicit-parameter name="myaction">showAiDetails</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/content/{repoCode:[^/]+}/{xmlTypeName:[^/]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="myaction">showAiContent</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/content/{repoCode:[^/]+}/{xmlTypeName:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="pageNumber">1</implicit-parameter>
+		<implicit-parameter name="myaction">showAiContent</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/sitemap</pattern>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateGlobalSitemapIndex</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/sitemap/aicode/{repoCode:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateAiSitemapIndex</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/sitemap/aicode/{repoCode:[^/]+}/page/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateAiSitemap</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/sitemap/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{id:[^/]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateEadSitemapIndex</implicit-parameter>
+	</route>	
+	<route>
+		<pattern>/sitemap/aicode/{repoCode:[^/]+}/type/{xmlTypeName:[^/]+}/id/{id:[^/]+}/page/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="repoCode">{repoCode}</generated-parameter>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">generateEadSitemap</implicit-parameter>
+	</route>	
+
+	<!-- old urls -->
+	<route>
+		<pattern>/sitemap/ai/{aiId:[\d]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
+	<route>
+		<pattern>/sitemap/ai/{aiId:[\d]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="aiId">{aiId}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>	
+	<route>
+		<pattern>/sitemap/ead/{xmlTypeName:[^/]+}/{id:[\d]+}/{pageNumber:[\d]+}</pattern>
+		<generated-parameter name="id">{id}</generated-parameter>
+		<generated-parameter name="xmlTypeName">{xmlTypeName}</generated-parameter>
+		<generated-parameter name="pageNumber">{pageNumber}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>	
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>	
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>	
+	    <implicit-parameter name="myaction">redirectAction</implicit-parameter>		
+	</route>
+</routes>

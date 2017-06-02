@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/log4j.xml</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>view-servlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-servlet</servlet-name>
+        <url-pattern>/WEB-INF/servlet/view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>dptupdate</servlet-name>
+        <servlet-class>eu.archivesportaleurope.portal.servlets.DptUpdateServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dptupdate</servlet-name>
+        <url-pattern>/dptupdate/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>retrieve-schema</servlet-name>
+        <servlet-class>eu.archivesportaleurope.portal.servlets.RetrieveSchemaServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>retrieve-schema</servlet-name>
+        <url-pattern>/profiles/*</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>eu.apenet.commons.listener.ApePortalConfigListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>eu.archivesportaleurope.persistence.jpa.web.JpaListener</listener-class>
+    </listener>	
+</web-app>

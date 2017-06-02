@@ -1,0 +1,28 @@
+	<div id="footer" role="contentinfo">
+		<div class="footer-bar">
+			<nav class="$nav_css_class" id="footer-navigation">
+				<ul>
+					#foreach ($nav_item in $nav_items)
+						#set ($navigationPosition = $nav_item.getLayout().getExpandoBridge().getAttribute("navigation-position"))
+			 			#if ($navigationPosition.size() > 0 && $navigationPosition.get(0) =="footer")
+							#if ($nav_item.isSelected())
+								<li class="selected" title="$nav_item.getTitle()">
+							#else
+								<li title="$nav_item.getTitle()">
+							#end
+								<a href="$nav_item.getURL()" $nav_item.getTarget()><span>$nav_item.icon() $nav_item.getName()</span></a>
+							</li>
+						#end
+					#end
+				</ul>
+			</nav>
+			<div class="logos">
+				<img src="$images_folder/ape/ictpsp_logo.gif"/>
+				<img src="$images_folder/ape/eu_logo.gif"/>
+                                <img src="$images_folder/ape/europeana.gif"/>
+			</div>
+		</div>
+		<p class="powered-by">
+			#language("footer.text.apex")
+		</p>
+	</div>

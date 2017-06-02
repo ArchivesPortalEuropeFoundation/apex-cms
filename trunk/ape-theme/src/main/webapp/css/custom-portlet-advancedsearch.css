@@ -1,0 +1,1003 @@
+#searchingPart {
+	font-size: 8pt;
+	display: inline-block;
+	width: 100%;
+}
+
+#searchingPart #tabs {
+	border: none;
+}
+
+#searchingPart ul#tabscontainer {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 29px;
+	border-bottom: 1px solid #006699;
+	border-left: 1px solid #006699;
+}
+
+#searchingPart ul#tabscontainer li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	margin-bottom: -1px;
+	background: #E9F3FA;
+	overflow: hidden;
+	position: relative;
+	color: #ccc;
+}
+
+#searchingPart ul#tabscontainer li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.1em;
+	padding: 5px 20px 0px 20px;
+	outline: none;
+	height: 22px;
+}
+
+#searchingPart ul#tabscontainer li.ui-state-active,#searchingPart  ul#tabscontainer li.ui-state-active a:hover
+	{
+	background: #99CCFF;
+	background-image: url(../images/ape/search/tabbg.jpg);
+	color: black;
+}
+
+
+#searchingPart #sourceTabs .numberOfResults {	
+    background-color: #ffc939;
+    border-radius: 5px;
+    color: black;
+    display: inline-block;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 1px 5px;
+    text-align: center;
+    margin-left: 5px;
+    font-weight:bold;
+    box-shadow: 1px 1px 3px #888888;
+    top: -1px;
+    position: relative;
+}
+
+
+
+#searchingPart #sourceTabs ul#tabscontainer li a {
+	font-weight: normal;
+}
+
+#searchingPart ul#tabscontainer li.ui-tabs-selected {
+	height: 28px;
+}
+
+#searchingPart ul#tabscontainer li a:hover {
+	background: #fff;
+	color: #4D8BCB;
+}
+
+#searchingPart #tabs .ui-widget-header, #searchingPart #sourceTabs .ui-widget-header {
+	border: none;
+	background: none;
+}
+
+#searchingPart #tabs .ui-tabs-selected {
+	
+}
+
+#searchingPart .tab_header {
+	border: 1px solid #79B7E7;
+	background: url("../images/ape/search/tabbg.jpg") repeat-x;
+	border-top-right-radius: 5px;
+	border-bottom: none;
+	clear: both;
+	float: left;
+	width: 100%;
+	height: 24px;
+}
+
+#searchingPart #tabs-context,#tabs-list {
+	padding: 0em 0em;
+}
+
+#searchingPart #contextTabResults {
+	padding-top: 5px;
+}
+
+#searchingPart .treeWithPreview {
+	float: left;
+	vertical-align: top;
+	width: 750px;
+}
+
+#searchingPart #simpleAndAdvancedSearch {
+	width: 100%;
+	display: inline-block;
+	
+}
+#searchingPart #searchOptions {
+    display: inline-block;
+    width: 100%;
+}
+
+#searchingPart #advancedSearchOptionsContent {
+	height: 85px;
+	font-size: 11px;
+}
+
+#searchingPart #advancedSearch {
+	float: left;
+	width: 483px;
+}
+
+#searchingPart #navigatedSearch {
+	float: left;
+	width: 100%;
+
+}
+
+#searchingPart #navigatedSearchOptionsContent {
+	font-size: 12px;
+	background-color: white;
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+#searchingPart #navigatedSearchOptionsHeader {
+	background-repeat: no-repeat;
+	background-position: left;
+	cursor: pointer;
+}
+#searchingPart h2.blockHeader {
+    font-size: 1.2em;
+    margin-bottom: 2px;
+   	margin-top:10px;
+	padding-left: 15px;
+	border-bottom: 1px solid #79B7E7;
+	height: 20px;
+}
+
+#searchingPart #navigatedSearchOptionsHeader {
+	background-repeat: no-repeat;
+	background-position: left;
+	cursor: pointer;
+}
+
+#searchingPart #advancedSearch table {
+	padding: 0px;
+	margin: 0px;
+	border-collapse: collapse;
+}
+
+#searchingPart #advancedSearch select,#advancedSearch input {
+	font-size: 12px;
+	vertical-align: top;
+}
+
+#advancedSearch input {
+	margin-right: 2px;
+}
+
+#searchingPart #advancedSearch tbody,#searchingPart #advancedSearch label,#searchingPart #advancedSearch tr
+	{
+	padding: 0px;
+}
+
+#searchingPart #advancedSearch td,#searchingPart #advancedSearch th
+	{
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 9px;
+	padding-bottom: 6px;
+}
+
+#searchingPart .datefield {
+	width: 80px;
+	padding: 0;
+}
+
+#searchingPart #searchResultsHeader {
+	display: block;
+	clear: both;
+	font-weight: bold;
+	padding-left: 7px;
+	padding-bottom: 10px;
+	border-bottom: none;
+}
+
+#searchingPart #tabHeaderContent {
+	padding-right: 5px;
+	font-size: 8pt;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	padding-left: 20px;
+}
+
+#searchingPart #numberOfResults {
+	float: left;
+    min-width: 223px;	
+    margin-right:20px;
+}
+#searchingPart .partialresults {
+    color: #4d4d4d;
+}
+
+#searchingPart #resultPerPageContainer {
+	float: left;
+}
+
+#searchingPart #tabHeaderContent select,#searchingPart #tabHeaderContent input
+	{
+	font-size: 9px;
+	padding: 1px;
+}
+
+#searchingPart  #searchTabContent {
+	
+}
+
+#searchingPart #tabs-list {
+	font-size: 8pt;
+}
+
+#searchingPart .selectedCriteria {
+    clear: both;
+    display: inline-block;
+    padding-top: 5px;
+ 	width: 100%;   
+}
+
+#searchingPart #selectedRefinementsTitle {
+	float: left;
+	padding-right: 5px;
+	padding-left: 2px;
+	padding-top: 2px;
+}
+
+#searchingPart .selectedCriteria ul {
+	list-style-type: none;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#searchingPart .selectedCriteria ul li {
+	float: left;
+	display: block;
+	border: 1px solid #afdefc;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom: 5px;
+	background-color: white;
+}
+
+#searchingPart .list-searchresult-actions {
+	margin-top:3px;
+	display: inline-block;
+	height: 10px;
+	font-size: 11px;
+	width:100%;
+}
+
+#searchingPart .list-searchresult-actions ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#searchingPart .list-searchresult-actions ul li {
+	margin: 0px;
+	float: right;
+}
+
+#searchingPart .list-searchresult-actions ul li a {
+	border: 1px solid #afdefc;
+	border-radius: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 2px;
+	margin-right: 2px;
+	color: #006CB0;
+}
+
+#searchingPart .list-searchresult-actions ul li a:hover {
+	color: #00384D;
+	border: 1px solid #afdefc;
+	border-radius: 5px;
+	background-color: rgba(0, 160, 223, 0.2);
+}
+
+#searchingPart .selectedCriteria ul li a {
+	color: #006CB0;
+}
+#searchingPart .selectedCriteria ul li.removed {
+    border: 1px solid #FF0000;
+}
+#searchingPart .selectedCriteria ul li.removed a {
+	color: #FF0000;
+}
+#searchingPart .selectedCriteria ul li a:hover {
+	text-decoration: line-through;
+}
+
+#searchingPart .selectedCriteria ul li a .close-icon {
+	display: inline-block;
+	background-image:
+		url("../images/ape/jquery/ui-icons_217bc0_256x240.png");
+	background-position: -80px -128px;
+	background-repeat: no-repeat;
+	width: 12px;
+	height: 12px;
+}
+
+#searchingPart  #searchOrder {
+	padding-bottom: 5px;
+	background-image: url("../images/ape/bg_headers.jpg");
+	background-color: #afdefc;
+	border-radius: 4px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	padding-left: 5px;
+	color: gray;
+}
+
+#searchingPart #selectedOrder {
+	color: black;
+	font-weight: bold;
+}
+
+#searchingPart #searchOrderTitle {
+	color: black;
+	padding-bottom: 2px;
+	padding-top: 2px;
+}
+
+#searchingPart .searchTitle {
+	font-weight: bold;
+	font-style: italic;
+	color: rgb(77, 139, 203);
+}
+
+#searchingPart #refinements  .box {
+	margin-right: 5px;
+}
+
+#searchingPart #refinements  ul {
+	list-style-type: none;
+	padding: 0px 0px 0px 5px;
+	margin: 0;
+}
+
+#searchingPart #refinements .boxtitle {
+	cursor: pointer;
+}
+
+#searchingPart #refinements  .numberOfHits {
+	color: gray;
+	padding-left: 2px;
+}
+
+#searchingPart #refinements a.refinement_multiple_selected {
+	background: url("../images/ape/search/selected.gif") no-repeat scroll
+		left center transparent;
+}
+
+#searchingPart #refinements a.refinement_multiple_notselected {
+	background: url("../images/ape/search/not_selected.gif") no-repeat
+		scroll left center transparent;
+}
+
+#searchingPart #refinements a.refinement_multiple_selected:hover
+	{
+	background: url("../images/ape/search/selected_hover.gif") no-repeat
+		scroll left center transparent;
+}
+
+#searchingPart #refinements a.refinement_multiple_notselected:hover
+	{
+	background: url("../images/ape/search/not_selected_hover.gif") no-repeat
+		scroll left center transparent;
+}
+
+#searchingPart #refinements a.refinement_multiple_notselected,#searchingPart #refinements a.refinement_multiple_selected
+	{
+	padding-left: 14px;
+	display: inline-block;
+}
+
+#searchingPart #refinements a {
+	max-width: 170px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	vertical-align: top;
+}
+
+#searchingPart  #searchResultsListContainer {
+	float: left;
+	width: 520px;
+}
+
+#searchingPart  #searchresultsList {
+
+}
+
+#searchingPart  #refinements {
+	float: left;
+	width: 260px;
+}
+
+#searchingPart .list-searchresult {
+	display: block;
+	width: 100%;
+}
+
+#searchingPart .list-searchresult-content {
+	float: left;
+	padding: 5px 5px 5px;
+	width: 487px;
+	color: #333333;
+	font-size: 9pt;
+	border-bottom: 1px solid #E6E6E6;
+	min-height: 60px;
+}
+#searchingPart .list-searchresult-content-archdesc {
+	background-color: #F0F7FC;
+	border-radius: 5px;
+}
+
+#searchingPart .list-searchresult-content-archdesc .list-searchresult-context {
+	color: #636363;
+}
+#searchingPart .list-searchresult-content .scopecontent,#searchingPart .list-searchresult-content .other
+	{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	vertical-align: top;
+	max-width: 490px;
+}
+
+#searchingPart .list-searchresult-context .fond,#searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
+	{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	vertical-align: top;
+}
+
+#searchingPart .list-searchresult-context .unitid,#searchingPart .list-searchresult-context .countryAndInstitution
+	{
+	max-width: 390px;
+}
+
+
+#searchingPart .list-searchresult-context .fond {
+	max-width: 390px;
+}
+
+#searchingPart .list-searchresult-context {
+	font-size: 11px;
+	line-height: 13px;
+	color: gray;
+	padding-top: 3px;
+	display: inline-block;
+	width: 100%;
+}
+#searchingPart .list-searchresult-context em {
+	color: black;
+}
+
+#searchingPart .subtitle, #searchingPart .secondSubtitle
+	{
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+#searchingPart .secondSubtitle {
+	margin-left: 20px;
+}
+
+#searchingPart .list-searchresult-header {
+	overflow: hidden;
+}
+
+#searchingPart .alterdate {
+	float: right;
+	font-size: 8pt;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	vertical-align: top;
+	max-width: 100px;
+}
+
+#searchingPart .list-searchresult-header a {
+	font-size: 10pt;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	vertical-align: top;
+	max-width: 390px;
+	display: inline-block;
+}
+
+#searchingPart .preview-button-holder {
+	float: right;
+	width: 20px;
+	height: auto;
+	min-height: 60px;
+}
+
+#searchingPart .preview-button-holder-show {
+	border: 1px solid #E6E6E6;
+	background-color: #FAFAFA;
+	background-image: url("../images/ape/search/preview.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+#searchingPart #searchresultsList .preview-button-holder-selected {
+	border: 1px solid #afdefc;
+	background-color: #FAFAFA;
+	background-image: url("../images/ape/search/preview.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+#searchingPart .notitle {
+	font-style: italic;
+}
+
+#searchingPart a.facet-more {
+	color: gray;
+	font-style: italic;
+	font-weight: normal;
+}
+
+#searchingPart #errorContainer ul {
+	list-style-type: none;
+}
+
+#searchingPart #searchResultsContainer {
+	clear: both;
+}
+
+#searchingPart .suggestionSearch {
+	clear: both;
+	float: left;
+	padding-left: 7px;
+	height: auto;
+	font-size: 14px;
+	padding-left: 20px;
+}
+
+#searchingPart .suggestionNumberOfHits {
+	color: gray;
+}
+
+#searchingPart .suggestionMisspelled {
+	font-weight: bold;
+	font-style: italic;
+}
+
+#searchingPart #todateLabel {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#searchingPart .preview-column {
+	float: right;
+	width: 213px;
+	margin-top: 7px;
+}
+
+#searchingPart .preview-container {
+	vertical-align: top;
+	float: right;
+	font-size: 8pt;
+	padding: 3px;
+	line-height: 1.3em;
+	border-radius: 4px;
+}
+
+#searchingPart .preview-content {
+	background-color: #e9f3fa;
+	color: #333333;
+}
+
+#searchingPart .search-result-preview-container #content {
+	max-height: 500px;
+}
+
+#searchingPart .al-preview-container #content {
+	max-height: 200px;
+}
+
+#searchingPart .preview-container #content {
+	overflow: hidden;
+}
+
+#searchingPart .preview-container #more-line {
+	background-color: white;
+	width: 100%;
+}
+
+#searchingPart .preview-container .show-more-line {
+	background-repeat: no-repeat;
+	background-image: url("../images/ape/search/preview-more.gif");
+	height: 7px;
+}
+#searchingPart #eagSearchPortlet .preview-container .show-more-line {
+		background-image: url("../images/ape/search/preview-more-large.gif");
+}
+
+#searchingPart .preview-container .hide-more-line {
+	height: 0px;
+}
+
+#searchingPart .preview-container .eadid,#searchingPart .preview-container .subtitle
+	{
+	font-size: 10px;
+	font-style: italic;
+	text-align: center;
+	color: gray;
+}
+
+#searchingPart .preview-container .titleproper,#searchingPart .preview-container h2.blockHeader
+	{
+	font-size: 10pt;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.2em;
+	text-align: center;
+	border-bottom: none;
+	padding-bottom: 0px;
+}
+
+#searchingPart .preview-container h2,#searchingPart .preview-container table.aiSection th
+	{
+	margin: 0.3em 0;
+	font-size: 9pt;
+	border-bottom: 1px solid #79B7E7;
+	color: #2A4862;
+	text-align: left;
+	font-weight: bold;
+}
+
+#searchingPart .preview-container table.aiSection td {
+	padding: 1px;
+	vertical-align: top;
+}
+
+#searchingPart .preview-container p {
+	margin-top: 0px;
+	margin-bottom: 0.3em;
+	margin-right: 0px;
+	margin-left: 0px;
+	text-align: left;
+	line-height: 1.3em;
+}
+
+#searchingPart .preview-container .collapse,#searchingPart .preview-container .creation-content
+	{
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+#searchingPart .preview-container .collapse img {
+	width: 204px;
+}
+
+#searchingPart .preview-container .expand-unitid {
+	padding-right: 10px;
+}
+
+#searchingPart .preview-container .defaultlayout {
+	text-align: center;
+	color: gray;
+}
+
+#searchingPart .preview-container table.aiSection {
+	font-size: 8pt;
+	line-height: 1.3em;
+}
+
+#searchingPart .special_info {
+	background-color: #e9f3fa;
+	border-radius: 5px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 5px;
+	padding-right: 5px;
+	display: inline-block;
+	font-size: 8pt;
+	color: gray;
+}
+
+#searchingPart #bottom-paging {
+	float: left;
+	color: gray;
+	margin-bottom: 7px;
+	margin-top: 7px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	text-align: right;
+	width: 100%;
+}
+
+#searchingPart  #bottom-paging ul {
+	margin-right: 30px;
+}
+
+#searchingPart  #bottom-paging li {
+	background-image: url("../images/ape/bg_headers.jpg");
+}
+
+#searchingPart  #bottom-paging li.nolink {
+	color: gray;
+	background-image: none;
+	border: 1px solid gray;
+}
+
+#searchingPart  #bottom-paging li.active {
+	color: black;
+	background-image: none;
+}
+
+#searchingPart #top-paging {
+	float: right;
+	margin-right: 10px;
+}
+
+#searchingPart #viewFullFond {
+	background-color: white;
+}
+
+#searchingPart em {
+	font-weight: bold;
+	font-style: italic;
+}
+#searchingPart  ul.daolist-orig{
+    list-style: none outside none;
+    padding: 0;
+}
+
+#searchingPart  ul.daolist-orig li{
+	float: left;
+    min-height: 28px;
+    margin: 1px;
+    min-width: 36px;
+}
+#searchingPart .ead-content{
+    display: inline-block;
+}
+
+#searchingPart #answerMessageSavedSearch {
+    display: inline-block;
+    font-weight: bold;
+    padding: 2px 10px;
+    font-size: 13px;
+}
+#searchingPart #saveSearchButton {
+	float:right;
+}
+#searchingPart #saveSearchButton a {
+    border-radius: 5px;
+    border: 1px solid #ffa300;
+    background-color: #ffedb9;
+    margin: 0;
+    padding: 2px 10px;
+    color:#2a4862;
+}
+#searchingPart #saveSearchButton a:hover {
+	background-color: #fff9e8;
+}
+#searchingPart #saveSearch {
+    float: right;
+    padding-left: 15px;
+    padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+
+#searchingPart #saveSearch .success {
+	color: green;
+
+}
+
+#searchingPart #saveSearch .failure {
+	color: red;
+}
+#searchingPart #search-preview {
+	width: 205px;
+}
+
+#searchingPart #sourceTabs{
+    border: 0 none;
+    padding: 0px;
+}
+
+
+
+#searchingPart #sourceTabs .tab_header {
+	margin-bottom:2px;
+}
+
+
+#searchingPart #eacCpfSearchPortlet .relation > a{
+	opacity: 0.8;
+}
+
+#searchingPart #eacCpfSearchPortlet .tab_header, #searchingPart #eagSearchPortlet .tab_header{
+	border-top-left-radius: 5px;
+}
+
+#searchingPart #eagSearchPortlet #searchResultsListContainer{
+	width: 420px;
+}
+#searchingPart #eagSearchPortlet .preview-column {
+	width: 373px
+}
+#searchingPart #eagSearchPortlet #search-preview {
+	width: 365px;
+}
+#searchingPart #eagSearchPortlet #refinements {
+	width: 200px;
+}
+#searchingPart  #eagSearchPortlet .list-searchresult-content {
+	width: 387px;
+}
+
+#searchingPart #eagSearchPortlet .preview-container table.aiSection {
+    width: 100%;
+}
+
+#searchingPart #eagSearchPortlet .preview-container table.aiSection  th {
+    border-bottom: none;
+    color: #2A4862;
+    font-size: 8pt;
+    margin: 0;
+}
+#searchingPart #eagSearchPortlet .repositoryInfo {
+	margin-left: 10px;
+}
+#searchingPart #eagSearchPortlet #refinements a {
+	max-width: 140px;
+}
+
+
+#searchingPart #eagSearchPortlet .list-searchresult-content .subGroup {
+    font-size: 90%;
+    margin-left: 10px;
+}
+#searchingPart #eagSearchPortlet .otherName {
+    font-size: 10pt;
+
+}
+#searchingPart #eagSearchPortlet .preview-container h1 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+#searchingPart #eagSearchPortlet #advancedSearchOptionsContent {
+	 height: 50px;
+}
+
+#searchingPart #eagSearchPortlet  #simpleSearchOptionsContent {
+	height: 50px;
+}
+#searchingPart #eagSearchPortlet #advancedSearch #repositoryType {
+	max-width:250px;
+}
+#searchingPart #eagSearchPortlet #advancedSearch #searchOnlyIn span {
+	margin-right:5px;
+}
+#eadSearchPortlet #search-preview  #alwaysVisible {
+	width:100%;
+	padding-top:1px;
+	padding-bottom:1px;
+	background-color: white;
+	display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#eadSearchPortlet #search-preview #alwaysVisible div.dao {
+    border: 1px solid #79b7e7;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 2px;
+    height: 200px;
+    width: 200px;
+    margin: 1px;
+    overflow:hidden;
+}
+ #eadSearchPortlet #search-preview #alwaysVisible img{
+    max-width:200px;
+    max-height:200px;
+}
+
+ #eadSearchPortlet #search-preview img#more-daos{
+	border-left: 1px solid #79b7e7;
+	border-top: 1px solid #79b7e7;
+    border-radius: 1px;
+	background-color: white;
+	width:16px;
+	height:16px;
+    display: block;
+    position: relative;
+    left: 185px;
+    top: -17px;
+}
+
+#eadSearchPortlet #alwaysVisibleContainer {
+    background-color: white;
+}
+#searchingPart #eaccpfcontent{
+	display:block;
+	word-wrap:break-word;
+}
+#eacCpfSearchPortlet #eaccpfcontent ul.level{
+	 padding: 0 0 0 10px;
+}
+#eacCpfSearchPortlet #eaccpfcontent li.item{
+	list-style:disc outside none;
+	line-height: 1.8em;
+	margin-bottom: 0.5em;
+}
+#eacCpfSearchPortlet #eaccpfcontent .leftcolumn h2 {
+	padding-left:0px;	
+}
+.titleproperEac{
+	font-size: 10pt;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.2em;
+	text-align: left;
+	border-bottom: none;
+	padding-bottom: 0px;
+	padding-left: 22px;
+	padding-bottom:5px;
+}
+
+.iconPerson {
+	background-image: url("../images/ape/icons/eac_types/person_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
+.iconCorporateBody {
+	background-image: url("../images/ape/icons/eac_types/org_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
+
+.iconFamily {
+	background-image: url("../images/ape/icons/eac_types/fam_small.png");
+    background-repeat: no-repeat;
+    background-size:19px;
+}
+.tooltipSubContent {
+	padding-bottom:10px;	
+}
+
+.ul-with-children {
+		list-style-type: none;
+}
+.linkToMoreHelp {
+	font-style: italic;
+	font-size:95%;
+}
+#searchingPart .icon_help,#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
+	margin-left:12px;
+    position: relative;
+    top: 3px;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */    	
+}
+
+#searchingPart #sourceTabs .icon_help, #searchingPart #searchResultsContainer #tabs .icon_help {
+	margin-top:5px;
+}

@@ -1,0 +1,146 @@
+#directoryPortlet {
+	font-size: 8pt;
+}
+
+
+#directoryPortlet #directory-column-right-content table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 1em;
+	color: #2a4862;
+}
+
+#directoryPortlet #directory-column-right-content table th {
+	padding: 4px;
+	text-transform: uppercase;
+	padding-left: 15px;
+}
+
+#directoryPortlet #directory-column-right-content table td {
+	border-top: 1px solid #E8EDFF;
+	border-bottom: 1px solid #E8EDFF;
+	padding: 4px;
+}
+
+#directoryPortlet #directory-column-right-content table td.header {
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	background: none repeat scroll 0 0 #ecf6ff;
+	vertical-align:top;
+	width: 40%;
+}
+#directoryPortlet #directory-column-right-content table td.subHeader {
+	
+	padding-left:30px;
+	padding-right:10px;
+	vertical-align:top;
+	
+}
+#directoryPortlet #directory-column-right-content table td.subInfoHeader {
+	font-style: italic;
+	font-weight:bold;
+	padding-left:30px;
+	padding-right:10px;
+	
+}
+#directoryPortlet #directory-column-right-content #afterRepositories {
+	height: 40px;
+	display:block;
+}
+
+#directoryPortlet #directory-column-right-content ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+#directoryPortlet #directory-column-right-content h3 {
+    cursor: pointer;
+    padding-left: 15px;
+}
+
+#directoryPortlet #directory-column-right-content li {
+	padding-bottom: 2px;
+}
+
+#directoryPortlet .arrow_box {
+	position: relative;
+	background: #E9F3FA;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	height: 100px;
+	padding: 40px;
+	width: 280px;
+}
+
+#directoryPortlet .arrow_box:after {
+	right: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+#directoryPortlet .arrow_box:after {
+	border-right-color: #E9F3FA;
+	border-width: 30px;
+	top: 50%;
+	margin-top: -30px;
+}
+
+#directoryPortlet .arrow_box p {
+	color: #2A4862;
+	text-align: center;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+	font-size:14pt;
+
+}
+
+#directoryPortlet #descriptiveNoteOnEAGRelation {
+	margin-left: 10px;
+}
+#directoryPortlet .emailsnolang{
+	display:none;
+}
+#directoryPortlet  .emaillang{
+	display:block;
+}
+#directoryPortlet .webpagesnolang{
+	display:none;
+}
+#directoryPortlet .webpagelang{
+	display:block;
+}
+#directoryPortlet .mobile {
+	font-size: 150%;
+}
+#directoryPortlet  .child {
+	border-bottom: 1px solid #E6E6E6;
+	padding:5px;
+	font-weight: bold;
+}
+#directoryPortlet #child-paging {
+    float: right;
+    margin-right: 10px;
+}
+#directoryPortlet .numberOfPages {
+    float: left;
+    font-weight: normal;
+}
+
+#directoryPortlet #children .boxtitle {
+    background: url("../images/ape/search/tabbg.jpg") repeat-x scroll 0 0 transparent;
+    height: 18px;
+}
+#directoryPortlet  .child td{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#directoryPortlet #directoryAiStaticMap{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
