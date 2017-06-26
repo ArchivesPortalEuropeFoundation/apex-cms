@@ -18,7 +18,7 @@
 	<c:out value="${param['term']}" />
 </c:set>
 
-
+<portal:friendlyUrl var="eacUrl" type="eac-display"/>
 
 <portlet:resourceURL var="displayChildrenUrl" id="displayEadDetails">
 	<c:if test="${not empty c}">
@@ -93,12 +93,12 @@
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
-			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}"/>
+			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
 		</c:when>
 		<c:otherwise>
 			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
-				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" xmlTypeName="${xmlTypeName}" />
+				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
