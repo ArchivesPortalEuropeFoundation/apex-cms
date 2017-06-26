@@ -22,6 +22,10 @@ $(document).ready(function() {
 <c:set var="term">
 	<c:out value="${param['term']}" />
 </c:set>
+
+<portal:friendlyUrl var="eacUrl" type="eac-display"/>
+<portal:friendlyUrl var="aiCodeUrl" type="directory-institution-code"/>
+
 <div id="eadDisplayPortlet">
 	<div class="mobile">
 		<c:if test="${!empty errorMessage}">
@@ -43,14 +47,14 @@ $(document).ready(function() {
 			<div id="eaddetailsContent">
 				<c:choose>
 					<c:when test="${empty c}">
-						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" />
+						<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
 						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 					</c:when>
 					<c:otherwise>
 						<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 						<portal:eadPersistentLink var="pagingUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="${xmlTypeName}" eadid="${eadContent.ead.eadid}"  pageNumber="{pageNumber}" clevel="${c}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 						<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}"
-							aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" xmlTypeName="${xmlTypeName}"/>
+                                                            aiId="${archivalInstitution.aiId}" secondDisplayUrl="${secondDisplayUrl}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
 
 					</c:otherwise>
 				</c:choose>

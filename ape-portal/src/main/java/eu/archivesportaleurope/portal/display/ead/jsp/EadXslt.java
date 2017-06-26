@@ -19,45 +19,54 @@ import eu.apenet.commons.solr.SolrField;
 import eu.apenet.commons.types.XmlType;
 import eu.apenet.commons.xslt.ClasspathURIResolver;
 import eu.apenet.commons.xslt.extensions.ResourcebundleExtension;
+import eu.archivesportaleurope.portal.common.xslt.CheckAgencyCodeExtension;
+import eu.archivesportaleurope.portal.common.xslt.EacRecordidCheckerExtension;
 import eu.archivesportaleurope.portal.common.xslt.EadidCheckerExtension;
 import eu.archivesportaleurope.portal.common.xslt.HighlighterExtension;
 import eu.archivesportaleurope.portal.common.xslt.OtherFindingAidExtension;
+import eu.archivesportaleurope.portal.common.xslt.RetrieveRepositoryCodeFromEacIdExtension;
 import eu.archivesportaleurope.portal.common.xslt.SpecialCharactersEncoderExtension;
 import eu.archivesportaleurope.portal.common.xslt.TypeOfDisplayExtension;
 
 public final class EadXslt {
 
-    
-	private static XsltExecutable getXsltExecutable(String xslUrl, String searchTerms, List<SolrField> highlightFields, ResourceBundleSource resourceBundleSource, 
-			Integer aiId, boolean isDashboard, String solrStopwordsUrl, String typeOfDisplay,XmlType xmlType) throws SaxonApiException{
+    private static XsltExecutable getXsltExecutable(String xslUrl, String searchTerms, List<SolrField> highlightFields, ResourceBundleSource resourceBundleSource,
+            Integer aiId, boolean isDashboard, String solrStopwordsUrl, String typeOfDisplay, XmlType xmlType) throws SaxonApiException {
         ClassLoader classLoader = (ClassLoader) Thread.currentThread().getContextClassLoader();
-        Source xsltSource = new StreamSource(classLoader.getResourceAsStream(xslUrl));	
+        Source xsltSource = new StreamSource(classLoader.getResourceAsStream(xslUrl));
         Processor processor = new Processor(false);
-        HighlighterExtension highLighter = new HighlighterExtension (solrStopwordsUrl, searchTerms, highlightFields);
-        ResourcebundleExtension  resourcebundleRetriever = new ResourcebundleExtension (resourceBundleSource);
-        EadidCheckerExtension  eadidChecker = new EadidCheckerExtension (aiId, isDashboard);
+        HighlighterExtension highLighter = new HighlighterExtension(solrStopwordsUrl, searchTerms, highlightFields);
+        ResourcebundleExtension resourcebundleRetriever = new ResourcebundleExtension(resourceBundleSource);
+        EadidCheckerExtension eadidChecker = new EadidCheckerExtension(aiId, isDashboard);
+        EacRecordidCheckerExtension eacRecordidChecker = new EacRecordidCheckerExtension(aiId, isDashboard);
+        CheckAgencyCodeExtension getAiCode1 = new CheckAgencyCodeExtension();
+        RetrieveRepositoryCodeFromEacIdExtension getAiCode2 = new RetrieveRepositoryCodeFromEacIdExtension();
         processor.registerExtensionFunction(highLighter);
         processor.registerExtensionFunction(resourcebundleRetriever);
         processor.registerExtensionFunction(eadidChecker);
+        processor.registerExtensionFunction(eacRecordidChecker);
+        processor.registerExtensionFunction(getAiCode1);
+        processor.registerExtensionFunction(getAiCode2);
         processor.registerExtensionFunction(new SpecialCharactersEncoderExtension());
         processor.registerExtensionFunction(new TypeOfDisplayExtension(typeOfDisplay));
         processor.registerExtensionFunction(new OtherFindingAidExtension(resourceBundleSource, xmlType));
         XsltCompiler compiler = processor.newXsltCompiler();
         compiler.setURIResolver(new ClasspathURIResolver(xslUrl));
         return compiler.compile(xsltSource);
-	}
+    }
 
-    public static void convertEadToHtml(String xslUrl, Writer writer, Source xmlSource, String searchTerms, List<SolrField> highlightFields, 
-    		ResourceBundleSource resourceBundleSource,String secondDisplayUrl, Integer aiId,boolean isDashboard, 
-    		String solrStopwordsUrl, String typeOfDisplay,XmlType xmlType) throws SaxonApiException{
-    	XsltExecutable executable = getXsltExecutable(xslUrl, searchTerms, highlightFields,resourceBundleSource, aiId, isDashboard, solrStopwordsUrl,typeOfDisplay,xmlType);
+    public static void convertEadToHtml(String xslUrl, Writer writer, Source xmlSource, String searchTerms, List<SolrField> highlightFields,
+            ResourceBundleSource resourceBundleSource, String secondDisplayUrl, Integer aiId, boolean isDashboard,
+            String solrStopwordsUrl, String typeOfDisplay, XmlType xmlType, String eacUrl) throws SaxonApiException {
+        XsltExecutable executable = getXsltExecutable(xslUrl, searchTerms, highlightFields, resourceBundleSource, aiId, isDashboard, solrStopwordsUrl, typeOfDisplay, xmlType);
         XsltTransformer transformer = executable.load();
         transformer.setParameter(new QName("eadcontent.extref.prefix"), new XdmAtomicValue(secondDisplayUrl));
+        transformer.setParameter(new QName("eacUrl"), new XdmAtomicValue(eacUrl));
         transformer.setSource(xmlSource);
         Serializer serializer = new Serializer();
         serializer.setOutputWriter(writer);
         transformer.setDestination(serializer);
         transformer.transform();
     }
-    
+
 }
