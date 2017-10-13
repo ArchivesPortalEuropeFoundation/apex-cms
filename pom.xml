@@ -142,7 +142,7 @@
             <dependency>
                 <groupId>org.apache.solr</groupId>
                 <artifactId>solr-solrj</artifactId>
-                <version>4.7.0</version>
+                <version>5.5.4</version>
             </dependency>
             <dependency>
                 <groupId>javax.portlet</groupId>
