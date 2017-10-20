@@ -21,6 +21,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.archivesportaleurope.portal.common.SpringResourceBundleSource;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
+import java.io.IOException;
 
 /**
  * Generates an json for autocompletion
@@ -109,7 +110,7 @@ public class AutocompletionJSONController extends AbstractJSONWriter {
 	}
 
 	private static void add(List<AutocompletionResult> results, AbstractSearcher abstractSearcher,
-			AutocompletionForm autocompletionForm, String sourceType) throws SolrServerException {
+			AutocompletionForm autocompletionForm, String sourceType) throws SolrServerException, IOException {
 		TermsResponse termsResponse = abstractSearcher.getTerms(autocompletionForm.getTerm().trim());
 		for (Map.Entry<String, List<Term>> entry : termsResponse.getTermMap().entrySet()) {
 			for (Term termItem : entry.getValue()) {

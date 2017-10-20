@@ -10,6 +10,7 @@ import eu.apenet.commons.solr.SolrQueryParameters;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
 import eu.archivesportaleurope.portal.common.PropertiesUtil;
 import eu.archivesportaleurope.portal.common.email.EmailSender;
+import java.io.IOException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -32,7 +33,7 @@ public abstract class AbstractPortalSearcher extends AbstractSearcher {
     
 
     protected QueryResponse executeQuery(SolrQuery query, SolrQueryParameters solrQueryParameters, String queryType,
-            boolean needSuggestions) throws SolrServerException {
+            boolean needSuggestions) throws SolrServerException, IOException {
         try {
             return executeQuery(query, solrQueryParameters, queryType, needSuggestions, false);
         } catch (SolrServerException sse) {

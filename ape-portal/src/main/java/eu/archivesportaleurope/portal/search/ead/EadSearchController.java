@@ -41,6 +41,7 @@ import eu.archivesportaleurope.portal.search.ead.list.EadSearchResult;
 import eu.archivesportaleurope.portal.search.ead.tree.ContextResults;
 import eu.archivesportaleurope.portal.search.ead.tree.TreeFacetValue;
 import eu.archivesportaleurope.portal.search.saved.SavedSearchService;
+import java.io.IOException;
 
 @Controller(value = "eadSearchController")
 @RequestMapping(value = "VIEW")
@@ -280,7 +281,8 @@ public class EadSearchController extends AbstractSearchController{
 
 	protected ListResults performUpdateSearchForListView(PortletRequest request,
 			SolrQueryParameters solrQueryParameters, EadSearch eadSearch) throws SolrServerException,
-			ParseException {
+			ParseException,
+			IOException {
 		ListResults results = new ListResults();
 		if (solrQueryParameters != null){
 			results.setPageSize(Integer.parseInt(eadSearch.getResultsperpage()));
@@ -302,7 +304,7 @@ public class EadSearchController extends AbstractSearchController{
 	}
 
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
-			EadSearch eadSearch) throws SolrServerException, ParseException {
+			EadSearch eadSearch) throws SolrServerException, ParseException, IOException {
 		ListResults results = new ListResults();
 		if (solrQueryParameters != null){
 			results.setPageSize(Integer.parseInt(eadSearch.getResultsperpage()));
@@ -322,7 +324,7 @@ public class EadSearchController extends AbstractSearchController{
 	}
 
 	protected ContextResults performNewSearchForContextView(PortletRequest request,
-			SolrQueryParameters solrQueryParameters, EadSearch eadSearch) throws SolrServerException {
+			SolrQueryParameters solrQueryParameters, EadSearch eadSearch) throws SolrServerException, IOException {
 		ContextResults results = new ContextResults();
 		if (solrQueryParameters != null){
 			QueryResponse solrResponse = getEadSearcher().performNewSearchForContextView(solrQueryParameters);
@@ -405,7 +407,7 @@ public class EadSearchController extends AbstractSearchController{
 
 
 	protected void countOtherSearchResults(PortletRequest request, 
-			EadSearch eadSearch, Results results) throws SolrServerException, ParseException{
+			EadSearch eadSearch, Results results) throws SolrServerException, ParseException, IOException{
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, request);
 		if (solrQueryParameters != null && !eadSearch.isAdvancedSearch()){ 
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));

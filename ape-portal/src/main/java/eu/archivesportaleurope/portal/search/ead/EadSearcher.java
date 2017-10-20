@@ -11,6 +11,7 @@ import org.apache.solr.common.params.FacetParams;
 import eu.apenet.commons.solr.SolrFields;
 import eu.apenet.commons.solr.SolrQueryParameters;
 import eu.archivesportaleurope.portal.search.common.AbstractPortalSearcher;
+import java.io.IOException;
 
 public final class EadSearcher extends AbstractPortalSearcher {
 
@@ -23,7 +24,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 	}
 
 
-	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException {
+	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		query.addFacetField(SolrFields.COUNTRY);
 		query.setFacetSort(FACET_SORT_COUNT);
@@ -38,7 +39,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 		return executeQuery(query, solrQueryParameters,  QUERY_TYPE_CONTEXT, true);
 	}
 
-	public FacetField getAis(SolrQueryParameters solrQueryParameters, String parentId,int level, int start, int maxNumber) throws SolrServerException {
+	public FacetField getAis(SolrQueryParameters solrQueryParameters, String parentId,int level, int start, int maxNumber) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		if (parentId != null){
 			query.addFilterQuery(SolrFields.AI_DYNAMIC_ID + level+SolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
@@ -59,7 +60,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 		QueryResponse rsp = executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 		return rsp.getFacetFields().get(0);
 	}
-	public FacetField getFonds(SolrQueryParameters solrQueryParameters, String facetField, int start, int maxNumber) throws SolrServerException {
+	public FacetField getFonds(SolrQueryParameters solrQueryParameters, String facetField, int start, int maxNumber) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		query.addFacetField(facetField);
 		query.setFacetSort(FacetParams.FACET_SORT_COUNT);
@@ -72,7 +73,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 		QueryResponse rsp = executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 		return rsp.getFacetFields().get(0);	}
 	
-	public FacetField getLevels(SolrQueryParameters solrQueryParameters, String prefixFondType,String parentId,int level, int start, int maxNumber) throws SolrServerException {
+	public FacetField getLevels(SolrQueryParameters solrQueryParameters, String prefixFondType,String parentId,int level, int start, int maxNumber) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		query.addFilterQuery(prefixFondType+ SolrFields.DYNAMIC_ID + level+SolrFields.DYNAMIC_STRING_SUFFIX + COLON +parentId);
 		query.addFacetField(prefixFondType + (level+1)+SolrFields.DYNAMIC_STRING_SUFFIX);
@@ -86,7 +87,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 		QueryResponse rsp = executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT,false);
 		return rsp.getFacetFields().get(0);
 	}
-	public QueryResponse getResultsInLevels(SolrQueryParameters solrQueryParameters, String parentId, int start, int maxNumberOfRows) throws SolrServerException {
+	public QueryResponse getResultsInLevels(SolrQueryParameters solrQueryParameters, String parentId, int start, int maxNumberOfRows) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
 		//query.setFields(SolrFields.TITLE, SolrFields.ID, "orderId_i");
