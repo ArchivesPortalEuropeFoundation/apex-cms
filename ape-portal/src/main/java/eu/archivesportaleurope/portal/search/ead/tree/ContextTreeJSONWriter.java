@@ -32,6 +32,7 @@ import eu.apenet.commons.solr.facet.FacetType;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.tree.AbstractJSONWriter;
 import eu.archivesportaleurope.portal.search.common.AbstractSearchController;
+import java.io.IOException;
 
 /**
  * Generate JSON for context tab.
@@ -101,7 +102,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	}
 
 	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeEadSearch eadSearch,
-			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
+			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException, IOException {
 		SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID,
 				eadSearch.getParentId());
 		Integer startInt = 0;
@@ -180,7 +181,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	}
 
 	private StringBuilder generateAiJSON(TreeEadSearch eadSearch, SolrQueryParameters solrQueryParameters,
-			Locale locale) throws SolrServerException {
+			Locale locale) throws SolrServerException, IOException {
 		int startInt = eadSearch.getStartInt();
 		int levelInt = eadSearch.getLevelInt();
 		FacetField aiFacetField = getEadSearcher().getAis(solrQueryParameters, eadSearch.getParentId(), levelInt,
@@ -241,7 +242,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 	}
 
 	private StringBuilder generateCLevelJSON(TreeEadSearch eadSearch,
-			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException {
+			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException, IOException {
 		int startInt = eadSearch.getStartInt();
 		int levelInt = eadSearch.getLevelInt();
 		FacetField fonds = getEadSearcher().getLevels(solrQueryParameters, eadSearch.getSearchType(),

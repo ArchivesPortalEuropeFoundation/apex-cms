@@ -37,6 +37,7 @@ import eu.archivesportaleurope.portal.search.common.AbstractSearchForm;
 import eu.archivesportaleurope.portal.search.common.ListResults;
 import eu.archivesportaleurope.portal.search.common.Results;
 import eu.archivesportaleurope.portal.search.common.SolrDocumentListHolder;
+import java.io.IOException;
 
 /**
  * 
@@ -154,7 +155,7 @@ public class EagSearchContoller extends AbstractSearchController {
 	}
 
 	protected ListResults performNewSearchForListView(PortletRequest request, SolrQueryParameters solrQueryParameters,
-			EagSearch eagSearch) throws SolrServerException, ParseException {
+			EagSearch eagSearch) throws SolrServerException, ParseException, IOException {
 		ListResults results = new ListResults();
 		if (solrQueryParameters != null) {
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
@@ -178,7 +179,7 @@ public class EagSearchContoller extends AbstractSearchController {
 	}
 
 	protected ListResults performUpdateSearchForListView(PortletRequest request,
-			SolrQueryParameters solrQueryParameters, EagSearch eagSearch) throws SolrServerException, ParseException {
+			SolrQueryParameters solrQueryParameters, EagSearch eagSearch) throws SolrServerException, ParseException, IOException {
 		ListResults results = new ListResults();
 		if (solrQueryParameters != null) {
 			results.setPageSize(Integer.parseInt(eagSearch.getResultsperpage()));
@@ -251,7 +252,7 @@ public class EagSearchContoller extends AbstractSearchController {
 	}
 
 	protected void countOtherSearchResults(PortletRequest request, EagSearch eagSearch, Results results)
-			throws SolrServerException, ParseException {
+			throws SolrServerException, ParseException, IOException {
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eagSearch, request);
 		if (solrQueryParameters != null && !eagSearch.isAdvancedSearch()) {
 			results.setEacCpfNumberOfResults(getEacCpfSearcher().getNumberOfResults(solrQueryParameters));
