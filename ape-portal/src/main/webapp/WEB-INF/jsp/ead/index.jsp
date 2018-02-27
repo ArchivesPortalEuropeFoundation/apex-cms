@@ -11,10 +11,11 @@
 <portlet:defineObjects />
 <c:set var="portletNamespace"><portlet:namespace/></c:set>
 
-<portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,element,term,pageNumber,databaseId">
+<portal:removeParameters  var="eadTreeUrl" namespace="${portletNamespace}" parameters="myaction,unitid,eadid,repoCode,element,term,pageNumber,databaseId">
     <portlet:resourceURL id="eadTree">
         <portlet:param name="solrId" value="${solrId}" />
         <portlet:param name="ecId" value="${eadContent.ecId}" />
+        <portlet:param name="xmlTypeName" value="${xmlTypeName}" />
     </portlet:resourceURL>
 </portal:removeParameters>
 

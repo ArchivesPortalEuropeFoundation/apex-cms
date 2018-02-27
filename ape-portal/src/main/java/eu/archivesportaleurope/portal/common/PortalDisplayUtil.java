@@ -15,6 +15,7 @@ import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.Country;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.apenet.persistence.vo.Ead;
+import eu.apenet.persistence.vo.Ead3;
 
 public class PortalDisplayUtil {
     private static final String END_CHARACTER = ")";
@@ -136,6 +137,12 @@ public class PortalDisplayUtil {
 	}
 	public static String getEadDisplayTitle(Ead ead, String title){
 		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead.getArchivalInstitution().getRepositorycode() + " - " + ead.getEadid() + END_CHARACTER));
+	}
+        public static String getEad3DisplayPageTitle(Ead3 ead3, String title){
+		return PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead3.getArchivalInstitution().getRepositorycode() + " - " + ead3.getIdentifier() + END_CHARACTER);
+	}
+	public static String getEad3DisplayTitle(Ead3 ead3, String title){
+		return PortalDisplayUtil.replaceSingleQuotes(PortalDisplayUtil.replaceQuotesAndReturns( title + START_CHARACTER + ead3.getArchivalInstitution().getRepositorycode() + " - " + ead3.getIdentifier() + END_CHARACTER));
 	}
 	public static String getArchivalInstitutionDisplayTitle(ArchivalInstitution institution){
 		if (institution.isGroup()){

@@ -14,6 +14,7 @@ import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
+import eu.apenet.persistence.vo.Ead3;
 import eu.apenet.persistence.vo.EadContent;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
 import eu.archivesportaleurope.portal.common.PropertiesKeys;
@@ -138,5 +139,47 @@ public class AbstractEadController {
 
 		return modelAndView;
 	}
+        
+        protected ModelAndView fillEad3Details(Ead3 ead3, EadContent eadContent, PortletRequest portletRequest, Integer pageNumber, ModelAndView modelAndView, boolean noscript) {
+
+        modelAndView.getModelMap().addAttribute("type", EadTag.EAD3_FRONTPAGE_XSLT);
+        SpringResourceBundleSource source = new SpringResourceBundleSource(this.getMessageSource(),
+                portletRequest.getLocale());
+        ArchivalInstitution archivalInstitution = ead3.getArchivalInstitution();
+        String localizedName = DisplayUtils.getLocalizedCountryName(source, archivalInstitution.getCountry());
+        modelAndView.getModelMap().addAttribute("localizedCountryName", localizedName);
+        String documentTitle = eadContent.getUnittitle();
+        String pageTitle = PortalDisplayUtil.getEad3DisplayTitle(eadContent.getEad3(), getMessageSource().getMessage("advancedsearch.text.notitle", null, portletRequest.getLocale()));
+        if (StringUtils.isNotBlank(documentTitle)) {
+            pageTitle = PortalDisplayUtil.getEad3DisplayPageTitle(eadContent.getEad3(), documentTitle);
+        }
+        PortalDisplayUtil.setPageTitle(portletRequest, pageTitle);
+        modelAndView.getModelMap().addAttribute("pageTitle", pageTitle);
+        documentTitle = PortalDisplayUtil.getEad3DisplayTitle(ead3, documentTitle);
+        modelAndView.getModelMap().addAttribute("documentTitle", documentTitle);
+        modelAndView.getModelMap().addAttribute("eadContent", eadContent);
+        XmlType xmlType = XmlType.getContentType(ead3);
+        modelAndView.getModelMap().addAttribute("aiId", archivalInstitution.getAiId());
+        modelAndView.getModelMap().addAttribute("archivalInstitution", archivalInstitution);
+        modelAndView.getModelMap().addAttribute("xmlTypeName", xmlType.getResourceName());
+        modelAndView.getModel().put("recaptchaAjaxUrl", PropertiesUtil.get(PropertiesKeys.APE_RECAPTCHA_AJAX_URL));
+        modelAndView.getModelMap().addAttribute("recaptchaPubKey",
+                PropertiesUtil.get(PropertiesKeys.LIFERAY_RECAPTCHA_PUB_KEY));
+        if (noscript) {
+            Integer pageNumberInt = 1;
+            if (pageNumber != null) {
+                pageNumberInt = pageNumber;
+            }
+            int orderId = (pageNumberInt - 1) * PAGE_SIZE;
+            Long totalNumberOfChildren = getClevelDAO().countTopCLevels(eadContent.getEcId());
+            List<CLevel> children = getClevelDAO().findTopCLevels(eadContent.getEcId(), orderId, PAGE_SIZE);
+            modelAndView.getModelMap().addAttribute("totalNumberOfChildren", totalNumberOfChildren);
+            modelAndView.getModelMap().addAttribute("pageNumber", pageNumberInt);
+            modelAndView.getModelMap().addAttribute("pageSize", PAGE_SIZE);
+            modelAndView.getModelMap().addAttribute("children", children);
+        }
+
+        return modelAndView;
+    }
 
 }

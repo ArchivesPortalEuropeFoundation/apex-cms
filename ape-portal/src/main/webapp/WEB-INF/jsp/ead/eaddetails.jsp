@@ -93,7 +93,14 @@
 <div id="eaddetailsContent">
 	<c:choose>
 		<c:when test="${empty c}">
-			<portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
+			<c:choose>
+                <c:when test="${xmlTypeName eq 'ead3'}">
+                    <portal:ead type="frontpage-ead3" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
+                </c:when>
+                <c:otherwise>
+                    <portal:ead type="frontpage" xml="${eadContent.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
+                </c:otherwise>
+            </c:choose>
 		</c:when>
 		<c:otherwise>
 			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
