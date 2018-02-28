@@ -95,7 +95,7 @@ public class DisplayEadContoller extends AbstractEadController {
             if (xmlType.equals(XmlType.EAD_3)) {
                 boolean published = !eadParams.isPreview();
                 modelAndView.getModelMap().addAttribute("previewDetails", eadParams.isPreview());
-                Ead3 ead3 = ead3DAO.getFirstPublishedEad3ByIdentifier(eadParams.getEadid(), true);
+                Ead3 ead3 = ead3DAO.getEad3ByIdentifier(eadParams.getRepoCode(), eadParams.getEadid(), true);
                 if (ead3 != null) {
                     EadContent eadContent = ead3.getEadContent();
                     if (StringUtils.isNotBlank(eadContent.getUnittitle())) {
