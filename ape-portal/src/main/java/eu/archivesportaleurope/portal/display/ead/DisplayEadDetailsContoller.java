@@ -15,7 +15,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import eu.apenet.commons.solr.SolrValues;
-import eu.apenet.commons.types.XmlType;
 import eu.apenet.persistence.dao.EadContentDAO;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.EadContent;
@@ -80,7 +79,11 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
         }
         CLevel currentCLevel = getClevelDAO().findById(id);
         modelAndView.getModelMap().addAttribute("previewDetails", eadDetailsParams.isPreviewDetails());
-        fillCDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(), modelAndView, false);
+        if (eadDetailsParams.getType().equalsIgnoreCase("ead3")) {
+            fillEad3CDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(), modelAndView, false);
+        } else {
+            fillCDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(), modelAndView, false);
+        }
         modelAndView.setViewName("eaddetails");
         return modelAndView;
     }
@@ -91,7 +94,7 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
             EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
             if (eadContent != null) {
                 modelAndView.getModelMap().addAttribute("previewDetails", eadDetailsParams.isPreviewDetails());
-                if(eadDetailsParams.getType().equals(EadTag.EAD3_FRONTPAGE_XSLT)){
+                if (eadDetailsParams.getType().equals(EadTag.EAD3_FRONTPAGE_XSLT)) {
                     fillEad3Details(eadContent.getEad3(), eadContent, portletRequest, null, modelAndView, false);
                 } else {
                     fillEadDetails(eadContent, portletRequest, null, modelAndView, false);

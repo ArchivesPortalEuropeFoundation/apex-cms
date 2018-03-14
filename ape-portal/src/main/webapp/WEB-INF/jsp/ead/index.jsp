@@ -22,7 +22,8 @@
 <portal:removeParameters  var="displayEadUrl" namespace="${portletNamespace}" parameters="myaction,xmlTypeName,unitid,eadid,repoCode,pageNumber,databaseId,preview">
     <portlet:resourceURL  id="displayEadDetails">
         <portlet:param name="ecId" value="${eadContent.ecId}" />
-        <portlet:param name="previewDetails" value="${previewDetails}" />	
+        <portlet:param name="previewDetails" value="${previewDetails}" />
+        <portlet:param name="type" value="${xmlTypeName}" />
     </portlet:resourceURL>
 </portal:removeParameters>
 

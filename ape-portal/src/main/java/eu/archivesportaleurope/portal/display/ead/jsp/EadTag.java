@@ -31,6 +31,8 @@ public class EadTag extends SimpleTagSupport {
     public static final String FRONTPAGE_XSLT = "frontpage";
     public static final String CDETAILS_XSLT = "cdetails";
     public static final String EAD3_FRONTPAGE_XSLT = "frontpage-ead3";
+    public static final String EAD3_CDETAILS_CHILD_XSLT = "ead3-cdetails-child";
+    public static final String EAD3_CDETAILS_XSLT = "ead3-cdetails";
     private String xml;
     private String searchTerms;
     private String searchFieldsSelectionId;
@@ -51,6 +53,8 @@ public class EadTag extends SimpleTagSupport {
         xsltUrls.put(CDETAILS_CHILD_XSLT, "xsl/ead/cdetails-child.xsl");
         xsltUrls.put(FRONTPAGE_XSLT, "xsl/ead/frontpage.xsl");
         xsltUrls.put(EAD3_FRONTPAGE_XSLT, "xsl/ead/frontpage-ead3.xsl");
+        xsltUrls.put(EAD3_CDETAILS_XSLT, "xsl/ead/ead3-cdetails.xsl");
+        xsltUrls.put(EAD3_CDETAILS_CHILD_XSLT, "xsl/ead/ead3-cdetails-child.xsl");
 
     }
 

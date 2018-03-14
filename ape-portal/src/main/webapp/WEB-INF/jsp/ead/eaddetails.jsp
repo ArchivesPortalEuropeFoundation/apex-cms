@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@ taglib uri="http://commons.archivesportaleurope.eu/tags" prefix="ape"%>
@@ -103,9 +104,18 @@
             </c:choose>
 		</c:when>
 		<c:otherwise>
-			<portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
+                    <c:choose>
+                        <c:when test="${xmlTypeName eq 'ead3'}">
+                            <portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="ead3" eadid=""/>		
+			<portal:ead type="ead3-cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
+				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <portal:eadPersistentLink var="secondDisplayUrl" repoCode="${archivalInstitution.encodedRepositorycode}" xmlTypeName="fa" eadid=""/>		
 			<portal:ead type="cdetails" xml="${c.xml}" searchTerms="${term}" searchFieldsSelectionId="${element}" aiId="${aiId}"
 				secondDisplayUrl="${secondDisplayUrl}" dashboardPreview="${previewDetails}" xmlTypeName="${xmlTypeName}" eacUrl="${eacUrl}"/>
+                        </c:otherwise>
+                    </c:choose>
 			<c:if test="${not c.leaf}">
 				<div id="children" class="box">
 					<div class="boxtitle">
@@ -119,7 +129,14 @@
 							</c:if>
 						</div>
 					</div>
-					<portal:ead type="cdetails-child" xml="${childXml}" xmlTypeName="${xmlTypeName}"/>
+                                                        <c:choose>
+                                                            <c:when test="${xmlTypeName eq 'ead3'}">
+                                                                <portal:ead type="ead3-cdetails-child" xml="${childXml}" xmlTypeName="${xmlTypeName}"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <portal:ead type="cdetails-child" xml="${childXml}" xmlTypeName="${xmlTypeName}"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
 				</div>
 			</c:if>
 		</c:otherwise>

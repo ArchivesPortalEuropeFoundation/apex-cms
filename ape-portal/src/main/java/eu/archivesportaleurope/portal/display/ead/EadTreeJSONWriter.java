@@ -99,6 +99,8 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
                 EadContent eadContent = eadContentDAO.findById(eadParams.getEcId());
                 List<CLevel> clevels = new ArrayList<>();
                 if (eadParams.getXmlTypeName().equalsIgnoreCase(XmlType.EAD_3.getName())) {
+
+                    clevels = clevelDAO.findTopEad3CLevels(eadContent.getEad3().getId(), eadParams.getOrderId(), eadParams.getMax());
                 } else {
                     clevels = clevelDAO.findTopCLevels(eadContent.getEcId(), eadParams.getOrderId(),
                             eadParams.getMax());
