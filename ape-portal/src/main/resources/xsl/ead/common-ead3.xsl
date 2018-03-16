@@ -1068,7 +1068,12 @@
                         <xsl:for-each select="child::node()">
                             <xsl:choose>
                                 <xsl:when test="name() = 'corpname' or 'famname' or 'persname'">
-                                    <xsl:apply-templates select="."/>
+                                    <!--<xsl:apply-templates select="."/>-->
+                                    <xsl:for-each select="child::node()">
+                                        <p>
+                                            <xsl:value-of select="@localtype"/> : <xsl:apply-templates select="."/>
+                                        </p>
+                                    </xsl:for-each>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:value-of
@@ -1090,6 +1095,18 @@
         </h2>
         <div class="ead-content">
             <xsl:for-each select="ead:scopecontent">
+                <div id="expandableContent">
+                    <xsl:for-each select="./ead:chronlist/ead:chronitem/ead:event/ead:persname">
+                        <h2 style="font-weight: normal;font-size:13px">&#x1F464;<xsl:value-of select ="./*[1]"/></h2>
+                        <div class="ead-content">
+                            <xsl:for-each select="child::node()">
+                                <p>
+                                    <xsl:value-of select="@localtype"/> : <xsl:apply-templates select="."/>
+                                </p>
+                            </xsl:for-each>
+                        </div>
+                    </xsl:for-each>
+                </div>
                 <xsl:apply-templates mode="scopecontent"/>
             </xsl:for-each>
         </div>
