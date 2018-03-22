@@ -168,7 +168,10 @@
 									</div>
 									</c:if>
 
-								</div>						
+								</div>
+                                                                        <div class="right">
+                                                                            <c:if test="${!empty result.identifier}"><div class="other"><span class="subtitle"><fmt:message key="advancedsearch.eaccpf.element.id" />:</span>${result.identifier}</div></c:if>
+                                                                        </div>
 						</div>							
 						</div>
 						<portlet:resourceURL var="displayPreviewUrl" id="displayPreview" >
