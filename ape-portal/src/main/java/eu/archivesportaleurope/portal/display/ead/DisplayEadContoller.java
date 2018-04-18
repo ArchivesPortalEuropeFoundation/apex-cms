@@ -130,21 +130,39 @@ public class DisplayEadContoller extends AbstractEadController {
         ModelAndView modelAndView = new ModelAndView();
         XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
         if (xmlType != null) {
-            List<CLevel> clevels = getClevelDAO().getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(),
-                    eadParams.getEadid(), eadParams.getUnitid());
-            int size = clevels.size();
+            if (xmlType.equals(XmlType.EAD_3)) {
+                List<CLevel> clevels = getClevelDAO().getCLevelWithEad3Id(eadParams.getRepoCode(), eadParams.getEadid(), eadParams.getUnitid());
+                int size = clevels.size();
 
-            if (size > 0) {
-                if (size > 1) {
-                    modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE);
+                if (size > 0) {
+                    if (size > 1) {
+                        modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE);
+                    }
+                    CLevel clevel = clevels.get(0);
+//                    Ead3 ead3 = clevel.getEadContent().getEad3();
+                    return displayCDetails(renderRequest, eadParams, modelAndView, null, clevel);
+
+                } else {
+                    modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_NOTFOUND);
+                    return displayArchdescInternal(renderRequest, eadParams, modelAndView);
                 }
-                CLevel clevel = clevels.get(0);
-                Ead ead = clevel.getEadContent().getEad();
-                return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
-
             } else {
-                modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_NOTFOUND);
-                return displayArchdescInternal(renderRequest, eadParams, modelAndView);
+                List<CLevel> clevels = getClevelDAO().getCLevel(eadParams.getRepoCode(), xmlType.getEadClazz(),
+                        eadParams.getEadid(), eadParams.getUnitid());
+                int size = clevels.size();
+
+                if (size > 0) {
+                    if (size > 1) {
+                        modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_UNITID_NOTUNIQUE);
+                    }
+                    CLevel clevel = clevels.get(0);
+                    Ead ead = clevel.getEadContent().getEad();
+                    return displayCDetails(renderRequest, eadParams, modelAndView, ead, clevel);
+
+                } else {
+                    modelAndView.getModelMap().addAttribute("errorMessage", DISPLAY_EAD_CLEVEL_NOTFOUND);
+                    return displayArchdescInternal(renderRequest, eadParams, modelAndView);
+                }
             }
         }
         return displayDefaultPage();

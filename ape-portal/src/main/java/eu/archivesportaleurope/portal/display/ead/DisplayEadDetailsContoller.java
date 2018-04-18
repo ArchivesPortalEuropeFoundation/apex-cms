@@ -94,7 +94,7 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
             EadContent eadContent = eadContentDAO.findById(eadDetailsParams.getEcId());
             if (eadContent != null) {
                 modelAndView.getModelMap().addAttribute("previewDetails", eadDetailsParams.isPreviewDetails());
-                if (eadDetailsParams.getType().equals(EadTag.EAD3_FRONTPAGE_XSLT)) {
+                if (eadDetailsParams.getType().contains("ead3")) {
                     fillEad3Details(eadContent.getEad3(), eadContent, portletRequest, null, modelAndView, false);
                 } else {
                     fillEadDetails(eadContent, portletRequest, null, modelAndView, false);

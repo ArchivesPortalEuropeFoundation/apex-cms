@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:fn="http://www.w3.org/2005/xpath-functions"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ead="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
-    exclude-result-prefixes="xlink xlink xsi ead ape fn #default">
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ead="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns:ape="http://www.archivesportaleurope.eu/xslt/extensions"
+                exclude-result-prefixes="xlink xlink xsi ead ape fn #default">
 
     <xsl:param name="eacUrl"/>
     <xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8"/>
@@ -24,7 +24,7 @@
     </xsl:template>
     <xsl:template match="text()" mode="title">
         <xsl:value-of select="fn:normalize-space(ape:highlight(., 'title'))"
-            disable-output-escaping="yes"/>
+                      disable-output-escaping="yes"/>
     </xsl:template>
     <xsl:template match="text()" mode="other">
         <xsl:value-of select="ape:highlight(., 'other')" disable-output-escaping="yes"/>
@@ -32,11 +32,11 @@
     </xsl:template>
     <xsl:template match="text()" mode="otherwithoutwhitespace">
         <xsl:value-of select="ape:highlight(., 'otherwithoutwhitespace')"
-            disable-output-escaping="yes"/>
+                      disable-output-escaping="yes"/>
     </xsl:template>
     <xsl:template match="text()" mode="otherwithcoma">
         <xsl:value-of select="fn:normalize-space(ape:highlight(., 'otherwithcoma'))"
-            disable-output-escaping="yes"/>
+                      disable-output-escaping="yes"/>
         <!-- Extent option -->
         <xsl:if test="string-length(../@unit) > 0">
             <!--  <xsl:text> (</xsl:text>-->
@@ -117,14 +117,14 @@
                         <xsl:when
                             test='$type eq "text" or $type eq "image" or $type eq "sound" or $type eq "video" or $type eq "3d"'>
                             <img width="200px"
-                                src="/Portal-theme/images/ape/icons/dao_types/normal/{$type}.png"/>
+                                 src="/Portal-theme/images/ape/icons/dao_types/normal/{$type}.png"/>
                             <span>
                                 <xsl:value-of select="$dao.title"/>
                             </span>
                         </xsl:when>
                         <xsl:otherwise>
                             <img width="200px"
-                                src="/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png"/>
+                                 src="/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png"/>
                             <span>
                                 <xsl:value-of select="$dao.title"/>
                             </span>
@@ -133,7 +133,7 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <img width="200px"
-                        src="/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png"/>
+                         src="/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png"/>
                     <span>
                         <xsl:value-of select="$dao.title"/>
                     </span>
@@ -147,11 +147,61 @@
         <xsl:variable name="href" select="./@xlink:href"/>
         <img width="200px" src="{$href}"/>
     </xsl:template>
+    <xsl:template name="string-replace-all">
+        <xsl:param name="text" />
+        <xsl:param name="replace" />
+        <xsl:param name="by" />
+        <xsl:choose>
+            <xsl:when test="$text = '' or $replace = ''or not($replace)" >
+                <!-- Prevent this routine from hanging -->
+                <xsl:value-of select="$text" />
+            </xsl:when>
+            <xsl:when test="contains($text, $replace)">
+                <xsl:value-of select="substring-before($text,$replace)" />
+                <xsl:value-of select="$by" />
+                <xsl:call-template name="string-replace-all">
+                    <xsl:with-param name="text" select="substring-after($text,$replace)" />
+                    <xsl:with-param name="replace" select="$replace" />
+                    <xsl:with-param name="by" select="$by" />
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
     <xsl:template match="ead:extref" mode="otherfindingaids">
         <div class="otherfindingaids">
-            <xsl:variable name="href" select="./@xlink:href"/>
-            <xsl:variable name="prefix" select="$eadcontent.extref.prefix"/>
+            <xsl:variable name="internalHref" select="./@xlink:href"/>
+            <xsl:variable name="href">
+                <xsl:choose>
+                    <xsl:when test="contains(./@xlink:href, 'ead3')">
+                        <xsl:call-template name="string-replace-all">
+                            <xsl:with-param name="text" select="$internalHref" />
+                            <xsl:with-param name="replace" select="'ead3:'" />
+                            <xsl:with-param name="by" select="''" />
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="./@xlink:href" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="prefix">
+                <xsl:choose>
+                    <xsl:when test="contains(./@xlink:href, 'ead3') and contains($eadcontent.extref.prefix, '/fa/')">
+                        <xsl:call-template name="string-replace-all">
+                            <xsl:with-param name="text" select="$eadcontent.extref.prefix" />
+                            <xsl:with-param name="replace" select="'/fa/'" />
+                            <xsl:with-param name="by" select="'/ead3/'" />
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$eadcontent.extref.prefix" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
             <xsl:choose>
                 <xsl:when test="starts-with($href, 'http')">
                     <div class="externalLink">
@@ -159,7 +209,7 @@
                             <xsl:when test="./@xlink:title and text()">
                                 <xsl:variable name="title" select="./@xlink:title"/>
                                 <xsl:variable name="initTitle"
-                                    select="ape:otherfindingaid('link', 'external')"/>
+                                              select="ape:otherfindingaid('link', 'external')"/>
                                 <a href="{$href}" target="_blank" title="{$initTitle} '{$title}'">
                                     <xsl:value-of select="ape:otherfindingaid('link', 'external')"/>
                                     <xsl:text> '</xsl:text>
@@ -193,17 +243,17 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:choose>
-                        <xsl:when test="ape:linked($href) = 'indexed'">
+                        <xsl:when test="ape:linked($internalHref) = 'indexed'">
                             <xsl:variable name="encodedHref"
-                                select="ape:encodeSpecialCharacters($href)"/>
+                                          select="ape:encodeSpecialCharacters($href)"/>
                             <div class="linkButton">
                                 <xsl:choose>
                                     <xsl:when test="./@xlink:title and text()">
                                         <xsl:variable name="title" select="./@xlink:title"/>
                                         <xsl:variable name="initTitle"
-                                            select="ape:otherfindingaid('link', 'internal')"/>
+                                                      select="ape:otherfindingaid('link', 'internal')"/>
                                         <a href="{$prefix}{$encodedHref}" target="{$encodedHref}"
-                                            title="{$initTitle} '{$title}'">
+                                           title="{$initTitle} '{$title}'">
                                             <xsl:value-of
                                                 select="ape:resource('seconddisplay.view.fa.internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -240,16 +290,16 @@
                         </xsl:when>
                         <xsl:when test="ape:linked($href) = 'indexed-preview'">
                             <xsl:variable name="extref.warning"
-                                select="ape:resource('error.user.second.display.indexed.preview')"/>
+                                          select="ape:resource('error.user.second.display.indexed.preview')"/>
                             <div class="linkButton">
                                 <xsl:choose>
                                     <xsl:when test="./@xlink:title and text()">
                                         <xsl:variable name="title" select="./@xlink:title"/>
                                         <xsl:variable name="initTitle"
-                                            select="ape:otherfindingaid('link', 'internal')"/>
+                                                      select="ape:otherfindingaid('link', 'internal')"/>
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')"
-                                            title="{$initTitle} '{$title}'">
+                                           onclick="window.alert('{$extref.warning}')"
+                                           title="{$initTitle} '{$title}'">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -259,7 +309,7 @@
                                     </xsl:when>
                                     <xsl:when test="./@xlink:title">
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')">
+                                           onclick="window.alert('{$extref.warning}')">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -269,7 +319,7 @@
                                     </xsl:when>
                                     <xsl:when test="text()">
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')">
+                                           onclick="window.alert('{$extref.warning}')">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -279,7 +329,7 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')">
+                                           onclick="window.alert('{$extref.warning}')">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                         </a>
@@ -289,16 +339,16 @@
                         </xsl:when>
                         <xsl:when test="ape:linked($href) = 'notindexed'">
                             <xsl:variable name="extref.warning"
-                                select="ape:resource('error.user.second.display.notindexed')"/>
+                                          select="ape:resource('error.user.second.display.notindexed')"/>
                             <div class="linkButton">
                                 <xsl:choose>
                                     <xsl:when test="./@xlink:title and text()">
                                         <xsl:variable name="title" select="./@xlink:title"/>
                                         <xsl:variable name="initTitle"
-                                            select="ape:otherfindingaid('link', 'internal')"/>
+                                                      select="ape:otherfindingaid('link', 'internal')"/>
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')"
-                                            class="notIndexed" title="{$initTitle} '{$title}'">
+                                           onclick="window.alert('{$extref.warning}')"
+                                           class="notIndexed" title="{$initTitle} '{$title}'">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -308,8 +358,8 @@
                                     </xsl:when>
                                     <xsl:when test="./@xlink:title">
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')"
-                                            class="notIndexed">
+                                           onclick="window.alert('{$extref.warning}')"
+                                           class="notIndexed">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -319,8 +369,8 @@
                                     </xsl:when>
                                     <xsl:when test="text()">
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')"
-                                            class="notIndexed">
+                                           onclick="window.alert('{$extref.warning}')"
+                                           class="notIndexed">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                             <xsl:text> '</xsl:text>
@@ -330,8 +380,8 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <a href="javascript:void(0)"
-                                            onclick="window.alert('{$extref.warning}')"
-                                            class="notIndexed">
+                                           onclick="window.alert('{$extref.warning}')"
+                                           class="notIndexed">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
                                         </a>
@@ -345,7 +395,7 @@
                                     <xsl:when test="./@xlink:title and text()">
                                         <xsl:variable name="title" select="./@xlink:title"/>
                                         <xsl:variable name="initTitle"
-                                            select="ape:resource('seconddisplay.view.fa.internal')"/>
+                                                      select="ape:resource('seconddisplay.view.fa.internal')"/>
                                         <div class="nolink">
                                             <xsl:value-of
                                                 select="ape:otherfindingaid('link', 'internal')"/>
@@ -413,7 +463,7 @@
                     <xsl:otherwise>
                         <a href="{$href}" target="_blank">
                             <xsl:variable name="extref.notitle"
-                                select="ape:resource('eadcontent.extref.notitle')"/>
+                                          select="ape:resource('eadcontent.extref.notitle')"/>
                             <span class="icon_notitle" title="{$extref.notitle}">
                                 <xsl:value-of select="$extref.notitle"/>
                             </span>
@@ -428,7 +478,7 @@
                             <xsl:when test="./@xlink:title and text()">
                                 <xsl:variable name="title" select="./@xlink:title"/>
                                 <a href="{$prefix}&amp;eadid={$href}" target="{$href}"
-                                    title="{$title}">
+                                   title="{$title}">
                                     <xsl:value-of select="text()"/>
                                 </a>
                             </xsl:when>
@@ -445,7 +495,7 @@
                             <xsl:otherwise>
                                 <a href="{$prefix}&amp;eadid={$href}" target="{$href}">
                                     <xsl:variable name="extref.notitle"
-                                        select="ape:resource('eadcontent.extref.notitle')"/>
+                                                  select="ape:resource('eadcontent.extref.notitle')"/>
                                     <span class="icon_notitle" title="{$extref.notitle}">
                                         <xsl:value-of select="$extref.notitle"/>
                                     </span>
@@ -455,32 +505,32 @@
                     </xsl:when>
                     <xsl:when test="ape:linked($href) = 'notindexed'">
                         <xsl:variable name="extref.warning"
-                            select="ape:resource('error.user.second.display.notindexed')"/>
+                                      select="ape:resource('error.user.second.display.notindexed')"/>
                         <xsl:choose>
                             <xsl:when test="./@xlink:title and text()">
                                 <xsl:variable name="title" select="./@xlink:title"/>
                                 <a href="javascript:void(0)"
-                                    onclick="window.alert('{$extref.warning}')" title="{$title}">
+                                   onclick="window.alert('{$extref.warning}')" title="{$title}">
                                     <xsl:value-of select="text()"/>
                                 </a>
                             </xsl:when>
                             <xsl:when test="./@xlink:title">
                                 <a href="javascript:void(0)"
-                                    onclick="window.alert('{$extref.warning}')">
+                                   onclick="window.alert('{$extref.warning}')">
                                     <xsl:value-of select="./@xlink:title"/>
                                 </a>
                             </xsl:when>
                             <xsl:when test="text()">
                                 <a href="javascript:void(0)"
-                                    onclick="window.alert('{$extref.warning}')">
+                                   onclick="window.alert('{$extref.warning}')">
                                     <xsl:value-of select="text()"/>
                                 </a>
                             </xsl:when>
                             <xsl:otherwise>
                                 <a href="javascript:void(0)"
-                                    onclick="window.alert('{$extref.warning}')">
+                                   onclick="window.alert('{$extref.warning}')">
                                     <xsl:variable name="extref.notitle"
-                                        select="ape:resource('eadcontent.extref.notitle')"/>
+                                                  select="ape:resource('eadcontent.extref.notitle')"/>
                                     <span class="icon_notitle" title="{$extref.notitle}">
                                         <xsl:value-of select="$extref.notitle"/>
                                     </span>
@@ -501,7 +551,7 @@
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:variable name="extref.notitle"
-                                    select="ape:resource('eadcontent.extref.notitle')"/>
+                                              select="ape:resource('eadcontent.extref.notitle')"/>
                                 <span class="icon_notitle" title="{$extref.notitle}">
                                     <xsl:value-of select="$extref.notitle"/>
                                 </span>
@@ -866,7 +916,7 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="thumbnailHref"
-            select="'/Portal-theme/images/ape/icons/dao_types/unspecified_big.gif'"/>
+                      select="'/Portal-theme/images/ape/icons/dao_types/unspecified_big.gif'"/>
         <xsl:variable name="thumbnail" select='ead:dao[@xlink:title = "thumbnail"]'/>
         <xsl:variable name="numberOfThumbnails" select="count($thumbnail)"/>
         <h2>
@@ -899,7 +949,7 @@
                                         <xsl:choose>
                                             <xsl:when test="$numberOfThumbnails >= $linkPosition">
                                                 <xsl:value-of
-                                                  select="$thumbnail[$linkPosition]/@xlink:href"/>
+                                                    select="$thumbnail[$linkPosition]/@xlink:href"/>
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:value-of select="$thumbnail[1]/@xlink:href"/>
@@ -910,35 +960,35 @@
                                         <xsl:choose>
                                             <xsl:when test="./@xlink:role">
                                                 <xsl:variable name="type"
-                                                  select="fn:lower-case(./@xlink:role)"/>
+                                                              select="fn:lower-case(./@xlink:role)"/>
                                                 <xsl:choose>
-                                                  <xsl:when test="./@xlink:role">
-                                                  <xsl:variable name="type"
-                                                  select="fn:lower-case(./@xlink:role)"/>
-                                                  <xsl:choose>
-                                                  <xsl:when
-                                                  test='$type eq "text" or $type eq "image" or $type eq "sound" or $type eq "video" or $type eq "3d"'>
-                                                  <xsl:value-of
-                                                  select="concat('/Portal-theme/images/ape/icons/dao_types/normal/', $type, '.png')"
-                                                  />
-                                                  </xsl:when>
-                                                  <xsl:otherwise>
-                                                  <xsl:value-of
-                                                  select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
-                                                  />
-                                                  </xsl:otherwise>
-                                                  </xsl:choose>
-                                                  </xsl:when>
-                                                  <xsl:otherwise>
-                                                  <xsl:value-of
-                                                  select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
-                                                  />
-                                                  </xsl:otherwise>
+                                                    <xsl:when test="./@xlink:role">
+                                                        <xsl:variable name="type"
+                                                                      select="fn:lower-case(./@xlink:role)"/>
+                                                        <xsl:choose>
+                                                            <xsl:when
+                                                                test='$type eq "text" or $type eq "image" or $type eq "sound" or $type eq "video" or $type eq "3d"'>
+                                                                <xsl:value-of
+                                                                    select="concat('/Portal-theme/images/ape/icons/dao_types/normal/', $type, '.png')"
+                                                                />
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                <xsl:value-of
+                                                                    select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
+                                                                />
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <xsl:value-of
+                                                            select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
+                                                        />
+                                                    </xsl:otherwise>
                                                 </xsl:choose>
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:value-of
-                                                  select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
+                                                    select="'/Portal-theme/images/ape/icons/dao_types/normal/unspecified.png'"
                                                 />
                                             </xsl:otherwise>
                                         </xsl:choose>
@@ -952,12 +1002,12 @@
                                         <a href="{$href}" target="_blank">
                                             <xsl:choose>
                                                 <xsl:when test="$linkPosition &lt;= 5">
-                                                  <img src="{$thumbnailHref}" alt="{$dao.title}"
-                                                  title="{$dao.title}"/>
+                                                    <img src="{$thumbnailHref}" alt="{$dao.title}"
+                                                         title="{$dao.title}"/>
                                                 </xsl:when>
                                                 <xsl:otherwise>
-                                                  <img data-src="{$thumbnailHref}"
-                                                  alt="{$dao.title}" title="{$dao.title}"/>
+                                                    <img data-src="{$thumbnailHref}"
+                                                         alt="{$dao.title}" title="{$dao.title}"/>
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                             <span>
@@ -1004,7 +1054,7 @@
                     <p class="pOrigination">
                         <xsl:for-each select="child::node()">
                             <xsl:value-of select="fn:normalize-space(ape:highlight(., 'other'))"
-                                disable-output-escaping="yes"/>
+                                          disable-output-escaping="yes"/>
                             <xsl:text> </xsl:text>
                         </xsl:for-each>
                     </p>
@@ -1019,7 +1069,7 @@
                     <p class="pOrigination">
                         <xsl:for-each select="child::node()">
                             <xsl:value-of select="fn:normalize-space(ape:highlight(., 'other'))"
-                                disable-output-escaping="yes"/>
+                                          disable-output-escaping="yes"/>
                             <xsl:text> </xsl:text>
                         </xsl:for-each>
                     </p>
@@ -1034,7 +1084,7 @@
                     <p class="pOrigination">
                         <xsl:for-each select="child::node()">
                             <xsl:value-of select="fn:normalize-space(ape:highlight(., 'other'))"
-                                disable-output-escaping="yes"/>
+                                          disable-output-escaping="yes"/>
                             <xsl:text> </xsl:text>
                         </xsl:for-each>
                     </p>
@@ -1052,7 +1102,7 @@
                         <p class="pOrigination">
                             <xsl:for-each select="child::node()">
                                 <xsl:value-of select="fn:normalize-space(ape:highlight(., 'other'))"
-                                    disable-output-escaping="yes"/>
+                                              disable-output-escaping="yes"/>
                                 <xsl:text> </xsl:text>
                             </xsl:for-each>
                         </p>
@@ -1390,7 +1440,7 @@
                             <xsl:for-each select="ead:genreform">
                                 <br>
                                     <xsl:value-of select="ape:highlight(., 'other')"
-                                        disable-output-escaping="yes"/>
+                                                  disable-output-escaping="yes"/>
                                 </br>
                             </xsl:for-each>
                         </div>
@@ -1456,18 +1506,18 @@
                             <xsl:variable name="nameCount" select="count(./parent::node()/ead:name)"/>
                             <xsl:for-each select="./parent::node()/ead:name">
                                 <xsl:value-of select="ape:highlight(., 'other')"
-                                    disable-output-escaping="yes"/>
+                                              disable-output-escaping="yes"/>
                                 <xsl:if test="$nameCount > position()">
                                     <xsl:text>, </xsl:text>
                                 </xsl:if>
                             </xsl:for-each>
                             <xsl:text>: </xsl:text>
                             <xsl:variable name="titleCount"
-                                select="count(./parent::node()/ead:title)"/>
+                                          select="count(./parent::node()/ead:title)"/>
                             <xsl:for-each select="./parent::node()/ead:title">
                                 <i>
                                     <xsl:value-of select="ape:highlight(., 'other')"
-                                        disable-output-escaping="yes"/>
+                                                  disable-output-escaping="yes"/>
                                 </i>
                                 <xsl:if test="$titleCount > position()">
                                     <xsl:text>, </xsl:text>
@@ -1485,7 +1535,7 @@
                             <xsl:variable name="publisherCount" select="count(ead:publisher)"/>
                             <xsl:for-each select="ead:publisher">
                                 <xsl:value-of select="ape:highlight(., 'other')"
-                                    disable-output-escaping="yes"/>
+                                              disable-output-escaping="yes"/>
                                 <xsl:if test="$publisherCount > position()">
                                     <xsl:text>, </xsl:text>
                                 </xsl:if>
@@ -1494,7 +1544,7 @@
                             <xsl:variable name="dateCount" select="count(ead:date)"/>
                             <xsl:for-each select="ead:date">
                                 <xsl:value-of select="ape:highlight(., 'other')"
-                                    disable-output-escaping="yes"/>
+                                              disable-output-escaping="yes"/>
                                 <xsl:if test="$dateCount > position()">
                                     <xsl:text>, </xsl:text>
                                 </xsl:if>
@@ -1550,7 +1600,7 @@
         <xsl:variable name="aiCode" select="ape:aiFromEac($element/@authfilenumber, '')"/>
         <xsl:variable name="encodedAiCode" select="ape:encodeSpecialCharacters($aiCode)"/>
         <xsl:variable name="encodedRecordid"
-            select="ape:encodeSpecialCharacters($element/@authfilenumber)"/>
+                      select="ape:encodeSpecialCharacters($element/@authfilenumber)"/>
         <a href="{$eacUrl}/aicode/{$encodedAiCode}/type/ec/id/{$encodedRecordid}" target="_blank">
             <xsl:value-of select="$element/text()"/>
         </a>

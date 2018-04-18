@@ -147,11 +147,62 @@
         <xsl:variable name="href" select="./@xlink:href"/>
         <img width="200px" src="{$href}"/>
     </xsl:template>
+    
+    <xsl:template name="string-replace-all">
+        <xsl:param name="text" />
+        <xsl:param name="replace" />
+        <xsl:param name="by" />
+        <xsl:choose>
+            <xsl:when test="$text = '' or $replace = ''or not($replace)" >
+                <!-- Prevent this routine from hanging -->
+                <xsl:value-of select="$text" />
+            </xsl:when>
+            <xsl:when test="contains($text, $replace)">
+                <xsl:value-of select="substring-before($text,$replace)" />
+                <xsl:value-of select="$by" />
+                <xsl:call-template name="string-replace-all">
+                    <xsl:with-param name="text" select="substring-after($text,$replace)" />
+                    <xsl:with-param name="replace" select="$replace" />
+                    <xsl:with-param name="by" select="$by" />
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$text" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
     <xsl:template match="ead:extref" mode="otherfindingaids">
         <div class="otherfindingaids">
-            <xsl:variable name="href" select="./@xlink:href"/>
-            <xsl:variable name="prefix" select="$eadcontent.extref.prefix"/>
+            <xsl:variable name="internalHref" select="./@xlink:href"/>
+            <xsl:variable name="href">
+                <xsl:choose>
+                    <xsl:when test="contains(./@xlink:href, 'ead3')">
+                        <xsl:call-template name="string-replace-all">
+                            <xsl:with-param name="text" select="$internalHref" />
+                            <xsl:with-param name="replace" select="'ead3:'" />
+                            <xsl:with-param name="by" select="''" />
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="./@xlink:href" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="prefix">
+                <xsl:choose>
+                    <xsl:when test="contains(./@xlink:href, 'ead3') and contains($eadcontent.extref.prefix, '/fa/')">
+                        <xsl:call-template name="string-replace-all">
+                            <xsl:with-param name="text" select="$eadcontent.extref.prefix" />
+                            <xsl:with-param name="replace" select="'/fa/'" />
+                            <xsl:with-param name="by" select="'/ead3/'" />
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$eadcontent.extref.prefix" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
             <xsl:choose>
                 <xsl:when test="starts-with($href, 'http')">
                     <div class="externalLink">
@@ -193,7 +244,7 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:choose>
-                        <xsl:when test="ape:linked($href) = 'indexed'">
+                        <xsl:when test="ape:linked($internalHref) = 'indexed'">
                             <xsl:variable name="encodedHref"
                                           select="ape:encodeSpecialCharacters($href)"/>
                             <div class="linkButton">

@@ -86,9 +86,15 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
                 /*
 				 * used for more option
                  */
-                List<CLevel> clevels = clevelDAO.findTopCLevels(eadParams.getEcId(),
-                        eadParams.getOrderId(),
-                        eadParams.getMax());
+                List<CLevel> clevels = new ArrayList<>();
+                if (eadParams.getXmlTypeName().contains(XmlType.EAD_3.getResourceName())) {
+                    EadContent eadContent = eadContentDAO.findById(eadParams.getEcId());
+                    clevels = clevelDAO.findTopEad3CLevels(eadContent.getEad3().getId(), eadParams.getOrderId(), eadParams.getMax());
+                } else {
+                    clevels = clevelDAO.findTopCLevels(eadParams.getEcId(),
+                            eadParams.getOrderId(),
+                            eadParams.getMax());
+                }
                 writeToResponseAndClose(generateCLevelJSON(clevels, eadParams, locale), response);
             } else if (StringUtils.isNotBlank(eadParams.getSolrId())) {
                 Long solrId = Long.parseLong(eadParams.getSolrId().substring(1));
@@ -98,7 +104,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
             } else if (eadParams.getEcId() != null) {
                 EadContent eadContent = eadContentDAO.findById(eadParams.getEcId());
                 List<CLevel> clevels = new ArrayList<>();
-                if (eadParams.getXmlTypeName().equalsIgnoreCase(XmlType.EAD_3.getName())) {
+                if (eadParams.getXmlTypeName().contains(XmlType.EAD_3.getResourceName())) {
 
                     clevels = clevelDAO.findTopEad3CLevels(eadContent.getEad3().getId(), eadParams.getOrderId(), eadParams.getMax());
                 } else {
