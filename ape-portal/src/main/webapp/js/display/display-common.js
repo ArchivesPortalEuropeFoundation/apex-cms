@@ -25,7 +25,7 @@ function initShareButtons(){
  */
 function showFeedback(feedbackUrl, aiId, documentTitle, documentUrl, publicKey) {
 	if ($('#feedbackContent').is(':empty')){
-		addJsFileToHead("recaptha", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "https://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
+		addJsFileToHead("recaptha", "http://www.google.com/recaptcha/api.js", "https://www.google.com/recaptcha/api.js");
 		$(document).ready(function() {
 		$.post(feedbackUrl, {aiId: aiId, 
 			title: documentTitle, 
