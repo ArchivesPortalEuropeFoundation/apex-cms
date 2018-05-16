@@ -27,51 +27,49 @@ import eu.archivesportaleurope.portal.common.email.EmailSender;
 @Controller(value = "contactController")
 @RequestMapping(value = "VIEW")
 public class ContactController {
-	private MessageSource messageSource;
+
+    private MessageSource messageSource;
     private static final Logger LOGGER = Logger.getLogger(ContactController.class);
 
-	public void setMessageSource(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
-	
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
-	@RenderMapping
-    public ModelAndView showInitialPage(@ModelAttribute("contact") Contact contact,RenderRequest request) throws PortalException, SystemException {
-		boolean loggedIn = request.getUserPrincipal() != null;
+    @RenderMapping
+    public ModelAndView showInitialPage(@ModelAttribute("contact") Contact contact, RenderRequest request) throws PortalException, SystemException {
+        boolean loggedIn = request.getUserPrincipal() != null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");
-        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
-    	if (loggedIn){
-    		User currentUser = PortalUtil.getUser(request);
-    		contact.setEmail(currentUser.getEmailAddress());
-    		contact.setUsername(currentUser.getFullName());
-    	}
+        modelAndView.getModelMap().addAttribute("loggedIn", loggedIn);
+        if (loggedIn) {
+            User currentUser = PortalUtil.getUser(request);
+            contact.setEmail(currentUser.getEmailAddress());
+            contact.setUsername(currentUser.getFullName());
+        }
         return modelAndView;
     }
 
     @RenderMapping(params = "myaction=input")
     public ModelAndView showInput(RenderRequest request) {
-		boolean loggedIn = request.getUserPrincipal() != null;
+        boolean loggedIn = request.getUserPrincipal() != null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");
-        modelAndView.getModelMap().addAttribute("loggedIn",loggedIn);
+        modelAndView.getModelMap().addAttribute("loggedIn", loggedIn);
         return modelAndView;
     }
-	
+
     @ModelAttribute("contact")
     public Contact getCommandObject(PortletRequest portletRequest) {
-		SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
-				portletRequest.getLocale());
-		Contact contact = new Contact();
-		contact.getTypeList().put(PropertiesKeys.APE_EMAILS_FEEDBACK_TECHNICAL, source.getString("label.contact.item.issues"));
-		contact.getTypeList().put(PropertiesKeys.APE_EMAILS_CONTRIBUTE, source.getString("label.contact.item.contribute"));
-		contact.getTypeList().put(PropertiesKeys.APE_EMAILS_SUGGESTIONS, source.getString("label.contact.item.suggestions"));
-		contact.getTypeList().put(PropertiesKeys.APE_EMAILS_FEEDBACK_USER, source.getString("label.contact.item.feedback"));
+        SpringResourceBundleSource source = new SpringResourceBundleSource(messageSource,
+                portletRequest.getLocale());
+        Contact contact = new Contact();
+        contact.getTypeList().put(PropertiesKeys.APE_EMAILS_FEEDBACK_TECHNICAL, source.getString("label.contact.item.issues"));
+        contact.getTypeList().put(PropertiesKeys.APE_EMAILS_CONTRIBUTE, source.getString("label.contact.item.contribute"));
+        contact.getTypeList().put(PropertiesKeys.APE_EMAILS_SUGGESTIONS, source.getString("label.contact.item.suggestions"));
+        contact.getTypeList().put(PropertiesKeys.APE_EMAILS_FEEDBACK_USER, source.getString("label.contact.item.feedback"));
         return contact;
     }
 
-
-    
     @RenderMapping(params = "myaction=success")
     public String showPageResult() {
         return "success";
@@ -84,23 +82,24 @@ public class ContactController {
 
     @ActionMapping(params = "myaction=contact")
     public void showResult(@ModelAttribute("contact") Contact contact, BindingResult result, ActionRequest request, ActionResponse response) {
-    	boolean loggedIn = request.getUserPrincipal() != null;
-    	ContactValidator contactValidator = new ContactValidator(loggedIn,false);
+        boolean loggedIn = request.getUserPrincipal() != null;
+        ContactValidator contactValidator = new ContactValidator(loggedIn, false);
+        contact.setRecaptcha_response_field(request.getParameter("g-recaptcha-response"));
         contactValidator.validate(contact, result);
-		if (result.hasErrors()){
-			 response.setRenderParameter("myaction", "input");
-		}else {
-	        try {
-	        	User currentUser = null;
-	        	if (loggedIn){
-	        		currentUser = PortalUtil.getUser(request);
-	        	}
-        		EmailSender.sendContactFormEmail(contact, currentUser);
-	            response.setRenderParameter("myaction", "success");
-	        } catch (Exception e) {
-	        	LOGGER.error("Error sending the email", e);
-	            response.setRenderParameter("myaction", "error");
-	        }
-		}
+        if (result.hasErrors()) {
+            response.setRenderParameter("myaction", "input");
+        } else {
+            try {
+                User currentUser = null;
+                if (loggedIn) {
+                    currentUser = PortalUtil.getUser(request);
+                }
+                EmailSender.sendContactFormEmail(contact, currentUser);
+                response.setRenderParameter("myaction", "success");
+            } catch (Exception e) {
+                LOGGER.error("Error sending the email", e);
+                response.setRenderParameter("myaction", "error");
+            }
+        }
     }
 }
