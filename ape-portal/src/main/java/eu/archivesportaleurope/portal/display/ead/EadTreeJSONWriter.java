@@ -235,9 +235,9 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
             buffer.append(COMMA);
             buffer.append(FOLDER_LAZY);
             buffer.append(COMMA);
-            if (clevel.getParentClId() != null) {
+            if (clevel.getParentId() != null) {
                 buffer.append("\"parentId\":");
-                buffer.append(" \"" + clevel.getParentClId() + "\" ");
+                buffer.append(" \"" + clevel.getParentId() + "\" ");
                 buffer.append(COMMA);
             }
             buffer.append("\"orderId\":");
@@ -264,9 +264,9 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
             buffer.append(START_ITEM);
             addMore(buffer, "eadcontent.more.after", MORE_VALUE_AFTER, locale);
             buffer.append(COMMA);
-            if (clevel.getParentClId() != null) {
+            if (clevel.getParentId() != null) {
                 buffer.append("\"parentId\":");
-                buffer.append(" \"" + clevel.getParentClId() + "\" ");
+                buffer.append(" \"" + clevel.getParentId() + "\" ");
                 buffer.append(COMMA);
             }
             buffer.append("\"orderId\":");
