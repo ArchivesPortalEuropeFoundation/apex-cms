@@ -69,7 +69,7 @@
             <c:if test="${!loggedIn}">
                 <!-- then you are not logged -->     
                 <tr>
-                    <td>yodel</td>
+                    <td></td>
                     <td>
                         <script src='https://www.google.com/recaptcha/api.js'></script>
                 <div class="g-recaptcha" data-sitekey="6Lc2ElkUAAAAABPVZhmI-Da9khZvYdUbORKueJVt"></div>
