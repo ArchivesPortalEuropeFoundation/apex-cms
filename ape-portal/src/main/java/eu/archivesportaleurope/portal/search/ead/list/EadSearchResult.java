@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead.list;
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import eu.apenet.commons.solr.SearchUtil;
 import java.util.List;
 import java.util.Map;
@@ -45,55 +46,55 @@ public class EadSearchResult extends SearchResult{
 
 	public EadSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap, DatabaseCacher databaseCacher){
 		this.solrDocument = solrDocument;
-		id = solrDocument.getFieldValue( SolrFields.ID).toString();
+		id = solrDocument.getFieldValue( Ead3SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
-		if (solrDocument.getFieldValue(SolrFields.ALTERDATE) != null){
-			String alterdateWithoutEscaping  = solrDocument.getFieldValue(SolrFields.ALTERDATE).toString();
-			String highlightedAlterdate =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.ALTERDATE, alterdateWithoutEscaping);
+		if (solrDocument.getFieldValue(Ead3SolrFields.ALTERNATE_UNIT_DATE) != null){
+			String alterdateWithoutEscaping  = solrDocument.getFieldValue(Ead3SolrFields.ALTERNATE_UNIT_DATE).toString();
+			String highlightedAlterdate =  SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.ALTERNATE_UNIT_DATE, alterdateWithoutEscaping);
 			this.alterdate = DisplayUtils.encodeHtmlWithHighlighting(highlightedAlterdate);			
 			this.alterdateWithoutHighlighting = DisplayUtils.encodeHtml(alterdateWithoutEscaping);
 		}
-		if (solrDocument.getFieldValue(SolrFields.TITLE) != null){
-			titleWithoutEscaping = solrDocument.getFieldValue(SolrFields.TITLE).toString();
-			String highlightedTitle =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.TITLE, titleWithoutEscaping);
+		if (solrDocument.getFieldValue(Ead3SolrFields.TITLE_PROPER) != null){
+			titleWithoutEscaping = solrDocument.getFieldValue(Ead3SolrFields.TITLE_PROPER).toString();
+			String highlightedTitle =  SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.TITLE_PROPER, titleWithoutEscaping);
 			this.title = DisplayUtils.encodeHtmlWithHighlighting(highlightedTitle);
 			this.titleWithoutHighlighting = DisplayUtils.encodeHtml(titleWithoutEscaping);
 		}		
 
 
 		
-		this.scopecontent =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.SCOPECONTENT, null));	
-		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
-		this.fond = solrDocument.getFieldValue(SolrFields.TITLE_OF_FOND).toString();
+		this.scopecontent =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.SCOPE_CONTENT, null));	
+		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.OTHER, null));
+		this.fond = solrDocument.getFieldValue(Ead3SolrFields.TITLE_PROPER).toString();
 		this.fondId = getIdFromString(this.fond);
 		this.fond = getDescriptionFromString(this.fond);
-		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
+		this.ai = solrDocument.getFieldValue(Ead3SolrFields.AI).toString();
 		this.aiId = getIdFromString(this.ai);
 		this.ai = getDescriptionFromString(this.ai);
-		if (solrDocument.getFieldValue(SolrFields.LEVEL) != null)
-			this.level = solrDocument.getFieldValue(SolrFields.LEVEL).toString();
+		if (solrDocument.getFieldValue(Ead3SolrFields.LEVEL_NAME) != null)
+			this.level = solrDocument.getFieldValue(Ead3SolrFields.LEVEL_NAME).toString();
 		
 		if (SolrValues.LEVEL_CLEVEL.equals(this.level)){
-			if (solrDocument.getFieldValue(SolrFields.UNITID) != null){
-				this.unitid  = solrDocument.getFieldValue(SolrFields.UNITID).toString();
+			if (solrDocument.getFieldValue(Ead3SolrFields.UNIT_ID) != null){
+				this.unitid  = solrDocument.getFieldValue(Ead3SolrFields.UNIT_ID).toString();
 			}
-			Object duplicateUnitid =solrDocument.getFieldValue(SolrFields.DUPLICATE_UNITID);
+			Object duplicateUnitid =solrDocument.getFieldValue(Ead3SolrFields.DUPLICATE_UNIT_ID);
 			if (duplicateUnitid != null && "true".equalsIgnoreCase(duplicateUnitid.toString())){
 				unitidForLink = null;
 			}else {
 				unitidForLink = this.unitid;
 			}
-			this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.UNITID, unitid));
-			this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHERUNITID, null));
+			this.unitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.UNIT_ID, unitid));
+			this.otherUnitid =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.OTHER_UNIT_ID, null));
 			
 			if (otherUnitid != null){
 				this.otherUnitid = "(" + this.otherUnitid + ")";
 			}
 		}
-		if (solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE) == null){
+		if (solrDocument.getFieldValue(Ead3SolrFields.REPOSITORY_CODE) == null){
 			this.repositoryCode = databaseCacher.getRepositoryCode(Integer.parseInt(aiId));
 		}else {
-			this.repositoryCode = solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE).toString();
+			this.repositoryCode = solrDocument.getFieldValue(Ead3SolrFields.REPOSITORY_CODE).toString();
 		}
 		
 	}
@@ -131,34 +132,34 @@ public class EadSearchResult extends SearchResult{
 	}
 
 	public Object getCountry(){
-		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
+		String country = solrDocument.getFieldValue(Ead3SolrFields.COUNTRY).toString();
 		return getDescriptionFromString(country);
 	}
 	public Object getAi(){
 		return ai;
 	}
 	public String getType(){
-		return solrDocument.getFieldValue(SolrFields.TYPE).toString();
+		return solrDocument.getFieldValue(Ead3SolrFields.RECORD_TYPE).toString();
 	}
 	public String getEadid(){
-		return solrDocument.getFieldValue(SolrFields.EADID).toString();
+		return solrDocument.getFieldValue(Ead3SolrFields.ROOT_DOC_ID).toString();
 	}
 	public Object getDao(){
-		return solrDocument.getFieldValue(SolrFields.DAO);
+		return solrDocument.getFieldValue(Ead3SolrFields.DAO);
 	}
 	public Object getRoledao(){
-		return solrDocument.getFieldValue(SolrFields.ROLEDAO);
+		return solrDocument.getFieldValue(Ead3SolrFields.DAO_TYPE);
 	}
-	public Object getUnitIdOfFond(){
-		// Check if the content has char '<' or '>' in order to avoid
-		// js ingestion (see issue 1248).
-		Object object = solrDocument.getFieldValue(SolrFields.UNITID_OF_FOND);
-		if (object != null && object instanceof String) {
-			return DisplayUtils.encodeHtml(object.toString());
-		} else {
-			return null;
-		}
-	}
+//	public Object getUnitIdOfFond(){
+//		// Check if the content has char '<' or '>' in order to avoid
+//		// js ingestion (see issue 1248).
+//		Object object = solrDocument.getFieldValue(Ead3SolrFields.UNITID_OF_FOND);
+//		if (object != null && object instanceof String) {
+//			return DisplayUtils.encodeHtml(object.toString());
+//		} else {
+//			return null;
+//		}
+//	}
 	
 	public Object getRepositoryCode(){
 		return repositoryCode;

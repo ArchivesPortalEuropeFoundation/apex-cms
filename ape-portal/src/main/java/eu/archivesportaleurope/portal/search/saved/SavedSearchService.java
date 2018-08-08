@@ -208,23 +208,24 @@ public class SavedSearchService {
 							.getPrefix() + topic)));
 				}
 			}	
-			if (StringUtils.isNotBlank(eadSearch.getFond()) && eadSearch.getFond().length() > 1) {
-				XmlType xmlType = XmlType.getTypeBySolrPrefix(eadSearch.getFond().substring(0, 1));
-				String identifier = eadSearch.getFond().substring(1);
-				Integer id = Integer.parseInt(identifier);
-				ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
-				eadSearchOptions.setContentClass(xmlType.getClazz());
-				eadSearchOptions.setId(id);
-				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
-				if (eads.size() > 0) {
-					Ead ead = eads.get(0);
-					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), ead.getTitle()));
-				} else {
-					String fondName = source.getString("advancedsearch.text.savesearch.removedfond");
-					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), fondName, true));
-				}
-
-			}		
+                        //ToDo: Merge
+//			if (StringUtils.isNotBlank(eadSearch.getFond()) && eadSearch.getFond().length() > 1) {
+//				XmlType xmlType = XmlType.getTypeBySolrPrefix(eadSearch.getFond().substring(0, 1));
+//				String identifier = eadSearch.getFond().substring(1);
+//				Integer id = Integer.parseInt(identifier);
+//				ContentSearchOptions eadSearchOptions = new ContentSearchOptions();
+//				eadSearchOptions.setContentClass(xmlType.getClazz());
+//				eadSearchOptions.setId(id);
+//				List<Ead> eads = eadDAO.getEads(eadSearchOptions);
+//				if (eads.size() > 0) {
+//					Ead ead = eads.get(0);
+//					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), ead.getTitle()));
+//				} else {
+//					String fondName = source.getString("advancedsearch.text.savesearch.removedfond");
+//					refinements.add(new Refinement(FacetType.FOND.getName(), eadSearch.getFond(), fondName, true));
+//				}
+//
+//			}		
 			List<String> types = eadSearch.getTypeList();
 			if (types != null) {
 				for (String type : types) {

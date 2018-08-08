@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead;
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import eu.apenet.commons.solr.SearchUtil;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -346,7 +347,7 @@ public class EadSearchController extends AbstractSearchController{
 
 		SolrQueryParameters solrQueryParameters = getSolrQueryParametersByForm(eadSearch, portletRequest);
 		if (solrQueryParameters != null){
-			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), Ead3SolrFields.RECORD_TYPE,
 					eadSearch.getTypedocument());
 			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eadSearch.getFromdate(),
 					eadSearch.hasExactDateSearch());
@@ -394,7 +395,7 @@ public class EadSearchController extends AbstractSearchController{
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.DATE_TYPE, eadSearch.getDateTypeList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.DAO, eadSearch.getDaoList());
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.ROLEDAO, eadSearch.getRoledaoList());
-		SearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, eadSearch.getFondList());
+//		SearchUtil.addRefinement(solrQueryParameters, FacetType.FOND, eadSearch.getFondList()); //ToDo: Merge
 		SearchUtil.addRefinement(solrQueryParameters, FacetType.LEVEL, eadSearch.getLevelList());
 		return solrQueryParameters;
 	}

@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eag;
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import eu.apenet.commons.solr.SearchUtil;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +52,7 @@ public class EagSearchResult extends SearchResult{
 	public EagSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap, SpringResourceBundleSource resourceBundleSource){
 		this.solrDocument = solrDocument;
 		this.resourceBundleSource = resourceBundleSource;
-		id = solrDocument.getFieldValue( SolrFields.ID).toString();
+		id = solrDocument.getFieldValue( Ead3SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
 		boolean hitInName = false;
 		if (solrDocument.getFieldValue(SolrFields.EAG_NAME) != null){
@@ -66,7 +67,7 @@ public class EagSearchResult extends SearchResult{
 			this.otherNames =  getMultipleValued(highlightingMap,SolrFields.EAG_OTHER_NAMES,START_DIV,END_DIV, true, false);
 			this.repositories = getMultipleValued(highlightingMap, SolrFields.EAG_REPOSITORIES,START_DIV,END_DIV, true, false);
 		}
-		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE));
+		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(Ead3SolrFields.REPOSITORY_CODE));
 
 		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAG_OTHER, null));
 		this.context = getMultipleValued(highlightingMap, SolrFields.EAG_AI_GROUPS,MDASH_SEPARATOR, EMPTY, true, true);
@@ -159,7 +160,7 @@ public class EagSearchResult extends SearchResult{
 
 
 	public Object getCountry(){
-		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
+		String country = solrDocument.getFieldValue(Ead3SolrFields.COUNTRY).toString();
 		return getDescriptionFromString(country);
 	}
 	public String getRepositoryTypes(){
