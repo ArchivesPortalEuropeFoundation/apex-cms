@@ -21,7 +21,7 @@ public final class EadSearcher extends AbstractPortalSearcher {
 
 	@Override
 	protected String getCore() {
-		return "eads";
+		return "ead3s";
 	}
 
 
