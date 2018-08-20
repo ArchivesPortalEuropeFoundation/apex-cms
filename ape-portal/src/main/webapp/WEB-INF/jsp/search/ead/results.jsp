@@ -47,15 +47,15 @@ ${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'><
 		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${eadSearch.ai}"/>
 		<input type="hidden" id="updateCurrentSearch_topic" name="topic" value="${eadSearch.topic}"/>		
 		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${eadSearch.fond}"/>
-		<input type="hidden" id="updateCurrentSearch_type" name="type" value="${eadSearch.type}"/>
+		<input type="hidden" id="updateCurrentSearch_type" name="recordType" value="${eadSearch.recordType}"/>
 		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${eadSearch.dao}"/>
-		<input type="hidden" id="updateCurrentSearch_roledao" name="roledao" value="${eadSearch.roledao}"/>
-		<input type="hidden" id="updateCurrentSearch_level" name="level" value="${eadSearch.level}"/>
+		<input type="hidden" id="updateCurrentSearch_roledao" name="daoType" value="${eadSearch.daoType}"/>
+		<input type="hidden" id="updateCurrentSearch_level" name="levelName" value="${eadSearch.levelName}"/>
 		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${eadSearch.dateType}"/>
 		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${eadSearch.facetSettings}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
-		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
-		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
+		<form:hidden id="updateCurrentSearch_startdate" path="startDate"/>	
+		<form:hidden id="updateCurrentSearch_enddate" path="endDate"/>
 		<form:hidden id="updateCurrentSearch_selectedNodes" path="selectedNodes"/>
 		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
 		<form:hidden id="updateCurrentSearch_publishedFromDate" path="publishedFromDate"/>

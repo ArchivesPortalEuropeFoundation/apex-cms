@@ -182,7 +182,7 @@ public class EacCpfSearchContoller extends AbstractSearchController{
 			Integer pageNumber = Integer.parseInt(eacCpfSearch.getPageNumber());
 			QueryResponse solrResponse = getEacCpfSearcher().updateListView(solrQueryParameters, results.getPageSize()
 					* (pageNumber - 1), results.getPageSize(), eacCpfSearch.getFacetSettingsList(),
-					eacCpfSearch.getOrder(), eacCpfSearch.getStartdate(), eacCpfSearch.getEnddate());
+					eacCpfSearch.getOrder(), eacCpfSearch.getStartDate(), eacCpfSearch.getEndDate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource, request.getLocale());
 			results.init(solrResponse, eacCpfSearch.getFacetSettingsList(), eacCpfSearch,springResourceBundleSource);

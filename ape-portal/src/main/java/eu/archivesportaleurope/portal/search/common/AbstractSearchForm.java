@@ -26,8 +26,8 @@ public abstract class AbstractSearchForm implements Serializable{
 	
 	private String fromdate;
 	private String todate;
-	private String startdate;
-	private String enddate;
+	private String startDate;
+	private String endDate;
 	private String resultsperpage = "10";
 	private List<String> resultsperpageValues = new ArrayList<String>();
 	private String exactDateSearch;
@@ -220,20 +220,20 @@ public abstract class AbstractSearchForm implements Serializable{
 		this.publishedToDate = publishedToDate;
 	}
 
-	public String getStartdate() {
-		return startdate;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setStartdate(String startdate) {
-		this.startdate = startdate;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
-	public String getEnddate() {
-		return enddate;
+	public String getEndDate() {
+		return endDate;
 	}
 
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getMode() {
