@@ -157,16 +157,16 @@ public class EadSearchResult extends SearchResult {
     public Object getRoledao() {
         return solrDocument.getFieldValue(Ead3SolrFields.DAO_TYPE);
     }
-//	public Object getUnitIdOfFond(){
-//		// Check if the content has char '<' or '>' in order to avoid
-//		// js ingestion (see issue 1248).
-//		Object object = solrDocument.getFieldValue(Ead3SolrFields.UNITID_OF_FOND);
-//		if (object != null && object instanceof String) {
-//			return DisplayUtils.encodeHtml(object.toString());
-//		} else {
-//			return null;
-//		}
-//	}
+	public Object getUnitIdOfFond(){
+		// Check if the content has char '<' or '>' in order to avoid
+		// js ingestion (see issue 1248).
+		Object object = solrDocument.getFieldValue(Ead3SolrFields.ROOT_DOC_ID);
+		if (object != null && object instanceof String) {
+			return DisplayUtils.encodeHtml(object.toString());
+		} else {
+			return null;
+		}
+	}
 
     public Object getRepositoryCode() {
         return repositoryCode;
