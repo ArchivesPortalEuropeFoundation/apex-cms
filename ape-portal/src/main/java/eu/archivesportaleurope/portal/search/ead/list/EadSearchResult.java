@@ -143,8 +143,8 @@ public class EadSearchResult extends SearchResult {
     }
 
     public String getEadid() {
-        if (solrDocument.containsKey(Ead3SolrFields.ROOT_DOC_ID)) {
-            return solrDocument.getFieldValue(Ead3SolrFields.ROOT_DOC_ID).toString();
+        if (solrDocument.containsKey(Ead3SolrFields.RECORD_ID)) {
+            return solrDocument.getFieldValue(Ead3SolrFields.RECORD_ID).toString();
         } else {
             return null;
         }
