@@ -82,13 +82,13 @@
 						<c:otherwise>
 							<searchresults:order currentValue="${eadSearch.order}" value="relevancy" key="advancedsearch.order.relevancy" />
 							|
-							<searchresults:order currentValue="${eadSearch.order}" value="startdate" key="advancedsearch.text.date" />
+							<searchresults:order currentValue="${eadSearch.order}" value="startDate" key="advancedsearch.text.date" />
 							|
-							<searchresults:order currentValue="${eadSearch.order}" value="titlesort" key="advancedsearch.text.title2" />
+							<searchresults:order currentValue="${eadSearch.order}" value="unitTitleSort" key="advancedsearch.text.title2" />
 							|
-							<searchresults:order currentValue="${eadSearch.order}" value="unitidsort" key="advancedsearch.text.refcode" />
+							<searchresults:order currentValue="${eadSearch.order}" value="unitIdSort" key="advancedsearch.text.refcode" />
 							|
-							<searchresults:order currentValue="${eadSearch.order}" value="unitidfondsort" key="advancedsearch.order.eadid" />							
+							<searchresults:order currentValue="${eadSearch.order}" value="unitRecordIDSort" key="advancedsearch.order.eadid" />							
 						</c:otherwise>
 					</c:choose>
 			
