@@ -20,7 +20,7 @@
         <liferay.auto.deploy.dir>../deploy</liferay.auto.deploy.dir>
         <main.basedir>${project.basedir}</main.basedir>
         <spring.version>3.1.1.RELEASE</spring.version>
-        <archivesportaleurope.common.version>2018-08</archivesportaleurope.common.version>
+        <archivesportaleurope.common.version>2018-09-SNAPSHOT</archivesportaleurope.common.version>
         <archivesportaleurope.dptutil.version>2018-01</archivesportaleurope.dptutil.version>
         <artifact.suffix />
     </properties>
