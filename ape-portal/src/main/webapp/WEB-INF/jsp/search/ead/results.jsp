@@ -47,10 +47,10 @@ ${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'><
 		<input type="hidden" id="updateCurrentSearch_ai" name="ai" value="${eadSearch.ai}"/>
 		<input type="hidden" id="updateCurrentSearch_topic" name="topic" value="${eadSearch.topic}"/>		
 		<input type="hidden" id="updateCurrentSearch_fond" name="fond" value="${eadSearch.fond}"/>
-		<input type="hidden" id="updateCurrentSearch_type" name="recordType" value="${eadSearch.recordType}"/>
+		<input type="hidden" id="updateCurrentSearch_recordType" name="recordType" value="${eadSearch.recordType}"/>
 		<input type="hidden" id="updateCurrentSearch_dao" name="dao" value="${eadSearch.dao}"/>
 		<input type="hidden" id="updateCurrentSearch_roledao" name="daoType" value="${eadSearch.daoType}"/>
-		<input type="hidden" id="updateCurrentSearch_level" name="levelName" value="${eadSearch.levelName}"/>
+		<input type="hidden" id="updateCurrentSearch_levelName" name="levelName" value="${eadSearch.levelName}"/>
 		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${eadSearch.dateType}"/>
 		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${eadSearch.facetSettings}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
