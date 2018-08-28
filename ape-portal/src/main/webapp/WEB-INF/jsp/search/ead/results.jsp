@@ -54,8 +54,8 @@ ${eadSearch.selectedSimpleSearchTopic.longDescription}<span class='close-icon'><
 		<input type="hidden" id="updateCurrentSearch_dateType" name="dateType" value="${eadSearch.dateType}"/>
 		<input type="hidden" id="updateCurrentSearch_facetSettings" name="facetSettings" value="${eadSearch.facetSettings}"/>
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
-		<form:hidden id="updateCurrentSearch_startdate" path="startDate"/>	
-		<form:hidden id="updateCurrentSearch_enddate" path="endDate"/>
+		<form:hidden id="updateCurrentSearch_startDate" path="startDate"/>	
+		<form:hidden id="updateCurrentSearch_endDate" path="endDate"/>
 		<form:hidden id="updateCurrentSearch_selectedNodes" path="selectedNodes"/>
 		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
 		<form:hidden id="updateCurrentSearch_publishedFromDate" path="publishedFromDate"/>
