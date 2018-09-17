@@ -131,7 +131,12 @@ public class DisplayEadContoller extends AbstractEadController {
         XmlType xmlType = XmlType.getTypeByResourceName(eadParams.getXmlTypeName());
         if (xmlType != null) {
             if (xmlType.equals(XmlType.EAD_3)) {
-                List<CLevel> clevels = getClevelDAO().getCLevelWithEad3Id(eadParams.getRepoCode(), eadParams.getEadid(), eadParams.getUnitid());
+                List<CLevel> clevels = null;
+                try {
+                    clevels = getClevelDAO().getCLevelWithEad3Id(eadParams.getRepoCode(), eadParams.getEadid(), eadParams.getUnitid());
+                } catch (Exception ex) {
+                    LOGGER.error(ex);
+                }
                 int size = clevels.size();
 
                 if (size > 0) {
@@ -364,12 +369,23 @@ public class DisplayEadContoller extends AbstractEadController {
             Ead ead, CLevel currentCLevel) {
         fillCommon(modelAndView, eadParams);
         modelAndView.getModelMap().addAttribute("solrId", SolrValues.C_LEVEL_PREFIX + currentCLevel.getId());
-        if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
-            fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, true);
-            modelAndView.setViewName("eaddetails-noscript");
+        
+        if (currentCLevel.getEad3()==null) {
+            if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+                fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, true);
+                modelAndView.setViewName("eaddetails-noscript");
+            } else {
+                fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, false);
+                modelAndView.setViewName("index");
+            }
         } else {
-            fillCDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, false);
-            modelAndView.setViewName("index");
+            if (PortalDisplayUtil.isNotDesktopBrowser(renderRequest)) {
+                fillEad3CDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, true);
+                modelAndView.setViewName("eaddetails-noscript");
+            } else {
+                fillEad3CDetails(currentCLevel, renderRequest, eadParams.getPageNumber(), modelAndView, false);
+                modelAndView.setViewName("index");
+            }
         }
         return modelAndView;
     }

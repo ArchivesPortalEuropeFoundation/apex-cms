@@ -37,6 +37,7 @@
 	<logger name="eu">
 		<level value="info" />
 		<appender-ref ref="file" /> 
+		<appender-ref ref="console" /> 
 	</logger>		
 	<root>
 		<priority value="ERROR" />

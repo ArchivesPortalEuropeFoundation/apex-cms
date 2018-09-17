@@ -17,10 +17,12 @@ import eu.apenet.commons.utils.APEnetUtilities;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.EadContentDAO;
+import eu.apenet.persistence.vo.AbstractContent;
 import eu.apenet.persistence.vo.ArchivalInstitution;
 import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.EadContent;
+import eu.archivesportaleurope.persistence.jpa.JpaUtil;
 import eu.archivesportaleurope.portal.common.NotExistInDatabaseException;
 import eu.archivesportaleurope.util.ApeUtil;
 
@@ -113,7 +115,12 @@ public class DisplayPreviewContoller {
 		if (currentCLevel == null) {
 			throw new NotExistInDatabaseException();
 		}
-		Ead ead = currentCLevel.getEadContent().getEad();
+                AbstractContent ead=null;
+                if (currentCLevel.getEad3()!=null) {
+                    ead = currentCLevel.getEad3();
+                } else {
+                    ead = currentCLevel.getEadContent().getEad();
+                }
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
 		XmlType xmlType = XmlType.getContentType(ead);
 		modelAndView.getModelMap().addAttribute("term", term);

@@ -15,6 +15,7 @@ import eu.apenet.commons.utils.CacheManager;
 import eu.apenet.persistence.dao.ArchivalInstitutionDAO;
 import eu.apenet.persistence.dao.ContentSearchOptions;
 import eu.apenet.persistence.dao.EacCpfDAO;
+import eu.apenet.persistence.dao.Ead3DAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.vo.EacCpf;
 import eu.archivesportaleurope.portal.common.PortalDisplayUtil;
@@ -31,6 +32,7 @@ public class SimpleSearchController {
 	
 	private ArchivalInstitutionDAO archivalInstitutionDAO;
 	private EadDAO eadDAO;
+        private Ead3DAO ead3DAO;
 	private EacCpfDAO eacCpfDAO;
 	private final static Cache<String, Long> CACHE = CacheManager.getInstance().<String, Long>initCache("SimpleSearchCache");
 	
@@ -54,6 +56,7 @@ public class SimpleSearchController {
 			}	
 			if (eadUnits == null) {
 				eadUnits = eadDAO.getTotalCountOfUnits();
+                                eadUnits += ead3DAO.getTotalCountOfUnits();
 				CACHE.put(EAD_UNITS, eadUnits);
 			}	
 			if (eacCpfUnits == null) {
@@ -84,6 +87,10 @@ public class SimpleSearchController {
 	public void setEadDAO(EadDAO eadDAO) {
 		this.eadDAO = eadDAO;
 	}
+
+        public void setEad3DAO(Ead3DAO ead3DAO) {
+            this.ead3DAO = ead3DAO;
+        }
 
 	public void setEacCpfDAO(EacCpfDAO eacCpfDAO) {
 		this.eacCpfDAO = eacCpfDAO;

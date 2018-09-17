@@ -39,7 +39,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
     private static final String END_ITEM_WITH_RETURN = "}\n";
     private static final String END_ITEM_WITH_COMMA = "},";
     private CLevelDAO clevelDAO;
-    private EadDAO eadDAO;
+//    private EadDAO eadDAO;
     private EadContentDAO eadContentDAO;
 
     public CLevelDAO getClevelDAO() {
@@ -50,13 +50,13 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
         this.clevelDAO = clevelDAO;
     }
 
-    public EadDAO getEadDAO() {
-        return eadDAO;
-    }
-
-    public void setEadDAO(EadDAO eadDAO) {
-        this.eadDAO = eadDAO;
-    }
+//    public EadDAO getEadDAO() {
+//        return eadDAO;
+//    }
+//
+//    public void setEadDAO(EadDAO eadDAO) {
+//        this.eadDAO = eadDAO;
+//    }
 
     public EadContentDAO getEadContentDAO() {
         return eadContentDAO;
@@ -84,7 +84,7 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
                 writeToResponseAndClose(generateCLevelJSON(clevels, eadParams, locale), response);
             } else if (eadParams.getMore() != null) {
                 /*
-				 * used for more option
+		 * used for more option
                  */
                 List<CLevel> clevels = new ArrayList<>();
                 if (eadParams.getXmlTypeName().contains(XmlType.EAD_3.getResourceName())) {
@@ -190,7 +190,12 @@ public class EadTreeJSONWriter extends AbstractJSONWriter {
             buffer.append(END_ARRAY);
             return generateParentCLevelJSON(parent, buffer, eadParams, locale);
         } else {
-            EadContent eadContent = child.getEadContent();
+            EadContent eadContent = null;
+            if (child.getEad3()!=null) {
+                eadContent = child.getEad3().getEadContent();
+            } else {
+                eadContent = child.getEadContent();
+            }
             return generateRootJSON(eadContent, childBuffer, true, false, eadParams, locale);
         }
     }

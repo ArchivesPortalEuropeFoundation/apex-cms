@@ -17,7 +17,7 @@
   		
 	<bean
 		class="eu.archivesportaleurope.portal.display.ead.EadTreeJSONWriter">
-		<property name="eadDAO" ref="eadDAO"/> 
+		<!--<property name="eadDAO" ref="eadDAO"/>-->
 		<property name="eadContentDAO" ref="eadContentDAO"/>
 		<property name="clevelDAO" ref="cLevelDAO"/>  
 		<property name="messageSource" ref="messageSource"/>
