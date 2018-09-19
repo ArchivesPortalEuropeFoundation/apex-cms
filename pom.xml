@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.archivesportaleurope.frontend</groupId>
     <artifactId>frontend-project</artifactId>
-    <version>2018-09-SNAPSHOT</version>
+    <version>2018-10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>frontend-project</name>
@@ -20,7 +20,7 @@
         <liferay.auto.deploy.dir>../deploy</liferay.auto.deploy.dir>
         <main.basedir>${project.basedir}</main.basedir>
         <spring.version>3.1.1.RELEASE</spring.version>
-        <archivesportaleurope.common.version>2018-09-SNAPSHOT</archivesportaleurope.common.version>
+        <archivesportaleurope.common.version>2018-10-SNAPSHOT</archivesportaleurope.common.version>
         <archivesportaleurope.dptutil.version>2018-01</archivesportaleurope.dptutil.version>
         <artifact.suffix />
     </properties>
