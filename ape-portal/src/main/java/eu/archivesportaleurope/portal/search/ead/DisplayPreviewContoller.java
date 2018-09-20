@@ -123,6 +123,7 @@ public class DisplayPreviewContoller {
                 }
 		ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
 		XmlType xmlType = XmlType.getContentType(ead);
+                LOGGER.debug("fillCDetails: term-" + term + ", xmlType-" +  xmlType + ", c-" + currentCLevel + ", aiId-" + archivalInstitution.getAiId() + ", aiRepoCode-" + archivalInstitution.getEncodedRepositorycode() + ", eadid-" + ead.getEncodedIdentifier());
 		modelAndView.getModelMap().addAttribute("term", term);
 		modelAndView.getModelMap().addAttribute("xmlType", xmlType);
 		modelAndView.getModelMap().addAttribute("c", currentCLevel);
