@@ -3,7 +3,7 @@
     <parent>
         <groupId>eu.archivesportaleurope.frontend</groupId>
         <artifactId>frontend-project</artifactId>
-        <version>2018-10-SNAPSHOT</version>
+        <version>2018-10.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>spring-webmvc-portlet-extension</artifactId>
