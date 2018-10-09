@@ -53,9 +53,9 @@ public class EadSearchResult extends SearchResult {
             this.alterdate = DisplayUtils.encodeHtmlWithHighlighting(highlightedAlterdate);
             this.alterdateWithoutHighlighting = DisplayUtils.encodeHtml(alterdateWithoutEscaping);
         }
-        if (solrDocument.getFieldValue(Ead3SolrFields.TITLE_PROPER) != null) {
-            titleWithoutEscaping = solrDocument.getFieldValue(Ead3SolrFields.TITLE_PROPER).toString();
-            String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.TITLE_PROPER, titleWithoutEscaping);
+        if (solrDocument.getFieldValue(Ead3SolrFields.UNIT_TITLE) != null) {
+            titleWithoutEscaping = solrDocument.getFieldValue(Ead3SolrFields.UNIT_TITLE).toString();
+            String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.UNIT_TITLE, titleWithoutEscaping);
             this.title = DisplayUtils.encodeHtmlWithHighlighting(highlightedTitle);
             this.titleWithoutHighlighting = DisplayUtils.encodeHtml(titleWithoutEscaping);
         }
