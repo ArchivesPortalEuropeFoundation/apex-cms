@@ -5,6 +5,8 @@
 			 #if ($navigationPosition.size() == 0 || $navigationPosition.size() > 0 && $navigationPosition.get(0) !="footer" && $navigationPosition.get(0) !="top")
 				#if ($nav_item.isSelected())
 					<li class="selected" title="$nav_item.getTitle()">
+				#elseif ($nav_item.getTitle() == "survey")
+					<li title="$nav_item.getTitle()" style="background-color:yellow">
 				#else
 					<li title="$nav_item.getTitle()">
 				#end
