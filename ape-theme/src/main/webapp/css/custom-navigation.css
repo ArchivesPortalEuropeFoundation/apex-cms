@@ -14,6 +14,8 @@
 	list-style: none;
 	margin: 0px;
 	padding: 0px;
+        position: relative;
+        bottom: 10px;
 	
 }
 #navigation li {
@@ -32,7 +34,7 @@
 
 #navigation li {
 	position: relative;
-	vertical-align: top;
+	vertical-align: bottom;
 	border-right: 1px solid #999999;
 }
 
