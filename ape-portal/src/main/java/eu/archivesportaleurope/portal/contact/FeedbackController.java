@@ -85,6 +85,7 @@ public class FeedbackController {
     }
 
     /***
+     * @param result
      * @ResourceMapping(value="feedbackAction")
      * 
      * @ModelAttribute("contact")
@@ -92,7 +93,6 @@ public class FeedbackController {
      * This function sends the email with the feeback to the country manager of the selected resource
      * 
      * @param contact {@link Contact} email address
-	 * @param bindingResult {@link BindingResult} bindingResult object name: "contact"
 	 * @param request {@link ResourceRequest} request has not value vhen comes from feedback form
      * 
      * @return modelAndView {@link ModelAndView} ModelAndView: reference to view with name 'contact'
@@ -105,6 +105,7 @@ public class FeedbackController {
         ModelAndView modelAndView = new ModelAndView();
     	boolean loggedIn = request.getUserPrincipal() != null;
     	ContactValidator contactValidator = new ContactValidator(loggedIn, true);
+        contact.setRecaptcha_response_field(request.getParameter("g-recaptcha-response"));
         contactValidator.validate(contact, result);
 		if (result.hasErrors()){
 			 modelAndView.setViewName("feedback");

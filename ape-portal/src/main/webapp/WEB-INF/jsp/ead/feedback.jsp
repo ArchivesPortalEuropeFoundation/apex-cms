@@ -15,7 +15,7 @@
 <form:form id="contactForm" name="contactForm" commandName="contact" method="post" action="${feedbackUrl}">
 	<form:hidden path="aiId"/>
 	<form:hidden id="aiRepoCode" path="repoCode"/>
-	<form:hidden id="recaptchaPubKey" path="recaptchaPubKey"/>
+        <form:hidden id="recaptchaPubKey" path="recaptchaPubKey"/>
     <table class="contactForm">
          <tr>
             <td class="tdLabel">
@@ -62,11 +62,13 @@
         </tr>
         <c:if test="${!loggedIn}">
 	        <tr>
-	        	<td></td>
-	            <td>
-					<div id="recaptchaDiv"></div><form:errors path="captcha" cssClass="errorBlock" />
-				</td>
-	        </tr> 
+                    <td></td>
+                    <td>
+                        <script src='https://www.google.com/recaptcha/api.js'></script>
+                        <div class="g-recaptcha" data-sitekey="6Lc2ElkUAAAAABPVZhmI-Da9khZvYdUbORKueJVt"></div>
+                <form:errors path="captcha" cssClass="errorBlock" />
+                </td>
+                </tr>  
         </c:if>
         <tr>
             <td colspan="2">
