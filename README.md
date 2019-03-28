@@ -1,4 +1,3 @@
-# apex-cms
-Archives Portal Europe Front-End
+# Archives Portal Europe Frontend
 
-Front-End project with liferay portal. 
+This is the main frontend project for the Archives Portal Europe, i.e. the Portal itself. It includes page layouts, texts, translations, etc. related to the Liferay CMS that's currently in place.
