@@ -44,6 +44,13 @@
 			<xsl:if test="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:address">
 					<xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt/ead:address" mode="notsearchable"/>
 			</xsl:if>
+                        <xsl:if test="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt/ead:p">
+                            <xsl:for-each select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt/ead:p">
+                                <div class="defaultlayout">
+                                    <xsl:apply-templates mode="notsearchable"/>
+                                </div>
+                            </xsl:for-each>
+			</xsl:if>
 
 			<xsl:for-each select="/ead:ead/ead:control/ead:filedesc/ead:seriesstmt/ead:titleproper">
 				<div class="defaultlayout">
