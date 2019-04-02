@@ -39,11 +39,11 @@ public class TreeEadSearch extends EadSearch {
 		this.parentId = parentId;
 	}
 
-	public String getLevel() {
+	public String getLevelName() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevelName(String level) {
 		this.level = level;
 	}
 

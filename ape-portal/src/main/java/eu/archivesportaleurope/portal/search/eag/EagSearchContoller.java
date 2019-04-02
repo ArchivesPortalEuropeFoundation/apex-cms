@@ -186,7 +186,7 @@ public class EagSearchContoller extends AbstractSearchController {
 			Integer pageNumber = Integer.parseInt(eagSearch.getPageNumber());
 			QueryResponse solrResponse = getEagSearcher().updateListView(solrQueryParameters,
 					results.getPageSize() * (pageNumber - 1), results.getPageSize(), eagSearch.getFacetSettingsList(),
-					eagSearch.getOrder(), eagSearch.getStartdate(), eagSearch.getEnddate());
+					eagSearch.getOrder(), eagSearch.getStartDate(), eagSearch.getEndDate());
 			request.setAttribute("numberFormat", NumberFormat.getInstance(request.getLocale()));
 			SpringResourceBundleSource springResourceBundleSource = new SpringResourceBundleSource(messageSource,
 					request.getLocale());

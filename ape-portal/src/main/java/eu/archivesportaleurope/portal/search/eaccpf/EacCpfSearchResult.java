@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.eaccpf;
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import eu.apenet.commons.solr.SearchUtil;
 import java.util.Collection;
 import java.util.Iterator;
@@ -47,7 +48,7 @@ public class EacCpfSearchResult extends SearchResult{
 
 	public EacCpfSearchResult (SolrDocument solrDocument, Map<String, Map<String, List<String>>> highlightingMap){
 		this.solrDocument = solrDocument;
-		id = solrDocument.getFieldValue( SolrFields.ID).toString();
+		id = solrDocument.getFieldValue( Ead3SolrFields.ID).toString();
 		String titleWithoutEscaping = null;
 		if (solrDocument.getFieldValue(SolrFields.EAC_CPF_NAMES) != null){
 			titleWithoutEscaping = solrDocument.getFirstValue(SolrFields.EAC_CPF_NAMES).toString();
@@ -74,10 +75,10 @@ public class EacCpfSearchResult extends SearchResult{
 			this.entityType = solrDocument.getFieldValue(SolrFields.EAC_CPF_FACET_ENTITY_TYPE).toString();
 		}
 		this.entityId =  SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.EAC_CPF_ENTITY_ID, null);
-		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(SolrFields.REPOSITORY_CODE));
+		this.repositoryCode = ApeUtil.encodeRepositoryCode((String) solrDocument.getFieldValue(Ead3SolrFields.REPOSITORY_CODE));
 		this.identifier = ApeUtil.encodeSpecialCharacters((String) solrDocument.getFieldValue(SolrFields.EAC_CPF_RECORD_ID));
-		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, SolrFields.OTHER, null));
-		this.ai = solrDocument.getFieldValue(SolrFields.AI).toString();
+		this.other =  DisplayUtils.encodeHtmlWithHighlighting(SearchUtil.getHighlightedString(highlightingMap, id, Ead3SolrFields.OTHER, null));
+		this.ai = solrDocument.getFieldValue(Ead3SolrFields.AI).toString();
 		this.aiId = getIdFromString(this.ai);
 		this.ai = getDescriptionFromString(this.ai);
 		this.numberOfArchivalMaterialRelations = (Integer) solrDocument.getFieldValue(SolrFields.EAC_CPF_NUMBER_OF_MATERIAL_RELATIONS);
@@ -174,7 +175,7 @@ public class EacCpfSearchResult extends SearchResult{
 		return aiId;
 	}
 	public Object getCountry(){
-		String country = solrDocument.getFieldValue(SolrFields.COUNTRY).toString();
+		String country = solrDocument.getFieldValue(Ead3SolrFields.COUNTRY).toString();
 		return getDescriptionFromString(country);
 	}
 	public Object getAi(){

@@ -1,5 +1,6 @@
 package eu.archivesportaleurope.portal.search.ead.tree;
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import eu.apenet.commons.solr.SearchUtil;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,7 +64,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 			SearchUtil.addSelectedNodesToQuery(eadSearch.getSelectedNodesList(), solrQueryParameters);
 
-			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.TYPE,
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), Ead3SolrFields.RECORD_TYPE,
 					eadSearch.getTypedocument());
 			SearchUtil.setFromDate(solrQueryParameters.getAndParameters(), eadSearch.getFromdate(),
 					eadSearch.hasExactDateSearch());
@@ -73,14 +74,14 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), FacetType.TOPIC.getName(), eadSearch.getSimpleSearchTopic());
 			// Only refine on dao if selected
 			if ("true".equals(eadSearch.getDao())) {
-				SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.DAO,
+				SearchUtil.setParameter(solrQueryParameters.getAndParameters(), Ead3SolrFields.DAO,
 						eadSearch.getDao());
 			}
 			solrQueryParameters.setSolrFields(SolrField.getSolrFieldsByIdString(eadSearch.getElement()));
 			if (eadSearch.getSearchType() == null) {
 				log.error("No search type found");
 			}
-			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.COUNTRY_ID,
+			SearchUtil.setParameter(solrQueryParameters.getAndParameters(), Ead3SolrFields.COUNTRY_ID,
 					eadSearch.getCountry());
 			if (SEARCH_TYPE_AI.equals(eadSearch.getSearchType())) {
 				writeToResponseAndClose(generateAiJSON(eadSearch, solrQueryParameters, locale), resourceResponse);
@@ -103,7 +104,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 	private StringBuilder generateFindingAidsOrHoldingGuidesJSON(TreeEadSearch eadSearch,
 			SolrQueryParameters solrQueryParameters, Locale locale) throws SolrServerException, IOException {
-		SearchUtil.setParameter(solrQueryParameters.getAndParameters(), SolrFields.AI_ID,
+		SearchUtil.setParameter(solrQueryParameters.getAndParameters(), Ead3SolrFields.AI_ID,
 				eadSearch.getParentId());
 		Integer startInt = 0;
 		List<Count> counts = new ArrayList<Count>();
@@ -264,7 +265,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 			}
 		}
 		for (SolrDocument clevel : results) {
-			String id = (String) clevel.getFieldValue(SolrFields.ID);
+			String id = (String) clevel.getFieldValue(Ead3SolrFields.ID);
 			CLevelInfo cLevelInfo = clevelInfos.get(id);
 			if (cLevelInfo == null) {
 				cLevelInfo = new CLevelInfo();
@@ -299,19 +300,19 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 				if (searchResult == null) {
 					addTitle(buffer, facetValue, locale);
 				} else if (searchResult != null) {
-					String id = (String) searchResult.getFieldValue(SolrFields.ID);
-					String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
+					String id = (String) searchResult.getFieldValue(Ead3SolrFields.ID);
+					String title = (String) searchResult.getFieldValue(Ead3SolrFields.TITLE_PROPER);
 					String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id,
-							SolrFields.TITLE, title);
+							Ead3SolrFields.TITLE_PROPER, title);
 					addTitleWithLinkAndCount(buffer, highlightedTitle, facetValue.getCount(), locale);
 					buffer.append(COMMA);
 					addSearchResult(buffer);
 				}
 			} else if (facetValue == null && searchResult != null) {
-				String id = (String) searchResult.getFieldValue(SolrFields.ID);
-				String title = (String) searchResult.getFieldValue(SolrFields.TITLE);
+				String id = (String) searchResult.getFieldValue(Ead3SolrFields.ID);
+				String title = (String) searchResult.getFieldValue(Ead3SolrFields.TITLE_PROPER);
 				String highlightedTitle = SearchUtil.getHighlightedString(highlightingMap, id,
-						SolrFields.TITLE, title);
+						Ead3SolrFields.TITLE_PROPER, title);
 				addTitleWithLink(buffer, highlightedTitle, locale);
 				buffer.append(COMMA);
 				addParentId(buffer, id);
@@ -437,7 +438,7 @@ public class ContextTreeJSONWriter extends AbstractJSONWriter {
 
 		public void setSearchResult(SolrDocument searchResult) {
 			this.searchResult = searchResult;
-			Integer temp = (Integer) searchResult.getFieldValue(SolrFields.ORDER_ID);
+			Integer temp = (Integer) searchResult.getFieldValue(Ead3SolrFields.ORDER_ID);
 			orderId = temp.longValue();
 		}
 

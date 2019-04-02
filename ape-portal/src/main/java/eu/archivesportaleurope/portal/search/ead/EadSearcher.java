@@ -1,6 +1,7 @@
 package eu.archivesportaleurope.portal.search.ead;
 
 
+import eu.apenet.commons.solr.Ead3SolrFields;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -20,13 +21,13 @@ public final class EadSearcher extends AbstractPortalSearcher {
 
 	@Override
 	protected String getCore() {
-		return "eads";
+		return "ead3s";
 	}
 
 
 	public QueryResponse performNewSearchForContextView(SolrQueryParameters solrQueryParameters) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
-		query.addFacetField(SolrFields.COUNTRY);
+		query.addFacetField(Ead3SolrFields.COUNTRY);
 		query.setFacetSort(FACET_SORT_COUNT);
 		query.setFacetLimit(-1);
 		query.setFacetMinCount(1);
@@ -91,10 +92,10 @@ public final class EadSearcher extends AbstractPortalSearcher {
 		SolrQuery query = new SolrQuery();
 		query.setHighlight(true);
 		//query.setFields(SolrFields.TITLE, SolrFields.ID, "orderId_i");
-		query.addFilterQuery(SolrFields.PARENT_ID + COLON + parentId );
+		query.addFilterQuery(Ead3SolrFields.PARENT_ID + COLON + parentId );
 		query.setRows(maxNumberOfRows);
 		query.setStart(start);
-		query.addSort(SolrFields.ORDER_ID, ORDER.asc);
+		query.addSort(Ead3SolrFields.ORDER_ID, ORDER.asc);
 		return executeQuery(query, solrQueryParameters, QUERY_TYPE_CONTEXT, false);
 	}
 

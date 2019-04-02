@@ -172,12 +172,12 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="ead:extref" mode="otherfindingaids">
+    <xsl:template match="ead:ref" mode="otherfindingaids">
         <div class="otherfindingaids">
-            <xsl:variable name="internalHref" select="./@xlink:href"/>
+            <xsl:variable name="internalHref" select="./@href"/>
             <xsl:variable name="href">
                 <xsl:choose>
-                    <xsl:when test="contains(./@xlink:href, 'ead3')">
+                    <xsl:when test="contains(./@href, 'ead3')">
                         <xsl:call-template name="string-replace-all">
                             <xsl:with-param name="text" select="$internalHref" />
                             <xsl:with-param name="replace" select="'ead3:'" />
@@ -185,13 +185,13 @@
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="./@xlink:href" />
+                        <xsl:value-of select="./@href" />
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
             <xsl:variable name="prefix">
                 <xsl:choose>
-                    <xsl:when test="contains(./@xlink:href, 'ead3') and contains($eadcontent.extref.prefix, '/fa/')">
+                    <xsl:when test="contains(./@href, 'ead3') and contains($eadcontent.extref.prefix, '/ead3/')">
                         <xsl:call-template name="string-replace-all">
                             <xsl:with-param name="text" select="$eadcontent.extref.prefix" />
                             <xsl:with-param name="replace" select="'/fa/'" />
@@ -1173,7 +1173,6 @@
                         </div>
                     </xsl:for-each>
                 </div>
-                <xsl:apply-templates mode="scopecontent"/>
             </xsl:for-each>
         </div>
     </xsl:template>

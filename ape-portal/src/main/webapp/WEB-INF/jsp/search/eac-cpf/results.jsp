@@ -49,8 +49,8 @@
 		<form:hidden id="updateCurrentSearch_order" path="order"/>
 		
 		<form:hidden id="updateCurrentSearch_dateType" path="dateType"/>			
-		<form:hidden id="updateCurrentSearch_startdate" path="startdate"/>	
-		<form:hidden id="updateCurrentSearch_enddate" path="enddate"/>
+		<form:hidden id="updateCurrentSearch_startdate" path="startDate"/>	
+		<form:hidden id="updateCurrentSearch_enddate" path="endDate"/>
 		<form:hidden id="updateCurrentSearch_pageNumber" path="pageNumber"/>
 		<form:hidden id="updateCurrentSearch_publishedFromDate" path="publishedFromDate"/>
 		<form:hidden id="updateCurrentSearch_publishedToDate" path="publishedToDate"/>

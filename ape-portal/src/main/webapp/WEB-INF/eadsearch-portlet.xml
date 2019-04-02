@@ -40,6 +40,7 @@
 		<property name="archivalInstitutionDAO" ref="archivalInstitutionDAO"/>
 		<property name="clevelDAO" ref="cLevelDAO"/>
 		<property name="eadContentDAO" ref="eadContentDAO"/>
+                <property name="ead3DAO" ref="ead3DAO"/>
 	</bean>		
 	<bean
 		class="eu.archivesportaleurope.portal.search.ead.tree.ContextTreeJSONWriter">

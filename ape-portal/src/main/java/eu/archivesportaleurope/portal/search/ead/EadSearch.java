@@ -35,9 +35,9 @@ public class EadSearch extends AbstractSearchForm{
 	private String topic;	
 	private String fond;
 	private String language;
-	private String roledao;
-	private String type;
-	private String level;
+	private String daoType;
+	private String recordType;
+	private String levelName;
 	private String dateType;
 	private boolean showOnlyResults = false;
 	private String savedSearchDescription;
@@ -85,12 +85,12 @@ public class EadSearch extends AbstractSearchForm{
 		return country;
 	}
 	
-	public String getLevel() {
-		return level;
+	public String getLevelName() {
+		return levelName;
 	}
 
-	public void setLevel(String level) {
-		this.level = level;
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 
 	
@@ -125,9 +125,9 @@ public class EadSearch extends AbstractSearchForm{
 			return null;
 		}
 	}
-	public List<String> getTypeList(){
-		if (StringUtils.isNotBlank(type)){
-			return Arrays.asList(type.split(LIST_SEPARATOR));
+	public List<String> getRecordTypeList(){
+		if (StringUtils.isNotBlank(recordType)){
+			return Arrays.asList(recordType.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
@@ -139,9 +139,9 @@ public class EadSearch extends AbstractSearchForm{
 			return null;
 		}
 	}
-	public List<String> getRoledaoList(){
-		if (StringUtils.isNotBlank(roledao)){
-			return Arrays.asList(roledao.split(LIST_SEPARATOR));
+	public List<String> getDaoTypeList(){
+		if (StringUtils.isNotBlank(daoType)){
+			return Arrays.asList(daoType.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
@@ -167,9 +167,9 @@ public class EadSearch extends AbstractSearchForm{
 			return null;
 		}
 	}
-	public List<String> getLevelList(){
-		if (StringUtils.isNotBlank(level)){
-			return Arrays.asList(level.split(LIST_SEPARATOR));
+	public List<String> getLevelNameList(){
+		if (StringUtils.isNotBlank(levelName)){
+			return Arrays.asList(levelName.split(LIST_SEPARATOR));
 		}else {
 			return null;
 		}
@@ -209,20 +209,20 @@ public class EadSearch extends AbstractSearchForm{
 		this.fond = fond;
 	}
 
-	public String getRoledao() {
-		return roledao;
+	public String getDaoType() {
+		return daoType;
 	}
 
-	public void setRoledao(String roledao) {
-		this.roledao = roledao;
+	public void setDaoType(String daoType) {
+		this.daoType = daoType;
 	}
 
-	public String getType() {
-		return type;
+	public String getRecordType() {
+		return recordType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setRecordType(String recordType) {
+		this.recordType = recordType;
 	}
 
 	public String getDateType() {
