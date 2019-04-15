@@ -3225,91 +3225,79 @@
 		<xsl:variable name="famname" select="$listName/eac:part[@localType='famname']"/>
 		<xsl:variable name="persname" select="$listName/eac:part[@localType='persname']"/>
     	<xsl:choose>
-	    	<xsl:when test="not($corpname) and not($famname) and not($persname) and not($legalform) and not($listName/eac:part[not(@localType) or @localType=''])"> 
-	    		<xsl:if test="$surName">
-	    		<xsl:for-each select="$surName">
-	    			<xsl:apply-templates select="." mode="other"/>
-	    			<xsl:if test="position()!=last()">
-	    				<xsl:text> </xsl:text>
-	    			</xsl:if>
-	    		</xsl:for-each>	
-	    			<xsl:if test="$birthname">
-	    				<xsl:text> </xsl:text>
-	    			</xsl:if>
-	    		</xsl:if>
-	    		<xsl:if test="$birthname">
-	    			<xsl:text>(</xsl:text>
-	    		    <xsl:for-each select="$birthname"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    				</xsl:if>
-	    		  	</xsl:for-each>	  
-	    			<xsl:text>)</xsl:text>
-	    		</xsl:if>
-	    		<xsl:if test="$prefix">
-	    			<xsl:if test="$surName or $birthname">
-	    				<xsl:text>, </xsl:text>
-	    			</xsl:if>
-	    			<xsl:for-each select="$prefix"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    			    </xsl:if>
-	    			</xsl:for-each>	  
-	    		</xsl:if>
-	    		<xsl:if test="$firstName">
-	    			<xsl:if test="$surName or $birthname or $prefix">
-	    				<xsl:text>, </xsl:text>
-	    			</xsl:if>
-	    			<xsl:for-each select="$firstName"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    			    </xsl:if>
-	    			</xsl:for-each>	
-	    		</xsl:if>
-	    		<xsl:if test="$patronymic">
-	    			<xsl:choose>
-	    				<xsl:when test="$firstName">
-	    					<xsl:text> </xsl:text>
-	    				</xsl:when>
-	    				<xsl:otherwise>
-	    					<xsl:if test="$surName or $birthname or $prefix">
-			    				<xsl:text>, </xsl:text>
-			    			</xsl:if>
-	    				</xsl:otherwise>
-	    			</xsl:choose>
-	    			<xsl:for-each select="$patronymic"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    			    </xsl:if>
-	    			</xsl:for-each>	
-	    		</xsl:if>
-	    		<xsl:if test="$suffix">
-	    			<xsl:if test="$surName or $birthname or $prefix or $firstName or $patronymic">
-	    				<xsl:text>, </xsl:text>
-	    			</xsl:if>
-	    			<xsl:for-each select="$suffix"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    			    </xsl:if>
-	    			</xsl:for-each>	
-	    		</xsl:if>
-	    		<xsl:if test="$title">
-	    			<xsl:if test="$surName or $birthname or $prefix or $firstName or $patronymic or $suffix">
-	    				<xsl:text>, </xsl:text>
-	    			</xsl:if>
-	    			<xsl:for-each select="$title"> 	
-	    				<xsl:apply-templates select="." mode="other"/>
-	    				<xsl:if test="position()!=last()">
-	    					<xsl:text> </xsl:text>
-	    			    </xsl:if>
-	    			</xsl:for-each>	
-	    		</xsl:if>
-	    	</xsl:when>
+			<xsl:when test="$surName and $firstName">
+				<xsl:for-each select="$surName">
+					<xsl:apply-templates select="." mode="other"/>
+					<xsl:if test="position() != last()">
+						<xsl:text> </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:if test="$birthname">
+					<xsl:text> (</xsl:text>
+					<xsl:for-each select="$birthname">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+					<xsl:text>)</xsl:text>
+				</xsl:if>
+				<xsl:if test="$prefix">
+					<xsl:text>, </xsl:text>
+					<xsl:for-each select="$prefix">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:text>, </xsl:text><!--comma for firstName-->
+				<xsl:for-each select="$firstName">
+					<xsl:apply-templates select="." mode="other"/>
+					<xsl:if test="position() != last()">
+						<xsl:text> </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:if test="$patronymic">
+					<xsl:text> </xsl:text>
+					<xsl:for-each select="$patronymic">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:if test="$suffix">
+						<xsl:text>, </xsl:text>
+					<xsl:for-each select="$suffix">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:if test="$title">
+						<xsl:text>, </xsl:text>
+					<xsl:for-each select="$title">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:if test="$alias">
+					<xsl:text> (</xsl:text>
+					<xsl:value-of select="ape:resource('eaccpf.portal.alias')"/>
+					<xsl:text>: </xsl:text>
+					<xsl:for-each select="$alias">
+						<xsl:apply-templates select="." mode="other"/>
+						<xsl:if test="position() != last()">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+					</xsl:for-each>
+					<xsl:text>)</xsl:text>
+				</xsl:if>
+			</xsl:when>
 	    	<xsl:otherwise>
 	    		<xsl:choose>
 	    			<xsl:when test="$corpname and $legalform">
@@ -3317,25 +3305,18 @@
 	    				<xsl:text> </xsl:text>
 	    				<xsl:apply-templates select="$legalform" mode="other"/>
 	    			</xsl:when>
+	    			<xsl:when test="$persname">
+	    				<xsl:apply-templates select="$persname" mode="other"/>
+	    			</xsl:when>
+	    			<xsl:when test="$famname">
+	    				<xsl:apply-templates select="$famname" mode="other"/>
+	    			</xsl:when>
 	    			<xsl:otherwise>
 	    				<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/>
 	    			</xsl:otherwise>
 	    		</xsl:choose>
 	    	</xsl:otherwise>
 	    </xsl:choose>
-	    <xsl:if test="$alias">
-	    	<xsl:if test="$surName or $birthname or $prefix or $firstName or $patronymic or $suffix or $title or $corpname or $famname or $persname">
-   				<xsl:text> </xsl:text> 
-   			</xsl:if>
-	   		<xsl:text>(</xsl:text><xsl:value-of select="ape:resource('eaccpf.portal.alias')"/><xsl:text>: </xsl:text>
-	   		<xsl:for-each select="$alias"> 	
-   				<xsl:apply-templates select="." mode="other"/>
-   				<xsl:if test="position()!=last()">
-   					<xsl:text> </xsl:text>
-   			    </xsl:if>
-   			</xsl:for-each>	
-	   		<xsl:text>)</xsl:text>
-	    </xsl:if>
 	</xsl:template>
 	
 	<!-- template vocabularySource -->
