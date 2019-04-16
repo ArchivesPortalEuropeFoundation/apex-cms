@@ -111,43 +111,6 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
                             ead3 = ead3DAO.getFirstPublishedEad3ByIdentifier(identifier, true);
                             type = "ead3";
                         }
-                    } else if (firstArgValue.startsWith("ead2:")) {
-                        String eadid = firstArgValue.substring(5);
-                        if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                            // And repository code.
-                            ead = eadDAO.getEadByEadid(FindingAid.class, secondArgValue, eadid, true);
-                            type = "fa";
-                        } else {
-                            // First FA with identifier.
-                            ead = eadDAO.getFirstPublishedEadByEadid(FindingAid.class, eadid);
-                            type = "fa";
-                        }
-
-                        if (ead == null) {
-                            // Checks if exists a HG with the provided identifier.
-                            if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                                // And repository code.
-                                ead = eadDAO.getEadByEadid(HoldingsGuide.class, secondArgValue, eadid, true);
-                                type = "hg";
-                            } else {
-                                // First HG with identifier.
-                                ead = eadDAO.getFirstPublishedEadByEadid(HoldingsGuide.class, eadid);
-                                type = "hg";
-                            }
-                        }
-
-                        if (ead == null) {
-                            // Checks if exists a SG with the provided identifier.
-                            if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                                // And repository code.
-                                ead = eadDAO.getEadByEadid(SourceGuide.class, secondArgValue, eadid, true);
-                                type = "sg";
-                            } else {
-                                // First SG with identifier.
-                                ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, eadid);
-                                type = "sg";
-                            }
-                        }
                     } else {
                         // Checks if exists a FA with the provided identifier.
                         if (secondArgValue != null && !secondArgValue.isEmpty()) {
@@ -183,19 +146,6 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
                                 // First SG with identifier.
                                 ead = eadDAO.getFirstPublishedEadByEadid(SourceGuide.class, firstArgValue);
                                 type = "sg";
-                            }
-                        }
-
-                        if (ead == null) {
-                            // Checks if a EAD3 with the provided identifier exists.
-                            if (secondArgValue != null && !secondArgValue.isEmpty()) {
-                                // And repository code.
-                                ead3 = ead3DAO.getEad3ByIdentifier(secondArgValue, firstArgValue, true);
-                                type = "ead3";
-                            } else {
-                                // First FA with identifier.
-                                ead3 = ead3DAO.getFirstPublishedEad3ByIdentifier(firstArgValue, true);
-                                type = "ead3";
                             }
                         }
                     }
