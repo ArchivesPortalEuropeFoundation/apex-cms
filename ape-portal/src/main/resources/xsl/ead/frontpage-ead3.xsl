@@ -8,11 +8,12 @@
 	<xsl:output method="html" indent="yes" version="4.0" encoding="UTF-8" />
 	<xsl:template match="/">
 		<div id="body">
-				<xsl:for-each select="/ead:ead/ead:archdesc/ead:did/ead:unitid">
+			<xsl:for-each select="/ead:ead/ead:archdesc/ead:did/ead:unitid">
 				<div class="eadid">
-					<xsl:value-of select="ape:highlight(., 'unitid')" disable-output-escaping="yes" />
+					<xsl:value-of select="ape:highlight(., 'unitid')" disable-output-escaping="yes"
+					/>
 				</div>
-				</xsl:for-each>
+			</xsl:for-each>
 			<xsl:for-each select="/ead:ead/ead:archdesc/ead:did/ead:unittitle">
 				<h1 class="titleproper">
 					<xsl:apply-templates mode="title"/>
@@ -23,9 +24,10 @@
 					<xsl:apply-templates mode="searchable"/>
 				</div>
 			</xsl:for-each>
-            <div class="subtitle">
-                <xsl:apply-templates  select="/ead:ead/ead:archdesc/ead:did/ead:unitdate" mode="alterdate"/>
-            </div>
+			<div class="subtitle">
+				<xsl:apply-templates select="/ead:ead/ead:archdesc/ead:did/ead:unitdate"
+					mode="alterdate"/>
+			</div>
 			<xsl:for-each select="/ead:ead/ead:control/ead:filedesc/ead:titlestmt/ead:author">
 				<div class="defaultlayout">
 					<xsl:apply-templates mode="notsearchable"/>
@@ -36,20 +38,23 @@
 					<xsl:apply-templates mode="notsearchable"/>
 				</div>
 			</xsl:for-each>
-			<xsl:for-each select="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:publisher">
+			<xsl:for-each
+				select="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:publisher">
 				<div class="defaultlayout">
 					<xsl:apply-templates mode="notsearchable"/>
 				</div>
 			</xsl:for-each>
 			<xsl:if test="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:address">
-					<xsl:apply-templates select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt/ead:address" mode="notsearchable"/>
+				<xsl:apply-templates
+					select="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:address"
+					mode="notsearchable"/>
 			</xsl:if>
-                        <xsl:if test="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:p">
-                            <xsl:for-each select="/ead:ead/ead:eadheader/ead:filedesc/ead:publicationstmt/ead:p">
-                                <div class="defaultlayout">
-                                    <xsl:apply-templates mode="notsearchable"/>
-                                </div>
-                            </xsl:for-each>
+			<xsl:if test="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:p">
+				<xsl:for-each select="/ead:ead/ead:control/ead:filedesc/ead:publicationstmt/ead:p">
+					<div class="defaultlayout">
+						<xsl:apply-templates mode="notsearchable"/>
+					</div>
+				</xsl:for-each>
 			</xsl:if>
 
 			<xsl:for-each select="/ead:ead/ead:control/ead:filedesc/ead:seriesstmt/ead:titleproper">
@@ -64,57 +69,59 @@
 			</xsl:for-each>
 			<div class="defaultlayout">
 				<xsl:if test="/ead:ead/ead:control/ead:eadid/@url">
-					<xsl:variable name="seeInContext" select="/ead:ead/ead:control/ead:eadid/@url" />
+					<xsl:variable name="seeInContext" select="/ead:ead/ead:control/ead:eadid/@url"/>
 					<a href="{$seeInContext}" target="_blank">
 						<xsl:value-of select="ape:resource('eadcontent.frontpage.eadid.url')"/>
 					</a>
 				</xsl:if>
 			</div>
-		<div id="content">
-			<div id="expandableContent">
-				<xsl:if test="/ead:ead/ead:archdesc/ead:did/ead:head">
-					<div class="archdescDidHead"><xsl:value-of select="/ead:ead/ead:archdesc/ead:did/ead:head" /></div>
-				</xsl:if>
-				<xsl:apply-templates select="/ead:ead/ead:archdesc" mode="searchable"/>
-				<xsl:for-each select="/ead:ead/ead:archdesc/ead:did">
+			<div id="content">
+				<div id="expandableContent">
+					<xsl:if test="/ead:ead/ead:archdesc/ead:did/ead:head">
+						<div class="archdescDidHead">
+							<xsl:value-of select="/ead:ead/ead:archdesc/ead:did/ead:head"/>
+						</div>
+					</xsl:if>
+					<xsl:apply-templates select="/ead:ead/ead:archdesc" mode="searchable"/>
+					<xsl:for-each select="/ead:ead/ead:archdesc/ead:did">
 
-							<xsl:if test="ead:langmaterial">
-								<xsl:call-template name="langmaterial" />
+						<xsl:if test="ead:langmaterial">
+							<xsl:call-template name="langmaterial"/>
+						</xsl:if>
+						<xsl:if test="ead:origination">
+							<xsl:call-template name="origination"/>
+						</xsl:if>
+
+						<xsl:if test="ead:repository">
+							<xsl:call-template name="repository"/>
+						</xsl:if>
+						<xsl:if test="ead:container/text()">
+							<xsl:call-template name="container"/>
+						</xsl:if>
+						<xsl:if test="ead:physloc/text()">
+							<xsl:call-template name="physloc"/>
+						</xsl:if>
+						<xsl:if test="ead:materialspec">
+							<xsl:call-template name="materialspec"/>
+						</xsl:if>
+						<xsl:if test="ead:physdesc">
+							<xsl:if test="ead:physfacet">
+								<xsl:call-template name="physfacet"/>
 							</xsl:if>
-							<xsl:if test="ead:origination">
-								<xsl:call-template name="origination" />
+							<xsl:if test="ead:extent">
+								<xsl:call-template name="extent"/>
 							</xsl:if>
-		
-							<xsl:if test="ead:repository">
-								<xsl:call-template name="repository" />
+							<xsl:if test="ead:genreform">
+								<xsl:call-template name="genreform"/>
 							</xsl:if>
-							<xsl:if test="ead:container/text()">
-								<xsl:call-template name="container" />
+							<xsl:if test="ead:dimensions">
+								<xsl:call-template name="dimensions"/>
 							</xsl:if>
-							<xsl:if test="ead:physloc/text()">
-								<xsl:call-template name="physloc" />
-							</xsl:if>
-							<xsl:if test="ead:materialspec">
-								<xsl:call-template name="materialspec" />
-							</xsl:if>
-							<xsl:if test="ead:physdesc">
-								<xsl:if test="ead:physfacet">
-									<xsl:call-template name="physfacet" />
-								</xsl:if>
-								<xsl:if test="ead:extent">
-									<xsl:call-template name="extent" />
-								</xsl:if>
-								<xsl:if test="ead:genreform">
-									<xsl:call-template name="genreform" />
-								</xsl:if>
-								<xsl:if test="ead:dimensions">
-									<xsl:call-template name="dimensions" />
-								</xsl:if>
-							</xsl:if>	
-							<xsl:if test="ead:dao">
-								<xsl:call-template name="dao" />
-							</xsl:if>
-				</xsl:for-each>
+						</xsl:if>
+						<xsl:if test="ead:dao">
+							<xsl:call-template name="dao"/>
+						</xsl:if>
+					</xsl:for-each>
 				</div>
 			</div>
 		</div>
