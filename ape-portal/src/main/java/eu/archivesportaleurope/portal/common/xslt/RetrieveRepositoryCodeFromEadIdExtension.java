@@ -1,8 +1,10 @@
 package eu.archivesportaleurope.portal.common.xslt;
 
+import eu.apenet.persistence.dao.CLevelDAO;
 import eu.apenet.persistence.dao.Ead3DAO;
 import eu.apenet.persistence.dao.EadDAO;
 import eu.apenet.persistence.factory.DAOFactory;
+import eu.apenet.persistence.vo.CLevel;
 import eu.apenet.persistence.vo.Ead;
 import eu.apenet.persistence.vo.Ead3;
 import eu.apenet.persistence.vo.FindingAid;
@@ -96,21 +98,32 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
                 Ead ead = null;
                 Ead3DAO ead3DAO = DAOFactory.instance().getEad3DAO();
                 Ead3 ead3 = null;
+                CLevelDAO clevelDAO = DAOFactory.instance().getCLevelDAO();
+                CLevel clevel = null;
 
-                //TODO Eliminate duplicate code!
                 if (firstArgValue != null && !firstArgValue.isEmpty()) {
                     if (firstArgValue.startsWith("ead3:")) {
-                        String identifier = firstArgValue.substring(5);
+                        String ead3recordid = firstArgValue.substring(5);
+                        String unitid = null;
+                        if (ead3recordid.contains("::")) {
+                            unitid = ead3recordid.replace("::", "-");
+                            ead3recordid = ead3recordid.split("::")[0];
+                        }
                         // Checks if a EAD3 with the provided identifier exists.
                         if (secondArgValue != null && !secondArgValue.isEmpty()) {
                             // And repository code.
-                            ead3 = ead3DAO.getEad3ByIdentifier(secondArgValue, identifier, true);
-                            type = "ead3";
+                            ead3 = ead3DAO.getEad3ByIdentifier(secondArgValue, ead3recordid, true);
+                            if (unitid != null){
+                                clevel = clevelDAO.getCLevelByUnitId(unitid, secondArgValue, ead3recordid);
+                            }
                         } else {
                             // First FA with identifier.
-                            ead3 = ead3DAO.getFirstPublishedEad3ByIdentifier(identifier, true);
-                            type = "ead3";
+                            ead3 = ead3DAO.getFirstPublishedEad3ByIdentifier(ead3recordid, true);
+                            if (unitid != null){
+                                clevel = clevelDAO.getCLevelByUnitId(unitid, ead3.getId().toString());
+                            }
                         }
+                        type = "ead3";
                     } else {
                         // Checks if exists a FA with the provided identifier.
                         if (secondArgValue != null && !secondArgValue.isEmpty()) {
@@ -169,6 +182,9 @@ public class RetrieveRepositoryCodeFromEadIdExtension extends ExtensionFunctionD
                     }
 
                     value = "aicode/" + repositoryCode + "/type/" + type + "/id/" + ApeUtil.encodeSpecialCharacters(ead3.getIdentifier());
+                    if (clevel != null) {
+                        value = value.concat("/unitid/" + ApeUtil.encodeSpecialCharacters(clevel.getUnitid()));
+                    }
                 }
 
                 return StringValue.makeStringValue(value);
