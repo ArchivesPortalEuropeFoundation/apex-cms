@@ -4483,8 +4483,13 @@
 						<xsl:apply-templates select="$famname" mode="other"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="$listName/eac:part" mode="other"/>
-					</xsl:otherwise>
+                                            <xsl:for-each select="$listName/eac:part">
+						<xsl:if test="position() != 1">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+                                                <xsl:apply-templates select="." mode="other"/>
+                                            </xsl:for-each>
+                                        </xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
