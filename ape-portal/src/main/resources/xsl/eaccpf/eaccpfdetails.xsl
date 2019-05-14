@@ -4483,7 +4483,7 @@
 						<xsl:apply-templates select="$famname" mode="other"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="$listName/eac:part[1]" mode="other"/>
+						<xsl:apply-templates select="$listName/eac:part" mode="other"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
