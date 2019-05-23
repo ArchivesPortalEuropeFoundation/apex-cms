@@ -78,6 +78,24 @@ public class DisplayEadDetailsContoller extends AbstractEadController {
             id = Long.parseLong(eadDetailsParams.getId());
         }
         CLevel currentCLevel = getClevelDAO().findById(id);
+        /* START fix missing type and ecId */
+        if (eadDetailsParams.getType() == null){
+            if (currentCLevel.getEad3() != null){
+                eadDetailsParams.setType("ead3");
+            } else {
+                if (currentCLevel.getEadContent().getFaId() != null) {
+                    eadDetailsParams.setType("fa");
+                } else if (currentCLevel.getEadContent().getHgId() != null) {
+                    eadDetailsParams.setType("hg");
+                } else if (currentCLevel.getEadContent().getSgId() != null) {
+                    eadDetailsParams.setType("sg");
+                }
+            }
+        }
+        if (eadDetailsParams.getEcId() == null){
+            eadDetailsParams.setEcId(currentCLevel.getEcId());
+        }
+        /* END fix */
         modelAndView.getModelMap().addAttribute("previewDetails", eadDetailsParams.isPreviewDetails());
         if (eadDetailsParams.getType().equalsIgnoreCase("ead3")) {
             fillEad3CDetails(currentCLevel, portletRequest, eadDetailsParams.getPageNumber(), modelAndView, false);
