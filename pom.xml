@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.archivesportaleurope.frontend</groupId>
     <artifactId>frontend-project</artifactId>
-    <version>2019-07</version>
+    <version>2019-08-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -12,7 +12,7 @@
     <scm>
         <connection>scm:git:git@github.com:ArchivesPortalEuropeFoundation/ape-frontend.git</connection>
         <developerConnection>scm:git:git@github.com:ArchivesPortalEuropeFoundation/ape-frontend.git</developerConnection>
-        <tag>frontend-project-2019-07</tag>
+        <tag>HEAD</tag>
     </scm>
     <properties>
         <additionalparam>-Xdoclint:none</additionalparam>
