@@ -19,7 +19,7 @@
 <div id="alwaysVisibleContainer">
 </div>
 <div id="viewFullFond" class="linkButton">
-	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" searchId="${c.id}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
+	<portal:eadPersistentLink var="url"  repoCode="${aiRepoCode}" xmlTypeName="${xmlType.resourceName}" eadid="${eadid}" clevel="${c}" searchId="${c.id}" unitid="${c.unitid}" searchFieldsSelectionId="${element}" searchTerms="${term}"/>
 
 	<a href="${url}" target="_blank"><fmt:message key="seconddisplay.view.${xmlType.resourceName}" /></a>
 </div>
