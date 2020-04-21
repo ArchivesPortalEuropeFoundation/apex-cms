@@ -21,8 +21,8 @@
 			</c:choose>
 		</c:forEach>	
 	</ul>
-	<div id="viewAllTags">
+<%--	<div id="viewAllTags">
 		<a href="${viewAllTopicsUrl}"><fmt:message key="tagcloud.topics.view.all"/></a>
-	</div>
+	</div>--%>
 </div>
 </div>
