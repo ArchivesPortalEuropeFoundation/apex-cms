@@ -550,11 +550,12 @@
                                 <xsl:value-of select="text()"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:variable name="extref.notitle"
-                                              select="ape:resource('eadcontent.extref.notitle')"/>
-                                <span class="icon_notitle" title="{$extref.notitle}">
-                                    <xsl:value-of select="$extref.notitle"/>
-                                </span>
+                                <xsl:if test="$href != ''">
+                                    <xsl:variable name="extref.notitle" select="ape:resource('eadcontent.extref.notitle')"/>
+                                    <span class="icon_notitle" title="{$extref.notitle}">
+                                        <xsl:value-of select="$extref.notitle"/>
+                                    </span>
+                                </xsl:if>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
@@ -1574,23 +1575,26 @@
             <xsl:otherwise>
                 <p>
                     <xsl:value-of select="."/>
-                    <xsl:text>. (</xsl:text>
-                    <xsl:value-of select="ape:resource('eadcontent.online')"/>
-                    <xsl:text>: </xsl:text>
-                    <xsl:variable name="href" select="./@xlink:href"/>
-                    <xsl:choose>
-                        <xsl:when test="./@xlink:title">
-                            <a href="{$href}" target="_blank">
-                                <xsl:value-of select="./@xlink:title"/>
-                            </a>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <a href="{$href}" target="_blank">
-                                <xsl:value-of select="$href"/>
-                            </a>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <xsl:text>).</xsl:text>
+                    <xsl:text>.</xsl:text>
+                    <xsl:if test="./@xlink:href != ''">
+                        <xsl:text> (</xsl:text>
+                        <xsl:value-of select="ape:resource('eadcontent.online')"/>
+                        <xsl:text>: </xsl:text>
+                        <xsl:variable name="href" select="./@xlink:href"/>
+                        <xsl:choose>
+                            <xsl:when test="./@xlink:title">
+                                <a href="{$href}" target="_blank">
+                                    <xsl:value-of select="./@xlink:title"/>
+                                </a>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a href="{$href}" target="_blank">
+                                    <xsl:value-of select="$href"/>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:text>).</xsl:text>
+                    </xsl:if>
                 </p>
             </xsl:otherwise>
         </xsl:choose>
