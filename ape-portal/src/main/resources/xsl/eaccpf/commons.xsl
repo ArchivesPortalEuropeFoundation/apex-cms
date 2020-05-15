@@ -106,10 +106,21 @@
 						<xsl:when test="$list/parent::node()[eac:relationEntry[@localType='agencyCode']]">
 							<xsl:variable name="href" select="$list/parent::node()/eac:relationEntry[@localType='agencyCode']"/>
 					  		<xsl:if test="not(starts-with($href, 'http')) and not(starts-with($href, 'https')) and not(starts-with($href, 'ftp')) and not(starts-with($href, 'www'))">
-								<xsl:variable name="aiCode" select="ape:aiFromEad($link, $href)"/>
+								<xsl:variable name="aiCodeEad" select="ape:aiFromEad($link, $href)"/>
+					  			<xsl:variable name="aiCodeEac" select="ape:aiFromEac($link, $href)"/>
 								<xsl:choose>
-									<xsl:when test="$aiCode != 'ERROR' and $aiCode != ''">
-										<a href="{$eadUrl}/{$aiCode}" target="_blank">
+									<xsl:when test="$aiCodeEad != 'ERROR' and $aiCodeEad != ''">
+										<a href="{$eadUrl}/{$aiCodeEad}" target="_blank">
+											<xsl:call-template name="multilanguageRelationTitleLanguageSelectedAList">
+												<xsl:with-param name="list" select="$list"></xsl:with-param>
+												<xsl:with-param name="paramLanguage" select="$paramLanguage"></xsl:with-param>
+											</xsl:call-template>
+										</a>
+									</xsl:when>
+									<xsl:when test="$aiCodeEac != 'ERROR' and $aiCodeEac != ''">
+										<xsl:variable name="encodedAiCode" select="ape:encodeSpecialCharacters($aiCodeEac)" />
+										<xsl:variable name="encodedlink" select="ape:encodeSpecialCharacters($link)" />
+										<a href="{$eacUrlBase}/aicode/{$encodedAiCode}/type/ec/id/{$encodedlink}" target="_blank">
 											<xsl:call-template name="multilanguageRelationTitleLanguageSelectedAList">
 												<xsl:with-param name="list" select="$list"></xsl:with-param>
 												<xsl:with-param name="paramLanguage" select="$paramLanguage"></xsl:with-param>
@@ -127,6 +138,17 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:choose>
+								<xsl:when test="$link != ''">
+									<xsl:variable name="aiCodeEac" select="ape:aiFromEac($link, '')"/>
+									<xsl:variable name="encodedAiCode" select="ape:encodeSpecialCharacters($aiCodeEac)" />
+									<xsl:variable name="encodedlink" select="ape:encodeSpecialCharacters($link)" />
+									<a href="{$eacUrlBase}/aicode/{$encodedAiCode}/type/ec/id/{$encodedlink}" target="_blank">
+										<xsl:call-template name="multilanguageRelationTitleLanguageSelectedAList">
+											<xsl:with-param name="list" select="$list"></xsl:with-param>
+											<xsl:with-param name="paramLanguage" select="$paramLanguage"></xsl:with-param>
+										</xsl:call-template>
+									</a>
+								</xsl:when>
 								<xsl:when test="$paramLanguage!='notLang'">
 									<xsl:call-template name="resourceRelationListId">
 										<xsl:with-param name="list" select="$list[(@xml:lang = $paramLanguage and @localType='title') or @localType='id']"/>
