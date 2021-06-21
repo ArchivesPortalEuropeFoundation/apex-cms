@@ -142,6 +142,9 @@ public class DisplayPreviewContoller {
             modelAndView.setViewName("preview/cdetails");
             ead = currentCLevel.getEadContent().getEad();
         }
+        if (currentCLevel.isDuplicateUnitid()) {
+            currentCLevel.setUnitid(null);
+        }
         ArchivalInstitution archivalInstitution = ead.getArchivalInstitution();
         XmlType xmlType = XmlType.getContentType(ead);
         LOGGER.debug("fillCDetails: term-" + term + ", xmlType-" + xmlType + ", c-" + currentCLevel + ", aiId-" + archivalInstitution.getAiId() + ", aiRepoCode-" + archivalInstitution.getEncodedRepositorycode() + ", eadid-" + ead.getEncodedIdentifier());
